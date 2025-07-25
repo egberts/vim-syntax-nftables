@@ -77,11 +77,13 @@ error ;
 error ; 
 error ; 
 
-
 ################################################################################
 # true negative test: properly hightlighted wrongly to show an error;
 # so far, so good)
 ################################################################################
+
+oppsie
+
 
 # inline comments are not supported after include/define/redefine/undefine/error.
 #

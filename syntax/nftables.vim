@@ -731,10 +731,9 @@ syn match nft_line "^\v\s{0,63}"
 \ nextgroup=
 \    @nft_c_common_block,
 \    @nft_c_base_cmd,
-\    nft_common_block_keyword_error,
 \    nft_line_inline_comment,
 \    nft_line_stmt_separator,
-"\    nft_Error
+\    nft_Error
 
 " `nft_line_comment` main top-level syntax, do not add 'contained' here.
 " works for #inline comment as well
