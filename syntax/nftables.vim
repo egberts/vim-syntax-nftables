@@ -321,12 +321,6 @@ syn match nft_stmt_separator "\v(\n|;)" skipwhite contained
 " hi link   nft_hash_comment nftHL_Error
 " syn match nft_hash_comment '\v#.{15,65}$' skipwhite contained
 
-hi link   nft_line_inline_comment nftHL_Comment
-syn match nft_line_inline_comment "\v#.{0,127}$" skipwhite contained
-
-hi link   nft_line_comment_line nftHL_Comment
-syn match nft_line_comment_line "\v#.{0,127}$" skipwhite contained
-
 " syn match nft_Set contained /{.*}/ contains=nft_SetEntry contained
 " syn match nft_SetEntry contained /[a-zA-Z0-9]\+/ contained
 " hi def link nft_Set nftHL_Keyword
@@ -730,7 +724,6 @@ hi link   nft_line_stmt_separator nftHL_Expression
 syn match nft_line_stmt_separator  "\v[;\n]{1,16}" skipwhite contained
 
 " `line` main top-level syntax, do not add 'contained' here.
-" `line` is the only syntax match/region line without a 'contained' syntax attribute
 " `line` is the only syntax with '^' caret (begin of line) regex pattern"
 " limit to 63-char whitespaces from 1st column (for Vim syntax session speed)
 hi link   nft_line Normal
@@ -742,6 +735,13 @@ syn match nft_line "^\v\s{0,63}"
 \    nft_line_inline_comment,
 \    nft_line_stmt_separator,
 "\    nft_Error
+
+" `nft_line_comment` main top-level syntax, do not add 'contained' here.
+" works for #inline comment as well
+" contains=NONE to ensure that no other group are folded into this match"
+hi link   nft_line_comment nftHL_Comment
+syn match nft_line_comment "\v#.{0,127}$" skipwhite
+\ contains=NONE
 
 "*************** END OF TOP-LEVEL SYNTAXES *****************************
 
