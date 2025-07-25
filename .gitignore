@@ -1,0 +1,49 @@
+# Vim swap files
+*.swp
+*.swo
+*.swn
+
+# Vim backup files
+*~
+*.bak
+
+# Vim undo files
+*.un~
+
+# Compiled Vimscript files (if any are generated)
+# This might include bytecode or cached files, depending on your setup.
+# For most basic Vimscript, this is not needed as it's interpreted directly.
+# *.vimc
+
+# PyCharm project files
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries/
+.idea/shelf/
+.idea/dataSources/
+.idea/dataSources.ids
+.idea/dataSources.local.xml
+.idea/sqlDataSources.xml
+.idea/dynamic.xml
+.idea/uiDesigner.xml
+.idea/httpRequests/
+.idea/inspectionProfiles/
+.idea/runConfigurations/
+.idea/libraries/ # Exclude user-specific library mappings
+
+# Python specific files
+__pycache__/
+*.pyc
+*.pyd
+*.pyo
+.Python
+env/
+venv/
+pip-log.log
+pip-delete-this-arg.log
+
+# Operating System specific files
+.DS_Store
+Thumbs.db
+
+

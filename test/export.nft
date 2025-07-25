@@ -1,0 +1,46 @@
+#!/usr/sbin/nft -f
+# File: export.nft
+# Description: Test NFT file to exercise 'export' Vim syntax highlightings.
+#
+# base_cmd  export_cmd
+#
+
+################################################################################
+# true positive test: properly hightlighted correctly; has good content; perfect
+################################################################################
+
+export ruleset xml
+export ruleset json
+export ruleset vm json
+
+
+################################################################################
+# true negative test: properly hightlighted wrongly to show an error; 
+# so far, so good.
+################################################################################
+
+export ruleset vm xml
+export ruleset vm
+
+export 
+
+
+export rulset 
+
+
+export ruleset 
+
+
+export ruleset vm 
+
+
+################################################################################
+# false negative test: highlighted wrongly; still has good content; oops.
+################################################################################
+
+################################################################################
+# false positive test: looks highlighted correctly; has bad content; oops.
+################################################################################
+
+export ruleset json vm
+

@@ -1,0 +1,142 @@
+*nftables.txt*   For Vim version 9.0.  Last change: 2025 Jan 22
+
+
+		  NETFILTER REFERENCE MANUAL    by Steve Egbert
+
+            _   ________        __    __
+           / | / / __/ /_____ _/ /_  / /__  _____
+          /  |/ / /_/ __/ __ `/ __ \/ / _ \/ ___/
+         / /|  / __/ /_/ /_/ / /_/ / /  __(__  )
+        /_/ |_/_/  \__/\__,_/_.___/_/\___/____/
+
+A syntax highlighter for nftables network filter data file used by `nft` command tool.
+
+Net matic commands				 *nftables*
+
+1.  Introduction		|nftables-intro|
+2.  Usage                	|nftables-usage|
+3.  TrueColor                   |nftables-truecolor|
+4.  License 			|nftables-license|
+5.  Bugs    			|nftables-bugs|
+6.  Contributing   		|nftables-contributing|
+7.  ChangeLog   		|nftables-changelog|
+8.  Credits                     |nftables-credits|
+
+
+==============================================================================
+1. Introduction						*nftables-intro*
+
+You can do the following:
+
+*  Highlight syntax used by nftables v1.2
+*  Highlight files having `.nft` filetype.
+*  unique color for each nested block denoted by a pair
+       of brace/bracket/paranthesis.
+*  tab ident by 4
+*  highlight errors
+
+				*E701*
+WARNING: Using nftables syntax is very powerful, and may lead to unexpected side
+effects.  
+
+==============================================================================
+2. Usages      						*nftables-intro*
+
+In your `~/.vimrc`, insert the following:
+
+```vim
+let nftables_disabled=0
+let nftables_debug=0
+let nftables_colorscheme=0
+```
+
+Distribute the files to their respective subdirectories:
+
+    syntax/nftables.vim
+    ftdetect/nftables.vim
+    ftplugin/nftables.vim
+    indent/nftables.vim
+    doc/nftables.vim
+
+To test the syntax, edit any of the test files in:
+
+    test/*.nft
+
+==============================================================================
+3. TrueColor   						*nftables-truecolor*
+
+To evoke true 24-bit color highlighting of nftables, the following
+conditions must be met:
+
+In `.profile`:
+
+    if [ -z $COLORTERM ]; then
+      case $TERM in
+        iterm            |\
+        linux-truecolor  |\
+        screen-truecolor |\
+        tmux-truecolor   |\
+        xterm-truecolor  )    export COLORTERM=truecolor ;;
+        vte*)
+      esac
+    fi
+
+In `.bashrc`:
+
+    if [ -z "$TERM" ]; then
+        if [ -e /usr/share/terminfo/x/xterm-256color ]; then
+            export TERM='xterm-256color'
+            if [ -z "$COLORTERM" ]; then
+              # set a fancy prompt (non-color, unless we know we "want" color)
+              case $TERM in
+                iterm            |\
+                linux-truecolor  |\
+                screen-truecolor |\
+                tmux-truecolor   |\
+                xterm-truecolor  )    export COLORTERM=truecolor ;;
+                xterm-color|*-256color) color_prompt=yes;;
+                vte*)
+              esac
+            " else
+            "  leave $COLORTERM alone
+            fi
+        else
+        export TERM='xterm-color'
+        fi
+    fi
+
+
+==============================================================================
+4. License 			                *nftables-license*
+
+MIT License
+
+
+==============================================================================
+5. Bugs    			                *nftables-bugs*
+
+File your complaints at https://github.com/egberts/vim-nftables/issues
+
+
+==============================================================================
+6. Contributing   		            *nftables-contributing*
+
+==============================================================================
+7. ChangeLog   		                *nftables-changelog*
+
+==============================================================================
+8. Credits                          *nftables-credits*
+
+Thanks to the following contributers:
+
+* github/kevinoid
+
+
+
+
+==============================================================================
+5. Events					*nftables-events* *E215* *E216*
+
+
+
+ vim:tw=78:ts=8:noet:ft=help:norl:

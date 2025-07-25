@@ -1,0 +1,84 @@
+#!/usr/sbin/nft -f
+# File: rule-position
+# Description: Test NFT file to exercise wildcard Vim syntax highlightings.
+#
+# base_cmd add_cmd ['rule'] rule_position
+# nft_line/nft_base_cmd/nft_base_cmd_add/nft_c_add_cmd_rule
+#
+################################################################################
+# true positive test: properly hightlighted correctly; has good content; perfect
+################################################################################
+
+ip table_identifier chain_identifier
+ip6 table_identifier chain_identifier
+inet table_identifier chain_identifier
+netdev table_identifier chain_identifier
+bridge table_identifier chain_identifier
+arp table_identifier chain_identifier
+
+ip table_identifier chain_identifier
+ip6 table_identifier chain_identifier
+inet table_identifier chain_identifier
+netdev table_identifier chain_identifier
+bridge table_identifier chain_identifier
+arp table_identifier chain_identifier
+
+identifier_table chain_identifier drop
+identifier_table chain_identifier accept
+identifier_table chain_identifier continue
+
+identifier_table chain_identifier return
+
+identifier_table chain_identifier position 15
+
+identifier_table chain_identifier handle 7
+
+identifier_table chain_identifier index 1
+
+table_id chain_id log prefix asdf
+
+rule table_id chain_id log 
+add rule table_id chain_id log 
+
+tableid chainid log 
+tableId chainId log prefix mynote 
+tableId chainId log group 15
+tableId chainId log snaplen 512
+tableId chainId log queue-threshold 5
+tableId chainId log level log_string
+tableId chainId log flags tcp seq
+tableId chainId log flags tcp seq,options
+tableId chainId log flags tcp options,seq
+tableId chainId log flags tcp options
+tableId chainId log flags ip options
+tableId chainId log flags skuid
+tableId chainId log flags ether 
+tableId chainId log flags all
+
+
+################################################################################
+# false negative test: highlighted wrongly; still has good content; oops.
+################################################################################
+
+tableid chainid log log
+
+
+################################################################################
+# false positive test: looks highlighted correctly; has bad content; oops.
+################################################################################
+
+table_identifier   
+
+
+table_identifier  # should have chain_identifier
+ip table_identifier  # should have chain_identifier
+ip6 table_identifier  # should have chain_identifier
+inet table_identifier  # should have chain_identifier
+netdev table_identifier  # should have chain_identifier
+bridge table_identifier  # should have chain_identifier
+arp table_identifier  # should have chain_identifier
+
+identifier_table chain_identifier stmt
+
+identifier_table chain_identifier jump chain_identifier
+identifier_table chain_identifier goto chain_identifier

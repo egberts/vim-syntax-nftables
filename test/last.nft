@@ -1,0 +1,71 @@
+#!/usr/sbin/nft -f
+# File: last.nft
+# Description: A test NFT file to exercise 'last_stmt' Vim syntax highlightings.
+#
+# nftables syntax name: last_stmt
+# syntax pathway: last_stmt->stateful_stmt->stmt
+#
+################################################################################
+# true positive test: properly hightlighted correctly; has good content; perfect
+################################################################################
+
+# 'last'->last_stmt->stateful_stmt->stmt->rule_alloc->rule->add_cmd->base_cmd->line
+last
+last used 
+last used time_spec
+rule last
+rule last used never
+rule last used time_spec
+add rule last
+add rule last used never
+add rule last used time_spec
+
+# 'last'->last_stmt->stateful_stmt->stmt->rule_alloc->rule->chain_block
+table T {
+    chain C {
+        last
+        last used never
+        last used +1h5m
+    }
+}
+# 'last'->last_stmt->stateful_stmt->stmt->rule_alloc->rule->chain_stmt
+jump { 
+    last
+    last used never
+    last used 2w1d
+}
+goto { 
+    last
+    last used never
+    last used 2w1d
+}
+
+# 'last'->last_stmt->stateful_stmt->stmt->rule_alloc->rule->insert_cmd
+insert rule T C {
+    last
+    last used never
+    last used time_spec
+}
+# 'last'->last_stmt->stateful_stmt->stmt->rule_alloc->rule->replace_cmd
+replace rule T C handle 1 last
+replace rule T C handle 2 last never
+replace rule ip6 T C handle 3 last used
+
+################################################################################
+# true negative test: properly hightlighted wrongly to show an error; 
+# so far, so good
+################################################################################
+
+last new 
+last used always
+last used never again
+
+
+################################################################################
+# false negative test: highlighted wrongly; still has good content; oops.
+################################################################################
+
+################################################################################
+# false positive test: looks highlighted correctly; has bad content; oops.
+################################################################################
+

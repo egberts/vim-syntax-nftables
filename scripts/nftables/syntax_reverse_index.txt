@@ -1,0 +1,64 @@
+== nextgroup reverse index ==
+nft_line_stmt_separator ← nft_common_block_keyword_error
+nft_common_block_keyword_error ← nft_line
+nft_common_block_stmt_separator ← nft_line_tmp_keyword_error
+nft_add_cmd_rule_position_chain_spec ← nft_base_cmd_add_cmd_rule_position_table_spec_wildcard, nft_add_cmd_keyword_rule_rule_position_table_spec_end
+
+== nextgroup forward index ==
+nft_add_cmd_keyword_rule_rule_position_table_spec_end → nft_add_cmd_rule_position_chain_spec
+nft_common_block_keyword_error → nft_line_stmt_separator
+nft_line_tmp_keyword_error → nft_common_block_stmt_separator
+nft_base_cmd_add_cmd_rule_position_table_spec_wildcard → nft_add_cmd_rule_position_chain_spec
+nft_line → nft_common_block_keyword_error
+
+== contains reverse index ==
+nft_identifier_exact ← nft_identifier
+nft_string_sans_single_quote ← nft_string_single
+nft_string_sans_double_quote ← nft_string_double
+nft_string_unquoted ← nft_asterisk_string
+
+== contains forward index ==
+nft_asterisk_string → nft_string_unquoted
+nft_string_double → nft_string_sans_double_quote
+nft_identifier → nft_identifier_exact
+nft_string_single → nft_string_sans_single_quote
+
+== groups marked "contained" ==
+nft_EOL
+nft_EOS
+nft_Error
+nft_Error_Always
+nft_InlineComment
+nft_MissingCurlyBrace
+nft_MissingDeviceVariable
+nft_Semicolon
+nft_ToDo
+nft_UnexpectedCurlyBrace
+nft_UnexpectedEOS
+nft_UnexpectedEmptyBrackets
+nft_UnexpectedEmptyCurlyBraces
+nft_UnexpectedIdentifierChar
+nft_UnexpectedSemicolon
+nft_add_cmd_keyword_rule_rule_position_table_spec_end
+nft_asterisk_string
+nft_base_cmd_add_cmd_rule_position_table_spec_wildcard
+nft_cli_comment_whole_line
+nft_comment_inline
+nft_common_block_keyword_error
+nft_common_block_stmt_separator
+nft_identifier
+nft_identifier_exact
+nft_identifier_last
+nft_line_comment_line
+nft_line_inline_comment
+nft_line_stmt_separator
+nft_line_tmp_keyword_error
+nft_stmt_separator
+nft_string_double
+nft_string_sans_double_quote
+nft_string_sans_single_quote
+nft_string_single
+nft_variable_identifier
+
+== groups NOT marked "contained" ==
+nft_line

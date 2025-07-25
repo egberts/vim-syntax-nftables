@@ -1,0 +1,31 @@
+#!/usr/sbin/nft -f
+# File: queue.nft
+#
+# Description: test NFT file to exercise 'queue' in Vim syntax highlightings.
+#
+#
+################################################################################
+# true positive test: properly hightlighted correctly; has good content; perfect
+################################################################################
+
+add rule myTable myChain queue
+add rule myTable myChain queue num 2
+add rule myTable myChain queue num 2-3
+add rule myTable myChain queue num 4-5 fanout bypass
+add rule myTable myChain queue num 4-5 fanout
+add rule myTable myChain queue num 4-5 bypass
+
+
+################################################################################
+# true negative test: properly hightlighted wrongly to show an error; 
+# so far, so good.
+################################################################################
+
+################################################################################
+# false negative test: highlighted wrongly; still has good content; oops.
+################################################################################
+
+################################################################################
+# false positive test: looks highlighted correctly; has bad content; oops.
+################################################################################
+

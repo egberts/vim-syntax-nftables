@@ -1,0 +1,132 @@
+#!/usr/sbin/nft -f
+# File: common_block.nft
+# Description: A test NFT file to exercise common_block Vim syntax group.
+#
+# nft_line/nft_common_block
+#
+################################################################################
+# true positive test: properly hightlighted correctly; has good content; perfect
+################################################################################
+
+;
+  ;
+ ;  
+
+# line/common_block/INCLUDE
+include "directory/filename.filetype"
+# line/common_block/INCLUDE/stmt_separator
+include "directory/filename.filetype";
+include "directory/filename.filetype"; 
+include "directory/filename.filetype" ;
+include "directory/filename.filetype" ; 
+# line common_block 'include' <QUOTED_STRING>
+include "filespec"
+include "filename.filetype"
+include "directory/filename.filetype"
+include "https://directory/filename.filetype"  # valid filespec but URL are not processed here (filesystem reject)
+include "file:///directory/filename.filetype"  # valid filespec but URL are not processed here (filesystem reject)
+
+# line common_block 'define' identifier '=' initializer_expr
+# line/common_block/DEFINE
+define A = 1
+define ABC = 1  # missing stmt_separator
+define A = $ABC  # missing stmt_separator
+#
+# line common_block 'redefine' identifier '=' initializer_expr
+# line/common_block/REDEFINE
+redefine A = 2
+redefine A = 123  # missing stmt_separator
+redefine A = $ABC  # missing stmt_separator
+
+# line common_block 'undefine' identifier 
+# line/common_block/UNDEFINE
+undefine A
+undefine ABC
+# line/common_block/UNDEFINE/stmt_separator
+undefine A;
+undefine A_BCDE;
+undefine A123DF; 
+undefine A123DG ;
+undefine A123DH ; 
+
+error
+error;
+  error;
+error ;
+    error ;
+error ; 
+error ; 
+
+
+################################################################################
+# true negative test: properly hightlighted wrongly to show an error;
+# so far, so good)
+################################################################################
+
+# inline comments are not supported after include/define/redefine/undefine/error.
+#
+# line/base_cmd/add_cmd/comment_spec
+include "direcetory/filename.filetype"  # inline comment line
+
+error  # inline comment line
+error x 
+
+undefine A$BCDE;
+undefine A`BCDE;
+undefine A~BCDE;
+undefine A!BCDE;
+undefine A@BCDE;
+undefine A#BCDE;
+undefine A$BCDE;
+undefine A%BCDE;
+undefine A^BCDE;
+undefine A&BCDE;
+undefine A*BCDE;
+undefine A(BCDE;
+undefine A)BCDE;
+undefine A-BCDE;
+undefine A+BCDE;
+undefine A[BCDE;
+undefine A]BCDE;
+undefine A|BCDE;
+undefine A{BCDE;
+undefine A}BCDE;
+undefine A:BCDE;
+undefine A'BCDE;
+undefine A"BCDE;
+undefine A<BCDE;
+undefine A>BCDE;
+undefine A,BCDE;
+undefine A?BCDE;
+
+################################################################################
+# false negative test: highlighted wrongly; still has good content; oops.
+################################################################################
+
+# line/common_block/DEFINE/stmt_separator
+define A = 1;
+# line/common_block/REDEFINE/stmt_separator
+redefine A = 2;
+
+    
+define A = 1;  # inline comment line
+
+redefine A = 2;  # inline comment line
+
+undefine A  # inline comment line
+
+error  # inline comment line
+
+
+################################################################################
+# false positive test: looks highlighted correctly; has bad content; oops.
+################################################################################
+
+
+undefine 1BCDEF;
+undefine A\BCDE;
+undefine A/BCDE;
+undefine A;BCDE;
+undefine A.BCDE;
+
+

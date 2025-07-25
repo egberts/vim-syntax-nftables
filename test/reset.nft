@@ -1,0 +1,225 @@
+#!/usr/sbin/nft -f
+# File: reset.nft
+# Description: A test NFT file to exercise 'reset' Vim syntax highlightings.
+#
+# base_cmd add_cmd 'reset' 
+# nft_line/nft_base_cmd/nft_base_cmd_reset
+#
+################################################################################
+# true positive test: properly hightlighted correctly; has good content; perfect
+################################################################################
+
+
+# 'reset counters' <table_spec>
+reset counters MyIpTable MyChain
+reset counters ip MyIpTable MyChain
+reset counters ip6 MyIpTable MyChain
+reset counters inet MyIpTable MyChain
+reset counters netdev MyIpTable MyChain
+reset counters bridge MyIpTable MyChain
+reset counters arp MyIpTable MyChain
+# 'reset counters table' <table_spec>
+reset counters table MyIpTable MyChain
+reset counters table ip MyIpTable MyChain
+reset counters table ip6 MyIpTable MyChain
+reset counters table inet MyIpTable MyChain
+reset counters table netdev MyIpTable MyChain
+reset counters table bridge MyIpTable MyChain
+reset counters table arp MyIpTable MyChain
+
+# 'reset quotas' <ruleset_spec>
+reset quotas 
+# 'reset counters' <table_spec>
+reset quotas MyIpTable MyChain
+reset quotas ip MyIpTable MyChain
+reset quotas ip6 MyIpTable MyChain
+reset quotas inet MyIpTable MyChain
+reset quotas netdev MyIpTable MyChain
+reset quotas bridge MyIpTable MyChain
+reset quotas arp MyIpTable MyChain
+# 'reset quotas table' <table_spec>
+reset quotas table MyIpTable MyChain
+reset quotas table ip MyIpTable MyChain
+reset quotas table ip6 MyIpTable MyChain
+reset quotas table inet MyIpTable MyChain
+reset quotas table netdev MyIpTable MyChain
+reset quotas table bridge MyIpTable MyChain
+reset quotas table arp MyIpTable MyChain
+
+reset counter tablename chainname
+reset counter ip tablename chainname
+reset counter ip6 tablename chainname
+reset counter inet tablename chainname
+reset counter netdev tablename chainname
+reset counter bridge tablename chainname
+reset counter arp tablename chainname
+
+reset quota tablename chainame
+reset quota ip tablename chainname
+reset quota ip6 tablename chainname
+reset quota inet tablename chainname
+reset quota netdev tablename chainname
+reset quota bridge tablename chainname
+reset quota arp tablename chainname
+
+# 'reset' 'rules' ruleset_spec
+reset rules 
+reset rules;
+reset rules ;
+reset rules ; 
+reset rules  ;  
+
+reset rules ip 
+reset rules ip6 
+reset rules inet 
+reset rules netdev 
+reset rules bridge 
+reset rules arp 
+reset rules ip;
+reset rules ip6 ;
+reset rules inet ; 
+reset rules netdev; 
+reset rules bridge ;
+reset rules arp  ;  
+
+reset rules myTable  # unexpected table_identifier
+reset rules ip myTabl  # unexpected table_identifier
+reset rules ip myTable myChain  # unexpected table_identifier
+
+# 'reset' 'rules' table_spec
+reset rules table T
+reset rules table T;
+reset rules table T ;
+reset rules table T; 
+reset rules table T ; 
+reset rules table a  ;
+reset rules table last  
+
+reset rules table myTable last # extraneous 'last' keyword
+reset rules table myTable myChain  # extraneous chain_id
+
+# 'reset' 'rules' chain_spec
+reset rules chain  
+reset rules chain;
+reset rules chain ;
+reset rules chain ; 
+reset rules chain  ; 
+reset rules chain myTable myChain
+reset rules chain last myChain
+reset rules chain myTable last
+reset rules chain last last
+
+reset rules chain myTable  # missing chain_identifier
+reset rules chain myTable; # missing chain_identifier
+reset rules chain myTable;  # missing chain_identifier
+reset rules chain myTable ;  # missing chain_identifier
+
+# 'reset' 'rule'
+# 'reset' 'rule' ruleid_spec
+reset rule ip T C handle 15
+reset rule ip T C index 15
+reset rule ip T C position 15
+
+
+
+################################################################################
+# true negative test: properly hightlighted wrongly to show an error; 
+# so far, so good.
+################################################################################
+
+# 'reset counters' <ruleset_spec>
+reset counters 
+
+
+reset rules table  # missing table_id
+reset rules table;  # missing table_id
+reset rules table ;  # missing table_id
+reset rules table ;  # missing table_id
+# 'reset' 'element' set_spec set_block_expr
+# 'reset' 'element' table_spec set_id set_block_expr
+# 'reset' 'element' family_spec table_id set_id set_block_expr
+# 'reset' 'element' [ ('ip'|'ip6'|'inet'|'netdev'|'bridge'|'arp') ] table_id set_id set_block_expr
+# 'reset' 'element' [ ('ip'|'ip6'|'inet'|'netdev'|'bridge'|'arp') ] table_id set_id [ set_expr | variable_expr ]
+reset element table_id set_id $variable
+reset element table_id set_id { eth0 }  ;  
+
+reset element ip table_id set_id { eth0 }    
+reset element ip6 table_id set_id { eth0 }
+reset element inet table_id set_id { eth0 }
+reset element netdev table_id set_id { eth0 }
+reset element bridge table_id set_id { eth0 }
+reset element arp table_id set_id { eth0 }
+
+# 'reset' 'set' set_or_id_spec set_block_expr
+# 'reset' 'set' ( set_spec | setid_spec ) set_block_expr
+# 'reset' 'set' set_spec set_block_expr
+# 'reset' 'set' table_spec set_id set_block_expr
+# 'reset' 'set' family_spec table_id set_id set_block_expr
+# 'reset' 'set' [ ('ip'|'ip6'|'inet'|'netdev'|'bridge'|'arp') ] table_id set_id set_block_expr
+# 'reset' 'set' [ ('ip'|'ip6'|'inet'|'netdev'|'bridge'|'arp') ] table_id set_id [ set_expr | variable_expr ]
+# 'reset' 'set' setid_spec set_block_expr
+# 'reset' 'set' table_spec 'handle' handle_identifier set_block_expr
+# 'reset' 'set' table_spec 'handle' handle_identifier '$'identifier
+# 'reset' 'set' table_spec 'handle' handle_identifier { string [ ; string ] }
+reset set table_id set_id $variable
+reset set table_id set_id { eth0 }
+reset set ip table_id set_id { eth0 }    
+reset set ip6 table_id set_id { eth0 }
+reset set inet table_id set_id { eth0 }
+reset set netdev table_id set_id { eth0 }
+reset set bridge table_id set_id { eth0 }
+reset set arp table_id set_id { eth0 }
+
+# 'reset' 'map' set_or_id_spec set_block_expr
+# 'reset' 'map' ( set_spec | setid_spec ) set_block_expr
+# 'reset' 'map' set_spec set_block_expr
+# 'reset' 'map' table_spec set_id set_block_expr
+# 'reset' 'map' family_spec table_id set_id set_block_expr
+# 'reset' 'map' [ ('ip'|'ip6'|'inet'|'netdev'|'bridge'|'arp') ] table_id set_id set_block_expr
+# 'reset' 'map' [ ('ip'|'ip6'|'inet'|'netdev'|'bridge'|'arp') ] table_id set_id [ set_expr | variable_expr ]
+# 'reset' 'map' setid_spec set_block_expr
+# 'reset' 'map' table_spec 'handle' handle_identifier set_block_expr
+reset map table_id set_id $variable
+reset map table_id set_id { eth0 }
+reset map ip table_id set_id { eth0 }
+reset map ip6 table_id set_id { eth0 }
+reset map inet table_id set_id { eth0 }
+reset map netdev table_id set_id { eth0 }
+reset map bridge table_id set_id { eth0 }
+reset map arp table_id set_id { eth0 }
+reset map table_id set_id handle 123
+reset map ip table_id set_id handle 123
+reset map ip6 table_id set_id handle 123
+reset map inet table_id set_id handle 123
+reset map netdev table_id set_id handle 123
+reset map bridge table_id set_id handle 123
+reset map arp table_id set_id handle 123
+
+reset rule  # premature EOS
+reset rule table_id  # premature EOS
+reset rule table_id chain_id # premature EOS
+reset rule ip  # premature EOS
+reset rule ip6  # premature EOS
+reset rule inet  # premature EOS
+reset rule netdev  # premature EOS
+reset rule bridge  # premature EOS
+reset rule arp  # premature EOS
+reset rule ip ipT    # premature EOS
+reset rule ip T C   # premature EOS
+reset rule ip T C offset 15  # wrong handle_spec
+
+reset rules table /  ;  # invalid table_id
+
+
+################################################################################
+# false negative test: highlighted wrongly; still has good content; oops.
+################################################################################
+
+################################################################################
+# false positive test: looks highlighted correctly; has bad content; oops.
+################################################################################
+
+################################################################################
+# false positive test: looks highlighted correctly; has bad content; oops.
+################################################################################
+

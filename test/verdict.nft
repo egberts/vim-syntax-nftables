@@ -1,0 +1,54 @@
+#!/usr/sbin/nft -f
+# File: verdict.nft
+# Description: A test NFT file to exercise 'verdict' Vim syntax highlightings.
+#
+#
+################################################################################
+# true positive test: properly hightlighted correctly; has good content; perfect
+################################################################################
+
+# verdict_expr
+tableid chainid accept 
+tableid chainid accept 
+tableid chainid drop 
+tableid chainid continue 
+tableid chainid jump myChainId
+tableid chainid jump last
+tableid chainid jump $MY_ACTION
+tableid chainid goto hisChainId
+tableid chainid goto last
+tableid chainid goto $MY_ACTION
+tableid chainid return 
+
+# verdict_map_stmt
+rule table_id chain_id vmap { }
+rule table_id chain_id vmap { } ;
+add rule table_id chain_id vmap  
+add rule table_id chain_id vmap; 
+
+add rule table_id chain_id vmap { }
+add rule table_id chain_id vmap { };
+add rule table_id chain_id vmap { }
+add rule table_id chain_id vmap { } ; 
+add rule table_id chain_id vmap at ABC
+add rule table_id chain_id vmap at ABC  ;
+
+
+
+################################################################################
+# true negative test (properly hightlighted wrongly to show an error; 
+# so far, so good.
+################################################################################
+
+add rule table_id chain_id vmap at 
+
+
+################################################################################
+# false negative test: highlighted wrongly; still has good content; oops.
+################################################################################
+
+
+################################################################################
+# false positive test: looks highlighted correctly; has bad content; oops.
+################################################################################
+

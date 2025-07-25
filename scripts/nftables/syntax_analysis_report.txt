@@ -1,0 +1,33 @@
+== UNUSED SYNTAX GROUPS ==
+nft_EOL
+nft_EOS
+nft_Error
+nft_Error_Always
+nft_InlineComment
+nft_MissingCurlyBrace
+nft_MissingDeviceVariable
+nft_Semicolon
+nft_ToDo
+nft_UnexpectedCurlyBrace
+nft_UnexpectedEOS
+nft_UnexpectedEmptyBrackets
+nft_UnexpectedEmptyCurlyBraces
+nft_UnexpectedIdentifierChar
+nft_UnexpectedSemicolon
+nft_add_cmd_keyword_rule_rule_position_table_spec_end
+nft_asterisk_string
+nft_base_cmd_add_cmd_rule_position_table_spec_wildcard
+nft_cli_comment_whole_line
+nft_comment_inline
+nft_identifier
+nft_identifier_last
+nft_line
+nft_line_comment_line
+nft_line_inline_comment
+nft_line_tmp_keyword_error
+nft_stmt_separator
+nft_string_double
+nft_string_single
+nft_variable_identifier
+
+== CYCLE CHECK (nextgroup only) ==

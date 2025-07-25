@@ -1,0 +1,172 @@
+#!/usr/sbin/nft -f
+# File: all-set.nft
+# Description: A test NFT file to exercise '[add] set' Vim syntax highlightings.
+#
+# base_cmd add_cmd 'set' 
+# nft_line/nft_base_cmd/nft_base_cmd_add/nft_base_cmd_add_set
+#
+################################################################################
+# true positive test: properly hightlighted correctly; has good content; perfect
+################################################################################
+
+# base_cmd add_cmd 'set'
+
+add set T C { counter }
+add set T C { counter bytes 2048 }
+add set T C { counter packets 3 }
+add set T C { counter packets 3 counter packets 3 }
+
+set ip T S { typeof b } ;
+set T S { typeof a.b.c.d.e.f };
+set T S { flags constant }
+set T S { flags interval; }
+set T S { flags timeout };
+set T S { flags dynamic ; } ;
+set T S { flags constant, interval, timeout, dynamic };
+set T S { flags constant; flags interval; flags timeout; flags dynamic };
+set T S { timeout 15:00:01 }
+set T S { gc-interval 1:00:1 }
+set T S { elements = 1:00:1 }
+set T S { comment *A comment string* }
+set T S { comment "A comment string" }
+set T S { comment 'A comment string' }
+set T S { comment single-word }
+ set T S { comment single-word }
+
+
+
+
+
+    set
+
+
+add set T S;
+
+
+add set ip T S { typeof b };
+add set T S { typeof a.b.c.d.e.f };
+add set T S { flags constant }
+add set T S { flags interval; }
+add set T S { flags timeout };
+add set T S { flags dynamic ; } ;
+add set T S { flags constant, interval, timeout, dynamic };
+add set T S { flags constant; flags interval; flags timeout; flags dynamic };
+add set T S { timeout 15:00:01 }
+add set T S { gc-interval 1:00:1 }
+add set T S { elements = 1:00:1 }
+add set T S { comment *A comment string* }
+add set T S { comment "A comment string" }
+add set T S { comment 'A comment string' }
+add set T S { comment single-word }
+
+
+################################################################################
+# true negative test: properly hightlighted wrongly to show an error;
+# so far, so good)
+################################################################################
+
+set;
+
+set ;
+
+set T     
+
+
+set {
+set T {   
+
+
+set T&
+    set T;
+    set T ; 
+ 
+set ip T S  
+set ip6 T S C
+set inet T S D
+set netdev T S E
+set bridge T S F
+set arp T S G
+
+add set T S $variable_name 
+add set T S $variable_name
+add set T S $a
+add set T S { counter bytes asddf }
+
+ 
+set T  # comment
+set T     ;  # comment
+set T ;  # comment
+
+set T C ;
+set T C 
+set T     C
+set T     C   
+set T C  # comment
+set T C;
+set T  C   ;
+# comment
+set T C ; # comment
+# comment
+set TC ;
+# comment
+
+set T S
+set T S 
+set T      S
+set T S  # comment
+set T S;
+set T S ;
+
+
+set T   S   ;
+# comment
+set T  S; # comment
+# comment
+set T S;
+# comment
+
+set T C
+set T C 
+
+set T S
+set T S 
+
+set T S $a  ;  z
+# comment
+
+set T S { };
+
+add set ip S    
+
+
+
+set T C;
+
+
+set T C ;
+
+
+################################################################################
+# false negative test: highlighted wrongly; still has good content; oops.
+################################################################################
+
+
+################################################################################
+# false positive test: looks highlighted correctly; has bad content; oops.
+################################################################################
+
+set
+
+set T
+
+set ip S
+
+add set 
+
+
+
+add set T C 
+
+
+
+

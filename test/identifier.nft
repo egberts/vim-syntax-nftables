@@ -1,0 +1,138 @@
+#!/usr/sbin/nft -f
+# File: identifier.nft
+# Title: Test file for the initial 'identifier ' highlightings.
+# Description: 
+#   Identifier that starts with from 1st column may imply 
+#   a '[add] table' command.
+#
+# nftables manpage shows:
+#
+#   <table_id> <object_id> ...
+#   <family> <table_id> <object_id> ...
+#   rule <table_id> <object_id> ...
+#   rule <family> <table_id> <object_id> ...
+#   [rule] [family] table_id object_id ...
+#
+# Vim: nft_line/nft_base_cmd/nft_base_cmd_add/nft_base_cmd_add_table
+# Bison: identifier/table_spec/chain_spec/rule_position/add_cmd/base_cmd/line
+# Bison: identifier/table_spec/chain_spec/rule_position/'rule'/add_cmd/base_cmd/line
+# Bison: identifier/'ip|ip6|inet|netdev|bridge|arp'/family_spec_explicit/family_spec/table_spec/chain_spec/rule_position/add_cmd/base_cmd/line
+# Bison: identifier/'ip|ip6|inet|netdev|bridge|arp'/family_spec_explicit/family_spec/table_spec/chain_spec/rule_position/'rule'/add_cmd/base_cmd/line
+#
+################################################################################
+# true positive test (properly hightlighted correctly; has good content; perfect)
+################################################################################
+
+# Bison: identifier/table_spec/chain_spec/rule_position/add_cmd/base_cmd/line
+myTableID myChainID { };
+my_table_id my_chain_id { };
+
+# Bison: identifier/table_spec/chain_spec/rule_position/'rule'/add_cmd/base_cmd/line
+rule myTableID myChainID { };
+rule my_table_id my_chain_id { };
+
+# Bison: identifier/'ip|ip6|inet|netdev|bridge|arp'/family_spec_explicit/family_spec/table_spec/chain_spec/rule_position/add_cmd/base_cmd/line
+ip my_table_id my_chain_id { };
+ip6 my_table_id my_chain_id { };
+inet my_table_id my_chain_id { };
+netdev my_table_id my_chain_id { };
+bridge my_table_id my_chain_id { };
+arp my_table_id my_chain_id { };
+
+# Bison: identifier/'ip|ip6|inet|netdev|bridge|arp'/family_spec_explicit/family_spec/table_spec/chain_spec/rule_position/'rule'/add_cmd/base_cmd/line
+rule ip myTableID myChainID { };
+rule ip6 myTableID myChainID { };
+rule inet myTableID myChainID { };
+rule netdev myTableID myChainID { };
+rule bridge myTableID myChainID { };
+rule arp myTableID myChainID { };
+
+# multi-line
+myTableID {
+    chain myChainID { };
+};
+
+################################################################################
+# true negative test: properly hightlighted wrongly to show an error;
+# so far, so good.
+################################################################################
+
+
+################################################################################
+# false negative test: highlighted wrongly; still has good content; oops.
+################################################################################
+
+
+################################################################################
+# false positive test: looks highlighted correctly; has bad content; oops.
+################################################################################
+
+
+# Bison: identifier/table_spec/chain_spec/rule_position/add_cmd/base_cmd/line
+my-TableID myChainID { };
+
+# Bison: identifier/table_spec/chain_spec/rule_position/'rule'/add_cmd/base_cmd/line
+rule my$TableID myChainID { };
+rule my+table_id my_chain_id { };
+rule my*table_id my_chain_id { };
+
+# Bison: identifier/'ip|ip6|inet|netdev|bridge|arp'/family_spec_explicit/family_spec/table_spec/chain_spec/rule_position/add_cmd/base_cmd/line
+ip my%table_id my_chain_id { };
+ip6 my#table_id my_chain_id { };
+inet my@table_id my_chain_id { };
+netdev my`table_id my_chain_id { };
+bridge my~table_id my_chain_id { };
+arp my=table_id my_chain_id { };
+
+# multi-line
+my&TableID {
+    chain myChainID { };
+};
+my(TableID {
+    chain myChainID { };
+};
+my)TableID {
+    chain myChainID { };
+};
+my|TableID {
+    chain myChainID { };
+};
+my{TableID {
+    chain myChainID { };
+};
+my}TableID {
+    chain myChainID { };
+};
+my[TableID {
+    chain myChainID { };
+};
+my]TableID {
+    chain myChainID { };
+};
+my"TableID {
+    chain myChainID { };
+};
+my'TableID {
+    chain myChainID { };
+};
+my:TableID {
+    chain myChainID { };
+};
+my<TableID {
+    chain myChainID { };
+};
+my>TableID {
+    chain myChainID { };
+};
+my,TableID {
+    chain myChainID { };
+};
+my.TableID {
+    chain myChainID { };
+};
+my?TableID {
+    chain myChainID { };
+};
+my\TableID {
+    chain myChainID { };
+};

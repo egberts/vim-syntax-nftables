@@ -1,0 +1,73 @@
+#!/usr/sbin/nft -f
+# File: counter.nft
+# Description: A test NFT file to exercise 'counter' Vim syntax highlightings.
+#
+# bison symbol:   counter_stmt
+# syntax pathway: counter_stmt->stateful_stmt->(stmt|stateful_stmt_list)
+#
+################################################################################
+# true positive test: properly hightlighted correctly; has good content; perfect
+################################################################################
+
+counter table_id counter_id
+counter last counter_id
+counter table_id last
+counter last last
+ counter table_id counter_id  
+    counter ip table_id counter_id
+
+# 'counter' as a statement ('stmt')
+add counter table_id counter_id   
+add counter table_id counter_id ;
+
+add counter table_id counter_id { counter_config }
+
+add counter table_id counter_id { packets 5 bytes 1500 } ;
+add counter table_id counter_id { packets 5 bytes 1500 } ;
+
+# 'counter' as an expression ('expr')
+# counter_stmt->stateful_stmt->stateful_stmt_list->set_spec
+# counter_stmt->stateful_stmt->(stmt|stateful_stmt_list)
+
+add set T S { counter }
+add set T S { counter } ;
+
+add set T S { counter bytes 2048 }
+add set T S { counter packets 3 }
+
+# repeated stateful_stmt
+add set T S { counter packets 3 counter packets 3 }
+
+
+################################################################################
+# true negative test: properly hightlighted wrongly to show an error; 
+# so far, so good.
+################################################################################
+
+counter 
+
+
+counter T 
+
+
+counter T ; 
+
+counter ip6 
+
+
+add set T S { counter marshmellows }
+add set T S { counter bytes mss }
+add set T S { counter packets once }
+
+
+################################################################################
+# false negative test: highlighted wrongly; still has good content; oops.
+################################################################################
+
+add rule table_id chain_id set add { $MYVAR counter at  }
+
+
+################################################################################
+# false positive test: looks highlighted correctly; has bad content; oops.
+################################################################################
+

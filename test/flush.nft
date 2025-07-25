@@ -1,0 +1,110 @@
+#!/usr/sbin/nft -f
+# File: flush.nft
+# Description: Test NFT file to exercise 'flush' Vim syntax highlightings.
+#
+# base_cmd  flush_cmd
+#
+
+################################################################################
+# true positive test: properly hightlighted correctly; has good content; perfect
+################################################################################
+
+flush table MyTable
+flush table ip MyTable
+flush table ip6 MyTable
+flush table inet MyTable
+flush table netdev MyTable
+flush table bridge MyTable
+flush table arp MyTable 
+flush table MyTable;
+flush table MyTable; 
+flush table MyTable ;
+flush table MyTable ; 
+
+
+flush chain MyTable MyChain
+flush chain ip MyTable MyChain
+flush chain ip6 MyTable MyChain
+flush chain inet MyTable MyChain
+flush chain netdev MyTable MyChain
+flush chain bridge MyTable MyChain
+flush chain arp MyTable MyChain
+flush chain MyTable MyChain;
+flush chain MyTable MyChain; 
+flush chain MyTable MyChain ;
+flush chain MyTable MyChain ; 
+
+# set_spec->'table'->'flow'->flush_cmd->base_cmd
+flush flow table table_id flow_id
+flush flow table ip table_id flow_id
+flush flow table ip6 table_id flow_id
+flush flow table inet table_id flow_id
+flush flow table netdev table_id flow_id
+flush flow table bridge table_id flow_id
+
+flush map ip table_id MyMap
+flush map ip6 table_id MyMap
+flush map inet table_id MyMap
+flush map netdev table_id MyMap
+flush map bridge table_id MyMap
+flush map arp table_id MyMap
+
+flush meter table_id MyMap
+flush meter ip table_id MyMap
+flush meter ip6 table_id MyMap
+flush meter inet table_id MyMap
+flush meter netdev table_id MyMap
+flush meter arp table_id MyMap
+
+flush ruleset 
+flush ruleset ip 
+flush ruleset ip6
+flush ruleset inet
+
+flush set table_id set_id
+flush set ip6 table_id set_id
+flush set inet table_id set_id
+flush set netdev table_id set_id
+flush set bridge table_id set_id
+flush set arp table_id set_id
+
+
+################################################################################
+# true negative test: properly hightlighted wrongly to show an error;
+# so far, so good.
+################################################################################
+
+flush table MyTable InvalidChain  # intentional invalid
+flush table ip MyTable InvalidChain  # intentional invalid
+flush table arp MyTable InvalidChain  # intentional invalid
+flush table arp MyTable  xyz
+flush table MyTable unwanted stuff; 
+flush chain MyTable MyChain XYZ ; 
+flush chain arp MyTable MyChain ExtraIdentifier  # intentional invalid
+flush chain wrong_family_spec ip MyTable MyChain  # intentional invalid
+flush set MyTable MyChain ExtraIdentifier  # intentional invalid
+flush set arp MyTable MyChain ExtraIdentifier  # intentional invalid
+flush set ip table_id set_id  xyz
+flush map MyTable MyChain ExtraIdentifier  # intentional invalid
+flush map arp MyTable MyChain ExtraIdentifier  # intentional invalid
+flush map table_id MyMap  xyz
+flush flow MyFlow MyChain ExtraIdentifier  # intentional invalid
+flush flow table arp table_id flow_id  xyz
+flush flow table MyFlow MyChain ExtraIdentifier  # intentional invalid
+flush flow table ip MyFlow MyChain ExtraIdentifier  # intentional invalid
+flush meter MyTable MyChain ExtraIdentifier  # intentional invalid
+flush meter arp MyTable MyChain ExtraIdentifier  # intentional invalid
+flush meter bridge table_id MyMap  xyz
+flush ruleset netdev  # intentional invalid; netdev is not a flushable
+flush ruleset bridge  # intentional invalid; bridge is not a flushable
+flush ruleset arp  # intentional invalid; arp is not a flushable
+
+
+################################################################################
+# false negative test: highlighted wrongly; still has good content; oops.
+################################################################################
+
+################################################################################
+# false positive test: looks highlighted correctly; has bad content; oops.
+################################################################################
+

@@ -1,0 +1,12 @@
+digraph syntax {
+  rankdir=LR;
+  "nft_add_cmd_keyword_rule_rule_position_table_spec_end" -> "nft_add_cmd_rule_position_chain_spec" [label="next"];
+  "nft_common_block_keyword_error" -> "nft_line_stmt_separator" [label="next"];
+  "nft_line_tmp_keyword_error" -> "nft_common_block_stmt_separator" [label="next"];
+  "nft_base_cmd_add_cmd_rule_position_table_spec_wildcard" -> "nft_add_cmd_rule_position_chain_spec" [label="next"];
+  "nft_line" -> "nft_common_block_keyword_error" [label="next"];
+  "nft_asterisk_string" -> "nft_string_unquoted" [label="contains", style=dashed];
+  "nft_string_double" -> "nft_string_sans_double_quote" [label="contains", style=dashed];
+  "nft_identifier" -> "nft_identifier_exact" [label="contains", style=dashed];
+  "nft_string_single" -> "nft_string_sans_single_quote" [label="contains", style=dashed];
+}
