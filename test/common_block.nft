@@ -29,17 +29,37 @@ include "file:///directory/filename.filetype"  # valid filespec but URL are not 
 # line common_block 'define' identifier '=' initializer_expr
 # line/common_block/DEFINE
 define A = 1
+define last = 1
 define ABC = 1  # missing stmt_separator
 define A = $ABC  # missing stmt_separator
+# line/common_block/DEFINE/initializer_expr/{}
+define ABC = {}
+define last = {}
+define ABC = {};
+define ABC = { }
+define ABC = { };
+
+# line/common_block/DEFINE/initializer_expr/DASH_NUM
+define port_range = 1024-32767
+define negative_value = -1000
 #
 # line common_block 'redefine' identifier '=' initializer_expr
 # line/common_block/REDEFINE
+redefine last = {}
+redefine A = {}
+redefine last = {}
+redefine A = { }
+redefine A = { };
+redefine A = { }; 
+redefine A = { } ;
+redefine A = { } ; 
 redefine A = 2
 redefine A = 123  # missing stmt_separator
 redefine A = $ABC  # missing stmt_separator
 
 # line common_block 'undefine' identifier 
 # line/common_block/UNDEFINE
+undefine last
 undefine A
 undefine ABC
 # line/common_block/UNDEFINE/stmt_separator
@@ -65,12 +85,33 @@ error ;
 
 # inline comments are not supported after include/define/redefine/undefine/error.
 #
+include 
+
+
 # line/base_cmd/add_cmd/comment_spec
 include "direcetory/filename.filetype"  # inline comment line
 
-error  # inline comment line
-error x 
+define 
 
+define A = 0- 1000
+define A = 0 -1000
+define A = 0 - 1000
+define A = - 1000
+
+redefine A = { xbc }
+redefine A = { xbc };
+redefine A = { xbc }; 
+redefine A = { xbc } ;
+redefine A = { xbc } ; 
+redefine A = { ;
+;                                                                                  ; 
+redefine A = { xbc } ; 
+}
+
+undefine & 
+undefine $ 
+undefine A 
+undefine 1BCDEF;
 undefine A$BCDE;
 undefine A`BCDE;
 undefine A~BCDE;
@@ -98,6 +139,12 @@ undefine A<BCDE;
 undefine A>BCDE;
 undefine A,BCDE;
 undefine A?BCDE;
+undefine A\BCDE;
+undefine A/BCDE;
+undefine A.BCDE;
+
+error  # inline comment line
+error x 
 
 ################################################################################
 # false negative test: highlighted wrongly; still has good content; oops.
@@ -123,10 +170,8 @@ error  # inline comment line
 ################################################################################
 
 
-undefine 1BCDEF;
-undefine A\BCDE;
-undefine A/BCDE;
-undefine A;BCDE;
-undefine A.BCDE;
+define ABC = { 
+   }
 
+undefine A;BCDE;
 

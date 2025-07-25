@@ -194,7 +194,7 @@ if version >= 508 || !exists("did_nftables_syn_inits")
   HiLink nftHL_Comment      Comment
   HiLink nftHL_String       String
   HiLink nftHL_Label        Label
-  HiLink nftHL_Keyword      Keyword
+  HiLink nftHL_Keyword      Tag
   HiLink nftHL_Boolean      Boolean
   HiLink nftHL_Float        Float
   HiLink nftHL_Identifier   Identifier
@@ -206,7 +206,7 @@ endif
 
 " iskeyword severly impacts '\<' and '\>' atoms
 " setlocal iskeyword=.,48-58,A-Z,a-z,\_,\/,-
-setlocal isident=.,48-58,A-Z,a-z,\_,\/,-
+setlocal isident=.,48-58,A-Z,a-z,\_
 
 let s:cpo_save = &cpo
 set cpo&vim  " Line continuation '\' at EOL is used here
@@ -294,7 +294,7 @@ if exists('g:nft_colorscheme')
   hi def nftHL_BlockDelimitersDevices  ctermfg=Blue ctermbg=Black cterm=NONE
 endif
 
-""""""""""
+"*********
 hi link   nft_ToDo nftHL_ToDo
 syn keyword nft_ToDo xxx contained XXX FIXME TODO TODO: FIXME: TBS TBD TBA
 \ containedby=nft_InlineComment
@@ -325,7 +325,7 @@ hi link   nft_line_inline_comment nftHL_Comment
 syn match nft_line_inline_comment "\v#.{0,127}$" skipwhite contained
 
 hi link   nft_line_comment_line nftHL_Comment
-syn match nft_line_comment_line "\v#.{0,79}$" skipwhite contained
+syn match nft_line_comment_line "\v#.{0,127}$" skipwhite contained
 
 " syn match nft_Set contained /{.*}/ contains=nft_SetEntry contained
 " syn match nft_SetEntry contained /[a-zA-Z0-9]\+/ contained
@@ -359,8 +359,8 @@ hi link   nft_UnexpectedEmptyBrackets nftHL_Error
 syn match nft_UnexpectedEmptyBrackets "\v\[\s*\]" skipwhite contained " do not use 'keepend' here
 
 hi link   nft_UnexpectedIdentifierChar nftHL_Error
-"syn match nft_UnexpectedIdentifierChar contained "\v[^a-zA-Z0-9\\\/_\.\n]{1,3}" contained
-syn match nft_UnexpectedIdentifierChar contained "\v(^[a-zA-Z0-9\\\/_\.\n]{1,3})" contained
+"syn match nft_UnexpectedIdentifierChar contained "\v[^a-zA-Z0-9_\n]{1,3}" contained
+syn match nft_UnexpectedIdentifierChar contained "\v(^[a-zA-Z0-9_\n]{1,3})" contained
 
 " We'll do error RED highlighting on all statement firstly, then later on
 " all the options, then all the clauses.
@@ -372,20 +372,25 @@ hi link   nft_Error_Always nftHL_Error
 syn match nft_Error_Always /[^(\n|\r)\.]\{1,15}/ skipwhite contained
 
 hi link   nft_Error nftHL_Error
-syn match nft_Error /[\s\wa-zA-Z0-9_./]\{1,64}/ skipwhite contained  " uncontained, on purpose
+syn match nft_Error /\v[\s\wa-zA-Z0-9_]{1,64}/ skipwhite contained  " uncontained, on purpose
 
 " expected end-of-line (iterator capped for speed)
 syn match nft_EOL /[\n\r]\{1,16}/ skipwhite contained
 
-hi link   nft_Semicolon nftHL_Operator
-syn match nft_Semicolon contained /\v\s{0,8}[;]{1,15}/  skipwhite contained
+" syntax keyword nft_CounterKeyword last contained
+
+
+" nft_Semicolon commented out to make way for syntax-specific semicolons
+" hi link   nft_Semicolon nftHL_Operator
+" syn match nft_Semicolon contained /\v\s{0,8}[;]{1,15}/  skipwhite contained
 
 hi link   nft_comment_inline nftHL_Error
 syn match nft_comment_inline "\#.*$" contained
 
 hi link   nft_identifier_exact nftHL_Identifier
-syn match nft_identifier_exact "\v[a-zA-Z][a-zA-Z0-9\\\/_\.\-]{0,63}" skipwhite contained
+syn match nft_identifier_exact "\v[a-zA-Z][a-zA-Z0-9_]{0,63}" contained
 
+" We limit to 63-char maximum for identifier name (for Vim session speed)
 hi link   nft_identifier nftHL_Identifier
 syn match nft_identifier "\v\w{0,63}" skipwhite contained
 \ contains=
@@ -393,7 +398,7 @@ syn match nft_identifier "\v\w{0,63}" skipwhite contained
 \    nft_Error
 
 hi link   nft_variable_identifier nftHL_Variable
-syn match nft_variable_identifier "\v[a-zA-Z][a-zA-Z0-9\/\\/_\.\-]{0,63}" skipwhite contained
+syn match nft_variable_identifier "\v[a-zA-Z][a-zA-Z0-9_]{0,63}" skipwhite contained
 
 " variable_expr (via chain_expr, dev_spec, extended_prio_spec, flowtable_expr,
 "                    flowtable_member_expr, policy_expr, queue_expr,
@@ -409,14 +414,14 @@ syn match nft_variable_identifier "\v[a-zA-Z][a-zA-Z0-9\/\\/_\.\-]{0,63}" skipwh
 "
 " identifier->table_spec->chain_spec->rule_position->add_cmd->'add'->base_cmd
 hi link   nft_base_cmd_add_cmd_rule_position_table_spec_wildcard nftHL_Identifier
-syn match nft_base_cmd_add_cmd_rule_position_table_spec_wildcard "\v[A-Za-z][A-Za-z0-9\\\/_\.\-]{0,63}" skipwhite contained
+syn match nft_base_cmd_add_cmd_rule_position_table_spec_wildcard "\v[A-Za-z][A-Za-z0-9_]{0,63}" skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_rule_position_chain_spec,
 \    nft_UnexpectedEOS
 
 
 hi link   nft_string_unquoted nftHL_String
-"syn match nft_string_unquoted "\v[a-zA-Z0-9\/\\\[\]\$]{1,64}" skipwhite keepend contained
+"syn match nft_string_unquoted '\v[a-zA-Z0-9\/\\\[\]\$]{1,64}' skipwhite keepend contained
 
 hi link   nft_string_sans_double_quote nftHL_String
 syn match nft_string_sans_double_quote "\v[a-zA-Z0-9\/\\\[\]\"]{1,64}" keepend contained
@@ -451,7 +456,7 @@ syn cluster nft_c_string
 \    nft_string_unquoted
 
 " nft_identifier_last (via identifer)
-hi link  nft_identifier_last nftHL_Command
+hi link  nft_identifier_last nftHL_Keyword
 syn match nft_identifier_last "last" skipwhite contained
 
 " identifier
@@ -474,20 +479,246 @@ hi link   nft_common_block_stmt_separator nftHL_Expression
 syn match nft_common_block_stmt_separator ";" skipwhite contained
 
 
-"""""""""""""""" BEGIN OF NFTABLE SYNTAX """""""""""""""""""""""""""""""
+"****************** BEGIN OF NFTABLE SYNTAX *******************************
 
-"""""""""""""""" BEGIN OF SECOND-LEVEL SYNTAXES """"""""""""""""""""""""""""
-"""""""""""""""" END OF SECOND-LEVEL SYNTAXES """"""""""""""""""""""""""""
+"****************** third-level *******************************************
+hi link   nft_common_block_define_redefine_initializer_expr_dash_num nftHL_Number
+syn match nft_common_block_define_redefine_initializer_expr_dash_num "\v[0-9]{1,7}" skipwhite contained
+\ nextgroup=
+\    nft_common_block_stmt_separator,
+\    nft_Error
+
+"*************** BEGIN OF SECOND-LEVEL SYNTAXES *****************************
+
+syn cluster nft_c_common_block_initializer_expr
+\ contains=
+\    nft_rhs_expr,
+\    nft_list_rhs_expr,
+\    nft_common_block_keyword_define_redefine_initializer_expr_empty_set,
+\    nft_common_block_keyword_define_redefine_initializer_expr_dash
+
+"*************** END OF SECOND-LEVEL SYNTAXES *******************************
 
 
-"""""""""""""""" END OF FIRST-LEVEL & SECOND-LEVEL SYNTAXES """"""""""""""""""""""""""""
+"*************** END OF FIRST-LEVEL & SECOND-LEVEL SYNTAXES ****************************
 
-"""""""""""""""" BEGIN OF TOP-LEVEL SYNTAXES """"""""""""""""""""""""""""
-source ../scripts/nftables/common_block.vim
-"source ../scripts/nftables/base_cmd.vim
+"*************** BEGIN OF TOP-LEVEL SYNTAXES ****************************
+
+" common_block
+" common_block (via chain_block, counter_block, ct_expect_block, ct_helper_block,
+"                   ct_timeout_block, flowtable_block, limit_block, line, map_block,
+"                   quota_block, secmark_block, set_block, synproxy_block, table_block
+
+" common_block 'define'/'redefine identifier <STRING> '=' initializer_expr
+" common_block 'define'/'redefine identifier <STRING> '=' rhs_expr
+" common_block 'define'/'redefine identifier <STRING> '=' list_rhs_expr
+" common_block 'define'/'redefine identifier <STRING> '=' '{' '}'
+" common_block 'define'/'redefine identifier <STRING> '=' '-'number
+" common_block 'define'/'redefine' value (via nft_common_block_define_redefine_equal)
+hi link   nft_common_block_define_redefine_value nftHL_Number
+syn match nft_common_block_define_redefine_value "\v[\'\"\$\{\}:a-zA-Z0-9\_\/\\\.\,\}\{]+\s{0,16}" skipwhite contained
+\ nextgroup=
+\    nft_common_block_stmt_separator
+"\    nft_comment_inline,
+
+" common_block 'define'/'redefine identifier <STRING> '=' '{' '}'
+hi link    nft_common_block_define_redefine_initializer_expr_empty_set nftHL_Expression
+syn region nft_common_block_define_redefine_initializer_expr_empty_set start=+{+ end=+}+ keepend skipwhite contained
+\ contains=
+\    nft_Error
+\ nextgroup=
+\    nft_common_block_stmt_separator
+
+" common_block 'define'/'redefine identifier <STRING> '=' -number
+" noticed 'no whitespace' between '-' and integer digits?
+hi link   nft_common_block_define_redefine_initializer_expr_dash nftHL_Number
+syn match nft_common_block_define_redefine_initializer_expr_dash /\-/ contained
+\ nextgroup=
+\    nft_common_block_define_redefine_initializer_expr_dash_num,
+\    nft_Error_Always
+
+" common_block 'define'/'redefine identifier '=' rhs_expr concat_rhs_expr basic_rhs_expr
+hi link   nft_common_block_define_redefine_initializer_expr_rhs_expr_concat_rhs_expr_basic_rhs_expr_exclusive_or_rhs_expr nftHL_Operator
+syn match nft_common_block_define_redefine_initializer_expr_rhs_expr_concat_rhs_expr_basic_rhs_expr_exclusive_or_rhs_expr /|/ skipwhite contained
+\ nextgroup=
+\    @nft_c_common_block_define_redefine_initializer_expr_nft_common_block_define_redefine_initializer_expr_rhs_expr_concat_rhs_expr_basic_rhs_expr_bar,
+\    nft_common_block_stmt_separator
+" TODO: typo ^^^^
+
+" END OF common_block
+
+" num->initializer_expr->common_block
+hi link   nft_common_block_define_redefine_keywords_initializer_expr_num nftHL_Integer
+syn match nft_common_block_define_redefine_keywords_initializer_expr_num "\v[0-9]{1,11}" skipwhite contained
+
+" '-'->initializer_expr->common_block
+hi link   nft_common_block_define_redefine_keywords_initializer_expr_dash nftHL_Element
+syn match nft_common_block_define_redefine_keywords_initializer_expr_dash /-/ skipwhite contained
+\ nextgroup=
+\    nft_common_block_define_redefine_keywords_initializer_expr_num
+
+" '{'->initializer_expr->common_block
+hi link   nft_common_block_define_redefine_keywords_initializer_expr_block nftHL_Normal
+syn region nft_common_block_define_redefine_keywords_initializer_expr_block start="{" end="}" skipwhite contained
+
+" initializer_expr->common_block
+syn cluster nft_common_block_define_redefine_keywords_initializer_expr
+\ contains=
+\    nft_common_block_define_redefine_keywords_initializer_expr_dash,
+\    nft_common_block_define_redefine_keywords_initializer_expr_block,
+\    @nft_c_rhs_expr,
+\    @nft_c_list_rhs_expr
+" list_rhs_expr must be the last 'contains=' entry
+"     as its basic_rhs_expr->exclusive_or_rhs_expr->and_rhs_expr->shift_rhs_expr->primary_rhs_expr->symbol_expr
+"     uses <string> which is a (wildcard)
+
+hi link   nft_common_block_filespec_sans_single_quote nftHL_String
+syn match nft_common_block_filespec_sans_single_quote "\v[\"_\-\.\;\?a-zA-Z0-9\,\:\+\=\*\&\^\%\$\!`\~\#\@\|\/\\\(\)\{\}\[\]\<\>(\\\')]+" keepend contained
+
+hi link    nft_common_block_filespec_quoted_single nftHL_String
+syn region nft_common_block_filespec_quoted_single start="\'" skip="\\\'" end="\'" skipwhite keepend oneline contained
+\ contains=
+\    nft_common_block_filespec_sans_single_quote
+\ nextgroup=
+\    nft_common_block_stmt_separator,
+\    nft_UnexpectedSemicolon,
+\    nft_UnexpectedEOS,
+\    nft_Error
+" \    nft_comment_inline,
+
+hi link   nft_common_block_filespec_sans_double_quote nftHL_String
+syn match nft_common_block_filespec_sans_double_quote "\v[\'_\-\.\;\?a-zA-Z0-9\,\:\+\=\*\&\^\%\$\!`\~\#\@\|\/\(\)\{\}\[\]\<\>(\\\")]+" keepend contained
+
+hi link    nft_common_block_filespec_quoted_double nftHL_String
+syn region nft_common_block_filespec_quoted_double start="\"" skip="\\\"" end="\"" skipwhite oneline keepend contained
+\ contains=
+\    nft_common_block_filespec_sans_double_quote
+\ nextgroup=
+\    nft_common_block_stmt_separator,
+\    nft_Error
+" \    nft_comment_inline,
+
+syn cluster nft_c_common_block_keyword_include_quoted_string
+\ contains=
+\    nft_common_block_filespec_quoted_single,
+\    nft_common_block_filespec_quoted_double,
+\    nft_UnexpectedSemicolon,
+\    nft_UnexpectedEOS,
+\    nft_Error
+
+hi link   nft_common_block_keyword_include nftHL_Include
+syn match nft_common_block_keyword_include "include" skipwhite oneline contained
+\ nextgroup=
+\    @nft_c_common_block_keyword_include_quoted_string,
+\    nft_UnexpectedSemicolon,
+\    nft_UnexpectedEOS,
+\    nft_Error
+
+" TODO: common_block 'define'/'redefine identifier '=' rhs_expr concat_rhs_expr
+syn cluster nft_c_common_block_define_redefine_initializer_expr_rhs_expr_concat_rhs_expr
+\ contains=
+\    nft_common_block_define_redefine_initializer_expr_rhs_expr_concat_rhs_expr_basic_rhs_expr,
+\    nft_common_block_define_redefine_initializer_expr_rhs_expr_concat_rhs_expr_multion_rhs_expr
+
+" TODO: common_block 'define'/'redefine identifier '=' rhs_expr set_expr
+" TODO: common_block 'define'/'redefine identifier '=' rhs_expr set_ref_symbol_expr
+
+" common_block 'define'/'redefine identifier '=' rhs_expr
+syn cluster nft_c_common_block_define_redefine_initializer_expr_rhs_expr
+\ contains=
+\    nft_common_block_define_redefine_initializer_expr_rhs_expr_concat_rhs_expr,
+\    nft_common_block_define_redefine_initializer_expr_rhs_expr_set_expr,
+\    nft_common_block_define_redefine_initializer_expr_rhs_expr_set_ref_symbol_expr
+
+" common_block 'define'/'redefine identifier '=' initializer_expr
+syn cluster nft_c_common_block_define_redefine_initializer_expr
+\ contains=
+\    nft_common_block_define_redefine_initializer_expr_empty_set,
+\    nft_common_block_define_redefine_initializer_expr_dash,
+\    @nft_c_common_block_define_redefine_initializer_expr_rhs_expr,
+\    nft_common_block_define_redefine_initializer_expr_list_rhs_expr
+
+" common_block 'define'/'redefine identifier '='
+hi link   nft_common_block_define_redefine_equal nftHL_Operator
+syn match nft_common_block_define_redefine_equal "=" skipwhite contained
+\ nextgroup=
+\    @nft_c_common_block_define_redefine_initializer_expr
+
+" common_block 'define'/'redefine identifier <STRING>
+hi link   nft_common_block_define_redefine_identifier_string nftHL_Identifier
+syn match   nft_common_block_define_redefine_identifier_string '\v[A-Za-z0-9_]{1,64}' skipwhite contained
+\ nextgroup=
+\    nft_common_block_define_redefine_equal
+
+" 'define' (via "
+" commmon_block 'redefine' (via common_block)
+hi link   nft_common_block_keyword_redefine nftHL_Command
+syn match nft_common_block_keyword_redefine contained "redefine" skipwhite contained
+\ nextgroup=
+\    nft_common_block_define_redefine_identifier_string
+
+" common_block 'define' (via common_block)
+hi link   nft_common_block_keyword_define nftHL_Command
+syn match nft_common_block_keyword_define contained "define" skipwhite contained
+\ nextgroup=
+\    nft_common_block_define_redefine_identifier_string
+
+" common_block 'undefine' identifier (via common_block 'undefine')
+
+hi link   nft_common_block_undefine_identifier_string nftHL_Identifier
+syn match nft_common_block_undefine_identifier_string '\v[a-zA-Z][A-Za-z0-9_]{0,63}' oneline skipwhite contained
+\ nextgroup=
+\    nft_common_block_stmt_separator,
+\    nft_UnexpectedCurlyBrace,
+\    nft_EOS
+
+hi link   nft_common_block_undefine_identifier_last nftHL_Keyword
+syn match nft_common_block_undefine_identifier_last /\<last\>/ contained
+\ containedin=
+\    nft_common_block_undefine_identifier_string,
+\    nft_common_block_define_redefine_identifier_string
+
+" commmon_block 'undefine' (via common_block)
+hi link   nft_common_block_keyword_undefine nftHL_Command
+syn match nft_common_block_keyword_undefine "undefine" skipwhite contained
+\ nextgroup=
+\    nft_common_block_undefine_identifier_string,
+\    nft_Error
+
+" commmon_block 'error' (via common_block)
+hi link   nft_common_block_keyword_error nftHL_Command
+syn match nft_common_block_keyword_error "\<error\>" skipwhite contained
+\ nextgroup=
+\    nft_line_stmt_separator,
+\    nft_Error
+
+" commmon_block 'redefine' (via common_block)
+" common_block->line
+" common_block->table_block
+" common_block->chain_block
+" common_block->counter_block
+" common_block->ct_expect_block
+" common_block->ct_helper_block
+" common_block->ct_timeout_block
+" common_block->flowtable_block
+" common_block->limit_block
+" common_block->map_block
+" common_block->quota_block
+" common_block->secmark_block
+" common_block->set_block
+" common_block->synproxy_block
+
+syn cluster nft_c_common_block
+\ contains=
+\    nft_common_block_keyword_redefine,
+\    nft_common_block_keyword_undefine,
+\    nft_common_block_keyword_include,
+\    nft_common_block_keyword_define,
+\    nft_common_block_keyword_error,
+\    nft_EOL
 
 
-""""""""""" base_cmd END """""""""""""""""""""""""""""""""""""""""""""""""
+"********** base_cmd END *************************************************
 
 " nft_cli_comment_whole_line is not part of the Bison parser
 " nft_cli_comment_whole_line parsing is done within nft CLI read loop
@@ -498,36 +729,23 @@ syn match nft_cli_comment_whole_line "#.*$" keepend contained
 hi link   nft_line_stmt_separator nftHL_Expression
 syn match nft_line_stmt_separator  "\v[;\n]{1,16}" skipwhite contained
 
-" commmon_block 'error' (via common_block)
-hi link   nft_line_tmp_keyword_error nftHL_Command
-syn match nft_line_tmp_keyword_error "\<error\>" skipwhite contained
-\ nextgroup=
-\    nft_common_block_stmt_separator
-
-" commmon_block 'error' (via common_block)
-hi link   nft_common_block_keyword_error nftHL_Command
-syn match nft_common_block_keyword_error "\<error\>" skipwhite contained
-\ nextgroup=
-\    nft_line_stmt_separator,
-\    nft_Error,
-
 " `line` main top-level syntax, do not add 'contained' here.
 " `line` is the only syntax match/region line without a 'contained' syntax attribute
 " `line` is the only syntax with '^' caret (begin of line) regex pattern"
+" limit to 63-char whitespaces from 1st column (for Vim syntax session speed)
 hi link   nft_line Normal
 syn match nft_line "^\v\s{0,63}"
 \ nextgroup=
-\    nft_common_block_keyword_error,
-\    nft_line_stmt_separator,
 \    @nft_c_common_block,
 \    @nft_c_base_cmd,
+\    nft_common_block_keyword_error,
 \    nft_line_inline_comment,
+\    nft_line_stmt_separator,
 "\    nft_Error
 
-"""""""""""""""" END OF TOP-LEVEL SYNTAXES """"""""""""""""""""""""""""
+"*************** END OF TOP-LEVEL SYNTAXES *****************************
 
-
-"""""""""""""""""""""" END OF SYNTAX """"""""""""""""""""""""""""
+"********************* END OF SYNTAX ****************************
 
 if version >= 508 || !exists("did_nftables_syn_inits")
   delcommand HiLink
