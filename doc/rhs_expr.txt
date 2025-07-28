@@ -1,0 +1,269 @@
+
+Current parse_bison.y for 'rhs_expr'
+====================================
+
+BASIC OUTPUT
+------------
+
+rhs_expr
+  concat_rhs_expr
+    basic_rhs_expr
+      symbol_expr
+        '$<var>'
+        string (a non-terminal wrapper grammar rule to STRING/QUOTED_STRING/ASTERISK_STRING)
+          STRING /[a-zA-Z0-9]/
+          QUOTED_STRING /(\".*\")|(\'.*\')/
+          ASTERISK_STRING /(.*\*.*)/
+      integer_expr
+        /[0-9]{1,7}/
+      boolean_expr
+        boolean_keys
+          'exists' (EXISTS)
+          'missing' (MISSING)
+      keyword_expr
+        'ether'
+        'ip'
+        'ip6'
+        'vlan'
+        'arp'
+        'dnat'
+        'snat'
+        'ecn'
+        'reset'
+        'destroy'
+        'original'
+        'reply'
+        'label'
+        'last'
+      'tcp'
+      'udp'
+      'udplite'
+      'esp'
+      'ah'
+      'icmp'
+      'icmp6'
+      'igmp'
+      'gre'
+      'comp'
+      'dccp'
+      'sctp'
+      'redirect'
+      '{' basic_rhs_expr
+    multion_rhs_expr
+      prefix_rhs_expr
+        basic_rhs_expr
+          exclusive_or_rhs_expr
+            and_rhs_expr
+              shift_rhs_expr
+                RSHIFT
+                LSHIFT
+                primary_rhs_expr
+                  symbol_expr
+                    '$<var>'
+                    string (a non-terminal wrapper grammar rule to STRING/QUOTED_STRING/ASTERISK_STRING)
+                      STRING /[a-zA-Z0-9]/
+                      QUOTED_STRING /(\".*\")|(\'.*\')/
+                      ASTERISK_STRING /(.*\*.*)/
+                  integer_expr
+                    /[0-9]{1,7}/
+                  boolean_expr
+                    boolean_keys
+                      'exists' (EXISTS)
+                      'missing' (MISSING)
+                  keyword_expr
+                    'ether'
+                    'ip'
+                    'ip6'
+                    'vlan'
+                    'arp'
+                    'dnat'
+                    'snat'
+                    'ecn'
+                    'reset'
+                    'destroy'
+                    'original'
+                    'reply'
+                    'label'
+                    'last'
+                  'tcp'
+                  'udp'
+                  'udplite'
+                  'esp'
+                  'ah'
+                  'icmp'
+                  'icmp6'
+                  'igmp'
+                  'gre'
+                  'comp'
+                  'dccp'
+                  'sctp'
+                  'redirect'
+                  '{' basic_rhs_expr
+      range_rhs_expr
+        basic_rhs_expr
+          exclusive_or_rhs_expr
+            and_rhs_expr
+              shift_rhs_expr
+                RSHIFT
+                LSHIFT
+                primary_rhs_expr
+                  symbol_expr
+                    '$<var>'
+                    string (a non-terminal wrapper grammar rule to STRING/QUOTED_STRING/ASTERISK_STRING)
+                      STRING /[a-zA-Z0-9]/
+                      QUOTED_STRING /(\".*\")|(\'.*\')/
+                      ASTERISK_STRING /(.*\*.*)/
+                  integer_expr
+                    /[0-9]{1,7}/
+                  boolean_expr
+                    boolean_keys
+                      'exists' (EXISTS)
+                      'missing' (MISSING)
+                  keyword_expr
+                    'ether'
+                    'ip'
+                    'ip6'
+                    'vlan'
+                    'arp'
+                    'dnat'
+                    'snat'
+                    'ecn'
+                    'reset'
+                    'destroy'
+                    'original'
+                    'reply'
+                    'label'
+                    'last'
+                  'tcp'
+                  'udp'
+                  'udplite'
+                  'esp'
+                  'ah'
+                  'icmp'
+                  'icmp6'
+                  'igmp'
+                  'gre'
+                  'comp'
+                  'dccp'
+                  'sctp'
+                  'redirect'
+                  '{' basic_rhs_expr
+  set_expr
+    '{' set_list_member_expr
+  set_ref_symbol_expr
+    'at' identifier
+
+
+What are the first tokens for 'rhs_expr'?
+  'redirect'
+  'original'
+  'destroy'
+  'missing' (MISSING)
+  'udplite'
+  'exists' (EXISTS)
+  'ether'
+  'icmp6'
+  'label'
+  'reply'
+  'reset'
+  'comp'
+  'dccp'
+  'dnat'
+  'icmp'
+  'igmp'
+  'last'
+  'sctp'
+  'snat'
+  'vlan'
+  'arp'
+  'ecn'
+  'esp'
+  'gre'
+  'ip6'
+  'tcp'
+  'udp'
+  'ah'
+  'at'
+  'ip'
+  '{' set_list_member_expr (requires 'elements ='/'set'/'map' keyword apriori)
+  '{' basic_rhs_expr
+  '$<var>'
+  INTEGER (/[0-9]{1,7}/)
+  STRING /[a-zA-Z0-9]/
+  QUOTED_STRING /(\".*\")|(\'.*\')/
+  ASTERISK_STRING /(.*\*.*)/
+  
+'list_rhs_expr' & 'rhs_expr'
+============================
+Smashing 'list_rhs_expr' and 'rhs_expr' together,
+then teasing out 'set'/'map'/'element='
+
+
+
+
+Curly Braces AST vs. Vimscript by-keyword
+------------------------------------------
+How to resolve ambiguity of '{' in 'rhs_expr', does it go to 'set_list_member_expr' or 'basic_rhs_expr'?
+
+* 'set_list_member_expr', used by 'elements=', 'set', 'map'
+* 'basic_rhs_expr', everything else (i.e., 'counters')
+
+The meaning of { depends on what came before — which determines whether it's:
+
+    A set literal: { 1, 2, 3 }
+
+    A map: { 1 : 2, 3 : 4 }
+
+    A compound expression: { ip saddr 1.2.3.4 }
+
+SOLUTION:
+Split 'rhs_expr' into two distinct non-terminals depending on calling context:
+
+'rhs_expr_for_sets': 'set'/'map'/'elements='
+  set_list_member_expr
+'rhs_expr_for_ops': 'define'/'redefine'/'counter'/'log'
+  basic_rhs_expr
+
+This would eliminate ambiguity but at the cost of 'rhs_expr' duplication.
+
+What are the first tokens for 'rhs_expr_for_set'?
+  '{' set_list_member_expr (requires 'elements ='/'set'/'map' keyword apriori)
+
+What are the first tokens for 'rhs_expr_for_ops'?
+  'redirect'  (primary_rhs_expr)
+  'original'  (keyword_expr/primary_rhs_expr)
+  'missing' (MISSING) (boolean_keys/boolean_expr/primary_rhs_expr)
+  'exists' (EXISTS) (boolean_keys/boolean_expr/primary_rhs_expr)
+  'destroy' (keyword_expr/primary_rhs_expr)
+  'udplite' (primary_rhs_expr)
+  'ether' (keyword_expr/primary_rhs_expr)
+  'icmp6' (primary_rhs_expr)
+  'label' (keyword_expr/primary_rhs_expr)
+  'reply' (keyword_expr/primary_rhs_expr)
+  'reset' (keyword_expr/primary_rhs_expr)
+  'comp' (primary_rhs_expr)
+  'dccp' (primary_rhs_expr)
+  'dnat' (keyword_expr/primary_rhs_expr)
+  'icmp' (primary_rhs_expr)
+  'igmp' (primary_rhs_expr)
+  'last' (keyword_expr/primary_rhs_expr)
+  'sctp' (primary_rhs_expr)
+  'snat' (keyword_expr/primary_rhs_expr)
+  'vlan' (keyword_expr/primary_rhs_expr)
+  'arp' (keyword_expr/primary_rhs_expr)
+  'ecn' (keyword_expr/primary_rhs_expr)
+  'esp' (primary_rhs_expr)
+  'gre' (primary_rhs_expr)
+  'ip6' (keyword_expr/primary_rhs_expr)
+  'tcp' (primary_rhs_expr)
+  'udp' (primary_rhs_expr)
+  'ah' (primary_rhs_expr)
+  'at'
+  'ip' (keyword_expr/primary_rhs_expr)
+  '$<var>'
+  QUOTED_STRING /(\".*\")|(\'.*\')/
+  ASTERISK_STRING /(.*\*.*)/
+  INTEGER (/\<[0-9]{1,7}\>/)
+  STRING /\<[a-zA-Z][a-zA-Z0-9]\>/
+  '{' (basic_rhs_expr/primary_rhs_expr | emptyset )
+

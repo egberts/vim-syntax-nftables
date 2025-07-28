@@ -259,6 +259,7 @@ hi def link nftHL_Member      Identifier
 hi def link nftHL_Verdict     Underlined
 hi def link nftHL_Hook        Type
 hi def link nftHL_Action      Special
+hi def link nftHL_Delimiters  Normal
 hi def link nftHL_BlockDelimiters  Normal
 
 "hi link nftHL_BlockDelimitersTable  Delimiter
@@ -294,19 +295,109 @@ if exists('g:nft_colorscheme')
   hi def nftHL_BlockDelimitersDevices  ctermfg=Blue ctermbg=Black cterm=NONE
 endif
 
-"*********
+"********* Leaf tokens (NOT-contained only)
+hi link   nft_EOS nftHL_Error
+syn match nft_EOS /\v[^ \t]{1,6}[\n\r\#]{1,3}/ skipempty skipnl skipwhite contained
+
+"********* Leaf tokens (contained only)
 hi link   nft_ToDo nftHL_ToDo
 syn keyword nft_ToDo xxx contained XXX FIXME TODO TODO: FIXME: TBS TBD TBA
-\ containedby=nft_InlineComment
+\ containedby=
+\    nft_InlineComment
+
+hi link   nft_Number nftHL_Number
+syn match nft_Number /\<\d\+\>/ contained
+
+hi link   nft_IP nftHL_Constant
+syn match nft_IP '\v[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' contained
+
+hi link   nft_String nftHL_String
+syn match nft_String /"\([^"]\|\\."\)*"/ contained
+
+hi link   nft_Comma nftHL_BlockDelimiters
+syn match nft_Comma /,/ contained
+
+hi link   nft_Colon nftHL_Operator
+syn match nft_Colon /:/ contained
 
 hi link   nft_InlineComment nftHL_Comment
 syn match nft_InlineComment "\v\# " skipwhite contained
 
-hi link   nft_EOS nftHL_Error
-syn match nft_EOS /\v[^ \t]{1,6}[\n\r\#]{1,3}/ skipempty skipnl skipwhite contained
-
 hi link   nft_UnexpectedSemicolon nftHL_Error
 syn match nft_UnexpectedSemicolon "\v;{1,7}" contained
+
+" === For map entries like '1 : "value"' ===
+hi link   nft_MapEntry nftHL_Identifier
+syn match nft_MapEntry '\v[0-9]{1,11}\s{1,32}:\s{1,32}\".{1,64}\"' contained
+
+" === Clustered list elements ===
+syn cluster nft_c_SetElements
+\ contains=
+\    nft_Number,
+\    nft_IP,
+\    nft_String,
+\    nft_Comma
+
+syn cluster nft_c_MapElements
+\ contains=
+\    nft_MapEntry,
+\    nft_Comma
+
+syn cluster nft_c_GenericElements
+\ contains=
+\    nft_Number,
+\    nft_String,
+\    nft_Comma
+
+" === For map entries like '1 : "value"' ===
+syn match nft_MapEntry /\d\+\s*:\s*".*"/ contained
+
+" === Clustered list elements ===
+syntax cluster nft_c_SetElements
+\ contains=
+\    nft_Number,
+\    nft_IP,
+\    nft_String,
+\    nft_Comma
+
+syntax cluster nft_c_MapElements
+\ contains=
+\    nft_MapEntry,
+\    nft_Comma
+
+syntax cluster nft_c_GenericElements
+\ contains=
+\    nft_Number,
+\    nft_String,
+\    nft_Comma
+
+" === Curly blocks for set/map/elements (each with own element cluster) ===
+syn region nft_SetBlock start=/{/ end=/}/ contained
+\ contains=
+\    @nft_c_SetElements
+
+syn region nft_MapBlock start=/{/ end=/}/ contained
+\ contains=
+\    @nft_c_MapElements
+
+syn region nft_ElementsBlock start=/{/ end=/}/ contained
+\ contains=
+\    @nft_c_GenericElements
+
+" === Entry point rules ===
+syn match nft_RhsExprForSet     /\<set\>\s\+\k\+\s*=\s*{[^}]*}/ contained
+\ contains=
+\    nft_SetBlock
+
+syn match nft_RhsExprForMap /\<map\>\s\+\k\+\s*=\s*{[^}]*}/ contained
+\ contains=
+\    nft_MapBlock
+
+syn match nft_RhsExprForElements /\<elements\>\s*=\s*{[^}]*}/ contained
+\ contains=
+\    nft_ElementsBlock
+
+
 
 " stmt_separator (via nft_chain_block, nft_chain_stmt, @nft_c_common_block,
 "                     counter_block, ct_expect_block, ct_expect_config,
@@ -354,7 +445,7 @@ syn match nft_UnexpectedEmptyBrackets "\v\[\s*\]" skipwhite contained " do not u
 
 hi link   nft_UnexpectedIdentifierChar nftHL_Error
 "syn match nft_UnexpectedIdentifierChar contained "\v[^a-zA-Z0-9_\n]{1,3}" contained
-syn match nft_UnexpectedIdentifierChar contained "\v(^[a-zA-Z0-9_\n]{1,3})" contained
+syn match nft_UnexpectedIdentifierChar "\v(^[a-zA-Z0-9_\n]{1,3})" contained
 
 " We'll do error RED highlighting on all statement firstly, then later on
 " all the options, then all the clauses.
@@ -392,7 +483,7 @@ syn match nft_identifier "\v\w{0,63}" skipwhite contained
 \    nft_Error
 
 hi link   nft_variable_identifier nftHL_Variable
-syn match nft_variable_identifier "\v[a-zA-Z][a-zA-Z0-9_]{0,63}" skipwhite contained
+syn match nft_variable_identifier "\v\$[a-zA-Z][a-zA-Z0-9_]{0,63}" skipwhite contained
 
 " variable_expr (via chain_expr, dev_spec, extended_prio_spec, flowtable_expr,
 "                    flowtable_member_expr, policy_expr, queue_expr,
@@ -476,20 +567,144 @@ syn match nft_common_block_stmt_separator ";" skipwhite contained
 "****************** BEGIN OF NFTABLE SYNTAX *******************************
 
 "****************** third-level *******************************************
-hi link   nft_common_block_define_redefine_initializer_expr_dash_num nftHL_Number
-syn match nft_common_block_define_redefine_initializer_expr_dash_num "\v[0-9]{1,7}" skipwhite contained
+
+hi link   nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_set_expr_block_element_set_quoted_string_list_comma nftHL_Element
+syn match nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_set_expr_block_element_set_quoted_string_list_comma /,/ skipwhite contained
 \ nextgroup=
-\    nft_common_block_stmt_separator,
-\    nft_Error
+\    nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_set_expr_block_element_set_quoted_string
+
+hi link   nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_set_expr_block_element_set_quoted_string nftHL_String
+syn match nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_set_expr_block_element_set_quoted_string /\v(\{|\s)\zs\"[a-zA-Z][a-zA-Z0-9]{1,64}\"\ze($|\s|;|,|:|\})/ skipwhite contained
+\ nextgroup=
+\    nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_set_expr_block_element_set_quoted_string_list_comma
+syn match nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_set_expr_block_element_set_quoted_string /\v(\{|\s)\zs\'[a-zA-Z][a-zA-Z0-9]{1,64}\'\ze($|\s|;|,|:|\})/ skipwhite contained
+\ nextgroup=
+\    nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_set_expr_block_element_set_quoted_string_list_comma
+
+hi link   nft_common_block_define_undefine_keywords_initializer_expr_rhs_expr_block_element_number_list_comma nftHL_Element
+syn match nft_common_block_define_undefine_keywords_initializer_expr_rhs_expr_block_element_number_list_comma /,/ contained
+\ nextgroup=
+\     nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_number
+
+hi link   nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_set_expr_block_element_number_range_high nftHL_Number
+syn match nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_set_expr_block_element_number_range_high '\v[0-9]{1,11}' skipwhite contained
+
+hi link   nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_set_expr_block_element_number_range_dash nftHL_Expression
+syn match nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_set_expr_block_element_number_range_dash /-/ contained
+\ nextgroup=
+\     nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_set_expr_block_element_number_range_high
+
+hi link   nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_number nftHL_Number
+syn match nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_number '\v[0-9]{1,11}' skipwhite contained
+\ nextgroup=
+\    nft_common_block_define_undefine_keywords_initializer_expr_rhs_expr_block_element_number_list_comma,
+\    nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_set_expr_block_element_number_range_dash
+
+hi link   nft_common_block_define_undefine_keywords_initializer_expr_rhs_expr_block_element_set_list_IP_comma nftHL_Element
+syn match nft_common_block_define_undefine_keywords_initializer_expr_rhs_expr_block_element_set_list_IP_comma ',' skipwhite contained
+\ nextgroup=
+\    nft_common_block_define_redefine_keywords_initializer_expr_block_element_set_list_IP
+
+hi link   nft_common_block_define_redefine_keywords_initializer_expr_block_element_set_list_IP nftHL_Identifier
+syn match nft_common_block_define_redefine_keywords_initializer_expr_block_element_set_list_IP '\v[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' skipwhite contained
+\ nextgroup=
+\    nft_common_block_define_undefine_keywords_initializer_expr_rhs_expr_block_element_set_list_IP_comma
+
+hi link   nft_define_undefine_keywords_block_MapEntry_element_value nftHL_Device
+syn match nft_define_undefine_keywords_block_MapEntry_element_value '\v[0-9]{1,11}\ze\s{0,10}:' skipwhite contained
+\ nextgroup=
+\    nft_define_undefine_keywords_block_MapEntry_element_list_comma
+syn match nft_define_undefine_keywords_block_MapEntry_element_value '\v\"[-a-zA-Z0-9_@.\/]*\"' skipwhite contained
+\ nextgroup=
+\    nft_define_undefine_keywords_block_MapEntry_element_list_comma
+syn match nft_define_undefine_keywords_block_MapEntry_element_value '\v\'[-a-zA-Z0-9_@.\/]*\'' skipwhite contained
+\ nextgroup=
+\    nft_define_undefine_keywords_block_MapEntry_element_list_comma
+
+hi link   nft_define_undefine_keywords_block_MapEntry_element_colon nftHL_Delimiters
+syn match nft_define_undefine_keywords_block_MapEntry_element_colon /:/ skipwhite contained
+\ nextgroup=
+\    nft_define_undefine_keywords_block_MapEntry_element_value
+
+hi link   nft_common_block_define_undefine_keywords_initializer_expr_rhs_expr_block_element_map_key_integer_expr nftHL_Device
+syn match nft_common_block_define_undefine_keywords_initializer_expr_rhs_expr_block_element_map_key_integer_expr '\v[0-9]{1,11}\ze\s{0,10}:' skipwhite contained
+\ nextgroup=
+\    nft_define_undefine_keywords_block_MapEntry_element_colon,
+\    nft_initializer_BadToken
+
+hi link   nft_common_block_define_undefine_keywords_initializer_expr_rhs_expr_block_element_map_key_IP nftHL_Constant
+syn match nft_common_block_define_undefine_keywords_initializer_expr_rhs_expr_block_element_map_key_IP '\v[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\ze\s{0,10}:' skipwhite contained
+\ nextgroup=
+\    nft_define_undefine_keywords_block_MapEntry_element_colon,
+\    nft_initializer_BadToken
+
+hi link   nft_common_block_define_undefine_keywords_initializer_expr_rhs_expr_block_element_map_key_unquoted_identifier nftHL_Identifier
+syn match nft_common_block_define_undefine_keywords_initializer_expr_rhs_expr_block_element_map_key_unquoted_identifier '\v[a-zA-Z][a-zA-Z0-9]{0,63}\ze\s{0,10}:' skipwhite contained
+\ nextgroup=
+\    nft_define_undefine_keywords_block_MapEntry_element_colon,
+\    nft_initializer_BadToken
+
+hi link   nft_define_undefine_keywords_block_MapEntry_element_list_comma nftHL_Element
+syn match nft_define_undefine_keywords_block_MapEntry_element_list_comma /,/ skipwhite contained
+\ nextgroup=
+\    nft_common_block_define_undefine_keywords_initializer_expr_rhs_expr_block_element_map_key
+
+hi link   nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_set_expr_block_element_set_unquoted_identifier_list_comma nftHL_Element
+syn match nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_set_expr_block_element_set_unquoted_identifier_list_comma /,/ skipwhite contained
+
+hi link   nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_set_expr_block_element_set_unquoted_identifier nftHL_Identifier
+syn match nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_set_expr_block_element_set_unquoted_identifier /\v(\=|\s)\zs[a-zA-Z][a-zA-Z0-9]{1,64}\ze($|\s|;|,)/ skipwhite contained
+\ nextgroup=
+\    nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_set_expr_block_set_element_unquoted_identifier_list_comma
+
+" 'define' supports only simple variable or single-line maps, hence 'oneline'
+"syntax match nft_empty_set /\v\{\zs\s*\ze\}/ oneline contained
+hi link   nft_empty_set nftHL_SpecialComment
+syn match nft_empty_set '\v\{\s{0,32}\}' oneline contained
+\ nextgroup=
+\    nft_common_block_stmt_separator
+
+" Bad tokens inside braces: anything not starting with alnum, ', or "
+" hi link   nft_define_undefine_keywords_block_BadToken nftHL_Error
+" syntax match nft_define_undefine_keywords_block_BadToken /\v\{\s*\zs[^a-zA-Z0-9\'\" ]+/ contained
+" \ containedin=nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_set_expr_block
+
+"hi link   nft_initializer_BadToken nftHL_Error
+"syntax match nft_initializer_BadToken /\v\{\s*\zs[^a-zA-Z0-9_'" ]\s{0,16}/ contained
+"\ containedin=nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_set_expr_block
 
 "*************** BEGIN OF SECOND-LEVEL SYNTAXES *****************************
+" In 'define'/'redefine', curly braces {} in the expression are required only for:
+"
+" - Map definitions
+" - Set definitions
+" - Lists of values
 
-syn cluster nft_c_common_block_initializer_expr
+hi link    nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_set_expr_block nftHL_SpecialComment
+syn region nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_set_expr_block start=+{+ end=+}+ oneline skipwhite contained
 \ contains=
-\    nft_rhs_expr,
-\    nft_list_rhs_expr,
-\    nft_common_block_keyword_define_redefine_initializer_expr_empty_set,
-\    nft_common_block_keyword_define_redefine_initializer_expr_dash
+\    nft_common_block_define_undefine_keywords_initializer_expr_rhs_expr_block_element_map_key_IP,
+\    nft_common_block_define_undefine_keywords_initializer_expr_rhs_expr_block_element_map_key_integer_expr,
+\    nft_common_block_define_undefine_keywords_initializer_expr_rhs_expr_block_element_map_key_unquoted_identifier,
+\    nft_common_block_define_undefine_keywords_initializer_expr_rhs_expr_block_element_map_key,
+\    nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_set_expr_block_element_map_quoted_string,
+\    nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_set_expr_block_element_set_quoted_string,
+\    nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_set_expr_block_element_quoted_string,
+\    nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_set_expr_block_element_set_unquoted_identifier,
+\    nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_set_expr_block_element_map_unquoted_identifier,
+\    nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_set_expr_block_element_unquoted_identifier,
+\    nft_Error
+\ nextgroup=
+\    nft_empty_set,
+\    nft_common_block_stmt_separator,
+\    nft_initializer_BadToken,
+\    nft_Error
+"\    nft_common_block_define_undefine_keywords_initializer_expr_rhs_expr_block_element_map_key_quoted_string,
+"\    nft_common_block_define_undefine_keywords_initializer_expr_rhs_expr_block_element_map_key_ip,
+"\    nft_common_block_define_undefine_keywords_initializer_expr_rhs_expr_block_element_map_key_unquoted_identifier,
+"\    nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_quoted_string,
+"\    nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_ip,
+"\    nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_number,
 
 "*************** END OF SECOND-LEVEL SYNTAXES *******************************
 
@@ -508,60 +723,109 @@ syn cluster nft_c_common_block_initializer_expr
 " common_block 'define'/'redefine identifier <STRING> '=' list_rhs_expr
 " common_block 'define'/'redefine identifier <STRING> '=' '{' '}'
 " common_block 'define'/'redefine identifier <STRING> '=' '-'number
-" common_block 'define'/'redefine' value (via nft_common_block_define_redefine_equal)
-hi link   nft_common_block_define_redefine_value nftHL_Number
-syn match nft_common_block_define_redefine_value "\v[\'\"\$\{\}:a-zA-Z0-9\_\/\\\.\,\}\{]+\s{0,16}" skipwhite contained
-\ nextgroup=
-\    nft_common_block_stmt_separator
-"\    nft_comment_inline,
-
-" common_block 'define'/'redefine identifier <STRING> '=' '{' '}'
-hi link    nft_common_block_define_redefine_initializer_expr_empty_set nftHL_Expression
-syn region nft_common_block_define_redefine_initializer_expr_empty_set start=+{+ end=+}+ keepend skipwhite contained
-\ contains=
-\    nft_Error
-\ nextgroup=
-\    nft_common_block_stmt_separator
-
-" common_block 'define'/'redefine identifier <STRING> '=' -number
-" noticed 'no whitespace' between '-' and integer digits?
-hi link   nft_common_block_define_redefine_initializer_expr_dash nftHL_Number
-syn match nft_common_block_define_redefine_initializer_expr_dash /\-/ contained
-\ nextgroup=
-\    nft_common_block_define_redefine_initializer_expr_dash_num,
-\    nft_Error_Always
-
 " common_block 'define'/'redefine identifier '=' rhs_expr concat_rhs_expr basic_rhs_expr
-hi link   nft_common_block_define_redefine_initializer_expr_rhs_expr_concat_rhs_expr_basic_rhs_expr_exclusive_or_rhs_expr nftHL_Operator
-syn match nft_common_block_define_redefine_initializer_expr_rhs_expr_concat_rhs_expr_basic_rhs_expr_exclusive_or_rhs_expr /|/ skipwhite contained
-\ nextgroup=
-\    @nft_c_common_block_define_redefine_initializer_expr_nft_common_block_define_redefine_initializer_expr_rhs_expr_concat_rhs_expr_basic_rhs_expr_bar,
-\    nft_common_block_stmt_separator
-" TODO: typo ^^^^
 
 " END OF common_block
 
-" num->initializer_expr->common_block
-hi link   nft_common_block_define_redefine_keywords_initializer_expr_num nftHL_Integer
-syn match nft_common_block_define_redefine_keywords_initializer_expr_num "\v[0-9]{1,11}" skipwhite contained
+hi link   nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_quoted_string_list_comma nftHL_Element
+syn match nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_quoted_string_list_comma /,/ skipwhite contained
+\ nextgroup=
+\    nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_quoted_string
+
+hi link   nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_quoted_string nftHL_Variable
+syn match nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_quoted_string /\v(\=|\s)\zs\'[a-zA-Z][a-zA-Z0-9]{1,64}\'\ze($|\s|;|,)/ skipwhite contained
+\ nextgroup=
+\    nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_quoted_string_list_comma,
+\    nft_common_block_stmt_separator
+syn match nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_quoted_string /\v(\=|\s)\zs\"[a-zA-Z][a-zA-Z0-9]{1,64}\"\ze($|\s|;|,)/ skipwhite contained
+\ nextgroup=
+\    nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_quoted_string_list_comma,
+\    nft_common_block_stmt_separator
+
+hi link   nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_variable_list_comma nftHL_Element
+syn match nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_variable_list_comma /,/ skipwhite contained
+\ nextgroup=
+\    nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_variable
+
+hi link   nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_variable nftHL_Variable
+syn match nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_variable /\v(\=|\s)\zs\$[a-zA-Z][a-zA-Z0-9]{1,64}\ze($|\s|;|,)/ skipwhite contained
+\ nextgroup=
+\    nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_variable_list_comma,
+\    nft_common_block_stmt_separator
+
+hi link   nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_unquoted_identifier_list_comma nftHL_Element
+syn match nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_unquoted_identifier_list_comma /,/ skipwhite contained
+\ nextgroup=
+\    nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_unquoted_identifier
+
+hi link   nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_unquoted_identifier nftHL_Identifier
+syn match nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_unquoted_identifier /\v(\=|\s)\zs[a-zA-Z][a-zA-Z0-9]{1,64}\ze($|\s|;|,)/ skipwhite contained
+\ nextgroup=
+\    nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_unquoted_identifier_list_comma,
+\    nft_common_block_stmt_separator
+
+hi link   nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_IP_list_comma nftHL_Element
+syn match nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_IP_list_comma /,/ skipwhite contained
+\ nextgroup=
+\    nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_IP
+
+hi link   nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_IP nftHL_Number
+syn match nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_IP /\v(\=|\s)\zs[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\ze($|\s|;|,)/ skipwhite contained
+\ nextgroup=
+\    nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_IP_list_comma,
+\    nft_common_block_stmt_separator
+
+hi link   nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_integer_expr_list_comma nftHL_Element
+syn match nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_integer_expr_list_comma /,/ skipwhite contained
+\ nextgroup=
+\    nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_integer_expr
+
+hi link   nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_integer_expr nftHL_Constant
+syn match nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_integer_expr /\v(\=|\s)\zs\d{1,11}\ze($|\-|(\s+[^\-])|;|,)/ skipwhite contained
+\ nextgroup=
+\    nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_integer_expr_list_comma,
+\    nft_common_block_stmt_separator
+
+hi link   nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_port_range_second nftHL_Constant
+syn match nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_port_range_second /\v\d{1,11}\ze( |$)/ skipwhite contained
+\ nextgroup=
+\    nft_common_block_stmt_separator,
+\    nft_EOS,
+\    nft_Error
+
+hi link   nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_port_dash_symbol nftHL_Expression
+syn match nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_port_dash_symbol '-' contained
+\ nextgroup=
+\    nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_port_range_second,
+\    nft_Error_Always
+
+hi link   nft_PortRangeDashInvalid nftHL_Error
+syn match nft_PortRangeDashInvalid /\v\d{1,11}\s+-/ contained
+
+hi link   nft_PortRangeBadDashSpaceBefore nftHL_Error
+syn match nft_PortRangeBadDashSpaceBefore /\v\d{1,11}\s+-/ contained
+
+hi link   nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_port_range nftHL_Constant
+syn match nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_port_range /\v(\=|\s)\zs\d{1,11}\ze\-/ contained
+\ nextgroup=
+\    nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_port_dash_symbol,
+\    nft_PortRangeDashInvalid,
+\    nft_Error
+
+hi link   nft_common_block_define_redefine_keywords_initializer_expr_dash_num nftHL_Constant
+syn match nft_common_block_define_redefine_keywords_initializer_expr_dash_num "\v[0-9]{1,11}" contained
+\ nextgroup=
+\    nft_common_block_stmt_separator,
+\    nft_EOS
 
 " '-'->initializer_expr->common_block
-hi link   nft_common_block_define_redefine_keywords_initializer_expr_dash nftHL_Element
-syn match nft_common_block_define_redefine_keywords_initializer_expr_dash /-/ skipwhite contained
+hi link   nft_common_block_define_redefine_keywords_initializer_expr_dash nftHL_Operator
+syn match nft_common_block_define_redefine_keywords_initializer_expr_dash "-" contained
 \ nextgroup=
-\    nft_common_block_define_redefine_keywords_initializer_expr_num
+\    nft_common_block_define_redefine_keywords_initializer_expr_dash_num,
+\    nft_Error_Always
 
-" '{'->initializer_expr->common_block
-hi link   nft_common_block_define_redefine_keywords_initializer_expr_block nftHL_Normal
-syn region nft_common_block_define_redefine_keywords_initializer_expr_block start="{" end="}" skipwhite contained
 
-" initializer_expr->common_block
-syn cluster nft_common_block_define_redefine_keywords_initializer_expr
-\ contains=
-\    nft_common_block_define_redefine_keywords_initializer_expr_dash,
-\    nft_common_block_define_redefine_keywords_initializer_expr_block,
-\    @nft_c_rhs_expr,
-\    @nft_c_list_rhs_expr
 " list_rhs_expr must be the last 'contains=' entry
 "     as its basic_rhs_expr->exclusive_or_rhs_expr->and_rhs_expr->shift_rhs_expr->primary_rhs_expr->symbol_expr
 "     uses <string> which is a (wildcard)
@@ -608,73 +872,60 @@ syn match nft_common_block_keyword_include "include" skipwhite oneline contained
 \    nft_UnexpectedEOS,
 \    nft_Error
 
-" TODO: common_block 'define'/'redefine identifier '=' rhs_expr concat_rhs_expr
-syn cluster nft_c_common_block_define_redefine_initializer_expr_rhs_expr_concat_rhs_expr
-\ contains=
-\    nft_common_block_define_redefine_initializer_expr_rhs_expr_concat_rhs_expr_basic_rhs_expr,
-\    nft_common_block_define_redefine_initializer_expr_rhs_expr_concat_rhs_expr_multion_rhs_expr
-
-" TODO: common_block 'define'/'redefine identifier '=' rhs_expr set_expr
-" TODO: common_block 'define'/'redefine identifier '=' rhs_expr set_ref_symbol_expr
-
-" common_block 'define'/'redefine identifier '=' rhs_expr
-syn cluster nft_c_common_block_define_redefine_initializer_expr_rhs_expr
-\ contains=
-\    nft_common_block_define_redefine_initializer_expr_rhs_expr_concat_rhs_expr,
-\    nft_common_block_define_redefine_initializer_expr_rhs_expr_set_expr,
-\    nft_common_block_define_redefine_initializer_expr_rhs_expr_set_ref_symbol_expr
-
-" common_block 'define'/'redefine identifier '=' initializer_expr
-syn cluster nft_c_common_block_define_redefine_initializer_expr
-\ contains=
-\    nft_common_block_define_redefine_initializer_expr_empty_set,
-\    nft_common_block_define_redefine_initializer_expr_dash,
-\    @nft_c_common_block_define_redefine_initializer_expr_rhs_expr,
-\    nft_common_block_define_redefine_initializer_expr_list_rhs_expr
-
+" common_block 'define'/'
 " common_block 'define'/'redefine identifier '='
 hi link   nft_common_block_define_redefine_equal nftHL_Operator
-syn match nft_common_block_define_redefine_equal "=" skipwhite contained
+syn match nft_common_block_define_redefine_equal '=' skipwhite contained
 \ nextgroup=
-\    @nft_c_common_block_define_redefine_initializer_expr
+\    nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_set_expr_block,
+\    nft_common_block_define_redefine_keywords_initializer_expr_dash,
+\    nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_quoted_string,
+\    nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_IP,
+\    nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_port_range,
+\    nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_integer_expr,
+\    nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_variable,
+\    nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_unquoted_identifier,
+\    nft_Error
 
 " common_block 'define'/'redefine identifier <STRING>
-hi link   nft_common_block_define_redefine_identifier_string nftHL_Identifier
-syn match   nft_common_block_define_redefine_identifier_string '\v[A-Za-z0-9_]{1,64}' skipwhite contained
+hi link   nft_common_block_define_redefine_keywords_identifier nftHL_Identifier
+syn match nft_common_block_define_redefine_keywords_identifier '\v\zs[a-zA-Z_][a-zA-Z0-9_-]{0,63}\s{0,32}' skipwhite contained
 \ nextgroup=
-\    nft_common_block_define_redefine_equal
+\    nft_common_block_define_redefine_equal,
+\    nft_Error_Always
 
 " 'define' (via "
 " commmon_block 'redefine' (via common_block)
 hi link   nft_common_block_keyword_redefine nftHL_Command
-syn match nft_common_block_keyword_redefine contained "redefine" skipwhite contained
+syn match nft_common_block_keyword_redefine contained "redefine\s" skipwhite contained
 \ nextgroup=
-\    nft_common_block_define_redefine_identifier_string
+\    nft_common_block_define_redefine_keywords_identifier
 
 " common_block 'define' (via common_block)
 hi link   nft_common_block_keyword_define nftHL_Command
-syn match nft_common_block_keyword_define contained "define" skipwhite contained
+syn match nft_common_block_keyword_define contained "\vdefine\s" skipwhite contained
 \ nextgroup=
-\    nft_common_block_define_redefine_identifier_string
+\    nft_common_block_define_redefine_keywords_identifier
 
 " common_block 'undefine' identifier (via common_block 'undefine')
 
 hi link   nft_common_block_undefine_identifier_string nftHL_Identifier
-syn match nft_common_block_undefine_identifier_string '\v[a-zA-Z][A-Za-z0-9_]{0,63}' oneline skipwhite contained
+syn match nft_common_block_undefine_identifier_string '\v[a-zA-Z][A-Za-z0-9_]{0,63}' skipwhite contained
 \ nextgroup=
 \    nft_common_block_stmt_separator,
 \    nft_UnexpectedCurlyBrace,
-\    nft_EOS
+\    nft_EOS,
+\    nft_Error
 
 hi link   nft_common_block_undefine_identifier_last nftHL_Keyword
-syn match nft_common_block_undefine_identifier_last /\<last\>/ contained
+syn match nft_common_block_undefine_identifier_last '\<last\>' contained
 \ containedin=
 \    nft_common_block_undefine_identifier_string,
-\    nft_common_block_define_redefine_identifier_string
+\    nft_common_block_define_redefine_keywords_identifier
 
 " commmon_block 'undefine' (via common_block)
 hi link   nft_common_block_keyword_undefine nftHL_Command
-syn match nft_common_block_keyword_undefine "undefine" skipwhite contained
+syn match nft_common_block_keyword_undefine "\vundefine\s" skipwhite contained
 \ nextgroup=
 \    nft_common_block_undefine_identifier_string,
 \    nft_Error
