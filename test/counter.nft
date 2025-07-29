@@ -44,7 +44,12 @@ counter table_id counter_id { packets 5 bytes 1500 } ;
 counter table_id counter_id { 
     # inline comments
     define A = 1  # inline comments
+    redefine A = 2  # inline comments
+    undefine A  # inline comments
+    error; 
     packets 5 bytes 1500  # inline comments
+    include "global_firewall.nft";
+    include "lou_s_firewall.nft"
     comment "this stuff!`~@#$%^&*()_+-={}[]|\\:\"<>?/";
 };
 
@@ -96,6 +101,8 @@ add set T S { counter packets 3 counter packets 3 }
 # so far, so good.
 ################################################################################
 
+counterT ;
+
 counter 
 
 
@@ -109,9 +116,6 @@ counter ip6tableid
 
 counter ip6 tableid counter_id
 
-
-
-
 add set T S { counter marshmellows }
 add set T S { counter bytes mss }
 add set T S { counter packets once }
@@ -121,27 +125,20 @@ add set T S { counter packets once }
 # false negative test: highlighted wrongly; still has good content; oops.
 ################################################################################
 
-add rule table_id chain_id set add { $MYVAR counter at  }
-
-
-################################################################################
-# false positive test: looks highlighted correctly; has bad content; oops.
-################################################################################
-
-counterT ;
-
 add counter ip table_id counter_id packets5 bytes 1500 ;
 add counter ip table_id counter_id packets 5bytes 1500 ;
 add counter ip table_id counter_id packets 5 bytes1500
 add counter ip table_id counter_id packets 5 bytes1500 
 add counter ip table_id counter_id packets 5 bytes1500 ;
 
+add rule table_id chain_id set add { $MYVAR counter at  }
+
 add counter table_id counter_id { packets5bytes1500 } ;
 add counter ip table_id counter_id { packets5 bytes 1500 ; };
 add counter ip table_id counter_id { packets 5bytes 1500 ; };
 add counter ip table_id counter_id { packets 5 bytes1500 };
 add counter ip table_id counter_id { packets 5 bytes 1500 ;
-add counter ip t c { }
+add counter ip t c { }  # it took a closing brace to turn off syntax error
 
 add counter table_id counter_id { 
     define ABC = 1;
@@ -163,3 +160,9 @@ add counter ip table_id counter_id {
 add counter ip table_id counter_id { 
     packets 5 bytes1500 
 };
+
+
+################################################################################
+# false positive test: looks highlighted correctly; has bad content; oops.
+################################################################################
+

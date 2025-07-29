@@ -48,7 +48,6 @@ destroy chain netdev T C {  }
 destroy chain bridge T C {  }
 destroy chain arp T C { }
 
-destroy chain T C { define my_var; };
 
 destroy chain T handle 123123
 destroy chain ip T handle 15
@@ -252,6 +251,7 @@ destroy set T handle 123
 destroy set ip T handle 123
 destroy set inet T handle 42  # comment
 
+delete synproxy arp T handle 15
 destroy synproxy arp T handle 15
 destroy synproxy arp T synproxy_name
 destroy synproxy bridge T handle 15
@@ -266,12 +266,20 @@ destroy synproxy netdev T handle 15
 destroy synproxy netdev T synproxy_name
 destroy synproxy T handle 15
 destroy synproxy T synproxy_name 
+destroy synproxy T synproxy_name;
+destroy synproxy T synproxy_name; 
+destroy synproxy T synproxy_name ;
+destroy synproxy T synproxy_name ; 
 
 
 ################################################################################
 # true negative test: properly hightlighted wrongly to show an error; 
 # so far, so good.
 ################################################################################
+
+delete chain T C { define my_var; };
+destroy chain T C { define my_var; };
+
 
 ################################################################################
 # false negative test: highlighted wrongly; still has good content; oops.
@@ -280,4 +288,5 @@ destroy synproxy T synproxy_name
 ################################################################################
 # false positive test: looks highlighted correctly; has bad content; oops.
 ################################################################################
+
 
