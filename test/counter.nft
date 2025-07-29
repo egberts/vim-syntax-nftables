@@ -10,6 +10,9 @@
 ################################################################################
 
 counter table_id counter_id
+counter table_id counter_id; 
+counter table_id counter_id ;
+counter table_id counter_id ; 
 counter last counter_id
 counter table_id last
 counter last last
@@ -42,7 +45,7 @@ counter table_id counter_id {
     # inline comments
     define A = 1  # inline comments
     packets 5 bytes 1500  # inline comments
-    comment this stuff!
+    comment "this stuff!`~@#$%^&*()_+-={}[]|\\:\"<>?/";
 };
 
 add counter ip table_id counter_id packets 5 bytes 1500
@@ -58,8 +61,6 @@ add counter table_id counter_id;
 add counter table_id counter_id ;
 add counter table_id counter_id ; 
 
-add counter table_id counter_id { counter_config }
-add counter table_id counter_id { comment GO_DOGS_GO }
 add counter table_id counter_id { comment "Nice to say things" }
 
 add counter table_id counter_id { packets 5 bytes 1500 };
