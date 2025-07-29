@@ -50,11 +50,14 @@ set T S { gc-interval 1:00:1 }
 add map T C { flags constant; flags interval; flags timeout; flags dynamic };
 ct timeout table_id ctt { protocol udp; l3proto ip; policy = { unreplied : 15, replied : 12 }; }
 ip
+ip nat LIBVIRT_PRT oifname br0 ip saddr 127.1.1.2 counter masquerade
 ip6
 inet
 netdev
 bridge
 arp
+
+
 table_ID chain_ID
 ;  # semicolon with comment line 
 

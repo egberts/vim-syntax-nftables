@@ -25,6 +25,7 @@ define net_ipv6_lan = fe00:2::/64
 # some machines
 # common_block->line->base_cmd->'define'->initializer_expr->...->rhs_expr->primary_rhs_expr->unquoted_identifier->IP
 define server1_ipv4 = 10.0.1.2
+define workstation1_ipv4 = 10.0.2.2, 1.1.1.2
 
 # common_block->line->base_cmd->'define'->initializer_expr->...->rhs_expr->primary_rhs_expr->set_expr->'{'
 define int_ifs={}
@@ -151,7 +152,6 @@ define int_if3 = { virbr0, $int_if2, virbr1 } ;
 ################################################################################
 
 define server1_ipv6 = fe00:1::2
-define workstation1_ipv4 = 10.0.2.2
 define workstation1_ipv6 = fe00:2::2
 
 define my_public_wan = eth2
