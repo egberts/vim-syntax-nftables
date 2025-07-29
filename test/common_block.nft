@@ -76,6 +76,7 @@ define MY_DEV = { 1024-2048 };
 
 # Map section
 define MY_MAP = { 1:1 };
+define MY_MAP = { 1:tcp };
 define MY_MAP = { 1:"abc" };
 define MY_MAP = { 1 : "abc" };
 define MY_MAP = { 1:"eth0",  2:"br0" };
