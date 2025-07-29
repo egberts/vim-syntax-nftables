@@ -488,6 +488,36 @@ syn match nft_identifier "\v\w{0,63}" skipwhite contained
 hi link   nft_variable_identifier nftHL_Variable
 syn match nft_variable_identifier "\v\$[a-zA-Z][a-zA-Z0-9_]{0,63}" skipwhite contained
 
+
+syn match nft_datatype_arp_op "\v((request|reply|rrequest|rreply|inrequest|inreplyh|nak)|((0x)?[0-9a-fA-F]{4})|([0-9]{1,2}))" skipwhite contained
+syn match nft_datatype_ct_dir "\v((original|reply)|([0-1]{1,1}))" skipwhite contained
+syn match nft_datatype_ct_event "\v((new|related|destroy|reply|assured|protoinfo|helper|mark|seqadj|secmark|label)|([0-9]{1,10}))" skipwhite contained
+syn match nft_datatype_ct_label "\v[0-9]{1,40}" skipwhite contained
+syn match nft_datatype_ct_state "\v((invalid|established|related|new|untracked)|([0-9]{1,10}))" skipwhite contained
+syn match nft_datatype_ct_status "\v((expected|seen-reply|assured|confirmed|snat|dnat|dying)|([0-9]{1,10}))" skipwhite contained
+syn match nft_datatype_ether_addr "\v((8021ad|8021q|arp|ip6|ip|vlan)|((0x)?[0-9a-fA-F]{4}))" skipwhite contained
+syn match nft_datatype_ether_type "\v[0-9]{1,10}" skipwhite contained
+syn match nft_datatype_gid "\v[0-9]{1,10}" skipwhite contained
+syn match nft_datatype_mark "\v[0-9]{1,10}" skipwhite contained
+syn match nft_datatype_ip_protocol "\v((tcp|udp|udplite|esp|ah|icmpv6|icmp|comp|dccp|sctp)|([0-9]{1,3}))" skipwhite contained
+syn match nft_datatype_ip_service_port "\v[0-9]{1,5}" skipwhite contained
+syn match nft_datatype_ipv4_addr "\v[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}" skipwhite contained
+syn match nft_datatype_ipv6_addr /\v((([0-9a-fA-F]{1,4}:){1,7}:)|(::([0-9a-fA-F]{1,4}:){0,6}[0-9a-fA-F]{1,4})|(([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}))/ skipwhite contained
+syn match nft_datatype_packet_type "\v((host|unicast|broadcast|multicast|other)|([0-9]{1,5}))" skipwhite contained
+syn match nft_datatype_realm "\v((default)|([0-9]{1,10}))" skipwhite contained
+syn match nft_datatype_uid "\v(([a-z_][a-z0-9A-Z\._\-]{0,31})|([0-9]{1,10}))" skipwhite contained
+syn match nft_meta_expr_datatype_devgroup "\v[0-9]{1,10}" skipwhite contained
+syn match nft_meta_expr_datatype_iface_index "\v[0-9]{1,10}" skipwhite contained
+syn match nft_meta_expr_datatype_ifkind "\v[a-zA-Z][a-zA-Z0-9]{1,16}" skipwhite contained
+syn match nft_meta_expr_datatype_ifname "\v[a-zA-Z][a-zA-Z0-9]{1,16}" skipwhite contained
+syn match nft_meta_expr_datatype_iface_type "\v((ether|ppp|ipip6|ipip|loopback|sit|ipgre)|([0-9]{1,5}))" skipwhite contained
+syn match nft_meta_expr_datatype_day "\v([0-8]|Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday)" skipwhite contained
+syn match nft_meta_expr_datatype_hour "\v[0-2][0-9]:[0-5][0-9](:[0-5][0-9])?" skipwhite contained
+syn match nft_meta_expr_datatype_time "\v(([0-9]{1,20})|iso_format)" skipwhite contained
+syn match nft_payload_expr_datatype_ifname "\v[a-zA-Z][a-zA-Z0-9]{1,16}" skipwhite contained
+syn match nft_payload_expr_datatype_tcp_flag "\v((fin|syn|rst|psh|ack|urg|ecn|cwr)|([0-9]{1,3}))" skipwhite contained
+
+
 " variable_expr (via chain_expr, dev_spec, extended_prio_spec, flowtable_expr,
 "                    flowtable_member_expr, policy_expr, queue_expr,
 "                    queue_stmt_expr_simple, set_block_expr, set_ref_expr
@@ -1029,6 +1059,29 @@ syn region nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_s
 "\    nft_common_block_stmt_separator,
 "\    nft_initializer_BadToken,
 "\    nft_Error
+hi link   nft_describe_keyword_primary_expr_payload_expr nftHL_Command
+syn match nft_describe_keyword_primary_expr_payload_expr "(arp_op|arp hlen|arp htype|ar operation|arp plen|ether_addr|tcp|udp)\ze[ \t]" skipwhite contained
+
+hi link   nft_describe_keyword_primary_expr_meta_expr nftHL_Command
+syn match nft_describe_keyword_primary_expr_meta_expr "iifgroup" skipwhite contained
+syn match nft_describe_keyword_primary_expr_meta_expr "iifkind" skipwhite contained
+syn match nft_describe_keyword_primary_expr_meta_expr "iifname" skipwhite contained
+syn match nft_describe_keyword_primary_expr_meta_expr "iiftype" skipwhite contained
+syn match nft_describe_keyword_primary_expr_meta_expr "iif" skipwhite contained
+syn match nft_describe_keyword_primary_expr_meta_expr "oifgroup" skipwhite contained
+syn match nft_describe_keyword_primary_expr_meta_expr "oifkind" skipwhite contained
+syn match nft_describe_keyword_primary_expr_meta_expr "oifname" skipwhite contained
+syn match nft_describe_keyword_primary_expr_meta_expr "oiftype" skipwhite contained
+syn match nft_describe_keyword_primary_expr_meta_expr "oif" skipwhite contained
+syn match nft_describe_keyword_primary_expr_meta_expr "iif" skipwhite contained
+syn match nft_describe_keyword_primary_expr_meta_expr "(day|ether_type|houriif|time)\ze[ \t]" skipwhite contained
+
+hi link   nft_base_cmd_describe_keyword nftHL_Command
+syn match nft_base_cmd_describe_keyword "\vdescribe\ze[ \t]" oneline skipwhite contained
+\ nextgroup=
+\    nft_describe_keyword_primary_expr_datatype,
+\    nft_describe_keyword_primary_expr_payload_expr,
+\    nft_describe_keyword_primary_expr_meta_expr
 
 "*************** END OF SECOND-LEVEL SYNTAXES *******************************
 
