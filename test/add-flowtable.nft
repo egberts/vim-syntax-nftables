@@ -34,6 +34,22 @@ flowtable T F {flags offload}  ;
 flowtable T F { flags offload ; }
 flowtable T F { counter ; flags offload ; devices = { "eth0" , $abc, 'eth0' }; }
 
+flowtable T F {
+    hook "handler" priority 123
+    define MY_SET = { 1 };
+    redefine MY_SET = { 1,2,3 };
+    redefine MY_SET = { 192.168.1.1, 127.0.0.1, 10.0.0.10 };
+    redefine MY_MAP = { 1:abc ,2:tcp, 3:ssh };
+    undefine MY_SET ;
+    counter;
+    flags offload
+    devices = { "eth0", "wlan0", $my_device }; 
+    error;
+    include "my_fancy_flowtable_stuff.nft"
+    ;
+};
+
+
 add flowtable T F { devices = eth0 }
 add flowtable T F { hook "handler" 123; }
 add flowtable T F {flags offload}
