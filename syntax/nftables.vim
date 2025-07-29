@@ -1708,7 +1708,7 @@ syn match nft_delete_cmd_keyword_table_table_or_id_spec_tableid_spec_keyword_han
 " 'delete' 'table' 'handle'
 " 'handle'>tableid_spec->table_or_id_spec->'table'->delete_cmd->'delete'->base_cmd->line
 hi link   nft_delete_cmd_keyword_table_table_or_id_spec_tableid_spec_keyword_handle nftHL_Action
-syn match nft_delete_cmd_keyword_table_table_or_id_spec_tableid_spec_keyword_handle "handle" skipwhite contained
+syn match nft_delete_cmd_keyword_table_table_or_id_spec_tableid_spec_keyword_handle "\vhandle\ze[ \t]" skipwhite contained
 \ nextgroup=
 \    nft_delete_cmd_keyword_table_table_or_id_spec_tableid_spec_keyword_handle_num,
 \    nft_UnexpectedSemicolon,
@@ -1716,7 +1716,7 @@ syn match nft_delete_cmd_keyword_table_table_or_id_spec_tableid_spec_keyword_han
 \    nft_Error
 
 hi link   nft_delete_cmd_keyword_table_table_or_id_spec_family_spec nftHL_Family
-syn match nft_delete_cmd_keyword_table_table_or_id_spec_family_spec "\v(ip6?|inet|netdev|bridge|arp)" skipwhite contained
+syn match nft_delete_cmd_keyword_table_table_or_id_spec_family_spec "\v(ip6?|inet|netdev|bridge|arp)\ze[ \t]" skipwhite contained
 \ nextgroup=
 \    nft_delete_cmd_keyword_table_table_or_id_spec_tableid_spec_keyword_handle,
 \    nft_delete_cmd_keyword_table_table_or_id_spec_table_spec_keyword_last,
@@ -1728,7 +1728,7 @@ syn match nft_delete_cmd_keyword_table_table_or_id_spec_family_spec "\v(ip6?|ine
 " 'delete' 'table'
 " 'table'->delete_cmd->'delete'->base_cmd->line
 hi link   nft_base_cmd_destroy_delete_cmds_keyword_table nftHL_Statement
-syn match nft_base_cmd_destroy_delete_cmds_keyword_table "table" skipwhite contained
+syn match nft_base_cmd_destroy_delete_cmds_keyword_table "\vtable\ze[ \t]" skipwhite contained
 \ nextgroup=
 \    nft_delete_cmd_keyword_table_table_or_id_spec_family_spec,
 \    nft_delete_cmd_keyword_table_table_or_id_spec_tableid_spec_keyword_handle,
