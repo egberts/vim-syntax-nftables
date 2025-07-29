@@ -976,7 +976,6 @@ syn match nft_flowtable_block_flags "flags" skipwhite contained
 \    nft_UnexpectedEOS,
 \    nft_Error
 
-" TODO: [ 'add' ] 'flowtable' table_id flow_id '{' 'devices' '=' flowtable_expr
 " flowtable_block_expr->'='->'devices'->flowtable_block->'{'->'flowtable'->add_cmd->base_cmd->line
 
 " base_cmd add_cmd 'flowtable' flowtable_spec '{' flowtable_block 'counter'

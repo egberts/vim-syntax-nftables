@@ -1,0 +1,151 @@
+#!/usr/sbin/nft -f
+# File: synproxy.nft
+# Description: A test NFT file to exercise 'synproxy' Vim syntax highlightings.
+#
+# base_cmd synproxy_cmd
+# nft_line/nft_base_cmd/nft_add_cmd/'synproxy'
+#
+################################################################################
+# true positive test: properly hightlighted correctly; has good content; perfect
+################################################################################
+
+#   synproxy obj_spec synproxy_obj synproxy_config close_scope_synproxy (without the 'add' keyword)
+#   Bison: SYNPROXY obj_spec synproxy_obj synproxy_config { common_block } close_scope_synproxy 
+synproxy myTable synproxy_obj mss 1500 ;
+synproxy myTable synproxy_obj mss 1500 wscale 7
+synproxy last myTable synproxy_obj mss 1492 wscale 5;
+synproxy ip myTable synproxy_obj mss 1492 wscale 5
+synproxy ip6 myTable synproxy_obj mss 1498 wscale 6 ; 
+synproxy inet myTable synproxy_obj mss 1496 wscale 4
+synproxy arp myTable synproxy_obj mss 1512  wscale 2 ;
+synproxy bridge myTable synproxy_obj mss 1518 wscale 3; 
+synproxy netdev myTable synproxy_obj mss 1593 wscale 1
+synproxy netdev myTable synproxy_obj mss 1593 wscale 1 timestamp
+synproxy netdev myTable synproxy_obj mss 1593 wscale 1 timestamp ;
+synproxy netdev myTable synproxy_obj mss 1593 wscale 1 sack-perm
+synproxy netdev myTable synproxy_obj mss 1593 wscale 1 sack-perm ;
+synproxy netdev myTable synproxy_obj mss 1593 wscale 1 timestamp sack-perm
+synproxy netdev myTable synproxy_obj mss 1593 wscale 1 timestamp sack-perm ;
+
+synproxy myTable synproxy_obj mss 1500 ; wscale 7;   # very old syntax
+synproxy myTable synproxy_obj mss 1500 ; wscale 7; timestamp   # very old syntax
+synproxy myTable synproxy_obj mss 1500 ; wscale 7; sack-perm   # very old syntax
+synproxy myTable synproxy_obj mss 1500 ; wscale 7; timestamp sack-perm   # very old syntax
+synproxy myTable synproxy_obj { mss 1460 wscale 7 timestamp sack-perm ; };
+
+#   Bison: SYNPROXY obj_spec synproxy_obj synproxy_config { common_block } close_scope_synproxy (w/o 'add')
+synproxy myTable https-synproxy { mss 1460 wscale 7 ; }
+synproxy myTable https-synproxy { mss 1460 wscale 7 timestamp; }
+synproxy myTable https-synproxy { mss 1460 wscale 7 sack-perm; }
+synproxy myTable https-synproxy { mss 1460 wscale 7 timestamp sack-perm; }
+synproxy myTable https-synproxy { mss 1460 ; wscale 7 ; timestamp sack-perm; }
+synproxy myTable https-synproxy {
+    mss 1460 wscale 7;
+    mss 1460
+    wscale 7
+    timestamp sack-perm
+}
+synproxy myTable other-synproxy {
+    mss 1460
+    wscale 5
+}
+
+#   add synproxy obj_spec synproxy_obj synproxy_config close_scope_synproxy (without the 'add' keyword)
+#   Bison: ADD SYNPROXY obj_spec synproxy_obj synproxy_config { common_block } close_scope_synproxy 
+add synproxy myTable synproxy_obj mss 1500 wscale 7;
+add synproxy ip myTable synproxy_obj mss 1492 wscale 5;
+add synproxy ip6 myTable synproxy_obj mss 1498 wscale 6;
+add synproxy inet myTable synproxy_obj mss 1496 wscale 4;
+add synproxy arp myTable synproxy_obj mss 1512  wscale 2;
+add synproxy bridge myTable synproxy_obj mss 1518 wscale 3;
+add synproxy netdev myTable synproxy_obj mss 1593 wscale 1
+add synproxy netdev myTable synproxy_obj mss 1593 ; wscale 1
+#   Bison: SYNPROXY obj_spec synproxy_obj synproxy_config { common_block } close_scope_synproxy (w/o 'add')
+#   Bison: SYNPROXY obj_spec synproxy_obj synproxy_config { common_block } close_scope_synproxy (w/o 'add')
+add synproxy myTable https-synproxy {
+    mss 1460
+    wscale 7
+    timestamp sack-perm
+}
+add synproxy myTable other-synproxy {
+    mss 1460
+    wscale 5
+}
+# create synproxy obj_spec synproxy_obj synproxy_config close_scope_synproxy
+#   Bison: ADD SYNPROXY obj_spec synproxy_obj synproxy_config { common_block } close_scope_synproxy 
+create synproxy myTable synproxy_obj mss 1500 wscale 7;
+create synproxy ip myTable synproxy_obj mss 1492 wscale 5;
+create synproxy ip6 myTable synproxy_obj mss 1498 wscale 6;
+create synproxy inet myTable synproxy_obj mss 1496 wscale 4;
+create synproxy arp myTable synproxy_obj mss 1512  wscale 2;
+create synproxy bridge myTable synproxy_obj mss 1518 wscale 3;
+create synproxy netdev myTable synproxy_obj mss 1593 wscale 1
+#   Bison: SYNPROXY obj_spec synproxy_obj synproxy_config { common_block } close_scope_synproxy (w/o 'add')
+###create synproxy myTable https-synproxy {
+###    mss 1460
+###    wscale 7
+###    timestamp sack-perm
+###}
+###create synproxy myTable other-synproxy {
+###    mss 1460
+###    wscale 5
+###}
+delete synproxy table_name synproxy_name 
+delete synproxy ip table_name synproxy_name
+delete synproxy ip6 table_name synproxy_name
+delete synproxy inet table_name synproxy_name
+delete synproxy arp table_name synproxy_name
+delete synproxy bridge table_name synproxy_name
+delete synproxy netdev table_name synproxy_name
+delete synproxy table_name handle 15
+delete synproxy ip table_name handle 15
+delete synproxy ip6 table_name handle 15
+delete synproxy inet table_name handle 15
+delete synproxy arp table_name handle 15
+delete synproxy bridge table_name handle 15
+delete synproxy netdev table_name handle 15
+
+
+list synproxy myTable mySynProxy
+list synproxy ip myTable mySynProxy
+list synproxy ip6 myTable mySynProxy
+list synproxy inet myTable mySynProxy
+list synproxy arp myTable mySynProxy
+list synproxy bridge myTable mySynProxy
+list synproxy netdev myTable mySynProxy
+
+################################################################################
+# true negative test: properly hightlighted wrongly to show an error;
+# so far, so good.
+################################################################################
+
+synproxymyTable synproxy_obj mss1500 ;
+synproxy myTable synproxy_obj mss1500 ;
+synproxy myTable synproxy_obj mss 1500wscale 7
+synproxy ip myTable synproxy_obj mss 1492 wscale5
+synproxy ip myTable synproxy_obj mss 1492 wscale 5timestamp
+synproxy ip myTable synproxy_obj mss 1492 wscale 5sack-perm
+synproxy ip myTable synproxy_obj mss 1492 wscale 5 timestampsack-perm
+
+weird
+
+
+
+################################################################################
+# false negative test: highlighted wrongly; still has good content; oops.
+# TODO: Needs work
+################################################################################
+
+
+synproxy myTable https-synproxy {
+    mss 1460 wscale 7;
+    mss 1460
+    wscale 7  # trigger line here
+    timestamp sack-perm
+}
+
+
+################################################################################
+# false positive test: looks highlighted correctly; has bad content; oops.
+################################################################################
+
