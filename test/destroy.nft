@@ -10,7 +10,7 @@
 ################################################################################
 
 # destroy table <table_spec>
-# 'table'->destroy_cmd->'destroy'->base_cmd->line
+# table_spec->'table'->destroy_cmd->'destroy'->base_cmd->line
 destroy table T
 destroy table last
 destroy table ip T
@@ -19,6 +19,7 @@ destroy table inet T
 destroy table netdev T
 destroy table bridge T
 destroy table arp T
+# tableid_spec->'table'->destroy_cmd->'destroy'->base_cmd->line
 destroy table handle 123
 destroy table ip handle 123
 destroy table ip6 handle 123
@@ -277,8 +278,25 @@ destroy synproxy T synproxy_name ;
 # so far, so good.
 ################################################################################
 
-delete chain T C { define my_var; };
 destroy chain T C { define my_var; };
+
+destroy tableT
+destroy tablelast
+destroy tableip T
+destroy tableip6 T
+destroy tableinet T
+destroy tablenetdev T
+destroy tablebridge T
+destroy tablearp T
+destroy tablehandle 123
+destroy table iphandle 123   # got lucky here
+destroy table ip6handle 123
+destroy table inethandle 123
+destroy table netdevhandle 123
+destroy table bridgehandle 123
+destroy table arphandle 123
+destroy table handle123
+destroy table handle123 ; 
 
 
 ################################################################################
@@ -288,5 +306,16 @@ destroy chain T C { define my_var; };
 ################################################################################
 # false positive test: looks highlighted correctly; has bad content; oops.
 ################################################################################
+
+destroytable T
+
+# tableid_spec->'table'->destroy_cmd->'destroy'->base_cmd->line
+destroy table handle123   # highlight 'handle' if it is part of the table identifier?
+destroy table ip handle123
+destroy table ip6 handle123
+destroy table inet handle123
+destroy table netdev handle123
+destroy table bridge handle123
+destroy table arp handle123
 
 
