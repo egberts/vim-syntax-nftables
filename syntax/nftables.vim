@@ -219,7 +219,7 @@ syn sync match nftablesSync grouphere NONE \"^(rule|add {1,15}rule|table|chain|s
 " syn sync fromstart
 
 
-hi link Variable              String
+"hi link Variable              String
 hi link Command               Statement
 
 hi def link nftHL_String      String
@@ -572,7 +572,7 @@ syn match nft_common_block_stmt_separator ";" skipwhite contained
 
 " ***************** BEGIN 'add' 'flowtable' ***************
 
-hi link   nft_flowtable_block_hook_keyword_priority_extended_int nftHL_Integer
+hi link   nft_flowtable_block_hook_keyword_priority_extended_int nftHL_Constant
 syn match nft_flowtable_block_hook_keyword_priority_extended_int "\v\-?[0-9]{1,11}" skipwhite contained
 \ nextgroup=
 \    nft_flowtable_block_stmt_separator,
@@ -591,37 +591,31 @@ syn match nft_flowtable_block_hook_keyword_priority_extended_name "\v[a-zA-Z][a-
 \ nextgroup=
 \     nft_c_flowtable_block_hook_keyword_priority_extended_sign
 
-syn cluster nft_c_flowtable_block_hook_keyword_priority_extended
-\ contains=
+hi link   nft_flowtable_block_hook_keyword_priority nftHL_Action
+syn match nft_flowtable_block_hook_keyword_priority "\vpriority\ze\s" skipwhite contained
+\ nextgroup=
 \    nft_flowtable_block_hook_keyword_priority_extended_int,
 \    nft_flowtable_block_hook_keyword_priority_extended_var,
-\    nft_flowtable_block_hook_keyword_priority_extended_name
+\    nft_flowtable_block_hook_keyword_priority_extended_name,
+\    nft_Error
 
-hi link   nft_flowtable_block_hook_keyword_priority nftHL_Action
-syn match nft_flowtable_block_hook_keyword_priority "priority" skipwhite contained
+hi link    nft_flowtable_block_hook_identifier_quoted_double nftHL_Identifier
+syn region nft_flowtable_block_hook_identifier_quoted_double start='"' end='"' skip="\\\"" oneline skipwhite contained
 \ nextgroup=
-\    @nft_c_flowtable_block_hook_keyword_priority_extended
+\    nft_flowtable_block_hook_keyword_priority,
+\    nft_Error
 
-hi link    nft_flowtable_block_hook_string_quoted_double nftHL_String
-syn region nft_flowtable_block_hook_string_quoted_double start='"' end='"' skip="\\\"" skipwhite skipnl skipempty contained
+hi link    nft_flowtable_block_hook_identifier_quoted_single nftHL_Identifier
+syn region nft_flowtable_block_hook_identifier_quoted_single start="'" end="'" skip="\\\'" skipwhite skipnl skipempty contained
 \ nextgroup=
-\    nft_flowtable_block_hook_keyword_priority
+\    nft_flowtable_block_hook_keyword_priority,
+\    nft_Error
 
-hi link    nft_flowtable_block_hook_string_quoted_single nftHL_String
-syn region nft_flowtable_block_hook_string_quoted_single start="'" end="'" skip="\\\'" skipwhite skipnl skipempty contained
+hi link   nft_flowtable_block_hook_unquoted_identifier nftHL_Identifier
+syn match nft_flowtable_block_hook_unquoted_identifier "\v[a-zA-Z0-9]{1,64}\ze[ \t\n]+priority" skipwhite skipnl skipempty contained
 \ nextgroup=
-\    nft_flowtable_block_hook_keyword_priority
-
-hi link    nft_flowtable_block_hook_string_unquoted nftHL_String
-syn match nft_flowtable_block_hook_string_unquoted "\v[a-zA-Z0-9]{1,64}" skipwhite skipnl skipempty contained
-\ nextgroup=
-\    nft_flowtable_block_hook_keyword_priority
-
-syn cluster nft_c_flowtable_block_hook_string
-\ contains=
-\    nft_flowtable_block_hook_string_quoted_double,
-\    nft_flowtable_block_hook_string_quoted_single,
-\    nft_flowtable_block_hook_string_unquoted
+\    nft_flowtable_block_hook_keyword_priority,
+\    nft_Error
 
 hi link   nft_flowtable_block_stmt_separator nftHL_Operator
 syn match nft_flowtable_block_stmt_separator ";" skipwhite contained
@@ -632,9 +626,12 @@ syn match nft_flowtable_block_stmt_separator ";" skipwhite contained
 " base_cmd_destroy_cmd 'flowtable' flowtable_spec '{' flowtable_block 'hook'
 " table_block 'flowtable' flowtable_spec '{' flowtable_block 'hook'
 hi link   nft_flowtable_block_hook nftHL_Statement
-syn match nft_flowtable_block_hook "\v[{ ;]\zshook\ze[;} ]" skipwhite skipnl skipempty contained
+syn match nft_flowtable_block_hook "\v[{ ;]\zshook\ze[ \t]" skipwhite skipnl skipempty contained
 \ nextgroup=
-\    @nft_c_flowtable_block_hook_string
+\    nft_flowtable_block_hook_identifier_quoted_double,
+\    nft_flowtable_block_hook_identifier_quoted_single,
+\    nft_flowtable_block_hook_unquoted_identifier,
+\    nft_Error
 
 " base_cmd add_cmd 'flowtable' flowtable_spec '{' flowtable_block 'flags' flowtable_flag_list flowtable_flag
 hi link   nft_flowtable_block_flags_flowtable_flag_list_flowtable_flag nftHL_Action
@@ -670,7 +667,52 @@ syn match nft_flowtable_block_counter "counter" skipwhite contained
 \    nft_CurlyBraceAheadSilent,
 \    nft_Error
 
-source ../scripts/nftables/flowtable_expr.vim
+
+hi link   nft_flowtable_expr_comma nftHL_Expression
+syn match nft_flowtable_expr_comma "," skipwhite contained
+
+hi link   nft_flowtable_expr_unquoted_string nftHL_String
+syn match nft_flowtable_expr_unquoted_string "\v[a-zA-Z][a-zA-Z0-9\\\/_\.\-]{0,63}" skipwhite contained
+
+hi link   nft_flowtable_expr_unquoted_identifier nftHL_Identifier
+syn match nft_flowtable_expr_unquoted_identifier "\v[a-zA-Z][a-zA-Z0-9\\\/_\.\-]{0,63}" skipwhite contained
+
+hi link    nft_flowtable_expr_quoted_string_single nftHL_String
+syn region nft_flowtable_expr_quoted_string_single start="\'" end="\'" skip="\\\'" skipwhite contained
+\ contains=
+\    nft_flowtable_expr_unquoted_string
+\ nextgroup=
+\    nft_flowtable_expr_comma
+
+hi link    nft_flowtable_expr_quoted_string_double nftHL_String
+syn region nft_flowtable_expr_quoted_string_double start="\"" end="\"" skip="\\\"" skipwhite contained
+\ contains=
+\    nft_flowtable_expr_unquoted_string
+\ nextgroup=
+\    nft_flowtable_expr_comma
+
+hi link   nft_flowtable_expr_variable_expr nftHL_Variable
+syn match nft_flowtable_expr_variable_expr "\v\$[a-zA-Z][a-zA-Z0-9\\\/_\.\-]{0,63}" skipwhite contained
+\ nextgroup=
+\    nft_flowtable_expr_comma
+
+syn cluster nft_c_flowtable_expr_member
+\ contains=
+\    nft_flowtable_expr_variable_expr,
+\    nft_flowtable_expr_quoted_string_single,
+\    nft_flowtable_expr_quoted_string_double,
+\    nft_flowtable_expr_unquoted_identifier
+
+hi link    nft_flowtable_expr_block nftHL_BlockDelimitersFlowtable
+syn region nft_flowtable_expr_block start="{" end="}" skipwhite contained
+\ contains =
+\    @nft_c_flowtable_expr_member
+
+hi link   nft_flowtable_expr_variable nftHL_Variable
+syn match nft_flowtable_expr_variable "\v\$[a-zA-Z][a-zA-Z0-9\\\/_\.\-]{0,63}" skipwhite contained
+
+
+
 
 " [ 'add' ] 'flowtable' table_id flow_id '{' 'devices' '='
 " '='->'devices'->flowtable_block->'{'->'flowtable'->add_cmd->base_cmd->line
