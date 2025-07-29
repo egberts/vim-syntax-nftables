@@ -26,14 +26,5 @@ syn match nft_base_cmd_add_cmd_keyword_secmark "secmark" skipwhite contained
 \    nft_UnexpectedEOS
 " ******************* END base_cmd 'secmark' *************
 
-" ******************* BEGIN base_cmd 'secmark' *************
-" 'synproxy'->add_cmd->'add'->base_cmd->line
-hi link   nft_base_cmd_add_cmd_keyword_synproxy nftHL_Command
-syn match nft_base_cmd_add_cmd_keyword_synproxy "synproxy" skipwhite contained
-\ nextgroup=
-\    @nft_c_add_cmd_keyword_synproxy_obj_spec,
-\    nft_UnexpectedSemicolon,
-\    nft_UnexpectedEOS
-
 
 " ******************* END base_cmd 'secmark' *************
