@@ -9,11 +9,27 @@
 # true positive test: properly hightlighted correctly; has good content; perfect
 ################################################################################
 
-# common_block->line
+# common_block->line->base_cmd->'define'
+# common_block->line->base_cmd->'define'->initializer_expr->'-'->NUM
+define MYPOLICY= -1
+# common_block->line->base_cmd->'define'->initializer_expr->...->rhs_expr->primary_rhs_expr->unquoted_identifier
+define nic_inet = bond0
+define nic_dmz = bond1
+define nic_lan = bond2
+# network ranks
+# common_block->line->base_cmd->'define'->initializer_expr->...->rhs_expr->primary_rhs_expr->unquoted_identifier->IP
+define net_ipv4_dmz = 10.0.1.0/24
+define net_ipv6_dmz = fe00:1::/64
+define net_ipv4_lan = 10.0.2.0/24
+define net_ipv6_lan = fe00:2::/64
+# some machines
+# common_block->line->base_cmd->'define'->initializer_expr->...->rhs_expr->primary_rhs_expr->unquoted_identifier->IP
+define server1_ipv4 = 10.0.1.2
+
+# common_block->line->base_cmd->'define'->initializer_expr->...->rhs_expr->primary_rhs_expr->set_expr->'{'
 define int_ifs={}
 define int_ifs = {}
 define int_if2 = { }
-define MYPOLICY= -1
 
 define int_ifs = {} ;
 define int_if2 = {   } ;
@@ -134,16 +150,6 @@ define int_if3 = { virbr0, $int_if2, virbr1 } ;
 # TODO: Needs work
 ################################################################################
 
-define nic_inet = bond0
-define nic_dmz = bond1
-define nic_lan = bond2
-# network ranks
-define net_ipv4_dmz = 10.0.1.0/24
-define net_ipv6_dmz = fe00:1::/64
-define net_ipv4_lan = 10.0.2.0/24
-define net_ipv6_lan = fe00:2::/64
-# some machines
-define server1_ipv4 = 10.0.1.2
 define server1_ipv6 = fe00:1::2
 define workstation1_ipv4 = 10.0.2.2
 define workstation1_ipv6 = fe00:2::2

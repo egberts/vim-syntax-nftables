@@ -1,6 +1,15 @@
+#!/usr/sbin/nft -f
+# File: first-lexicals.nft
+# Description: 
 # What this nftables is expected for the first non-space character
-#
 # base_cmd is also a good candidate for its Vim syntax sync.
+#
+# base_cmd define_cmd
+# nft_line/nft_base_cmd/nft_base_cmd_define
+#
+################################################################################
+# true positive test: properly hightlighted correctly; has good content; perfect
+################################################################################
 
 # base_cmd
 flowtable T F { counter ; flags offload ; devices = eth0 };
@@ -48,12 +57,18 @@ bridge
 arp
 table_ID chain_ID
 ;  # semicolon with comment line 
-|  # handled by basic_rhs_expr inside stmt and expr
+
+################################################################################
+# true negative test: properly hightlighted wrongly to show an error;
+# so far, so good.
+################################################################################
+
+# triggered by nftHL_Error_Always on 'nft_line' syntax group
+
 ~  # caret are handled by exclusive_or_rhs_expr inside stmt and expr
 &  # those ampersand goes inside stmt, handled by and_rhs_expr inside stmt and expr
 0invalid_tableID
 !logic_not_allowed
-(paranthesis_not_allowed)
 !
 @
 $
@@ -67,13 +82,30 @@ _
 =
 [
 ]
-\
 :
 "
 '
 <
 >
 ,
-.
 ?
 /
+
+
+################################################################################
+# false negative test: highlighted wrongly; still has good content; oops.
+# TODO: Needs work
+################################################################################
+
+################################################################################
+# false positive test: looks highlighted correctly; has bad content; oops.
+################################################################################
+
+|  # handled by basic_rhs_expr inside stmt and expr
+(paranthesis_not_allowed)
+\
+.
+
+
+# end of test
+

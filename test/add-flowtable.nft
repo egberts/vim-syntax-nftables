@@ -10,15 +10,7 @@
 ################################################################################
 
 # base_cmd add_cmd 'flowtable'
-flowtable T F
-flowtable ip S F
-flowtable ip6 S F
-flowtable inet S  F
-flowtable netdev  S F
-flowtable  bridge S F
-flowtable arp S F
-flowtable arp S F
-
+flowtable ip T F { }
 flowtable ip T F { ; }
 flowtable ip T F { hook b }
 flowtable ip T F { hook b ; }
@@ -26,6 +18,15 @@ flowtable T F { devices = $eth0 }
 flowtable T F { devices = $eth0; }
 flowtable T F { hook "handler" priority 123 }
 
+flowtable ip T F { } ;
+flowtable ip T F { ; } ;
+flowtable ip T F { hook b } ;
+flowtable ip T F { hook b ; } ;
+flowtable T F { devices = $eth0 } ;
+flowtable T F { devices = $eth0; } ;
+flowtable T F { hook "handler" priority 123 } ;
+
+flowtable T F { hook "handler" priority 123; };
 flowtable T F { hook "handler" priority 123; };
 flowtable T F {flags offload}
 flowtable T F {flags offload; }  ;
@@ -33,18 +34,6 @@ flowtable T F {flags offload}  ;
 flowtable T F { flags offload ; }
 flowtable T F { counter ; flags offload ; devices = { "eth0" , $abc, 'eth0' }; }
 
-add flowtable T F
-add flowtable T F ;
-
-add flowtable ip S F
-add flowtable ip6 S F  ;
-add flowtable inet S  F
-add flowtable netdev  S F
-add flowtable  bridge S F
-add  flowtable arp S F
- add flowtable arp S F ;
-
-add flowtable ip T F { hook b }
 add flowtable T F { devices = eth0 }
 add flowtable T F { hook "handler" 123; }
 add flowtable T F {flags offload}
@@ -196,14 +185,59 @@ table inet x {
 # so far, so good)
 ################################################################################
 
+flowtableip 
+flowtableip  X
+
+
 flowtable T 
 
+
+flowtable ip
+
+
+flowtable T F
+flowtable ip S F
+flowtable ip6 S F
+flowtable inet S  F
+flowtable netdev  S F
+flowtable  bridge S F
+flowtable arp S F
+flowtable arp S F
+
+flowtable T F ;
+
+flowtable ip S F ;
+
+flowtable ip6 S F ;
+
+flowtable inet S  F ;
+
+flowtable netdev  S F ;
+
+flowtable  bridge S F ;
+
+flowtable arp S F ;
 
 add flowtable 
 
 
 add flowtable T 
 
+
+add flowtable T F
+add flowtable T F ;
+
+
+add flowtable ip S F
+add flowtable ip6 S F  ;
+
+add flowtable inet S  F
+add flowtable netdev  S F
+add flowtable  bridge S F
+add  flowtable arp S F
+ add flowtable arp S F ;
+
+add flowtable ip T F { hook b }
 
 create flow table
 create flowtable ip  
@@ -231,7 +265,14 @@ list flowtables arp
 # false negative test: highlighted wrongly; still has good content; oops.
 ################################################################################
 
+
 ################################################################################
 # false positive test: looks highlighted correctly; has bad content; oops.
 ################################################################################
+
+# triggered by the virtue of wildcard unquoted identifier in the
+# nft_base_cmd_add_cmd_rule_position_table_spec_wildcard in 'nft_line'
+
+flowtableTableId
+
 
