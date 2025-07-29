@@ -13,17 +13,68 @@ counter table_id counter_id
 counter last counter_id
 counter table_id last
 counter last last
- counter table_id counter_id  
-    counter ip table_id counter_id
+counter ip table_id counter_id
+counter ip6 table_id counter_id;
+counter inet table_id counter_id ;
+counter netdev table_id counter_id; 
+counter bridge table_id counter_id ; 
+counter arp table_id counter_id
+counter arp last counter_id
+counter arp table_id last
+counter arp last counter_id
+counter arp last last
+
+counter table_id counter_id packets 5 bytes 1500
+counter table_id counter_id packets 5 bytes 1500; 
+counter table_id counter_id packets 5 bytes 1500 ;
+counter table_id counter_id packets 5 bytes 1500 ; 
+
+counter table_id counter_id { packets 5 bytes 1500 }; 
+counter table_id counter_id { packets 5 bytes 1500;}; 
+counter table_id counter_id { packets 5 bytes 1500; }; 
+counter table_id counter_id { packets 5 bytes 1500 ; }; 
+counter table_id counter_id { packets 5 bytes 1500 } ;
+counter table_id counter_id { packets 5 bytes 1500 } ;
+counter table_id counter_id { packets 5 bytes 1500 } ; 
+
+# inline comment
+counter table_id counter_id { 
+    # inline comments
+    define A = 1  # inline comments
+    packets 5 bytes 1500  # inline comments
+    comment this stuff!
+};
+
+add counter ip table_id counter_id packets 5 bytes 1500
+add counter ip table_id counter_id packets 5 bytes 1500;
+add counter ip table_id counter_id packets 5 bytes 1500; 
+add counter ip table_id counter_id packets 5 bytes 1500 ;
+add counter ip table_id counter_id packets 5 bytes 1500 ; 
 
 # 'counter' as a statement ('stmt')
 add counter table_id counter_id   
+add counter table_id counter_id;
+add counter table_id counter_id; 
 add counter table_id counter_id ;
+add counter table_id counter_id ; 
 
 add counter table_id counter_id { counter_config }
+add counter table_id counter_id { comment GO_DOGS_GO }
+add counter table_id counter_id { comment "Nice to say things" }
 
+add counter table_id counter_id { packets 5 bytes 1500 };
+add counter table_id counter_id { packets 5 bytes 1500 }; 
 add counter table_id counter_id { packets 5 bytes 1500 } ;
+add counter table_id counter_id { packets 5 bytes 1500 } ; 
+
+add counter table_id counter_id { packets 5 bytes 1500 }; 
 add counter table_id counter_id { packets 5 bytes 1500 } ;
+add counter table_id counter_id { packets 5 bytes 1500 } ; 
+
+add counter table_id counter_id { 
+    define A = 1
+    packets 5 bytes 1500
+};
 
 # 'counter' as an expression ('expr')
 # counter_stmt->stateful_stmt->stateful_stmt_list->set_spec
@@ -52,7 +103,12 @@ counter T
 
 counter T ; 
 
-counter ip6 
+counter ip6tableid 
+
+
+counter ip6 tableid counter_id
+
+
 
 
 add set T S { counter marshmellows }
@@ -71,3 +127,38 @@ add rule table_id chain_id set add { $MYVAR counter at  }
 # false positive test: looks highlighted correctly; has bad content; oops.
 ################################################################################
 
+counterT ;
+
+add counter ip table_id counter_id packets5 bytes 1500 ;
+add counter ip table_id counter_id packets 5bytes 1500 ;
+add counter ip table_id counter_id packets 5 bytes1500
+add counter ip table_id counter_id packets 5 bytes1500 
+add counter ip table_id counter_id packets 5 bytes1500 ;
+
+add counter table_id counter_id { packets5bytes1500 } ;
+add counter ip table_id counter_id { packets5 bytes 1500 ; };
+add counter ip table_id counter_id { packets 5bytes 1500 ; };
+add counter ip table_id counter_id { packets 5 bytes1500 };
+add counter ip table_id counter_id { packets 5 bytes 1500 ;
+add counter ip t c { }
+
+add counter table_id counter_id { 
+    define ABC = 1;
+    comment "aasdfasdf"
+    packets5bytes1500 
+} ;
+add counter table_id counter_id { 
+    define ABC = 1;
+    packets5bytes1500 
+} ;
+add counter ip table_id counter_id { 
+    define ABC = 1;
+    packets5 bytes 1500 ;
+};
+add counter ip table_id counter_id { 
+    define ABC = 1;
+    packets 5bytes 1500 ;
+};
+add counter ip table_id counter_id { 
+    packets 5 bytes1500 
+};
