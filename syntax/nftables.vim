@@ -2251,10 +2251,29 @@ syn match nft_base_cmd_keyword_destroy "\vdestroy\ze[ \t]" skipwhite contained
 " **************** START element_cmd ***************
 
 
-hi link   nft_add_cmd_keyword_element_set_block_expr_set_spec_block nftHL_BlockDelimitersSet
+hi link   nft_add_cmd_keyword_element_set_block_expr_set_expr_set_rhs_expr_verdict_expr nftHL_Keyword
+syn match nft_add_cmd_keyword_element_set_block_expr_set_expr_set_rhs_expr_verdict_expr "\vcontinue" skipwhite contained
+syn match nft_add_cmd_keyword_element_set_block_expr_set_expr_set_rhs_expr_verdict_expr "\vreturn" skipwhite contained
+syn match nft_add_cmd_keyword_element_set_block_expr_set_expr_set_rhs_expr_verdict_expr "\vaccept" skipwhite contained
+syn match nft_add_cmd_keyword_element_set_block_expr_set_expr_set_rhs_expr_verdict_expr "\vdrop" skipwhite contained
+syn match nft_add_cmd_keyword_element_set_block_expr_set_expr_set_rhs_expr_verdict_expr "\vjump" skipwhite contained
+syn match nft_add_cmd_keyword_element_set_block_expr_set_expr_set_rhs_expr_verdict_expr "\vgoto" skipwhite contained
+
+hi link   nft_add_cmd_keyword_element_set_block_expr_set_expr_colon_separator nftHL_Element
+syn match nft_add_cmd_keyword_element_set_block_expr_set_expr_colon_separator /:/ skipwhite contained
+\ nextgroup=
+\    nft_add_cmd_keyword_element_set_block_expr_set_expr_set_rhs_expr_verdict_expr
+
+hi link   nft_add_cmd_keyword_element_set_block_expr_set_expr_set_elem_expr_unquoted_identifier_IP nftHL_String
+syn match nft_add_cmd_keyword_element_set_block_expr_set_expr_set_elem_expr_unquoted_identifier_IP "\v[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}" skipwhite contained
+\ nextgroup=
+\    nft_add_cmd_keyword_element_set_block_expr_set_expr_set_elem_expr_set_elem_expr_option
+\    nft_add_cmd_keyword_element_set_block_expr_set_expr_colon_separator
+
+hi link    nft_add_cmd_keyword_element_set_block_expr_set_spec_block nftHL_BlockDelimitersSet
 syn region nft_add_cmd_keyword_element_set_block_expr_set_spec_block start=+{+ end=+}+ skipwhite contained
 \ contains=
-\    nft_add_cmd_keyword_element_set_block_expr_set_expr,
+\    nft_add_cmd_keyword_element_set_block_expr_set_expr_set_elem_expr_unquoted_identifier_IP,
 \    nft_Error
 \ nextgroup=
 \    nft_line_stmt_separator,
