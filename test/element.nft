@@ -16,41 +16,49 @@
 # base_cmd add_cmd 'set'
 
 # set_expr->set_block_expr->'element'->add_cmd->base_cmd->line
-element T C { };
-element ip T C { };
-element ip6 T C { };
-element inet T C { };
-element netdev T C { };
-element bridge T C { };
-element arp T C { };
+element T S { };
+element last C { };
+element T last { };
+element last last { };
+element ip T S { };
+element ip6 T S { };
+element inet T S { };
+element netdev T S { };
+element bridge T S { };
+element arp T S { };
+
 # variable_expr->set_block_expr->'element'->add_cmd->base_cmd->line
-element T C { };
-element ip T C $MY_ELEMENT
+element T S { };
+element ip T last $MY_ELEMENT;
+element ip T S $MY_ELEMENT ;
 
 # set_expr->set_block_expr->'element'->add_cmd->'add'->base_cmd->line
-add element T C { };
+element ip T S { 1,2,3 };
+
 # variable_expr->set_block_expr->'element'->add_cmd->'add'->base_cmd->line
-add element T C $MY_ELEMENT
+add element T S $MY_ELEMENT
+
+add element T S { };
 
 # set_expr->set_block_expr->'element'->create_cmd->'create'->base_cmd->line
-create element T C { };
+create element T S { };
 # variable_expr->set_block_expr->'element'->create_cmd->'create'->base_cmd->line
-create element T C $MY_ELEMENT
+create element T S $MY_ELEMENT
 
 # set_expr->set_block_expr->'element'->destroy_cmd->'destroy'->base_cmd->line
-destroy element T C { };
+destroy element T S { };
 # variable_expr->set_block_expr->'element'->destroy_cmd->'destroy'->base_cmd->line
-destroy element T C $MY_ELEMENT
+destroy element T S $MY_ELEMENT
 
 # set_expr->set_block_expr->'element'->get_cmd->'get'->base_cmd->line
-get element T C { };
+get element T S { };
 # variable_expr->set_block_expr->'element'->get_cmd->'get'->base_cmd->line
-get element T C $MY_ELEM!NT
+get element T S $MY_ELEM!NT
 
 # set_expr->set_block_expr->'element'->reset_cmd->'reset'->base_cmd->line
-reset element T C { };
+reset element T S { };
 # variable_expr->set_block_expr->'element'->reset_cmd->'reset'->base_cmd->line
-reset element T C $MY_ELEMENT
+reset element T S $MY_ELEMENT
 
 
 ################################################################################
@@ -58,19 +66,33 @@ reset element T C $MY_ELEMENT
 # so far, so good)
 ################################################################################
 
-# set_block_expr->'element'->add_cmd->base_cmd->line
+
+# 'element'->add_cmd->base_cmd->line
 element 
 
 
+# set_spec->'element'->add_cmd->base_cmd->line
 element T 
 
 
+element T S 
+
+
+# explicit_family_spec->set_spec->'element'->add_cmd->base_cmd->line
 element ip 
 
 
-element T C 
+element TC { };
+element lastC { };
+element Tlast { };
+element lastlast { };
+element ipT S { };
+element ip6 TC { };
+element inet T C{ };
 
-
+# variable_expr->set_block_expr->'element'->add_cmd->base_cmd->line
+element T S { };
+element ip T S $MY_ELEMENT
 
 # set_block_expr->'element'->add_cmd->'add'->base_cmd->line
 add element 
@@ -93,7 +115,7 @@ create element
 create element T  
 
 
-create element T C 
+create element T S 
 
 
 
@@ -132,7 +154,7 @@ reset element
 reset element T 
 
 
-reset element T C 
+reset element T S 
 
 
 
@@ -145,33 +167,35 @@ reset element T C
 # false positive test: looks highlighted correctly; has bad content; oops.
 ################################################################################
 
-element T C & 
-element T C | 
-element T C ( 
-element T C ^  
+elementT C;
 
-add element T C &
-add element T C |
-add element T C (
-add element T C ^
+element T S & 
+element T S | 
+element T S ( 
+element T S ^  
 
-create element T C &
-create element T C |
-create element T C (
-create element T C ^
+add element T S &
+add element T S |
+add element T S (
+add element T S ^
 
-destroy element T C &
-destroy element T C |
-destroy element T C (
-destroy element T C ^
+create element T S &
+create element T S |
+create element T S (
+create element T S ^
 
-get element T C &
-get element T C |
-get element T C (
-get element T C ^
+destroy element T S &
+destroy element T S |
+destroy element T S (
+destroy element T S ^
 
-reset element T C &
-reset element T C |
-reset element T C (
-reset element T C ^
+get element T S &
+get element T S |
+get element T S (
+get element T S ^
+
+reset element T S &
+reset element T S |
+reset element T S (
+reset element T S ^
 
