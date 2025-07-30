@@ -4304,10 +4304,7 @@ syn match nft_base_cmd_reset_quotas "quotas" skipwhite contained
 \    nft_base_cmd_reset_counters_quotas_ruleset_spec_family_spec,
 \    nft_base_cmd_reset_counters_quotas_table_table_spec_identifier_table,
 \    nft_base_cmd_reset_counters_quotas_table_keyword,
-
-
-" base_cmd [ 'set' ]
-""""" END OF add_cmd/'reset' """""
+"**** END OF add_cmd/'reset' *****
 
 " 'reset'->base_cmd->line
 hi link   nft_base_cmd_keyword_reset nftHL_Command
@@ -4337,6 +4334,54 @@ syn match nft_base_cmd_reset_cmd_keyword_rule_ruleset_spec_id_table "\v[a-zA-Z][
 \ nextgroup=
 \    nft_base_cmd_reset_rule_ruleset_spec_id_chain
 " *********************  END 'reset' ***********************
+
+" *********************  BEGIN 'limit' ***********************
+
+
+
+" ***************** BEGIN base_cmd 'limit' ********************
+" base_cmd add_cmd 'limit' <table_id> <limit_id>
+hi link    nft_add_cmd_limit_obj_spec_limit_identifier nftHL_Identifier
+syn match nft_add_cmd_limit_obj_spec_limit_identifier "\v[A-Za-z][A-Za-z0-9\\\/_\.\-]{0,63}" skipwhite contained
+\ nextgroup=
+\    nft_add_cmd_limit_limit_block,
+\    nft_limit_config
+" TODO: limit_block
+" TODO: undefined nft_add_cmd_limit_limit_block
+
+" base_cmd add_cmd 'limit' table_spec
+hi link    nft_add_cmd_limit_obj_spec_table_identifier nftHL_Identifier
+syn match nft_add_cmd_limit_obj_spec_table_identifier "\v[A-Za-z][A-Za-z0-9\\\/_\.\-]{0,63}" skipwhite contained
+\ nextgroup=
+\    nft_add_cmd_limit_obj_spec_limit_identifier
+
+" base_cmd add_cmd 'limit' ('ip'|'ip6'|'inet'|'arp'|'bridge'|'netdev')
+" base_cmd add_cmd 'limit' family_spec
+hi link   nft_add_cmd_limit_obj_spec_family_spec nftHL_Family
+syn match nft_add_cmd_limit_obj_spec_family_spec "\v(ip6?|inet|arp|bridge|netdev)" skipwhite contained
+\ nextgroup=
+\    nft_add_cmd_limit_obj_spec_table_identifier
+
+" base_cmd add_cmd 'limit' obj_spec
+syn cluster nft_c_add_cmd_limit_obj_spec
+\ contains=
+\    nft_add_cmd_limit_obj_spec_family_spec,
+\    nft_add_cmd_limit_obj_spec_table_identifier
+
+" base_cmd 'add' add_cmd 'limit'
+hi link   nft_base_cmd_add_cmd_keyword_limit nftHL_Command
+syn match nft_base_cmd_add_cmd_keyword_limit "\vlimit\ze[ \t]" skipwhite contained
+\ nextgroup=
+\    nft_add_cmd_limit_obj_spec_family_spec,
+\    nft_add_cmd_limit_obj_spec_table_identifier
+
+" base_cmd add_cmd 'limit'
+hi link   nft_base_cmd_keyword_limit nftHL_Command
+syn match nft_base_cmd_keyword_limit "\vlimit\ze[ \t]" skipwhite contained
+\ nextgroup=
+\    nft_add_cmd_limit_obj_spec_family_spec,
+\    nft_add_cmd_limit_obj_spec_table_identifier
+" *********************  END 'limit' ***********************
 
 " *************** BEGIN create_cmd *******************
 hi link   nft_create_cmd_keyword_table_identifier_chain nftHL_Table
@@ -4700,7 +4745,7 @@ syn match nft_base_cmd_keyword_add /add/ skipwhite contained
 \    nft_base_cmd_add_cmd_secmark_keyword,
 \    nft_base_cmd_add_cmd_chain_keyword,
 \    nft_base_cmd_add_cmd_quota_keyword,
-\    nft_base_cmd_add_cmd_limit_keyword,
+\    nft_base_cmd_add_cmd_keyword_limit,
 \    nft_base_cmd_add_cmd_table_keyword,
 \    nft_base_cmd_add_cmd_keyword_rule,
 \    nft_base_cmd_add_cmd_map_keyword,
@@ -4718,7 +4763,7 @@ syn cluster nft_c_base_cmd_add_cmd_unused_placeholder
 \    nft_base_cmd_add_cmd_secmark_keyword,
 \    nft_base_cmd_add_cmd_chain_keyword,
 \    nft_base_cmd_add_cmd_quota_keyword,
-\    nft_base_cmd_add_cmd_limit_keyword,
+\    nft_base_cmd_add_cmd_keyword_limit,
 \    nft_base_cmd_add_cmd_table_keyword,
 \    nft_base_cmd_add_cmd_keyword_rule,
 \    nft_base_cmd_keyword_add,
@@ -4775,7 +4820,7 @@ syn match nft_line "^\v\s{0,63}"
 \    nft_base_cmd_add_cmd_chain_keyword,
 \    nft_common_block_error_keyword,
 \    nft_base_cmd_keyword_flush,
-\    nft_base_cmd_add_cmd_limit_keyword,
+\    nft_base_cmd_add_cmd_keyword_limit,
 \    nft_base_cmd_add_cmd_quota_keyword,
 \    nft_base_cmd_keyword_reset,
 \    nft_base_cmd_add_cmd_table_keyword,
