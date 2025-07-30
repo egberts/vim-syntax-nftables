@@ -3683,9 +3683,7 @@ syn match nft_base_cmd_keyword_get "get" skipwhite contained
 \    nft_Error
 "***************** get_cmd END *****************
 
-
-
-"""""""""""""""""" flush_cmd BEGIN """"""""""""""""""""""""""""""""""
+"***************** flush_cmd BEGIN *****************
 " base_cmd 'flush' 'ruleset' ruleset_spec
 hi link   nft_flush_cmd_keyword_ruleset_ruleset_spec_family_spec_explicit nftHL_Family
 syn match nft_flush_cmd_keyword_ruleset_ruleset_spec_family_spec_explicit "\v(ip6?|inet)" skipwhite contained
@@ -3829,12 +3827,51 @@ syn match nft_base_cmd_keyword_flush "\vflush\ze " skipwhite contained
 \    nft_UnexpectedSemicolon,
 \    nft_UnexpectedEOS,
 \    nft_Error
-"""""""""""""""""" flush_cmd END """"""""""""""""""""""""""""""""""
+"***************** flush_cmd END *****************
 
+" *************** BEGIN import_cmd *******************
+" base_cmd 'import' (via base_cmd)
+hi link   nft_import_cmd_keyword_ruleset nftHL_Operator
+syn match nft_import_cmd_keyword_ruleset "ruleset" skipwhite keepend contained
+\ nextgroup=
+\    nft_markup_format,
+\    nft_UnexpectedSemicolon,
+\    nft_UnexpectedEOS,
+\    nft_Error
 
+" 'import'->base_cmd->line
+hi link   nft_base_cmd_keyword_import nftHL_Command
+syn match nft_base_cmd_keyword_import "import" skipwhite contained
+\ nextgroup=
+\    nft_import_cmd_keyword_ruleset,
+\    nft_markup_format,
+\    nft_UnexpectedSemicolon,
+\    nft_UnexpectedEOS,
+\    nft_Error
+" *************** END import_cmd *******************
+
+" *************** BEGIN export_cmd *******************
+" export_cmd markup_format (via export_cmd)
+hi link   nft_export_cmd_keyword_ruleset nftHL_Operator
+syn match nft_export_cmd_keyword_ruleset "ruleset" skipwhite contained
+\ nextgroup=
+\    nft_markup_format,
+\    nft_UnexpectedSemicolon,
+\    nft_UnexpectedEOS,
+\    nft_Error
+
+" 'export'->base_cmd->line
+hi link   nft_base_cmd_keyword_export nftHL_Command
+syn match nft_base_cmd_keyword_export "export" skipwhite contained
+\ nextgroup=
+\    nft_export_cmd_keyword_ruleset,
+\    nft_markup_format,
+\    nft_UnexpectedSemicolon,
+\    nft_UnexpectedEOS,
+\    nft_Error
+" *************** END export_cmd *******************
 
 " *************** BEGIN create_cmd *******************
-
 hi link   nft_create_cmd_keyword_table_identifier_chain nftHL_Table
 syn match nft_create_cmd_keyword_table_identifier_chain "\v[a-zA-Z][a-zA-Z0-9\\\/_\.\-]{0,63}" skipwhite contained
 \ nextgroup=
@@ -3918,8 +3955,6 @@ syn match nft_create_cmd_keyword_synproxy "synproxy" skipwhite contained
 \    nft_UnexpectedSemicolon,
 \    nft_UnexpectedEOS,
 \    nft_Error
-
-" **************** END 'create' 'synproxy' *********************
 
 " 'create'->base_cmd->line
 hi link   nft_base_cmd_keyword_create nftHL_Command
@@ -4265,8 +4300,8 @@ syn match nft_line "^\v\s{0,63}"
 \    nft_base_cmd_keyword_create,
 \    nft_common_block_keyword_define,
 \    nft_base_cmd_keyword_delete,
-\    nft_base_cmd_export_keyword,
-\    nft_base_cmd_import_keyword,
+\    nft_base_cmd_keyword_export,
+\    nft_base_cmd_keyword_import,
 \    nft_base_cmd_insert_keyword,
 \    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_netdev,
 \    nft_base_cmd_rename_keyword,
