@@ -316,16 +316,28 @@ list flow table table_id synproxy_id
 list flow table ip table_id synproxy_id
 list flow table ip6 table_id synproxy_id
 list flow table inet table_id synproxy_id
+list flow table netdev table_id synproxy_id
+list flow table bridge table_id synproxy_id
+list flow table arp table_id synproxy_id
 
 # ruleset_spec->'tables'->'flow'->list_cmd->base_cmd
 list flowtable last 
+
+
 list flowtable table_id 
+
+
 list flowtable ip table_id 
+
+
 list flowtable ip6 table_id 
+
+
 list flowtable inet table_id 
 
 # obj_spec->'helper'->ct_obj_type->'ct'->list_cmd->base_cmd
 list ct helper table_id ct_id x
+
 list ct helper last ct_id
 list ct helper table_id last
 list ct helper last last
