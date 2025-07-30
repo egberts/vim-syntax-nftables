@@ -9,6 +9,8 @@
 # true positive test: properly hightlighted; has good content; perfect.
 ################################################################################
 
+table T { chain C { type filter hook output priority 0; policy drop } };
+
 table T {
     chain C {
         type filter hook input priority 0; policy $MY_POLICY
