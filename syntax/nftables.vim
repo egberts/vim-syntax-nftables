@@ -538,7 +538,7 @@ syn match nft_line_stmt_separator  "\v[;\n]{1,16}" skipwhite contained
 hi link   nft_base_cmd_add_cmd_rule_position_table_spec_wildcard nftHL_Identifier
 syn match nft_base_cmd_add_cmd_rule_position_table_spec_wildcard "\v[A-Za-z][A-Za-z0-9_]{0,63}" skipwhite contained
 \ nextgroup=
-\    nft_add_cmd_rule_position_chain_spec,
+\    nft_base_cmd_add_cmd_rule_position_chain_spec_identifier,
 \    nft_UnexpectedEOS
 
 
@@ -588,21 +588,10 @@ syn cluster nft_identifier
 \    @nft_c_string
 " nft_c_string must be the LAST contains= (via nft_unquoted_string)
 
-" 'add' 'table' <table_identifier>
-" identifier->table_spec->chain_spec->rule_position->add_cmd
-hi link   nft_add_cmd_keyword_rule_rule_position_table_spec_end nftHL_Identifier
-syn match nft_add_cmd_keyword_rule_rule_position_table_spec_end "\v\i{1,63}" skipwhite contained
-\ nextgroup= nft_add_cmd_rule_position_chain_spec
-
-" nft_add_cmd_keyword_rule_rule_position_table_spec_end must be the first keyword
-" of any keyword from the starting column 1
-
 hi link   nft_common_block_stmt_separator nftHL_Expression
 syn match nft_common_block_stmt_separator ";" skipwhite contained
 
-
 "****************** BEGIN OF NFTABLE SYNTAX *******************************
-
 
 " ************************* Begin of 'counter_cmd' *************************
 "**** BEGIN OF add_cmd_/'counter'/obj_spec *****
@@ -2389,7 +2378,6 @@ syn match nft_base_cmd_add_cmd_keyword_element "\velement\ze[ \t]" skipwhite con
 " **************** END element_cmd ***************
 
 " **************** START monitor_cmd ***************
-
 " monitor_event (via monitor_cmd)
 hi link   nft_monitor_cmd_monitor_format_keyword_xml nftHL_Action
 syn match nft_monitor_cmd_monitor_format_keyword_xml "\vxml\ze[ \t;\n]" skipwhite keepend contained
@@ -2493,13 +2481,9 @@ syn match nft_base_cmd_keyword_monitor "\vmonitor\ze[ \t]" skipwhite contained
 \    nft_monitor_cmd_monitor_object_keyword_sets,
 \    nft_monitor_cmd_monitor_event_keyword_new,
 \    nft_Error
-
 " **************** END monitor_cmd ***************
+
 " **************** START replace_cmd ***************
-
-
-"""""""""""""""""" replace_cmd BEGIN """"""""""""""""""""""""""""""""""
-
 " base_cmd 'replace' [ family_spec ] table_identifier chain_identifier handle_identifier rule
 syn cluster nft_c_base_cmd_replace_rule_alloc_stmt
 \ contains=
@@ -2567,19 +2551,99 @@ syn match nft_replace_cmd_keyword_rule "rule" skipwhite contained
 \    nft_UnexpectedEOS,
 \    nft_Error
 
-"""""""""""""""""" replace_cmd END """"""""""""""""""""""""""""""""""
-
-
-
-" 'replace'->base_cmd->line
-hi link   nft_base_cmd_keyword_replace nftHL_Command
-syn match nft_base_cmd_keyword_replace "replace" skipwhite contained
+" base_cmd 'replace'
+hi link   nft_base_cmd_keyword_replace nftHL_Statement
+syn match nft_base_cmd_keyword_replace "\vreplace" skipwhite contained
 \ nextgroup=
 \    nft_replace_cmd_keyword_rule,
 \    nft_UnexpectedSemicolon,
 \    nft_UnexpectedEOS,
 \    nft_Error
-" **************** END replace_cmd ***************
+"***************** replace_cmd END *****************
+
+" ***************** BEGIN 'add' 'rule' ***************
+
+hi link   nft_base_cmd_add_cmd_rule_position_chain_spec_identifier nftHL_Table
+syn match nft_base_cmd_add_cmd_rule_position_chain_spec_identifier "\v[a-zA-Z][a-zA-Z0-9_\.-]{0,63}\ze[ \t]" skipwhite contained
+
+hi link   nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier nftHL_Table
+syn match nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier "\v[a-zA-Z][a-zA-Z0-9_\.-]{0,63}\ze[ \t]" skipwhite contained
+\ nextgroup=
+\    nft_base_cmd_add_cmd_rule_position_chain_spec_identifier
+
+hi link   nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_ip nftHL_Family
+syn match nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_ip "ip" skipwhite contained
+\ nextgroup=
+\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier
+
+hi link   nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_arp nftHL_Family
+syn match nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_arp "arp" skipwhite contained
+\ nextgroup=
+\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier
+
+hi link   nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_ip6 nftHL_Family
+syn match nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_ip6 "ip6" skipwhite contained
+\ nextgroup=
+\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier
+
+hi link   nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_inet nftHL_Family
+syn match nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_inet "inet" skipwhite contained
+\ nextgroup=
+\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier
+
+hi link   nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_netdev nftHL_Family
+syn match nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_netdev "netdev" skipwhite contained
+\ nextgroup=
+\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier
+
+hi link   nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_bridge nftHL_Family
+syn match nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_bridge "bridge" skipwhite contained
+\ nextgroup=
+\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier
+
+syn cluster nft_c_add_cmd_rule_rule_alloc_again
+\ contains=@nft_c_add_cmd_rule_rule_alloc_alloc
+
+" base_cmd [ 'add' ] 'rule' rule_alloc comment_spec
+hi link   nft_add_cmd_rule_comment_spec_string nftHL_Comment
+syn match nft_add_cmd_rule_comment_spec_string "\v[A-Za-z0-9 ]{1,64}" skipwhite contained
+" TODO A BUG? What is a 'space' doing in comment?"
+
+hi link   nft_add_cmd_rule_comment_spec_comment nftHL_Comment
+syn match nft_add_cmd_rule_comment_spec_comment "\vcomment\ze[ \t]" skipwhite contained
+\ nextgroup=
+\    nft_add_cmd_rule_comment_spec_string
+
+" base_cmd [ 'add' ] 'rule' rule
+syn cluster nft_c_add_cmd_rule_rule_alloc
+\ contains=
+\    nft_add_cmd_rule_comment_spec_comment,
+\    @nft_c_stmt
+
+" base_cmd [ 'add' ] 'rule' rule
+syn cluster nft_c_add_cmd_rule_rule
+\ contains=
+\    @nft_c_add_cmd_rule_rule_alloc
+
+
+
+" 'rule'->add_cmd->'add'->base_cmd->line
+hi link   nft_base_cmd_add_cmd_keyword_rule nftHL_Command
+syn match nft_base_cmd_add_cmd_keyword_rule "rule" skipwhite contained
+\ nextgroup=
+\    nft_add_cmd_rule_position_family_spec_explicit,
+\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier
+
+syn cluster nft_c_rule_alloc
+\ contains=
+\    @nft_c_stmt
+
+syn cluster nft_c_rule
+\ contains=
+\    @nft_c_rule_alloc
+"***************** END rule/'add_cmd'/'base_cmd' *****************
+
+
 
 " common_block
 " common_block (via chain_block, counter_block, ct_expect_block, ct_helper_block,
@@ -2773,6 +2837,7 @@ syn match nft_common_block_keyword_redefine contained "redefine\ze\s" skipwhite 
 " common_block 'define' (via common_block)
 hi link   nft_common_block_keyword_define nftHL_Command
 syn match nft_common_block_keyword_define contained "\vdefine\ze\s" skipwhite contained
+\ containedin=nft_c_common_block
 \ nextgroup=
 \    nft_common_block_define_redefine_keywords_identifier
 
@@ -2822,8 +2887,8 @@ syn match nft_common_block_keyword_error "\<error\>" skipwhite contained
 " common_block->set_block
 " common_block->synproxy_block
 
-hi link   nft_base_cmd_add_keyword nftHL_Command
-syn match nft_base_cmd_add_keyword /add/ skipwhite contained
+hi link   nft_base_cmd_keyword_add nftHL_Command
+syn match nft_base_cmd_keyword_add /add/ skipwhite contained
 \ nextgroup=
 \    nft_base_cmd_add_cmd_keyword_flowtable,
 \    nft_base_cmd_add_cmd_keyword_synproxy,
@@ -2834,10 +2899,12 @@ syn match nft_base_cmd_add_keyword /add/ skipwhite contained
 \    nft_base_cmd_add_cmd_quota_keyword,
 \    nft_base_cmd_add_cmd_limit_keyword,
 \    nft_base_cmd_add_cmd_table_keyword,
-\    nft_base_cmd_add_cmd_rule_keyword,
+\    nft_base_cmd_add_cmd_keyword_rule,
 \    nft_base_cmd_add_cmd_map_keyword,
 \    nft_base_cmd_add_cmd_set_keyword,
-\    nft_base_cmd_add_cmd_ct_keyword
+\    nft_base_cmd_add_cmd_ct_keyword,
+\    nft_base_cmd_add_cmd_rule_position_table_spec_wildcard,
+" insert nft_base_cmd_add_cmd_rule_position_table_spec_wildcard in nft_base_cmd_keyword_add is CPU-intensive"
 
 syn cluster nft_c_base_cmd_add_cmd_unused_placeholder
 \ contains=
@@ -2850,8 +2917,8 @@ syn cluster nft_c_base_cmd_add_cmd_unused_placeholder
 \    nft_base_cmd_add_cmd_quota_keyword,
 \    nft_base_cmd_add_cmd_limit_keyword,
 \    nft_base_cmd_add_cmd_table_keyword,
-\    nft_base_cmd_add_cmd_rule_keyword,
-\    nft_base_cmd_add_keyword,
+\    nft_base_cmd_add_cmd_keyword_rule,
+\    nft_base_cmd_keyword_add,
 \    nft_base_cmd_add_cmd_map_keyword,
 \    nft_base_cmd_add_cmd_set_keyword,
 \    nft_base_cmd_add_cmd_ct_keyword
@@ -2911,8 +2978,8 @@ syn match nft_line "^\v\s{0,63}"
 \    nft_base_cmd_add_cmd_table_keyword,
 \    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_inet,
 \    nft_base_cmd_list_keyword,
-\    nft_base_cmd_add_cmd_rule_keyword,
-\    nft_base_cmd_add_keyword,
+\    nft_base_cmd_add_cmd_keyword_rule,
+\    nft_base_cmd_keyword_add,
 \    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_arp,
 \    nft_base_cmd_get_keyword,
 \    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_ip6,
