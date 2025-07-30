@@ -3830,11 +3830,22 @@ syn match nft_base_cmd_keyword_flush "\vflush\ze " skipwhite contained
 "***************** flush_cmd END *****************
 
 " *************** BEGIN import_cmd *******************
+hi link   nft_import_cmd_import_format_keyword_xml nftHL_Action
+syn match nft_import_cmd_import_format_keyword_xml "\vxml\ze[ \t;\n]" skipwhite keepend contained
+
+hi link   nft_import_cmd_import_format_keyword_json nftHL_Action
+syn match nft_import_cmd_import_format_keyword_json "\vjson\ze[ \t;\n]" skipwhite keepend contained
+
+hi link   nft_import_cmd_import_format_keyword_vm_keyword_json nftHL_Action
+syn match nft_import_cmd_import_format_keyword_vm_keyword_json "\vvm\s+json\ze[ \t;\n]" skipwhite keepend contained
+
 " base_cmd 'import' (via base_cmd)
 hi link   nft_import_cmd_keyword_ruleset nftHL_Operator
 syn match nft_import_cmd_keyword_ruleset "ruleset" skipwhite keepend contained
 \ nextgroup=
-\    nft_markup_format,
+\    nft_import_cmd_import_format_keyword_json,
+\    nft_import_cmd_import_format_keyword_xml,
+\    nft_import_cmd_import_format_keyword_vm_keyword_json,
 \    nft_UnexpectedSemicolon,
 \    nft_UnexpectedEOS,
 \    nft_Error
@@ -3851,11 +3862,22 @@ syn match nft_base_cmd_keyword_import "import" skipwhite contained
 " *************** END import_cmd *******************
 
 " *************** BEGIN export_cmd *******************
+hi link   nft_export_cmd_export_format_keyword_xml nftHL_Action
+syn match nft_export_cmd_export_format_keyword_xml "\vxml\ze[ \t;\n]" skipwhite keepend contained
+
+hi link   nft_export_cmd_export_format_keyword_json nftHL_Action
+syn match nft_export_cmd_export_format_keyword_json "\vjson\ze[ \t;\n]" skipwhite keepend contained
+
+hi link   nft_export_cmd_export_format_keyword_vm_keyword_json nftHL_Action
+syn match nft_export_cmd_export_format_keyword_vm_keyword_json "\vvm\s+json\ze[ \t;\n]" skipwhite keepend contained
+
 " export_cmd markup_format (via export_cmd)
 hi link   nft_export_cmd_keyword_ruleset nftHL_Operator
 syn match nft_export_cmd_keyword_ruleset "ruleset" skipwhite contained
 \ nextgroup=
-\    nft_markup_format,
+\    nft_export_cmd_export_format_keyword_json,
+\    nft_export_cmd_export_format_keyword_xml,
+\    nft_export_cmd_export_format_keyword_vm_keyword_json,
 \    nft_UnexpectedSemicolon,
 \    nft_UnexpectedEOS,
 \    nft_Error
