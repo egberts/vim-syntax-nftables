@@ -11,6 +11,39 @@
 # true positive test: properly hightlighted correctly; has good content; perfect
 ################################################################################
 
+T C <rule>
+ip nat LIBVIRT_PRT oifname br0 ip saddr 127.1.1.2 counter masquerade
+arp T C <rule>
+ip6 T C <rule>
+inet T C <rule>
+netdev T C <rule>
+bridge T C <rule>
+
+rule T C <rule>
+rule ip T C <rule>
+rule arp T C <rule>
+rule ip6 T C <rule>
+rule inet T C <rule>
+rule netdev T C <rule>
+rule bridge T C <rule>
+
+add rule T C <rule>
+add rule ip T C <rule>
+add rule arp T C <rule>
+add rule ip6 T C <rule>
+add rule inet T C <rule>
+add rule netdev T C <rule>
+add rule bridge T C <rule>
+
+add T C <rule>
+add ip T C <rule>
+add arp T C <rule>
+add ip6 T C <rule>
+add inet T C <rule>
+add netdev T C <rule>
+add bridge T C <rule>
+
+
 # base_cmd
 flowtable T F { counter ; flags offload ; devices = eth0 };
 counter table_id counter_id { packets 5 bytes 1500 } ;
@@ -18,7 +51,7 @@ describe numgen inc mod 256
 replace rule ip table_id chain_id vlan type
 synproxy table_ID
 element ip T C $MY_ELEMENT
-destroy chain T C { define my_var; };
+destroy chain T C { undefine my_var; };
 monitor rules vm json
 create chain inet myInetTable myInetChain { type filter hook input device eth0 priority 0; policy accept; }
 secmark myTable sshtag { "system_u:object_r:ssh_server_packet_t:s0" }
@@ -43,28 +76,22 @@ table T {
     comment Hello
 };
 list synproxys table arp table_id
-rule
+
 get element T S { flags constant; flags interval; flags timeout; flags dynamic };
 map T C { flags constant; flags interval; flags timeout; flags dynamic };
 set T S { gc-interval 1:00:1 }
 add map T C { flags constant; flags interval; flags timeout; flags dynamic };
 ct timeout table_id ctt { protocol udp; l3proto ip; policy = { unreplied : 15, replied : 12 }; }
-ip
-ip nat LIBVIRT_PRT oifname br0 ip saddr 127.1.1.2 counter masquerade
-ip6
-inet
-netdev
-bridge
-arp
 
-
-table_ID chain_ID
 ;  # semicolon with comment line 
 
 ################################################################################
 # true negative test: properly hightlighted wrongly to show an error;
 # so far, so good.
 ################################################################################
+
+ip6 T 
+
 
 # triggered by nftHL_Error_Always on 'nft_line' syntax group
 
@@ -99,6 +126,8 @@ _
 # false negative test: highlighted wrongly; still has good content; oops.
 ################################################################################
 
+
+
 ################################################################################
 # false positive test: looks highlighted correctly; has bad content; oops.
 ################################################################################
@@ -108,6 +137,18 @@ _
 \
 .
 
+table_ID chain_ID 
+ip6 
+ip6 T
+ip6 T C 
+inet 
+netdev 
+bridge 
+arp 
+inet T C 
+netdev 
+bridge 
+arp 
 
 # end of test
 

@@ -535,11 +535,12 @@ syn match nft_line_stmt_separator  "\v[;\n]{1,16}" skipwhite contained
 
 "
 " identifier->table_spec->chain_spec->rule_position->add_cmd->'add'->base_cmd
-hi link   nft_base_cmd_add_cmd_rule_position_table_spec_wildcard nftHL_Identifier
-syn match nft_base_cmd_add_cmd_rule_position_table_spec_wildcard "\v[A-Za-z][A-Za-z0-9_]{0,63}" skipwhite contained
+hi link   nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier nftHL_Identifier
+syn match nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier "\v[A-Za-z][A-Za-z0-9_]{0,63}" skipwhite contained
 \ nextgroup=
 \    nft_base_cmd_add_cmd_rule_position_chain_spec_identifier,
-\    nft_UnexpectedEOS
+\    nft_UnexpectedEOS,
+\    nft_Error
 
 
 hi link   nft_string_unquoted nftHL_String
@@ -1773,8 +1774,8 @@ syn match nft_delete_cmd_keyword_chain_table_spec_family_spec "\v(ip6?|inet|netd
 \    nft_UnexpectedEOS,
 \    nft_Error
 
-hi link   nft_destroy_cmd_keyword_chain nftHL_Statement
-syn match nft_destroy_cmd_keyword_chain "chain" skipwhite contained
+hi link   nft_base_cmd_destroy_cmd_keyword_chain nftHL_Statement
+syn match nft_base_cmd_destroy_cmd_keyword_chain "chain" skipwhite contained
 \ nextgroup=
 \    nft_delete_cmd_keyword_chain_table_spec_family_spec,
 \    nft_delete_cmd_keyword_chain_table_spec_keyword_last,
@@ -2565,11 +2566,8 @@ syn match nft_base_cmd_keyword_replace "\vreplace" skipwhite contained
 
 hi link   nft_base_cmd_add_cmd_rule_position_chain_spec_identifier nftHL_Table
 syn match nft_base_cmd_add_cmd_rule_position_chain_spec_identifier "\v[a-zA-Z][a-zA-Z0-9_\.-]{0,63}\ze[ \t]" skipwhite contained
-
-hi link   nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier nftHL_Table
-syn match nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier "\v[a-zA-Z][a-zA-Z0-9_\.-]{0,63}\ze[ \t]" skipwhite contained
 \ nextgroup=
-\    nft_base_cmd_add_cmd_rule_position_chain_spec_identifier
+\    nft_base_cmd_add_cmd_rule_position_chain_spec_identifierXXX
 
 hi link   nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_ip nftHL_Family
 syn match nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_ip "ip" skipwhite contained
@@ -2631,8 +2629,14 @@ syn cluster nft_c_add_cmd_rule_rule
 hi link   nft_base_cmd_add_cmd_keyword_rule nftHL_Command
 syn match nft_base_cmd_add_cmd_keyword_rule "\vrule\ze[ \t]" skipwhite contained
 \ nextgroup=
-\    nft_add_cmd_rule_position_family_spec_explicit,
-\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier
+\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_bridge,
+\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_netdev,
+\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_inet,
+\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_ip6,
+\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_arp,
+\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_ip,
+\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier,
+\    nft_Error
 
 syn cluster nft_c_rule_alloc
 \ contains=
@@ -6774,19 +6778,25 @@ syn match nft_base_cmd_keyword_add /add/ skipwhite contained
 \ nextgroup=
 \    nft_base_cmd_add_cmd_keyword_flowtable,
 \    nft_base_cmd_add_cmd_keyword_synproxy,
+\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_bridge,
 \    nft_base_cmd_add_cmd_keyword_counter,
 \    nft_base_cmd_add_cmd_keyword_element,
+\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_netdev,
 \    nft_base_cmd_add_cmd_keyword_secmark,
 \    nft_base_cmd_add_cmd_keyword_chain,
 \    nft_base_cmd_add_cmd_keyword_quota,
 \    nft_base_cmd_add_cmd_keyword_limit,
 \    nft_base_cmd_add_cmd_keyword_table,
+\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_inet,
 \    nft_base_cmd_add_cmd_keyword_rule,
+\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_arp,
+\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_ip6,
 \    nft_base_cmd_add_cmd_keyword_map,
 \    nft_base_cmd_add_cmd_keyword_set,
 \    nft_base_cmd_add_cmd_keyword_ct,
-\    nft_base_cmd_add_cmd_rule_position_table_spec_wildcard,
-" insert nft_base_cmd_add_cmd_rule_position_table_spec_wildcard in nft_base_cmd_keyword_add is CPU-intensive"
+\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_ip,
+\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier,
+" insert nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier in nft_base_cmd_keyword_add is CPU-intensive"
 
 syn cluster nft_c_base_cmd_add_cmd_unused_placeholder
 \ contains=
@@ -6869,9 +6879,9 @@ syn match nft_line "^\v\s{0,63}"
 \    nft_base_cmd_add_cmd_keyword_set,
 \    nft_base_cmd_add_cmd_keyword_ct,
 \    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_ip,
+\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier,
 \    nft_line_inline_comment,
 \    nft_line_stmt_separator,
-\    nft_base_cmd_add_cmd_rule_position_table_spec_wildcard,
 \    nft_Error_Always
 " practically no way to highlight an incorrect first alphanum token due
 " to unquoted_table_identifier as the first token
