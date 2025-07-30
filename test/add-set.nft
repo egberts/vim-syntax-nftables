@@ -28,6 +28,7 @@ set T S { flags constant; flags interval; flags timeout; flags dynamic };
 set T S { timeout 15:00:01 }
 set T S { gc-interval 1:00:1 }
 set T S { elements = 1:00:1 }
+set T S { element ip filter blocked_ips { 10.0.0.0/24, 8.8.8.8 timeout 10m comment "temporary host" }
 set T S { automerge }
 set T S { comment *A comment string* }
 set T S { comment "A comment string" }
