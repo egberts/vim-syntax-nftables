@@ -9,19 +9,32 @@
 ################################################################################
 # true positive test: properly hightlighted correctly; has good content; perfect
 ################################################################################
-
-secmark table_id
+secmark table_id 
 secmark myTable mySecMark 
-secmark obj_spec secmark_obj { secmark_block } close_scope_secmark
-secmark T SM { define my_var; };
+secmark myTable mySecMark ;
+secmark obj_spec secmark_obj { } 
+secmark obj_spec secmark_obj { } 
+secmark obj_spec secmark_obj {;} 
+secmark obj_spec secmark_obj { ; } 
+secmark T SM { define my_var = 1; };
+secmark T SM { redefine my_var = 2; };
+secmark T SM { undefine my_var; };
 secmark T SM { typeof b.c.d.e.f : secmark  };
 secmark myTable sshtag { "system_u:object_r:ssh_server_packet_t:s0" }
-add secmark table_id
+
+add secmark table_id 
 add secmark myTable mySecMark 
-add secmark obj_spec secmark_obj { secmark_block } close_scope_secmark
-add secmark T SM { define my_var; };
+add secmark myTable mySecMark ;
+add secmark obj_spec secmark_obj { } 
+add secmark obj_spec secmark_obj { } 
+add secmark obj_spec secmark_obj {;} 
+add secmark obj_spec secmark_obj { ; } 
+add secmark T SM { define my_var = 1; };
+add secmark T SM { redefine my_var = 2; };
+add secmark T SM { undefine my_var; };
 add secmark T SM { typeof b.c.d.e.f : secmark  };
 add secmark myTable sshtag { "system_u:object_r:ssh_server_packet_t:s0" }
+
 create secmark myTable mySecMark 'asdf \'asdd"asdfdf'
 create secmark myTable mySecMark 'asdf \'asddfasdfdf'
 create secmark myTable mySecMark 'a:;fasddfa()fdf' ;
@@ -92,10 +105,22 @@ add rule ip6 table_id myChain position 1 ct secmark zone set ip6 table_id myCTHc
 # so far, so good)
 ################################################################################
 
-destroy 
+secmark 
 
 
-destroy     
+secmark;
+
+secmark ;
+
+
+secmark table_id
+
+
+secmark table_id ;
+secmark myTable mySecMark
+secmark obj_spec secmark_obj { unknwon_secmark_block } 
+add secmark table_id
+
 
 
 destroy secmark 
@@ -140,3 +165,4 @@ list secmark table netdev table_name
 # false positive test: looks highlighted correctly; has bad content; oops.
 ################################################################################
 
+add secmark T SM { define my_var =  }; };

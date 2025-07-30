@@ -4612,8 +4612,6 @@ syn match nft_add_cmd_map_map_spec_map_block_gc_interval "\vgc\-interval" skipwh
 \ nextgroup=
 \    nft_add_cmd_map_map_spec_map_block_time_spec
 
-
-
 " base_cmd add_cmd 'map' map_spec '{' map_block 'elements' '=' '{' map_block_item
 hi link    nft_add_cmd_map_map_spec_map_block_elements_block_items nftHL_BlockDelimitersMap
 syn match nft_add_cmd_map_map_spec_map_block_elements_block_items "\v\$[a-zA-Z][a-zA-Z0-9\\\/_\.\-]" skipwhite contained
@@ -4845,7 +4843,6 @@ syn match nft_add_cmd_keyword_set_set_spec_set_block_flags "flags" skipwhite con
 \ nextgroup=
 \    @nft_c_add_cmd_keyword_set_set_spec_set_block_set_flag_list
 
-
 " base_cmd add_cmd 'set' set_spec '{' set_block 'timeout'/'gc-interval' time_spec
 hi link   nft_add_cmd_keyword_set_set_spec_set_block_time_spec nftHL_Number
 syn match nft_add_cmd_keyword_set_set_spec_set_block_time_spec "\v[a-zA-Z0-9\\\/_\.\:]{1,31}" skipwhite contained
@@ -4869,7 +4866,6 @@ hi link   nft_add_cmd_keyword_set_set_spec_set_block_gc_interval nftHL_Command
 syn match nft_add_cmd_keyword_set_set_spec_set_block_gc_interval "\vgc\-interval" skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_keyword_set_set_spec_set_block_time_spec
-
 
 " base_cmd add_cmd 'set' set_spec '{' set_block 'elements' '=' set_block_expr
 " set_expr->set_block_expr
@@ -4924,7 +4920,6 @@ hi link   nft_add_cmd_keyword_set_set_spec_set_block_set_mechanism_size nftHL_Co
 syn match nft_add_cmd_keyword_set_set_spec_set_block_set_mechanism_size "size" skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_keyword_set_set_spec_set_block_set_mechanism_size_value
-
 
 " base_cmd add_cmd 'set' set_spec '{' set_block set_mechanism 'policy' 'memory'
 hi link   nft_add_cmd_keyword_set_set_spec_set_block_set_mechanism_policy_memory nftHL_Action
@@ -5048,8 +5043,6 @@ syn cluster nft_c_add_cmd_keyword_set_set_spec
 \ contains=@nft_c_add_cmd_keyword_set_set_spec_table_spec
 " ************* END set_spec 'set' ('add'|'clean') ***************
 
-
-
 " 'set'->add_cmd->base_cmd->line
 hi link   nft_base_cmd_keyword_set nftHL_Command
 syn match nft_base_cmd_keyword_set "set\>" skipwhite contained
@@ -5071,6 +5064,63 @@ syn match nft_base_cmd_add_cmd_keyword_set "set" skipwhite contained
 " do not add ^ regex to nft_base_cmd_add_cmd_keyword_set, already done by nft_line
 " ******************** END set_cmd ************************
 
+
+" ******************* BEGIN base_cmd 'secmark' *************
+hi link  nft_add_cmd_keyword_secmark_secmark_block_separator nftHL_Separator
+syn match nft_add_cmd_keyword_secmark_secmark_block_separator /;/ skipwhite contained
+
+hi link  nft_add_cmd_keyword_secmark_secmark_block nftHL_BlockDelimitersFlowtable
+syn region nft_add_cmd_keyword_secmark_secmark_block start=+{+ end=+}+ skipwhite contained
+\ contains=
+\    nft_common_block_keyword_redefine,
+\    nft_common_block_keyword_undefine,
+\    nft_common_block_keyword_include,
+\    nft_common_block_keyword_define,
+\    nft_common_block_keyword_error,
+\    nft_add_cmd_keyword_secmark_secmark_block_separator,
+\    nft_Error
+\ nextgroup=
+\    nft_line_stmt_separator,
+\    nft_EOS,
+\    nft_Error
+
+hi link   nft_add_cmd_keyword_secmark_secmark_config_string nftHL_String
+syn match nft_add_cmd_keyword_secmark_secmark_config_string "\v[a-zA-Z][a-zA-Z0-9\\\/\.\-_]{0,63}\ze[ \t]" skipwhite contained
+
+hi link   nft_add_cmd_keyword_secmark_obj_spec_identifier nftHL_Table
+syn match nft_add_cmd_keyword_secmark_obj_spec_identifier "\v[a-zA-Z][a-zA-Z0-9\\\/\.\-_]{0,63}\ze[ \t]" skipwhite contained
+\ nextgroup=
+\    nft_add_cmd_keyword_secmark_secmark_block,
+\    nft_add_cmd_keyword_secmark_secmark_config,
+\    nft_Error
+
+hi link   nft_add_cmd_keyword_secmark_obj_spec_table_spec_identifier nftHL_Table
+syn match nft_add_cmd_keyword_secmark_obj_spec_table_spec_identifier "\v[a-zA-Z][a-zA-Z0-9\\\/\.\-_]{0,63}\ze[ \t]" skipwhite contained
+\ nextgroup=
+\    nft_add_cmd_keyword_secmark_obj_spec_identifier,
+\    nft_UnexpectedSemicolon,
+\    nft_UnexpectedEOL,
+\    nft_Error
+
+hi link   nft_add_cmd_keyword_secmark_obj_spec_table_spec_family_spec_explicit nftHL_Family
+syn match nft_add_cmd_keyword_secmark_obj_spec_table_spec_family_spec_explicit "\v(ip6|ip|inet|netdev|arp|bridge)\ze[ \t]" skipwhite contained
+\ nextgroup=
+\    nft_add_cmd_keyword_secmark_obj_spec_table_spec_identifier,
+\    nft_UnexpectedSemicolon,
+\    nft_UnexpectedEOL,
+\    nft_Error
+
+" 'add' 'secmark'
+" 'secmark'->add_cmd->'add'->base_cmd->line
+hi link   nft_base_cmd_add_cmd_keyword_secmark nftHL_Command
+syn match nft_base_cmd_add_cmd_keyword_secmark "\vsecmark\ze[ \t]" skipwhite contained
+\ nextgroup=
+\    nft_add_cmd_keyword_secmark_obj_spec_table_spec_family_spec_explicit,
+\    nft_add_cmd_keyword_secmark_obj_spec_table_spec_identifier,
+\    nft_UnexpectedSemicolon,
+\    nft_UnexpectedEOS,
+\    nft_Error
+" ******************* END base_cmd 'secmark' *************
 
 " *************** BEGIN create_cmd *******************
 hi link   nft_create_cmd_keyword_table_identifier_chain nftHL_Table
@@ -5431,7 +5481,7 @@ syn match nft_base_cmd_keyword_add /add/ skipwhite contained
 \    nft_base_cmd_add_cmd_keyword_synproxy,
 \    nft_base_cmd_add_cmd_keyword_counter,
 \    nft_base_cmd_add_cmd_keyword_element,
-\    nft_base_cmd_add_cmd_secmark_keyword,
+\    nft_base_cmd_add_cmd_keyword_secmark,
 \    nft_base_cmd_add_cmd_chain_keyword,
 \    nft_base_cmd_add_cmd_keyword_quota,
 \    nft_base_cmd_add_cmd_keyword_limit,
@@ -5449,7 +5499,7 @@ syn cluster nft_c_base_cmd_add_cmd_unused_placeholder
 \    nft_base_cmd_add_cmd_synproxy_keyword,
 \    nft_base_cmd_add_cmd_counter_keyword,
 \    nft_base_cmd_add_cmd_keyword_element,
-\    nft_base_cmd_add_cmd_secmark_keyword,
+\    nft_base_cmd_add_cmd_keyword_secmark,
 \    nft_base_cmd_add_cmd_chain_keyword,
 \    nft_base_cmd_add_cmd_keyword_quota,
 \    nft_base_cmd_add_cmd_keyword_limit,
@@ -5496,7 +5546,7 @@ syn match nft_line "^\v\s{0,63}"
 \    nft_common_block_keyword_include,
 \    nft_base_cmd_keyword_monitor,
 \    nft_base_cmd_keyword_replace,
-\    nft_base_cmd_add_cmd_secmark_keyword,
+\    nft_base_cmd_add_cmd_keyword_secmark,
 \    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_bridge,
 \    nft_base_cmd_keyword_create,
 \    nft_common_block_keyword_define,
