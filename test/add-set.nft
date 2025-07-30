@@ -16,6 +16,7 @@ add set T C { counter bytes 2048 }
 add set T C { counter packets 3 }
 add set T C { counter packets 3 counter packets 3 }
 
+
 set ip T S { typeof b } ;
 set T S { typeof a.b.c.d.e.f };
 set T S { flags constant }
@@ -27,6 +28,7 @@ set T S { flags constant; flags interval; flags timeout; flags dynamic };
 set T S { timeout 15:00:01 }
 set T S { gc-interval 1:00:1 }
 set T S { elements = 1:00:1 }
+set T S { automerge }
 set T S { comment *A comment string* }
 set T S { comment "A comment string" }
 set T S { comment 'A comment string' }
@@ -54,6 +56,7 @@ add set T S { flags constant; flags interval; flags timeout; flags dynamic };
 add set T S { timeout 15:00:01 }
 add set T S { gc-interval 1:00:1 }
 add set T S { elements = 1:00:1 }
+add set ip T C { elements = 192.168.1.5 }
 add set T S { comment *A comment string* }
 add set T S { comment "A comment string" }
 add set T S { comment 'A comment string' }

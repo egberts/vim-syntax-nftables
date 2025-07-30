@@ -28,12 +28,15 @@ element bridge T S { };
 element arp T S { };
 
 # variable_expr->set_block_expr->'element'->add_cmd->base_cmd->line
-element T S { };
 element ip T last $MY_ELEMENT;
 element ip T S $MY_ELEMENT ;
 
 # set_expr->set_block_expr->'element'->add_cmd->'add'->base_cmd->line
-element ip T S { 1,2,3 };
+# 'add element' only takes map key-value
+# 'add element' will not take anonymous set (that occurs in 'rule'->set_expr, not 'add element')
+element ip filter blocked_ips { 10.0.0.0/24, 8.8.8.8 timeout 10m comment "temporary host" }
+element ip filter service_map { 1.2.3.4 : accept, 5.6.7.8 timeout 30s : drop comment "spam host" }
+
 
 # variable_expr->set_block_expr->'element'->add_cmd->'add'->base_cmd->line
 add element T S $MY_ELEMENT
@@ -199,3 +202,4 @@ reset element T S |
 reset element T S (
 reset element T S ^
 
+add set ip filter blocked_ips { elements = 192.168.1.5 }
