@@ -48,9 +48,9 @@ add element ip filter action_map { 10.0.0.1 timeout 1h : goto LIBVIRT_FWD}
 add element ip filter action_map { 10.0.0.1 timeout 1h : drop }
 
 add element ip filter action_map { 
+    10.0.0.1 timeout 1h : goto $LIBVIRT_FWD,
     10.0.0.1 timeout 1h : goto LIBVIRT_FWD,
-    10.0.0.1 timeout 1h : goto LIBVIRT_FWD,
-    10.0.0.1 timeout 1h : goto LIBVIRT_FWD,
+    10.0.0.1 timeout 1h : goto $LIBVIRT_FWD,
     10.0.0.1 timeout 1h : goto LIBVIRT_FWD,
 }
 

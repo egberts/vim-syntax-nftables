@@ -2386,8 +2386,115 @@ syn match nft_base_cmd_add_cmd_keyword_element "\velement\ze[ \t]" skipwhite con
 \    nft_add_cmd_keyword_element_set_spec_table_spec_family_spec,
 \    nft_add_cmd_keyword_element_set_spec_table_spec_keyword_last,
 \    nft_Error
-
 " **************** END element_cmd ***************
+
+" **************** START monitor_cmd ***************
+
+" monitor_event (via monitor_cmd)
+hi link   nft_monitor_cmd_monitor_format_keyword_xml nftHL_Action
+syn match nft_monitor_cmd_monitor_format_keyword_xml "\vxml\ze[ \t;\n]" skipwhite keepend contained
+
+hi link   nft_monitor_cmd_monitor_format_keyword_json nftHL_Action
+syn match nft_monitor_cmd_monitor_format_keyword_json "\vjson\ze[ \t;\n]" skipwhite keepend contained
+
+hi link   nft_monitor_cmd_monitor_format_keyword_vm_keyword_json nftHL_Action
+syn match nft_monitor_cmd_monitor_format_keyword_vm_keyword_json "\vvm\s+json\ze[ \t;\n]" skipwhite keepend contained
+
+" monitor_cmd monitor_object (via monitor_cmd)
+hi link   nft_monitor_cmd_monitor_object_keyword_elements nftHL_Statement
+syn match nft_monitor_cmd_monitor_object_keyword_elements "\velements\ze[ \t;\n]" skipwhite contained
+\ nextgroup=
+\    nft_monitor_cmd_monitor_format_keyword_json,
+\    nft_monitor_cmd_monitor_format_keyword_xml,
+\    nft_monitor_cmd_monitor_format_keyword_vm_keyword_json
+
+hi link   nft_monitor_cmd_monitor_object_keyword_ruleset nftHL_Statement
+syn match nft_monitor_cmd_monitor_object_keyword_ruleset "\vruleset\ze[ \t;\n]" skipwhite contained
+\ nextgroup=
+\    nft_monitor_cmd_monitor_format_keyword_json,
+\    nft_monitor_cmd_monitor_format_keyword_xml,
+\    nft_monitor_cmd_monitor_format_keyword_vm_keyword_json
+
+hi link   nft_monitor_cmd_monitor_object_keyword_chains nftHL_Statement
+syn match nft_monitor_cmd_monitor_object_keyword_chains "\vchains\ze[ \t;\n]" skipwhite contained
+\ nextgroup=
+\    nft_monitor_cmd_monitor_format_keyword_json,
+\    nft_monitor_cmd_monitor_format_keyword_xml,
+\    nft_monitor_cmd_monitor_format_keyword_vm_keyword_json
+
+hi link   nft_monitor_cmd_monitor_object_keyword_tables nftHL_Statement
+syn match nft_monitor_cmd_monitor_object_keyword_tables "\vtables\ze[ \t;\n]" skipwhite contained
+\ nextgroup=
+\    nft_monitor_cmd_monitor_format_keyword_json,
+\    nft_monitor_cmd_monitor_format_keyword_xml,
+\    nft_monitor_cmd_monitor_format_keyword_vm_keyword_json
+
+hi link   nft_monitor_cmd_monitor_object_keyword_rules nftHL_Statement
+syn match nft_monitor_cmd_monitor_object_keyword_rules "\vrules\ze[ \t;\n]" skipwhite contained
+\ nextgroup=
+\    nft_monitor_cmd_monitor_format_keyword_json,
+\    nft_monitor_cmd_monitor_format_keyword_xml,
+\    nft_monitor_cmd_monitor_format_keyword_vm_keyword_json
+
+hi link   nft_monitor_cmd_monitor_object_keyword_trace nftHL_Statement
+syn match nft_monitor_cmd_monitor_object_keyword_trace "\vtrace\ze[ \t;\n]" skipwhite contained
+\ nextgroup=
+\    nft_monitor_cmd_monitor_format_keyword_json,
+\    nft_monitor_cmd_monitor_format_keyword_xml,
+\    nft_monitor_cmd_monitor_format_keyword_vm_keyword_json
+
+hi link   nft_monitor_cmd_monitor_object_keyword_sets nftHL_Statement
+syn match nft_monitor_cmd_monitor_object_keyword_sets "\vsets\ze[ \t;\n]" skipwhite contained
+\ nextgroup=
+\    nft_monitor_cmd_monitor_format_keyword_json,
+\    nft_monitor_cmd_monitor_format_keyword_xml,
+\    nft_monitor_cmd_monitor_format_keyword_vm_keyword_json
+
+" monitor_cmd monitor_event (via base_cmd)
+hi link   nft_monitor_cmd_monitor_event_keyword_destroy nftHL_Action
+syn match nft_monitor_cmd_monitor_event_keyword_destroy "\vdestroy\ze[ \t]" skipwhite contained
+\ nextgroup=
+\    nft_monitor_cmd_monitor_object_keyword_elements,
+\    nft_monitor_cmd_monitor_object_keyword_ruleset,
+\    nft_monitor_cmd_monitor_object_keyword_chains,
+\    nft_monitor_cmd_monitor_object_keyword_tables,
+\    nft_monitor_cmd_monitor_object_keyword_rules,
+\    nft_monitor_cmd_monitor_object_keyword_trace,
+\    nft_monitor_cmd_monitor_object_keyword_sets,
+\    nft_monitor_cmd_monitor_format_keyword_json,
+\    nft_monitor_cmd_monitor_format_keyword_xml,
+\    nft_monitor_cmd_monitor_format_keyword_vm_keyword_json
+
+hi link   nft_monitor_cmd_monitor_event_keyword_new nftHL_Action
+syn match nft_monitor_cmd_monitor_event_keyword_new "\vnew\ze[ \t]" skipwhite contained
+\ nextgroup=
+\    nft_monitor_cmd_monitor_object_keyword_elements,
+\    nft_monitor_cmd_monitor_object_keyword_ruleset,
+\    nft_monitor_cmd_monitor_object_keyword_chains,
+\    nft_monitor_cmd_monitor_object_keyword_tables,
+\    nft_monitor_cmd_monitor_object_keyword_rules,
+\    nft_monitor_cmd_monitor_object_keyword_trace,
+\    nft_monitor_cmd_monitor_object_keyword_sets,
+\    nft_monitor_cmd_monitor_format_keyword_json,
+\    nft_monitor_cmd_monitor_format_keyword_xml,
+\    nft_monitor_cmd_monitor_format_keyword_vm_keyword_json
+
+" 'monitor'->base_cmd->line
+hi link   nft_base_cmd_keyword_monitor nftHL_Command
+syn match nft_base_cmd_keyword_monitor "\vmonitor\ze[ \t]" skipwhite contained
+\ nextgroup=
+\    nft_monitor_cmd_monitor_object_keyword_elements,
+\    nft_monitor_cmd_monitor_event_keyword_destroy,
+\    nft_monitor_cmd_monitor_object_keyword_ruleset,
+\    nft_monitor_cmd_monitor_object_keyword_chains,
+\    nft_monitor_cmd_monitor_object_keyword_tables,
+\    nft_monitor_cmd_monitor_object_keyword_trace,
+\    nft_monitor_cmd_monitor_object_keyword_rules,
+\    nft_monitor_cmd_monitor_object_keyword_sets,
+\    nft_monitor_cmd_monitor_event_keyword_new,
+\    nft_Error
+
+" **************** END monitor_cmd ***************
 
 " common_block
 " common_block (via chain_block, counter_block, ct_expect_block, ct_helper_block,
@@ -2698,7 +2805,7 @@ syn match nft_line "^\v\s{0,63}"
 \    nft_base_cmd_keyword_destroy,
 \    nft_base_cmd_add_cmd_keyword_element,
 \    nft_common_block_keyword_include,
-\    nft_base_cmd_monitor_keyword,
+\    nft_base_cmd_keyword_monitor,
 \    nft_base_cmd_replace_keyword,
 \    nft_base_cmd_add_cmd_secmark_keyword,
 \    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_bridge,
