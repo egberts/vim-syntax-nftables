@@ -36,9 +36,23 @@ element ip T S $MY_ELEMENT ;
 # 'add element' will not take anonymous set (that occurs in 'rule'->set_expr, not 'add element')
 element ip filter service_map { 1.2.3.4 : accept, 5.6.7.8 timeout 30s : drop comment "spam host" }
 # CORRECT — timeout is applied to the element, value follows after colon
+add element ip filter blocked_ips { 192.168.1.10 expires 1h }
 add element ip filter blocked_ips { 192.168.1.10 timeout 1h }
+add element ip filter action_map { 10.0.0.1 timeout 1h : continue }
+add element ip filter action_map { 10.0.0.1 timeout 1h : return }
+add element ip filter action_map { 10.0.0.1 timeout 1h : accept }
+add element ip filter action_map { 10.0.0.1 timeout 1h : jump LIBVIRT_IN }
+add element ip filter action_map { 10.0.0.1 timeout 1h : jump $LIBVIRT_IN }
+add element ip filter action_map { 10.0.0.1 timeout 1h : goto $LIBVIRT_FWD}
+add element ip filter action_map { 10.0.0.1 timeout 1h : goto LIBVIRT_FWD}
 add element ip filter action_map { 10.0.0.1 timeout 1h : drop }
 
+add element ip filter action_map { 
+    10.0.0.1 timeout 1h : goto LIBVIRT_FWD,
+    10.0.0.1 timeout 1h : goto LIBVIRT_FWD,
+    10.0.0.1 timeout 1h : goto LIBVIRT_FWD,
+    10.0.0.1 timeout 1h : goto LIBVIRT_FWD,
+}
 
 
 # variable_expr->set_block_expr->'element'->add_cmd->'add'->base_cmd->line
