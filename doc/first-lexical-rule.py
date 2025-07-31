@@ -46,12 +46,6 @@ First Lexical Order of 'rule'
 =============================
 rule_alloc
   stmt+
-    'accept' (verdict_stmt)
-    'drop' (verdict_stmt)
-    'continue' (verdict_stmt)
-    'jump' (verdict_stmt)
-    'goto' (verdict_stmt)
-    'return' (verdict_stmt)
     verdict_map
       primary_expr / * 'vmap' verdict_map_expr '{' verdict_map_list_member_expr
     match_stmt
@@ -60,6 +54,7 @@ rule_alloc
     'obridgename' (meta_stmt)
     'masquerade' (masq_stmt/masq_stmt_alloc)
     'rtclassid' (meta_stmt)
+    'continue' (verdict_stmt)
     'ibriport' (meta_stmt)
     'iffgroup' (meta_stmt)
     'obriport' (meta_stmt)
@@ -75,11 +70,13 @@ rule_alloc
     'oiftype' (meta_stmt)
     'pkttype' (meta_stmt)
     'udplite' (payload_stmt/payload_expr/udplite_hdr_expr)
+    'accept' (verdict_stmt)
     'cgroup' (meta_stmt)
     'delete' (set_stmt/set_stmt_op, map_stmt/set_stmt_op)
     'geneve' (payload_stmt/payload_expr/geneve_hdr_expr)
     'gretap' (payload_stmt/payload_expr/gretap_hdr_expr)
     'reject' (reject_stmt/reject_stmt_alloc)
+    'return' (verdict_stmt)
     'tproxy' (tproxy_stmt)
     'update' (set_stmt/set_stmt_op, map_stmt/set_stmt_op)
     'ether' (payload_stmt/payload_expr/ether_hdr_expr)
@@ -96,11 +93,13 @@ rule_alloc
     'comp' (payload_stmt/payload_expr/comp_hdr_expr)
     'dccp' (payload_stmt/payload_expr/dccp_hdr_expr)
     'dnat' (nat_stmt/nat_stmt_alloc)
+    'drop' (verdict_stmt)
     'flow' (meta_stmt)
     'goto' (chain_stmt/chain_stmt_type)
+    'goto' (verdict_stmt)
     'icmp' (payload_stmt/payload_expr/icmp_hdr_expr)
     'igmp' (payload_stmt/payload_expr/igmp_hdr_expr)
-    'jump' (chain_stmt/chain_stmt_type)
+    'jump' (verdict_expr (simple), chain_stmt/chain_stmt_type (by-label))
     'last' (stateful_stmt/last_stmt)
     'meta' (meta_stmt)
     'mark' (meta_stmt)
@@ -126,5 +125,57 @@ rule_alloc
     'ip' (payload_stmt/payload_expr/ip_hdr_expr)
     'th' (payload_stmt/payload_expr/th_hdr_expr)
     'xt' (xt_stmt, objref_stmt/objref_stmt_ct)
+    '*'  (?????)
+    '('  (?????)
 
 
+ChatGPT came up with the following list:
+
+'$'
+'{'
+ACCEPT
+ADD
+AH
+ARP
+ASTERISK_STRING
+AT
+COMP
+COUNTER
+CT
+DCCP
+DUP
+ESP
+ETHER
+FWD
+GENEVE
+GRE
+GRETAP
+ICMP
+IGMP
+IP
+JUMP
+LAST
+LIMIT
+LOG
+MASQUERADE
+META
+METER
+QUEUE
+QUOTA
+QUOTED_STRING
+REDIRECT
+RESET
+SCTP
+SET
+SNAT
+STRING
+SYNPROXY
+TCP
+TPROXY
+TRANSPORT_HDR
+UDP
+UDPLITE
+VLAN
+VXLAN
+XT
+_REJECT

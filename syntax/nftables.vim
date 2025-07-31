@@ -2562,12 +2562,90 @@ syn match nft_base_cmd_keyword_replace "\vreplace" skipwhite contained
 \    nft_Error
 "***************** replace_cmd END *****************
 
+" ***************** BEING 'add' 'rule' SUPERLIST OF STMT terminals ******
+
+" ***************** END 'add' 'rule' SUPERLIST OF STMT terminals ******
+
 " ***************** BEGIN 'add' 'rule' ***************
 
+" THE vector point to over 50 keywords, this nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier
 hi link   nft_base_cmd_add_cmd_rule_position_chain_spec_identifier nftHL_Table
 syn match nft_base_cmd_add_cmd_rule_position_chain_spec_identifier "\v[a-zA-Z][a-zA-Z0-9_\.-]{0,63}\ze[ \t]" skipwhite contained
 \ nextgroup=
-\    nft_base_cmd_add_cmd_rule_position_chain_spec_identifierXXX
+\    nft_stmt_primary_expr_meta_expr_meta_key_unqualified_keyword_obridgename,
+\    nft_stmt_primary_expr_meta_expr_meta_key_unqualified_keyword_ibridgename,
+\    nft_stmt_primary_expr_meta_expr_meta_key_unqualified_keyword_rtclassid,
+\    nft_stmt_verdict_stmt_keyword_continue,
+\    nft_stmt_primary_expr_meta_expr_meta_key_unqualified_keyword_ibriport,
+\    nft_stmt_primary_expr_meta_expr_meta_key_unqualified_keyword_iifgroup,
+\    nft_stmt_primary_expr_meta_expr_meta_key_unqualified_keyword_obriport,
+\    nft_stmt_primary_expr_meta_expr_meta_key_unqualified_keyword_oifgroup,
+\    nft_stmt_primary_expr_meta_expr_meta_key_unqualified_keyword_cfgroup,
+\    nft_stmt_primary_expr_meta_expr_meta_key_unqualified_keyword_iifname,
+\    nft_stmt_primary_expr_meta_expr_meta_key_unqualified_keyword_iiftype,
+\    nft_stmt_primary_expr_meta_expr_meta_key_unqualified_keyword_oifname,
+\    nft_stmt_primary_expr_meta_expr_meta_key_unqualified_keyword_oiftype,
+\    nft_stmt_primary_expr_meta_expr_meta_key_unqualified_keyword_pkttype,
+\    nft_stmt_primary_expr_hash_expr_keyword_symhash,
+\    nft_stmt_primary_expr_payload_expr_keyword_udplite,
+\    nft_stmt_verdict_stmt_keyword_accept,
+\    nft_stmt_primary_expr_exthdr_exists_expr_keyword_exthdr,
+\    nft_stmt_primary_expr_payload_expr_keyword_geneve,
+\    nft_stmt_primary_expr_payload_expr_keyword_gretap,
+\    nft_stmt_primary_expr_meta_expr_meta_key_unqualified_keyword_ntrace,
+\    nft_stmt_primary_expr_numgen_expr_keyword_numgen,
+\    nft_stmt_verdict_stmt_keyword_return,
+\    nft_stmt_primary_expr_socket_expr_keyword_socket,
+\    nft_stmt_primary_expr_payload_expr_keyword_ether,
+\    nft_stmt_primary_expr_payload_expr_keyword_icmp6,
+\    nft_stmt_primary_expr_meta_expr_meta_key_unqualified_keyword_ipsec,
+\    nft_stmt_primary_expr_xfrm_expr_keyword_ipsec,
+\    nft_stmt_primary_expr_hash_expr_keyword_jhash,
+\    nft_stmt_primary_expr_meta_expr_meta_key_unqualified_keyword_skuid,
+\    nft_stmt_primary_expr_meta_expr_meta_key_unqualified_keyword_skgid,
+\    nft_stmt_primary_expr_payload_expr_keyword_vxlan,
+\    nft_stmt_primary_expr_payload_expr_keyword_auth,
+\    nft_stmt_primary_expr_payload_expr_keyword_comp,
+\    nft_stmt_primary_expr_payload_expr_keyword_dccp,
+\    nft_stmt_verdict_stmt_keyword_drop,
+\    nft_stmt_primary_expr_exthdr_expr_frag_hdr_expr_keyword_frag,
+\    nft_stmt_verdict_stmt_keyword_goto,
+\    nft_stmt_primary_expr_meta_expr_meta_key_unqualified_keyword_hour,
+\    nft_stmt_primary_expr_payload_expr_keyword_icmp,
+\    nft_stmt_primary_expr_payload_expr_keyword_igmp,
+\    nft_stmt_verdict_stmt_keyword_jump,
+\    nft_stmt_primary_expr_meta_expr_meta_key_unqualified_keyword_mark,
+\    nft_stmt_primary_expr_meta_expr_keyword_meta,
+\    nft_stmt_primary_expr_payload_expr_keyword_sctp,
+\    nft_stmt_primary_expr_meta_expr_meta_key_unqualified_keyword_time,
+\    nft_stmt_primary_expr_payload_expr_keyword_vlan,
+\    nft_stmt_primary_expr_payload_expr_keyword_arp,
+\    nft_stmt_primary_expr_meta_expr_meta_key_unqualified_keyword_cpu,
+\    nft_stmt_primary_expr_meta_expr_meta_key_unqualified_keyword_day,
+\    nft_stmt_primary_expr_exthdr_expr_dst_hdr_expr_keyword_dst,
+\    nft_stmt_primary_expr_payload_expr_keyword_esp,
+\    nft_stmt_primary_expr_fib_expr_keyword_fib,
+\    nft_stmt_primary_expr_payload_expr_keyword_gre,
+\    nft_stmt_primary_expr_exthdr_expr_hbh_hdr_expr_keyword_hbh,
+\    nft_stmt_primary_expr_meta_expr_meta_key_unqualified_keyword_iif,
+\    nft_stmt_primary_expr_payload_expr_keyword_ip6,
+\    nft_stmt_primary_expr_meta_expr_meta_key_unqualified_keyword_oif,
+\    nft_stmt_primary_expr_osf_expr_keyword_osf,
+\    nft_stmt_primary_expr_exthdr_expr_rt0_hdr_expr_keyword_rt0,
+\    nft_stmt_primary_expr_exthdr_expr_rt2_hdr_expr_keyword_rt2,
+\    nft_stmt_primary_expr_exthdr_expr_rt4_hdr_expr_keyword_rt4,
+\    nft_stmt_primary_expr_payload_expr_keyword_tcp,
+\    nft_stmt_primary_expr_payload_expr_keyword_udp,
+\    nft_stmt_primary_expr_payload_expr_payload_raw_expr_keyword_at,
+\    nft_stmt_primary_expr_payload_expr_primary_expr_ct_expr_keyword_ct,
+\    nft_stmt_primary_expr_payload_expr_keyword_ip,
+\    nft_stmt_primary_expr_exthdr_expr_mh_hdr_expr_keyword_mh,
+\    nft_stmt_primary_expr_exthdr_expr_rt_hdr_expr_keyword_rt,
+\    nft_stmt_primary_expr_payload_expr_keyword_th,
+\    nft_stmt_primary_expr_block,  " '{'  basic_expr '}'
+\    nft_stmt_primary_expr_integer_expr,
+\    nft_stmt_primary_expr_symbol_expr_variable_expr,  " $var_name
+\    nft_stmt_primary_expr_symbol_expr_string,         " usually quoted, some pre-defined identifier/keywords
 
 hi link   nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_ip nftHL_Family
 syn match nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_ip "ip" skipwhite contained
