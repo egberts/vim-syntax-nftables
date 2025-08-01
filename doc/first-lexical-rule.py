@@ -83,7 +83,7 @@ rule_alloc
     'ether' (payload_stmt/payload_expr/ether_hdr_expr)
     'icmp6' (payload_stmt/payload_expr/icmp6_hdr_expr)
     'limit' (stateful_stmt/limit_stmt, objref_stmt/objref_stmt_limit)
-    'meter' (meter_stmt_alloc)
+    'meter' (meter_stmt/meter_stmt_alloc)
     'queue' (queue_stmt)
     'quota' (stateful_stmt/quota_stmt, objref_stmt/objref_stmt_quota)
     'reset' (optstrip_stmt)
