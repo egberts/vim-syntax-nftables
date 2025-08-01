@@ -50,22 +50,23 @@ rule_alloc
       primary_expr / * 'vmap' verdict_map_expr '{' verdict_map_list_member_expr
     match_stmt
       primary_expr / * 'vmap' verdict_map_expr '{' verdict_map_list_member_expr
-    'ibridgename' (meta_stmt)
-    'obridgename' (meta_stmt)
     'masquerade' (masq_stmt/masq_stmt_alloc)
     'rtclassid' (meta_stmt)
     'continue' (verdict_stmt)
     'ibriport' (meta_stmt)
     'iffgroup' (meta_stmt)
     'obriport' (meta_stmt)
-    'offgroup' (meta_stmt)
+    'oifgroup' (meta_stmt)
     'redirect' (redir_stmt)
     'synproxy' (synproxy_stmt, objref_stmt/objref_stmt_synproxy)
+    'cfgroup' (meta_stmt/meta_key_unqualified, meta_expr/meta_key_unqualified, 
     'counter' (stateful_stmt/counter_stmt/counter_stmt_alloc, objref_stmt/objref_stmt_counter)
+    'ibrname' (meta_stmt)
     'iifname' (meta_stmt)
     'iiftype' (meta_stmt)
     'nftrace' (meta_stmt)
     'notrack' (meta_stmt)
+    'obrname' (meta_stmt)
     'oifname' (meta_stmt)
     'oiftype' (meta_stmt)
     'pkttype' (meta_stmt)
@@ -101,7 +102,7 @@ rule_alloc
     'igmp' (payload_stmt/payload_expr/igmp_hdr_expr)
     'jump' (verdict_expr (simple), chain_stmt/chain_stmt_type (by-label))
     'last' (stateful_stmt/last_stmt)
-    'meta' (meta_stmt)
+    'meta' (meta_stmt, meta_expr)
     'mark' (meta_stmt)
     'snat' (nat_stmt/nat_stmt_alloc)
     'add' (set_stmt/set_stmt_op, map_stmt/set_stmt_op)
@@ -127,6 +128,17 @@ rule_alloc
     'xt' (xt_stmt, objref_stmt/objref_stmt_ct)
     '*'  (?????)
     '('  (?????)
+
+Tip: We've been lucky so far, there are no lexical-first-order
+keywords only found in primary_expr that are found in stmt:
+in short, primary_expr is a subset of stmt, additional
+keywords are only found in stmt.
+
+'ct' duplicates:
+Grammar Context  Role of ct keyword         Non-terminal            Example
+stateful_stmt    Match on conntrack state   ct_expr (via ct_stmt)   ct state established
+connlimit_stmt   Conntrack limiting action  connlimit_stmt          ct count over 100
+ct_stmt          General conntrack expr     ct_stmt → ct_key expr   ct mark == 0x1234
 
 
 ChatGPT came up with the following list:
@@ -179,3 +191,20 @@ VLAN
 VXLAN
 XT
 _REJECT
+
+
+Vimscript, as suggested by ChatGPT:
+
+let s:rule_start = join([
+  'accept', 'drop', 'return', 'counter', 'limit',
+  'meta', 'mark', 'ct', 'tcp', 'udp', 'icmp',
+  'masquerade', 'snat', 'dnat', 'log',
+], '\|')
+
+syntax region NftRuleAlloc
+  start='^\s*\%(' . s:rule_start . '\|\h\w*\)'
+  end=';'
+  contains=@NftStmtCluster
+  keepend
+
+

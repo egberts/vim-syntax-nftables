@@ -11,14 +11,7 @@
 
 # base_cmd add_cmd 'rule'
 
-T C handle 2
-ip  T      C     position  1
-ip6 filter input handle 2
-arp T C index 3
-inet T C position 4
-bridge T C position 55555
-netdev T C position 6
- netdev Tabcdef Charger position 6
+rule 
 
 rule T C handle 2
 rule ip  T      C     position  1
@@ -76,6 +69,9 @@ add rule ip6 myTable myChain position 1 ct reply bytes set ip6 myIpTable myCTHch
 add rule ip6 myTable myChain position 1 ct reply packets set ip6 myIpTable myCTHchain { };
 add rule ip6 myTable myChain position 1 ct reply avgpkt set ip6 myIpTable myCTHchain { };
 add rule ip6 myTable myChain position 1 ct reply zone set ip6 myIpTable myCTHchain { };
+
+rule T C rtclassid continue 
+rule T C continue 
 
 rule table_id chain_id log
 add rule table_id chain_id log
