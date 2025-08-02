@@ -182,6 +182,19 @@ rule T C last used 1h15m ;
 
 
 # meta_stmt
+rule T C meta iifname eth0;
+rule T C meta iifname "eth0";
+rule T C meta mark 0x1234 ;
+rule T C meta protocol tcp;
+rule T C meta random;
+rule T C meta cpu 3 ;
+rule T C meta secmark 42 ;
+rule T C meta nftrace 1 ;
+rule T C meta oiftype 1 ;
+rule T C meta ibrname "br0" ;
+rule T C meta day saturday ;
+rule T C meta hour 15 ;
+
 rule T C meta length ;
 rule T C meta protocol ;
 rule T C meta protocol ;

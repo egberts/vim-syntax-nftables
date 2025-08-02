@@ -276,21 +276,21 @@ table netdev A {
 }
 
 table inet filter {
-	chain input {
-		type filter hook input priority 0; policy drop;
+    chain input {
+        type filter hook input priority 0; policy drop;
 
-		ip protocol icmp icmp type echo-request limit rate over 1/minute burst 4 packets  drop
-		ip6 nexthdr icmpv6 icmpv6 type echo-request limit rate over 1/minute burst 4 packets drop
+        ip protocol icmp icmp type echo-request limit rate over 1/minute burst 4 packets  drop
+        ip6 nexthdr icmpv6 icmpv6 type echo-request limit rate over 1/minute burst 4 packets drop
 
-		# ct state {established, related} accept
-		ct state invalid drop
+        # ct state {established, related} accept
+        ct state invalid drop
 
-		iifname lo accept
+        iifname lo accept
 
-		ip protocol icmp accept
-		ip6 nexthdr icmpv6 accept
+        ip protocol icmp accept
+        ip6 nexthdr icmpv6 accept
 
-	}
+    }
 }
 
 table netdev NETDEV_TABLE {
@@ -312,12 +312,14 @@ table bridge workstation_bridge {
     chain workstn_bridge_filter_input {
         type filter hook input priority -200;
         policy accept;
-        ct state established,related accept # handle 4
-        ct helper ftp-standard {
-            type "ftp" protocol tcp
-        }
-        type filter hook output priority -200;
-    } 
+        accept ;
+        continue ;
+        return ;
+        jump workstn_bridge_filter_output
+        goto ipfilter ;
+
+        type filter hook output priority -200; ;
+    }  ;
     chain workstn_bridge_filter_output {
         type filter hook output priority -200;
         policy accept;

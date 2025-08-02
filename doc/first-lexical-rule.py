@@ -208,3 +208,33 @@ syntax region NftRuleAlloc
   keepend
 
 
+meta subkey  Operand Type    Notes / Example
+iif          integer         Interface index
+oif          integer         Interface index
+iifname      string          "eth0"
+oifname      string          "wlan0"
+iifgroup     integer         Interface group ID
+oifgroup     integer         Interface group ID
+iiftype     integer         Interface type (see Linux if_arp.h)
+oiftype     integer         Interface type
+ibrname     string          Ingress bridge name
+obrname     string          Egress bridge name
+ibriport    string          Ingress bridge port name
+obriport    string          Egress bridge port name
+mark        integer         Packet mark
+priority    integer         Priority of packet (qdisc)
+length      integer         Packet length
+protocol    integer/symbolic    Layer 4 protocol (e.g., tcp)
+pkttype     symbolic        unicast, broadcast, multicast
+nfproto     symbolic        ip, ip6, inet, etc.
+rtclassid   integer         Routing class ID
+skuid       integer         Socket UID
+skgid       integer         Socket GID
+secmark     integer         SELinux security mark
+nftrace     boolean (0/1)   Packet tracing flag
+cgroup      integer         CGroup v2 classid
+ipsec       boolean (0/1)   Whether packet is IPsec encapsulated
+cpu         integer         CPU ID that handled the packet
+time        integer         Seconds since epoch
+day         symbolic        monday, tuesday, ..., sunday
+hour        integer (0–23)  Hour of day
