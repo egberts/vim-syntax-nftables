@@ -1,10 +1,11 @@
 
 
 # expand
-#  common_block/DEFINE/initializer_expr/list_lhs_expr
 #  nft_add_cmd_keyword_element_set_block_expr_set_expr  (need first-lexical map)
 #  payload_stmt (need first-lexical map; nft_replace_cmd_keyword_rule_ruleid_spec_chain_spec_table_spec_handle_id)
   #  rule (need first-lexical map)
 #  nft_base_cmd_add_cmd_keyword_secmark
 #  nft_limit_block
 
+# DONE
+#  common_block/DEFINE/initializer_expr/list_lhs_expr

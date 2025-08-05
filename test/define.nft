@@ -54,77 +54,82 @@ undefine int_if2 ;
 undefine MYPOLICY  ;  
 
 # table_block->'table'->add_cmd->base_cmd->line
-table T { define my_var };
-table T { define my_var; };  # inline
-table T { define my_var ; };
-table T { define my_var ; } ; 
-T C counter
+table T { define my_var = 1};
+table T { define my_var= 1; };  # inline
+table T { define my_var= 1 ; };
+table T { define my_var =1; } ; 
+table T { define my_var = 1  } ; 
+T C counter ;
 # chain_block->'chain'->table_block->'table'->add_cmd->base_cmd->line
-table T { chain C { define my_var }; };
+table T { chain C { define my_var = 1}; }; 
 # >table_block->'table'->add_cmd->base_cmd->line
-add table T { define xyz = 1 ; define xyz = 1; };
-counter T CT { define my_var; };
-add counter T CT { define my_var; };
+add table T { define xyz = 1 ; define xyz = 1; }; ;
+counter T CT { define my_var = 1; };
+add counter T CT { define my_var = 1; };
 # common_block->flowtable_block->'{'->'flowtable'->add_cmd->'add'->base_cmd->line
-flowtable T FT { define my_var; };
-add flowtable T FT { define my_var; };
+flowtable T FT { define my_var = 1; };
+add flowtable T FT { define my_var = 1; };
 # common_block->limit_block->'{'->'limit'->add_cmd->'add'->base_cmd->line
-limit T L { define my_var; };
-add limit T L { define my_var; };
+limit T L { define my_var = 1; };
+add limit T L { define my_var = 1; };
 # common_block->set_block->'{'->'set'->add_cmd->'add'->base_cmd->line
-set T S { define my_var; };
-add set T S { define my_var; };
+set T S { define my_var = 1; };
+add set T S { define my_var = 1; };
 # common_block->map_block->'{'->'map'->add_cmd->'add'->base_cmd->line
-map T M { define my_var; };
-add map T M { define my_var; };
+map T M { define my_var = 1; };
+add map T M { define my_var = 1; };
 # common_block->quota_block->'{'->'quota'->add_cmd->'add'->base_cmd->line
-quota T Q { define my_var; };
-add quota T Q { define my_var; };
+quota T Q { define my_var = 1; };
+add quota T Q { define my_var = 1; };
 # common_block->secmark_block->'{'->'secmark'->add_cmd->'add'->base_cmd->line
-secmark T SM { define my_var; };
-add secmark T SM { define my_var; };
+secmark T SM { define my_var = 1; };
+add secmark T SM { define my_var = 1; };
 # common_block->secmark_block->'{'->'secmark'->add_cmd->'add'->base_cmd->line
-synproxy T SP { define my_var; };
-add synproxy T SP { define my_var; };
+synproxy T SP { define my_var = 1; };
+add synproxy T SP { define my_var = 1; };
 
 # common_block->counter_block->'{'->'counter'->create_cmd->'create'->base_cmd->line
-create counter T CT { define my_var; };
+create counter T CT { define my_var = 1; };
 # common_block->ct_expect_block->'{'->'ct expectation'->create_cmd->'create'->base_cmd->line
-create ct expectation T CT { define my_var; };
+create ct expectation T CT { define my_var = 1; };
 # common_block->ct_helper_block->'{'->'ct helper'->create_cmd->'create'->base_cmd->line
-create ct helper T CT { define my_var; };
+create ct helper T CT { define my_var = 1; };
 # common_block->ct_timeout_block->'{'->'ct timeout'->create_cmd->'create'->base_cmd->line
-create ct timeout T CT { define my_var; };
+create ct timeout T CT { define my_var = 1; };
 # common_block->flowtable_block->'{'->'flowtable'->create_cmd->'create'->base_cmd->line
-create flowtable T FT { define my_var; };
+create flowtable T FT { define my_var = 1; };
 # common_block->map_block->'{'->'map'->create_cmd->'create'->base_cmd->line
-create map T M { define my_var; };
+create map T M { define my_var = 1; };
 # common_block->set_block->'{'->'set'->create_cmd->'create'->base_cmd->line
-create set T S { define my_var; };
+create set T S { define my_var = 1; };
 
 # common_block->chain_block->'{'->'chain'->delete_cmd->'delete'->base_cmd->line
-delete chain T C { define my_var; };
+delete chain T C { define my_var = 1; };
 # common_block->flowtable_block->'{'->'flowtable'->delete_cmd->'delete'->base_cmd->line
-delete flowtable T FT { define my_var; };
+delete flowtable T FT { define my_var = 1; undefine my_var; };
+delete flowtable T FT { 
+    define my_var = 1; 
+    undefine my_var; 
+};
 
 # common_block->flowtable_block->'{'->'flowtable'->destroy_cmd->'destroy'->base_cmd->line
-destroy flowtable T FT { define my_var; };
+destroy flowtable T FT { define my_var = 1; };
 
 #  Multiline
 add counter T C { 
-    define my_var 
+    define my_var = 1;
 };
 add ct expectation T CT { 
-    define my_var; 
+    define my_var = 1; 
 }
 add ct helper T CT { 
-    define my_var; 
+    define my_var = 1; 
 }
 add ct timeout T CT { 
-    define my_var; 
+    define my_var = 1; 
 }
 table T { 
-    define my_var; 
+    define my_var = 1; 
 };
 
 
@@ -137,7 +142,7 @@ table T {
 undefine int_ifs ?
 undefine int_if2 {
 undefine   
-   MYPOLICY  
+   MYPOLICY  ;
 
 undefine int_ifs *;
 undefine int_ifs $;

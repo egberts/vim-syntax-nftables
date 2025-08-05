@@ -1,6 +1,11 @@
 #!/usr/sbin/nft -f
 # File: meta-stmt.nft
-# Description: A test NFT file to exercise 'set meta' Vim syntax highlightings.
+# Description: A test NFT file to exercise 'meta' Vim syntax highlightings.
+#
+# Note: for 'meta' as an expression ('meta_expr') see test/meta-expr.nft
+# Note: for 'meta' as a key ('meta_key'), see test/meta-key.nft
+# Note: for unqualified 'meta', see test/meta-key-unqualified.nft
+# Note: for qualified 'meta', see test/meta-key-qualified.nft
 #
 # If it's followed by a set, it's likely meta_stmt. 
 # If it's followed by a field name and then a comparison (==, <, etc.),
@@ -40,14 +45,13 @@
 #     time         integer       Seconds since epoch
 #     day          symbolic      monday, tuesday, ..., sunday
 #     hour         integer (0–23)    Hour of day
+#     random       integer (0-1)  Used as a condition; no operand
 #
-# 'meta' keyword is almost always followed by a value (except for 'random', 'nftrace', 'ipsec')
+# 'meta' keyword is almost always followed by a value
 #
 # There are a few meta keys that do not require a value and behave like flags:
 #    Meta key    Notes
-#    random      Used as a condition; no operand
 #    nftrace     Used as a condition; defaults to "set"
-#    ipsec       Acts like a boolean flag in conditionals
 #
 # But in some contexts (like expressions), they may still support an explicit value:
 # 
@@ -80,22 +84,59 @@
 #
 #    Some meta keys like secmark, nftrace, random are statement-only, not expressions.
 #
+# Semantic action pathways (via parser_bison.y):
+#
+# basic_expr/primary_expr/hash_expr/expr/concat_expr/basic_expr/primary_expr/meta_expr
+# concat_stmt_expr/primary_stmt_expr/hash_expr/expr/concat_expr/basic_expr/primary_expr/meta_expr
+# expr/'map'/map_expr/concat_expr/basic_expr/primary_expr/meta_expr
+# 'match'/match_stmt/relational_expr/expr/concat_expr/basic_expr/primary_expr/meta_expr
+# 'meta'/meta_stmt/stmt_expr/map_stmt_expr/concat_stmt_expr/basic_stmt_expr/expr/exclusive_or_stmt_expr/and_stmt_expr/shift_stmt_expr/primary_stmt_expr/basic_stmt_expr/expr/exclusive_or_stmt_expr/and_stmt_expr/shift_stmt_expr/primary_stmt_expr/meta_expr
+# 'meta'/meta_stmt/stmt_expr/map_stmt_expr/concat_stmt_expr/basic_stmt_expr/expr/exclusive_or_stmt_expr/and_stmt_expr/shift_stmt_expr/primary_stmt_expr/meta_expr
+# 'meta'/meta_stmt/stmt_expr/map_stmt_expr/concat_stmt_expr/primary_stmt_expr/basic_stmt_expr/expr/exclusive_or_stmt_expr/and_stmt_expr/shift_stmt_expr/primary_stmt_expr/meta_expr
+# 'meta'/meta_stmt/stmt_expr/multion_stmt_expr/prefix_stmt_expr/basic_stmt_expr/expr/exclusive_or_stmt_expr/and_stmt_expr/shift_stmt_expr/primary_stmt_expr/meta_expr
+# 'meta'/meta_stmt/stmt_expr/multion_stmt_expr/range_stmt_expr/basic_stmt_expr/expr/exclusive_or_stmt_expr/and_stmt_expr/shift_stmt_expr/primary_stmt_expr/meta_expr
+# meta_stmt/stmt_expr/map_stmt_expr/concat_stmt_expr/primary_stmt_expr/meta_expr
+# meter_key_expr_alloc/concat_expr/basic_expr/primary_expr/meta_expr
+# primary_expr/basic_expr/primary_expr/meta_expr
+# 'queue'/queue_stmt/queue_stmt_expr/hash_expr/expr/concat_expr/basic_expr/primary_expr/meta_expr
+# 'queue'/queue_stmt/queue_stmt_expr/'map'/map_expr/concat_expr/basic_expr/primary_expr/meta_expr
+# set_elem_expr_stmt_alloc/concat_expr/basic_expr/primary_expr/meta_expr
+# shift_stmt_expr/primary_stmt_expr/hash_expr/expr/concat_expr/basic_expr/primary_expr/meta_expr
+# typeof_expr/primary_expr/hash_expr/expr/concat_expr/basic_expr/primary_expr/meta_expr
+# typeof_expr/primary_expr/meta_expr
+# typeof_verdict_expr/primary_expr/hash_expr/expr/concat_expr/basic_expr/primary_expr/meta_expr
+# typeof_verdict_expr/primary_expr/meta_expr
+# verdict_map_stmt/concat_expr/basic_expr/primary_expr/meta_expr
+
+#
 ################################################################################
 # true positive test: properly hightlighted correctly; has good content; perfect
 ################################################################################
 
-# meta_stmt
-#
+# top-level meta
+# 'meta flow' is a top-level meta action (not a meta key, meta_expr, nor meta_stmt)
+rule T C meta notrack;
+rule T C meta flow at MyDevice;
+rule T C meta flow offload at MyDevice;  # 'flow' is a top-level action (not a meta key)
+rule T C meta flow add at MyDevice;  # 'flow' meta key found only in 'meta_stmt'
+
+# meta keys, both qualified and unqualified
 # meta_stmt - flags only (support expression only in meta_expr)
-rule T C meta random;  # qualified META (requires 'meta' before it)
-rule T C ipsec;  # 'meta ipsec 0' only in meta_expr
-rule T C meta ipsec;  # 'meta ipsec 0' only in meta_expr
+rule T C meta random <= 0;  # qualified META (requires 'meta' before it)
+rule T C meta random >= 0;  # qualified META (requires 'meta' before it)
+rule T C meta random == 0;  # qualified META (requires 'meta' before it)
+rule T C meta random != 1;  # qualified META (requires 'meta' before it)
+rule T C meta random mod 2 == 0;  # qualified META (requires 'meta' before it)
+rule T C meta ipsec 0;  # 'meta ipsec 0' only in meta_expr
+rule T C meta ipsec == 1;  # 'meta ipsec 0' only in meta_expr
+rule T C meta ipsec exists; # 'meta ipsec 0' only in meta_expr
+rule T C meta ipsec missing; # 'meta ipsec 0' only in meta_expr
 rule T C nftrace;  # 'meta nftrace == 1' only in meta_expr
 rule T C meta nftrace;  # 'meta nftrace == 1' only in meta_expr
 
 # meta_stmt - INTERNALS; found in scanner.c (not in parser_bison.y)
 # 'meta nfproto' is integer or string (as listed in /etc/protocol)
-rule inet T C meta nfproto 1;
+rule inet T C meta nfproto 1; rule inet T C meta nfproto 1;
 rule inet T C meta nfproto 1;
 rule inet T C meta nfproto inet;
 rule inet T C meta nfproto 2;
@@ -119,19 +160,20 @@ rule inet T C meta l4proto udp;
 # meta_stmt - unqualified META, with a value (no 'meta' needed)
 rule T C mark 64;  # length
 rule T C iif 2;
-rule T C iifname "eth0";
+rule T C iifname "eth0";  # L3 layer, by interface name
 rule T C iiftype 1;
 rule T C oif 4;
-rule T C oifname "wlan0";
+rule T C oifname "wlan0";  # L3 layer, by interface name
 rule T C oiftype 1;
 rule T C skgid 14;
 rule T C skuid 14;
 rule T C rtclassid 14;
-rule T C ibriport "br0";
-rule T C obriport "br1";
+rule T C ibriport "br0";  # L2 layer, by interface name
+rule T C obriport "br1";  # L2 layer, by interface name
 rule T C ibrname "under-bridge";
-rule T C obrname under-bridge;
-rule T C pkttype != broadcast;
+rule T C obrname "over-bridge";
+rule T C pkttype broadcast;
+rule T C ipsec 0;  # 'meta ipsec 0' only in meta_expr
 rule T C cpu 1;
 rule T C iifgroup 0;
 rule T C oifgroup 0;
@@ -139,115 +181,134 @@ rule T C cgroup 1048577;
 rule T C time 12;
 rule T C day sunday;
 rule T C hour 23;
-rule T C hour 15;
 
 # meta_stmt - unqualified META, with a value (optional 'meta' used here)
+rule t c meta mark 0x01;
+rule t c meta mark 1234;
 rule T C meta mark 64;  # length
 rule T C meta mark 0x4;
 rule T C meta mark 0x1234;
 rule T C meta mark 0x00000032;
+rule T C meta mark == 0x1;
+rule T C meta mark != 64;
+rule T C meta mark >= 64;
+rule T C meta mark <= 64;
+rule T C meta mark & 0x02 == 0x02;
+rule T C meta mark set 64;  # length
 rule T C meta iif 2;
+rule T C meta iif eth0;
+rule T C meta iif == any;
+rule T C meta iif in @mySetofInterfaceNames;
+rule T C meta iif != eth0;
+rule T C meta iif set 2;
+rule T C meta iif { "eth0", "wlan0", "br0" };
+rule T C meta iif @mySetofInterface;
 rule T C meta iifname "eth0";
-rule T C meta iifname { "eth0", "lo" };
+rule T C meta iifname any;
+rule T C meta iifname in;
+rule T C meta iifname != "eth0";
+rule T C meta iifname @set_name_of_interfaces;
+rule T C meta iifname ~ "^eth.*";  # regex
 # iiftype/oiftype are listed in Linux kernel linux/if_arp.h file.
 rule T C meta iiftype 1;
-rule T C meta iiftype != 772;
-rule T C meta iiftype { 1, 772, 65534, 512, 801, 768, 6, 32 };
+rule T C meta iiftype != 1;
+rule T C meta iiftype >= 1;
+rule T C meta iiftype <= 1;
+rule T C meta iiftype {1, 2, 6};
+rule T C meta iiftype @mySetInterfaceTypes;
 rule T C meta oif 4;
+rule T C meta oif == any;
+rule T C meta oif in @mySetofInterfaceNames;
 rule T C meta oifname "wlan0";
-rule T C meta oifname { "eth0", "lo" };
+rule T C meta oifname in;
+rule T C meta oifname != "wlan0";
+rule T C meta oifname @set_name_of_interfaces;
+rule T C meta oifname ~ "^wlan.*";  # regex
 rule T C meta oiftype 1;
-rule T C meta oiftype != 772;
-rule T C meta oiftype { 1, 772, 65534, 512, 801, 768, 6, 32 };
+rule T C meta oiftype != 1;
+rule T C meta oiftype >= 1;
+rule T C meta oiftype <= 1;
+rule T C meta oiftype {1, 2, 6};
+rule T C meta oiftype @mySetInterfaceTypes;
 rule T C meta skgid 14;
-rule T C meta skgid != 2001-2005;
-rule T C meta skgid { 2001-2005 };
-rule T C meta skgid 3001-3005;
-rule T C meta skgid { bin, root, daemon };
-rule T C meta skgid eq 3000;
-rule T C meta skgid gt 3000;
-rule T C meta skgid lt 3000;
-rule T C meta skgid != root;
-rule T C meta skgid root;
 rule T C meta skuid 14;
-rule T C meta skuid != 2001-2005;
-rule T C meta skuid { 2001-2005 };
-rule T C meta skuid 3001-3005;
-rule T C meta skuid { bin, root, daemon };
-rule T C meta skuid eq 3000;
-rule T C meta skuid gt 3000;
-rule T C meta skuid lt 3000;
-rule T C meta skuid != root;
-rule T C meta skuid root;
 # 'meta nftace' requires no argument, but still 'unqualified' (no 'meta' needed).
 # 'meta rtclassid' is used with 'realm' keyword, mnemonics are in /etc/iproute2/rt_realms
+#
+rule T C meta rtclassid any;
 rule T C meta rtclassid 14;
 rule T C meta ibriport "br0";
 rule T C meta obriport "br1";
 rule T C meta ibrname "under-bridge";
 rule T C meta ibrname "br0";
-rule T C meta obrname under-bridge;
-rule T C meta pkttype != broadcast;
+rule T C meta obrname "under-bridge";
 rule T C meta pkttype broadcast;
-rule T C meta pkttype { broadcast, unicast, multicast };
+rule T C meta pkttype unicast;
+rule T C meta pkttype multicast;
+rule T C meta pkttype loopback;
+rule T C meta pkttype otherhost;
+rule T C meta pkttype outgoing;
+rule T C meta ipsec == 1;  # 'meta ipsec 0' only in meta_expr
+rule T C meta ipsec exists; # 'meta ipsec 0' only in meta_expr
+rule T C meta ipsec missing; # 'meta ipsec 0' only in meta_expr
 rule T C meta cpu 1;
-rule T C meta cpu != 1;
-rule T C meta cpu 1-3;
-rule T C meta cpu != 1-2;
-rule T C meta cpu { 2,3 };
-rule T C meta cpu { 2-3, 5-7 };
 rule T C meta iifgroup 0;
-rule T C meta iifgroup != 0;
-rule T C meta iifgroup != 0;
-rule T C meta iifgroup default;
-rule T C meta iifgroup != default;
-rule T C meta iifgroup { 11,33 };
-rule T C meta iifgroup { default };
-rule T C meta oifgroup != 0;
 rule T C meta oifgroup 0;
-rule T C meta oifgroup { 11,33 };
-rule T C meta oifgroup { 11-33 };
-rule T C meta oifgroup != default;
-rule T C meta oifgroup { default };
-rule T C meta oifgroup default;
 rule T C meta cgroup 1048577;
-rule T C meta cgroup 1048577-1048578;
-rule T C meta cgroup != 1048577;
-rule T C meta cgroup != 1048577-1048578;
-rule T C meta cgroup { 1048577, 1048578 };
-rule T C meta cgroup { 1048577-1048578 };
+rule T C meta cgroup 0x1;
+rule T C meta cgroup 0x01;
+rule T C meta cgroup 0x0123;
+rule T C meta cgroup 0x01234567;
 rule T C meta time 12;
 rule T C meta day Monday;
 rule T C meta day saturday;
-rule T C meta hour 23;
+rule T C meta hour 0;
+rule T C meta hour 00;
+rule T C meta hour 9;
+rule T C meta hour 09;
+rule T C meta hour 10;
 rule T C meta hour 15;
+rule T C meta hour 19;
+rule T C meta hour 20;
+rule T C meta hour 23;
 
 # meta_stmt - qualified META, with a value (requires 'meta' before it)
 rule T C meta length 1512;
-rule T C meta length != 1000;
-rule T C meta length > 1000;
-rule T C meta length != 33-45;
-rule T C meta length 33-45;
-rule T C meta length { 33, 55, 67, 88 };
-rule T C meta length { 33-55, 67-88 };
-rule T C meta protocol dccp;
-rule T C meta protocol != ip;
+
+rule T C meta protocol any;
+rule T C meta protocol loopback;
 rule T C meta protocol ip;
-rule T C meta protocol { ip, arp, ip6, vlan };
-rule T C meta protocol tcp;
+rule T C meta protocol ip6;
+rule T C meta protocol arp;
+rule T C meta protocol mpls_uc;
+rule T C meta protocol mpls_mc;
+rule T C meta protocol pppoe;
+rule T C meta protocol lldp;
+rule T C meta protocol qinq;
+rule T C meta protocol arp;
+
 rule T C meta priority none;
-rule T C meta priority 100;  # length
-rule T C meta priority 0x1;
-rule T C meta priority 0x1:0x1;
-rule T C meta priority 0x1:0xffff;
-rule T C meta priority 0xffff;
-rule T C meta priority 0xffff:0xffff;
-rule T C meta priority set 0x1:0x1;
-rule T C meta priority set 0x1:0xffff;
-rule T C meta priority set 0xffff:0xffff;
-rule T C meta priority none ip saddr vmap @subnet_map counter packets 0 bytes 0;
-rule T C meta secmark 14;
-rule T C meta secmark 42;
+
+rule T C meta secmark set 14;
+rule T C meta secmark set 42;
+
+# Complex rules (multiple `stmt`s)
+rule T C meta iif eth0 oif eth1 accept;
+
+rule T C meta iifname ~ "^eth.*" oif eth1 accept;  # regex
+rule T C meta iifname "eth0" ip saddr 192.168.1.1 accept;
+
+rule T C meta iiftype >= 1 && meta iiftype <= 2 accept;
+
+rule T C meta iiftype != 1 drop;
+
+rule T C meta iiftype 1 accept;
+
+set T my_if_types { type integer\; };
+element T my_if_types { 1, 6 };
+rule T C meta iiftype @my_if_types accept ;
+
+rule T C meta skgid & 0xFF == 0x1 accept;
 
 
 ################################################################################
@@ -255,36 +316,142 @@ rule T C meta secmark 42;
 # so far, so good)
 ################################################################################
 
-rule T C meta iif lo accept;
-rule T C meta iif eth0;
+# meta_stmt - INTERNALS; found in scanner.c (not in parser_bison.y)
+rule inet T C meta nfproto;
+rule inet T C meta nfproto abcde;
+rule inet T C meta l4proto;
+rule inet T C meta l4proto abc;
+rule inet T C meta l4proto { abc };
+
+# meta_stmt - no value
+rule T C ipsec 1234;  # value only accepts '0' or '1', or 'exists' or 'missing'
+rule T C meta ipsec 1234;  # value only accepts '0' or '1', or 'exists' or 'missing'
+rule T C meta ipsec;  # missing keyword value
+
+rule T C nftrace 1234;  # 'meta nftrace == 1' only in meta_expr
+rule T C meta nftrace 1234;  # 'meta nftrace == 1' only in meta_expr
+
+rule T C meta random 1234;  # cannot use a value to start
+rule T C meta random abc;  # only 'mod' enum supported
+
+rule T C iif;  # missing interface name
+rule T C meta iif;  # missing interface name
+rule T C meta iif lo accept;  # missing interface index (integer)
+rule T C meta iif eth0;  # missing interface index (integer)
 rule T C meta iif != eth0;
+
+rule T C iifname;  # missing interface name
+rule T C meta iifname;  # missing interface name
+rule T C meta iifname eth0;  # missing double-quote
+rule T C meta iifname "eth-0_b*";  # no wildcard allowed
+rule T C meta oifname wlan0;  # missing double-quote
+rule T C meta oifname "eth*";
+
+rule T C iiftype;  # missing interface type
+rule T C meta iiftype;  # missing interface type
+rule T C meta iiftype ether;  # can only handle integer
+rule T C meta iiftype != ether;  # can only handle integer
+rule T C meta iiftype { ether, ppp, ipip, ipip6, loopback, sit, ipgre };  # can only handle integer
+rule T C meta iiftype wlan;  # can only handle integer
+
+rule T C oif;  # missing interface name
+rule T C meta oif;  # missing interface name
 rule T C meta oif != lo;
 rule T C meta oif lo;
 
-rule T C meta iifname "eth*";
-rule T C meta oifname "eth*";
+rule T C oiftype;  # missing interface type
+rule T C meta oiftype;  # missing interface type
+rule T C meta oiftype ether;  # can only handle integer
+rule T C meta oiftype != ether;  # can only handle integer
+rule T C meta oiftype { ether, ppp, ipip, ipip6, loopback, sit, ipgre };  # can only handle integer
+rule T C meta oiftype wlan;  # can only handle integer
 
-rule T C meta iiftype ether;
-rule T C meta iiftype != ether;
-rule T C meta iiftype { ether, ppp, ipip, ipip6, loopback, sit, ipgre };
-rule T C meta iiftype wlan;
+rule T C meta skuid;  # missing socket_uid_t
+rule T C meta skuid 99999999999;  # too many digits for 32-bit
+rule T C meta skuid abc-3001;
+rule T C meta skuid 3001-abc;
+rule T C meta skuid { abc };
 
-rule T C meta oiftype ether;
-rule T C meta oiftype != ether;
-rule T C meta oiftype { ether, ppp, ipip, ipip6, loopback, sit, ipgre };
-rule T C meta oiftype wlan;
+rule T C skgid;  # missing socket gid_t
+rule T C meta skgid 99999999999;  # too many digits for 32-bit
+rule T C meta skgid abc-3001;
+rule T C meta skgid 3001-abc;
+rule T C meta skuid { abc };
 
-rule T C meta skgid 99999999999;
-rule T C meta skuid 99999999999;
+rule T C meta nftrace 1;  # no argument expected for meta_stmt state.
+rule T C meta nftrace abc;  # no argument expected for meta_stmt state.
 
+rule T C meta rtclassid;  # missing route index number
+rule T C meta rtclassid 123456;  # too many digits for 16-bit
 rule T C meta rtclassid cosmos;  # no mnemonic in 'meta rtclassid', but you can with 'realm'
+
+rule T C meta ibriport;  # missing bridge interface name
+rule T C meta ibriport 123;  # double-quote missing
+rule T C meta ibriport "0bcdef";  # device name starts with alpha-only
+
+rule T C meta obriport;  # missing bridge interface name
+rule T C meta obriport 123;  # double-quote missing
+rule T C meta obriport "0bcdef";  # device name starts with alpha-only
+
+rule T C meta ibrname;  # missing bridge interface name
+rule T C meta ibrname 123;  # double-quote missing
+rule T C meta ibrname "0bcdef";  # device name starts with alpha-only
+
+rule T C meta obrname;  # missing bridge interface name
+rule T C meta obrname 123;  # double-quote missing
+rule T C meta obrname "0bcdef";  # device name starts with alpha-only
+
+rule T C meta pkttype;  # missing packet type
+rule T C meta pkttype 1;   # mnemonic-only (no integer)
+rule T C meta pkttype alternet;   # invalid packet type
+
+rule T C cpu;
+rule T C cpu abc;
+rule T C meta abc;
+rule T C meta cpu abc;
+
+rule T C iifgroup;
+rule T C iifgroup abc;
+
+rule T C oifgroup;
+rule T C oifgroup abc;
+
+rule T C cgroup;
+rule T C cgroup abc;
+
+rule T C day;
+rule T C day wHiNeSdAy;
+rule T C day Flukesday;
+
+rule T C hour;
+rule T C hour 24;
+
+rule T C length 123;  # 'meta' missing (qualified)
+rule T C length abc;  # 'meta' missing (qualified)
+rule T C meta length 165536;  # too many digits for 16-bit 
+rule T C meta length abc;  # integer expected
+rule T C meta length abc-45;
+rule T C meta length 33-abc;
+
+rule T C protocol; # 'meta' missing (qualified)
+rule T C protocol tcp;  # 'meta' missing (qualified)
+rule T C meta protocol; # missing protocol
+rule T C meta protocol napster;   # non-existant protocol name
+rule T C meta protocol "802.1q";
+rule T C meta protocol 802_1q;
+
+rule T C priority abc;   # 'meta' missing (qualified)
+rule T C priority default;   # 'meta' missing (qualified)
+rule T C meta priority;
+
+rule T C secmark;  # missing 'set' (this here is meta_stmt, not meta_expr)
+rule T C secmark set 12345678901;  # too many digits for 32-bit
+rule T C meta secmark;  # missing integer
+rule T C meta secmark 12345678901;  # too many digits
+
 
 ################################################################################
 # false negative test: highlighted wrongly; still has good content; oops.
-################################################################################
-
-################################################################################
-# false positive test: looks highlighted correctly; has bad content; oops.
 ################################################################################
 
 rule inet T C meta nfproto != 6;
@@ -293,11 +460,22 @@ rule inet T C meta nfproto ipv4;
 rule inet T C meta nfproto != ipv6;
 rule inet T C meta nfproto { inet,ipv4,ipv6 };
 
+rule inet T C meta l4proto { };
 rule inet T C meta l4proto != 233;
 rule inet T C meta l4proto 33-45;
 rule inet T C meta l4proto { 33, 55, 67, 88 };
 rule inet T C meta l4proto { 33-55 };
 
+rule T C meta mark == abc;
+rule T C meta mark != abc;
+rule T C meta mark <= abc;
+rule T C meta mark >= abc;
+rule T C meta mark & 0x2 == 0x2 accept
+rule T C meta mark or 0x03 == tcp;
+rule T C meta mark or tcp == tcp;
+rule T C meta mark set 0xffffffc8 xor abc;
+rule T C meta mark set abc and 0x16;
+rule T C meta mark set 0xffffffe9 or abc;
 rule T C meta mark and 0x03 == 0x01;
 rule T C meta mark and 0x03 != 0x01;
 rule T C meta mark != 0x10;
@@ -313,87 +491,105 @@ rule T C meta mark set 0x32 or 0xfffff;
 rule T C meta mark set 0xfffe xor 0x16;
 
 rule T C meta iifname != "eth0";
-rule T C meta iifname eth0;
+rule T C meta iifname { "eth0", "lo" };
+rule T C meta iiftype != 772;
+rule T C meta iiftype { 1, 772, 65534, 512, 801, 768, 6, 32 };
 
-rule T C meta oifname wlan0;
 rule T C meta oifname != "eth0";
-# XXXXXX
-# meta_stmt - no value
-rule T C meta random 1234;  # qualified META (requires 'meta' before it)
-rule T C meta random abc;  # qualified META (requires 'meta' before it)
 
-rule T C ipsec 1234;  # 'meta ipsec 0' only in meta_expr
-rule T C meta ipsec 1234;  # 'meta ipsec 0' only in meta_expr
-rule T C nftrace 1234;  # 'meta nftrace == 1' only in meta_expr
-rule T C meta nftrace 1234;  # 'meta nftrace == 1' only in meta_expr
-
-# meta_stmt - INTERNALS; found in scanner.c (not in parser_bison.y)
-rule inet T C meta nfproto;
-rule inet T C meta nfproto abcde;
-rule inet T C meta l4proto;
-rule inet T C meta l4proto abc;
-rule inet T C meta l4proto { };
-rule inet T C meta l4proto { abc };
-
-# meta_stmt - unqualified META, with a value (no 'meta' needed)
-rule T C meta mark;
-rule T C meta mark != abc;
-rule T C meta mark or 0x03 == tcp;
-rule T C meta mark or tcp == tcp;
-rule T C meta mark set 0xffffffc8 xor abc;
-rule T C meta mark set abc and 0x16;
-rule T C meta mark set 0xffffffe9 or abc;
-rule T C meta iif;
-rule T C meta iifname;
-rule T C meta oif;
-rule T C meta oifname;
-rule T C meta oifname { };
-rule T C meta oiftype;
-rule T C meta skgid;
-rule T C meta skgid { };
-rule T C meta skgid { abc };
-rule T C meta skgid abc-3001;
-rule T C meta skgid 3001-abc;
+rule T C meta skgid != 2001-2005;
+rule T C meta skgid { 2001-2005 };
+rule T C meta skgid 3001-3005;
+rule T C meta skgid { bin, root, daemon };
+rule T C meta skgid eq 3000;
+rule T C meta skgid gt 3000;
+rule T C meta skgid lt 3000;
+rule T C meta skgid != root;
+rule T C meta skgid root;
 rule T C meta skuid;
-rule T C meta skuid { };
-rule T C meta skuid { abc };
-rule T C meta skuid abc-3001;
-rule T C meta skuid 3001-abc;
-# 'meta nftace' requires no argument, but still 'unqualified' (no 'meta' needed).
-rule T C meta rtclassid;
-rule T C meta ibriport;
-rule T C meta obriport;
-rule T C meta ibrname;
-rule T C meta ibrname;
-rule T C meta obrname;
-rule T C meta pkttype;
-rule T C meta cpu;
-rule T C meta cpu abc;
-rule T C meta cpu abc-2;
-rule T C meta cpu 1-abc;
-rule T C meta cpu != abc-2;
-rule T C meta cpu { };
-rule T C meta cpu { abc };
-rule T C meta iifgroup;
-rule T C meta iifgroup { };
-rule T C meta oifgroup;
-rule T C meta oifgroup { };
-rule T C meta cgroup;
-# 'meta ipsec' requires no argument, but still 'unqualified' (no 'meta' needed).
-rule T C meta time;
-rule T C meta day;
-rule T C meta hour;
+rule T C meta skuid != 2001-2005;
+rule T C meta skuid { 2001-2005 };
+rule T C meta skuid 3001-3005;
+rule T C meta skuid { bin, root, daemon };
+rule T C meta skuid eq 3000;
+rule T C meta skuid gt 3000;
+rule T C meta skuid lt 3000;
+rule T C meta skuid != root;
+rule T C meta skuid root;
 
-# meta_stmt - qualified META, with a value (requires 'meta' before it)
-rule T C meta length;
-rule T C meta length abc-45;
-rule T C meta length 33-abc;
-rule T C meta length { };
-rule T C meta protocol;
-rule T C meta priority;
+
+rule T C meta cpu != 1;
+rule T C meta cpu 1-3;
+rule T C meta cpu != 1-2;
+rule T C meta cpu { 2,3 };
+rule T C meta cpu { 2-3, 5-7 };
+
+rule T C meta iifgroup != 0;
+rule T C meta iifgroup { 11,33 };
+rule T C meta iifgroup default;
+rule T C meta iifgroup != default;
+rule T C meta iifgroup { default };
+rule T C meta oifgroup != 0;
+rule T C meta oifgroup { 11,33 };
+rule T C meta oifgroup { 11-33 };
+rule T C meta oifgroup != default;
+rule T C meta oifgroup default;
+rule T C meta oifgroup { default };
+rule T C meta cgroup 1048577-1048578;
+rule T C meta cgroup != 1048577;
+rule T C meta cgroup != 1048577-1048578;
+rule T C meta cgroup { 1048577, 1048578 };
+rule T C meta cgroup { 1048577-1048578 };
+rule T C pkttype != broadcast;
+rule T C meta pkttype { broadcast, unicast, multicast };
+
+rule T C meta priority set 0x1:0x1;
+rule T C meta priority set 0x1:0xffff;
+rule T C meta priority set 0xffff:0xffff;
+
+rule T C meta length != 1000;
+rule T C meta length > 1000;
+rule T C meta length != 33-45;
+rule T C meta length 33-45;
+rule T C meta length { 33, 55, 67, 88 };
+rule T C meta length { 33-55, 67-88 };
+
 rule T C meta priority abc;
+rule T C meta priority 100;  # length
+rule T C meta priority 0x1;
+rule T C meta priority 0x1:0x1;
+rule T C meta priority 0x1:0xffff;
+rule T C meta priority 0xffff;
+rule T C meta priority 0xffff:0xffff;
 rule T C meta priority set 0x1:abc;
 rule T C meta priority set abc:0xffff;
+rule T C meta priority none ip saddr vmap @subnet_map counter packets 0 bytes 0;
+
+rule T C meta protocol != ip;
+rule T C meta protocol { ip, arp, ip6, vlan };
+rule T C meta protocol tcp;
 rule T C meta secmark;
-rule T C meta secmark;
+
+
+################################################################################
+# false positive test: looks highlighted correctly; has bad content; oops.
+# (this is the part where additional Vimscript is needed)
+################################################################################
+
+# meta_stmt - unqualified META, with a value (no 'meta' needed)
+rule T C meta oifname { };
+rule T C meta skgid { };
+rule T C meta skuid { };
+
+rule T C meta mark ;  # missing info
+rule T C iif ;  # missing interface name
+
+
+rule T C meta iifgroup { };
+rule T C meta oifgroup { };
+
+# meta_stmt - qualified META, with a value (requires 'meta' before it)
+rule T C meta length 65536;
+rule T C meta length { };
+rule T C meta protocol ip;
 # 'meta random' - qualified META, but without a value

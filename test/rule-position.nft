@@ -2,6 +2,9 @@
 # File: rule-position
 # Description: Test NFT file to exercise wildcard Vim syntax highlightings.
 #
+# This covers all possible first-order lexical patterns encountered from
+# the 'rule_position' semantic action label ('parser_bison.y')
+#
 # base_cmd add_cmd ['rule'] rule_position
 # nft_line/nft_base_cmd/nft_base_cmd_add/nft_c_add_cmd_rule
 #
@@ -9,15 +12,15 @@
 # true positive test: properly hightlighted correctly; has good content; perfect
 ################################################################################
 
-identifier_table chain_identifier rtclassid 15 x y a ;
+identifier_table chain_identifier rtclassid 15;
 
-ip table_identifier chain_identifier rtclassid  ;
-rule table_identifier chain_identifier rtclassid  ;
-rule ip6 table_identifier chain_identifier rtclassid  ;
-add rule table_identifier chain_identifier rtclassid  ;
-add rule bridge table_identifier chain_identifier rtclassid  ;
-add table_identifier chain_identifier rtclassid  ;
-add arp table_identifier chain_identifier rtclassid  ;
+ip table_identifier chain_identifier rtclassid 1;
+rule table_identifier chain_identifier rtclassid cosmos ;
+rule ip6 table_identifier chain_identifier rtclassid internet; 
+add rule table_identifier chain_identifier rtclassid freenet ; 
+add rule bridge table_identifier chain_identifier rtclassid radio-msu ;
+add table_identifier chain_identifier rtclassid 65536 ;
+add arp table_identifier chain_identifier rtclassid 1234567890 ;
 
 identifier_table chain_identifier position 15 ;
 identifier_table chain_identifier position 15  ;
@@ -155,7 +158,7 @@ rule T C goto $MY_CHAIN ;
 # match_stmt
 
 # meter_stmt
-rule T C meter meter_id size 149 { stmt };
+rule T C meter meter_id size 149 { stmt }; rule T C meter meter_id size 149 { stmt };
 rule T C meter meter_id { stmt };
 
 # payload_stmt
@@ -182,14 +185,17 @@ rule T C last used 1h15m ;
 
 
 # meta_stmt
-rule T C meta iifname eth0;
 rule T C meta iifname "eth0";
 rule T C meta mark 0x1234 ;
-rule T C meta protocol tcp;
+rule T C meta protocol ip;
 rule T C meta random;
 rule T C meta cpu 3 ;
-rule T C meta secmark 42 ;
+rule T C meta secmark disable ;
 rule T C meta nftrace 1 ;
+rule T C meta nftrace set 0;
+rule T C meta nftrace set { 0 } ;
+rule T C meta nftrace == 1 ;
+rule T C meta oifname "wlan0" ;
 rule T C meta oiftype 1 ;
 rule T C meta ibrname "br0" ;
 rule T C meta day saturday ;

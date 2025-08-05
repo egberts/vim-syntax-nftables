@@ -17,7 +17,7 @@
 
 # set_expr->set_block_expr->'element'->add_cmd->base_cmd->line
 element T S { };
-element last C { };
+element last S { };
 element T last { };
 element last last { };
 element ip T S { };
@@ -42,15 +42,15 @@ add element ip filter action_map { 10.0.0.1 timeout 1h : continue }
 add element ip filter action_map { 10.0.0.1 timeout 1h : return }
 add element ip filter action_map { 10.0.0.1 timeout 1h : accept }
 add element ip filter action_map { 10.0.0.1 timeout 1h : jump LIBVIRT_IN }
-add element ip filter action_map { 10.0.0.1 timeout 1h : jump $LIBVIRT_IN }
-add element ip filter action_map { 10.0.0.1 timeout 1h : goto $LIBVIRT_FWD}
+add element ip filter action_map { 10.0.0.1 timeout 1h : jump $my_LIBVIRT_IN }
+add element ip filter action_map { 10.0.0.1 timeout 1h : goto $my_LIBVIRT_FWD}
 add element ip filter action_map { 10.0.0.1 timeout 1h : goto LIBVIRT_FWD}
 add element ip filter action_map { 10.0.0.1 timeout 1h : drop }
 
 add element ip filter action_map { 
-    10.0.0.1 timeout 1h : goto $LIBVIRT_FWD,
+    10.0.0.1 timeout 1h : goto $my_LIBVIRT_FWD,
     10.0.0.1 timeout 1h : goto LIBVIRT_FWD,
-    10.0.0.1 timeout 1h : goto $LIBVIRT_FWD,
+    10.0.0.1 timeout 1h : goto $my_LIBVIRT_FWD,
     10.0.0.1 timeout 1h : goto LIBVIRT_FWD,
 }
 
@@ -86,10 +86,7 @@ reset element T S $MY_ELEMENT
 # so far, so good)
 ################################################################################
 
-
-# 'element'->add_cmd->base_cmd->line
-element 
-
+elementT S;
 
 # set_spec->'element'->add_cmd->base_cmd->line
 element T 
@@ -102,13 +99,14 @@ element T S
 element ip 
 
 
-element TC { };
+element TS  { };
 element lastC { };
 element Tlast { };
+element last { };
 element lastlast { };
 element ipT S { };
-element ip6 TC { };
-element inet T C{ };
+element ip6 TS { };
+element inet T S{ };
 
 # variable_expr->set_block_expr->'element'->add_cmd->base_cmd->line
 element T S { };
@@ -187,7 +185,8 @@ reset element T S
 # false positive test: looks highlighted correctly; has bad content; oops.
 ################################################################################
 
-elementT C;
+# 'element'->add_cmd->base_cmd->line
+element 
 
 element T S & 
 element T S | 

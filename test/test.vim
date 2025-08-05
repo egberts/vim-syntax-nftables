@@ -1,50 +1,50 @@
 
 
 function Test_Me(variable)
-  let value_cmd = printf("echo %s", a:variable)
+  let value_cmd = printf('echo %s', a:variable)
   let value_val = execute(value_cmd)[1:]
-  echom printf("%s    %s", a:variable, value_val)
+  echom printf('%s    %s', a:variable, value_val)
 endfunction
 
 function Test_Me_g(variable)
-  let value_cmd = printf("echo g:%s", a:variable)
+  let value_cmd = printf('echo g:%s', a:variable)
   let value_val = execute(value_cmd)[1:]
-  echom printf("g:%s    %s", a:variable, value_val)
+  echom printf('g:%s    %s', a:variable, value_val)
 endfunction
 
 function Test_Me_b(variable)
-  echo "b:" . a:variable 
-  "let value_cmd = printf("echo b:%s", a:variable)
+  echo 'b:' . a:variable 
+  "let value_cmd = printf('echo b:%s', a:variable)
   "let value_val = execute(value_cmd)[1:]
-  "echom printf("b:%s    %s", a:variable, value_val)
+  "echom printf('b:%s    %s', a:variable, value_val)
 endfunction
 
 function Test_Me_s(variable)
-  echo "s:" . a:variable  
-  "let value_cmd = printf("echo s:%s", a:variable)
+  echo 's:' . a:variable  
+  "let value_cmd = printf('echo s:%s', a:variable)
   "let value_val = execute(value_cmd)[1:]
-  "echom printf("s:%s    %s", a:variable, value_val)
+  "echom printf('s:%s    %s', a:variable, value_val)
 endfunction
 
 function Test_Me_t(variable)
-  echo "t:" . t:variable  
-  "let value_cmd = printf("echo t:%s", a:variable)
+  echo 't:' . t:variable  
+  "let value_cmd = printf('echo t:%s', a:variable)
   "let value_val = execute(value_cmd)[1:]
-  "echom printf("t:%s    %s", a:variable, value_val)
+  "echom printf('t:%s    %s', a:variable, value_val)
 endfunction
 
 function Test_Me_w(variable)
-  echo "w:" . a:variable  
-  "let value_cmd = printf("echo w:%s", a:variable)
+  echo 'w:' . a:variable  
+  "let value_cmd = printf('echo w:%s', a:variable)
   "let value_val = execute(value_cmd)[1:]
-  "echom printf("w:%s    %s", a:variable, value_val)
+  "echom printf('w:%s    %s', a:variable, value_val)
 endfunction
 
 function Test_Me_a(variable)
-  echo "&" . a:variable  
-  " let value_cmd = printf("echo \&%s", a:variable)
+  echo '&' . a:variable  
+  " let value_cmd = printf('echo \&%s', a:variable)
   " let value_val = execute(value_cmd)[1:]
-  " echom printf("\&%s    %s", a:variable, value_val)
+  " echom printf('\&%s    %s', a:variable, value_val)
 endfunction
 
 let globals = keys(g:)
