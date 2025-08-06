@@ -9,9 +9,6 @@
 ################################################################################
 # true positive test: properly hightlighted correctly; has good content; perfect
 ################################################################################
-secmark table_id 
-secmark myTable mySecMark 
-secmark myTable mySecMark ;
 secmark obj_spec secmark_obj { } 
 secmark obj_spec secmark_obj { } 
 secmark obj_spec secmark_obj {;} 
@@ -22,13 +19,10 @@ secmark T SM { undefine my_var; };
 secmark T SM { typeof b.c.d.e.f : secmark  };
 secmark myTable sshtag { "system_u:object_r:ssh_server_packet_t:s0" }
 
-add secmark table_id 
-add secmark myTable mySecMark 
-add secmark myTable mySecMark ;
-add secmark obj_spec secmark_obj { } 
-add secmark obj_spec secmark_obj { } 
-add secmark obj_spec secmark_obj {;} 
-add secmark obj_spec secmark_obj { ; } 
+add secmark T SM { } 
+add secmark T SM { } 
+add secmark T SM {;} 
+add secmark T SM { ; } 
 add secmark T SM { define my_var = 1; };
 add secmark T SM { redefine my_var = 2; };
 add secmark T SM { undefine my_var; };
@@ -41,8 +35,9 @@ create secmark myTable mySecMark 'a:;fasddfa()fdf' ;
 create secmark myTable mySecMark "asdf \"dfa[]fdf"
 create secmark myTable mySecMark "asdf \"dfa'dfdf"
 create secmark ip myTable mySecMark an unconstrained string
-create secmark ip myTable mySecMark an unconstrained string ;
+create secmark inet myTable mySecMark an unconstrained string ;
 create secmark obj_spec secmark_obj secmark_config close_scope_secmark
+
 delete secmark T secmark_name 
 delete secmark table_name secmark_name 
 delete secmark ip table_name secmark_name
@@ -59,6 +54,7 @@ delete secmark inet table_name handle 15
 delete secmark arp table_name handle 15
 delete secmark bridge table_name handle 15
 delete secmark netdev table_name handle 15
+
 destroy secmark arp T handle 15
 destroy secmark arp T secmark_name
 destroy secmark bridge T handle 15
@@ -71,6 +67,7 @@ destroy secmark ip T handle 15
 destroy secmark ip T secmark_name
 destroy secmark netdev T handle 15
 destroy secmark netdev T secmark_name
+
 list secmark table ruleset_spec
 list secmark table table_name
 list secmark table_id secmark_id
@@ -80,12 +77,13 @@ list secmark inet table_id secmark_id
 list secmark netdev table_id secmark_id
 list secmark bridge table_id secmark_id
 list secmark arp table_id secmark_id
+
 list secmarks 
 list secmarks ip 
 list secmarks ip6
 list secmarks inet 
 list secmarks netdev 
-list secmarks bridge 
+list secmarks bridge
 list secmarks arp 
 list secmarks table table_id
 list secmarks table ip table_id
@@ -95,7 +93,7 @@ list secmarks table netdev table_id
 list secmarks table bridge table_id
 list secmarks table arp table_id
 
-add rule T C ct secmark
+add rule T C ct secmark;
 add rule ip6 myTable myChain position 1 ct secmark set ip6 myIpTable myCTHchain { };
 add rule ip6 table_id myChain position 1 ct secmark zone set ip6 table_id myCTHchain { };
 
@@ -112,16 +110,12 @@ secmark;
 
 secmark ;
 
-
 secmark table_id
-
-
 secmark table_id ;
 secmark myTable mySecMark
 secmark obj_spec secmark_obj { unknwon_secmark_block } 
+
 add secmark table_id
-
-
 
 destroy secmark 
 
@@ -133,21 +127,25 @@ destroy secmark T handle
 
 
 destroy secmark ip7 T handle 15
-list 
-
 
 list secmark 
 
 
+list secmark ip
 list secmark ip 
+
+
+list secmarks ip 123
+list secmarks bridge xxx
+
 
 
 list secmark bad_table  
 
 
-list secmark bad_table secmark_name oopsie
-
-
+list secmark bad=table secmark_name 0x10
+list secmark table bad=secmark_name 0x1
+list secmark table secmark_name oopsie
 list secmark table ip table_name
 list secmark table ip6 table_name
 list secmark table inet table_name
@@ -165,4 +163,13 @@ list secmark table netdev table_name
 # false positive test: looks highlighted correctly; has bad content; oops.
 ################################################################################
 
+secmark table_id 
+secmark myTable mySecMark 
+secmark myTable mySecMark ;
+
+add secmark table_id 
+add secmark myTable mySecMark 
+add secmark myTable mySecMark ;
 add secmark T SM { define my_var =  }; };
+
+

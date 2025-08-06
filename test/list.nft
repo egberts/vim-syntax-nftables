@@ -5,8 +5,6 @@
 # base_cmd list_cmd
 #
 
-list 
-
 
 ################################################################################
 # true positive test: properly hightlighted correctly; has good content; perfect
@@ -22,23 +20,25 @@ list table netdev table_id
 list table bridge table_id
 list table arp table_id
 list table MyTable;
+list table MyTable; 
+list table MyTable ;
 list table ip MyTable ; 
 
 
 # 'tables'->'list'->list_cmd->base_cmd
 list tables
 list tables ip 
-list tables ip6
-list tables inet 
-list tables netdev 
+list tables ip6;
+list tables inet ;
+list tables netdev ; 
 list tables bridge 
-list tables arp 
+list tables arp;
 
 # 'chains'->'list'->list_cmd->base_cmd
 list chains 
-list chains ip 
-list chains ip6
-list chains inet 
+list chains ip; 
+list chains ip6 ;
+list chains inet ; 
 list chains netdev 
 list chains bridge 
 list chains arp 
@@ -71,7 +71,6 @@ list maps bridge
 list maps arp 
 
 # chain_spec->'chain'->'list'->list_cmd->base_cmd
-list chain table_id chain_id
 list chain last chain_id
 list chain table_id last
 list chain last last
@@ -307,18 +306,12 @@ list flow tables
 list flow tables ip
 list flow tables ip6
 list flow tables inet
-list flow tables netdev
-list flow tables bridge
-list flow tables arp
 
 # set_spec->'table'->'flow'->list_cmd->base_cmd
 list flow table table_id synproxy_id
 list flow table ip table_id synproxy_id
 list flow table ip6 table_id synproxy_id
 list flow table inet table_id synproxy_id
-list flow table netdev table_id synproxy_id
-list flow table bridge table_id synproxy_id
-list flow table arp table_id synproxy_id
 
 # ruleset_spec->'tables'->'flow'->list_cmd->base_cmd
 list flowtable last 
@@ -433,8 +426,65 @@ list hooks arp device arp5
 list 
 
 
+list table 
+
+
 list table  # premature EOS
+
+list table MyTable InvalidChain  # extra chain_id identifier
+list table ip 
+
+
+list table ip MyTable InvalidChain  # extra chain_id identifier
+list table arp MyTable InvalidChain  # extra chain_id identifier
+
+list tables ip6 oopsie; 
+list tables xxx  # incorrect family_spec
+list tables arp xxx  # extraneous keyword
+
+list chains XXX 
+
+list maps arp XXX
+
+list meters arp XXX
+
+list ruleset XXX
+
+list chain X table_id chain_id
+
+list sets arp X 
+
+list sets table arp table_id XXX
+
+list counters arp XXX
+
+list counters table arp table_id XXX
+
+list quotas arp XXXX
+##################
 list flow 
+
+
+list flow table 
+
+
+list flow table MyFlow 
+
+
+list flow table MyFlow last ExtraIdentifier 
+list flow table MyFlow MyChain ExtraIdentifier 
+list flow table ip6 MyFlow MyChain ExtraIdentifier 
+
+list flow table netdev table_id synproxy_id  # invalid family_spec
+list flow table bridge table_id synproxy_id  # invalid family_spec
+list flow table arp table_id synproxy_id  # invalid family_spec
+
+list flow tables netdev  # invalid family_spec
+list flow tables bridge  # invalid family_spec
+list flow tables arp  # invalid family_spec
+
+
+list meter 
 
 
 list set 
@@ -460,20 +510,6 @@ list map arp MyTable
 
 list map arp MyTable MyChain ExtraIdentifier
 
-list flow 
-
-
-list flow table 
-
-
-list flow table MyFlow 
-
-
-list flow table MyFlow last ExtraIdentifier 
-list flow table MyFlow MyChain ExtraIdentifier 
-
-
-list meter 
 
 
 list meter arp 
@@ -484,17 +520,6 @@ list meter arp MyTable
 
 list meter arp MyTable MyChain ExtraIdentifier
 ######
-list table 
-
-
-list table MyTable InvalidChain  # extra chain_id identifier
-list table ip 
-
-
-list table ip MyTable InvalidChain  # extra chain_id identifier
-list table arp MyTable InvalidChain  # extra chain_id identifier
-
-list tables ip6 ; list tables oopsie; 
 
 
 list flowtables netdev   # non-supporting family_spec
