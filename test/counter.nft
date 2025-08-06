@@ -221,11 +221,16 @@ add set T S { counter packets once }
 
 add counter ip table_id counter_id packets5 bytes 1500 ;
 add counter ip table_id counter_id packets 5bytes 1500 ;
-add counter ip table_id counter_id packets 5 bytes1500
-add counter ip table_id counter_id packets 5 bytes1500 
+add counter ip table_id counter_id packets 5 bytes1500;
+add counter ip table_id counter_id packets 5 bytes1500 ;
 add counter ip table_id counter_id packets 5 bytes1500 ;
 
 add rule inet mytable mychain counter;
+add rule inet mytable mychain counter name my_counter_name;
+add rule inet mytable mychain counter name 'my_counter_name';
+add rule inet mytable mychain counter name "my_counter_name";
+add rule inet mytable mychain counter name $MY_COUNTER_VARNAME;
+
 add rule table_id chain_id set add { $MYVAR counter at  };
 
 add counter table_id counter_id { packets5bytes1500 } ;
