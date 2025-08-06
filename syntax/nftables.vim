@@ -2966,11 +2966,12 @@ syn match nft_interface_name_operator_regex_not_match '\v\!\~' skipwhite contain
 \ nextgroup= nft_interface_name_regex_string_quoted, nft_Error
 hi link   nft_interface_name_operator_special_any nftHL_Operator
 syn match nft_interface_name_operator_special_any '\vany' skipwhite contained
-hi link   nft_interface_name_set_element_separator nftHL_Action
+hi link   nft_interface_name_set_element_separator nftHL_Separator
 syn match nft_interface_name_set_element_separator /,/ skipwhite contained
 \ nextgroup= nft_interface_name_set_block_element_string_quoted, nft_Error
 hi link   nft_interface_name_set_block_element_string_quoted nftHL_String
 syn match nft_interface_name_set_block_element_string_quoted '\v\"[a-zA-Z][a-zA-Z0-9\-_]{0,63}\"' skipwhite contained
+\ nextgroup= nft_interface_name_set_element_separator, nft_Error
 syn match nft_interface_name_set_block_element_string_quoted '\v\'[a-zA-Z][a-zA-Z0-9\-_]{0,63}\'' skipwhite contained
 \ nextgroup= nft_interface_name_set_element_separator, nft_Error
 hi link    nft_interface_name_set_block  nftHL_BlockDelimitersSet
@@ -3075,10 +3076,196 @@ syn cluster nft_c_packet_type
 \    nft_packet_type_set_operator_keyword_in,
 \    nft_packet_type_operators_equality,
 
-hi link   nft_packet_length nftHL_Integer
-syn match nft_packet_length '\v[0-9]{1,5}\ze[ \t;]' skipwhite contained
-hi link   nft_cpu_index nftHL_Integer
-syn match nft_cpu_index '\v[0-9]{1,5}\ze[ \t;]' skipwhite contained
+" *******
+hi link   nft_packet_length_integer nftHL_Integer
+syn match nft_packet_length_integer '\v[0-9]{1,10}\ze[ \t;]' skipwhite contained
+syn match nft_packet_length_integer '\v0x[0-9a-fA-F]{1,8}\ze[ \t;]' skipwhite contained
+
+hi link   nft_packet_length_set_block_member_separator nftHL_Integer
+syn match nft_packet_length_set_block_member_separator /,/ skipwhite contained
+\ nextgroup=
+\    nft_packet_length_set_block_member_integer,
+\    nft_Error
+
+hi link   nft_packet_length_set_block_member_integer nftHL_Integer
+syn match nft_packet_length_set_block_member_integer '\v[0-9]{1,10}' skipwhite contained
+\ nextgroup=
+\    nft_packet_length_set_block_member_separator
+syn match nft_packet_length_set_block_member_integer '\v0x[0-9a-fA-F]{1,8}' skipwhite contained
+\ nextgroup=
+\    nft_packet_length_set_block_member_separator
+
+hi link    nft_packet_length_set_block nftHL_BlockDelimitersSet
+syn region nft_packet_length_set_block start=+{+ end=+}+ skipwhite contained
+\ contains=
+\    nft_packet_length_set_block_member_integer
+
+hi link   nft_packet_length_named_set_identifier nftHL_Set
+syn match nft_packet_length_named_set_identifier '\v\@[a-zA-Z][a-zA-Z0-9\-_]{0,63}' skipwhite contained
+
+hi link   nft_packet_length_operator_set_keyword_in nftHL_Operator
+syn match nft_packet_length_operator_set_keyword_in '\vin\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_packet_length_set_block,
+\    nft_packet_length_named_set_identifier,
+\    nft_Error
+
+hi link   nft_packet_length_operator_set_keyword_not nftHL_Operator
+syn match nft_packet_length_operator_set_keyword_not '\vnot\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_packet_length_operator_set_keyword_in
+
+hi link   nft_packet_length_operators_relational_2char nftHL_Operator
+syn match nft_packet_length_operators_relational_2char '\v(\<|\>)\=\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_packet_length_named_set_identifier,
+\    nft_packet_length_set_block,
+\    nft_packet_length_integer,
+\    nft_Error
+
+hi link   nft_packet_length_operators_relational_1char nftHL_Operator
+syn match nft_packet_length_operators_relational_1char '\v(\<|\>)\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_packet_length_named_set_identifier,
+\    nft_packet_length_set_block,
+\    nft_packet_length_integer,
+\    nft_Error
+
+hi link   nft_packet_length_operators_equality nftHL_Operator
+syn match nft_packet_length_operators_equality '\v(\!|\=)\=\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_packet_length_integer,
+\    nft_Error
+
+syn cluster nft_c_packet_length
+\ contains=
+\    nft_packet_length_operator_set_keyword_not,
+\    nft_packet_length_operator_set_keyword_in,
+\    nft_packet_length_operators_relational_2char,
+\    nft_packet_length_operators_equality,
+\    nft_packet_length_operators_relational_1char,
+\    nft_packet_length_integer,
+
+hi link   nft_cpu_index_integer nftHL_Integer
+syn match nft_cpu_index_integer '\v[0-9]{1,5}\ze[ \t;]' skipwhite contained
+
+hi link   nft_cpu_index_set_block_member_separator nftHL_Integer
+syn match nft_cpu_index_set_block_member_separator /,/ skipwhite contained
+\ nextgroup=
+\    nft_cpu_index_set_block_member_integer,
+\    nft_Error
+
+hi link   nft_cpu_index_set_block_member_integer nftHL_Integer
+syn match nft_cpu_index_set_block_member_integer '\v[0-9]{1,5}' skipwhite contained
+\ nextgroup=
+\    nft_cpu_index_set_block_member_separator
+
+hi link    nft_cpu_index_set_block nftHL_BlockDelimitersSet
+syn region nft_cpu_index_set_block start=+{+ end=+}+ skipwhite contained
+\ contains=
+\    nft_cpu_index_set_block_member_integer
+
+hi link   nft_cpu_index_named_set_identifier nftHL_Set
+syn match nft_cpu_index_named_set_identifier '\v\@[a-zA-Z][a-zA-Z0-9\-_]{0,63}' skipwhite contained
+
+hi link   nft_cpu_index_operator_set_keyword_in nftHL_Operator
+syn match nft_cpu_index_operator_set_keyword_in '\vin\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_cpu_index_set_block,
+\    nft_cpu_index_named_set_identifier,
+\    nft_Error
+
+hi link   nft_cpu_index_operator_set_keyword_not nftHL_Operator
+syn match nft_cpu_index_operator_set_keyword_not '\vnot\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_cpu_index_operator_set_keyword_in
+
+hi link   nft_cpu_index_operators_equality nftHL_Operator
+syn match nft_cpu_index_operators_equality '\v(\!|\=)\=\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_cpu_index_named_set_identifier,
+\    nft_cpu_index_set_block,
+\    nft_cpu_index_integer,
+\    nft_Error
+
+syn cluster nft_c_cpu_index
+\ contains=
+\    nft_cpu_index_operator_set_keyword_not,
+\    nft_cpu_index_operator_set_keyword_in,
+\    nft_cpu_index_operators_equality,
+\    nft_cpu_index_integer,
+
+" ******
+hi link   nft_ifgroup_index_integer nftHL_Integer
+syn match nft_ifgroup_index_integer '\v[0-9]{1,10}\ze[ \t;]' skipwhite contained
+
+hi link   nft_ifgroup_index_set_block_member_separator nftHL_Separator
+syn match nft_ifgroup_index_set_block_member_separator /,/ skipwhite contained
+\ nextgroup=
+\    nft_ifgroup_index_set_block_member_integer,
+\    nft_Error
+
+hi link   nft_ifgroup_index_set_block_member_integer nftHL_Integer
+syn match nft_ifgroup_index_set_block_member_integer '\v[0-9]{1,10}' skipwhite contained
+\ nextgroup=
+\    nft_ifgroup_index_set_block_member_separator
+
+hi link    nft_ifgroup_index_set_block nftHL_BlockDelimitersSet
+syn region nft_ifgroup_index_set_block start=+{+ end=+}+ skipwhite contained
+\ contains=
+\    nft_ifgroup_index_set_block_member_integer
+
+hi link   nft_ifgroup_index_named_set_identifier nftHL_Set
+syn match nft_ifgroup_index_named_set_identifier '\v\@[a-zA-Z][a-zA-Z0-9\-_]{0,63}' skipwhite contained
+
+hi link   nft_ifgroup_index_operator_set_keyword_in nftHL_Operator
+syn match nft_ifgroup_index_operator_set_keyword_in '\vin\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_ifgroup_index_set_block,
+\    nft_ifgroup_index_named_set_identifier,
+\    nft_Error
+
+hi link   nft_ifgroup_index_operator_set_keyword_not nftHL_Operator
+syn match nft_ifgroup_index_operator_set_keyword_not '\vnot\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_ifgroup_index_operator_set_keyword_in
+
+hi link   nft_ifgroup_index_operators_relational_1char nftHL_Operator
+syn match nft_ifgroup_index_operators_relational_1char '\v(\<|\>)' skipwhite contained
+\ nextgroup=
+\    nft_ifgroup_index_named_set_identifier,
+\    nft_ifgroup_index_set_block,
+\    nft_ifgroup_index_integer,
+\    nft_Error
+
+hi link   nft_ifgroup_index_operators_equality nftHL_Operator
+syn match nft_ifgroup_index_operators_equality '\v(\!|\=)\=\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_ifgroup_index_named_set_identifier,
+\    nft_ifgroup_index_set_block,
+\    nft_ifgroup_index_integer,
+\    nft_Error
+
+hi link   nft_ifgroup_index_operators_relational_2char nftHL_Operator
+syn match nft_ifgroup_index_operators_relational_2char '\v(\<|\>)\=' skipwhite contained
+\ nextgroup=
+\    nft_ifgroup_index_named_set_identifier,
+\    nft_ifgroup_index_set_block,
+\    nft_ifgroup_index_integer,
+\    nft_Error
+
+syn cluster nft_c_ifgroup_index
+\ contains=
+\    nft_ifgroup_index_operator_set_keyword_not,
+\    nft_ifgroup_index_operator_set_keyword_in,
+\    nft_ifgroup_index_operators_relational_2char,
+\    nft_ifgroup_index_operator_set_keyword_equality,
+\    nft_ifgroup_index_operators_relational_1char,
+\    nft_ifgroup_index_operators_equality,
+\    nft_ifgroup_index_integer,
+" ******
+hi link   nft_time_interval_type Define
+
 hi link   nft_time_type nftHL_Integer
 syn match nft_time_type '\v[0-9]{1,5}\ze[ \t;]' skipwhite contained
 hi link   nft_hour_type nftHL_Integer
@@ -3156,6 +3343,143 @@ hi link   nft_ethernet_protocol_type nftHL_Member
 " 'meta iifgroup 42' value is set by 'ip link set dev eth0 group 42' CLI command
 hi link   nft_interface_group_index nftHL_Integer
 syn match nft_interface_group_index '\v(([0-9]{1,10})|(0x[0-9a-fA-F]{1,8}))\ze[ \t;]' skipwhite contained
+
+
+hi link   nft_cpu_index_integer nftHL_Integer
+syn match nft_cpu_index_integer '\v[0-9]{1,5}\ze[ \t;]' skipwhite contained
+
+hi link   nft_cpu_index_set_block_member_separator nftHL_Separator
+syn match nft_cpu_index_set_block_member_separator /,/ skipwhite contained
+\ nextgroup=
+\    nft_cpu_index_set_block_member_integer,
+\    nft_Error
+
+hi link   nft_cpu_index_set_block_member_integer nftHL_Integer
+syn match nft_cpu_index_set_block_member_integer '\v[0-9]{1,5}' skipwhite contained
+\ nextgroup=
+\    nft_cpu_index_set_block_member_separator
+
+hi link    nft_cpu_index_set_block nftHL_BlockDelimitersSet
+syn region nft_cpu_index_set_block start=+{+ end=+}+ skipwhite contained
+\ contains=
+\    nft_cpu_index_set_block_member_integer
+
+hi link   nft_cpu_index_named_set_identifier nftHL_Set
+syn match nft_cpu_index_named_set_identifier '\v\@[a-zA-Z][a-zA-Z0-9\-_]{0,63}' skipwhite contained
+
+hi link   nft_cpu_index_operator_set_keyword_in nftHL_Operator
+syn match nft_cpu_index_operator_set_keyword_in '\vin\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_cpu_index_set_block,
+\    nft_cpu_index_named_set_identifier,
+\    nft_Error
+
+hi link   nft_cpu_index_operator_set_keyword_not nftHL_Operator
+syn match nft_cpu_index_operator_set_keyword_not '\vnot\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_cpu_index_operator_set_keyword_in
+
+hi link   nft_cpu_index_operators_relational_2char nftHL_Operator
+syn match nft_cpu_index_operators_relational_2char '\v(\<|\>)\=\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_cpu_index_integer,
+\    nft_Error
+
+hi link   nft_cpu_index_operators_relational_1char nftHL_Operator
+syn match nft_cpu_index_operators_relational_1char '\v(\<|\>)\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_cpu_index_integer,
+\    nft_Error
+
+hi link   nft_cpu_index_operators_equality nftHL_Operator
+syn match nft_cpu_index_operators_equality '\v(\!|\=)\=\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_cpu_index_named_set_identifier,
+\    nft_cpu_index_set_block,
+\    nft_cpu_index_integer,
+\    nft_Error
+
+syn cluster nft_c_interface_group_index
+\ contains=
+\    nft_cpu_index_operator_set_keyword_not,
+\    nft_cpu_index_operator_set_keyword_in,
+\    nft_cpu_index_operators_relational_2char,
+\    nft_cpu_index_operators_equality,
+\    nft_cpu_index_operators_relational_1char,
+\    nft_cpu_index_integer,
+
+"******"
+hi link   nft_cgroup_index nftHL_Integer
+syn match nft_cgroup_index '\v(([0-9]{1,20})|(0x[0-9a-fA-F]{1,8}))\ze[ \t;]' skipwhite contained
+
+hi link   nft_cgroup_index_integer nftHL_Integer
+syn match nft_cgroup_index_integer '\v[0-9]{1,20}\ze[ \t;]' skipwhite contained
+hi link   nft_cgroup_index_integer nftHL_Integer
+syn match nft_cgroup_index_integer '\v0x\c[0-9a-f]{1,16}\ze[ \t;]' skipwhite contained
+
+hi link   nft_cgroup_index_set_block_member_separator nftHL_Separator
+syn match nft_cgroup_index_set_block_member_separator /,/ skipwhite contained
+\ nextgroup=
+\    nft_cgroup_index_set_block_member_integer,
+\    nft_Error
+
+hi link   nft_cgroup_index_set_block_member_integer nftHL_Integer
+syn match nft_cgroup_index_set_block_member_integer '\v[0-9]{1,20}' skipwhite contained
+\ nextgroup=
+\    nft_cgroup_index_set_block_member_separator
+syn match nft_cgroup_index_set_block_member_integer '\v0x[0-9a-f]{1,16}' skipwhite contained
+\ nextgroup=
+\    nft_cgroup_index_set_block_member_separator
+
+hi link    nft_cgroup_index_set_block nftHL_BlockDelimitersSet
+syn region nft_cgroup_index_set_block start=+{+ end=+}+ skipwhite contained
+\ contains=
+\    nft_cgroup_index_set_block_member_integer
+
+hi link   nft_cgroup_index_named_set_identifier nftHL_Set
+syn match nft_cgroup_index_named_set_identifier '\v\@[a-zA-Z][a-zA-Z0-9\-_]{0,63}' skipwhite contained
+
+hi link   nft_cgroup_index_operator_set_keyword_in nftHL_Operator
+syn match nft_cgroup_index_operator_set_keyword_in '\vin\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_cgroup_index_set_block,
+\    nft_cgroup_index_named_set_identifier,
+\    nft_Error
+
+hi link   nft_cgroup_index_operator_set_keyword_not nftHL_Operator
+syn match nft_cgroup_index_operator_set_keyword_not '\vnot\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_cgroup_index_operator_set_keyword_in
+
+hi link   nft_cgroup_index_operators_relational_2char nftHL_Operator
+syn match nft_cgroup_index_operators_relational_2char '\v(\<|\>)\=\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_cgroup_index_integer,
+\    nft_Error
+
+hi link   nft_cgroup_index_operators_relational_1char nftHL_Operator
+syn match nft_cgroup_index_operators_relational_1char '\v(\<|\>)\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_cgroup_index_integer,
+\    nft_Error
+
+hi link   nft_cgroup_index_operators_equality nftHL_Operator
+syn match nft_cgroup_index_operators_equality '\v(\!|\=)\=\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_cgroup_index_named_set_identifier,
+\    nft_cgroup_index_set_block,
+\    nft_cgroup_index_integer,
+\    nft_Error
+
+syn cluster nft_c_cgroup_index
+\ contains=
+\    nft_cgroup_index_operator_set_keyword_not,
+\    nft_cgroup_index_operator_set_keyword_in,
+\    nft_cgroup_index_operators_relational_2char,
+\    nft_cgroup_index_operators_equality,
+\    nft_cgroup_index_operators_relational_1char,
+\    nft_cgroup_index_integer,
+"******"
 
 hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_internal_qualified_keyword_nfproto_set nftHL_Action
 syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_internal_qualified_keyword_nfproto_set '\vset\ze[ \t]' skipwhite contained
@@ -3283,7 +3607,7 @@ syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_
 
 hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iifgroup nftHL_Action
 syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iifgroup '\viifgroup\ze[ \t]' skipwhite contained
-\ nextgroup= nft_interface_group_index, nft_Error
+\ nextgroup= @nft_c_ifgroup_index, nft_Error
 
 hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_obriport nftHL_Action
 syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_obriport '\vobriport\ze[ \t]' skipwhite contained
@@ -3291,7 +3615,7 @@ syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keywor
 
 hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oifgroup nftHL_Action
 syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oifgroup '\voifgroup\ze[ \t]' skipwhite contained
-\ nextgroup= nft_interface_group_index, nft_Error
+\ nextgroup= @nft_c_ifgroup_index, nft_Error
 
 hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_secmark nftHL_Action
 syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_secmark '\vsecmark\ze[ \t]' skipwhite contained
@@ -3357,7 +3681,7 @@ syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keywor
 
 hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_cgroup nftHL_Action
 syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_cgroup '\vcgroup\ze[ \t]' skipwhite contained
-\ nextgroup= nft_interface_group_index
+\ nextgroup= @nft_c_cgroup_index, nft_Error
 
 " 'meta random' has '0'/'1'
 
@@ -3387,7 +3711,7 @@ syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_
 
 hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_length nftHL_Action
 syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_length '\vlength\ze[ \t]' skipwhite contained
-\ nextgroup= nft_packet_length, nft_Error
+\ nextgroup=@nft_c_packet_length, nft_Error
 
 hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_integer nftHL_Integer
 syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_integer '\v[0-1]{1,1}\ze[ \t;]' skipwhite contained
@@ -3522,6 +3846,9 @@ syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_mark_o
 hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_mark_set_block_element_integer nftHL_Integer
 syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_mark_set_block_element_integer '\v[0-9]{1,10}' skipwhite contained
 syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_mark_set_block_element_integer '\v0x[0-9a-f]{1,8}' skipwhite contained
+\ nextgroup=
+\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_mark_set_block_element_separator,
+\    nft_Error
 
 hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_mark_set_block_element_separator nftHL_Separator
 syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_mark_set_block_element_separator /,/ skipwhite contained
@@ -3574,7 +3901,7 @@ syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keywor
 
 hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_cpu nftHL_Action
 syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_cpu '\vcpu\ze[ \t]' skipwhite contained
-\ nextgroup= nft_cpu_index, nft_Error
+\ nextgroup=@nft_c_cpu_index, nft_Error
 
 hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_day nftHL_Action
 syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_day '\vday\ze[ \t]' skipwhite contained
