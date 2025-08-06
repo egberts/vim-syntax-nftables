@@ -3136,11 +3136,81 @@ syn match nft_meta_stmt_priority_keyword_set '\vset\ze[ \t]' skipwhite contained
 hi link   nft_meta_stmt_priority_keyword_none Define
 syn match nft_meta_stmt_priority_keyword_none '\vnone\ze[ \t;]' skipwhite contained
 
+hi link   nft_meta_stmt_priority_set_block_element_separator nftHL_Separator
+syn match nft_meta_stmt_priority_set_block_element_separator /,/ skipwhite contained
+\ nextgroup=
+\    nft_meta_stmt_priority_set_block_element_protocol_types,
+\    nft_meta_stmt_priority_set_block_element_protocol_number,
+\    nft_Error
+
+hi link   nft_meta_stmt_priority_set_block_element_protocol_number Define
+syn match nft_meta_stmt_priority_set_block_element_protocol_number '\v[0-9]{1,5}' skipwhite contained
+syn match nft_meta_stmt_priority_set_block_element_protocol_number '\v\c0x[0-9a-f]{1,4}' skipwhite contained
+\ nextgroup= nft_meta_stmt_priority_set_block_element_separator, nft_Error
+
+hi link   nft_meta_stmt_priority_set_block_element_protocol_types nftHL_Identifier
+syn match nft_meta_stmt_priority_set_block_element_protocol_types '\v(loopback|mpls_mc|mpls_uc|(802_1q)|pppoe|lldp|qinq|arp|ip6|ip)' skipwhite contained
+
+hi link    nft_meta_stmt_priority_set_block nftHL_BlockDelimitersSet
+syn region nft_meta_stmt_priority_set_block start=+{+ end=+}+ skipwhite contained
+\ contains=
+\     nft_meta_stmt_priority_set_block_element_protocol_identifier,
+\     nft_meta_stmt_priority_set_block_element_protocol_types,
+\     nft_meta_stmt_priority_set_block_element_protocol_number,
+\     nft_Error
+hi link   nft_meta_stmt_priority_set_identifier nftHL_Set
+syn match nft_meta_stmt_priority_set_identifier '\v\@[a-zA-Z][a-zA-Z0-9_\-]{0,63}' skipwhite contained
+
+hi link   nft_meta_stmt_priority_number Define
+syn match nft_meta_stmt_priority_number '\v\c0x[0-9a-fA-F]{1,4}\ze[ \t;]' skipwhite contained
+syn match nft_meta_stmt_priority_number '\v[0-9]{1,5}\ze[ \t;]' skipwhite contained
+hi link   nft_meta_stmt_priority_identifier nftHL_Identifier
+syn match nft_meta_stmt_priority_identifier '\v(loopback|mpls_mc|mpls_uc|(802_1q)|pppoe|lldp|qinq|any|arp|ip6|ip)' skipwhite contained
+\ contains=nft_meta_stmt_priority_any
+hi link   nft_meta_stmt_priority_any nftHL_Operator
+syn match nft_meta_stmt_priority_any '\vany\ze[ \t;]' skipwhite contained
+
+hi link   nft_meta_stmt_priority_operators_2char nftHL_Operator
+syn match nft_meta_stmt_priority_operators_2char '\v(\!|\=)\=\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_meta_stmt_priority_identifier,
+\    nft_meta_stmt_priority_set_block,
+\    nft_meta_stmt_priority_set_identifier,
+\    nft_meta_stmt_priority_number,
+\    nft_Error
+hi link   nft_meta_stmt_priority_operators_1char nftHL_Operator
+syn match nft_meta_stmt_priority_operators_1char '\v(\<|\>)\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_meta_stmt_priority_identifier,
+\    nft_meta_stmt_priority_set_block,
+\    nft_meta_stmt_priority_set_identifier,
+\    nft_meta_stmt_priority_number,
+\    nft_Error
+hi link   nft_meta_stmt_priority_operators_discrete nftHL_Operator
+syn match nft_meta_stmt_priority_operators_discrete '\v(\<|\>)\=' skipwhite contained
+\ nextgroup=
+\    nft_meta_stmt_priority_number,
+\    nft_Error
+hi link   nft_meta_stmt_priority_set_operator_in nftHL_Operator
+syn match nft_meta_stmt_priority_set_operator_in '\vin\ze[ \t;]' skipwhite contained
+\ nextgroup=
+\    nft_meta_stmt_priority_set_identifier,
+\    nft_meta_stmt_priority_set_block,
+\    nft_Error
+
+
+syn cluster nft_c_priority
+\ contains=
+\    nft_meta_stmt_priority_operators_discrete,
+\    nft_meta_stmt_priority_operators_2char,
+\    nft_meta_stmt_priority_set_operator_in,
+\    nft_meta_stmt_priority_operators_1char,
+\    nft_meta_stmt_priority_identifier,
+\    nft_meta_stmt_priority_number,
+
 hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_priority nftHL_Action
 syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_priority '\vpriority\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_meta_stmt_priority_keyword_none,
-\    nft_meta_stmt_priority_keyword_set,
+\ nextgroup= @nft_c_priority,
 \    nft_Error
 
 hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_protocol nftHL_Action
@@ -3311,7 +3381,8 @@ syntax match nft_meta_stmt_mark_missing '\v\ze[ \t]*[;\n]'  contained
 hi link nft_meta_stmt_mark_missing nftHL_Error
 
 hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_mark_id nftHL_Integer
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_mark_id '\v(0x)?[0-9a-f]{1,10}' skipwhite contained
+syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_mark_id '\v[0-9]{1,10}' skipwhite contained
+syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_mark_id '\v0x[0-9a-f]{1,8}' skipwhite contained
 
 hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_mark_operators_2char nftHL_Operator
 syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_mark_operators_2char '\v(\!|\<|\>|\=)\=' skipwhite contained

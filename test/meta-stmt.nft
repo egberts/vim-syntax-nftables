@@ -194,7 +194,6 @@ rule T C meta mark != 64;
 rule T C meta mark >= 64;
 rule T C meta mark <= 64;
 rule T C meta mark & 0x02 == 0x02;
-rule T C meta mark set 64;  # length
 rule T C meta iif any;
 rule T C meta iif 2;
 rule T C meta iif == 2;
@@ -371,11 +370,14 @@ rule T C meta protocol lldp;
 rule T C meta protocol qinq;
 rule T C meta protocol arp;
 
-rule T C meta priority none;
+rule T C meta priority 1;
 rule T C meta priority == 1;
-rule T C meta priority == none;
+rule T C meta priority ==  100;
+rule T C meta priority == 0x010;
+rule T C meta priority == @my_set_of_priorities;
 rule T C meta priority != 200;
-rule T C meta priority != none;
+rule T C meta priority != 0x001F;
+rule T C meta priority != @my_set_of_priorities;
 rule T C meta priority > 15;
 rule T C meta priority >= 15;
 rule T C meta priority < 15;
@@ -383,8 +385,8 @@ rule T C meta priority <= 15;
 rule T C meta priority in @my_set_of_priorities;
 rule T C meta priority in { 1, 5, 200 };
 
-rule T C meta secmark set 14;
-rule T C meta secmark set 42;
+rule T C meta secmark 14;
+rule T C meta secmark 42;
 
 # Complex rules (multiple `stmt`s)
 rule T C meta iif eth0 oif eth1 accept;
@@ -427,6 +429,11 @@ rule T C meta nftrace 1234;  # 'meta nftrace == 1' only in meta_expr
 
 rule T C meta random 1234;  # cannot use a value to start
 rule T C meta random abc;  # only 'mod' enum supported
+
+rule T C meta mark == abc;  # non-integer is invalid
+rule T C meta mark != abc;
+rule T C meta mark <= abc;
+rule T C meta mark >= abc;
 
 rule T C iif;  # missing interface name
 rule T C meta iif;  # missing interface name
@@ -539,7 +546,7 @@ rule T C priority default;   # 'meta' missing (qualified)
 rule T C meta priority;
 
 rule T C secmark;  # missing 'set' (this here is meta_stmt, not meta_expr)
-rule T C secmark set 12345678901;  # too many digits for 32-bit
+rule T C secmark 12345678901;  # too many digits for 32-bit
 rule T C meta secmark;  # missing integer
 rule T C meta secmark 12345678901;  # too many digits
 
@@ -560,16 +567,12 @@ rule inet T C meta l4proto 33-45;
 rule inet T C meta l4proto { 33, 55, 67, 88 };
 rule inet T C meta l4proto { 33-55 };
 
-rule T C meta mark == abc;
-rule T C meta mark != abc;
-rule T C meta mark <= abc;
-rule T C meta mark >= abc;
-rule T C meta mark & 0x2 == 0x2 accept
+rule T C meta mark & 0x2 == 0x2 accept;
 rule T C meta mark or 0x03 == tcp;
 rule T C meta mark or tcp == tcp;
-rule T C meta mark set 0xffffffc8 xor abc;
-rule T C meta mark set abc and 0x16;
-rule T C meta mark set 0xffffffe9 or abc;
+rule T C meta mark 0xffffffc8 xor abc;
+rule T C meta mark abc and 0x16;
+rule T C meta mark 0xffffffe9 or abc;
 rule T C meta mark and 0x03 == 0x01;
 rule T C meta mark and 0x03 != 0x01;
 rule T C meta mark != 0x10;
@@ -577,12 +580,6 @@ rule T C meta mark or 0x03 == 0x01;
 rule T C meta mark or 0x03 != 0x01;
 rule T C meta mark xor 0x03 == 0x01;
 rule T C meta mark xor 0x03 != 0x01;;
-rule T C meta mark set 0xffffffc8 xor 0x16;
-rule T C meta mark set 0x16 and 0x16;
-rule T C meta mark set 0xffffffe9 or 0x16;
-rule T C meta mark set 0xffffffde and 0x16;
-rule T C meta mark set 0x32 or 0xfffff;
-rule T C meta mark set 0xfffe xor 0x16;
 
 rule T C meta iifname != "eth0";
 rule T C meta iifname { "eth0", "lo" };
@@ -629,24 +626,19 @@ rule T C meta oifgroup { 11-33 };
 rule T C meta oifgroup != default;
 rule T C meta oifgroup default;
 rule T C meta oifgroup { default };
+
 rule T C meta cgroup 1048577-1048578;
 rule T C meta cgroup != 1048577;
 rule T C meta cgroup != 1048577-1048578;
 rule T C meta cgroup { 1048577, 1048578 };
 rule T C meta cgroup { 1048577-1048578 };
+
 rule T C pkttype != broadcast;
 rule T C meta pkttype { broadcast, unicast, multicast };
 
-rule T C meta priority set 0x1:0x1;
-rule T C meta priority set 0x1:0xffff;
-rule T C meta priority set 0xffff:0xffff;
-
-rule T C meta length != 1000;
-rule T C meta length > 1000;
-rule T C meta length != 33-45;
-rule T C meta length 33-45;
-rule T C meta length { 33, 55, 67, 88 };
-rule T C meta length { 33-55, 67-88 };
+rule T C meta priority in 0x1:0x1;
+rule T C meta priority in 0x1:0xffff;
+rule T C meta priority in 0xffff:0xffff;
 
 rule T C meta priority abc;
 rule T C meta priority 100;  # length
@@ -664,6 +656,13 @@ rule T C meta protocol { ip, arp, ip6, vlan };
 rule T C meta protocol tcp;
 rule T C meta secmark;
 
+rule T C meta length != 1000;
+rule T C meta length > 1000;
+rule T C meta length != 33-45;
+rule T C meta length 33-45;
+rule T C meta length { 33, 55, 67, 88 };
+rule T C meta length { 33-55, 67-88 };
+
 
 ################################################################################
 # false positive test: looks highlighted correctly; has bad content; oops.
@@ -676,6 +675,7 @@ rule T C meta skgid { };
 rule T C meta skuid { };
 
 rule T C meta mark ;  # missing info
+
 rule T C iif ;  # missing interface name
 
 
