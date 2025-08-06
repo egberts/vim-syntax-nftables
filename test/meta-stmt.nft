@@ -297,8 +297,42 @@ rule T C meta oiftype >= 1;
 rule T C meta oiftype <= 1;
 rule T C meta oiftype in {1, 2, 6};
 rule T C meta oiftype not in {1, 2, 6};
-rule T C meta skgid 14;
-rule T C meta skuid 14;
+rule T C meta skgid 64;  # length
+rule t c meta skgid 0x01;
+rule t c meta skgid 1234;
+rule T C meta skgid 0x4;
+rule T C meta skgid 0x1234;
+rule T C meta skgid 0x00000032;
+rule T C meta skgid == 0x1;
+rule T C meta skgid == @my_set_of_skgid;
+rule T C meta skgid == { 0x1234, 0x4 };
+rule T C meta skgid != 64;
+rule T C meta skgid != @my_set_of_skgid;
+rule T C meta skgid != { 0x1234, 0x4 };
+rule T C meta skgid >= 64;
+rule T C meta skgid <= 64;
+rule T C meta skgid & 0x02 == 0x02;
+rule T C meta skgid in { 0x1234567, 0x0001 };
+rule T C meta skgid in @my_set_of_skgid;
+rule T C meta skgid not in @my_set_of_skgid;
+rule T C meta skuid 64;  # length
+rule t c meta skuid 0x01;
+rule t c meta skuid 1234;
+rule T C meta skuid 0x4;
+rule T C meta skuid 0x1234;
+rule T C meta skuid 0x00000032;
+rule T C meta skuid == 0x1;
+rule T C meta skuid == @my_set_of_skuid;
+rule T C meta skuid == { 0x1234, 0x4 };
+rule T C meta skuid != 64;
+rule T C meta skuid != @my_set_of_skuid;
+rule T C meta skuid != { 0x1234, 0x4 };
+rule T C meta skuid >= 64;
+rule T C meta skuid <= 64;
+rule T C meta skuid & 0x02 == 0x02;
+rule T C meta skuid in { 0x1234567, 0x0001 };
+rule T C meta skuid in @my_set_of_skuid;
+rule T C meta skuid not in @my_set_of_skuid;
 # 'meta nftace' requires no argument, but still 'unqualified' (no 'meta' needed).
 # 'meta rtclassid' is used with 'realm' keyword, mnemonics are in /etc/iproute2/rt_realms
 #
@@ -417,8 +451,26 @@ rule T C meta cgroup in { 1,2,3,4 };
 rule T C meta cgroup in @my_set_of_cgroups;
 rule T C meta cgroup not in @my_set_of_cgroups;
 rule T C meta time 12;
+rule T C meta time 1722960000;
+rule T C meta time == 0x7890abcd;
+rule T C meta time != 0x7890abcd;
+rule T C meta time > 0x7890abcd;
+rule T C meta time >= 0x7890abcd;
+rule T C meta time < 0x7890abcd;
+rule T C meta time <= 0x7890abcd;
+rule T C meta time in { 0x7890abcd };
+rule T C meta time not in { 0x7890abcd, 0x8900000a };
+rule T C meta day 0;
+rule T C meta day 6;
 rule T C meta day Monday;
 rule T C meta day saturday;
+rule T C meta day == thursday;
+rule T C meta day != thursday;
+rule T C meta day in { 2,3,4 };
+rule T C meta day in { Tuesday };
+rule T C meta day in { 6, Sunday, Monday };
+rule T C meta day not in { 5, 6 };
+rule T C meta day not in { Sunday, Monday };
 rule T C meta hour 0;
 rule T C meta hour 00;
 rule T C meta hour 9;
@@ -428,6 +480,16 @@ rule T C meta hour 15;
 rule T C meta hour 19;
 rule T C meta hour 20;
 rule T C meta hour 23;
+rule T C meta hour == 23;
+rule T C meta hour != 23;
+rule T C meta hour > 23;
+rule T C meta hour >= 23;
+rule T C meta hour < 23;
+rule T C meta hour <= 23;
+rule T C meta hour in { 0,2,4,8,10,22 };
+rule T C meta hour in @my_set_of_hours;
+rule T C meta hour not in { 0,2,4,8,10,22 };
+rule T C meta hour not in @my_set_of_hours;
 
 # meta_stmt - qualified META, with a value (requires 'meta' before it)
 rule T C meta length 1512;
@@ -437,6 +499,8 @@ rule T C meta length < 256;
 rule T C meta length <= 256;
 rule T C meta length > 256;
 rule T C meta length >= 256;
+rule T C meta length in { 1490, 1512, 1518, 1290 };
+rule T C meta length not in { 1490, 1512, 1518, 1290 };
 
 rule T C meta protocol any;
 rule T C meta protocol loopback;
@@ -504,13 +568,24 @@ rule T C meta iifname "eth0" ip saddr 192.168.1.1 accept;
 
 rule T C meta iiftype >= 1 && meta iiftype <= 2 accept;
 
+rule T C meta iiftype != 1 continue;
+rule T C meta iiftype != 1 return;
+rule T C meta iiftype != 1 goto abc;
+rule T C meta iiftype != 1 jump abc;
+rule T C meta iiftype != 1 accept;
+rule T C meta iiftype != 1 drop;
 rule T C meta iiftype != 1 drop;
 
 rule T C meta iiftype 1 accept;
 
-set T my_if_types { type integer\; };
-element T my_if_types { 1, 6 };
-rule T C meta iiftype @my_if_types accept ;
+# post Linux v6.1
+set T my_set_of_iftypes { type integer; };
+element T my_set_of_iftypes { 1, 6 };
+rule T C meta iiftype in @my_set_of_iftypes accept ;
+# pre Linux v6.1
+set T my_set_of_iftypes { type mark; };
+element T my_set_of_iftypes { 1, 6 };
+rule T C meta mark in @my_set_of_iftypes drop;
 
 rule T C meta skgid & 0xFF == 0x1 accept;
 
