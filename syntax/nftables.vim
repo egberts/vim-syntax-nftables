@@ -755,6 +755,13 @@ syn cluster nft_c_add_cmd_keyword_counter_obj_spec
 \    nft_add_cmd_keyword_counter_obj_spec_table_spec_table_id_keyword_last,
 \    nft_add_cmd_keyword_counter_obj_spec_table_spec_table_id,
 
+" Match the 'counter' keyword
+syn match nft_add_cmd_rule_rule_alloc_stmt_keyword_counter '\vcounter\>' contained
+    \ nextgroup=nft_add_cmd_rule_rule_alloc_stmt_counter_objref_identifier
+
+" 'counter'->objref_stmt_counter->stmt->rule_alloc->rule->add_cmd->base_cmd->line
+syn match nft_add_cmd_rule_rule_alloc_stmt_counter_objref_identifier '\v[a-zA-Z_][a-zA-Z0-9_]*' contained
+
 " 'counter'->add_cmd->base_cmd->line
 hi link   nft_base_cmd_add_cmd_keyword_counter nftHL_Command
 syn match nft_base_cmd_add_cmd_keyword_counter "\vcounter\ze[ \t]" skipwhite contained
@@ -6062,7 +6069,7 @@ syn match nft_base_cmd_reset_quota "quota" skipwhite contained
 
 " base_cmd 'reset' 'counter'
 hi link   nft_base_cmd_reset_keyword_counter nftHL_Statement
-syn match nft_base_cmd_reset_keyword_counter "counter " skipwhite contained
+syn match nft_base_cmd_reset_keyword_counter "\vcounter\ze[ \t]" skipwhite contained
 \ nextgroup=
 \    nft_base_cmd_reset_counter_quota_family_spec,
 \    nft_base_cmd_reset_counter_quota_obj_spec_id_table,
@@ -6401,6 +6408,35 @@ syn match nft_base_cmd_keyword_quota "\vquota\ze[ \t]" skipwhite contained
 \    nft_UnexpectedSemicolon,
 \    nft_UnexpectedEOS,
 " *********************  END 'quota' ***********************
+
+" *********************  BEGIN 'objref_stmt' ***********************
+" stmt_expr->'name'->'counter'->objref_stmt_counter->objref_stmt->stmt->rule_alloc->rule->add_cmd->base_cmd->line
+hi link   nft_base_cmd_add_cmd_rule_rule_alloc_stmt_objref_stmt_objref_stmt_counter_stmt_expr_keyword_expr_keyword_last nftHL_Action
+syn match nft_base_cmd_add_cmd_rule_rule_alloc_stmt_objref_stmt_objref_stmt_counter_stmt_expr_keyword_expr_keyword_last '\vlast\ze[ \t]' skipwhite contained
+
+hi link   nft_base_cmd_add_cmd_rule_rule_alloc_stmt_objref_stmt_objref_stmt_counter_stmt_expr_symbol_expr_variable nftHL_Variable
+syn match nft_base_cmd_add_cmd_rule_rule_alloc_stmt_objref_stmt_objref_stmt_counter_stmt_expr_symbol_expr_variable '\v\$[a-zA-Z][a-zA-Z0-9\-_]{0,63}\ze[ \t\n;]' skipwhite contained
+
+hi link   nft_base_cmd_add_cmd_rule_rule_alloc_stmt_objref_stmt_objref_stmt_counter_stmt_expr_symbol_expr_string_quoted nftHL_String
+syn match nft_base_cmd_add_cmd_rule_rule_alloc_stmt_objref_stmt_objref_stmt_counter_stmt_expr_symbol_expr_string_quoted '\v\"[a-zA-Z][a-zA-Z0-9\-_]{0,63}\"\ze[ \t\n;]' skipwhite contained
+syn match nft_base_cmd_add_cmd_rule_rule_alloc_stmt_objref_stmt_objref_stmt_counter_stmt_expr_symbol_expr_string_quoted '\v\'[a-zA-Z][a-zA-Z0-9\-_]{0,63}\'\ze[ \t\n;]' skipwhite contained
+hi link   nft_base_cmd_add_cmd_rule_rule_alloc_stmt_objref_stmt_objref_stmt_counter_stmt_expr_symbol_expr_string_raw nftHL_String
+syn match nft_base_cmd_add_cmd_rule_rule_alloc_stmt_objref_stmt_objref_stmt_counter_stmt_expr_symbol_expr_string_raw '\v[a-zA-Z][a-zA-Z0-9\-_]{0,63}\ze[ \t\n;]' skipwhite contained
+
+" 'name'->'counter'->objref_stmt_counter->objref_stmt->stmt->rule_alloc->rule->add_cmd->base_cmd->line
+hi link   nft_base_cmd_add_cmd_rule_rule_alloc_stmt_objref_stmt_objref_stmt_counter_keyword_name nftHL_Command
+syn match nft_base_cmd_add_cmd_rule_rule_alloc_stmt_objref_stmt_objref_stmt_counter_keyword_name '\vname\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_base_cmd_add_cmd_rule_rule_alloc_stmt_objref_stmt_objref_stmt_counter_stmt_expr_symbol_expr_variable,
+\    nft_base_cmd_add_cmd_rule_rule_alloc_stmt_objref_stmt_objref_stmt_counter_stmt_expr_symbol_expr_string_quoted,
+\    nft_base_cmd_add_cmd_rule_rule_alloc_stmt_objref_stmt_objref_stmt_counter_stmt_expr_symbol_expr_string_raw,
+" 'objref_stmt'->add_cmd->base_cmd->line
+hi link   nft_base_cmd_add_cmd_rule_rule_alloc_stmt_objref_stmt_objref_stmt_counter_keyword_counter nftHL_Command
+syn match nft_base_cmd_add_cmd_rule_rule_alloc_stmt_objref_stmt_objref_stmt_counter_keyword_counter '\vcounter\ze[ \t\n;]' skipwhite contained
+\ nextgroup=
+\    nft_base_cmd_add_cmd_rule_rule_alloc_stmt_objref_stmt_objref_stmt_counter_keyword_name
+" *********************  END 'objref_stmt' ***********************
+
 
 " *********************  BEGIN 'map' ***********************
 " set_spec 'map' ('add'|'clean')
@@ -7451,6 +7487,7 @@ syn region nft_add_cmd_keyword_table_table_block_chain_chain_block start="{" end
 \    nft_common_block_keyword_include,
 \    nft_add_cmd_rule_rule_alloc_stmt_redir_stmt_redir_stmt_alloc_keyword_redirect,
 \    nft_add_cmd_keyword_table_table_block_chain_chain_block_comment_spec,
+\    nft_base_cmd_add_cmd_rule_rule_alloc_stmt_objref_stmt_objref_stmt_counter_keyword_counter,
 \    nft_comment_spec,
 \    nft_add_cmd_keyword_table_table_block_chain_chain_block_devices,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_ibrname,

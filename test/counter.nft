@@ -1,10 +1,31 @@
 #!/usr/sbin/nft -f
 # File: counter.nft
-# Description: A test NFT file to exercise 'counter' Vim syntax highlightings.
+# Description: A test NFT file to exercise 'counter' keyword Vim syntax highlightings.
 #
 # bison symbol:   counter_stmt
 # syntax pathway: counter_stmt->stateful_stmt->(stmt|stateful_stmt_list)
 #
+#
+# First-Order, First-encountered keywords after 'counter' keyword
+# Keyword  Type of stmt    Description
+# log      log_stmt        Packet logging
+# accept   verdict_stmt    Verdict: accept
+# drop     verdict_stmt    Verdict: drop
+# continue verdict_stmt    Verdict: continue
+# jump     verdict_stmt    Control flow
+# return   verdict_stmt    Return from chain
+# meta     expr_stmt       Expression involving meta keys
+# ip       expr_stmt       Match IP headers
+# tcp      expr_stmt       Match TCP headers
+# ct       stateful_stmt   Conntrack match or assignment
+# limit    stateful_stmt   Rate limiting
+# mark     expr_stmt or match_stmt    Firewall mark matching or assignment
+# payload  expr_stmt       Match protocol payload
+# quota    stateful_stmt   Match on bytes used
+# set      set_stmt        Set element addition or update (in update-only rules)
+# reject   verdict_stmt    ICMP/TCP rejection
+# audit    log_stmt        Similar to log
+# synproxy stateful_stmt   TCP SYN proxy setup
 ################################################################################
 # true positive test: properly hightlighted correctly; has good content; perfect
 ################################################################################
@@ -26,6 +47,7 @@ counter arp last counter_id
 counter arp table_id last
 counter arp last counter_id
 counter arp last last
+counter bridge table_id counter_id name mycountername; 
 
 counter table_id counter_id packets 5 bytes 1500
 counter table_id counter_id packets 5 bytes 1500; 
@@ -66,6 +88,10 @@ add counter table_id counter_id;
 add counter table_id counter_id ;
 add counter table_id counter_id ; 
 
+
+add counter inet mytable my_counter_name
+
+
 add counter table_id counter_id { comment "Nice to say things" }
 
 add counter table_id counter_id { packets 5 bytes 1500 };
@@ -82,6 +108,14 @@ add counter table_id counter_id {
     packets 5 bytes 1500
 };
 
+
+
+inet mytable {
+      chain mychain {
+              counter name my_counter_name
+                }
+}
+
 # 'counter' as an expression ('expr')
 # counter_stmt->stateful_stmt->stateful_stmt_list->set_spec
 # counter_stmt->stateful_stmt->(stmt|stateful_stmt_list)
@@ -95,6 +129,66 @@ add set T S { counter packets 3 }
 # repeated stateful_stmt
 add set T S { counter packets 3 counter packets 3 }
 
+delete counter T CC
+delete counter ip T CC
+delete counter ip6 T CC
+delete counter inet T CC
+delete counter netdev T CC
+delete counter bridge T CC
+delete counter arp T CC
+
+delete counter T handle 1
+delete counter ip T handle 1
+delete counter ip6 T handle 1
+delete counter inet T handle 1
+delete counter netdev T handle 1
+delete counter bridge T handle 1
+delete counter arp T handle 1
+
+destroy counter T CC
+destroy counter ip T CC
+destroy counter ip6 T CC
+destroy counter inet T CC
+destroy counter netdev T CC
+destroy counter bridge T CC
+destroy counter arp T CC
+
+destroy counter T handle 1
+destroy counter ip T handle 1
+destroy counter ip6 T handle 1
+destroy counter inet T handle 1
+destroy counter netdev T handle 1
+destroy counter bridge T handle 1
+destroy counter arp T handle 1
+
+list counter T C
+
+reset counter T C
+
+add table T {
+    chain C {
+        iif == "eth0" counter;
+        counter name $MY_COUNTER_VARNAME;
+        counter name "named_counter_identifier";
+        counter name 'named_counter_identifier';
+        counter name named_counter_identifier;
+    }
+};
+
+# counter_stmt (used in rule/stmt and table-counter counter_block)
+table T {
+    counter last {
+        # inline comments
+        define A = 1  # inline comments
+        redefine A = 2  # inline comments
+        undefine A  # inline comments
+        error; 
+        include "global_firewall.nft";
+        include "lou_s_firewall.nft"
+        comment "this stuff!`~@#$%^&*()_+-={}[]|\\:\"<>?/";
+    }
+    counter name my_count;
+} ;
 
 ################################################################################
 # true negative test: properly hightlighted wrongly to show an error; 
@@ -131,7 +225,8 @@ add counter ip table_id counter_id packets 5 bytes1500
 add counter ip table_id counter_id packets 5 bytes1500 
 add counter ip table_id counter_id packets 5 bytes1500 ;
 
-add rule table_id chain_id set add { $MYVAR counter at  }
+add rule inet mytable mychain counter;
+add rule table_id chain_id set add { $MYVAR counter at  };
 
 add counter table_id counter_id { packets5bytes1500 } ;
 add counter ip table_id counter_id { packets5 bytes 1500 ; };
