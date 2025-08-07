@@ -109,12 +109,15 @@ add counter table_id counter_id {
 };
 
 
+table inet mytable {
+    counter name my_counter_name;}
+};
 
-inet mytable {
-      chain mychain {
-              counter name my_counter_name
-                }
-}
+table inet mytable {
+    chain mychain {
+        counter name my_counter_name;
+    };
+};
 
 # 'counter' as an expression ('expr')
 # counter_stmt->stateful_stmt->stateful_stmt_list->set_spec
