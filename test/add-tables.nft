@@ -94,10 +94,8 @@ table T {
 } 
 table bridge T { comment 'Hello world!' }
 table T { comment "Hello world!" }
-table T { comment *Hello world!* }
 table netdev xxxx { comment "test" } ;
 table xxxx { comment 'test' };
-table T { comment *Hello world!* ;  }
 table arp xxxx { comment test;  };
 
 # base_cmd add_cmd 'table' table_spec table_block 'policy' 'offload'
@@ -105,7 +103,7 @@ table arp xxxx { comment test;  };
 # base_cmd add_cmd 'table' table_spec table_block 'flags' flag_spec
 table T {flags persist}
 table T {flags dormant;}
-table T {flags owner,persist,dormant;};
+table T {flags owner, persist,dormant };
 table T {flags owner,persist ;}
 table T {flags dormant,owner; }
 table T {flags persist,dormant ; }
@@ -122,24 +120,6 @@ table arp myArpTable { flags dormant; }
 table ip myIpTable { flags dormant; }
 table ip6 myIp6Table { flags dormant; }
 table inet myInetTable { flags dormant; }
-
-table T {
-    # common_block
-    include "/directory/subdirectory/filename.filetype";
-    define A = 1
-    redefine A = 2
-    undefine A
-    # table_option
-    flags dormant, persist;
-    comment 
-        "A Hello XYZ"
-    comment "A ;Hello XYZ"
-    comment 'ABCDEFGHIJKLMNOPQRSTUVXWYZabcdefghijklmnopqrstuvwxyz' ;
-    comment "ABCDEFGHIJKLMNOPQRSTUVXWYZabcdefghijklmnopqrstuvwxyz"
-    comment ABCDEFGHIJKLMNOPQRSTUVXWYZabcdefghijklmnopqrstuvwxyz; Hello XYZ
-    comment 0123456789~!@#$%&*()_+=-|}{[]:/.,<>?\ Hello XYZ
-    comment Hello XYZ
-}
 
 # base_cmd add_cmd 'table' table_spec table_block 'chain' chain_block
 table T { chain C { } }
@@ -467,7 +447,7 @@ table arp T { ct timeout { } }
 table T { ct timeout { proto tcp 23 } }
 table T { ct timeout { l3-proto ip6 } }
 table T { ct timeout { policy = { ABC : 126 } }
-table T { ct timeout { policy = { ABC : 1H15M } }
+table T { ct timeout { policy = { ABC : 1H15M } } }
 
 # base_cmd add_cmd 'table' table_spec table_block 'ct' 'expectation' ct_expect_block
 table T { 
@@ -586,7 +566,148 @@ table T { synproxy SP { mss 1490 wscale 5 24H15S sackperm } }
 table T { synproxy SP { mss 1490 ; wscale 5 } }
 table T { synproxy SP { mss 1490 ; wscale 5 } }
 table T { synproxy SP { mss 1490 ; wscale 5 } }
-table T { synproxy SP { mss 1490 ; wscale 5 } }
+add table T { synproxy SP { mss 1490 ; wscale 5 } };
+table T { synproxy SP { mss 1490 ; wscale 5 } };
+
+
+# All-in-One
+table T {
+    # common_block
+    include "/directory/subdirectory/filename.filetype";
+    define A = 1
+    redefine A = 2
+    undefine A
+    # table_option
+    flags dormant, persist;
+    comment 
+        "A Hello XYZ"
+    comment "A ;Hello XYZ"
+    comment "ABCDEFGHIJKLMNOPQRSTUVXWYZabcdefghijklmnopqrstuvwxyz"
+    comment ABCDEFGHIJKLMNOPQRSTUVXWYZabcdefghijklmnopqrstuvwxyz; 
+    comment 0123456789~!@#$%&*()_+=-|\}\{[]:/.,<>?\ 
+    comment Hello ;
+    # chain_block
+    chain C { 
+        # common_block
+        include "/directory/subdirectory/filename.filetype";
+        define A = 1
+        redefine A = 2
+        undefine A
+        # hook_spec
+        type filter hook ingress device $ETHERNAME policy accept
+        policy $CHAINPOLICY
+        # set_flags
+        flags offload
+        # rule/rule_alloc/stmt/stateful_stmt/counter_stmt
+        counter;
+        # devices
+        devices = { "eth0", $BRIDGEVAR };
+        # comment_spec
+        comment 'ABCDEFGHIJKLMNOPQRSTUVXWYZabcdefghijklmnopqrstuvwxyz' ;
+    };
+    # set_block
+    set S { 
+        # common_block
+        include "/directory/subdirectory/filename.filetype";
+        define A = 1
+        redefine A = 2
+        undefine A
+        # typeof_key_expr
+        typeof ether : ip interval ip;
+        type classid : limit;
+        # set_flags
+        flags constant, interval, timeout, dynamic;
+        timeout 14h;
+        gc-interval 30s;
+        # rule/rule_alloc/stmt/stateful_stmt/counter_stmt
+        counter;
+        # rule/rule_alloc/stmt/stateful_stmt/limit_stmt
+        limit rate 15 / second;
+        limit rate over 15 / second;
+        limit rate until 15 / second burst 15 packets;
+        limit rate 15 Mbytes / second;
+        limit rate over 15 Kbytes / second burst 15 packets;
+        # rule/rule_alloc/stmt/stateful_stmt/quota_stmt
+        quota over 15 bytes 
+        quota over 15 bytes used 15 Mbytes
+        # rule/rule_alloc/stmt/stateful_stmt/connlimit_stmt
+        ct count over 20
+        # rule/rule_alloc/stmt/stateful_stmt/last_stmt
+        last 
+        last used never
+        last used 15m
+        # set_mechanism
+        policy performance;
+        policy memory;
+        # comment_spec
+        comment 'ABCDEFGHIJKLMNOPQRSTUVXWYZabcdefghijklmnopqrstuvwxyz' ;
+        # 'elements'/set_block_expr
+        elements = $VARNAME;
+        # elements = { "tesdf",2,3,4 };
+        # auto-merge;
+    };
+    # map_block
+    map M {
+        # common_block
+        include "/directory/subdirectory/filename.filetype";
+        define A = 1
+        redefine A = 2
+        undefine A
+        # 'timeout'
+        timeout 14h;
+        # 'gc-interval'
+        gc-interval 30s;
+        # set_flags
+        flags constant, interval, timeout, dynamic;
+        # stateful_stmt/counter_stmt
+        counter;
+        # stateful_stmt/limit_stmt
+        limit rate 15 / second;
+        limit rate over 15 / second;
+        limit rate until 15 / second burst 15 packets;
+        limit rate 15 Mbytes / second;
+        limit rate over 15 Kbytes / second burst 15 packets;
+        # stateful_stmt/quota_stmt
+        quota over 15 bytes 
+        quota over 15 bytes used 15 Mbytes
+        # stateful_stmt/connlimit_stmt
+        ct count over 20
+        # stateful_stmt/last_stmt
+        last 
+        last used never
+        last used 15m
+        # comment_spec
+        comment 'ABCDEFGHIJKLMNOPQRSTUVXWYZabcdefghijklmnopqrstuvwxyz' ;
+        # set_mechanism
+        policy performance;
+        policy memory;
+        size 1230;
+        # typeof_data_expr
+        typeof ether : ip interval ip;
+        type classid : limit;
+        # 'elements'/set_block_expr
+        elements = $VARNAME;
+        #elements = { "tesdf",2,3,4 };
+    };
+    # flowtable_block
+    flowtable FT { };
+    # counter_block
+    # counter CT { };
+    # quota_block
+    # quota Q { };
+    # ct_helper_block
+    # ct helper Q { };
+    # ct_timeout_block
+    # ct timeout Q { };
+    # ct_expect_block
+    # ct expectation Q { };
+    # limit_block
+    # limit L { };
+    # secmark_block
+    # secmark SM { };
+    # synproxy_block
+    # synproxy SP { };
+};
 
 
 ################################################################################
