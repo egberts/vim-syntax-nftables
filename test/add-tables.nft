@@ -702,7 +702,10 @@ table T {
     # ct_expect_block
     # ct expectation Q { };
     # limit_block
-    # limit L { };
+    limit L 10/sec;  # invalid in table_block
+    limit L { rate until 1/second };
+    limit ip L { rate until 1/second };
+    limit arp L { rate until 1/second };
     # secmark_block
     # secmark SM { };
     # synproxy_block

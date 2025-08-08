@@ -590,6 +590,19 @@ syn cluster nft_identifier
 hi link   nft_common_block_stmt_separator nftHL_Separator
 syn match nft_common_block_stmt_separator ";" skipwhite contained
 
+" 'comment' comment_spec QUOTED_STRING
+hi link    nft_comment_spec_string_quoted_double nftHL_Comment
+syn region nft_comment_spec_string_quoted_double start='"' end='"' skip="\\\"" oneline skipwhite contained
+\ nextgroup=
+\    nft_String,
+\    nft_Error
+
+" base_cmd add_cmd 'set' set_spec '{' set_block 'comment'
+hi link   nft_comment_spec_keyword_comment nftHL_Statement
+syn match nft_comment_spec_keyword_comment "\vcomment\ze[ \t]" skipwhite contained
+\ nextgroup=
+\   nft_comment_spec_string_quoted_double
+
 "****************** BEGIN OF NFTABLE SYNTAX *******************************
 
 " ************************* Begin of 'counter_cmd' *************************
@@ -6139,6 +6152,7 @@ hi link   nft_add_cmd_keyword_limit_limit_config_limit_burst_pkts_limit_pkts_num
 syn match nft_add_cmd_keyword_limit_limit_config_limit_burst_pkts_limit_pkts_num "\v[0-9]{1,20}\ze[ \t]" skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_keyword_limit_limit_config_limit_burst_pkts_limit_pkts_keyword_pkts,
+\    nft_UnexpectedEOS,
 \    nft_Error
 
 " 'limit' [ 'over'|'until' ] <NUM> '/' ('second'|'minute'|'hour'|'day'|'week') 'burst'
@@ -6165,6 +6179,7 @@ hi link   nft_add_cmd_keyword_limit_limit_config_limit_rate_pkts_expression_slas
 syn match nft_add_cmd_keyword_limit_limit_config_limit_rate_pkts_expression_slash "/" skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_keyword_limit_limit_config_limit_rate_pkts_time_unit,
+\    nft_UnexpectedEOS,
 \    nft_Error
 
 " limit_burst_bytes
@@ -6220,7 +6235,8 @@ hi link   nft_add_cmd_keyword_limit_limit_config_limit_rate_pktsbytes_num nftHL_
 syn match nft_add_cmd_keyword_limit_limit_config_limit_rate_pktsbytes_num "\v[0-9]{1,10}\ze[ \t\/]" skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_keyword_limit_limit_config_limit_rate_bytes_keyword_string,
-\    nft_add_cmd_keyword_limit_limit_config_limit_rate_pkts_expression_slash,,
+\    nft_add_cmd_keyword_limit_limit_config_limit_rate_pkts_expression_slash,
+\    nft_UnexpectedEOS,
 \    nft_Error
 
 " 'rate' [ 'over'|'until' ]
@@ -6237,6 +6253,11 @@ syn match nft_add_cmd_keyword_limit_limit_config_keyword_rate "\vrate\ze[ \t]" s
 \    nft_add_cmd_keyword_limit_limit_config_limit_mode,
 \    nft_add_cmd_keyword_limit_limit_config_limit_rate_pktsbytes_num,
 \    nft_Error
+
+" base_cmd_add_cmd 'limit' <table_id> <limit_id> limit_block
+hi link    nft_add_cmd_limit_limit_block nftHL_BlockDelimitersLimit
+syn region nft_add_cmd_limit_limit_block start=+{+ end=+}+ skipwhite contained
+\ contains=nft_Error
 
 " base_cmd add_cmd 'limit' <table_id> <limit_id>
 hi link   nft_add_cmd_keyword_limit_obj_spec_identifier nftHL_Identifier
@@ -6267,6 +6288,154 @@ syn match nft_base_cmd_add_cmd_keyword_limit "\vlimit\ze[ \t]" skipwhite contain
 \ nextgroup=
 \    nft_add_cmd_keyword_limit_obj_spec_family_spec,
 \    nft_add_cmd_keyword_limit_obj_spec_table_spec_identifier
+
+" %%%%%%%%%
+hi link   nft_add_cmd_table_block_limit_block_separator nftHL_Separator
+syn match nft_add_cmd_table_block_limit_block_separator /;/ skipwhite contained
+
+" limit_burst_bytes
+" 'limit' [ 'over'|'until' ] <NUM> '/' ('second'|'minute'|'hour'|'day'|'week') 'burst' <NUM> ('bytes'|'string')
+" 'bytes'->limit_burst_bytes->limit_confi->'limit'->'{'->table_block->'table'->
+hi link   nft_add_cmd_table_block_limit_config_limit_burst_pkts_limit_pkts_keyword_pkts nftHL_Action
+syn match nft_add_cmd_table_block_limit_config_limit_burst_pkts_limit_pkts_keyword_pkts "\v\c(packet)[s]?" skipwhite contained
+\ nextgroup=
+\    nft_add_cmd_table_block_limit_block_separator,
+\    nft_Error
+
+" 'limit' [ 'over'|'until' ] <NUM> '/' ('second'|'minute'|'hour'|'day'|'week') 'burst' <NUM>
+" num->limit_burst_pkts->limit_config->'limit'->'{'->table_block->'table'->(add_cmd|create_cmd|limit_block)
+hi link   nft_add_cmd_table_block_limit_config_limit_burst_pkts_limit_pkts_num nftHL_Number
+syn match nft_add_cmd_table_block_limit_config_limit_burst_pkts_limit_pkts_num "\v[0-9]{1,20}\ze[ \t]" skipwhite contained
+\ nextgroup=
+\    nft_add_cmd_table_block_limit_config_limit_burst_pkts_limit_pkts_keyword_pkts,
+\    nft_UnexpectedEOS,
+\    nft_Error
+
+" 'limit' [ 'over'|'until' ] <NUM> '/' ('second'|'minute'|'hour'|'day'|'week') 'burst'
+" 'burst'->limit_burst_pkts->limit_config->'limit'->'{'->table_block->'table'->(add_cmd|create_cmd|limit_block)
+hi link   nft_add_cmd_table_block_limit_config_limit_burst_pkts_keyword_burst nftHL_Command
+syn match nft_add_cmd_table_block_limit_config_limit_burst_pkts_keyword_burst "\vburst\ze[ \t]" skipwhite contained
+\ nextgroup=
+\    nft_add_cmd_table_block_limit_config_limit_burst_pkts_limit_pkts_num,
+\    nft_Error
+
+
+hi link   nft_add_cmd_table_block_limit_config_limit_rate_pkts_time_unit nftHL_Action
+syn match nft_add_cmd_table_block_limit_config_limit_rate_pkts_time_unit "\v\c(second|minute|hour|day|week)[s]?" skipwhite contained
+\ nextgroup=
+\    nft_add_cmd_table_block_limit_config_limit_burst_pkts_keyword_burst,
+\    nft_add_cmd_table_block_limit_block_separator,
+\    nft_Error
+
+" limit_rate_bytes
+" 'rate' [ 'over'|'until' ] <NUM> 'bytes' '/'
+" '/'->limit_rate_bytes->limit_config->'limit'->'{'->table_block->'table'->(add_cmd|create_cmd|limit_block)
+hi link   nft_add_cmd_table_block_limit_config_limit_rate_pkts_expression_slash nftHL_Expression
+syn match nft_add_cmd_table_block_limit_config_limit_rate_pkts_expression_slash "/" skipwhite contained
+\ nextgroup=
+\    nft_add_cmd_table_block_limit_config_limit_rate_pkts_time_unit,
+\    nft_UnexpectedEOS,
+\    nft_Error
+
+" limit_burst_bytes
+" 'limit' [ 'over'|'until' ] <NUM> '/' ('second'|'minute'|'hour'|'day'|'week') 'burst' <NUM> ('bytes'|'string')
+" 'bytes'->limit_burst_bytes->limit_config->'limit'->'{'->table_block->'table'->
+hi link   nft_limit_config_limit_burst_bytes_limit_bytes_keyword_bytes nftHL_Action
+syn match nft_limit_config_limit_burst_bytes_limit_bytes_keyword_bytes "\v\c(pbyte|gbyte|mbyte|kbyte|byte)[s]?" skipwhite contained
+\ nextgroup=
+\    nft_add_cmd_table_block_limit_block_separator,
+\    nft_Error
+
+" 'limit' [ 'over'|'until' ] <NUM> '/' ('second'|'minute'|'hour'|'day'|'week') 'burst' <NUM>
+" num->limit_burst_bytes->limit_config->'limit'->'{'->table_block->'table'->(add_cmd|create_cmd|limit_block)
+hi link   nft_limit_config_limit_burst_bytes_limit_bytes_num nftHL_Number
+syn match nft_limit_config_limit_burst_bytes_limit_bytes_num "\v[0-9]{1,10}\ze[ \t]" skipwhite contained
+\ nextgroup=
+\    nft_limit_config_limit_burst_bytes_limit_bytes_keyword_bytes,
+\    nft_Error
+
+" 'limit' [ 'over'|'until' ] <NUM> '/' ('second'|'minute'|'hour'|'day'|'week') 'burst'
+" 'burst'->limit_burst_bytes->limit_config->'limit'->'{'->table_block->'table'->(add_cmd|create_cmd|limit_block)
+hi link   nft_limit_config_limit_burst_bytes_keyword_burst nftHL_Command
+syn match nft_limit_config_limit_burst_bytes_keyword_burst "\vburst\ze[ \t]" skipwhite contained
+\ nextgroup=
+\    nft_limit_config_limit_burst_bytes_limit_bytes_num,
+\    nft_Error
+
+hi link   nft_add_cmd_table_block_limit_config_limit_rate_bytes_time_unit nftHL_Action
+syn match nft_add_cmd_table_block_limit_config_limit_rate_bytes_time_unit "\v\c(second|minute|hour|day|week)[s]?" skipwhite contained
+\ nextgroup=
+\    nft_limit_config_limit_burst_bytes_keyword_burst,
+\    nft_add_cmd_table_block_limit_block_separator,
+\    nft_EOS,
+\    nft_Error
+
+hi link   nft_add_cmd_table_block_limit_config_limit_rate_bytes_expression_slash nftHL_Expression
+syn match nft_add_cmd_table_block_limit_config_limit_rate_bytes_expression_slash "/" skipwhite contained
+\ nextgroup=
+\    nft_add_cmd_table_block_limit_config_limit_rate_bytes_time_unit
+
+" 'limit' 'rate' [ 'over'|'until' ] <NUM> 'string'
+" 'string'->limit_rate_bytes->limit_config->'limit'->'{'->table_block->'table'->(add_cmd|create_cmd|limit_block)
+hi link   nft_add_cmd_table_block_limit_config_limit_rate_bytes_keyword_string nftHL_Action
+syn match nft_add_cmd_table_block_limit_config_limit_rate_bytes_keyword_string "\v\c(kbyte|mbyte|gbyte|pbyte|byte)[s]?" skipwhite contained
+\ nextgroup=
+\    nft_add_cmd_table_block_limit_config_limit_rate_bytes_expression_slash,
+\    nft_EOS
+
+" 'limit' 'rate' [ 'over'|'until' ] <NUM>
+" <num>->*->limit_config->'limit'->'{'->table_block->'table'->(add_cmd|create_cmd|limit_block)
+hi link   nft_add_cmd_table_block_limit_config_limit_rate_pktsbytes_num nftHL_Number
+syn match nft_add_cmd_table_block_limit_config_limit_rate_pktsbytes_num "\v[0-9]{1,10}\ze[ \t\/]" skipwhite contained
+\ nextgroup=
+\    nft_add_cmd_table_block_limit_config_limit_rate_bytes_keyword_string,
+\    nft_add_cmd_table_block_limit_config_limit_rate_pkts_expression_slash,,
+\    nft_UnexpectedEOS,
+\    nft_Error
+
+" 'rate' [ 'over'|'until' ]
+" limit_mode->limit_config->'limit'->'{'->table_block->'table'->(add_cmd|create_cmd|limit_block)
+hi link   nft_add_cmd_table_block_limit_config_limit_mode nftHL_Action
+syn match nft_add_cmd_table_block_limit_config_limit_mode "\v(over|until)\ze[ \t]" skipwhite contained
+\ nextgroup=
+\    nft_add_cmd_table_block_limit_config_limit_rate_pktsbytes_num,
+\    nft_Error
+
+hi link   nft_add_cmd_table_block_limit_block_keyword_rate nftHL_Statement
+syn match nft_add_cmd_table_block_limit_block_keyword_rate "\vrate\ze[ \t]" skipwhite contained
+\ nextgroup=
+\    nft_add_cmd_table_block_limit_config_limit_mode,
+\    nft_add_cmd_table_block_limit_config_limit_rate_pktsbytes_num,
+\    nft_Error
+
+" base_cmd add_cmd 'table' '{' 'limit' <limit_id> '{'
+hi link    nft_add_cmd_table_block_limit_block_delimiters nftHL_Identifier
+syn region nft_add_cmd_table_block_limit_block_delimiters start=+{+ end=+}+ skipwhite contained
+\ contains=
+\    nft_common_block_keyword_redefine,
+\    nft_common_block_keyword_undefine,
+\    nft_comment_spec_keyword_comment,
+\    nft_common_block_keyword_include,
+\    nft_common_block_keyword_define,
+\    nft_common_block_keyword_error,
+\    nft_add_cmd_table_block_limit_block_keyword_rate,
+\    nft_comment_inline,
+\    nft_add_cmd_table_block_limit_block_separator,
+\    nft_Error
+
+" base_cmd add_cmd 'table' '{' 'limit' <limit_id>
+hi link   nft_add_cmd_table_block_keyword_limit_obj_spec_identifier nftHL_Identifier
+syn match nft_add_cmd_table_block_keyword_limit_obj_spec_identifier "\v[A-Za-z][A-Za-z0-9\\\/_\.\-]{0,63}" skipwhite contained
+\ nextgroup=
+\    nft_add_cmd_table_block_limit_block_delimiters,
+\    nft_Error
+
+" base_cmd 'add' add_cmd 'table' '{' 'limit'
+hi link   nft_add_cmd_table_block_keyword_limit nftHL_Command
+syn match nft_add_cmd_table_block_keyword_limit "\vlimit\ze[ \t\{]" skipwhite contained
+\ nextgroup=
+\    nft_add_cmd_table_block_keyword_limit_obj_spec_identifier,
+\    nft_Error
 " ***********  END 'limit' ***********************
 
 " *********************  BEGIN 'quota' ***********************
@@ -8226,7 +8395,6 @@ syn region nft_add_cmd_keyword_table_table_block_delimiters start="{" end="}" sk
 \    nft_add_cmd_keyword_table_table_options_table_flag_keyword,
 \    nft_add_cmd_keyword_table_table_block_table_options_semicolon
 \ contains=
-\    nft_comment_inline,
 \    nft_add_cmd_table_block_keyword_flowtable,
 \    nft_common_block_keyword_redefine,
 \    nft_common_block_keyword_undefine,
@@ -8237,9 +8405,10 @@ syn region nft_add_cmd_keyword_table_table_block_delimiters start="{" end="}" sk
 \    nft_common_block_keyword_error,
 \    nft_add_cmd_keyword_table_table_options_keyword_flags,
 \    nft_comment_inline,
-\    nft_comment_spec,
+\    nft_add_cmd_table_block_keyword_limit,
 \    nft_add_cmd_table_block_keyword_set,
 \    nft_add_cmd_table_block_keyword_map,
+\    nft_comment_inline,
 \    nft_Error
 "\    nextgroup=nft_hash_comment,
 
