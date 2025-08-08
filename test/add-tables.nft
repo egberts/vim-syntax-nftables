@@ -189,24 +189,15 @@ table T { set S { counter } }
 table T { set S { counter bytes 123; } }
 table T { set S { counter packets 123 }; };
 table T { set S { counter packets 123 bytes 123 } }
-table T { set S { counter bytes 123 packets 123 } }
+table T { set S { counter bytes 123 packets 123 limit rate 123} }
+table T { set S { counter bytes 123 packets 123; limit rate 123} }
 table T { set S { limit rate 123 } }
 table T { set S { limit rate over 123 } }
 table T { set S { limit rate until 123 } }
 table T { set S { quota over 123 bytes } }
-table T { set S { quota over 123 string } }
 table T { set S { quota over 123 bytes used 123 bytes } }
-table T { set S { quota over 123 string used 123 string } }
 table T { set S { quota until 123 bytes } }
-table T { set S { quota until 123 string } }
 table T { set S { quota until 123 bytes used 123 bytes } }
-table T { set S { quota until 123 string used 123 string } }
-table T { 
-    set S { 
-        counter; 
-        quota; 
-        limit } 
-}
 table T { set S { ct count 123 } }
 table T { set S { ct count over 123 } }
 table T { set S { last } }
@@ -472,16 +463,6 @@ table T { ct expectation { timeout 15h } }
 table T { ct expectation { l3-proto netdev } }
 
 # base_cmd add_cmd 'table' table_spec table_block 'limit' limit_block
-table T { 
-    limit {
-        # common_block
-        include "/directory/subdirectory/filename.filetype"
-        define A = 1
-        redefine A = 2
-        undefine A
-    }
-}
-table T { limit L { } }
 table ip T { limit L { } }
 table ip6 T { limit L { } }
 table inet T { limit L { } }
@@ -510,6 +491,16 @@ table T { limit L { rate until 15 bytes / minute } }
 table T { limit L { rate until 15 bytes / hour } }
 table T { limit L { rate until 15 bytes / day } }
 table T { limit L { rate until 15 bytes / week } }
+table T { 
+    limit {
+        # common_block
+        include "/directory/subdirectory/filename.filetype"
+        define A = 1
+        redefine A = 2
+        undefine A
+    }
+}
+table T { limit L { } }
 
 # base_cmd add_cmd 'table' table_spec table_block 'secmark' secmark_block
 table T { 
@@ -558,7 +549,9 @@ add table T { synproxy SP { mss 1490 ; wscale 5 } };
 table T { synproxy SP { mss 1490 ; wscale 5 } };
 
 
+##########################################################################
 # All-in-One
+##########################################################################
 table T {
     # common_block
     include "/directory/subdirectory/filename.filetype";
@@ -614,7 +607,7 @@ table T {
         limit rate over 15 / second;
         limit rate until 15 / second burst 15 packets;
         limit rate 15 Mbytes / second;
-        limit rate over 15 Kbytes / second burst 15 packets;
+        limit rate over 15 Kbytes / second burst 15 kbytes;
         # rule/rule_alloc/stmt/stateful_stmt/quota_stmt
         quota over 15 bytes 
         quota over 15 bytes used 15 Mbytes
@@ -691,7 +684,7 @@ table T {
     # ct expectation Q { };
     # limit_block
     limit L { rate until 1/second };
-    limit arp L { rate until 1/second };
+    limit arp L { rate until 1/second }; # family_spec nor table belongs here
     limit ip L { rate until 1/second };  # family_spec nor table belongs here
     limit L 10 / sec;  # invalid in table_block
 

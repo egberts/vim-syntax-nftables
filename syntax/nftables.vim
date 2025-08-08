@@ -6774,8 +6774,8 @@ syn match nft_table_block_set_block_stateful_stmt_limit_stmt_limit_rate_bytes_ti
 \    nft_EOS,
 \    nft_Error
 
-hi link   nft_table_block_set_block_stateful_stmt_limit_stmt_limit_rate_pkts_expression_slash nftHL_Expression
-syn match nft_table_block_set_block_stateful_stmt_limit_stmt_limit_rate_pkts_expression_slash "/" skipwhite contained
+hi link   nft_table_block_set_block_stateful_stmt_limit_stmt_limit_rate_bytes_expression_slash nftHL_Expression
+syn match nft_table_block_set_block_stateful_stmt_limit_stmt_limit_rate_bytes_expression_slash "/" skipwhite contained
 \ nextgroup=
 \    nft_table_block_set_block_stateful_stmt_limit_stmt_limit_rate_bytes_time_unit
 
@@ -6784,18 +6784,17 @@ syn match nft_table_block_set_block_stateful_stmt_limit_stmt_limit_rate_pkts_exp
 hi link   nft_table_block_set_block_stateful_stmt_limit_stmt_limit_rate_bytes_string nftHL_Action
 syn match nft_table_block_set_block_stateful_stmt_limit_stmt_limit_rate_bytes_string "\v\c(kbyte|mbyte|gbyte|pbyte|byte)[s]?" skipwhite contained
 \ nextgroup=
-\    nft_table_block_set_block_stateful_stmt_limit_stmt_limit_rate_pkts_expression_slash,
+\    nft_table_block_set_block_stateful_stmt_limit_stmt_limit_rate_bytes_expression_slash,
 \    nft_EOS
 
 " 'limit' 'rate' [ 'over'|'until' ] <NUM>
 " <num>->*->limit_config->(add_cmd|create_cmd|limit_block)
 hi link   nft_table_block_set_block_stateful_stmt_limit_stmt_limit_rate_pktsbytes_num nftHL_Number
-syn match nft_table_block_set_block_stateful_stmt_limit_stmt_limit_rate_pktsbytes_num "\v[0-9]{1,10}\ze[ \t\/]" skipwhite contained
+syn match nft_table_block_set_block_stateful_stmt_limit_stmt_limit_rate_pktsbytes_num "\v[0-9]{1,10}\ze[ \t\/\}]" skipwhite contained
 \ nextgroup=
-\    nft_table_block_set_block_stateful_stmt_limit_stmt_limit_rate_bytes_string,
 \    nft_table_block_set_block_stateful_stmt_limit_stmt_limit_rate_pkts_expression_slash,
-\    nft_UnexpectedEOS,
-\    nft_Error
+\    nft_table_block_set_block_stateful_stmt_limit_stmt_limit_rate_bytes_string,
+\    nft_UnexpectedEOS
 
 " 'rate' [ 'over'|'until' ]
 " limit_mode->limit_config->(add_cmd|create_cmd|limit_block)
@@ -6815,10 +6814,55 @@ syn match nft_table_block_set_block_stateful_stmt_limit_stmt_keyword_rate "\vrat
 hi link   nft_add_cmd_table_block_set_block_stateful_stmt_list_stmt_stateful_stmt_limit_stmt_keyword_limit nftHL_Statement
 syn match nft_add_cmd_table_block_set_block_stateful_stmt_list_stmt_stateful_stmt_limit_stmt_keyword_limit '\vlimit\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_table_block_set_block_stateful_stmt_limit_stmt_keyword_rate
+\    nft_table_block_set_block_stateful_stmt_limit_stmt_keyword_rate,
+\    nft_Error
+
+hi link nft_table_block_set_block_stateful_stmt_quota_stmt_quota_used_quota_unit_keywords_bytes nftHL_Action
+syn match nft_table_block_set_block_stateful_stmt_quota_stmt_quota_used_quota_unit_keywords_bytes '\v(kbyte|mbyte|gbyte|pbyte|byte)[s]?' skipwhite contained
+
+hi link   nft_table_block_set_block_stateful_stmt_quota_stmt_quota_used_num nftHL_Integer
+syn match nft_table_block_set_block_stateful_stmt_quota_stmt_quota_used_num '\v[0-9]{1,10}' skipwhite contained
+\ nextgroup=
+\    nft_table_block_set_block_stateful_stmt_quota_stmt_quota_used_quota_unit_keywords_bytes,
+\    nft_Error
+
+hi link   nft_table_block_set_block_stateful_stmt_quota_stmt_quota_used_keyword_used nftHL_Action
+syn match nft_table_block_set_block_stateful_stmt_quota_stmt_quota_used_keyword_used '\vused' skipwhite contained
+\ nextgroup=
+\    nft_table_block_set_block_stateful_stmt_quota_stmt_quota_used_num,
+\    nft_Error
+
+hi link   nft_table_block_set_block_stateful_stmt_quota_stmt_quota_unit_keywords_bytes nftHL_Action
+syn match nft_table_block_set_block_stateful_stmt_quota_stmt_quota_unit_keywords_bytes '\v(kbyte|mbyte|gbyte|pbyte|byte)[s]?' skipwhite contained
+\ nextgroup=
+\    nft_table_block_set_block_stateful_stmt_quota_stmt_quota_used_keyword_used
+
+hi link   nft_table_block_set_block_stateful_stmt_quota_stmt_quota_mode_num nftHL_Integer
+syn match nft_table_block_set_block_stateful_stmt_quota_stmt_quota_mode_num '\v[0-9]{1,10}' skipwhite contained
+\ nextgroup=
+\    nft_table_block_set_block_stateful_stmt_quota_stmt_quota_unit_keywords_bytes,
+\    nft_Error
+
+hi link   nft_table_block_set_block_stateful_stmt_quota_stmt_quota_mode_keyword_until nftHL_Action
+syn match nft_table_block_set_block_stateful_stmt_quota_stmt_quota_mode_keyword_until '\vuntil' skipwhite contained
+\ nextgroup=
+\    nft_table_block_set_block_stateful_stmt_quota_stmt_quota_mode_num,
+\    nft_Error
+
+hi link   nft_table_block_set_block_stateful_stmt_quota_stmt_quota_mode_keyword_over nftHL_Action
+syn match nft_table_block_set_block_stateful_stmt_quota_stmt_quota_mode_keyword_over '\vover' skipwhite contained
+\ nextgroup=
+\    nft_table_block_set_block_stateful_stmt_quota_stmt_quota_mode_num,
+\    nft_Error
 
 hi link   nft_add_cmd_table_block_set_block_stateful_stmt_list_stmt_stateful_stmt_quota_stmt_keyword_quota nftHL_Statement
 syn match nft_add_cmd_table_block_set_block_stateful_stmt_list_stmt_stateful_stmt_quota_stmt_keyword_quota '\vquota\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_table_block_set_block_stateful_stmt_quota_stmt_quota_mode_keyword_until,
+\    nft_table_block_set_block_stateful_stmt_quota_stmt_quota_mode_keyword_over,
+\    nft_table_block_set_block_stateful_stmt_quota_stmt_quota_mode_num,
+\    nft_Error
+
 hi link   nft_add_cmd_table_block_set_block_stateful_stmt_list_stmt_stateful_stmt_last_stmt_keyword_last nftHL_Statement
 syn match nft_add_cmd_table_block_set_block_stateful_stmt_list_stmt_stateful_stmt_last_stmt_keyword_last '\vlast\ze[ \t]' skipwhite contained
 hi link   nft_add_cmd_table_block_set_block_stateful_stmt_list_stmt_stateful_stmt_connlimit_stmt_keyword_ct nftHL_Statement
@@ -8117,7 +8161,7 @@ syn match nft_add_cmd_table_block_set_block_set_mechanism_keyword_size "size" sk
 hi link   nft_add_cmd_table_block_set_block_set_mechanism_set_policy_spec_keyword_memory nftHL_Action
 syn match nft_add_cmd_table_block_set_block_set_mechanism_set_policy_spec_keyword_memory "memory" skipwhite contained
 \ nextgroup=
-\    nft_add_cmd_table_block_set_block_separator,
+\    nft_add_cmd_table_block_set_block_separator
 
 " base_cmd add_cmd 'set' set_spec '{' set_block set_mechanism 'policy' 'performance'
 hi link   nft_add_cmd_table_block_set_block_set_mechanism_set_policy_spec_keyword_performance nftHL_Action
