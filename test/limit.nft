@@ -149,19 +149,31 @@ add limit myIp6Table myIp6Limit rate 1 / week
 # [ add rule ] limit obj_spec limit_obj { limit_config } close_scope_limit
 # limit_block->'{'->identifier->family_spec->table_spec->'limit'->'rule'->'add'->add_cmd->base_cmd
 #limit myTable lim_400ppm { rate 400/minute ; comment "use to limit incoming icmp" ; }
-#limit myTable lim_1kbps  { rate over 1024 bytes/second burst 512 bytes ; comment "use to limit incoming smtp" ; }
+limit myTable lim_1kbps  { 
+    rate over 1024 bytes/second burst 512 bytes ;
+    comment "use to limit incoming smtp" ; }
 
 # limit obj_spec limit_obj { stmt_separator } close_scope_limit
 limit myTable lim_400ppm { ; }
 
 # limit obj_spec limit_obj { comment_spec } close_scope_limit
-#limit myTable lim_400ppm { comment "comments here"; }
+limit myTable lim_400ppm { comment "comments here"; }
 
 # limit obj_spec limit_obj { common_block } close_scope_limit
-#limit myTable lim_400ppm { 
-#    include "rate-limit.nft"
-#    rate 400/minute ; comment "use to limit incoming icmp" ; 
-#}
+limit myTable lim_400ppm { 
+    include "rate-limit.nft"
+    rate 400/minute ; comment "use to limit incoming icmp" ; 
+}
+
+table T {
+    set S {
+        limit rate 15 / second
+        limit rate 15 / second burst 15 / hour
+        limit rate 15 mbytes / second
+        limit rate 15 mbytes / second burst 15 kbytes / hour
+    }
+}
+
 
 table T {
     limit L { 
@@ -200,25 +212,35 @@ create limit arp myBridgeTable myBridgeLimit rate 1 /hour
 # TODO delete limit
 # limit_rate_pkts->limit_config->obj_spec->'limit'->'delete'->add_cmd->base_cmd
 # limit_rate_pkts->limit_config->identifier->table_spec->'limit'->'delete'->delete_cmd->base_cmd
-delete limit myIp6Table myIp6Limit rate 1 / week
+delete 
 
-# limit_rate_pkts->limit_config->identifier->table_spec->'limit'->'delete'->delete_cmd->base_cmd
-delete limit myIpTable myIpLimit rate over 3600000/ day
-delete limit myInetTable myInetLimit rate until 1/second
 
-# limit_rate_pkts->limit_config->identifier->table_spec->'limit'->'delete'->delete_cmd->base_cmd
-delete limit myNetdevTable myNetdevLimit rate 1/minute burst 5 packets
-delete limit myBridgeTable myBridgeLimit rate 1 /hour 
+delete limit 
 
-# limit_config->obj_spec->'limit'->'delete'->add_cmd->base_cmd
-# limit_config->identifier->family_spec->table_spec->'limit'->'delete'->delete_cmd->base_cmd
-delete limit ip6 myIp6Table myIp6Limit rate 1 / week
-delete limit ip myIpTable myIpLimit rate 1/ day
-delete limit inet myInetTable myInetLimit rate 1/second
-delete limit netdev myNetdevTable myNetdevLimit rate 1/minute 
-delete limit bridge myBridgeTable myBridgeLimit rate 1 /hour 
-delete limit arp myBridgeTable myBridgeLimit rate 1 /hour 
 
+delete limit last 
+delete limit T 
+
+delete limit T handle 1 
+delete limit last handle 1 
+
+delete limit last H      
+delete limit last last      
+delete limit T last      
+delete limit T H      
+delete limit T H
+delete limit T H;
+delete limit T H; 
+delete limit T H ;
+delete limit T H ; 
+
+delete limit ip T H; 
+delete limit ip6 T H; 
+delete limit inet T H; 
+delete limit netdev T H; 
+delete limit bridge T H; 
+delete limit arp T H; 
+delete limit T handle 1
 
 # Syntax:  delete limit objid_spec
 delete limit table_id handle 15
@@ -301,6 +323,24 @@ table T {
     }
 }
 add limit inet myInetTable myInetLimit rate 1/second burst 100000000000000000000 packets
+# limit_rate_pkts->limit_config->identifier->table_spec->'limit'->'delete'->delete_cmd->base_cmd
+delete limit myIpTable myIpLimit rate over 3600000/ day
+delete limit myInetTable myInetLimit rate until 1/second
+
+# limit_rate_pkts->limit_config->identifier->table_spec->'limit'->'delete'->delete_cmd->base_cmd
+delete limit myNetdevTable myNetdevLimit rate 1/minute burst 5 packets
+delete limit myBridgeTable myBridgeLimit rate 1 /hour 
+
+# limit_config->obj_spec->'limit'->'delete'->add_cmd->base_cmd
+# limit_config->identifier->family_spec->table_spec->'limit'->'delete'->delete_cmd->base_cmd
+delete limit ip6 myIp6Table myIp6Limit rate 1 / week
+delete limit ip myIpTable myIpLimit rate 1/ day
+delete limit inet myInetTable myInetLimit rate 1/second
+delete limit netdev myNetdevTable myNetdevLimit rate 1/minute 
+delete limit bridge myBridgeTable myBridgeLimit rate 1 /hour 
+delete limit arp myBridgeTable myBridgeLimit rate 1 /hour 
+
+
 
 ################################################################################
 # false negative test: highlighted wrongly; still has good content; oops.

@@ -77,6 +77,36 @@ add map T C { elements = 1:00:1 }
 # so far, so good)
 ################################################################################
 
+map 
+
+
+map ip 
+
+
+map ip T 
+
+
+map ip6 T 
+
+
+map inet T 
+
+
+map netdev T 
+
+
+map bridge T 
+
+
+map arp T 
+
+
+map T C ; 
+
+
+map T C ;
+
+
 ################################################################################
 # false negative test: highlighted wrongly; still has good content; oops.
 ################################################################################
@@ -119,7 +149,8 @@ add map T C {
 # false positive test: looks highlighted correctly; has bad content; oops.
 ################################################################################
 
-map 
+map
+map ip
 map ip
 map ip T
 map ip6 T
@@ -127,7 +158,6 @@ map inet T
 map netdev T
 map bridge T
 map arp T
-map T C ;
 map T C { timeout 15:00:01 }
 map T C { typeof b.c.d.e.f : .k };
 

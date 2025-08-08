@@ -110,12 +110,53 @@ add counter table_id counter_id {
 
 
 table inet mytable {
-    counter name my_counter_name;}
+    comment "asdfasdfasdff"
+    # table_block/common_block
+    include "global_firewall.nft";
+    # inline comments
+    define A = 1  # inline comments
+    redefine A = 2  # inline comments
+    undefine A  # inline comments
+    error; 
+    # table_options
+    flags dormant, persist, owner
+    #counter { counter_config };
+    # 'counter' keyword is under add_cmd->table_block->'counter'
+    counter packets 123;  # THIS IS AN ERROR
+    counter name my_counter_name;  # THIS IS AN ERROR
+    counter C {
+        # table_block/counter_block/comment_spec
+        comment "comment part"
+        # counter_config
+        # table_block/common_block
+        include "global_firewall.nft";
+        packets 123
+        bytes 123
+        # inline comments
+        define A = 1  # inline comments
+        redefine A = 2  # inline comments
+        undefine A  # inline comments
+        error; 
+    }
 };
 
 table inet mytable {
     chain mychain {
+        # common_block
+        include "global_firewall.nft";
+        define A = 1  # inline comments
+        redefine A = 2  # inline comments
+        undefine A  # inline comments
+        error; 
+        # chain_block/flags_spec
+        flags offload
+        # chain_block/rule/rule_alloc/stmt/stateful_stmt/counter_stmt
+        counter
+        counter packets 123 bytes 123123
+        # chain_block/rule/rule_alloc/stmt/objref_stmt/objref_stmt_counter
+        counter name my_counter_name
         counter name my_counter_name;
+        comment "asdfasdfasdff"
     };
 };
 
@@ -213,6 +254,34 @@ counter ip6tableid
 
 counter ip6 tableid counter_id
 
+add counter table_id counter_id { 
+    define ABC = 1;
+    comment "aasdfasdf"
+    packets5bytes1500 
+} ;
+add counter table_id counter_id { 
+    define ABC = 1;
+    packets5bytes1500 
+} ;
+add counter ip table_id counter_id { 
+    define ABC = 1;
+    packets5 bytes 1500 ;
+};
+add counter ip table_id counter_id { 
+    define ABC = 1;
+    packets 5bytes 1500 ;
+};
+add counter ip table_id counter_id { 
+    packets 5 bytes1500 
+};
+
+add rule table_id chain_id set add { $MYVAR counter at  };
+
+add counter table_id counter_id { packets5bytes1500 } ;
+add counter ip table_id counter_id { packets5 bytes 1500 ; };
+add counter ip table_id counter_id { packets 5bytes 1500 ; };
+add counter ip table_id counter_id { packets 5 bytes1500 };
+
 add set T S { counter marshmellows }
 add set T S { counter bytes mss }
 add set T S { counter packets once }
@@ -234,35 +303,13 @@ add rule inet mytable mychain counter name 'my_counter_name';
 add rule inet mytable mychain counter name "my_counter_name";
 add rule inet mytable mychain counter name $MY_COUNTER_VARNAME;
 
-add rule table_id chain_id set add { $MYVAR counter at  };
-
-add counter table_id counter_id { packets5bytes1500 } ;
-add counter ip table_id counter_id { packets5 bytes 1500 ; };
-add counter ip table_id counter_id { packets 5bytes 1500 ; };
-add counter ip table_id counter_id { packets 5 bytes1500 };
 add counter ip table_id counter_id { packets 5 bytes 1500 ;
-add counter ip t c { }  # it took a closing brace to turn off syntax error
 
-add counter table_id counter_id { 
-    define ABC = 1;
-    comment "aasdfasdf"
-    packets5bytes1500 
-} ;
-add counter table_id counter_id { 
-    define ABC = 1;
-    packets5bytes1500 
-} ;
-add counter ip table_id counter_id { 
-    define ABC = 1;
-    packets5 bytes 1500 ;
-};
-add counter ip table_id counter_id { 
-    define ABC = 1;
-    packets 5bytes 1500 ;
-};
-add counter ip table_id counter_id { 
-    packets 5 bytes1500 
-};
+
+
+
+
+add counter ip t c { }  # it took a closing brace to turn off syntax error
 
 
 ################################################################################

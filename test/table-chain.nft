@@ -11,6 +11,19 @@
 
 table T { chain C { type filter hook output priority 0; policy drop } };
 
+
+
+table T {
+    chain C {$
+        # common_block$
+        include "/directory/subdirectory/filename.filetype"$
+        define A = 1$
+        redefine A = 2$
+        undefine A$
+        flags offload$
+        comment "A comment line"$
+    };
+}
 table T {
     chain C {
         type filter hook input priority 0; policy $MY_POLICY

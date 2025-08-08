@@ -49,6 +49,10 @@ table arp xxxx { };
 table my.IpTable
 table my/IpTable
 add table my/IpTable
+add table my/IpTable 
+add table my/IpTable; 
+add table my/IpTable ;
+add table my/IpTable ; 
 add table my\IpTable    # defaults to 'ip' family
 table my./_IpTable
 add table my./_IpTable
@@ -109,9 +113,9 @@ table T {flags dormant,owner; }
 table T {flags persist,dormant ; }
 # base_cmd add_cmd 'table' table_spec table_block { table_options ';' }
 table T { flags dormant,x ; } ;
-table ip xxxx { flags persist, abc, c};
-table xxxx { ; flags a, b, c; comment "new stuff"; };
-table T { flags a, b, c; chain C { type ; }; };
+table ip xxxx { flags persist, owner, dormant};
+table xxxx { ; flags owner; comment "new stuff"; };
+table T { flags dormant; chain C { type ; }; };
 
 table myIpTable { flags dormant; }
 table netdev myNetdev { flags dormant; }
@@ -146,7 +150,6 @@ table T { chain C { }; };
 table T { chain C { }; chain D { }; };
 add table T { 
     chain C {
-        comment asdf 
     }; 
     chain D { }; 
 };
@@ -164,13 +167,7 @@ table netdev T { set S { } }
 table bridge T { set S { } }
 table arp T { set S { } }
 table T { 
-    chain S {
-        # common_block
-        include "/directory/subdirectory/filename.filetype"
-        define A = 1
-        redefine A = 2
-        undefine A
-    }
+    chain S { }
 }
 table T { set S { typeof A.B : interval 15 } }
 table T { set S { type string : } }
@@ -179,13 +176,18 @@ table T { set S { type dscp : ecn.classid } }
 table T { set S { type ecn : } }
 table T { set S { type classid : } }
 table T { set S { type time : } }
-table T { set S { flags constant,interval,timeout,dynamic } }
+table T { set S { flags constant,interval,timeout,dynamic }; }
+table T { set S { flags constant,interval,timeout,dynamic }; };
 table T { set S { timeout 15 } }
-table T { set S { gc-interval 15 } }
 table T { set S { timeout 15; gc-interval 15 } }
+table T { set S { gc-interval 15 } }
+# table_block/set_block/set_mechanism/'policy'
+table T { set S { policy performance } }
+table T { set S { policy memory } }
+table T { set S { comment "this line of comment" }; };
 table T { set S { counter } }
-table T { set S { counter bytes 123 } }
-table T { set S { counter packets 123 } }
+table T { set S { counter bytes 123; } }
+table T { set S { counter packets 123 }; };
 table T { set S { counter packets 123 bytes 123 } }
 table T { set S { counter bytes 123 packets 123 } }
 table T { set S { limit rate 123 } }
@@ -221,6 +223,7 @@ table ip filter {
     set myset {
         type inet_service
         flags timeout
+        elements = $MY_SET_VARNAME
         elements = { http expires 9s}
     }
 }
@@ -253,15 +256,6 @@ table inet T { map S { } }
 table netdev T { map S { } }
 table bridge T { map S { } }
 table arp T { map S { } }
-table T { 
-    chain S {
-        # common_block
-        include "/directory/subdirectory/filename.filetype"
-        define A = 1
-        redefine A = 2
-        undefine A
-    }
-}
 table T { map S { typeof A.B : interval 15 } }
 table T { map S { type string : } }
 table T { map S { type mark : interval mark.time } }
@@ -309,7 +303,7 @@ table T { map S { elements = { a, b, c } } }
 table ip filter {
     map mymap {
         type inet_service
-        flags timeout
+        flags constant,dynamic,interval,timeout
         elements = { http expires 9s}
     }
 }
@@ -353,6 +347,17 @@ table T { flowtable F { flags offload } }
 table T { flowtable F { counter } }
 
 # base_cmd add_cmd 'table' table_spec table_block 'counter' counter_block
+table T { counter C { } }
+table ip T { counter C { } }
+table ip6 T { counter C { } }
+table inet T { counter C { } }
+table netdev T { counter C { } };
+table netdev T { counter C { } } ; 
+table netdev T { counter C { } }; 
+table netdev T { counter C { } } ;
+table bridge T { counter C { } }
+table arp T { counter C { } }
+table T { counter C { packets 123 bytes 15 } }
 table T { 
     counter C {
         # common_block
@@ -360,16 +365,10 @@ table T {
         define A = 1
         redefine A = 2
         undefine A
+        packets 123 bytes 123; 
+        packets 123 bytes 123
     }
 }
-table T { counter C { } }
-table ip T { counter C { } }
-table ip6 T { counter C { } }
-table inet T { counter C { } }
-table netdev T { counter C { } }
-table bridge T { counter C { } }
-table arp T { counter C { } }
-table T { counter C { packets 123 bytes 15 } }
 
 # base_cmd add_cmd 'table' table_spec table_block 'quota' quota_block
 table T { 
@@ -489,24 +488,18 @@ table inet T { limit L { } }
 table netdev T { limit L { } }
 table bridge T { limit L { } }
 table arp T { limit L { } }
-table T { limit L { rate 15 something } }
+table T { limit L { rate 15 byte } }
 table T { limit L { rate 15 bytes } }
-table T { limit L { rate 15 string } }
 table T { limit L { rate over 15 / second } }
 table T { limit L { rate over 15 / minute } }
 table T { limit L { rate over 15 / hour } }
 table T { limit L { rate over 15 / day } }
 table T { limit L { rate over 15 / week } }
 table T { limit L { rate over 15 bytes / second } }
-table T { limit L { rate over 15 bytes / minute } }
-table T { limit L { rate over 15 bytes / hour } }
-table T { limit L { rate over 15 bytes / day } }
-table T { limit L { rate over 15 bytes / week } }
-table T { limit L { rate over 15 string / second } }
-table T { limit L { rate over 15 string / minute } }
-table T { limit L { rate over 15 string / hour } }
-table T { limit L { rate over 15 string / day } }
-table T { limit L { rate over 15 string / week } }
+table T { limit L { rate over 15 kbytes / minute } }
+table T { limit L { rate over 15 mbytes / hour } }
+table T { limit L { rate over 15 gbytes / day } }
+table T { limit L { rate over 15 pbytes / week } }
 table T { limit L { rate until 15 / second } }
 table T { limit L { rate until 15 / minute } }
 table T { limit L { rate until 15 / hour } }
@@ -517,11 +510,6 @@ table T { limit L { rate until 15 bytes / minute } }
 table T { limit L { rate until 15 bytes / hour } }
 table T { limit L { rate until 15 bytes / day } }
 table T { limit L { rate until 15 bytes / week } }
-table T { limit L { rate until 15 string / second } }
-table T { limit L { rate until 15 string / minute } }
-table T { limit L { rate until 15 string / hour } }
-table T { limit L { rate until 15 string / day } }
-table T { limit L { rate until 15 string / week } }
 
 # base_cmd add_cmd 'table' table_spec table_block 'secmark' secmark_block
 table T { 
@@ -702,10 +690,11 @@ table T {
     # ct_expect_block
     # ct expectation Q { };
     # limit_block
-    limit L 10/sec;  # invalid in table_block
     limit L { rate until 1/second };
-    limit ip L { rate until 1/second };
     limit arp L { rate until 1/second };
+    limit ip L { rate until 1/second };  # family_spec nor table belongs here
+    limit L 10 / sec;  # invalid in table_block
+
     # secmark_block
     # secmark SM { };
     # synproxy_block
