@@ -117,24 +117,7 @@ reset rules chain myTable ;  # missing chain_identifier
 # 'reset' 'rule'
 # 'reset' 'rule' ruleid_spec
 reset rule ip T C handle 15
-reset rule ip T C index 15
-reset rule ip T C position 15
 
-
-
-################################################################################
-# true negative test: properly hightlighted wrongly to show an error; 
-# so far, so good.
-################################################################################
-
-# 'reset counters' <ruleset_spec>
-reset counters 
-
-
-reset rules table  # missing table_id
-reset rules table;  # missing table_id
-reset rules table ;  # missing table_id
-reset rules table ;  # missing table_id
 # 'reset' 'element' set_spec set_block_expr
 # 'reset' 'element' table_spec set_id set_block_expr
 # 'reset' 'element' family_spec table_id set_id set_block_expr
@@ -195,6 +178,21 @@ reset map netdev table_id set_id handle 123
 reset map bridge table_id set_id handle 123
 reset map arp table_id set_id handle 123
 
+
+################################################################################
+# true negative test: properly hightlighted wrongly to show an error; 
+# so far, so good.
+################################################################################
+
+# 'reset counters' <ruleset_spec>
+reset counters 
+
+
+reset rules table  # missing table_id
+reset rules table;  # missing table_id
+reset rules table ;  # missing table_id
+reset rules table ;  # missing table_id
+
 reset rule  # premature EOS
 reset rule table_id  # premature EOS
 reset rule table_id chain_id # premature EOS
@@ -208,7 +206,6 @@ reset rule ip ipT    # premature EOS
 reset rule ip T C   # premature EOS
 reset rule ip T C offset 15  # wrong handle_spec
 
-reset rules table /  ;  # invalid table_id
 
 
 ################################################################################
@@ -223,3 +220,4 @@ reset rules table /  ;  # invalid table_id
 # false positive test: looks highlighted correctly; has bad content; oops.
 ################################################################################
 
+reset rules table /  ;  # invalid table_id

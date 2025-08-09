@@ -11,11 +11,6 @@
 
 # base_cmd add_cmd 'set'
 
-add set T C { counter }
-add set T C { counter bytes 2048 }
-add set T C { counter packets 3 }
-add set T C { counter packets 3 counter packets 3 }
-
 
 set ip T S { typeof b } ;
 set T S { typeof a.b.c.d.e.f };
@@ -27,17 +22,56 @@ set T S { flags constant, interval, timeout, dynamic };
 set T S { flags constant; flags interval; flags timeout; flags dynamic };
 set T S { timeout 15:00:01 }
 set T S { gc-interval 1:00:1 }
+set T S { limit rate 15/second 
+    limit rate over 1/minutes 
+    limit rate until 1/second burst 20 packets
+    limit rate 1 kbytes/second 
+    limit rate 1 Mbytes/second burst 20 kbytes
+}
+set T S {
+    quota 1 byte quota 1 byte
+    quota 1 byte used 15 kbytes
+    quota over 1 byte 
+    quota over 1 byte used 15 kbytes
+    quota until 1 byte;
+    quota until 1 byte used 15 kbytes
+}
+set T S {
+    ct count 15;
+    ct count over 15
+}
+set T S {
+    last
+    last used never
+    last used 2h5m30s
+}
+set T S {
+    # set-mechanism
+    policy memory
+    policy performance
+    size 1490
+    comment "my comment string"
+}
+set T S {
+    elements = $MY_SET_VARS
+    elements = { 1,2,3,4 }  # errors until 'syntax region' created
+    # automerge
+    auto-merge
+}
+set T S { comment "A comment string" }
 set T S { elements = 1:00:1 }
 set T S { elements = { 1.2.3.4 : accept, 5.6.7.8 timeout 30s : drop comment "spam host" } }
 set T S { elements = { 10.0.0.0/24, 8.8.8.8 timeout 10m comment "temporary host" } }
-set T S { automerge }
-set T S { comment *A comment string* }
-set T S { comment "A comment string" }
-set T S { comment 'A comment string' }
-set T S { comment single-word }
- set T S { comment single-word }
+set T S { auto-merge }
     set
+
+add set T S { counter }
+add set T S { counter bytes 2048 }
+add set T S { counter packets 3 }
+add set T S { counter packets 3 counter packets 3 }
+
 add set T S;
+
 add set ip T S { typeof b };
 add set T S { typeof a.b.c.d.e.f };
 add set T S { flags constant }
@@ -50,10 +84,91 @@ add set T S { timeout 15:00:01 }
 add set T S { gc-interval 1:00:1 }
 add set T S { elements = 1:00:1 }
 add set ip T C { elements = 192.168.1.5 }
-add set T S { comment *A comment string* }
 add set T S { comment "A comment string" }
-add set T S { comment 'A comment string' }
-add set T S { comment single-word }
+add set T S { counter }
+add set T S { counter packets 123 bytes 123}
+add set T S { 
+    limit rate 15/second 
+    limit rate over 1/minutes 
+    limit rate until 1/second burst 20 packets
+    limit rate 1 kbytes/second 
+    limit rate 1 Mbytes/second burst 20 kbytes
+}
+add set T S {
+    quota 1 byte 
+    quota 1 byte used 15 kbytes
+    quota over 1 byte 
+    quota over 1 byte used 15 kbytes
+    quota until 1 byte 
+    quota until 1 byte used 15 kbytes
+}
+add set T S {
+    ct count 15
+    ct count over 15
+}
+add set T S {
+    last
+    last used never
+    last used 2h5m30s
+}
+add set T S {
+    # set-mechanism
+    policy memory
+    policy performance
+    size 1490
+    comment "my comment string"
+}
+add set T S {
+    elements = $MY_SET_VARS
+    # elements = { 1,2,3,4 }  # errors until 'syntax region' created
+    # automerge
+    auto-merge
+}
+
+add set T S {
+    include "my_sets.nft"
+    # common_block
+    define A = 1
+    redefine A = 2
+    undefine A
+    error
+    # typeof
+    typeof mine.ip
+    type string
+    # set_flat_list
+    flags constant,interval, dynamic , timeout
+    timeout 1h15s
+    gc-interval 123
+    # stateful_stmt
+    counter 
+    counter packets 123 bytes 123
+    limit rate 15/second 
+    limit rate over 1/minutes 
+    limit rate until 1/second burst 20 packets
+    limit rate 1 kbytes/second 
+    limit rate 1 Mbytes/second burst 20 kbytes
+    quota 1 byte 
+    quota 1 byte used 15 kbytes
+    quota over 1 byte 
+    quota over 1 byte used 15 kbytes
+    quota until 1 byte 
+    quota until 1 byte used 15 kbytes
+    ct count 15
+    ct count over 15
+    last
+    last used never
+    last used 2h5m30s
+    # set-mechanism
+    policy memory
+    policy performance
+    size 1490
+    comment "my comment string"
+    elements = $MY_SET_VARS
+    elements = $MY_SET_VARS
+    elements = { 1,2,3,4 }  # errors until 'syntax region' created
+    # automerge
+    auto-merge
+};
 
 
 ################################################################################

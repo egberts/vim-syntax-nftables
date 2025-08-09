@@ -206,7 +206,8 @@ table T { set S { last used 4h15m20s } }
 table T { set S { policy performance } }
 table T { set S { policy memory } }
 table T { set S { size 123 } }
-table T { set S { comment Hello } }
+table T { set S { comment "xx" } }
+table T { set S { comment "Hello" } }
 table T { set S { elements = $VARIABLE } }
 table T { set S { elements = { a, b, c } } }
 table T { set S { auto-merge } }
@@ -236,46 +237,44 @@ table inet filter {
 }
 
 # base_cmd add_cmd 'table' table_spec table_block 'map' map_block
-table T { map S { } }
-table last { map S { } }
+table T { map M { } }
+table last { map M { } }
 table T { map last { } }
 table last { map last { } }
-table ip last { map S { } }
-table ip T { map S { } }
-table ip6 T { map S { } }
-table inet T { map S { } }
-table netdev T { map S { } }
-table bridge T { map S { } }
-table arp T { map S { } }
-table T { map S { typeof A.B : interval 15 } }
-table T { map S { type string : } }
-table T { map S { type mark : interval mark.time } }
-table T { map S { type dscp : ecn.classid } }
-table T { map S { type ecn : } }
-table T { map S { type classid : } }
-table T { map S { type time : } }
-table T { map S { flags constant,interval,timeout,dynamic } }
-table T { map S { timeout 15 } }
-table T { map S { gc-interval 15 } }
-table T { map S { timeout 15; gc-interval 15 } }
-table T { map S { counter } }
-table T { map S { counter bytes 123 } }
-table T { map S { counter packets 123 } }
-table T { map S { counter packets 123 bytes 123 } }
-table T { map S { counter bytes 123 packets 123 } }
-table T { map S { limit rate 123 } }
-table T { map S { limit rate over 123 } }
-table T { map S { limit rate until 123 } }
-table T { map S { quota over 123 bytes } }
-table T { map S { quota over 123 string } }
-table T { map S { quota over 123 bytes used 123 bytes } }
-table T { map S { quota over 123 string used 123 string } }
-table T { map S { quota until 123 bytes } }
-table T { map S { quota until 123 string } }
-table T { map S { quota until 123 bytes used 123 bytes } }
-table T { map S { quota until 123 string used 123 string } }
+table ip last { map M { } }
+table ip T { map M { } }
+table ip6 T { map M { } }
+table inet T { map M { } }
+table netdev T { map M { } }
+table bridge T { map M { } }
+table arp T { map M { } }
+table T { map M { typeof A.B : interval 15 } }
+table T { map M { type string : } }
+table T { map M { type mark : interval mark.time } }
+table T { map M { type dscp : ecn.classid } }
+table T { map M { type ecn : } }
+table T { map M { type classid : } }
+table T { map M { type time : } }
+table T { map M { flags constant,interval,timeout,dynamic } }
+table T { map M { timeout 15 } }
+table T { map M { gc-interval 15 } }
+table T { map M { timeout 15; gc-interval 15 } }
+table T { map M { counter byte } }
+table T { map M { counter bytes 123 } }
+table T { map M { counter packets 123 } }
+table T { map M { counter packets 123 bytes 123 } }
+table T { map M { counter bytes 123 packets 123 } }
+table T { map M { limit rate 123 } }
+table T { map M { limit rate over 123 } }
+table T { map M { limit rate until 123 } }
+table T { map M { quota over 123 bytes } }
+table T { map M { quota over 123 bytes used 123 bytes } }
+table T { map M { quota until 123 bytes } }
+table T { map M { quota until 123 bytes used 123 bytes } }
+table T { map M { counter 
+    quota until 123 bytes used 123 bytes } }
 table T { 
-    map S { 
+    map M { 
         counter; 
         quota; 
         limit } 
@@ -288,7 +287,7 @@ table T { map S { last used 4h15m20s } }
 table T { map S { policy performance } }
 table T { map S { policy memory } }
 table T { map S { size 123 } }
-table T { map S { comment Hello } }
+table T { map S { comment "Hello" } }
 table T { map S { elements = $VARIABLE } }
 table T { map S { elements = { a, b, c } } }
 table ip filter {
@@ -363,7 +362,17 @@ table T {
 
 # base_cmd add_cmd 'table' table_spec table_block 'quota' quota_block
 table T { 
+    quota last { }
     quota Q {
+        # comment_spec
+        comment "my comments"
+        # quota_config
+        15 mbytes
+        15 mbytes used 30 gbytes
+        over 25 pbytes
+        over 25 pbytes used 2500000 pbytes
+        until 30 kbytes
+        until 30 kbytes used 130 Mbytes
         # common_block
         include "/directory/subdirectory/filename.filetype"
         define A = 1
@@ -380,68 +389,69 @@ table bridge T { quota Q { } }
 table arp T { quota Q { } }
 table T { quota Q { 15 bytes } }
 table T { quota Q { 15 bytes used 15 bytes } }
-table T { quota Q { 15 bytes used 15 string } }
-table T { quota Q { 15 string } }
-table T { quota Q { 15 string used 123 bytes } }
-table T { quota Q { 15 string used 123 string } }
-table T { quota Q { over 15 bytes } }
 table T { quota Q { over 15 bytes used 15 bytes } }
-table T { quota Q { over 15 bytes used 15 string } }
-table T { quota Q { over 15 string } }
-table T { quota Q { over 15 string used 123 bytes } }
-table T { quota Q { over 15 string used 123 string } }
 table T { quota Q { until 15 bytes } }
 table T { quota Q { until 15 bytes used 15 bytes } }
-table T { quota Q { until 15 bytes used 15 string } }
-table T { quota Q { until 15 string } }
-table T { quota Q { until 15 string used 123 bytes } }
-table T { quota Q { until 15 string used 123 string } }
 
 # base_cmd add_cmd 'table' table_spec table_block 'ct' 'helper' ct_helper_block
 table T { 
-    ct helper {
+    ct helper CT {
         # common_block
         include "/directory/subdirectory/filename.filetype"
         define A = 1
         redefine A = 2
-        undefine A
+        undefine A;
     }
 }
-table T { ct helper { } }
-table ip T { ct helper { } }
-table ip6 T { ct helper { } }
-table inet T { ct helper { } }
-table netdev T { ct helper { } }
-table bridge T { ct helper { } }
-table arp T { ct helper { } }
-table T { ct helper { type "MYTYPE" protocol tcp 23 15 bytes } }
-table T { ct helper { l3-proto ip6 } }
+table T { ct helper CT {; }; };
+table ip T { ct helper CT {;} }
+table ip6 T { ct helper CT { };}
+table inet T { ct helper CT { } };
+table netdev T { ct helper CT { } }
+table bridge T { ct helper CT { } }
+table arp T { ct helper CT { } }
+table T { ct helper CT { type "MYTYPE" protocol tcp } }
+table T { ct helper CT { l3proto ip6 } }
+table T { ct helper CT { l3proto ip6; } }
+table T { 
+    ct helper CT { 
+        type "MYTYPE" protocol tcp;
+        l3proto bridge;
+    }
+}
 
 # base_cmd add_cmd 'table' table_spec table_block 'ct' 'timeout' ct_timeout_block
 table T { 
-    ct timeout {
+    ct timeout CT {
+        protocol tcp
+        policy = { established : 1h };
+        protocol udp
+        policy = { replied : 1h, unreplied : 15 };
+        l3proto ip6;
         # common_block
         include "/directory/subdirectory/filename.filetype"
         define A = 1
         redefine A = 2
-        undefine A
+        undefine A;
+        comment "some comments"
     }
 }
-table T { ct timeout { } }
-table ip T { ct timeout { } }
-table ip6 T { ct timeout { } }
-table inet T { ct timeout { } }
-table netdev T { ct timeout { } }
-table bridge T { ct timeout { } }
-table arp T { ct timeout { } }
-table T { ct timeout { proto tcp 23 } }
-table T { ct timeout { l3-proto ip6 } }
-table T { ct timeout { policy = { ABC : 126 } }
-table T { ct timeout { policy = { ABC : 1H15M } } }
+table T { ct timeout TO { } }
+table ip T { ct timeout TO { } }
+table ip6 T { ct timeout TO { } }
+table inet T { ct timeout TO { } }
+table netdev T { ct timeout TO { } }
+table bridge T { ct timeout TO { } }
+table arp T { ct timeout TO { } }
+table T { ct timeout TO { protocol tcp } }
+table T { ct timeout TO { l3proto ip6 } }
+table T { ct timeout TO { protocol udp policy = { unreplied : 126; }; }; };
+table T { ct timeout TO { protocol tcp policy = { established : 1H15M } } }
+table T { ct timeout TO { protocol udp policy = { ABC : 1H15M } } }
 
 # base_cmd add_cmd 'table' table_spec table_block 'ct' 'expectation' ct_expect_block
 table T { 
-    ct expectation {
+    ct expectation CE {
         # common_block
         include "/directory/subdirectory/filename.filetype"
         define A = 1
@@ -449,18 +459,27 @@ table T {
         undefine A
     }
 }
-table T { ct expectation { } }
-table ip T { ct expectation { } }
-table ip6 T { ct expectation { } }
-table inet T { ct expectation { } }
-table netdev T { ct expectation { } }
-table bridge T { ct expectation { } }
-table arp T { ct expectation { } }
-table T { ct expectation { proto tcp 23 } }
-table T { ct expectation { dport 23 } }
-table T { ct expectation { size 123 } }
-table T { ct expectation { timeout 15h } }
-table T { ct expectation { l3-proto netdev } }
+table T { ct expectation CE { } }
+table ip T { ct expectation CE { } }
+table ip6 T { ct expectation CE { } }
+table inet T { ct expectation CE { } }
+table netdev T { ct expectation CE { } }
+table bridge T { ct expectation CE { } }
+table arp T { ct expectation CE { } }
+table T { ct expectation CE { protocol tcp } }
+table T { ct expectation CE { dport 23 } }
+table T { ct expectation CE { size 123 } }
+table T { ct expectation CE { timeout 15h } }
+table T { ct expectation CE { l3proto netdev } }
+table T { 
+    ct expectation CE { 
+        protocol tcp
+        dport 23
+        size 123
+        timeout 15h
+        l3proto netdev 
+    } 
+}
 
 # base_cmd add_cmd 'table' table_spec table_block 'limit' limit_block
 table ip T { limit L { } }

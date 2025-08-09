@@ -137,6 +137,8 @@ table inet base_table {
     devices = $MYVARIABLE;   
     comment "A nice long comment line"
     iifname "lo" accept  # handle 3
+    ;
+
     ct state established,related accept  # handle 2
     ip protocol icmp accept  # handle 4
     drop  # handle 5
@@ -552,25 +554,25 @@ chain MyTable ARP_INPUT_FILTER {
 # Bison: RULE chain_spec rule_alloc
 # Bison: RULE chain_spec rule_alloc # comment
 # Bison: RULE <chain_spec> <stmt_alloc> [ [*]+ <stmt_alloc> ]* [;]* # comment
-rule ip myIpTable myIpChain accept
-rule ip myIpTable myIpChain tcp dport 23 accept
-rule ip6 myIpTable myIpChain accept
-rule inet mytable myin jump nuts
+rule ip myIpTable myIpChain accept;
+rule ip myIpTable myIpChain tcp dport 23 accept;
+rule ip6 myIpTable myIpChain accept;
+rule inet mytable myin jump nuts;
 rule inet mytable myin counter jump nuts;
 rule inet mytable myin jump toMe accept;
-rule inet mytable myin counter accept
-rule inet mytable myin counter accept comment "foo bar"
-rule arp myArpTable myArpChain jump ArpProxy
-rule bridge myBridgeTable myBridgeChain jump BridgeSpan
-rule netdev myNetdevTable myNetdevChain fwd to eth1
-# Bison: RULE chain_spec position_spec rule
-rule ip myIpTable myIpChain position 14 accept
-# Bison: RULE chain_spec handle_spec rule
-rule ip myIpTable myIpChain handle 14 accept
-# Bison: RULE chain_spec index_spec rule
-rule ip myIpTable myIpChain index 14 accept
-#rule ip myIpTable myIpChain { tcp ; }
-rule ip myIpTable myIpChain tcp dport { 22, 80, 443 } accept
+rule inet mytable myin counter accept;
+rule inet mytable myin counter accept comment "foo bar";
+rule arp myArpTable myArpChain jump ArpProxy;
+rule bridge myBridgeTable myBridgeChain jump BridgeSpan;
+rule netdev myNetdevTable myNetdevChain fwd to eth1;
+# Bison: RULE chain_spec position_spec rule;
+rule ip myIpTable myIpChain position 14 accept;
+# Bison: RULE chain_spec handle_spec rule;
+rule ip myIpTable myIpChain handle 14 accept;
+# Bison: RULE chain_spec index_spec rule;
+rule ip myIpTable myIpChain index 14 accept;
+#rule ip myIpTable myIpChain { tcp ; };
+rule ip myIpTable myIpChain tcp dport { 22, 80, 443 } accept;
 
 # /* empty */ set <set_spec> set_block_alloc { set_block }  (without the 'add' keyword)
 # Bison: SET set_spec set_block_alloc { set_block } 
