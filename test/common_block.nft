@@ -28,7 +28,13 @@ include "file:///directory/filename.filetype"  # valid filespec but URL are not 
 
 # line common_block 'define' identifier '=' initializer_expr
 # line/common_block/DEFINE
+define A=1
+define A= 1
+define A =1
 define A = 1
+define last=1
+define last= 1
+define last =1
 define last = 1
 define ABC= 1  # missing stmt_separator
 define ABC = 1  ;
@@ -231,17 +237,24 @@ include directory/"direcetory/filename.filetype"  # inline comment line
 
 define  ;
 define A  
+define last  
 define A = 
+define last = 
 define ABC = -1: 
+define last = -1: 
 define ABC = { x , };
+define last = { x , };
 
 
 
 define ABC = { 
    }
 
-undefine $A123DH ; 
+undefine A$A123DH 
+undefine $A123DH 
 undefine & 
 undefine $ 
 undefine A;BCDE;
+undefine last
+asdf asdf { };
 

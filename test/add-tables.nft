@@ -315,15 +315,6 @@ table inet filter {
 }
 
 # base_cmd add_cmd 'table' table_spec table_block 'flowtable' flowtable_block
-table T { 
-    flowtable F {
-        # common_block
-        include "/directory/subdirectory/filename.filetype"
-        define A = 1
-        redefine A = 2
-        undefine A
-    }
-}
 table T { flowtable F { } }
 table ip T { flowtable F { } }
 table ip6 T { flowtable F { } }
@@ -335,6 +326,15 @@ table T { flowtable F { hook ABC priority -150 } }
 table T { flowtable F { devices MYDEVS = { eth0, wlan0 } }
 table T { flowtable F { flags offload } }
 table T { flowtable F { counter } }
+table T { 
+    flowtable F {
+        # common_block
+        include "/directory/subdirectory/filename.filetype"
+        define A = 1
+        redefine A = 2
+        undefine A
+    }
+}
 
 # base_cmd add_cmd 'table' table_spec table_block 'counter' counter_block
 table T { counter C { } }
@@ -511,7 +511,17 @@ table T { limit L { rate until 15 bytes / hour } }
 table T { limit L { rate until 15 bytes / day } }
 table T { limit L { rate until 15 bytes / week } }
 table T { 
-    limit {
+    limit L {
+        rate 1 / second
+        rate 1 / second burst 1 packet 
+        rate over 1 / second
+        rate over 1 / second burst 15 packets
+        rate until 60 / minutes burst 360 packets
+        rate 1 mbytes / second
+        rate 1 mbytes / second burst 1 gbyte 
+        rate over 1 mbytes / second
+        rate over 1 mbytes / second burst 15 gbyte
+        rate until 60 mbytes / minutes burst 360 gbyte
         # common_block
         include "/directory/subdirectory/filename.filetype"
         define A = 1
@@ -522,6 +532,16 @@ table T {
 table T { limit L { } }
 
 # base_cmd add_cmd 'table' table_spec table_block 'secmark' secmark_block
+table T { secmark SM { ; }; };
+table T { secmark SM { } }
+table ip T { secmark SM { } }
+table ip6 T { secmark SM { } }
+table inet T { secmark SM { } }
+table netdev T { secmark SM { } }
+table bridge T { secmark SM { } }
+table arp T { secmark SM { } }
+table last { secmark SM { } }
+table T { secmark SM { "some security settings goes into here" } }
 table T { 
     secmark SM {
         # common_block
@@ -530,17 +550,26 @@ table T {
         redefine A = 2
         undefine A
     }
-}
-table T { secmark SM { } }
-table ip T { secmark SM { } }
-table ip6 T { secmark SM { } }
-table inet T { secmark SM { } }
-table netdev T { secmark SM { } }
-table bridge T { secmark SM { } }
-table arp T { secmark SM { } }
-table T { secmark SM { "some security settings goes into here" } }
+};
 
 # base_cmd add_cmd 'table' table_spec table_block 'synproxy' synproxy_block
+table T { synproxy SP { } }
+table ip T { synproxy SP { } }
+table ip6 T { synproxy SP { } }
+table inet T { synproxy SP { } }
+table netdev T { synproxy SP { } }
+table bridge T { synproxy SP { } }
+table arp T { synproxy SP { } }
+table T { synproxy SP { mss 1490 wscale 5 } }
+table T { synproxy SP { mss 1490 wscale 5 } }
+table T { synproxy SP { mss 1490 wscale 5 } }
+table T { synproxy SP { mss 1490 wscale 5 sack-permitted } }
+table T { synproxy SP { mss 1490 wscale 5 timestamp} }
+table T { synproxy SP { mss 1490 ; wscale 5 } }
+table T { synproxy SP { mss 1490 ; wscale 5 } }
+table T { synproxy SP { mss 1490 ; wscale 5 } }
+add table T { synproxy SP { mss 1490 ; wscale 5 } };
+table T { synproxy SP { mss 1490 ; wscale 5 } };
 table T { 
     synproxy SP {
         # common_block
@@ -550,22 +579,6 @@ table T {
         undefine A
     }
 }
-table T { synproxy SP { } }
-table ip T { synproxy SP { } }
-table ip6 T { synproxy SP { } }
-table inet T { synproxy SP { } }
-table netdev T { synproxy SP { } }
-table bridge T { synproxy SP { } }
-table arp T { synproxy SP { } }
-table T { synproxy SP { mss 1490 wscale 5 } }
-table T { synproxy SP { mss 1490 wscale 5 24H15S } }
-table T { synproxy SP { mss 1490 wscale 5 sackperm } }
-table T { synproxy SP { mss 1490 wscale 5 24H15S sackperm } }
-table T { synproxy SP { mss 1490 ; wscale 5 } }
-table T { synproxy SP { mss 1490 ; wscale 5 } }
-table T { synproxy SP { mss 1490 ; wscale 5 } }
-add table T { synproxy SP { mss 1490 ; wscale 5 } };
-table T { synproxy SP { mss 1490 ; wscale 5 } };
 
 
 ##########################################################################
@@ -579,8 +592,7 @@ table T {
     undefine A
     # table_option
     flags dormant, persist;
-    comment 
-        "A Hello XYZ"
+    comment "A Hello XYZ"
     comment "A ;Hello XYZ"
     comment "ABCDEFGHIJKLMNOPQRSTUVXWYZabcdefghijklmnopqrstuvwxyz"
     comment ABCDEFGHIJKLMNOPQRSTUVXWYZabcdefghijklmnopqrstuvwxyz; 
@@ -644,7 +656,7 @@ table T {
         # 'elements'/set_block_expr
         elements = $VARNAME;
         # elements = { "tesdf",2,3,4 };
-        # auto-merge;
+        auto-merge;
     };
     # map_block
     map M {
@@ -666,7 +678,7 @@ table T {
         limit rate over 15 / second;
         limit rate until 15 / second burst 15 packets;
         limit rate 15 Mbytes / second;
-        limit rate over 15 Kbytes / second burst 15 packets;
+        limit rate over 15 Bytes / second burst 15 bytes;
         # stateful_stmt/quota_stmt
         quota over 15 bytes 
         quota over 15 bytes used 15 Mbytes
@@ -688,29 +700,29 @@ table T {
         # 'elements'/set_block_expr
         elements = $VARNAME;
         #elements = { "tesdf",2,3,4 };
+        auto-merge
     };
-    # flowtable_block
-    flowtable FT { };
-    # counter_block
-    # counter CT { };
-    # quota_block
-    # quota Q { };
-    # ct_helper_block
-    # ct helper Q { };
-    # ct_timeout_block
-    # ct timeout Q { };
-    # ct_expect_block
-    # ct expectation Q { };
-    # limit_block
-    limit L { rate until 1/second };
-    limit arp L { rate until 1/second }; # family_spec nor table belongs here
-    limit ip L { rate until 1/second };  # family_spec nor table belongs here
-    limit L 10 / sec;  # invalid in table_block
+    flowtable FT {
+        hook ABC priority -150
+        devices MYDEVS = { eth0, wlan0 }
+        flags offload
+        counter
+    }
 
+    # counter_block
+    counter CT { };
+    # quota_block
+    quota Q { };
+    # ct_helper_block
+    ct helper Q { };
+    # ct_timeout_block
+    ct timeout Q { };
+    # ct_expect_block
+    ct expectation Q { };
     # secmark_block
-    # secmark SM { };
+    secmark SM { };
     # synproxy_block
-    # synproxy SP { };
+    synproxy SP { };
 };
 
 
@@ -756,6 +768,16 @@ table T { chain C { devices = MYVARIABLE } }
 table T { chain C { devices = $MYVARIABLE } }
 
 table A!error
+
+table T {
+    limit arp L { rate until 1/second }; # family_spec nor table belongs here
+}
+table T {
+    limit ip L { rate until 1/second };  # family_spec nor table belongs here
+}
+table T {
+    limit L 10 / sec;  un-braced limit_config is nvalid within table_block
+}
 
 
 ################################################################################

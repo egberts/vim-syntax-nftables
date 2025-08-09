@@ -36,16 +36,17 @@ flowtable T F { counter ; flags offload ; devices = { "eth0" , tcp, $abc, 'eth0'
 
 flowtable T F {
     hook "handler" priority 123
+    flags offload
+    devices = { "eth0", "wlan0", $my_device }; 
+    # common_block
+    include "my_fancy_flowtable_stuff.nft"
     define MY_SET = { 1 };
     redefine MY_SET = { 1,2,3 };
     redefine MY_SET = { 192.168.1.1, 127.0.0.1, 10.0.0.10 };
     redefine MY_MAP = { 1:abc ,2:tcp, 3:ssh };
     undefine MY_SET ;
     counter;
-    flags offload
-    devices = { "eth0", "wlan0", $my_device }; 
     error;
-    include "my_fancy_flowtable_stuff.nft"
     ;
 };
 
@@ -58,7 +59,6 @@ add flowtable T F { flags offload ; }
 add flowtable T F { counter ; flags offload ; devices = $MY_DEVICE }
 
  add flowtable ip T F { counter; };
- add flowtable ip T F { hook b };
 add  flowtable T F { devices = $MY_DEVICE };
 add flowtable T  F { flags offload ;};
 add flowtable T F  { flags offload ; counter; };
@@ -166,7 +166,9 @@ flush flow table arp table_id flow_id
 
 # [https://wiki.nftables.org/wiki-nftables/index.php/Flowtables]
 define DEV_PRIVATE=eth0
-define DEV_INTERNET=eth1
+define DEV_PRIVATE =eth0
+define DEV_PRIVATE= eth0
+define DEV_INTERNET   =   eth1
 
 table inet x {
 
