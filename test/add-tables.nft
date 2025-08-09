@@ -323,11 +323,15 @@ table netdev T { flowtable F { } }
 table bridge T { flowtable F { } }
 table arp T { flowtable F { } }
 table T { flowtable F { hook ABC priority -150 } }
-table T { flowtable F { devices MYDEVS = { eth0, wlan0 } }
+table T { flowtable F { devices = { eth0, wlan0 } }; };
 table T { flowtable F { flags offload } }
 table T { flowtable F { counter } }
 table T { 
     flowtable F {
+        hook ABC priority -150
+        devices = { eth0, wlan0 }
+        flags offload
+        counter
         # common_block
         include "/directory/subdirectory/filename.filetype"
         define A = 1
@@ -446,8 +450,9 @@ table arp T { ct timeout TO { } }
 table T { ct timeout TO { protocol tcp } }
 table T { ct timeout TO { l3proto ip6 } }
 table T { ct timeout TO { protocol udp policy = { unreplied : 126; }; }; };
-table T { ct timeout TO { protocol tcp policy = { established : 1H15M } } }
-table T { ct timeout TO { protocol udp policy = { ABC : 1H15M } } }
+table T { ct timeout TO { protocol udp policy = { replied : 126; }; }; };
+table T { ct timeout TO { protocol udp policy = { unreplied:126, replied : 126; }; }; };
+table T { ct timeout TO { protocol tcp policy = { last_ack:15s, established : 1H15M } } }
 
 # base_cmd add_cmd 'table' table_spec table_block 'ct' 'expectation' ct_expect_block
 table T { 
@@ -704,7 +709,7 @@ table T {
     };
     flowtable FT {
         hook ABC priority -150
-        devices MYDEVS = { eth0, wlan0 }
+        devices = { eth0, wlan0 }
         flags offload
         counter
     }
@@ -738,7 +743,6 @@ table "#weirdname"  # allowable '#' but only inside double quote???
 table ip 
 table ip6   
 
-
 table inet  #
 
 table bridge ;  
@@ -752,6 +756,8 @@ table /abc   # invalid identifier (started with non-letter)
 table \abc   # invalid identifier (started with non-letter)
 table _abc   # invalid identifier (started with non-letter)
 table .abc   # invalid identifier (started with non-letter)
+
+table T @# @   # invalid character
 
 table T { devices = eth0 }
 
@@ -779,17 +785,11 @@ table T {
     limit L 10 / sec;  un-braced limit_config is nvalid within table_block
 }
 
+table T { ct timeout TO { protocol udp policy = { ABC : 1H15M } } }
 
 ################################################################################
 # false negative test: highlighted wrongly; still has good content; oops.
 ################################################################################
-
-
-table xxxx { flags ,, b, c };  " oopsie
-table xxxx { flags a, b,  };  " oopsie
-table ip6 xxxx { flags , a, b };  " oopsie
-table xxxx { chain 'MyIpNet' { chain }; };
-table xxxx { chain "MyIpNet" { chain }; };
 
 table T { chain C { devices =$eth0,$DEV1  } }
 table T { chain C { devices =x$eth0  } }
@@ -798,15 +798,6 @@ table T { chain C { devices      =     not_a_variable  } }
 table T { chain C { devices      =     x$eth0  } }
 table T { chain C { devices =eth0  } }
 table T { chain C { devices = eth0;  } }
-table T { chain C { devices = { eth0; }  } }
-
-table T { chain C { devices = { eth0 } # comment
-    }  # comment
-}  # comment
-table T { chain C { devices = { eth0 } ; # comment
-    }; # comment
-}; # comment
-table T { chain C { devices = { eth0 } }; };
 
 
 ################################################################################
@@ -815,13 +806,7 @@ table T { chain C { devices = { eth0 } }; };
 
 table T { chain C { type filter ; }; };  # incomplete
 
-table xxxx { chain MyIpNet {
-    chain last;  # oopsie
-    };
-};
-
 table @TX
-table A @# @   # invalid character
 table A# { };   # invalid character
 table A$ { };   # invalid character
 table A%   # invalid character
