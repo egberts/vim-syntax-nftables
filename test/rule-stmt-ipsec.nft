@@ -1,0 +1,117 @@
+#!/usr/sbin/nft -f
+# File: rule-stmt-ipsec.nft
+# Description: A test NFT file to exercise 'add rule <table> <chain> ipsec' Vim syntax highlightings.
+#
+#    ipsec {in | out} [ spnum NUM ] {reqid | spi}
+#    ipsec {in | out} [ spnum NUM ] {ip | ip6} {saddr | daddr}#
+#
+# whereas,
+#
+#    * in: Matches inbound IPsec packets (already decrypted).
+#    * out: Matches outbound IPsec packets (to be encrypted).
+#    * spnum: Optional, specifies the Security Association (SA) 
+#          in a chain (defaults to 0).
+#    * reqid: Matches the request ID of the IPsec SA.
+#    * spi: Matches the Security Parameter Index of the SA.
+#    * saddr | daddr: Matches the source or destination IP address 
+#          of the SA (for tunnel mode, these are the outer IP addresses).
+#
+# Example Usages:
+#
+#
+# Syntax Pathway:
+#   add_cmd 'add' 'rule' rule_alloc stmt
+#   add_cmd 'rule' rule_alloc stmt
+#   add_cmd 'table' table_block 'chain' chain_block rule rule_alloc stmt expr_stmt 'ipsec'
+#   add_cmd 'table' table_block 'chain' chain_block rule rule_alloc stmt 'meta' meta_stmt meta_key_unqualified 'ipsec'
+#
+# Semantic Actions to 'stmt' (reverse parser_bison.y):
+#
+#   ipsec/meta_key_unqualified/meta_stmt   
+#   ipsec/xfrm_expr/primary_expr/basic_expr/concat_expr/verdict_map_stmt/verdict_stmt
+#   ipsec/xfrm_expr/primary_expr/basic_expr/concat_expr/expr/relational_expr/match_stmt
+#   ipsec/xfrm_expr/primary_expr/basic_expr/concat_expr/map_expr/expr/relational_expr/match_stmt
+#   ipsec/meta_key_unqualified/meta_expr/primary_expr/basic_expr/concat_expr/verdict_map_stmt/verdict_stmt
+#   ipsec/meta_key_unqualified/meta_expr/primary_expr/basic_expr/concat_expr/expr/relational_expr/match_stmt   
+#   ipsec/meta_key_unqualified/meta_expr/primary_expr/basic_expr/concat_expr/map_expr/expr/relational_expr/match_stmt
+#
+add table TEST
+add chain inet TEST chainy
+undefine ipset_table
+add set inet TEST ipset_table {
+        type ipv4_addr
+        flags interval
+        elements = { 192.168.1.0/24, 10.0.0.1 }
+}
+################################################################################
+# true positive test: properly hightlighted correctly; has good content; perfect
+################################################################################
+
+add rule inet TEST chainy ipsec in reqid 10 accept;
+add rule inet TEST chainy ipsec in reqid == 10 accept;
+add rule inet TEST chainy ipsec in reqid != 10 accept;
+add rule inet TEST chainy ipsec in reqid < 10 accept;
+add rule inet TEST chainy ipsec in reqid <= 10 accept;
+add rule inet TEST chainy ipsec in reqid > 10 accept;
+add rule inet TEST chainy ipsec in reqid >= 10 accept;
+add rule inet TEST chainy ipsec out spi 0x1234 counter;
+add rule inet TEST chainy ipsec out spi == 0x1234 counter;
+add rule inet TEST chainy ipsec in ip saddr 192.168.1.1 accept;
+add rule inet TEST chainy meta ipsec exists accept;
+add rule inet TEST chainy meta ipsec exists ip saddr 192.168.1.0/24 accept;
+add rule inet TEST chainy meta ipsec missing drop;
+add rule inet TEST chainy ipsec out reqid 10 ip daddr @ipset_table accept;
+add rule inet TEST chainy ip saddr 192.168.1.0/24 ipsec in reqid != 10 tcp dport 80 accept;
+
+define myreqid = 10
+add rule inet TEST chainy ipsec in reqid $myreqid accept;
+
+rule inet TEST chainy ipsec in reqid 10 accept;
+rule inet TEST chainy ipsec out spi 0x1234 counter;
+rule inet TEST chainy ipsec in ip saddr 192.168.1.1 accept;
+rule inet TEST chainy meta ipsec exists accept;
+rule inet TEST chainy meta ipsec exists ip saddr 192.168.1.0/24 accept;
+rule inet TEST chainy meta ipsec missing drop;
+rule inet TEST chainy ipsec out reqid 10 ip daddr @ipset_table accept;
+
+redefine myreqid = 10
+rule inet TEST chainy ipsec in reqid $myreqid accept;
+
+add table inet TEST {
+    chain chainy {
+        ipsec in reqid 10 accept;
+        ipsec out spi 0x1234 counter;
+        ipsec in ip saddr 192.168.1.1 accept;
+        meta ipsec exists accept;
+        meta ipsec exists ip saddr 192.168.1.0/24 accept;
+        meta ipsec missing drop;
+        ipsec out reqid 10 ip daddr @ipset_table accept;
+    }
+}
+table inet TEST {
+    chain chainy {
+        ipsec in reqid 10 accept;
+        ipsec out spi 0x1234 counter;
+        ipsec in ip saddr 192.168.1.1 accept;
+        meta ipsec exists accept;
+        meta ipsec exists ip saddr 192.168.1.0/24 accept;
+        meta ipsec missing drop;
+        ipsec out reqid 10 ip daddr @ipset_table accept;
+    }
+}
+
+
+################################################################################
+# true negative test: properly hightlighted wrongly to show an error;
+# so far, so good)
+################################################################################
+
+################################################################################
+# false negative test: highlighted wrongly; still has good content; oops.
+################################################################################
+
+################################################################################
+# false positive test: looks highlighted correctly; has bad content; oops.
+################################################################################
+
+

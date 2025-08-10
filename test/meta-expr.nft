@@ -1,0 +1,165 @@
+#!/usr/sbin/nft -f
+# File: meta-expr.nft
+# Description: A test NFT file to exercise 'meta' Vim syntax highlightings.
+#
+# Note: for 'meta' as an expression ('meta_expr') see test/meta-expr.nft
+# Note: for 'meta' as a key ('meta_key'), see test/meta-key.nft
+# Note: for unqualified 'meta', see test/meta-key-unqualified.nft
+# Note: for qualified 'meta', see test/meta-key-qualified.nft
+#
+# If it's followed by a set, it's likely meta_stmt. 
+# If it's followed by a field name and then a comparison (==, <, etc.),
+# it's meta_expr.
+#
+# meta_stmt is followed by a set.
+# meta_expr is followed by a comparison.
+# meta_expr is followed by a field name.
+#
+#     meta subkey  Operand Type  Notes / Example
+#     iif          integer       Interface index
+#     oif          integer       Interface index
+#     iifname      string        "eth0"
+#     oifname      string        "wlan0"
+#     iifgroup     integer       Interface group ID
+#     oifgroup     integer       Interface group ID
+#     iiftype      integer       Interface type (see Linux if_arp.h)
+#     oiftype      integer       Interface type
+#     ibrname      string        Ingress bridge name
+#     obrname      string        Egress bridge name
+#     ibriport     string        Ingress bridge port name
+#     obriport     string        Egress bridge port name
+#     mark         integer       Packet mark
+#     priority     integer       Priority of packet (qdisc)
+#     length       integer       Packet length
+#     protocol     integer/symbolic    Layer 4 protocol (e.g., tcp)
+#     pkttype      symbolic      unicast, broadcast, multicast
+#     nfproto      symbolic      ip, ip6, inet, etc.
+#     rtclassid    integer       Routing class ID
+#     skuid        integer       Socket UID
+#     skgid        integer       Socket GID
+#     secmark      integer       SELinux security mark
+#     nftrace      boolean (0/1)    Packet tracing flag
+#     cgroup       integer       CGroup v2 classid
+#     ipsec        boolean (0/1)    Whether packet is IPsec encapsulated
+#     cpu          integer       CPU ID that handled the packet
+#     time         integer       Seconds since epoch
+#     day          symbolic      monday, tuesday, ..., sunday
+#     hour         integer (0–23)    Hour of day
+#
+# 'meta' keyword is almost always followed by a value (except for 'random', 'nftrace', 'ipsec')
+#
+# There are a few meta keys that do not require a value and behave like flags:
+#    Meta key    Notes
+#    random      Used as a condition; no operand
+#    nftrace     Used as a condition; defaults to "set"
+#    ipsec       Acts like a boolean flag in conditionals
+#
+# But in some contexts (like expressions), they may still support an explicit value:
+# 
+# meta nftrace == 1
+# meta ipsec == 0
+# 
+# So:
+# 
+#     In statements, meta nftrace can appear without a value.
+# 
+#     In expressions, it usually appears with == 0/1 or similar.
+#
+#     Form               Requires Operand?    Example
+#     meta iifname       ✅ Yes               meta iifname "eth0"
+#     meta rtclassid     ✅ Yes               meta rtclassid 10
+#     meta random        ❌ No                meta random
+#     meta nftrace       ❌ No (usually)      meta nftrace
+#     meta nftrace == 1  ✅ Yes (expr)        meta nftrace == 1
+#     meta ipsec         ❌/✅ Depends        meta ipsec or meta ipsec 0
+#
+# Key Diagnostic: Try putting meta xyz in a log or set
+# 
+#    If it makes sense to assign or print it, it’s being used as a meta_expr.
+#
+#    If it makes sense to use as a match, it’s a meta_stmt.
+#
+#⚠️ Gotchas
+#
+#    You cannot write meta random as a meta_expr. It’s only valid as a statement.
+#
+#    Some meta keys like secmark, nftrace, random are statement-only, not expressions.
+
+#
+# Semantic Action Pathways (parser_bison.y):
+#
+# Pathway: describe_cmd/primary_expr/hash_expr/expr/concat_expr/basic_expr/primary_expr/meta_expr
+# Pathway: describe_cmd/primary_expr/meta_expr
+#
+################################################################################
+# true positive test: properly hightlighted correctly; has good content; perfect
+################################################################################
+
+# 'describe primary_expr meta_stmt - flags only (support expression only in meta_expr)
+describe meta random;  # qualified META (requires 'meta' before it)
+describe ipsec;  # 'meta ipsec 0' only in meta_expr
+describe meta ipsec;  # 'meta ipsec 0' only in meta_expr
+describe nftrace;  # 'meta nftrace == 1' only in meta_expr
+describe meta nftrace;  # 'meta nftrace == 1' only in meta_expr
+
+# 'describe' primary_expr meta_stmt - unqualified META, with a value (no 'meta' needed)
+describe mark;  # length
+describe iif;
+describe iifname;  # L3 layer, by interface name
+describe iiftype;
+describe oif;
+describe oifname;  # L3 layer, by interface name
+describe oiftype;
+describe skgid;
+describe skuid;
+describe rtclassid;
+describe ibriport;  # L2 layer, by interface name
+describe obriport;  # L2 layer, by interface name
+describe ibrname;
+describe obrname;
+describe pkttype;
+describe cpu;
+describe iifgroup;
+describe oifgroup;
+describe cgroup;
+describe time;
+describe day;
+describe hour;
+describe meta mark;  # length
+describe meta iif;
+describe meta iifname;  # L3 layer, by interface name
+describe meta iiftype;
+describe meta oif;
+describe meta oifname;  # L3 layer, by interface name
+describe meta oiftype;
+describe meta skgid;
+describe meta skuid;
+describe meta rtclassid;
+describe meta ibriport;  # L2 layer, by interface name
+describe meta obriport;  # L2 layer, by interface name
+describe meta ibrname;
+describe meta obrname;
+describe meta pkttype;
+describe meta cpu;
+describe meta iifgroup;
+describe meta oifgroup;
+describe meta cgroup;
+describe meta time;
+describe meta day;
+describe meta hour;
+
+
+################################################################################
+# true negative test: properly hightlighted wrongly to show an error;
+# so far, so good)
+################################################################################
+
+################################################################################
+# false negative test: highlighted wrongly; still has good content; oops.
+################################################################################
+
+################################################################################
+# false positive test: looks highlighted correctly; has bad content; oops.
+# (this is the part where additional Vimscript is needed)
+################################################################################
+

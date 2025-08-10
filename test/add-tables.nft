@@ -10,26 +10,16 @@
 # Identifiers using different characters or clashing with a 
 # keyword need to be enclosed in double quotes (").  
 #
-# base_cmd add_cmd 'table' 
-# nft_line/nft_base_cmd/nft_base_cmd_add/nft_base_cmd_add_table/nft_add_table_chain_block policy_spec
+# Syntax Pathway:
+#   base_cmd add_cmd 'table' 
+#
+# Semantic Actions (reverse parser_bison.y):
+#   nft_line/nft_base_cmd/nft_base_cmd_add/nft_base_cmd_add_table/nft_add_table_chain_block policy_spec
 #
 ################################################################################
 # true positive test (properly hightlighted correctly; has good content; perfect
 ################################################################################
 
-table A
-table Z
-table a
-table z
-table a0
-table z0
-table A/
-table A\
-table A_
-table A.
-table A
-
-# base_cmd add_cmd 'table' table_spec family_spec family_spec_explicit
 add table filter
 
 table T  # that one creates an empty table
@@ -805,6 +795,20 @@ table T { chain C { devices = eth0;  } }
 ################################################################################
 
 table T { chain C { type filter ; }; };  # incomplete
+
+table A
+table Z
+table a
+table z
+table a0
+table z0
+table A/
+table A\
+add table A_;
+table A.
+table A
+
+# base_cmd add_cmd 'table' table_spec family_spec family_spec_explicit
 
 table @TX
 table A# { };   # invalid character
