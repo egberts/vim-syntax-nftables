@@ -10307,6 +10307,6 @@ let g:syntax_on = 1
 let b:current_syntax = 'nftables'
 
 " Google Vimscript style guide
-" vim: ts=2 sts=2 ts=80
+" vim: et ts=2 sts=2 sw=2
 scriptencoding iso-8859-5
 

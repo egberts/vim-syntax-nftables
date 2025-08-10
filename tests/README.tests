@@ -1,0 +1,15 @@
+The goal of testing nftables syntax highlighting was to 
+automate as much as we can.
+
+The stages of test are:
+
+   1. Linter (vint)
+   2. Syntax checker (nft -c -f)
+   3. Vimscript syntax highlight checker (Vader)
+
+We do testing by executing one of the following:
+
+    make test  (tests everything)
+    make test-linter (or 'make vint')
+    make test-syntax
+    make test-highlight
