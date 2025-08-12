@@ -18,6 +18,31 @@
 # true positive test: properly hightlighted correctly; has good content; perfect
 ################################################################################
 
+
+# limit_burst_pkts->limit_rate_pkts->limit_config->identifier->table_spec->'limit'->'add'->add_cmd->base_cmd
+add limit myIpTable myIpLimit rate 1/second
+add limit myIpTable myIpLimit rate 1/second burst 1514 packet
+add limit myIpTable myIpLimit rate 1/second burst 15 packets
+
+# limit_burst_pkts->limit_rate_pkts->limit_config->identifier->family_spec->table_spec->'limit'->'add'->add_cmd->base_cmd
+add limit ip6 myIp6Table myIp6Limit rate 1 / week burst 1 packet
+add limit ip6 myIp6Table myIp6Limit rate 1 / week burst 1 packets
+add limit ip myIpTable myIpLimit rate 1/ day burst 1 packet
+add limit inet myInetTable myInetLimit rate 1/second burst 1 packets
+add limit inet myInetTable myInetLimit rate 1/second burst 10 packets
+add limit inet myInetTable myInetLimit rate 1/second burst 100000 packets
+add limit inet myInetTable myInetLimit rate 1/second burst 1000000000 packets
+add limit inet myInetTable myInetLimit rate 1/second burst 10000000000000 packets
+add limit inet myInetTable myInetLimit rate 1/second burst 10000000000000000 packets
+add limit inet myInetTable myInetLimit rate 1/second burst 10000000000000000000 packets
+add limit netdev myNetdevTable myNetdevLimit rate 1/minute burst 1 packets
+add limit bridge myBridgeTable myBridgeLimit rate 1 /hour burst 1T packets
+add limit arp myBridgeTable myBridgeLimit rate 1 /hour burst 1000000 packets
+
+# limit_rate_pkts->obj_spec->'limit'->'rule'->'add'->add_cmd->base_cmd
+# limit_rate_pkts->identifier->table_spec->'limit'->'rule'->'add'->add_cmd->base_cmd
+add limit myIp6Table myIp6Limit rate 1 / week
+
 # 'limit'->'add'->add_cmd->base_cmd
 # 'limit'->add_cmd->base_cmd
 # identifier->table_spec->obj_spec->'limit'->add_cmd->base_cmd
@@ -120,31 +145,7 @@ limit ip myIpTable myIpLimit rate 1/ day
 limit inet myInetTable myInetLimit rate 1/second
 limit netdev myNetdevTable myNetdevLimit rate 1/minute 
 limit bridge myBridgeTable myBridgeLimit rate 1 /hour 
-limit arp myBridgeTable myBridgeLimit rate 1 /hour 
-
-# limit_burst_pkts->limit_rate_pkts->limit_config->identifier->table_spec->'limit'->'add'->add_cmd->base_cmd
-add limit myIpTable myIpLimit rate 1/second 
-add limit myIpTable myIpLimit rate 1/second burst 1514 packet
-add limit myIpTable myIpLimit rate 1/second burst 15 packets
-
-# limit_burst_pkts->limit_rate_pkts->limit_config->identifier->family_spec->table_spec->'limit'->'add'->add_cmd->base_cmd
-add limit ip6 myIp6Table myIp6Limit rate 1 / week burst 1 packet
-add limit ip6 myIp6Table myIp6Limit rate 1 / week burst 1 packets
-add limit ip myIpTable myIpLimit rate 1/ day burst 1 packet
-add limit inet myInetTable myInetLimit rate 1/second burst 1 packets
-add limit inet myInetTable myInetLimit rate 1/second burst 10 packets
-add limit inet myInetTable myInetLimit rate 1/second burst 100000 packets
-add limit inet myInetTable myInetLimit rate 1/second burst 1000000000 packets
-add limit inet myInetTable myInetLimit rate 1/second burst 10000000000000 packets
-add limit inet myInetTable myInetLimit rate 1/second burst 10000000000000000 packets
-add limit inet myInetTable myInetLimit rate 1/second burst 10000000000000000000 packets
-add limit netdev myNetdevTable myNetdevLimit rate 1/minute burst 1 packets
-add limit bridge myBridgeTable myBridgeLimit rate 1 /hour burst 1T packets
-add limit arp myBridgeTable myBridgeLimit rate 1 /hour burst 1000000 packets
-
-# limit_rate_pkts->obj_spec->'limit'->'rule'->'add'->add_cmd->base_cmd
-# limit_rate_pkts->identifier->table_spec->'limit'->'rule'->'add'->add_cmd->base_cmd
-add limit myIp6Table myIp6Limit rate 1 / week
+limit arp myBridgeTable myBridgeLimit rate 1 /hour
 
 # [ add rule ] limit obj_spec limit_obj { limit_config } close_scope_limit
 # limit_block->'{'->identifier->family_spec->table_spec->'limit'->'rule'->'add'->add_cmd->base_cmd
@@ -164,6 +165,57 @@ limit myTable lim_400ppm {
     include "rate-limit.nft"
     rate 400/minute ; comment "use to limit incoming icmp" ; 
 }
+
+# base_cmd add_cmd 'table' table_spec table_block 'limit' limit_block
+table ip T { limit L { } }
+table ip6 T { limit L { } }
+table inet T { limit L { } }
+table netdev T { limit L { } }
+table bridge T { limit L { } }
+table arp T { limit L { } }
+table T { limit L { rate 15 byte } }
+table T { limit L { rate 15 bytes } }
+table T { limit L { rate over 15 / second } }
+table T { limit L { rate over 15 / minute } }
+table T { limit L { rate over 15 / hour } }
+table T { limit L { rate over 15 / day } }
+table T { limit L { rate over 15 / week } }
+table T { limit L { rate over 15 bytes / second } }
+table T { limit L { rate over 15 kbytes / minute } }
+table T { limit L { rate over 15 mbytes / hour } }
+table T { limit L { rate over 15 gbytes / day } }
+table T { limit L { rate over 15 pbytes / week } }
+table T { limit L { rate until 15 / second } }
+table T { limit L { rate until 15 / minute } }
+table T { limit L { rate until 15 / hour } }
+table T { limit L { rate until 15 / day } }
+table T { limit L { rate until 15 / week } }
+table T { limit L { rate until 15 bytes / second } }
+table T { limit L { rate until 15 bytes / minute } }
+table T { limit L { rate until 15 bytes / hour } }
+table T { limit L { rate until 15 bytes / day } }
+table T { limit L { rate until 15 bytes / week } }
+table T {
+    limit L {
+        rate 1 / second
+        rate 1 / second burst 1 packet
+        rate over 1 / second
+        rate over 1 / second burst 15 packets
+        rate until 60 / minutes burst 360 packets
+        rate 1 mbytes / second
+        rate 1 mbytes / second burst 1 gbyte
+        rate over 1 mbytes / second
+        rate over 1 mbytes / second burst 15 gbyte
+        rate until 60 mbytes / minutes burst 360 gbyte
+        # common_block
+        include "/directory/subdirectory/filename.filetype"
+        define A = 1
+        redefine A = 2
+        undefine A
+    }
+}
+table T { limit L { } }
+
 
 table T {
     set S {

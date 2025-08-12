@@ -24,8 +24,8 @@
 ################################################################################
 
 # Bison: identifier/table_spec/chain_spec/rule_position/add_cmd/base_cmd/line
-myTableID myChainID { };
-my_table_id my_chain_id { };
+myTableID myChainID accept ;
+my_table_id my_chain_id drop;
 
 # Bison: identifier/table_spec/chain_spec/rule_position/'rule'/add_cmd/base_cmd/line
 rule myTableID myChainID { };
@@ -48,7 +48,7 @@ rule bridge myTableID myChainID { };
 rule arp myTableID myChainID { };
 
 # multi-line
-myTableID {
+table myTableID {
     chain myChainID { };
 };
 

@@ -125,6 +125,39 @@ reset quotas table bridge MyIpTable
 reset quotas table arp myIpFilter
 
 # quota expressions
+# base_cmd add_cmd 'table' table_spec table_block 'quota' quota_block
+table T {
+    quota last { }
+    quota Q {
+        # comment_spec
+        comment "my comments"
+        # quota_config
+        15 mbytes
+        15 mbytes used 30 gbytes
+        over 25 pbytes
+        over 25 pbytes used 2500000 pbytes
+        until 30 kbytes
+        until 30 kbytes used 130 Mbytes
+        # common_block
+        include "/directory/subdirectory/filename.filetype"
+        define A = 1
+        redefine A = 2
+        undefine A
+    }
+}
+table T { quota Q { } }
+table ip T { quota Q { } }
+table ip6 T { quota Q { } }
+table inet T { quota Q { } }
+table netdev T { quota Q { } }
+table bridge T { quota Q { } }
+table arp T { quota Q { } }
+table T { quota Q { 15 bytes } }
+table T { quota Q { 15 bytes used 15 bytes } }
+table T { quota Q { over 15 bytes used 15 bytes } }
+table T { quota Q { until 15 bytes } }
+table T { quota Q { until 15 bytes used 15 bytes } }
+
 
 ################################################################################
 # true negative test: properly hightlighted wrongly to show an error; 

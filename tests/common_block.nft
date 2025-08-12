@@ -122,13 +122,13 @@ redefine A = $ABC  # missing stmt_separator
 # line/common_block/UNDEFINE
 undefine last
 undefine last;
-undefine last ;
 undefine last; 
 undefine last ; 
 undefine A
 undefine ABC
 # line/common_block/UNDEFINE/stmt_separator
 undefine A;
+undefine A$BCDE;
 undefine A_BCDE;
 undefine A123DF; 
 undefine A123DG ;
@@ -139,31 +139,96 @@ error;
   error;
 error ;
     error ;
+error ;
 error ; 
-error ; 
+error  # inline comment line
+
+# base_cmd add_cmd 'table' table_spec table_block common_block 'include'
+table T {
+    include "file"
+}
+
+# base_cmd add_cmd 'table' table_spec table_block common_block 'define'
+table T { define A = 1 }
+table T {
+    define A = 1
+    define A = 1 ;
+    define last = 1
+    define last = 1 ;
+    define A = {} ;
+}
+# base_cmd add_cmd 'table' table_spec table_block common_block 'redefine'
+table T { redefine A = 1 }
+table T { redefine A = 1; }
+table T {
+    redefine A = 1
+    redefine A = 1 ;
+}
+# base_cmd add_cmd 'table' table_spec table_block common_block 'undefine'
+table T {
+    undefine A
+    undefine B
+}
+table xxxx { undefine abc ; }
+table xxxx { undefine abc ; } ;
+
+# base_cmd add_cmd 'table' table_spec table_block table_options 'comment'
+# base_cmd add_cmd 'table' table_spec table_block 'comment' string
+table T {
+    comment Hello
+    comment Hello
+    comment Hello
+    comment Hello
+}
+table bridge T { comment 'Hello world!' }
+table T { comment "Hello world!" }
+table netdev xxxx { comment "test" } ;
+table xxxx { comment 'test' };
+table arp xxxx { comment test;  };
+
+# base_cmd add_cmd 'table' table_spec table_block 'policy' 'offload'
+# base_cmd add_cmd 'table' table_spec table_block hook_spec 'type'
+# base_cmd add_cmd 'table' table_spec table_block 'flags' flag_spec
+table T {flags persist}
+table T {flags dormant;}
+table T {flags owner, persist,dormant };
+table T {flags owner,persist ;}
+table T {flags dormant,owner; }
+table T {flags persist,dormant ; }
+# base_cmd add_cmd 'table' table_spec table_block { table_options ';' }
+table ip xxxx { flags persist, owner, dormant};
+table xxxx { ; flags owner; comment "new stuff"; };
+table T { flags dormant; chain C { type ; }; };
+
+table myIpTable { flags dormant; }
+table netdev myNetdev { flags dormant; }
+table bridge myBridge { flags dormant; }
+table arp myArpTable { flags dormant; }
+table ip myIpTable { flags dormant; }
+table ip6 myIp6Table { flags dormant; }
+table inet myInetTable { flags dormant; }
+
 
 ################################################################################
 # true negative test: properly hightlighted wrongly to show an error;
 # so far, so good)
 ################################################################################
 
-oppsie
-
-
 include ;
 
-include 
+include cx
 
 
 # line/base_cmd/add_cmd/comment_spec
 include V$DIR00/"direcetory/filename.filetype"  # inline comment line
 
 defineA=1
-define A 
-
-
+define A a
 define A x
-define A & 1
+define ABC = { 
+   }
+
+define ABC = ;
 define ABC = - 1 ;  # has a whitespace between dash '-' and a number
 
 define A = 0- 1000  # whitespace NOT allowed in port-range
@@ -187,6 +252,9 @@ define PORT_RANGE = { 1024- 2048 };
 redefine A = { ;
 redefine A = { 1,2, 3, 4; }
 redefinelast { };
+
+undefine last TABLE_ID
+undefine last TABLE_ID;
 
 undefine 1BCDEF;
 undefine A$BCDE;
@@ -220,8 +288,9 @@ undefine A\BCDE;
 undefine A/BCDE;
 undefine A.BCDE;
 undefinelast
+undefine TABLE_ID = ;
+undefine TABLE_ID UNKNOWN_TOKEN ;
 
-error  # inline comment line
 error x 
 
 ################################################################################
@@ -235,10 +304,18 @@ include directory/"direcetory/filename.filetype"  # inline comment line
 # false positive test: looks highlighted correctly; has bad content; oops.
 ################################################################################
 
+oppsie
+
 define  ;
 define A  
+
 define last  
-define A = 
+
+define A x 1
+define A | 1
+define A & 1
+
+define A =  ;
 define last = 
 define ABC = -1: 
 define last = -1: 
@@ -246,9 +323,6 @@ define ABC = { x , };
 define last = { x , };
 
 
-
-define ABC = { 
-   }
 
 undefine A$A123DH 
 undefine $A123DH 

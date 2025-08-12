@@ -30,6 +30,40 @@
 # true positive test: properly hightlighted correctly; has good content; perfect
 ################################################################################
 
+
+add counter ip table_id counter_id packets 5 bytes 1500
+add counter ip table_id counter_id packets 5 bytes 1500;
+add counter ip table_id counter_id packets 5 bytes 1500;
+add counter ip table_id counter_id packets 5 bytes 1500 ;
+add counter ip table_id counter_id packets 5 bytes 1500 ;
+
+# 'counter' as a statement ('stmt')
+add counter table_id counter_id
+add counter table_id counter_id;
+add counter table_id counter_id;
+add counter table_id counter_id ;
+add counter table_id counter_id ;
+
+
+add counter inet mytable my_counter_name
+
+
+add counter table_id counter_id { comment "Nice to say things" }
+
+add counter table_id counter_id { packets 5 bytes 1500 };
+add counter table_id counter_id { packets 5 bytes 1500 };
+add counter table_id counter_id { packets 5 bytes 1500 } ;
+add counter table_id counter_id { packets 5 bytes 1500 } ;
+
+add counter table_id counter_id { packets 5 bytes 1500 };
+add counter table_id counter_id { packets 5 bytes 1500 } ;
+add counter table_id counter_id { packets 5 bytes 1500 } ;
+
+add counter table_id counter_id {
+    define A = 1
+    packets 5 bytes 1500
+};
+
 counter table_id counter_id
 counter table_id counter_id; 
 counter table_id counter_id ;
@@ -75,38 +109,31 @@ counter table_id counter_id {
     comment "this stuff!`~@#$%^&*()_+-={}[]|\\:\"<>?/";
 };
 
-add counter ip table_id counter_id packets 5 bytes 1500
-add counter ip table_id counter_id packets 5 bytes 1500;
-add counter ip table_id counter_id packets 5 bytes 1500; 
-add counter ip table_id counter_id packets 5 bytes 1500 ;
-add counter ip table_id counter_id packets 5 bytes 1500 ; 
 
-# 'counter' as a statement ('stmt')
-add counter table_id counter_id   
-add counter table_id counter_id;
-add counter table_id counter_id; 
-add counter table_id counter_id ;
-add counter table_id counter_id ; 
+# base_cmd add_cmd 'table' table_spec table_block 'counter' counter_block
+table T { counter C { } }
+table ip T { counter C { } }
+table ip6 T { counter C { } }
+table inet T { counter C { } }
+table netdev T { counter C { } };
+table netdev T { counter C { } } ;
+table netdev T { counter C { } };
+table netdev T { counter C { } } ;
+table bridge T { counter C { } }
+table arp T { counter C { } }
+table T { counter C { packets 123 bytes 15 } }
+table T {
+    counter C {
+        # common_block
+        include "/directory/subdirectory/filename.filetype"
+        define A = 1
+        redefine A = 2
+        undefine A
+        packets 123 bytes 123;
+        packets 123 bytes 123
+    }
+}
 
-
-add counter inet mytable my_counter_name
-
-
-add counter table_id counter_id { comment "Nice to say things" }
-
-add counter table_id counter_id { packets 5 bytes 1500 };
-add counter table_id counter_id { packets 5 bytes 1500 }; 
-add counter table_id counter_id { packets 5 bytes 1500 } ;
-add counter table_id counter_id { packets 5 bytes 1500 } ; 
-
-add counter table_id counter_id { packets 5 bytes 1500 }; 
-add counter table_id counter_id { packets 5 bytes 1500 } ;
-add counter table_id counter_id { packets 5 bytes 1500 } ; 
-
-add counter table_id counter_id { 
-    define A = 1
-    packets 5 bytes 1500
-};
 
 
 table inet mytable {

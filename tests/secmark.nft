@@ -9,7 +9,17 @@
 ################################################################################
 # true positive test: properly hightlighted correctly; has good content; perfect
 ################################################################################
-secmark obj_spec secmark_obj { } 
+add secmark T SM { }
+add secmark T SM { }
+add secmark T SM {;}
+add secmark T SM { ; }
+add secmark T SM { define my_var = 1; };
+add secmark T SM { redefine my_var = 2; };
+add secmark T SM { undefine my_var; };
+add secmark T SM { typeof b.c.d.e.f : secmark  };
+add secmark myTable sshtag { "system_u:object_r:ssh_server_packet_t:s0" }
+
+secmark obj_spec secmark_obj { }
 secmark obj_spec secmark_obj { } 
 secmark obj_spec secmark_obj {;} 
 secmark obj_spec secmark_obj { ; } 
@@ -19,15 +29,27 @@ secmark T SM { undefine my_var; };
 secmark T SM { typeof b.c.d.e.f : secmark  };
 secmark myTable sshtag { "system_u:object_r:ssh_server_packet_t:s0" }
 
-add secmark T SM { } 
-add secmark T SM { } 
-add secmark T SM {;} 
-add secmark T SM { ; } 
-add secmark T SM { define my_var = 1; };
-add secmark T SM { redefine my_var = 2; };
-add secmark T SM { undefine my_var; };
-add secmark T SM { typeof b.c.d.e.f : secmark  };
-add secmark myTable sshtag { "system_u:object_r:ssh_server_packet_t:s0" }
+
+# base_cmd add_cmd 'table' table_spec table_block 'secmark' secmark_block
+table T { secmark SM { ; }; };
+table T { secmark SM { } }
+table ip T { secmark SM { } }
+table ip6 T { secmark SM { } }
+table inet T { secmark SM { } }
+table netdev T { secmark SM { } }
+table bridge T { secmark SM { } }
+table arp T { secmark SM { } }
+table last { secmark SM { } }
+table T { secmark SM { "some security settings goes into here" } }
+table T {
+    secmark SM {
+        # common_block
+        include "/directory/subdirectory/filename.filetype"
+        define A = 1
+        redefine A = 2
+        undefine A
+    }
+};
 
 create secmark myTable mySecMark 'asdf \'asdd"asdfdf'
 create secmark myTable mySecMark 'asdf \'asddfasdfdf'

@@ -2,16 +2,16 @@
 # File: all-tables.nft
 # Description: A test NFT file to exercise 'add table' Vim syntax highlightings.
 #
-# Identifiers begin with an alphabetic character (a-z,A-Z), 
-# followed by zero or more alphanumeric characters (a-z,A-Z,0-9) 
-# and the characters slash (/), backslash (\), underscore (_) 
-# and dot (.). 
+# Identifiers begin with an alphabetic character (a-z,A-Z),
+# followed by zero or more alphanumeric characters (a-z,A-Z,0-9)
+# and the characters slash (/), backslash (\), underscore (_)
+# and dot (.).
 #
-# Identifiers using different characters or clashing with a 
-# keyword need to be enclosed in double quotes (").  
+# Identifiers using different characters or clashing with a
+# keyword need to be enclosed in double quotes (").
 #
 # Syntax Pathway:
-#   base_cmd add_cmd 'table' 
+#   base_cmd add_cmd 'table'
 #
 # Semantic Actions (reverse parser_bison.y):
 #   nft_line/nft_base_cmd/nft_base_cmd_add/nft_base_cmd_add_table/nft_add_table_chain_block policy_spec
@@ -20,561 +20,28 @@
 # true positive test (properly hightlighted correctly; has good content; perfect
 ################################################################################
 
+ip6 table_id chain_id {
+};
+
 add table filter
 
-table T  # that one creates an empty table
-# base_cmd add_cmd 'table' table_spec identifier <STRING>
-table xxxx
-# base_cmd add_cmd 'table' table_spec identifier 'last'
-table last
-
-# base_cmd add_cmd 'table' table_spec table_block
-table T { }
-table T { } ; #
-table inet xxxx { };
-table bridge xxxx { };
-table netdev xxxx { };
-table arp xxxx { };
-
-table my.IpTable
-table my/IpTable
 add table my/IpTable
 add table my/IpTable 
 add table my/IpTable; 
 add table my/IpTable ;
 add table my/IpTable ; 
 add table my\IpTable    # defaults to 'ip' family
-table my./_IpTable
 add table my./_IpTable
-table my.IpTable
 add table my.IpTable
 add table my_./\IpTable    # defaults to 'ip' family
 
-# base_cmd add_cmd 'table' table_spec table_block common_block 'include'
+table T { ; };
 table T {
-    include "file"
-}
-# base_cmd add_cmd 'table' table_spec table_block common_block 'define'
-table T { define A = 1 }
-table T { 
-    define A = 1 
-    define A = 1 ;
-    define last = 1
-    define last = 1 ;
-    define A = {} ;
-}
-# base_cmd add_cmd 'table' table_spec table_block common_block 'redefine'
-table T { redefine A = 1 }
-table T { redefine A = 1; }
-table T { 
-    redefine A = 1
-    redefine A = 1 ;
-}
-# base_cmd add_cmd 'table' table_spec table_block common_block 'undefine'
-table T {
-    undefine A
-    undefine B 
-}
-table xxxx { undefine abc ; }
-table xxxx { undefine abc ; } ; 
-
-# base_cmd add_cmd 'table' table_spec table_block table_options 'comment'
-# base_cmd add_cmd 'table' table_spec table_block 'comment' string
-table T { 
-    comment Hello
-    comment Hello
-    comment Hello
-    comment Hello 
-} 
-table bridge T { comment 'Hello world!' }
-table T { comment "Hello world!" }
-table netdev xxxx { comment "test" } ;
-table xxxx { comment 'test' };
-table arp xxxx { comment test;  };
-
-# base_cmd add_cmd 'table' table_spec table_block 'policy' 'offload'
-# base_cmd add_cmd 'table' table_spec table_block hook_spec 'type' 
-# base_cmd add_cmd 'table' table_spec table_block 'flags' flag_spec
-table T {flags persist}
-table T {flags dormant;}
-table T {flags owner, persist,dormant };
-table T {flags owner,persist ;}
-table T {flags dormant,owner; }
-table T {flags persist,dormant ; }
-# base_cmd add_cmd 'table' table_spec table_block { table_options ';' }
-table T { flags dormant,x ; } ;
-table ip xxxx { flags persist, owner, dormant};
-table xxxx { ; flags owner; comment "new stuff"; };
-table T { flags dormant; chain C { type ; }; };
-
-table myIpTable { flags dormant; }
-table netdev myNetdev { flags dormant; }
-table bridge myBridge { flags dormant; }
-table arp myArpTable { flags dormant; }
-table ip myIpTable { flags dormant; }
-table ip6 myIp6Table { flags dormant; }
-table inet myInetTable { flags dormant; }
-
-# base_cmd add_cmd 'table' table_spec table_block 'chain' chain_block
-table T { chain C { } }
-table ip T { chain C { } }
-table ip6 T { chain C { } }
-table inet T { chain C { } }
-table netdev T { chain C { } }
-table bridge T { chain C { } }
-table arp T { chain C { } }
-
-table T { chain last }
-table T { chain last; }
-table T { chain last; };
-table xxxx { 
-    chain last  
-}
-table xxxx { 
-    chain last; };
-table T { chain C }
-table T { chain C };
-table T { chain C ; } ;
-table T { chain C ; } ;
-table T { chain C { }; };
-table T { chain C { }; chain D { }; };
-add table T { 
-    chain C {
-    }; 
-    chain D { }; 
+    flags dormant;
+    flags persist;
+    flags dormant,persist;
+    flags persist,dormant;
 };
-
-# base_cmd add_cmd 'table' table_spec table_block 'set' set_block
-table T { set S { } }
-table last { set S { } }
-table T { set last { } }
-table last { set last { } }
-table ip last { set S { } }
-table ip T { set S { } }
-table ip6 T { set S { } }
-table inet T { set S { } }
-table netdev T { set S { } }
-table bridge T { set S { } }
-table arp T { set S { } }
-table T { 
-    chain S { }
-}
-table T { set S { typeof A.B : interval 15 } }
-table T { set S { type string : } }
-table T { set S { type mark : interval mark.time } }
-table T { set S { type dscp : ecn.classid } }
-table T { set S { type ecn : } }
-table T { set S { type classid : } }
-table T { set S { type time : } }
-table T { set S { flags constant,interval,timeout,dynamic }; }
-table T { set S { flags constant,interval,timeout,dynamic }; };
-table T { set S { timeout 15 } }
-table T { set S { timeout 15; gc-interval 15 } }
-table T { set S { gc-interval 15 } }
-# table_block/set_block/set_mechanism/'policy'
-table T { set S { policy performance } }
-table T { set S { policy memory } }
-table T { set S { comment "this line of comment" }; };
-table T { set S { counter } }
-table T { set S { counter bytes 123; } }
-table T { set S { counter packets 123 }; };
-table T { set S { counter packets 123 bytes 123 } }
-table T { set S { counter bytes 123 packets 123 limit rate 123} }
-table T { set S { counter bytes 123 packets 123; limit rate 123} }
-table T { set S { limit rate 123 } }
-table T { set S { limit rate over 123 } }
-table T { set S { limit rate until 123 } }
-table T { set S { quota over 123 bytes } }
-table T { set S { quota over 123 bytes used 123 bytes } }
-table T { set S { quota until 123 bytes } }
-table T { set S { quota until 123 bytes used 123 bytes } }
-table T { set S { ct count 123 } }
-table T { set S { ct count over 123 } }
-table T { set S { last } }
-table T { set S { last used never } }
-table T { set S { last used 4h15m20s } }
-table T { set S { policy performance } }
-table T { set S { policy memory } }
-table T { set S { size 123 } }
-table T { set S { comment "xx" } }
-table T { set S { comment "Hello" } }
-table T { set S { elements = $VARIABLE } }
-table T { set S { elements = { a, b, c } } }
-table T { set S { auto-merge } }
-table ip filter {
-    set myset {
-        type inet_service
-        flags timeout
-        elements = $MY_SET_VARNAME
-        elements = { http expires 9s}
-    }
-}
-table ip filter {
-    set myset {
-        type ipv4_addr
-        elements = { 1.1.1.1 }
-    }
-}
-table inet filter {
-    set myset_ipv4 {
-        type ipv4_addr;
-        elements = { $server1_ipv4 , $workstation1_ipv4 }
-    }
-    set myset_ipv6 {
-        type ipv6_addr;
-        elements = { $server1_ipv6 , $workstation1_ipv6 }
-    }
-}
-
-# base_cmd add_cmd 'table' table_spec table_block 'map' map_block
-table T { map M { } }
-table last { map M { } }
-table T { map last { } }
-table last { map last { } }
-table ip last { map M { } }
-table ip T { map M { } }
-table ip6 T { map M { } }
-table inet T { map M { } }
-table netdev T { map M { } }
-table bridge T { map M { } }
-table arp T { map M { } }
-table T { map M { typeof A.B : interval 15 } }
-table T { map M { type string : } }
-table T { map M { type mark : interval mark.time } }
-table T { map M { type dscp : ecn.classid } }
-table T { map M { type ecn : } }
-table T { map M { type classid : } }
-table T { map M { type time : } }
-table T { map M { flags constant,interval,timeout,dynamic } }
-table T { map M { timeout 15 } }
-table T { map M { gc-interval 15 } }
-table T { map M { timeout 15; gc-interval 15 } }
-table T { map M { counter byte } }
-table T { map M { counter bytes 123 } }
-table T { map M { counter packets 123 } }
-table T { map M { counter packets 123 bytes 123 } }
-table T { map M { counter bytes 123 packets 123 } }
-table T { map M { limit rate 123 } }
-table T { map M { limit rate over 123 } }
-table T { map M { limit rate until 123 } }
-table T { map M { quota over 123 bytes } }
-table T { map M { quota over 123 bytes used 123 bytes } }
-table T { map M { quota until 123 bytes } }
-table T { map M { quota until 123 bytes used 123 bytes } }
-table T { map M { counter 
-    quota until 123 bytes used 123 bytes } }
-table T { 
-    map M { 
-        counter; 
-        quota; 
-        limit } 
-}
-table T { map S { ct count 123 } }
-table T { map S { ct count over 123 } }
-table T { map S { last } }
-table T { map S { last used never } }
-table T { map S { last used 4h15m20s } }
-table T { map S { policy performance } }
-table T { map S { policy memory } }
-table T { map S { size 123 } }
-table T { map S { comment "Hello" } }
-table T { map S { elements = $VARIABLE } }
-table T { map S { elements = { a, b, c } } }
-table ip filter {
-    map mymap {
-        type inet_service
-        flags constant,dynamic,interval,timeout
-        elements = { http expires 9s}
-    }
-}
-table ip filter {
-    map mymap {
-        type ipv4_addr
-        elements = { 1.1.1.1 }
-    }
-}
-table inet filter {
-    map myset_ipv4 {
-        type ipv4_addr;
-        elements = { $server1_ipv4 , $workstation1_ipv4 }
-    }
-    map myset_ipv6 {
-        type ipv6_addr;
-        elements = { $server1_ipv6 , $workstation1_ipv6 }
-    }
-}
-
-# base_cmd add_cmd 'table' table_spec table_block 'flowtable' flowtable_block
-table T { flowtable F { } }
-table ip T { flowtable F { } }
-table ip6 T { flowtable F { } }
-table inet T { flowtable F { } }
-table netdev T { flowtable F { } }
-table bridge T { flowtable F { } }
-table arp T { flowtable F { } }
-table T { flowtable F { hook ABC priority -150 } }
-table T { flowtable F { devices = { eth0, wlan0 } }; };
-table T { flowtable F { flags offload } }
-table T { flowtable F { counter } }
-table T { 
-    flowtable F {
-        hook ABC priority -150
-        devices = { eth0, wlan0 }
-        flags offload
-        counter
-        # common_block
-        include "/directory/subdirectory/filename.filetype"
-        define A = 1
-        redefine A = 2
-        undefine A
-    }
-}
-
-# base_cmd add_cmd 'table' table_spec table_block 'counter' counter_block
-table T { counter C { } }
-table ip T { counter C { } }
-table ip6 T { counter C { } }
-table inet T { counter C { } }
-table netdev T { counter C { } };
-table netdev T { counter C { } } ; 
-table netdev T { counter C { } }; 
-table netdev T { counter C { } } ;
-table bridge T { counter C { } }
-table arp T { counter C { } }
-table T { counter C { packets 123 bytes 15 } }
-table T { 
-    counter C {
-        # common_block
-        include "/directory/subdirectory/filename.filetype"
-        define A = 1
-        redefine A = 2
-        undefine A
-        packets 123 bytes 123; 
-        packets 123 bytes 123
-    }
-}
-
-# base_cmd add_cmd 'table' table_spec table_block 'quota' quota_block
-table T { 
-    quota last { }
-    quota Q {
-        # comment_spec
-        comment "my comments"
-        # quota_config
-        15 mbytes
-        15 mbytes used 30 gbytes
-        over 25 pbytes
-        over 25 pbytes used 2500000 pbytes
-        until 30 kbytes
-        until 30 kbytes used 130 Mbytes
-        # common_block
-        include "/directory/subdirectory/filename.filetype"
-        define A = 1
-        redefine A = 2
-        undefine A
-    }
-}
-table T { quota Q { } }
-table ip T { quota Q { } }
-table ip6 T { quota Q { } }
-table inet T { quota Q { } }
-table netdev T { quota Q { } }
-table bridge T { quota Q { } }
-table arp T { quota Q { } }
-table T { quota Q { 15 bytes } }
-table T { quota Q { 15 bytes used 15 bytes } }
-table T { quota Q { over 15 bytes used 15 bytes } }
-table T { quota Q { until 15 bytes } }
-table T { quota Q { until 15 bytes used 15 bytes } }
-
-# base_cmd add_cmd 'table' table_spec table_block 'ct' 'helper' ct_helper_block
-table T { 
-    ct helper CT {
-        # common_block
-        include "/directory/subdirectory/filename.filetype"
-        define A = 1
-        redefine A = 2
-        undefine A;
-    }
-}
-table T { ct helper CT {; }; };
-table ip T { ct helper CT {;} }
-table ip6 T { ct helper CT { };}
-table inet T { ct helper CT { } };
-table netdev T { ct helper CT { } }
-table bridge T { ct helper CT { } }
-table arp T { ct helper CT { } }
-table T { ct helper CT { type "MYTYPE" protocol tcp } }
-table T { ct helper CT { l3proto ip6 } }
-table T { ct helper CT { l3proto ip6; } }
-table T { 
-    ct helper CT { 
-        type "MYTYPE" protocol tcp;
-        l3proto bridge;
-    }
-}
-
-# base_cmd add_cmd 'table' table_spec table_block 'ct' 'timeout' ct_timeout_block
-table T { 
-    ct timeout CT {
-        protocol tcp
-        policy = { established : 1h };
-        protocol udp
-        policy = { replied : 1h, unreplied : 15 };
-        l3proto ip6;
-        # common_block
-        include "/directory/subdirectory/filename.filetype"
-        define A = 1
-        redefine A = 2
-        undefine A;
-        comment "some comments"
-    }
-}
-table T { ct timeout TO { } }
-table ip T { ct timeout TO { } }
-table ip6 T { ct timeout TO { } }
-table inet T { ct timeout TO { } }
-table netdev T { ct timeout TO { } }
-table bridge T { ct timeout TO { } }
-table arp T { ct timeout TO { } }
-table T { ct timeout TO { protocol tcp } }
-table T { ct timeout TO { l3proto ip6 } }
-table T { ct timeout TO { protocol udp policy = { unreplied : 126; }; }; };
-table T { ct timeout TO { protocol udp policy = { replied : 126; }; }; };
-table T { ct timeout TO { protocol udp policy = { unreplied:126, replied : 126; }; }; };
-table T { ct timeout TO { protocol tcp policy = { last_ack:15s, established : 1H15M } } }
-
-# base_cmd add_cmd 'table' table_spec table_block 'ct' 'expectation' ct_expect_block
-table T { 
-    ct expectation CE {
-        # common_block
-        include "/directory/subdirectory/filename.filetype"
-        define A = 1
-        redefine A = 2
-        undefine A
-    }
-}
-table T { ct expectation CE { } }
-table ip T { ct expectation CE { } }
-table ip6 T { ct expectation CE { } }
-table inet T { ct expectation CE { } }
-table netdev T { ct expectation CE { } }
-table bridge T { ct expectation CE { } }
-table arp T { ct expectation CE { } }
-table T { ct expectation CE { protocol tcp } }
-table T { ct expectation CE { dport 23 } }
-table T { ct expectation CE { size 123 } }
-table T { ct expectation CE { timeout 15h } }
-table T { ct expectation CE { l3proto netdev } }
-table T { 
-    ct expectation CE { 
-        protocol tcp
-        dport 23
-        size 123
-        timeout 15h
-        l3proto netdev 
-    } 
-}
-
-# base_cmd add_cmd 'table' table_spec table_block 'limit' limit_block
-table ip T { limit L { } }
-table ip6 T { limit L { } }
-table inet T { limit L { } }
-table netdev T { limit L { } }
-table bridge T { limit L { } }
-table arp T { limit L { } }
-table T { limit L { rate 15 byte } }
-table T { limit L { rate 15 bytes } }
-table T { limit L { rate over 15 / second } }
-table T { limit L { rate over 15 / minute } }
-table T { limit L { rate over 15 / hour } }
-table T { limit L { rate over 15 / day } }
-table T { limit L { rate over 15 / week } }
-table T { limit L { rate over 15 bytes / second } }
-table T { limit L { rate over 15 kbytes / minute } }
-table T { limit L { rate over 15 mbytes / hour } }
-table T { limit L { rate over 15 gbytes / day } }
-table T { limit L { rate over 15 pbytes / week } }
-table T { limit L { rate until 15 / second } }
-table T { limit L { rate until 15 / minute } }
-table T { limit L { rate until 15 / hour } }
-table T { limit L { rate until 15 / day } }
-table T { limit L { rate until 15 / week } }
-table T { limit L { rate until 15 bytes / second } }
-table T { limit L { rate until 15 bytes / minute } }
-table T { limit L { rate until 15 bytes / hour } }
-table T { limit L { rate until 15 bytes / day } }
-table T { limit L { rate until 15 bytes / week } }
-table T { 
-    limit L {
-        rate 1 / second
-        rate 1 / second burst 1 packet 
-        rate over 1 / second
-        rate over 1 / second burst 15 packets
-        rate until 60 / minutes burst 360 packets
-        rate 1 mbytes / second
-        rate 1 mbytes / second burst 1 gbyte 
-        rate over 1 mbytes / second
-        rate over 1 mbytes / second burst 15 gbyte
-        rate until 60 mbytes / minutes burst 360 gbyte
-        # common_block
-        include "/directory/subdirectory/filename.filetype"
-        define A = 1
-        redefine A = 2
-        undefine A
-    }
-}
-table T { limit L { } }
-
-# base_cmd add_cmd 'table' table_spec table_block 'secmark' secmark_block
-table T { secmark SM { ; }; };
-table T { secmark SM { } }
-table ip T { secmark SM { } }
-table ip6 T { secmark SM { } }
-table inet T { secmark SM { } }
-table netdev T { secmark SM { } }
-table bridge T { secmark SM { } }
-table arp T { secmark SM { } }
-table last { secmark SM { } }
-table T { secmark SM { "some security settings goes into here" } }
-table T { 
-    secmark SM {
-        # common_block
-        include "/directory/subdirectory/filename.filetype"
-        define A = 1
-        redefine A = 2
-        undefine A
-    }
-};
-
-# base_cmd add_cmd 'table' table_spec table_block 'synproxy' synproxy_block
-table T { synproxy SP { } }
-table ip T { synproxy SP { } }
-table ip6 T { synproxy SP { } }
-table inet T { synproxy SP { } }
-table netdev T { synproxy SP { } }
-table bridge T { synproxy SP { } }
-table arp T { synproxy SP { } }
-table T { synproxy SP { mss 1490 wscale 5 } }
-table T { synproxy SP { mss 1490 wscale 5 } }
-table T { synproxy SP { mss 1490 wscale 5 } }
-table T { synproxy SP { mss 1490 wscale 5 sack-permitted } }
-table T { synproxy SP { mss 1490 wscale 5 timestamp} }
-table T { synproxy SP { mss 1490 ; wscale 5 } }
-table T { synproxy SP { mss 1490 ; wscale 5 } }
-table T { synproxy SP { mss 1490 ; wscale 5 } }
-add table T { synproxy SP { mss 1490 ; wscale 5 } };
-table T { synproxy SP { mss 1490 ; wscale 5 } };
-table T { 
-    synproxy SP {
-        # common_block
-        include "/directory/subdirectory/filename.filetype"
-        define A = 1
-        redefine A = 2
-        undefine A
-    }
-}
-
 
 ##########################################################################
 # All-in-One
@@ -590,11 +57,11 @@ table T {
     comment "A Hello XYZ"
     comment "A ;Hello XYZ"
     comment "ABCDEFGHIJKLMNOPQRSTUVXWYZabcdefghijklmnopqrstuvwxyz"
-    comment ABCDEFGHIJKLMNOPQRSTUVXWYZabcdefghijklmnopqrstuvwxyz; 
-    comment 0123456789~!@#$%&*()_+=-|\}\{[]:/.,<>?\ 
+    comment ABCDEFGHIJKLMNOPQRSTUVXWYZabcdefghijklmnopqrstuvwxyz;
+    comment 0123456789~!@#$%&*()_+=-|\}\{[]:/.,<>?\
     comment Hello ;
     # chain_block
-    chain C { 
+    chain C {
         # common_block
         include "/directory/subdirectory/filename.filetype";
         define A = 1
@@ -613,7 +80,7 @@ table T {
         comment 'ABCDEFGHIJKLMNOPQRSTUVXWYZabcdefghijklmnopqrstuvwxyz' ;
     };
     # set_block
-    set S { 
+    set S {
         # common_block
         include "/directory/subdirectory/filename.filetype";
         define A = 1
@@ -635,12 +102,12 @@ table T {
         limit rate 15 Mbytes / second;
         limit rate over 15 Kbytes / second burst 15 kbytes;
         # rule/rule_alloc/stmt/stateful_stmt/quota_stmt
-        quota over 15 bytes 
+        quota over 15 bytes
         quota over 15 bytes used 15 Mbytes
         # rule/rule_alloc/stmt/stateful_stmt/connlimit_stmt
         ct count over 20
         # rule/rule_alloc/stmt/stateful_stmt/last_stmt
-        last 
+        last
         last used never
         last used 15m
         # set_mechanism
@@ -675,12 +142,12 @@ table T {
         limit rate 15 Mbytes / second;
         limit rate over 15 Bytes / second burst 15 bytes;
         # stateful_stmt/quota_stmt
-        quota over 15 bytes 
+        quota over 15 bytes
         quota over 15 bytes used 15 Mbytes
         # stateful_stmt/connlimit_stmt
         ct count over 20
         # stateful_stmt/last_stmt
-        last 
+        last
         last used never
         last used 15m
         # comment_spec
@@ -722,16 +189,43 @@ table T {
 
 
 ################################################################################
-# true negative test: properly hightlighted wrongly to show an error; 
+# true negative test: properly hightlighted wrongly to show an error;
 # so far, so good.
 ################################################################################
 
+add table T { synproxy SP { mss 1490 ; wscale 5 } };
+
+add table T {
+    chain C {
+    };
+    chain D { };
+};
+
+table T  # that one creates an empty table
+# base_cmd add_cmd 'table' table_spec identifier <STRING>
+table xxxx
+# base_cmd add_cmd 'table' table_spec identifier 'last'
+table last
+
+# base_cmd add_cmd 'table' table_spec table_block
+table T { }
+table T { } ; #
+table inet xxxx { };
+table bridge xxxx { };
+table netdev xxxx { };
+table arp xxxx { };
+
+table my.IpTable
+table my/IpTable
 table "*weirdname"  # allowable '*' but only inside double quote???
 table "$weirdname"  # allowable '$' but only inside double quote???
 table "#weirdname"  # allowable '#' but only inside double quote???
 
 table ip 
+
+
 table ip6   
+
 
 table inet  #
 
@@ -739,6 +233,9 @@ table bridge ;
 table netdev  # intentionally invalid; invalid table identifier
 table arp  # intentionally invalid; invalid table identifier
 table ip {  };
+
+table my./_IpTable
+table my.IpTable
 
 table 0   # invalid identifier (started with non-letter)
 table 0abc   # invalid identifier (started with non-letter)
@@ -755,13 +252,10 @@ table T { chain C { type filter hook ingress ; }; };  # incomplete
 table T { chain C { type filter hook ingress devices ; }; };  # incomplete
 table T { chain C { type filter hook ingress devices = ; }; };  # incomplete
 
-table T { chain C { type filter hook ingress device eth0 priority ; }; };  # incomplete
+table T { flags dormant,x ; } ;
 
 table T { chain C { devices =    $eth0,$ABC,$DEF;  }; };
-table T { chain C { devices ={ $MYVARIABLE; } } }
-table T { chain C { devices ={ MYVARIABLE } } }
 table T { chain C { devices = MYVARIABLE } }
-table T { chain C { devices = $MYVARIABLE } }
 
 table A!error
 
@@ -776,6 +270,7 @@ table T {
 }
 
 table T { ct timeout TO { protocol udp policy = { ABC : 1H15M } } }
+
 
 ################################################################################
 # false negative test: highlighted wrongly; still has good content; oops.
@@ -794,7 +289,31 @@ table T { chain C { devices = eth0;  } }
 # false positive test: looks highlighted correctly; has bad content; oops.
 ################################################################################
 
-table T { chain C { type filter ; }; };  # incomplete
+add table A { };
+
+add table @TX
+add table A#;   # invalid character
+add table A$;   # invalid character
+add table A%   # invalid character
+add table A^   # invalid character
+add table A&   # invalid character
+
+add table A*   # invalid character
+add table A(   # invalid character
+add table A)   # invalid character
+add table A-   # invalid character
+add table A+   # invalid character
+add table A=   # invalid character
+add table A[   # invalid character
+add table A]   # invalid character
+add table A<   # invalid character
+add table A>   # invalid character
+add table A,   # invalid character
+add table A?   # invalid character
+add table A|   # invalid character
+add table A:   # invalid character
+
+add table T { chain C { type filter ; }; };  # incomplete
 
 table A
 table Z
@@ -804,11 +323,8 @@ table a0
 table z0
 table A/
 table A\
-add table A_;
 table A.
 table A
-
-# base_cmd add_cmd 'table' table_spec family_spec family_spec_explicit
 
 table @TX
 table A# { };   # invalid character
@@ -821,7 +337,7 @@ table A(   # invalid character
 table A)   # invalid character
 table A-   # invalid character
 table A+   # invalid character
-table A=   # invalid character
+table A { flags dormant }  # invalid character
 table A[   # invalid character
 table A]   # invalid character
 table A<   # invalid character
@@ -829,5 +345,8 @@ table A>   # invalid character
 table A,   # invalid character
 table A?   # invalid character
 table A|   # invalid character
-table A:   # invalid character
+table A:   A
+table A!error
+
+table T { chain C { type filter ; }; };  # incomplete
 

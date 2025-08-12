@@ -17,117 +17,90 @@
 # true positive test (properly hightlighted correctly; has good content; perfect
 ################################################################################
 
-table A
-table Z
-table a
-table z
-table a0
-table z0
-table A/
-table A\
-table A_
-table A.
-table A
+add chain T C;
 
-# base_cmd add_cmd 'table' table_spec family_spec family_spec_explicit
-add table filter
-
-table T  # that one creates an empty table
-# base_cmd add_cmd 'table' table_spec identifier <STRING>
-table xxxx
-# base_cmd add_cmd 'table' table_spec identifier 'last'
-table last
-
-# base_cmd add_cmd 'table' table_spec table_block
-table T { }
-table T { } ; #
-table inet xxxx { };
-table bridge xxxx { };
-table netdev xxxx { };
-table arp xxxx { };
-
-table my.IpTable
-table my/IpTable
-add table my/IpTable
-add table my\IpTable    # defaults to 'ip' family
-table my./_IpTable
-add table my./_IpTable
-table my.IpTable
-add table my.IpTable
-add table my_./\IpTable    # defaults to 'ip' family
-
-# base_cmd add_cmd 'table' table_spec table_block common_block 'include'
+# base_cmd add_cmd 'table' table_spec table_block chain_block common_block 'include'
 table T {
-    include "file"
+    chain C {
+        include "file"
+    }
 }
-# base_cmd add_cmd 'table' table_spec table_block common_block 'define'
-table T { define A = 1 }
-table T { 
+# base_cmd add_cmd 'table' table_spec table_block chain_block common_block 'define'
+table T
+{
+    chain C
+    {
+        define A = 1
+    }
+}
+table T { chain C {
     define A = 1 
     define A = 1 ;
     define last = 1
     define last = 1 ;
     define A = {} ;
+    }
 }
-# base_cmd add_cmd 'table' table_spec table_block common_block 'redefine'
-table T { redefine A = 1 }
-table T { redefine A = 1; }
-table T { 
+# base_cmd add_cmd 'table' table_spec table_block chain_block common_block 'redefine'
+table T { chain C { redefine A = 1 } }
+table T { chain C { redefine A = 1; } }
+table T { chain C {
     redefine A = 1
     redefine A = 1 ;
+    }
 }
-# base_cmd add_cmd 'table' table_spec table_block common_block 'undefine'
-table T {
+# base_cmd add_cmd 'table' table_spec table_block chain_block common_block 'undefine'
+table xxxx { chain C { undefine abc ; } }
+table xxxx { chain C { undefine abc ; } ; }
+table T { chain C {
     undefine A
     undefine B 
+    }
 }
-table xxxx { undefine abc ; }
-table xxxx { undefine abc ; } ; 
 
-# base_cmd add_cmd 'table' table_spec table_block table_options 'comment'
+# base_cmd add_cmd 'table' table_spec table_block chain_block common_block 'comment'
 # base_cmd add_cmd 'table' table_spec table_block 'comment' string
-table T { 
+table bridge T { chain { comment 'Hello world!' } }
+table T { chain C { comment "Hello world!" } }
+table T { chain C { comment *Hello world!* } }
+table netdev xxxx { chain C { comment "test" } ; }
+table xxxx { chain C { comment 'test' }; }
+table T { chain C { comment *Hello world!* ;  } }
+table arp xxxx { chain C { comment test;  }; }
+table T { chain C {
     comment Hello
     comment Hello
     comment Hello
-    comment Hello 
-} 
-table bridge T { comment 'Hello world!' }
-table T { comment "Hello world!" }
-table T { comment *Hello world!* }
-table netdev xxxx { comment "test" } ;
-table xxxx { comment 'test' };
-table T { comment *Hello world!* ;  }
-table arp xxxx { comment test;  };
+    comment Hello
+    }
+}
 
-# base_cmd add_cmd 'table' table_spec table_block 'policy' 'offload'
-# base_cmd add_cmd 'table' table_spec table_block hook_spec 'type' 
-# base_cmd add_cmd 'table' table_spec table_block 'flags' flag_spec
-table T {flags member_1}
+# base_cmd add_cmd 'table' table_spec table_block chain_block flags_spec 'type'
+table T { chain C { flags offload} } };
 
-table T {flags member_1;}
-table T {flags member_1;};
-table T {flags member_1 ;}
-table T {flags member_1; }
-table T {flags member_1 ; }
-table T {flags member_1 ;};
-table T {flags member_1; };
-table T {flags member_1 ; };
-table T { flags member_1 }
-table T { flags member_1; }
-table T {flags member_2,member_3}
-table T { flags member_2, member_3 }
-table T { flags member_1; } ;
-table T { flags member_2,member_3} ; 
-table T { flags member_2, member_3 } ; 
-# base_cmd add_cmd 'table' table_spec table_block { table_options ';' }
-table T { flags member_1 } ;
-table ip xxxx { flags a, b, c};
-table xxxx { ; flags a, b, c; comment "new stuff"; };
-table T { flags a, b, c; chain C { type ; }; };
+table T { chain C { flags offload;} }
+table T { chain C { flags offload;}; };
+table T { chain C { flags offload ;} } };
+table T {chain C { flags offload; } };
+table T {chain C { flags offload ; } };
+table T {chain C { flags offload ;}; };
+table T {chain C { flags offload; }; };
+table T {chain C { flags offload ; }; };
+table T {chain C {  flags offload } };
+table T { chain C { flags offload; } };
+table T {chain C { flags offload,offload} };
+table T { chain C { flags offload, offload } };
+table T { chain C { flags offload; } ; };
+table T {chain C {  flags offload,offload} ;  };
+table T {chain C {  flags offload, offload } ;  };
+# base_cmd add_cmd 'table' table_spec table_block { table_options ';' } };
+table T { chain C { flags offload } ; };
+table ip xxxx { chain C { flags a, b, c}; };
+table xxxx { chain C { ; flags a, b, c; comment "new stuff"; }; };
+table T { chain C { flags a, b, c; chain C { type ; }; }; };
 
 table T {
-    # common_block
+chain C {     # common_block
     include "/directory/subdirectory/filename.filetype";
     define A = 1
     redefine A = 2
@@ -135,7 +108,7 @@ table T {
     # table_option
     flags a, b, c
     comment Hello
-}
+} };
 
 
 # base_cmd add_cmd 'table' table_spec table_block 'chain' chain_block
@@ -152,11 +125,11 @@ table T {
 # base_cmd add_cmd 'table' table_spec table_block 'rule' rule
 
 ######################
-table T { comment "unique, uh?"; flags a, b, c; chain C { type ; }; };
+table T { chain C { comment "unique, uh?"; flags a, b, c; chain C { type ; }; };
 table xxxx {
-    comment test;
+    chain C { comment test;
     include "add-more-table-xxxx.nft";
-};
+}; };
 
 table T { chain last }
 table T { chain last; }
@@ -172,6 +145,38 @@ table T { chain C ; } ;
 table T { chain C ; } ;
 table T { chain C { }; };
 table T { chain C { }; chain D { }; };
+
+# base_cmd add_cmd 'table' table_spec table_block 'chain' chain_block
+table T { chain C { } }
+table ip T { chain C { } }
+table ip6 T { chain C { } }
+table inet T { chain C { } }
+table netdev T { chain C { } }
+table bridge T { chain C { } }
+table arp T { chain C { } }
+
+table T { chain last }
+table T { chain last; }
+table T { chain last; };
+table xxxx {
+    chain last
+}
+table xxxx {
+    chain last; };
+table T { chain C }
+table T { chain C };
+table T { chain C ; } ;
+table T { chain C ; } ;
+table T { chain C { }; };
+table T { chain C { }; chain D { }; };
+table T { chain C { type filter hook ingress device eth0 priority ; }; };  # incomplete
+table T { chain C { devices = { $MYVARIABLE; } } }
+table T { chain C { devices ={ MYVARIABLE } } }
+table T { chain C { devices = $MYVARIABLE } }
+table T {
+    chain S { }
+}
+
 add table T { 
     chain C {
         comment asdf 

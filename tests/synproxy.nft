@@ -8,6 +8,27 @@
 ################################################################################
 # true positive test: properly hightlighted correctly; has good content; perfect
 ################################################################################
+#   add synproxy obj_spec synproxy_obj synproxy_config close_scope_synproxy (without the 'add' keyword)
+#   Bison: ADD SYNPROXY obj_spec synproxy_obj synproxy_config { common_block } close_scope_synproxy
+add synproxy myTable synproxy_obj mss 1500 wscale 7;
+add synproxy ip myTable synproxy_obj mss 1492 wscale 5;
+add synproxy ip6 myTable synproxy_obj mss 1498 wscale 6;
+add synproxy inet myTable synproxy_obj mss 1496 wscale 4;
+add synproxy arp myTable synproxy_obj mss 1512  wscale 2;
+add synproxy bridge myTable synproxy_obj mss 1518 wscale 3;
+add synproxy netdev myTable synproxy_obj mss 1593 wscale 1
+add synproxy netdev myTable synproxy_obj mss 1593 ; wscale 1
+#   Bison: SYNPROXY obj_spec synproxy_obj synproxy_config { common_block } close_scope_synproxy (w/o 'add')
+#   Bison: SYNPROXY obj_spec synproxy_obj synproxy_config { common_block } close_scope_synproxy (w/o 'add')
+add synproxy myTable https-synproxy {
+    mss 1460
+    wscale 7
+    timestamp sack-perm
+}
+add synproxy myTable other-synproxy {
+    mss 1460
+    wscale 5
+}
 
 #   synproxy obj_spec synproxy_obj synproxy_config close_scope_synproxy (without the 'add' keyword)
 #   Bison: SYNPROXY obj_spec synproxy_obj synproxy_config { common_block } close_scope_synproxy 
@@ -50,27 +71,33 @@ synproxy myTable other-synproxy {
     wscale 5
 }
 
-#   add synproxy obj_spec synproxy_obj synproxy_config close_scope_synproxy (without the 'add' keyword)
-#   Bison: ADD SYNPROXY obj_spec synproxy_obj synproxy_config { common_block } close_scope_synproxy 
-add synproxy myTable synproxy_obj mss 1500 wscale 7;
-add synproxy ip myTable synproxy_obj mss 1492 wscale 5;
-add synproxy ip6 myTable synproxy_obj mss 1498 wscale 6;
-add synproxy inet myTable synproxy_obj mss 1496 wscale 4;
-add synproxy arp myTable synproxy_obj mss 1512  wscale 2;
-add synproxy bridge myTable synproxy_obj mss 1518 wscale 3;
-add synproxy netdev myTable synproxy_obj mss 1593 wscale 1
-add synproxy netdev myTable synproxy_obj mss 1593 ; wscale 1
-#   Bison: SYNPROXY obj_spec synproxy_obj synproxy_config { common_block } close_scope_synproxy (w/o 'add')
-#   Bison: SYNPROXY obj_spec synproxy_obj synproxy_config { common_block } close_scope_synproxy (w/o 'add')
-add synproxy myTable https-synproxy {
-    mss 1460
-    wscale 7
-    timestamp sack-perm
+# base_cmd add_cmd 'table' table_spec table_block 'synproxy' synproxy_block
+table T { synproxy SP { } }
+table ip T { synproxy SP { } }
+table ip6 T { synproxy SP { } }
+table inet T { synproxy SP { } }
+table netdev T { synproxy SP { } }
+table bridge T { synproxy SP { } }
+table arp T { synproxy SP { } }
+table T { synproxy SP { mss 1490 wscale 5 } }
+table T { synproxy SP { mss 1490 wscale 5 } }
+table T { synproxy SP { mss 1490 wscale 5 } }
+table T { synproxy SP { mss 1490 wscale 5 sack-permitted } }
+table T { synproxy SP { mss 1490 wscale 5 timestamp} }
+table T { synproxy SP { mss 1490 ; wscale 5 } }
+table T { synproxy SP { mss 1490 ; wscale 5 } }
+table T { synproxy SP { mss 1490 ; wscale 5 } }
+table T { synproxy SP { mss 1490 ; wscale 5 } };
+table T {
+    synproxy SP {
+        # common_block
+        include "/directory/subdirectory/filename.filetype"
+        define A = 1
+        redefine A = 2
+        undefine A
+    }
 }
-add synproxy myTable other-synproxy {
-    mss 1460
-    wscale 5
-}
+
 # create synproxy obj_spec synproxy_obj synproxy_config close_scope_synproxy
 #   Bison: ADD SYNPROXY obj_spec synproxy_obj synproxy_config { common_block } close_scope_synproxy 
 create synproxy myTable synproxy_obj mss 1500 wscale 7;

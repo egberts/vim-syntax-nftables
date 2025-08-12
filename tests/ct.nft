@@ -386,6 +386,96 @@ rule ct helper netdev table_id ct_id l3proto zone set ip6 table_id { };
 rule ct helper bridge table_id ct_id l3proto zone set ip6 table_id { };
 rule ct helper arp table_id ct_id l3proto zone set ip6 table_id { };
 
+# base_cmd add_cmd 'table' table_spec table_block 'ct' 'helper' ct_helper_block
+
+table T { ct helper CT {; }; };
+table ip T { ct helper CT {;} }
+table ip6 T { ct helper CT { };}
+table inet T { ct helper CT { } };
+table netdev T { ct helper CT { } }
+table bridge T { ct helper CT { } }
+table arp T { ct helper CT { } }
+table T { ct helper CT { type "MYTYPE" protocol tcp } }
+table T { ct helper CT { l3proto ip6 } }
+table T { ct helper CT { l3proto ip6; } }
+table T {
+    ct helper CT {
+        type "MYTYPE" protocol tcp;
+        l3proto bridge;
+    }
+}
+table T {
+    ct helper CT {
+        # common_block
+        include "/directory/subdirectory/filename.filetype"
+        define A = 1
+        redefine A = 2
+        undefine A;
+    }
+}
+
+# base_cmd add_cmd 'table' table_spec table_block 'ct' 'timeout' ct_timeout_block
+table T {
+    ct timeout CT {
+        protocol tcp
+        policy = { established : 1h };
+        protocol udp
+        policy = { replied : 1h, unreplied : 15 };
+        l3proto ip6;
+        # common_block
+        include "/directory/subdirectory/filename.filetype"
+        define A = 1
+        redefine A = 2
+        undefine A;
+        comment "some comments"
+    }
+}
+table T { ct timeout TO { } }
+table ip T { ct timeout TO { } }
+table ip6 T { ct timeout TO { } }
+table inet T { ct timeout TO { } }
+table netdev T { ct timeout TO { } }
+table bridge T { ct timeout TO { } }
+table arp T { ct timeout TO { } }
+table T { ct timeout TO { protocol tcp } }
+table T { ct timeout TO { l3proto ip6 } }
+table T { ct timeout TO { protocol udp policy = { unreplied : 126; }; }; };
+table T { ct timeout TO { protocol udp policy = { replied : 126; }; }; };
+table T { ct timeout TO { protocol udp policy = { unreplied:126, replied : 126; }; }; };
+table T { ct timeout TO { protocol tcp policy = { last_ack:15s, established : 1H15M } } }
+
+# base_cmd add_cmd 'table' table_spec table_block 'ct' 'expectation' ct_expect_block
+table T {
+    ct expectation CE {
+        # common_block
+        include "/directory/subdirectory/filename.filetype"
+        define A = 1
+        redefine A = 2
+        undefine A
+    }
+}
+table T { ct expectation CE { } }
+table ip T { ct expectation CE { } }
+table ip6 T { ct expectation CE { } }
+table inet T { ct expectation CE { } }
+table netdev T { ct expectation CE { } }
+table bridge T { ct expectation CE { } }
+table arp T { ct expectation CE { } }
+table T { ct expectation CE { protocol tcp } }
+table T { ct expectation CE { dport 23 } }
+table T { ct expectation CE { size 123 } }
+table T { ct expectation CE { timeout 15h } }
+table T { ct expectation CE { l3proto netdev } }
+table T {
+    ct expectation CE {
+        protocol tcp
+        dport 23
+        size 123
+        timeout 15h
+        l3proto netdev
+    }
+}
+
 # 'helper'->'ct'->'rule'->'add'->add_cmd->base_cmd
 add rule ct helper ip table_id l3proto zone set ip6 table_id { };
 add rule ct helper ip6 table_id l3proto type sip zone set ip6 { };

@@ -51,7 +51,7 @@
 " - ordering between 'contains=' statements amongst themselves, first one wins
 " - ordering within 'contains=' statements, last one wins
 " - ordering within 'nextgroup=' statements, last one wins
-" - last comma must not exist on statement betweeen 'contains='/'nextgroup' and vice versa
+" - last comma must not exist on statement between 'contains='/'nextgroup' and vice versa
 "
 " Developer Notes:
 "  - relocate inner_inet_expr to after th_hdr_expr?
@@ -206,7 +206,7 @@ if v:version >= 508 || !exists('did_nftables_syn_inits')
 endif
 
 
-" iskeyword severly impacts '\<' and '\>' atoms
+" iskeyword severely impacts '\<' and '\>' atoms
 " setlocal iskeyword=.,48-58,A-Z,a-z,\_,\/,-
 setlocal isident=.,48-58,A-Z,a-z,\_
 
@@ -461,6 +461,25 @@ syn match nft_rule_cluster_Error /\v[\s\wa-zA-Z0-9_]{1,64}/ skipwhite contained 
 hi link   nft_Error nftHL_Error
 syn match nft_Error /\v[\s\wa-zA-Z0-9_]{1,64}/ skipwhite contained  " uncontained, on purpose
 
+hi link   nft_expected_identifier nftHL_Error
+syn match nft_expected_identifier /\v[^a-zA-Z]/ contained
+
+hi link   nft_expected_equal_sign nftHL_Error
+syn match nft_expected_equal_sign /\v[^=\s]/ contained
+
+hi link   nft_expected_quote nftHL_Error
+syn match nft_expected_quote /\v[^\"]/ skipwhite contained
+
+hi link   nft_expected_dash nftHL_Error
+syn match nft_expected_dash /\v[^\-]/ skipwhite contained
+
+" Error if unexpected token appears after 'last'
+hi link   nft_common_block_undefine_error nftHL_Error
+syn match nft_common_block_undefine_error '\v[A-Za-z_][A-Za-z0-9_]{0,63}' contained
+
+
+
+
 " expected end-of-line (iterator capped for speed)
 syn match nft_EOL /[\n\r]\{1,16}/ skipwhite contained
 
@@ -591,7 +610,16 @@ syn cluster nft_identifier
 " nft_c_string must be the LAST contains= (via nft_unquoted_string)
 
 hi link   nft_common_block_stmt_separator nftHL_Separator
-syn match nft_common_block_stmt_separator ";" skipwhite contained
+syn match nft_common_block_stmt_separator ';' skipwhite contained
+
+" Region that spans from after 'last' to terminator ';' or newline
+hi link    nft_common_block_undefine_extra_text nftHL_Error
+syn region nft_common_block_undefine_extra_text start=/\%#\s*/ end=/\ze[;\n]/ contained transparent
+\ contains=
+\    nft_expected_semicolon_or_new_line,
+\    nft_common_block_undefine_error
+
+
 
 hi link   nft_comment_spec_string_content nftHL_Comment
 syn match nft_comment_spec_string_content '\v\S{1,64}' skipwhite contained
@@ -912,7 +940,6 @@ syn region nft_add_cmd_keyword_synproxy_synproxy_block start=+{+ end=+}+ skip="\
 \    nft_line_stmt_separator,
 \    nft_InlineComment
 
-"XXXXXXXXXEND SNIPXXXXXXXXXXXXXX
 " 'mss' <NUM> 'wscale' [ 'timestamp' ] [ 'sack-perm' ]
 " synproxy_sack->synproxy_config->(add_cmd|create_cmd|synproxy_block)
 hi link   nft_synproxy_config_synproxy_sack nftHL_Keyword
@@ -1333,7 +1360,7 @@ syn match nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_se
 \    nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_set_expr_block_element_set_quoted_string
 
 hi link   nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_set_expr_block_element_set_quoted_string nftHL_String
-syn match nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_set_expr_block_element_set_quoted_string /\v\"[a-zA-Z][a-zA-Z0-9]{1,64}\"\ze($|\s|;|,|\})/ skipwhite contained
+syn match nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_set_expr_block_element_set_quoted_string /\v\"[a-zA-Z][a-zA-Z0-9]{1,64}\"\ze($|\s|;|,|\})/ contained
 \ nextgroup=
 \    nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_set_expr_block_element_set_quoted_string_list_comma
 syn match nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_set_expr_block_element_set_quoted_string /\v(\{|\s)\zs\'[a-zA-Z][a-zA-Z0-9]{1,64}\'\ze($|\s|;|,|\})/ skipwhite contained
@@ -6933,7 +6960,7 @@ syn match nft_add_cmd_table_block_set_block_stateful_stmt_list_stmt_stateful_stm
 \    nft_Error
 
 hi link   nft_add_cmd_table_block_set_block_stateful_stmt_list_stmt_stateful_stmt_last_stmt_keyword_last nftHL_Statement
-syn match nft_add_cmd_table_block_set_block_stateful_stmt_list_stmt_stateful_stmt_last_stmt_keyword_last '\vlast\ze[ \t]' skipwhite contained
+syn match nft_add_cmd_table_block_set_block_stateful_stmt_list_stmt_stateful_stmt_last_stmt_keyword_last '\vlast' skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_set_block_stateful_stmt_list_stateful_stmt_last_stmt_keyword_used
 
@@ -7801,7 +7828,7 @@ hi link   nft_table_block_stmt_separator nftHL_Separator
 syn match nft_table_block_stmt_separator "\v(\n|;)" skipwhite contained
 
 hi link   nft_add_cmd_keyword_table_table_options_comment_spec_string_content nftHL_Comment
-syn match nft_add_cmd_keyword_table_table_options_comment_spec_string_content '\v[ \tA-Za-z0-9_!@#$%^&*()\[\]\{\}|:\<\>,./?`~\\\+\=\-]{1,65}' skipwhite contained
+syn match nft_add_cmd_keyword_table_table_options_comment_spec_string_content '\v[ \tA-Za-z0-9_!@#$%^\&*()\[\]\{\}\|:\<\>,./?`~\\\+\=\-]{1,65}' skipwhite contained
 
 hi link   nft_add_cmd_keyword_table_table_options_comment_spec_string_quoted nftHL_Comment
 syn region nft_add_cmd_keyword_table_table_options_comment_spec_string_quoted start='"' end='"' skip='\\\"' skipnl skipwhite contained
@@ -7817,7 +7844,7 @@ syn region nft_add_cmd_keyword_table_table_options_comment_spec_string_quoted st
 \    nft_add_cmd_keyword_table_table_block_table_options_semicolon
 
 hi link   nft_add_cmd_keyword_table_table_options_comment_spec_string_raw nftHL_Comment
-syn match nft_add_cmd_keyword_table_table_options_comment_spec_string_raw '\v[A-Za-z0-9_!@#$%^&*()\[\]\{\}|:\<\>,./?`~\\\+\=\-]{1,65}' skipwhite contained
+syn match nft_add_cmd_keyword_table_table_options_comment_spec_string_raw '\v[A-Za-z0-9_!@#$%^\&*()\[\]\{\}\|:\<\>,./?`~\\\+\=\-]{1,65}' skipwhite contained
 \ nextgroup= nft_add_cmd_keyword_table_table_block_table_options_semicolon, nft_Error
 
 hi link   nft_add_cmd_keyword_table_table_options_comment_spec_keyword_comment nftHL_Statement
@@ -8455,7 +8482,7 @@ syn match nft_add_cmd_table_block_set_block_set_block_expr_variable_expr "\v\$[a
 
 " base_cmd add_cmd 'set' set_spec '{' set_block 'elements' '='
 hi link   nft_add_cmd_table_block_set_block_keyword_elements_set_block_expr_equal nftHL_Operator
-syn match nft_add_cmd_table_block_set_block_keyword_elements_set_block_expr_equal /=/ skipwhite contained
+syn match nft_add_cmd_table_block_set_block_keyword_elements_set_block_expr_equal '\v\=' skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_table_block_set_block_set_block_expr_set_expr,
 \    nft_add_cmd_table_block_set_block_set_block_expr_variable_expr,
@@ -8713,7 +8740,7 @@ syn match nft_add_cmd_table_block_map_block_map_block_expr_variable_expr "\v\$[a
 
 " base_cmd add_cmd 'map' map_spec '{' map_block 'elements' '='
 hi link   nft_add_cmd_table_block_map_block_elements_equal nftHL_Operator
-syn match nft_add_cmd_table_block_map_block_elements_equal /=/ skipwhite contained
+syn match nft_add_cmd_table_block_map_block_elements_equal '\v\=' skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_table_block_map_block_map_block_expr_variable_expr,
 \    nft_map_expr
@@ -9166,7 +9193,7 @@ syn region nft_table_block_ct_expect_block_ct_expect_config_protocol_tcp_policy_
 \    nft_Error
 
 hi link   nft_table_block_ct_expect_block_ct_expect_config_protocol_tcp_expression_equal nftHL_Operator
-syn match nft_table_block_ct_expect_block_ct_expect_config_protocol_tcp_expression_equal /=/ skipnl skipwhite contained
+syn match nft_table_block_ct_expect_block_ct_expect_config_protocol_tcp_expression_equal '\v\=' skipnl skipwhite contained
 \ nextgroup=
 \    nft_table_block_ct_expect_block_ct_expect_config_protocol_tcp_policy_block_delimiters,
 \    nft_UnexpectedEOS,
@@ -9208,7 +9235,7 @@ syn region nft_table_block_ct_expect_block_ct_expect_config_protocol_udp_policy_
 \    nft_Error
 
 hi link   nft_table_block_ct_expect_block_ct_expect_config_protocol_udp_expression_equal nftHL_Operator
-syn match nft_table_block_ct_expect_block_ct_expect_config_protocol_udp_expression_equal /=/ skipnl skipwhite contained
+syn match nft_table_block_ct_expect_block_ct_expect_config_protocol_udp_expression_equal '\v\=' skipnl skipwhite contained
 \ nextgroup=
 \    nft_table_block_ct_expect_block_ct_expect_config_protocol_udp_policy_block_delimiters,
 \    nft_UnexpectedEOS,
@@ -9335,7 +9362,7 @@ syn region nft_table_block_ct_timeout_block_ct_timeout_config_protocol_tcp_polic
 \    nft_Error
 
 hi link   nft_table_block_ct_timeout_block_ct_timeout_config_protocol_tcp_expression_equal nftHL_Operator
-syn match nft_table_block_ct_timeout_block_ct_timeout_config_protocol_tcp_expression_equal /=/ skipnl skipwhite contained
+syn match nft_table_block_ct_timeout_block_ct_timeout_config_protocol_tcp_expression_equal '\v\=' skipnl skipwhite contained
 \ nextgroup=
 \    nft_table_block_ct_timeout_block_ct_timeout_config_protocol_tcp_policy_block_delimiters,
 \    nft_UnexpectedEOS,
@@ -9380,7 +9407,7 @@ syn region nft_table_block_ct_timeout_block_ct_timeout_config_protocol_udp_polic
 \    nft_Error
 
 hi link   nft_table_block_ct_timeout_block_ct_timeout_config_protocol_udp_expression_equal nftHL_Operator
-syn match nft_table_block_ct_timeout_block_ct_timeout_config_protocol_udp_expression_equal /=/ skipnl skipwhite contained
+syn match nft_table_block_ct_timeout_block_ct_timeout_config_protocol_udp_expression_equal '\v\=' skipnl skipwhite contained
 \ nextgroup=
 \    nft_table_block_ct_timeout_block_ct_timeout_config_protocol_udp_policy_block_delimiters,
 \    nft_UnexpectedEOS,
@@ -9708,7 +9735,7 @@ syn match nft_add_cmd_table_block_keyword_synproxy '\vsynproxy' skipwhite contai
 " table_block->add_cmd->base_cmd->line
 " table_block->'table'->add_cmd->'add'->base_cmd->line
 hi link    nft_add_cmd_keyword_table_table_block_delimiters nftHL_BlockDelimitersTable
-syn region nft_add_cmd_keyword_table_table_block_delimiters start="{" end="}" skipempty skipwhite contained
+syn region nft_add_cmd_keyword_table_table_block_delimiters start="{" end="}" skipempty skipnl skipwhite contained
 \ nextgroup=
 \    nft_EOS,
 \    nft_line_separator
@@ -9744,7 +9771,10 @@ syn match nft_add_table_spec_identifier "\v[a-zA-Z][A-Za-z0-9\\\/_\.\-]{0,63}" s
 \    nft_add_cmd_keyword_table_table_block_delimiters,
 \    nft_comment_inline,
 \    nft_EOS,
-\    nft_line_separator
+\    nft_line_separator,
+\    nft_common_block_undefine_error,
+
+"\    nft_common_block_undefine_identifier_string
 
 hi link   nft_add_table_spec_identifier_keyword_last nftHL_Action
 syn match nft_add_table_spec_identifier_keyword_last "last" skipwhite contained
@@ -9762,14 +9792,8 @@ syn match nft_add_table_spec_family_spec_valid "\v(ip6?|inet|arp|bridge|netdev)"
 \    nft_add_table_spec_identifier,
 \    nft_UnexpectedSemicolon,
 \    nft_UnexpectedEOS,
+\    nft_common_block_undefine_identifier_string,
 \    nft_Error
-
-" base_cmd add_cmd 'table' table_spec
-syn cluster nft_c_add_table_spec
-\ contains=
-\    nft_add_table_spec_identifier_keyword_last,
-\    nft_add_table_spec_family_spec_valid,
-\    nft_add_table_spec_identifier
 
 """"""""" BEGIN OF INSIDE THE TABLE BLOCK """""""""""""""""""""""""""""""""""""""""""""""
 " table_flag (via table_options 'flags')
@@ -9890,13 +9914,47 @@ syn match nft_create_cmd_keyword_synproxy "synproxy" skipwhite contained
 \    nft_Error
 " **************** END 'create' 'synproxy' *********************
 
-" 'table'->add_cmd->'add'->base_cmd->line
-hi link   nft_base_cmd_add_cmd_keyword_table nftHL_Command
-syn match nft_base_cmd_add_cmd_keyword_table "\vtable\ze[ \t]" skipwhite contained
+" nft> table <table_id>
+" 'table'->add_cmd->base_cmd->line
+hi link   nft_base_cmd_add_cmd_keyword_table_declarative nftHL_Command
+syn match nft_base_cmd_add_cmd_keyword_table_declarative "\vtable\ze[ \t]" skipwhite contained
 \ nextgroup=
 \    nft_add_table_spec_identifier_keyword_last,
 \    nft_add_table_spec_family_spec_valid,
 \    nft_add_table_spec_identifier
+
+" base_cmd add_cmd 'add' 'table' table_spec family_spec identifier
+hi link   nft_table_spec_identifier nftHL_Identifier
+syn match nft_table_spec_identifier "\v[a-zA-Z][A-Za-z0-9\\\/_\.\-]{0,63}" skipwhite contained
+\ nextgroup=
+\    nft_EOS,
+\    nft_line_separator
+
+" base_cmd add_cmd 'add' 'table' table_spec family_spec 'last'
+hi link   nft_table_spec_identifier_keyword_last nftHL_Error
+syn match nft_table_spec_identifier_keyword_last "last" skipwhite contained
+\ nextgroup=
+\    nft_Semicolon,
+\    nft_EOS
+
+" base_cmd add_cmd 'add' 'table' table_spec family_spec family_spec_explicit
+hi link   nft_table_spec_family_spec_valid nftHL_Family
+syn match nft_table_spec_family_spec_valid "\v(ip6?|inet|arp|bridge|netdev)" skipwhite contained
+\ nextgroup=
+\    nft_table_spec_identifier_keyword_last,
+\    nft_add_table_spec_identifier,
+\    nft_UnexpectedSemicolon,
+\    nft_UnexpectedEOS,
+\    nft_Error
+
+" DECLARATIVE: nft> add table <table_id>
+" 'table'->add_cmd->'add'->base_cmd->line
+hi link   nft_base_cmd_add_cmd_keyword_table_imperative nftHL_Command
+syn match nft_base_cmd_add_cmd_keyword_table_imperative "\vtable\ze[ \t]" skipwhite contained
+\ nextgroup=
+\    nft_table_spec_identifier_keyword_last,
+\    nft_table_spec_family_spec_valid,
+\    nft_table_spec_identifier
 
 " 'create'->base_cmd->line
 hi link   nft_base_cmd_keyword_create nftHL_Command
@@ -9907,7 +9965,7 @@ syn match nft_base_cmd_keyword_create "create" skipwhite contained
 \    nft_base_cmd_add_cmd_keyword_counter,
 \    nft_get_et_al_cmd_keyword_element,
 \    nft_create_cmd_keyword_secmark,
-\    nft_base_cmd_add_cmd_keyword_table,
+\    nft_base_cmd_add_cmd_keyword_table_declarative,
 \    nft_base_cmd_add_cmd_keyword_chain,
 \    nft_base_cmd_add_cmd_keyword_quota,
 \    nft_base_cmd_add_cmd_keyword_limit,
@@ -9994,7 +10052,7 @@ syn match nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_pr
 \    nft_common_block_stmt_separator
 
 hi link   nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_port_range_second nftHL_Constant
-syn match nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_port_range_second /\v\d{1,10}\ze( |$)/ skipwhite contained
+syn match nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_port_range_second /\v\d{1,5}\ze( |$)/ skipwhite contained
 \ nextgroup=
 \    nft_common_block_stmt_separator,
 \    nft_EOS,
@@ -10007,13 +10065,13 @@ syn match nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_pr
 \    nft_Error_Always
 
 hi link   nft_PortRangeDashInvalid nftHL_Error
-syn match nft_PortRangeDashInvalid /\v\d{1,10}\s+-/ contained
+syn match nft_PortRangeDashInvalid /\v\d{1,5}\s+-/ contained
 
 hi link   nft_PortRangeBadDashSpaceBefore nftHL_Error
-syn match nft_PortRangeBadDashSpaceBefore /\v\d{1,10}\s+-/ contained
+syn match nft_PortRangeBadDashSpaceBefore /\v\d{1,5}\s+-/ contained
 
 hi link   nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_port_range nftHL_Constant
-syn match nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_port_range /\v(\=|\s)\zs\d{1,10}\ze\-/ contained
+syn match nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_port_range /\v(\=|\s)\zs\d{1,5}\ze\-/ contained
 \ nextgroup=
 \    nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_port_dash_symbol,
 \    nft_PortRangeDashInvalid,
@@ -10072,17 +10130,15 @@ syn cluster nft_c_common_block_keyword_include_quoted_string
 \    nft_Error
 
 hi link   nft_common_block_keyword_include nftHL_Include
-syn match nft_common_block_keyword_include "include" skipwhite oneline contained
+syn match nft_common_block_keyword_include "\vinclude\s" skipwhite oneline contained
 \ nextgroup=
 \    @nft_c_common_block_keyword_include_quoted_string,
-\    nft_UnexpectedSemicolon,
-\    nft_UnexpectedEOS,
-\    nft_Error
+\    nft_expected_quote
 
 " common_block 'define'/'
 " common_block 'define'/'redefine identifier '='
 hi link   nft_common_block_define_redefine_equal nftHL_Operator
-syn match nft_common_block_define_redefine_equal '\v\=' skipwhite contained
+syn match nft_common_block_define_redefine_equal '\v\s{0,15}\=' skipwhite contained
 \ nextgroup=
 \    nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_set_expr_block,
 \    nft_common_block_define_redefine_keywords_initializer_expr_dash,
@@ -10092,28 +10148,31 @@ syn match nft_common_block_define_redefine_equal '\v\=' skipwhite contained
 \    nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_integer_expr,
 \    nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_variable,
 \    nft_common_block_define_redefine_keywords_initializer_expr_rhs_expr_primary_rhs_expr_unquoted_identifier,
+\    nft_UnexpectedSemicolon,
 \    nft_Error
 
 " common_block 'define'/'redefine identifier <STRING>
 hi link   nft_common_block_define_redefine_keywords_identifier nftHL_Identifier
-syn match nft_common_block_define_redefine_keywords_identifier '\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}' skipwhite contained
+syn match nft_common_block_define_redefine_keywords_identifier '\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}' contained
 \ nextgroup=
 \    nft_common_block_define_redefine_equal,
-\    nft_Error
+\    nft_expected_equal_sign
 
 " 'define' (via "
-" commmon_block 'redefine' (via common_block)
+" common_block 'redefine' (via common_block)
 hi link   nft_common_block_keyword_redefine nftHL_Command
-syn match nft_common_block_keyword_redefine contained "redefine\ze\s" skipwhite contained
+syn match nft_common_block_keyword_redefine contained "redefine\s" skipwhite contained
 \ nextgroup=
-\    nft_common_block_define_redefine_keywords_identifier
+\    nft_common_block_define_redefine_keywords_identifier,
+\    nft_expected_identifier
 
 " common_block 'define' (via common_block)
 hi link   nft_common_block_keyword_define nftHL_Command
-syn match nft_common_block_keyword_define contained "\vdefine\ze\s" skipwhite contained
+syn match nft_common_block_keyword_define contained "\vdefine\s" skipwhite contained
 \ containedin=nft_c_common_block
 \ nextgroup=
-\    nft_common_block_define_redefine_keywords_identifier
+\    nft_common_block_define_redefine_keywords_identifier,
+\    nft_expected_identifier
 
 " common_block 'undefine' identifier (via common_block 'undefine')
 
@@ -10121,27 +10180,33 @@ hi link   nft_common_block_undefine_identifier_string nftHL_Identifier
 syn match nft_common_block_undefine_identifier_string '\v[a-zA-Z][A-Za-z0-9_\-]{0,63}' skipwhite contained
 \ nextgroup=
 \    nft_common_block_stmt_separator,
+\    nft_stmt_separator,
 \    nft_UnexpectedCurlyBrace,
 \    nft_EOS,
-\    nft_stmt_separator,
 \    nft_Error
 
+
+" After 'last', expect either ';' or newline, or else show error
+syn match nft_common_block_undefine_extra_error_or_semicolon "\v\S+" contained
+\ contains=
+\    nft_common_block_stmt_separator,
+\    nft_common_block_undefine_error
+
 hi link   nft_common_block_undefine_identifier_keyword_last nftHL_Keyword
-syn match nft_common_block_undefine_identifier_keyword_last '\vlast' contained
+syn match nft_common_block_undefine_identifier_keyword_last '\vlast' skipwhite contained
 \ nextgroup=
 \    nft_common_block_stmt_separator,
-\    nft_UnexpectedCurlyBrace,
-\    nft_EOS,
-\    nft_stmt_separator,
-\    nft_Error
+\    nft_common_block_undefine_error
 
 " commmon_block 'undefine' (via common_block)
 hi link   nft_common_block_keyword_undefine nftHL_Command
-syn match nft_common_block_keyword_undefine "\vundefine\ze[ \t]" skipnl skipwhite contained
+syn match nft_common_block_keyword_undefine "\vundefine\ze\s" skipnl skipwhite contained
+\ containedin=nft_c_common_block
 \ nextgroup=
 \    nft_common_block_undefine_identifier_keyword_last,
 \    nft_common_block_undefine_identifier_string,
 \    nft_Error
+
 
 " commmon_block 'error' (via common_block)
 hi link   nft_common_block_keyword_error nftHL_Command
@@ -10179,7 +10244,7 @@ syn match nft_base_cmd_keyword_add /add/ skipwhite contained
 \    nft_base_cmd_add_cmd_keyword_chain,
 \    nft_base_cmd_add_cmd_keyword_quota,
 \    nft_base_cmd_add_cmd_keyword_limit,
-\    nft_base_cmd_add_cmd_keyword_table,
+\    nft_base_cmd_add_cmd_keyword_table_imperative,
 \    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_inet,
 \    nft_base_cmd_add_cmd_keyword_rule,
 \    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_arp,
@@ -10201,7 +10266,8 @@ syn cluster nft_c_base_cmd_add_cmd_unused_placeholder
 \    nft_base_cmd_add_cmd_keyword_chain,
 \    nft_base_cmd_add_cmd_keyword_quota,
 \    nft_base_cmd_add_cmd_keyword_limit,
-\    nft_base_cmd_add_cmd_keyword_table,
+\    nft_base_cmd_add_cmd_keyword_table_declarative,
+\    nft_base_cmd_add_cmd_keyword_table_imperative,
 \    nft_base_cmd_add_cmd_keyword_rule,
 \    nft_base_cmd_keyword_add,
 \    nft_base_cmd_add_cmd_keyword_map,
@@ -10260,7 +10326,7 @@ syn match nft_line "^\v\s{0,63}"
 \    nft_base_cmd_add_cmd_keyword_limit,
 \    nft_base_cmd_add_cmd_keyword_quota,
 \    nft_base_cmd_keyword_reset,
-\    nft_base_cmd_add_cmd_keyword_table,
+\    nft_base_cmd_add_cmd_keyword_table_declarative,
 \    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_inet,
 \    nft_base_cmd_keyword_list,
 \    nft_base_cmd_add_cmd_keyword_rule,
@@ -10275,6 +10341,7 @@ syn match nft_line "^\v\s{0,63}"
 \    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier,
 \    nft_line_separator,
 \    nft_comment_inline,
+\    nft_common_block_undefine_error,
 \    nft_Error_Always
 " practically no way to highlight an incorrect first alphanum token due
 " to unquoted_table_identifier as the first token
