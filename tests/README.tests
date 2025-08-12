@@ -4,7 +4,7 @@ automate as much as we can.
 The stages of test are:
 
    1. Linter (vint)
-   2. Syntax checker (nft -c -f)
+   2. Syntax checker (nft -c -f) of valid-only NFT-type files.
    3. Vimscript syntax highlight checker (Vader)
 
 We do testing by executing one of the following:

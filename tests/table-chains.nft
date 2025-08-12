@@ -2,15 +2,15 @@
 # File: all-tables.nft
 # Description: A test NFT file to exercise 'add table' Vim syntax highlightings.
 #
-# Identifiers begin with an alphabetic character (a-z,A-Z), 
-# followed by zero or more alphanumeric characters (a-z,A-Z,0-9) 
-# and the characters slash (/), backslash (\), underscore (_) 
-# and dot (.). 
+# Identifiers begin with an alphabetic character (a-z,A-Z),
+# followed by zero or more alphanumeric characters (a-z,A-Z,0-9)
+# and the characters slash (/), backslash (\), underscore (_)
+# and dot (.).
 #
-# Identifiers using different characters or clashing with a 
-# keyword need to be enclosed in double quotes (").  
+# Identifiers using different characters or clashing with a
+# keyword need to be enclosed in double quotes (").
 #
-# base_cmd add_cmd 'table' 
+# base_cmd add_cmd 'table'
 # nft_line/nft_base_cmd/nft_base_cmd_add/nft_base_cmd_add_table/nft_add_table_chain_block policy_spec
 #
 ################################################################################

@@ -106,6 +106,7 @@ ipsec/xfrm_expr/primary_expr/basic_expr/concat_expr/verdict_map_stmt/verdict_stm
 ipsec/meta_key_unqualified/meta_expr/primary_expr/basic_expr/concat_expr/verdict_map_stmt/verdict_stmt
 jhash/hash_expr/primary_expr/basic_expr/concat_expr/verdict_map_stmt/verdict_stmt
 jhash/hash_expr/primary_expr/basic_expr/concat_expr/expr/relational_expr/match_stmt
+jhash/hash_expr/primary_expr/basic_expr/concat_expr/map_expr/expr/relational_expr/match_stmt
 limit/objref_stmt_limit/objref_stmt
 limit/limit_stmt/stateful_stmt
 meter/meter_stmt_alloc/meter_stmt
@@ -144,7 +145,6 @@ icmp/icmp_hdr_expr/payload_expr/payload_stmt
 icmp/icmp_hdr_expr/payload_expr/primary_expr/basic_expr/concat_expr/verdict_map_stmt/verdict_stmt
 igmp/igmp_hdr_expr/payload_expr/payload_stmt
 igmp/igmp_hdr_expr/payload_expr/primary_expr/basic_expr/concat_expr/verdict_map_stmt/verdict_stmt
-jhash/hash_expr/primary_expr/basic_expr/concat_expr/map_expr/expr/relational_expr/match_stmt
 jump/chain_stmt_type/chain_stmt
 jump/verdict_expr/verdict_stmt
 last/last_stmt/stateful_stmt
