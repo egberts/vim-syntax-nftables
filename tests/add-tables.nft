@@ -20,10 +20,8 @@
 # true positive test (properly hightlighted correctly; has good content; perfect
 ################################################################################
 
-ip6 table_id chain_id {
-};
-
 add table filter
+add table last
 
 add table my/IpTable
 add table my/IpTable 
@@ -31,17 +29,35 @@ add table my/IpTable;
 add table my/IpTable ;
 add table my/IpTable ; 
 add table my\IpTable    # defaults to 'ip' family
-add table my./_IpTable
+add table my./_IpTable { };
 add table my.IpTable
 add table my_./\IpTable    # defaults to 'ip' family
+add table A#;   # not so invalid character, it's an inline comment
 
+table A
+table Z
+table a
+table z
+table a0
+table z0
+table A/
+table A\
+table A.
+table A
+table A   # comment
 table T { ; };
-table T {
+table $VARIABLE # variable ALLOWED in declarative '^table'
+
+table $MY_VAR {
     flags dormant;
     flags persist;
     flags dormant,persist;
     flags persist,dormant;
 };
+
+table T { chain C { type filter ; }; };  # incomplete chain (but this here is table)
+table T { synproxy SP { mss 1490 ; wscale 5 } };  # very incorrect
+
 
 ##########################################################################
 # All-in-One
@@ -193,7 +209,31 @@ table T {
 # so far, so good.
 ################################################################################
 
-add table T { synproxy SP { mss 1490 ; wscale 5 } };
+# those are 'rule' table_spec, not 'add table' nor 'table'.
+# but 'rule' is here to ensure highlight consistency with each others.
+A#;   # invalid character
+A$;   # invalid character
+A%   # invalid character
+A^   # invalid character
+A&   # invalid character
+A*   # invalid character
+A(   # invalid character
+A)   # invalid character
+A-   # invalid character
+A+   # invalid character
+A=   # invalid character
+A[   # invalid character
+A]   # invalid character
+A<   # invalid character
+A>   # invalid character
+A,   # invalid character
+A?   # invalid character
+A|   # invalid character
+A:   # invalid character
+A { };
+
+ip6 table_id chain_id {
+};
 
 add table T {
     chain C {
@@ -205,11 +245,8 @@ table T  # that one creates an empty table
 # base_cmd add_cmd 'table' table_spec identifier <STRING>
 table xxxx
 # base_cmd add_cmd 'table' table_spec identifier 'last'
-table last
 
 # base_cmd add_cmd 'table' table_spec table_block
-table T { }
-table T { } ; #
 table inet xxxx { };
 table bridge xxxx { };
 table netdev xxxx { };
@@ -244,6 +281,9 @@ table \abc   # invalid identifier (started with non-letter)
 table _abc   # invalid identifier (started with non-letter)
 table .abc   # invalid identifier (started with non-letter)
 
+table T { }
+table T { } ; #
+
 table T @# @   # invalid character
 
 table T { devices = eth0 }
@@ -271,28 +311,9 @@ table T {
 
 table T { ct timeout TO { protocol udp policy = { ABC : 1H15M } } }
 
-
-################################################################################
-# false negative test: highlighted wrongly; still has good content; oops.
-################################################################################
-
-table T { chain C { devices =$eth0,$DEV1  } }
-table T { chain C { devices =x$eth0  } }
-table T { chain C { devices = x$eth0  } }
-table T { chain C { devices      =     not_a_variable  } }
-table T { chain C { devices      =     x$eth0  } }
-table T { chain C { devices =eth0  } }
-table T { chain C { devices = eth0;  } }
-
-
-################################################################################
-# false positive test: looks highlighted correctly; has bad content; oops.
-################################################################################
-
-add table A { };
-
-add table @TX
-add table A#;   # invalid character
+add table $VARIABLE # variable NOT allowed in imperative '^add table'
+add table A$
+add table A^
 add table A$;   # invalid character
 add table A%   # invalid character
 add table A^   # invalid character
@@ -313,21 +334,9 @@ add table A?   # invalid character
 add table A|   # invalid character
 add table A:   # invalid character
 
-add table T { chain C { type filter ; }; };  # incomplete
+add table $VARIABLE # variable NOT allowed in imperative '^add table'
+table $VARIABLE # variable ALLOWED in declarative '^table'
 
-table A
-table Z
-table a
-table z
-table a0
-table z0
-table A/
-table A\
-table A.
-table A
-
-table @TX
-table A# { };   # invalid character
 table A$ { };   # invalid character
 table A%   # invalid character
 table A^   # invalid character
@@ -335,9 +344,8 @@ table A&   # invalid character
 table A*   # invalid character
 table A(   # invalid character
 table A)   # invalid character
-table A-   # invalid character
 table A+   # invalid character
-table A { flags dormant }  # invalid character
+table A}
 table A[   # invalid character
 table A]   # invalid character
 table A<   # invalid character
@@ -348,5 +356,33 @@ table A|   # invalid character
 table A:   A
 table A!error
 
-table T { chain C { type filter ; }; };  # incomplete
+
+################################################################################
+# false negative test: highlighted wrongly; still has good content; oops.
+################################################################################
+
+table T { chain C { devices =$eth0,$DEV1  } }
+table T { chain C { devices =x$eth0  } }
+table T { chain C { devices = x$eth0  } }
+table T { chain C { devices      =     not_a_variable  } }
+table T { chain C { devices      =     x$eth0  } }
+table T { chain C { devices =eth0  } }
+table T { chain C { devices = eth0;  } }
+
+
+################################################################################
+# false positive test: looks highlighted correctly; has bad content; oops.
+################################################################################
+
+add table last   # 'last' is a valid identifier, but confusing with 'last' special keyword
+
+table last   # 'last' is a valid identifier, but confusing with 'last' special keyword
+
+table A-   # invalid character
+
+# those are 'rule' table_spec, not 'add table' nor 'table'.
+# but 'rule' is here to ensure highlight consistency with each others.
+A$
+A^
+
 

@@ -24,20 +24,17 @@
 ################################################################################
 
 # Bison: identifier/table_spec/chain_spec/rule_position/add_cmd/base_cmd/line
+# NOTE: Stuck nft_common_block_undefine_error into nft_line
 myTableID myChainID accept ;
 my_table_id my_chain_id drop;
 
-# Bison: identifier/table_spec/chain_spec/rule_position/'rule'/add_cmd/base_cmd/line
-rule myTableID myChainID { };
-rule my_table_id my_chain_id { };
-
 # Bison: identifier/'ip|ip6|inet|netdev|bridge|arp'/family_spec_explicit/family_spec/table_spec/chain_spec/rule_position/add_cmd/base_cmd/line
-ip my_table_id my_chain_id { };
-ip6 my_table_id my_chain_id { };
-inet my_table_id my_chain_id { };
-netdev my_table_id my_chain_id { };
-bridge my_table_id my_chain_id { };
-arp my_table_id my_chain_id { };
+ip my_table_id my_chain_id goto X;
+ip6 my_table_id my_chain_id jump X;
+inet my_table_id my_chain_id continue;
+netdev my_table_id my_chain_id accept;
+bridge my_table_id my_chain_id drop;
+arp my_table_id my_chain_id continue;
 
 # Bison: identifier/'ip|ip6|inet|netdev|bridge|arp'/family_spec_explicit/family_spec/table_spec/chain_spec/rule_position/'rule'/add_cmd/base_cmd/line
 rule ip myTableID myChainID { };
@@ -57,6 +54,8 @@ table myTableID {
 # so far, so good.
 ################################################################################
 
+Oop$ie chain accept;
+
 
 ################################################################################
 # false negative test: highlighted wrongly; still has good content; oops.
@@ -67,6 +66,7 @@ table myTableID {
 # false positive test: looks highlighted correctly; has bad content; oops.
 ################################################################################
 
+# NOTE: Stuck nft_common_block_undefine_error into nft_line
 
 # Bison: identifier/table_spec/chain_spec/rule_position/add_cmd/base_cmd/line
 my-TableID myChainID { };
