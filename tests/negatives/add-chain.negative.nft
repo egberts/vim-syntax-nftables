@@ -1,0 +1,61 @@
+#!/usr/sbin/nft -f
+# File: all-chain.negative.nft
+# Description: A negative test NFT file to exercise 'chain'-related Vim syntax highlightings.
+#
+# Identifiers begin with an standard practice of allowing
+# alphabetic character (a-z,A-Z) for first character followed
+# by zero or more alphanumeric characters (a-z,A-Z,0-9),
+# characters dash (-), and underscore (_).
+#
+# Dot, backslash, forward slash are discourage as dot
+# confused nftable concatenation effort.
+#
+# base_cmd add_cmd 'chain'
+# base_cmd 'add' add_cmd chain'
+# base_cmd add_cmd 'table' table_cmd '{' table_block 'chain'
+# base_cmd 'add' add_cmd 'table' table_cmd 'chain' (not supported)
+# nft_line/nft_base_cmd/nft_base_cmd_add/nft_base_cmd_add_table/nft_add_table_chain_block policy_spec
+#
+################################################################################
+# true negative test: properly hightlighted wrongly to show an error;
+# so far, so good.
+################################################################################
+
+table "*weirdname"  # allowable '*' but only inside double quote???
+table "$weirdname"  # allowable '$' but only inside double quote???
+table "#weirdname"  # allowable '#' but only inside double quote???
+
+table ip
+table ip6
+
+
+table inet  #
+
+table bridge ;
+table netdev  # intentionally invalid; invalid table identifier
+table arp  # intentionally invalid; invalid table identifier
+table ip {  };
+
+table 0   # invalid identifier (started with non-letter)
+table 0abc   # invalid identifier (started with non-letter)
+table /abc   # invalid identifier (started with non-letter)
+table \abc   # invalid identifier (started with non-letter)
+table _abc   # invalid identifier (started with non-letter)
+table .abc   # invalid identifier (started with non-letter)
+
+table T { devices = eth0 }
+
+table T { chain C { type filter hook ingress ; }; };  # incomplete
+table T { chain C { type filter hook ingress devices ; }; };  # incomplete
+table T { chain C { type filter hook ingress devices = ; }; };  # incomplete
+
+table T { chain C { type filter hook ingress device eth0 priority ; }; };  # incomplete
+
+table T { chain C { devices =    $eth0,$ABC,$DEF;  }; };
+table T { chain C { devices ={ $MYVARIABLE; } } }
+table T { chain C { devices ={ MYVARIABLE } } }
+table T { chain C { devices = MYVARIABLE } }
+table T { chain C { devices = $MYVARIABLE } }
+
+table A!error
+

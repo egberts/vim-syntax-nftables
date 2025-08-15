@@ -1,0 +1,30 @@
+
+
+################################################################################
+# false negative test: highlighted wrongly; still has good content; oops.
+################################################################################
+
+
+table xxxx { flags ,, b, c };  " oopsie
+table xxxx { flags a, b,  };  " oopsie
+table ip6 xxxx { flags , a, b };  " oopsie
+table xxxx { chain 'MyIpNet' { chain }; };
+table xxxx { chain "MyIpNet" { chain }; };
+
+table T { chain C { devices =$eth0,$DEV1  } }
+table T { chain C { devices =x$eth0  } }
+table T { chain C { devices = x$eth0  } }
+table T { chain C { devices      =     not_a_variable  } }
+table T { chain C { devices      =     x$eth0  } }
+table T { chain C { devices =eth0  } }
+table T { chain C { devices = eth0;  } }
+table T { chain C { devices = { eth0; }  } }
+
+table T { chain C { devices = { eth0 } # comment
+    }  # comment
+}  # comment
+table T { chain C { devices = { eth0 } ; # comment
+    }; # comment
+}; # comment
+table T { chain C { devices = { eth0 } }; };
+
