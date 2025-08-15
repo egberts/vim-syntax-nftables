@@ -1,0 +1,111 @@
+#!/usr/sbin/nft -f
+# File: all-counter.nft
+# Description: Test file to exercise '[add] counter' Vim syntax highlightings.
+#
+# nftables manpage shows:
+#
+#   {add | delete | destroy | list | reset} counter [family] table object
+#   add counter [family] table name [{ [ packets packets bytes bytes ; ] [ comment comment ; }]
+#   list counters
+#   list counters [family]
+#   delete counter [family] table name
+#   delete counter [family] table handle handle
+#   destroy counter [family] table handle handle
+#   reset counters [family]
+#
+# Syntax Pathway:
+#   base_cmd add_cmd 'counter'
+#
+# Semantic Actions (reverse parser_bison.y):
+#   nft_line/nft_base_cmd/nft_base_cmd_add/nft_base_cmd_add_counter
+#
+################################################################################
+# true positive test (properly hightlighted correctly; has good content; perfect)
+################################################################################
+
+# base_cmd add_cmd 'counter'
+
+counter table_id counter_id
+add counter table_id counter_id
+
+# line->add_cmd->rule_position
+counter T C
+
+
+counter T C
+counter T0 C
+counter T_ C
+counter T\ C
+counter T C/C
+
+counter T C ;
+
+counter ip T C
+counter ip6 T C 
+counter inet T C
+counter netdev T C
+counter bridge T C
+counter arp T C
+
+counter ip T C ;
+counter ip6 T C ;
+counter inet T C ; 
+counter netdev T C;
+counter bridge T C; 
+counter arp T C  ;  
+
+# Prototyping error highlighting here
+counter T C { packet 123 bytes 12345 } ;
+counter T C { packet 123 bytes 12345 } ;
+counter T last { packet 123 bytes 12345; } ;
+counter ip T C { packet 123 bytes 123; packet 123 bytes 123; };
+counter ip T C { 
+    packet 123 bytes 123 
+    include "include_counters_file.nft";
+};
+
+add counter T/T C
+add counter T C0
+add counter T C_
+add counter T C\
+add counter T C ;
+add counter T last;
+add counter T last packet 123 bytes 12345;
+add counter T C { packet 123 bytes 12345 };
+add counter T C { packet 123 bytes 12345; packet 321 bytes 4321; };
+add counter T C { 
+    packet 123 bytes 12345; 
+    packet 321 bytes 4321; 
+};
+add counter T C ;
+add counter ip T C { packet 123 bytes 123 };
+counter T last;
+counter T last packet 123 bytes 12345;
+
+add counter filter http
+
+
+add counter filter https
+
+add rule filter input tcp dport 80 counter name \"http\"  # nftables manpage
+add rule filter input name tcp dport map { 80 : "http", 443 : "https" }  # nftables manpage
+
+delete counter table_id counter_id
+
+destroy counter table_id counter_id
+
+list counter table_id counter_id
+list counter table_id counter_id ;
+
+reset counter table_id counter_id
+reset counter table_id  chain_id  ; reset counter table_id2 chain_id2
+
+
+table inet x {  # from nftables manpage
+    chain y {
+        type filter hook input priority filter; policy accept; ;;;;
+        socket cgroupv2 level 1 "user.slice" counter
+    }
+}
+
+

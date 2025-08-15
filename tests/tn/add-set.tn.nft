@@ -1,0 +1,115 @@
+################################################################################
+# true negative test: properly hightlighted wrongly to show an error;
+# so far, so good)
+################################################################################
+
+set;
+
+set ;
+
+set T     
+
+
+set {
+set T {   
+
+
+set 
+
+
+set T 
+
+
+set ip S 
+
+
+add set 
+
+
+add set T S 
+
+set T&
+    set T;
+    set T ; 
+ 
+set ip T S  
+
+
+set ip6 T S C
+set inet T S D
+set netdev T S E
+set bridge T S F
+set arp T S G
+
+add set T S $variable_name 
+add set T S $variable_name
+add set T S $a
+add set T S { counter bytes asddf }
+
+ 
+set T  # comment
+set T     ;  # comment
+set T ;  # comment
+
+set T C ;
+
+set T C 
+
+
+set T     C
+set T     C   
+set T C  # comment
+set T C;
+
+set T  C   ;
+# comment
+set T C ; # comment
+# comment
+set TC ;
+
+# comment
+
+set T S
+set T S 
+
+
+set T      S
+set T S  # comment
+set T S;
+
+set T S ;
+
+
+set T   S   ;
+# comment
+set T  S; # comment
+# comment
+set T S;
+
+# comment
+
+set T C
+set T C 
+
+
+set T S
+set T S 
+
+
+set T S $a  ;  z
+# comment
+
+set T S { };
+
+add set ip S    
+
+
+
+set T C;
+
+
+set T C ;
+
+add set T S ;
+
+

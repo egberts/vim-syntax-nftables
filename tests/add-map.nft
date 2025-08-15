@@ -2,7 +2,7 @@
 # File: all-map
 # Description: Test NFT file to exercise '[add] map' Vim syntax highlightings.
 #
-# base_cmd add_cmd 'map' 
+# base_cmd add_cmd 'map'
 # nft_line/nft_base_cmd/nft_base_cmd_add/nft_base_cmd_add_map
 #
 ################################################################################

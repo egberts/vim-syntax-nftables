@@ -1,0 +1,29 @@
+################################################################################
+# true negative test: properly hightlighted wrongly to show an error; 
+# so far, so good.
+################################################################################
+
+replace 
+
+
+replace rule 
+
+
+replace table 
+replace chain 
+replace map 
+replace set 
+
+replace rule asddf
+
+replace rule invalid_family_spec
+replace rule invalid{table_id} table_id chain_id handle 777
+
+replace rule tableid invalid-chain-id missing_handle_keyword
+replace rule netdev table_id chain_id missing_handle_keyword
+
+replace rule ip table_id chain_id unexpected_string handle 123 
+
+replace rule tableid chain_id handle 777 invalid_rule
+
+

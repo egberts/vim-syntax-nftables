@@ -15,7 +15,7 @@ export ruleset vm json
 
 
 ################################################################################
-# true negative test: properly hightlighted wrongly to show an error; 
+# true negative test: properly hightlighted wrongly to show an error;
 # so far, so good.
 ################################################################################
 

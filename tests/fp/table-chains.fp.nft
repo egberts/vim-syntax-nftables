@@ -1,0 +1,33 @@
+################################################################################
+# false positive test: looks highlighted correctly; has bad content; oops.
+################################################################################
+
+table T { chain C { type filter ; }; };  # incomplete
+
+table xxxx { chain MyIpNet {
+    chain last;  # oopsie
+    };
+};
+
+table @TX
+table A @# @   # invalid character
+table A# { };   # invalid character
+table A$ { };   # invalid character
+table A%   # invalid character
+table A^   # invalid character
+table A&   # invalid character
+table A*   # invalid character
+table A(   # invalid character
+table A)   # invalid character
+table A-   # invalid character
+table A+   # invalid character
+table A=   # invalid character
+table A[   # invalid character
+table A]   # invalid character
+table A<   # invalid character
+table A>   # invalid character
+table A,   # invalid character
+table A?   # invalid character
+table A|   # invalid character
+table A:   # invalid character
+

@@ -2,7 +2,7 @@
 # File: delete.nft
 # Description: A test NFT file to exercise 'delete' Vim syntax highlightings.
 #
-# base_cmd 'delete' delete_cmd 
+# base_cmd 'delete' delete_cmd
 # nft_line/nft_base_cmd/nft_base_cmd_add/nft_base_cmd_add_set
 #
 ################################################################################

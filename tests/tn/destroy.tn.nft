@@ -1,0 +1,26 @@
+################################################################################
+# true negative test: properly hightlighted wrongly to show an error; 
+# so far, so good.
+################################################################################
+
+destroy chain T C { define my_var; };
+
+destroy tableT
+destroy tablelast
+destroy tableip T
+destroy tableip6 T
+destroy tableinet T
+destroy tablenetdev T
+destroy tablebridge T
+destroy tablearp T
+destroy tablehandle 123
+destroy table iphandle 123   # got lucky here
+destroy table ip6handle 123
+destroy table inethandle 123
+destroy table netdevhandle 123
+destroy table bridgehandle 123
+destroy table arphandle 123
+destroy table handle123
+destroy table handle123 ; 
+
+

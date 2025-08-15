@@ -1,0 +1,97 @@
+################################################################################
+# true negative test: properly hightlighted wrongly to show an error; 
+# so far, so good)
+################################################################################
+
+flowtableip 
+flowtableip  X
+
+
+flowtable T 
+
+
+flowtable ip
+
+
+flowtable T F
+flowtable ip S F
+flowtable ip6 S F
+flowtable inet S  F
+flowtable netdev  S F
+flowtable  bridge S F
+flowtable arp S F
+flowtable arp S F
+
+flowtable T F ;
+
+flowtable ip S F ;
+
+flowtable ip6 S F ;
+
+flowtable inet S  F ;
+
+flowtable netdev  S F ;
+
+flowtable  bridge S F ;
+
+flowtable arp S F ;
+
+flowtable ip T F { hook b } ;
+
+flowtable ip T F { hook b ; } ;
+
+add flowtable 
+
+
+add flowtable T 
+
+
+add flowtable T F
+add flowtable T F ;
+
+
+add flowtable ip S F
+add flowtable ip6 S F  ;
+
+add flowtable inet S  F
+add flowtable netdev  S F
+add flowtable  bridge S F
+add  flowtable arp S F
+ add flowtable arp S F ;
+
+add flowtable T F { hookhandler; }
+add flowtable ip T F { hook b }
+add flowtable T F { hook $HOOK_HANDLER }
+add flowtable ip T F { hook b ; }
+add flowtable T F { hook handler }
+add flowtable T F { hook handler priority123 }
+add flowtable T F { hookhandler; }
+add flowtable T F { hookhandler 123; }
+add flowtable T F { hook "handler" 123; }
+add flowtable  T F { hook "handler" 123; };
+add flowtable T F { hook "handler" priority123; }
+
+add flowtable T F { devices = eth0 }
+
+create flow table
+create flowtable ip  
+
+
+create flowtable X 
+
+
+create flowtable X 0asdf
+
+
+list flowtable
+list flow table netdev table_id synproxy_id
+list flow table bridge table_id synproxy_id
+list flow table arp table_id synproxy_id
+list flow tables netdev
+list flow tables bridge
+list flow tables arp
+list flowtables netdev
+list flowtables bridge
+list flowtables arp
+
+

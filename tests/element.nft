@@ -2,12 +2,12 @@
 # File: element.nft
 # Description: A test NFT file to exercise 'element' m syntax highlightings.
 #
-# base_cmd add_cmd 'element' 
-# base_cmd create_cmd 'element' 
-# base_cmd destroy_cmd 'element' 
-# base_cmd delete_cmd 'element' 
-# base_cmd get_cmd 'element' 
-# base_cmd reset_cmd 'element' 
+# base_cmd add_cmd 'element'
+# base_cmd create_cmd 'element'
+# base_cmd destroy_cmd 'element'
+# base_cmd delete_cmd 'element'
+# base_cmd get_cmd 'element'
+# base_cmd reset_cmd 'element'
 #
 ################################################################################
 # true positive test: properly hightlighted correctly; has good content; perfect

@@ -1,0 +1,84 @@
+################################################################################
+# true negative test: properly hightlighted wrongly to show an error;
+# so far, so good)
+################################################################################
+
+include ;
+
+include cx
+
+
+# line/base_cmd/add_cmd/comment_spec
+include V$DIR00/"direcetory/filename.filetype"  # inline comment line
+
+defineA=1
+define A a
+define A x
+define ABC = { 
+   }
+
+define ABC = ;
+define ABC = - 1 ;  # has a whitespace between dash '-' and a number
+
+define A = 0- 1000  # whitespace NOT allowed in port-range
+define A = 0 -1000  # whitespace NOT allowed in port-range
+define A = 0 - 1000  # whitespace NOT allowed in port-range
+define A = - 1000
+define port_range = 1024-32767 oopsie
+
+define last = { ,  }
+define last = { $  }
+define MY_MAP = { ,  2:"br0" };
+define MY_DEV = { , "br0" }
+define MY_DEV = { , "br0" };
+define MY_DEV = { "eth0": 1 };
+define MY_DEV_MAP = { "eth0", "br0": 3 };  # 1st element is not a map
+define MY_MAP = { 192.168.20.20: ssh, 127.0.0.1: #http };
+define PORT_RANGE = { 1024 - 2048 };
+define PORT_RANGE = { 1024 -2048 };
+define PORT_RANGE = { 1024- 2048 };
+
+redefine A = { ;
+redefine A = { 1,2, 3, 4; }
+redefinelast { };
+
+undefine last TABLE_ID
+undefine last TABLE_ID;
+
+undefine 1BCDEF;
+undefine A$BCDE;
+undefine A`BCDE;
+undefine A~BCDE;
+undefine A!BCDE;
+undefine A@BCDE;
+undefine A#BCDE;
+undefine A$BCDE;
+undefine A%BCDE;
+undefine A^BCDE;
+undefine A&BCDE;
+undefine A*BCDE;
+undefine A(BCDE;
+undefine A)BCDE;
+undefine A-BCDE;
+undefine A+BCDE;
+undefine A[BCDE;
+undefine A]BCDE;
+undefine A|BCDE;
+undefine A{BCDE;
+undefine A}BCDE;
+undefine A:BCDE;
+undefine A'BCDE;
+undefine A"BCDE;
+undefine A<BCDE;
+undefine A>BCDE;
+undefine A,BCDE;
+undefine A?BCDE;
+undefine A\BCDE;
+undefine A/BCDE;
+undefine A.BCDE;
+undefinelast
+undefine TABLE_ID = ;
+undefine TABLE_ID UNKNOWN_TOKEN ;
+
+error x 
+

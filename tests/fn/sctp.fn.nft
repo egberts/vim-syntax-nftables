@@ -1,0 +1,8 @@
+
+##################################################################################
+# false negative test (highlighted wrongly; still has good content; oops)
+##################################################################################
+
+delete tableid chainid sctp 
+
+

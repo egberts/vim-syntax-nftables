@@ -1,8 +1,8 @@
 #!/usr/sbin/nft -f
 # File: identifier.nft
 # Title: Test file for the initial 'identifier ' highlightings.
-# Description: 
-#   Identifier that starts with from 1st column may imply 
+# Description:
+#   Identifier that starts with from 1st column may imply
 #   a '[add] table' command.
 #
 # nftables manpage shows:

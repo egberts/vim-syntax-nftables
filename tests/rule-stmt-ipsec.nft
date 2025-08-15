@@ -9,11 +9,11 @@
 #
 #    * in: Matches inbound IPsec packets (already decrypted).
 #    * out: Matches outbound IPsec packets (to be encrypted).
-#    * spnum: Optional, specifies the Security Association (SA) 
+#    * spnum: Optional, specifies the Security Association (SA)
 #          in a chain (defaults to 0).
 #    * reqid: Matches the request ID of the IPsec SA.
 #    * spi: Matches the Security Parameter Index of the SA.
-#    * saddr | daddr: Matches the source or destination IP address 
+#    * saddr | daddr: Matches the source or destination IP address
 #          of the SA (for tunnel mode, these are the outer IP addresses).
 #
 # Example Usages:

@@ -1,0 +1,16 @@
+################################################################################
+# true negative test: properly hightlighted wrongly to show an error;
+# so far, so good.
+################################################################################
+
+synproxymyTable synproxy_obj mss1500 ;
+synproxy myTable synproxy_obj mss1500 ;
+synproxy myTable synproxy_obj mss 1500wscale 7
+synproxy ip myTable synproxy_obj mss 1492 wscale5
+synproxy ip myTable synproxy_obj mss 1492 wscale 5timestamp
+synproxy ip myTable synproxy_obj mss 1492 wscale 5sack-perm
+synproxy ip myTable synproxy_obj mss 1492 wscale 5 timestampsack-perm
+
+weird
+
+

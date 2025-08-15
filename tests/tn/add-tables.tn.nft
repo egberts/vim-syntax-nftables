@@ -1,0 +1,153 @@
+################################################################################
+# true negative test: properly hightlighted wrongly to show an error;
+# so far, so good.
+################################################################################
+
+# those are 'rule' table_spec, not 'add table' nor 'table'.
+# but 'rule' is here to ensure highlight consistency with each others.
+A#;   # invalid character
+A$;   # invalid character
+A%   # invalid character
+A^   # invalid character
+A&   # invalid character
+A*   # invalid character
+A(   # invalid character
+A)   # invalid character
+A-   # invalid character
+A+   # invalid character
+A=   # invalid character
+A[   # invalid character
+A]   # invalid character
+A<   # invalid character
+A>   # invalid character
+A,   # invalid character
+A?   # invalid character
+A|   # invalid character
+A:   # invalid character
+A { };
+
+ip6 table_id chain_id {
+};
+
+add table T {
+    chain C {
+    };
+    chain D { };
+};
+
+table T  # that one creates an empty table
+# base_cmd add_cmd 'table' table_spec identifier <STRING>
+table xxxx
+# base_cmd add_cmd 'table' table_spec identifier 'last'
+
+# base_cmd add_cmd 'table' table_spec table_block
+table inet xxxx { };
+table bridge xxxx { };
+table netdev xxxx { };
+table arp xxxx { };
+
+table my.IpTable
+table my/IpTable
+table "*weirdname"  # allowable '*' but only inside double quote???
+table "$weirdname"  # allowable '$' but only inside double quote???
+table "#weirdname"  # allowable '#' but only inside double quote???
+
+table ip 
+
+
+table ip6   
+
+
+table inet  #
+
+table bridge ;  
+table netdev  # intentionally invalid; invalid table identifier
+table arp  # intentionally invalid; invalid table identifier
+table ip {  };
+
+table my./_IpTable
+table my.IpTable
+
+table 0   # invalid identifier (started with non-letter)
+table 0abc   # invalid identifier (started with non-letter)
+table /abc   # invalid identifier (started with non-letter)
+table \abc   # invalid identifier (started with non-letter)
+table _abc   # invalid identifier (started with non-letter)
+table .abc   # invalid identifier (started with non-letter)
+
+table T { }
+table T { } ; #
+
+table T @# @   # invalid character
+
+table T { devices = eth0 }
+
+table T { chain C { type filter hook ingress ; }; };  # incomplete
+table T { chain C { type filter hook ingress devices ; }; };  # incomplete
+table T { chain C { type filter hook ingress devices = ; }; };  # incomplete
+
+table T { flags dormant,x ; } ;
+
+table T { chain C { devices =    $eth0,$ABC,$DEF;  }; };
+table T { chain C { devices = MYVARIABLE } }
+
+table A!error
+
+table T {
+    limit arp L { rate until 1/second }; # family_spec nor table belongs here
+}
+table T {
+    limit ip L { rate until 1/second };  # family_spec nor table belongs here
+}
+table T {
+    limit L 10 / sec;  un-braced limit_config is nvalid within table_block
+}
+
+table T { ct timeout TO { protocol udp policy = { ABC : 1H15M } } }
+
+add table $VARIABLE # variable NOT allowed in imperative '^add table'
+add table A$
+add table A^
+add table A$;   # invalid character
+add table A%   # invalid character
+add table A^   # invalid character
+add table A&   # invalid character
+
+add table A*   # invalid character
+add table A(   # invalid character
+add table A)   # invalid character
+add table A-   # invalid character
+add table A+   # invalid character
+add table A=   # invalid character
+add table A[   # invalid character
+add table A]   # invalid character
+add table A<   # invalid character
+add table A>   # invalid character
+add table A,   # invalid character
+add table A?   # invalid character
+add table A|   # invalid character
+add table A:   # invalid character
+
+add table $VARIABLE # variable NOT allowed in imperative '^add table'
+table $VARIABLE # variable ALLOWED in declarative '^table'
+
+table A$ { };   # invalid character
+table A%   # invalid character
+table A^   # invalid character
+table A&   # invalid character
+table A*   # invalid character
+table A(   # invalid character
+table A)   # invalid character
+table A+   # invalid character
+table A}
+table A[   # invalid character
+table A]   # invalid character
+table A<   # invalid character
+table A>   # invalid character
+table A,   # invalid character
+table A?   # invalid character
+table A|   # invalid character
+table A:   A
+table A!error
+
+

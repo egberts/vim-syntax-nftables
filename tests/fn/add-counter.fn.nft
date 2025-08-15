@@ -1,0 +1,14 @@
+################################################################################
+# false negative test: highlighted wrongly; still has good content; oops.
+################################################################################
+
+delete counter table_id counter_id handle handle_id
+delete counter table_id counter_id index index_id
+destroy counter table_id counter_id handle handle_id
+destroy counter table_id counter_id index index_id
+list counter table_id counter_id handle handle_id
+list counter table_id counter_id index index_id
+reset counter table_id counter_id handle handle_id
+reset counter table_id counter_id index index_id
+
+

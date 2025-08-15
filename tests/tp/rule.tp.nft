@@ -1,0 +1,190 @@
+#!/usr/sbin/nft -f
+# File: rule
+# Description: Test NFT file to exercise '[add] rule' Vim syntax highlightings.
+#
+# base_cmd add_cmd 'rule'
+# nft_line/nft_base_cmd/nft_base_cmd_add/nft_base_cmd_add_rule
+#
+################################################################################
+# true positive test: properly hightlighted correctly; has good content; perfect
+################################################################################
+
+# base_cmd add_cmd 'add' 'rule'
+add rule ip  T      C     position  1
+add rule ip6 filter input handle 2
+add rule arp T C index 3
+add rule inet T C position 4
+add rule bridge T C position 55555
+add rule netdev T C position 6  # inline comment
+add rule netdev Tabcdef Charger position 6 comment "My comment string"
+
+# ct_key_dir_optional->ct_key->ct_stmt
+add rule ip6 myTable myChain position 1 ct l3proto set ip6 myIpTable myCTHchain { };
+rule ip6 myTable myChain position 1 ct l3proto set ip6 myIpTable myCTHchain { };
+ip6 myTable myChain position 1 ct l3proto set ip6 myIpTable myCTHchain { };
+
+add rule ip6 myTable myChain position 1 ct proto set ip6 myIpTable myCTHchain { };
+add rule ip6 myTable myChain position 1 ct mark set ip6 myIpTable myCTHchain { };
+add rule ip6 myTable myChain position 1 ct state set ip6 myIpTable myCTHchain { };
+add rule ip6 myTable myChain position 1 ct direction set ip6 myIpTable myCTHchain { };
+add rule ip6 myTable myChain position 1 ct status set ip6 myIpTable myCTHchain { };
+add rule ip6 myTable myChain position 1 ct expiration set ip6 myIpTable myCTHchain { };
+add rule ip6 myTable myChain position 1 ct helper set ip6 myIpTable myCTHchain { };
+add rule ip6 myTable myChain position 1 ct saddr set ip6 myIpTable myCTHchain { };
+add rule ip6 myTable myChain position 1 ct daddr set ip6 myIpTable myCTHchain { };
+add rule ip6 myTable myChain position 1 ct proto-src set ip6 myIpTable myCTHchain { };
+add rule ip6 myTable myChain position 1 ct proto-dst set ip6 myIpTable myCTHchain { };
+add rule ip6 myTable myChain position 1 ct label set ip6 myIpTable myCTHchain { };
+add rule ip6 myTable myChain position 1 ct event set ip6 myIpTable myCTHchain { };
+add rule ip6 myTable myChain position 1 ct secmark set ip6 myIpTable myCTHchain { };
+add rule ip6 myTable myChain position 1 ct id set ip6 myIpTable myCTHchain { };
+
+# ct_key_dir_optional->ct_key->ct_stmt
+add rule ip6 myTable myChain position 1 ct bytes set ip6 myIpTable myCTHchain { };
+add rule ip6 myTable myChain position 1 ct packets set ip6 myIpTable myCTHchain { };
+add rule ip6 myTable myChain position 1 ct avgpkt set ip6 myIpTable myCTHchain { };
+add rule ip6 myTable myChain position 1 ct zone set ip6 myIpTable myCTHchain { };
+
+# ct_key_dir_optional->ct_stmt
+add rule ip6 myTable myChain position 1 ct bytes set ip6 myIpTable myCTHchain { };
+add rule ip6 myTable myChain position 1 ct packets set ip6 myIpTable myCTHchain { };
+add rule ip6 myTable myChain position 1 ct avgpkt set ip6 myIpTable myCTHchain { };
+add rule ip6 myTable myChain position 1 ct zone set ip6 myIpTable myCTHchain { };
+
+# ct_dir>ct_stmt
+add rule ip6 myTable myChain position 1 ct original bytes set ip6 myIpTable myCTHchain { };
+add rule ip6 myTable myChain position 1 ct original packets set ip6 myIpTable myCTHchain { };
+add rule ip6 myTable myChain position 1 ct original avgpkt set ip6 myIpTable myCTHchain { };
+add rule ip6 myTable myChain position 1 ct original zone set ip6 myIpTable myCTHchain { };
+add rule ip6 myTable myChain position 1 ct reply bytes set ip6 myIpTable myCTHchain { };
+add rule ip6 myTable myChain position 1 ct reply packets set ip6 myIpTable myCTHchain { };
+add rule ip6 myTable myChain position 1 ct reply avgpkt set ip6 myIpTable myCTHchain { };
+add rule ip6 myTable myChain position 1 ct reply zone set ip6 myIpTable myCTHchain { };
+
+add rule filter output ip daddr
+add rule filter output position 8 ip daddr 127.0.0.8 drop
+
+add rule table_id chain_id log;
+
+# base_cmd add_cmd 'rule'
+rule 
+
+rule T C handle 2
+rule ip  T      C     position  1
+rule ip6 filter input handle 2
+rule arp T C index 3
+rule inet T C position 4
+rule bridge T C position 55555
+rule netdev T C position 6
+ rule netdev Tabcdef Charger position 6
+
+
+rule T C rtclassid continue ;
+
+
+rule T C continue ;
+
+rule table_id chain_id log;
+
+# verdict_stmt->stmt
+tableid chainid vmap 
+table_id chain_id vmap
+table_id chain_id vmap { }
+table_id chain_id vmap at ABC
+
+# match_stmt->stmt
+tableid chainid match ;
+
+# meter_stmt->stmt
+# ip_hdr_spec->payload_stmt->stmt
+tableid chainid ip hdrlength;
+
+# stateful_stmt->stmt
+tableid chainid counter bytes 512;
+tableid chainid counter packets 3;
+tableid chainid limit rate;
+tableid chainid quota  ;
+tableid chainid ct count 1;
+tableid chainid ct count over 15;
+tableid chainid last;
+add rule tableid chainid last;
+tableid chainid last used;
+tableid chainid last used never;
+tableid chainid last used 1h;
+
+# meta_stmt->stmt
+
+# log_stmt->stmt
+tableid chainid log;
+tableId chainId log prefix;
+tableId chainId log group 15;
+tableId chainId log snaplen 512;
+tableId chainId log queue-threshold 5;
+tableId chainId log level log_string;
+tableId chainId log flags tcp seq;
+tableId chainId log flags tcp seq,options;
+tableId chainId log flags tcp options,seq;
+tableId chainId log flags tcp options;
+tableId chainId log flags ip options;
+tableId chainId log flags skuid;
+tableId chainId log flags ether;
+tableId chainId log flags all;
+
+# reject_stmt->stmt
+tableId chainId reject ;
+
+# nat_stmt->stmt
+tableId chainId snat ;
+tableId chainId dnat ;
+
+# masq_stmt->stmt
+tableId chainId masq ;
+
+# redir_stmt->stmt
+tableId chainId redir ;
+
+# tproxy_stmt->stmt
+tableId chainId tproxy ;
+
+# queue_stmt->stmt
+tableId chainId queue ;
+
+# ct_stmt->stmt
+tableId chainId ct over;
+
+
+# dup_stmt->stmt
+tableId chainId dup ;
+
+# fwd_stmt->stmt
+tableId chainId fwd ;
+
+# set_stmt->stmt
+tableId chainId set ;
+
+# map_stmt->stmt
+tableId chainId map ;
+
+# synproxy_stmt->stmt
+tableId chainId synproxy over;
+
+# chain_stmt->stmt
+tableId chainId chain ;
+
+# optstrip_stmt->stmt
+tableId chainId optstrip ;
+
+
+# xt_stmt->stmt
+tableId chainId xt ;
+
+# objref_stmt->stmt
+tableId chainId counter name;
+tableid chainid limit name;
+
+# https://wiki.nftables.org/wiki-nftables/index.php/Simple_rule_management
+
+insert rule filter output position 8 ip daddr 127.0.0.8 drop
+delete rule filter output handle 5
+delete rule filter output ip saddr 192.168.1.1 counter  # not implemented yet
+

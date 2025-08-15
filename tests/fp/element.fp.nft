@@ -1,0 +1,39 @@
+
+################################################################################
+# false positive test: looks highlighted correctly; has bad content; oops.
+################################################################################
+
+# 'element'->add_cmd->base_cmd->line
+element 
+
+element T S & 
+element T S | 
+element T S ( 
+element T S ^  
+
+add element T S &
+add element T S |
+add element T S (
+add element T S ^
+
+create element T S &
+create element T S |
+create element T S (
+create element T S ^
+
+destroy element T S &
+destroy element T S |
+destroy element T S (
+destroy element T S ^
+
+get element T S &
+get element T S |
+get element T S (
+get element T S ^
+
+reset element T S &
+reset element T S |
+reset element T S (
+reset element T S ^
+
+add set ip filter blocked_ips { elements = 192.168.1.5 }

@@ -4,10 +4,10 @@
 #
 # Section: base_cmd/ADD/CREATE
 # CREATE (create_cmd)
-#  create is similar to the add command, but returns 
+#  create is similar to the add command, but returns
 #  an error if the chain already exists.
 #
-# base_cmd 'create' 
+# base_cmd 'create'
 # nft_line/nft_base_cmd/nft_base_cmd_create
 #
 ################################################################################

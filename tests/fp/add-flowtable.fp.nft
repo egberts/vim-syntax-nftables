@@ -1,0 +1,11 @@
+################################################################################
+# false positive test: looks highlighted correctly; has bad content; oops.
+################################################################################
+
+
+# triggered by the virtue of wildcard unquoted identifier in the
+# nft_base_cmd_add_cmd_rule_position_table_spec_wildcard in 'nft_line'
+
+flowtableTableId
+
+

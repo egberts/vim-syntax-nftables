@@ -1,0 +1,83 @@
+#!/usr/sbin/nft -f
+# File: element.nft
+# Description: A test NFT file to exercise 'element' m syntax highlightings.
+#
+# base_cmd add_cmd 'element'
+# base_cmd create_cmd 'element'
+# base_cmd destroy_cmd 'element'
+# base_cmd delete_cmd 'element'
+# base_cmd get_cmd 'element'
+# base_cmd reset_cmd 'element'
+#
+################################################################################
+# true positive test: properly hightlighted correctly; has good content; perfect
+################################################################################
+
+# base_cmd add_cmd 'set'
+
+# set_expr->set_block_expr->'element'->add_cmd->base_cmd->line
+element T S { };
+element last S { };
+element T last { };
+element last last { };
+element ip T S { };
+element ip6 T S { };
+element inet T S { };
+element netdev T S { };
+element bridge T S { };
+element arp T S { };
+
+# variable_expr->set_block_expr->'element'->add_cmd->base_cmd->line
+element ip T last $MY_ELEMENT;
+element ip T S $MY_ELEMENT ;
+
+# set_expr->set_block_expr->'element'->add_cmd->'add'->base_cmd->line
+# 'add element' only takes map key-value
+# 'add element' will not take anonymous set (that occurs in 'rule'->set_expr, not 'add element')
+element ip filter service_map { 1.2.3.4 : accept, 5.6.7.8 timeout 30s : drop comment "spam host" }
+# CORRECT — timeout is applied to the element, value follows after colon
+add element ip filter blocked_ips { 192.168.1.10 expires 1h }
+add element ip filter blocked_ips { 192.168.1.10 timeout 1h }
+add element ip filter action_map { 10.0.0.1 timeout 1h : continue }
+add element ip filter action_map { 10.0.0.1 timeout 1h : return }
+add element ip filter action_map { 10.0.0.1 timeout 1h : accept }
+add element ip filter action_map { 10.0.0.1 timeout 1h : jump LIBVIRT_IN }
+add element ip filter action_map { 10.0.0.1 timeout 1h : jump $my_LIBVIRT_IN }
+add element ip filter action_map { 10.0.0.1 timeout 1h : goto $my_LIBVIRT_FWD}
+add element ip filter action_map { 10.0.0.1 timeout 1h : goto LIBVIRT_FWD}
+add element ip filter action_map { 10.0.0.1 timeout 1h : drop }
+
+add element ip filter action_map { 
+    10.0.0.1 timeout 1h : goto $my_LIBVIRT_FWD,
+    10.0.0.1 timeout 1h : goto LIBVIRT_FWD,
+    10.0.0.1 timeout 1h : goto $my_LIBVIRT_FWD,
+    10.0.0.1 timeout 1h : goto LIBVIRT_FWD,
+}
+
+
+# variable_expr->set_block_expr->'element'->add_cmd->'add'->base_cmd->line
+add element T S $MY_ELEMENT
+
+add element T S { };
+
+# set_expr->set_block_expr->'element'->create_cmd->'create'->base_cmd->line
+create element T S { };
+# variable_expr->set_block_expr->'element'->create_cmd->'create'->base_cmd->line
+create element T S $MY_ELEMENT
+
+# set_expr->set_block_expr->'element'->destroy_cmd->'destroy'->base_cmd->line
+destroy element T S { };
+# variable_expr->set_block_expr->'element'->destroy_cmd->'destroy'->base_cmd->line
+destroy element T S $MY_ELEMENT
+
+# set_expr->set_block_expr->'element'->get_cmd->'get'->base_cmd->line
+get element T S { };
+# variable_expr->set_block_expr->'element'->get_cmd->'get'->base_cmd->line
+get element T S $MY_ELEM!NT
+
+# set_expr->set_block_expr->'element'->reset_cmd->'reset'->base_cmd->line
+reset element T S { };
+# variable_expr->set_block_expr->'element'->reset_cmd->'reset'->base_cmd->line
+reset element T S $MY_ELEMENT
+
+

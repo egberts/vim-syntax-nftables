@@ -1,0 +1,15 @@
+################################################################################
+# true negative test (properly hightlighted wrongly to show an error; 
+# so far, so good.
+################################################################################
+
+set T 
+set ip S
+set T C;
+set T C ;
+set T C ; 
+
+set T C S $a  ;  z
+set T C S { };
+
+

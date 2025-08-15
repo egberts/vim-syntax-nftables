@@ -1,0 +1,22 @@
+################################################################################
+# false positive test: looks highlighted correctly; has bad content; oops.
+################################################################################
+
+table_identifier   
+
+
+table_identifier  # should have chain_identifier
+ip table_identifier  # should have chain_identifier
+ip6 table_identifier  # should have chain_identifier
+inet table_identifier  # should have chain_identifier
+netdev table_identifier  # should have chain_identifier
+bridge table_identifier  # should have chain_identifier
+arp table_identifier  # should have chain_identifier
+
+identifier_table chain_identifier stmt
+
+identifier_table chain_identifier jump chain_identifier
+identifier_table chain_identifier goto chain_identifier
+
+tableid chainid log log
+

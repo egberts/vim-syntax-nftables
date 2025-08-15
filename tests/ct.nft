@@ -24,11 +24,11 @@
 #         tcp dport 22 add @ssh_flood '{ ip saddr ct ct_expr}' reject
 #     }
 #   }
-# 
 #
-# Both ct_stmt and ct_expr have nearly all identical 2nd sub-keywords 
-# (except for breakaway standalone 'list ct helpers' syntax, note plural 
-# form) but only ct_stmt have a mandatory 3rd keyword 'set' after 
+#
+# Both ct_stmt and ct_expr have nearly all identical 2nd sub-keywords
+# (except for breakaway standalone 'list ct helpers' syntax, note plural
+# form) but only ct_stmt have a mandatory 3rd keyword 'set' after
 # its sub-keywords.
 #
 # NFTABLES MANPAGE details the following syntaxes:

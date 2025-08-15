@@ -1,0 +1,56 @@
+################################################################################
+# true negative test: properly hightlighted wrongly to show an error;
+# so far, so good)
+################################################################################
+
+secmark 
+
+
+secmark;
+
+secmark ;
+
+secmark table_id
+secmark table_id ;
+secmark myTable mySecMark
+secmark obj_spec secmark_obj { unknwon_secmark_block } 
+
+add secmark table_id
+
+destroy secmark 
+
+
+destroy secmark T 
+
+
+destroy secmark T handle 
+
+
+destroy secmark ip7 T handle 15
+
+list secmark 
+
+
+list secmark ip
+list secmark ip 
+
+
+list secmarks ip 123
+list secmarks bridge xxx
+
+
+
+list secmark bad_table  
+
+
+list secmark bad=table secmark_name 0x10
+list secmark table bad=secmark_name 0x1
+list secmark table secmark_name oopsie
+list secmark table ip table_name
+list secmark table ip6 table_name
+list secmark table inet table_name
+list secmark table arp table_name
+list secmark table bridge table_name
+list secmark table netdev table_name
+
+

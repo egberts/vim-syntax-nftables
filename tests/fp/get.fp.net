@@ -1,0 +1,9 @@
+
+################################################################################
+# false positive test: looks highlighted correctly; has bad content; oops.
+################################################################################
+
+get element T C
+get element ip S
+get element T C ;
+

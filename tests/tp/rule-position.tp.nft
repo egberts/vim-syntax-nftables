@@ -1,0 +1,355 @@
+#!/usr/sbin/nft -f
+# File: rule-position
+# Description: Test NFT file to exercise wildcard Vim syntax highlightings.
+#
+# This covers all possible first-order lexical patterns encountered from
+# the 'rule_position' semantic action label ('parser_bison.y')
+#
+# base_cmd add_cmd ['rule'] rule_position
+# nft_line/nft_base_cmd/nft_base_cmd_add/nft_c_add_cmd_rule
+#
+################################################################################
+# true positive test: properly hightlighted correctly; has good content; perfect
+################################################################################
+
+identifier_table chain_identifier rtclassid 15;
+
+ip table_identifier chain_identifier rtclassid 1;
+rule table_identifier chain_identifier rtclassid cosmos ;
+rule ip6 table_identifier chain_identifier rtclassid internet; 
+add rule table_identifier chain_identifier rtclassid freenet ; 
+add rule bridge table_identifier chain_identifier rtclassid radio-msu ;
+add table_identifier chain_identifier rtclassid 65536 ;
+add arp table_identifier chain_identifier rtclassid 1234567890 ;
+
+identifier_table chain_identifier position 15 ;
+identifier_table chain_identifier position 15  ;
+identifier_table chain_identifier position 15  ;
+
+identifier_table chain_identifier handle 7 ;
+identifier_table chain_identifier handle 7  ;
+
+identifier_table chain_identifier index 1 ;
+identifier_table chain_identifier index 1  ;
+
+rule identifier_table chain_identifier position 15 ;
+rule identifier_table chain_identifier position 15  ;
+
+rule identifier_table chain_identifier handle 7 ;
+rule identifier_table chain_identifier handle 7  ;
+
+rule identifier_table chain_identifier index 1 ;
+rule identifier_table chain_identifier index 1  ;
+
+add rule identifier_table chain_identifier position 15 ;
+add rule identifier_table chain_identifier position 15  ;
+
+add rule identifier_table chain_identifier handle 7 ;
+add rule identifier_table chain_identifier handle 7  ;
+
+add rule identifier_table chain_identifier index 1 ;
+add rule identifier_table chain_identifier index 1  ;
+
+add identifier_table chain_identifier position 15 ;
+add identifier_table chain_identifier position 15  ;
+
+add identifier_table chain_identifier handle 7 ;
+add identifier_table chain_identifier handle 7  ;
+
+add identifier_table chain_identifier index 1 ;
+add identifier_table chain_identifier index 1  ;
+
+ip identifier_table chain_identifier position 15 ;
+ip6 identifier_table chain_identifier position 15  ;
+inet identifier_table chain_identifier position 15  ;
+bridge identifier_table chain_identifier position 15  ;
+netdev identifier_table chain_identifier position 15  ;
+arp identifier_table chain_identifier position 15  ;
+
+ip identifier_table chain_identifier handle 7 ;
+ip6 identifier_table chain_identifier handle 7  ;
+inet identifier_table chain_identifier handle 7  ;
+bridge identifier_table chain_identifier handle 7  ;
+netdev identifier_table chain_identifier handle 7  ;
+arp identifier_table chain_identifier handle 7  ;
+
+ip identifier_table chain_identifier index 1 ;
+ip6 identifier_table chain_identifier index 1  ;
+inet identifier_table chain_identifier index 1  ;
+bridge identifier_table chain_identifier index 1  ;
+netdev identifier_table chain_identifier index 1  ;
+arp identifier_table chain_identifier index 1  ;
+
+rule ip identifier_table chain_identifier position 15 ;
+rule ip6 identifier_table chain_identifier position 15 ;
+rule inet identifier_table chain_identifier position 15  ;
+rule bridge identifier_table chain_identifier position 15  ;
+rule netdev identifier_table chain_identifier position 15  ;
+rule arp identifier_table chain_identifier position 15  ;
+
+rule ip identifier_table chain_identifier handle 7 ;
+rule ip6 identifier_table chain_identifier handle 7  ;
+rule inet identifier_table chain_identifier handle 7  ;
+rule bridge identifier_table chain_identifier handle 7  ;
+rule netdev identifier_table chain_identifier handle 7  ;
+rule arp identifier_table chain_identifier handle 7  ;
+
+rule ip identifier_table chain_identifier index 1 ;
+rule ip6 identifier_table chain_identifier index 1  ;
+rule inet identifier_table chain_identifier index 1  ;
+rule bridge identifier_table chain_identifier index 1  ;
+rule netdev identifier_table chain_identifier index 1  ;
+rule arp identifier_table chain_identifier index 1  ;
+
+add rule ip identifier_table chain_identifier position 15 ;
+add rule ip6 identifier_table chain_identifier position 15  ;
+add rule inet identifier_table chain_identifier position 15  ;
+add rule bridge identifier_table chain_identifier position 15  ;
+add rule netdev identifier_table chain_identifier position 15  ;
+add rule arp identifier_table chain_identifier position 15  ;
+
+add rule ip identifier_table chain_identifier handle 7 ;
+add rule ip6 identifier_table chain_identifier handle 7  ;
+add rule inet identifier_table chain_identifier handle 7  ;
+add rule bridge identifier_table chain_identifier handle 7  ;
+add rule netdev identifier_table chain_identifier handle 7  ;
+add rule arp identifier_table chain_identifier handle 7  ;
+
+add rule ip identifier_table chain_identifier index 1 ;
+add rule ip6 identifier_table chain_identifier index 1  ;
+add rule inet identifier_table chain_identifier index 1  ;
+add rule bridge identifier_table chain_identifier index 1  ;
+add rule netdev identifier_table chain_identifier index 1  ;
+add rule arp identifier_table chain_identifier index 1  ;
+
+add ip identifier_table chain_identifier position 15 ;
+add ip6 identifier_table chain_identifier position 15 ;
+add inet identifier_table chain_identifier position 15  ;
+add bridge identifier_table chain_identifier position 15  ;
+add netdev identifier_table chain_identifier position 15  ;
+add arp identifier_table chain_identifier position 15  ;
+
+add ip identifier_table chain_identifier handle 7 ;
+add ip6 identifier_table chain_identifier handle 7  ;
+add inet identifier_table chain_identifier handle 7  ;
+add bridge identifier_table chain_identifier handle 7  ;
+add netdev identifier_table chain_identifier handle 7  ;
+add arp identifier_table chain_identifier handle 7  ;
+
+add ip identifier_table chain_identifier index 1 ;
+add ip6 identifier_table chain_identifier index 1  ;
+add inet identifier_table chain_identifier index 1  ;
+add bridge identifier_table chain_identifier index 1  ;
+add netdev identifier_table chain_identifier index 1  ;
+add arp identifier_table chain_identifier index 1  ;
+
+# verdict_stmt
+rule T C accept ;
+rule T C drop ;
+rule T C continue ;
+rule T C jump chain_id ;
+rule T C goto chain_id ;
+rule T C return ;
+rule T C jump last ;
+rule T C goto last ;
+rule T C jump $MY_CHAIN ;
+rule T C goto $MY_CHAIN ;
+
+# match_stmt
+
+# meter_stmt
+rule T C meter meter_id size 149 { stmt }; rule T C meter meter_id size 149 { stmt };
+rule T C meter meter_id { stmt };
+
+# payload_stmt
+
+# stateful_stmt
+rule T C counter ;
+rule T C counter ;
+rule T C counter packets 1234;
+rule T C counter bytes 1234;
+rule T C counter packets 1234 bytes 1234;
+rule T C counter bytes 1234 packets 1234;
+rule T C limit rate 1/sec ;
+rule T C limit rate 1bytes/sec  ;
+rule T C limit rate 1/sec burst 1 packets ;
+rule T C limit rate 1bytes/sec burst 1mbytes/sec ;
+rule T C quota  ;
+rule T C quota over 150 bytes used 100 bytes ;
+rule T C quota until 300 mbytes used 600 bytes ;
+rule T C ct 123 300  ;
+rule T C ct over 123 300  ;
+rule T C last ;
+rule T C last used never ;
+rule T C last used 1h15m ;
+
+
+# meta_stmt
+rule T C meta iifname "eth0";
+rule T C meta mark 0x1234 ;
+rule T C meta protocol ip;
+rule T C meta random;
+rule T C meta cpu 3 ;
+rule T C meta secmark disable ;
+rule T C meta nftrace 1 ;
+rule T C meta nftrace set 0;
+rule T C meta nftrace set { 0 } ;
+rule T C meta nftrace == 1 ;
+rule T C meta oifname "wlan0" ;
+rule T C meta oiftype 1 ;
+rule T C meta ibrname "br0" ;
+rule T C meta day saturday ;
+rule T C meta hour 15 ;
+
+rule T C meta length ;
+rule T C meta protocol ;
+rule T C meta protocol ;
+rule T C meta priority ;
+rule T C meta random ;
+rule T C meta secmark ;
+rule T C meta oif ;
+rule T C meta mark ;
+rule T C meta iif ;
+rule T C meta iifname ;
+rule T C meta iiftype ;
+rule T C meta oif ;
+rule T C meta oifname ;
+rule T C meta oiftype ;
+rule T C meta skuid ;
+rule T C meta skgid ;
+rule T C meta nftrace ;
+rule T C meta rtclassid ;
+rule T C meta ibriport ;
+rule T C meta obriport ;
+rule T C meta ibrname ;
+rule T C meta obrname ;
+rule T C meta pkttype ;
+rule T C meta cpu ;
+rule T C meta iifgroup ;
+rule T C meta oifgroup ;
+rule T C meta cgroup ;
+rule T C meta ipsec ;
+rule T C meta time ;
+rule T C meta day ;
+rule T C meta hour ;
+rule T C mark ;
+rule T C iif ;
+rule T C iifname ;
+rule T C iiftype ;
+rule T C oif ;
+rule T C oifname ;
+rule T C oiftype ;
+rule T C skuid ;
+rule T C skgid ;
+rule T C nftrace ;
+rule T C rtclassid ;
+rule T C ibriport ;
+rule T C obriport ;
+rule T C ibrname ;
+rule T C obrname ;
+rule T C pkttype ;
+rule T C cpu ;
+rule T C iifgroup ;
+rule T C oifgroup ;
+rule T C cgroup ;
+rule T C ipsec ;
+rule T C time ;
+rule T C day ;
+rule T C hour ;
+rule T C notrack ;
+rule T C flow ;
+rule T C rtclassid accept;
+rule T C rtclassid drop ;
+rule T C rtclassid continue ;
+rule T C rtclassid goto chain_id ;
+rule T C rtclassid jump chain_id ;
+rule T C rtclassid return ;
+rule T C rtclassid snat ;
+rule T C rtclassid accept drop continue goto chain_id jump chain_id snat ;
+rule T C rtclassid redirect ;
+rule T C rtclassid redirect to :  ;
+rule T C rtclassid redirect random ;
+rule T C rtclassid redirect fully-random ;
+rule T C rtclassid redirect persistent ;
+rule T C rtclassid redirect persistent,random ;
+rule T C rtclassid redirect persistent, random ;
+rule T C rtclassid redirect persistent ,random ;
+rule T C rtclassid redirect persistent , random ;
+rule T C rtclassid redirect persistent , random, fully-random redirect ;
+rule T C notrack ;
+rule T C flow offload at string_me ;
+rule T C flow add at string_me ;
+
+
+# log_stmt
+
+# reject_stmt
+
+# nat_stmt
+
+# masq_stmt
+rule T C masquerade to : stmt_expr;
+rule T C masquerade random ;
+rule T C masquerade fully-random ;
+rule T C masquerade persistent ;
+rule T C masquerade random,fully-random,persistent ;
+rule T C masquerade accept;
+
+# redir_stmt
+rule T C redirect to stmt_expr;
+rule T C redirect to : stmt_expr;
+rule T C redirect random ;
+rule T C redirect fully-random ;
+rule T C redirect persistent ;
+rule T C redirect random,fully-random,persistent ;
+rule T C redirect accept;
+
+# tproxy_stmt
+
+# queue_stmt
+
+# ct_stmt
+
+# dup_stmt
+
+# fwd_stmt
+
+# set_stmt
+
+# map_stmt
+
+# synproxy_stmt
+
+# chain_stmt
+
+# optstrip_stmt
+
+# xt_stmt
+
+# objref_stmt
+
+identifier_table chain_identifier drop ;
+identifier_table chain_identifier accept ;
+identifier_table chain_identifier continue ;
+
+identifier_table chain_identifier return ;
+
+table_id chain_id log prefix asdf ;
+
+
+tableid chainid log  ;
+tableId chainId log prefix mynote  ;
+tableId chainId log group 15 ;
+tableId chainId log snaplen 512 ;
+tableId chainId log queue-threshold 5 ;
+tableId chainId log level log_string ;
+tableId chainId log flags tcp seq ;
+tableId chainId log flags tcp seq,options ;
+tableId chainId log flags tcp options,seq ;
+tableId chainId log flags tcp options ;
+tableId chainId log flags ip options ;
+tableId chainId log flags skuid ;
+tableId chainId log flags ether  ;
+tableId chainId log flags all ;
+
+

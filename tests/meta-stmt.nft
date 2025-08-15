@@ -7,7 +7,7 @@
 # Note: for unqualified 'meta', see test/meta-key-unqualified.nft
 # Note: for qualified 'meta', see test/meta-key-qualified.nft
 #
-# If it's followed by a set, it's likely meta_stmt. 
+# If it's followed by a set, it's likely meta_stmt.
 # If it's followed by a field name and then a comparison (==, <, etc.),
 # it's meta_expr.
 #
@@ -54,14 +54,14 @@
 #    nftrace     Used as a condition; defaults to "set"
 #
 # But in some contexts (like expressions), they may still support an explicit value:
-# 
+#
 # meta nftrace == 1
 # meta ipsec == 0
-# 
+#
 # So:
-# 
+#
 #     In statements, meta nftrace can appear without a value.
-# 
+#
 #     In expressions, it usually appears with == 0/1 or similar.
 #
 #     Form               Requires Operand?    Example
@@ -73,7 +73,7 @@
 #     meta ipsec         ❌/✅ Depends        meta ipsec or meta ipsec 0
 #
 # Key Diagnostic: Try putting meta xyz in a log or set
-# 
+#
 #    If it makes sense to assign or print it, it’s being used as a meta_expr.
 #
 #    If it makes sense to use as a match, it’s a meta_stmt.

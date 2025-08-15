@@ -1,0 +1,9 @@
+################################################################################
+# false positive test: looks highlighted correctly; has bad content; oops.
+################################################################################
+
+# this is not a regular chain, so 'jump'/'goto' won't work
+chain C {
+    ip protocol jump C2;
+}
+

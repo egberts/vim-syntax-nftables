@@ -1,0 +1,45 @@
+#!/usr/sbin/nft -f
+# File: all-chain.false-positive.nft
+# Description: A false positive test NFT file to exercise 'chain' Vim syntax highlightings.
+#
+# Identifiers begin with an standard practice of allowing
+# alphabetic character (a-z,A-Z) for first character followed
+# by zero or more alphanumeric characters (a-z,A-Z,0-9),
+# characters dash (-), and underscore (_).
+#
+# Dot, backslash, forward slash are discourage as dot
+# confused nftable concatenation effort.
+
+################################################################################
+# false positive test: looks highlighted correctly; has bad content; oops.
+################################################################################
+
+table T { chain C { type filter ; }; };  # incomplete
+
+table xxxx { chain MyIpNet {
+    chain last;  # oopsie
+    };
+};
+
+table @TX
+table A @# @   # invalid character
+table A# { };   # invalid character
+table A$ { };   # invalid character
+table A%   # invalid character
+table A^   # invalid character
+table A&   # invalid character
+table A*   # invalid character
+table A(   # invalid character
+table A)   # invalid character
+table A-   # invalid character
+table A+   # invalid character
+table A=   # invalid character
+table A[   # invalid character
+table A]   # invalid character
+table A<   # invalid character
+table A>   # invalid character
+table A,   # invalid character
+table A?   # invalid character
+table A|   # invalid character
+table A:   # invalid character
+

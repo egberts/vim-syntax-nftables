@@ -1,0 +1,10 @@
+################################################################################
+# true negative test: properly hightlighted wrongly to show an error; 
+# so far, so good.
+################################################################################
+
+import ruleset json vm
+import ruleset vm xml
+import ruleset vm
+
+

@@ -6740,7 +6740,6 @@ syn match nft_base_cmd_add_cmd_rule_rule_alloc_stmt_objref_stmt_objref_stmt_coun
 \    nft_base_cmd_add_cmd_rule_rule_alloc_stmt_objref_stmt_objref_stmt_counter_keyword_name
 " *********************  END 'objref_stmt' ***********************
 
-
 " *********************  BEGIN 'map' ***********************
 " set_spec 'map' ('add'|'clean')
 " set_spec 'element' ('add'|'clean')

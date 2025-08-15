@@ -1,0 +1,161 @@
+#!/usr/sbin/nft -f
+# File: quota.nft
+# Description: Test NFT file to exercise '[add] quota' Vim syntax highlightings.
+#
+# base_cmd add_cmd 'quota'
+# nft_line/nft_base_cmd/nft_base_cmd_add/nft_base_cmd_add_quota
+#
+################################################################################
+# true positive test: properly hightlighted correctly; has good content; perfect
+################################################################################
+
+# quota statements
+add quota filter http_quota over 25 mbytes
+add quota last http_quota over 25 mbytes
+add quota filter last over 25 mbytes
+add quota last last over 25 mbytes
+add quota filter ssh_quota { 10 kbytes }
+add quota filter http_quota { over 25 mbytes };
+add quota ip mangle eth0output over 500 mbytes
+add quota ip6 myIpfilter http-quota until 525 kbytes
+add quota inet myIpfilter http-quota over 25 mbytes
+add quota netdev myIpfilter http-quota over 25 mbytes;
+add quota bridge myIpfilter http-quota over 25 mbytes
+add quota arp myIpfilter http-quota over 25 mbytes
+
+quota T Q over 123
+quota table1 last over 123
+quota last quota2 over 123
+quota last last over 123
+quota example { over 100 mbytes used 0 bytes }
+quota ip T Q over 123
+quota ip myIpfilter http-quota over 25 mbytes
+quota ip6 myIpfilter http-quota until 525 kbytes
+quota inet myIpfilter http-quota over 25 mbytes
+quota netdev myIpfilter http-quota over 25 mbytes;
+quota bridge myIpfilter http-quota over 25 mbytes
+quota arp myIpfilter http-quota over 25 mbytes
+
+create quota filter http-quota { over 25 mbytes };
+create quota filter http-quota over 25 mbytes
+create quota filter ssh-quota { 10 kbytes }
+create quota ip myIpfilter http-quota over 25 mbytes
+create quota ip6 myIpfilter http-quota until 525 kbytes
+create quota inet myIpfilter http-quota over 25 mbytes
+create quota netdev myIpfilter http-quota over 25 mbytes;
+create quota bridge myIpfilter http-quota over 25 mbytes
+create quota arp myIpfilter http-quota over 25 mbytes
+
+delete quota table_name handle 15
+delete quota table_name quota_name 
+delete quota ip table_name handle 15
+delete quota ip table_name index 15
+delete quota ip table_name quota_name
+delete quota ip6 table_name handle 15
+delete quota ip6 table_name quota_name
+delete quota inet table_name quota_name
+delete quota inet myInetFilter handle 123
+delete quota inet myInetFilter index 345
+delete quota inet myInetFilter position 234
+delete quota netdev table_name handle 15
+delete quota netdev table_name quota_name
+delete quota bridge table_name handle 15
+delete quota bridge table_name quota_name
+delete quota arp table_name handle 15
+delete quota arp table_name quota_name
+
+list quota myInetTable myInetChain
+list quota myTable quota_name
+list quota ip myIpTable myIpChain
+list quota ip myTable quota_name
+list quota ip6 myIp6Table myIp6Chain
+list quota ip6 myTable quota_name
+list quota inet myInetTable myInetChain
+list quota inet myTable quota_name
+list quota netdev myNetdevTable myNetdevChain
+list quota netdev myTable quota_name
+list quota bridge myBridgeTable myBridgeChain
+list quota bridge myTable quota_name
+list quota arp myArpTable myArpChain
+list quota arp myTable quota_name
+
+
+list quotas 
+
+
+list quotas ip
+list quotas ip6
+list quotas inet
+list quotas netdev
+list quotas bridge
+list quotas arp
+list quotas table myIpTable
+list quotas table ip myIpTable
+list quotas table ip6 myIp6Table
+list quotas table inet myInetTable
+list quotas table netdev table_name
+list quotas table bridge myBridgeTable
+list quotas table arp myArpTable
+
+reset quota myIpTable myIpFilter
+reset quota myIpTable myFilter ;
+reset quota ip tablename chainname
+reset quota ip6 tablename chainname
+reset quota inet tablename chainname
+reset quota netdev tablename chainname
+reset quota bridge tablename chainname
+reset quota arp tablename chainname
+
+reset quotas 
+reset quotas MyIpTable 
+
+
+reset quotas ip MyIpTable 
+reset quotas ip6 MyIpTable 
+reset quotas inet MyIpTable 
+reset quotas netdev MyIpTable 
+reset quotas bridge MyIpTable
+reset quotas arp MyIpTable 
+reset quotas table myIpFilter
+reset quotas table ip myIpFilter
+reset quotas table ip6 MyIpTable 
+reset quotas table inet MyIpTable 
+reset quotas table netdev myIpFilter
+reset quotas table bridge MyIpTable 
+reset quotas table arp myIpFilter
+
+# quota expressions
+# base_cmd add_cmd 'table' table_spec table_block 'quota' quota_block
+table T {
+    quota last { }
+    quota Q {
+        # comment_spec
+        comment "my comments"
+        # quota_config
+        15 mbytes
+        15 mbytes used 30 gbytes
+        over 25 pbytes
+        over 25 pbytes used 2500000 pbytes
+        until 30 kbytes
+        until 30 kbytes used 130 Mbytes
+        # common_block
+        include "/directory/subdirectory/filename.filetype"
+        define A = 1
+        redefine A = 2
+        undefine A
+    }
+}
+table T { quota Q { } }
+table ip T { quota Q { } }
+table ip6 T { quota Q { } }
+table inet T { quota Q { } }
+table netdev T { quota Q { } }
+table bridge T { quota Q { } }
+table arp T { quota Q { } }
+table T { quota Q { 15 bytes } }
+table T { quota Q { 15 bytes used 15 bytes } }
+table T { quota Q { over 15 bytes used 15 bytes } }
+table T { quota Q { until 15 bytes } }
+table T { quota Q { until 15 bytes used 15 bytes } }
+
+

@@ -1,0 +1,15 @@
+################################################################################
+# true negative test: properly hightlighted wrongly to show an error; 
+# so far, so good.
+################################################################################
+
+include Filespec  # intentional syntax error; missing quote-pair
+
+include 'Fil'espec'  # intentional syntax error; embedded single quote
+include "Fil"espec"  # intentional syntax error; embedded double quote
+
+include "Filespec" extra stuff oppsie  # intentional syntax error
+include "Filespec"  oopsie  # intentional syntax error
+include "Filespec"  oopsie  ;  # intentional syntax error
+
+

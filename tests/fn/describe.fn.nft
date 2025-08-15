@@ -1,0 +1,9 @@
+################################################################################
+# false negative test: highlighted wrongly; still has good content; oops.
+################################################################################
+
+describe 1   # has inline comment
+describe rt2 addr 
+describe rt4 flags     ;
+
+

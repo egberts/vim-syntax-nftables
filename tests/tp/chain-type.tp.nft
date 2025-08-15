@@ -1,0 +1,36 @@
+#!/usr/sbin/nft -f
+# File: chain-type
+# Description: A test NFT file to exercise 'chain-type' Vim syntax highlighting
+#
+#
+################################################################################
+# true positive test: properly hightlighted correctly; has good content; perfect
+################################################################################
+
+# Note that only jump and goto actions to regular chains are allowed. 
+
+chain T C { ip protocol jump C2 };
+chain ip T C { ip protocol jump C2 };
+chain ip T C { counter };
+
+
+add chain T C { ip protocol jump C2 };
+add chain ip T C { ip protocol jump C2 };
+add chain ip T C { counter };
+table T {
+
+    chain C {
+        ip protocol jump C2;
+    }  ;
+    chain C {
+        ip protocol jump C2;
+    } 
+    chain C {
+        ip protocol jump C2
+    }
+    chain C {
+        ip protocol jump C2
+    }
+
+}
+

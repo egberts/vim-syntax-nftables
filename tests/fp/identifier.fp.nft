@@ -1,0 +1,75 @@
+
+################################################################################
+# false positive test: looks highlighted correctly; has bad content; oops.
+################################################################################
+
+# NOTE: Stuck nft_common_block_undefine_error into nft_line
+
+# Bison: identifier/table_spec/chain_spec/rule_position/add_cmd/base_cmd/line
+my-TableID myChainID { };
+
+# Bison: identifier/table_spec/chain_spec/rule_position/'rule'/add_cmd/base_cmd/line
+rule my$TableID myChainID { };
+rule my+table_id my_chain_id { };
+rule my*table_id my_chain_id { };
+
+# Bison: identifier/'ip|ip6|inet|netdev|bridge|arp'/family_spec_explicit/family_spec/table_spec/chain_spec/rule_position/add_cmd/base_cmd/line
+ip my%table_id my_chain_id { };
+ip6 my#table_id my_chain_id { };
+inet my@table_id my_chain_id { };
+netdev my`table_id my_chain_id { };
+bridge my~table_id my_chain_id { };
+arp my=table_id my_chain_id { };
+
+# multi-line
+my&TableID {
+    chain myChainID { };
+};
+my(TableID {
+    chain myChainID { };
+};
+my)TableID {
+    chain myChainID { };
+};
+my|TableID {
+    chain myChainID { };
+};
+my{TableID {
+    chain myChainID { };
+};
+my}TableID {
+    chain myChainID { };
+};
+my[TableID {
+    chain myChainID { };
+};
+my]TableID {
+    chain myChainID { };
+};
+my"TableID {
+    chain myChainID { };
+};
+my'TableID {
+    chain myChainID { };
+};
+my:TableID {
+    chain myChainID { };
+};
+my<TableID {
+    chain myChainID { };
+};
+my>TableID {
+    chain myChainID { };
+};
+my,TableID {
+    chain myChainID { };
+};
+my.TableID {
+    chain myChainID { };
+};
+my?TableID {
+    chain myChainID { };
+};
+my\TableID {
+    chain myChainID { };
+};

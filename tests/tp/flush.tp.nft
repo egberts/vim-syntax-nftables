@@ -1,0 +1,71 @@
+#!/usr/sbin/nft -f
+# File: flush.nft
+# Description: Test NFT file to exercise 'flush' Vim syntax highlightings.
+#
+# base_cmd  flush_cmd
+#
+
+################################################################################
+# true positive test: properly hightlighted correctly; has good content; perfect
+################################################################################
+
+flush table MyTable
+flush table ip MyTable
+flush table ip6 MyTable
+flush table inet MyTable
+flush table netdev MyTable
+flush table bridge MyTable
+flush table arp MyTable 
+flush table MyTable;
+flush table MyTable; 
+flush table MyTable ;
+flush table MyTable ; 
+
+
+flush chain MyTable MyChain
+flush chain ip MyTable MyChain
+flush chain ip6 MyTable MyChain
+flush chain inet MyTable MyChain
+flush chain netdev MyTable MyChain
+flush chain bridge MyTable MyChain
+flush chain arp MyTable MyChain
+flush chain MyTable MyChain;
+flush chain MyTable MyChain; 
+flush chain MyTable MyChain ;
+flush chain MyTable MyChain ; 
+
+# set_spec->'table'->'flow'->flush_cmd->base_cmd
+flush flow table table_id flow_id
+flush flow table ip table_id flow_id
+flush flow table ip6 table_id flow_id
+flush flow table inet table_id flow_id
+flush flow table netdev table_id flow_id
+flush flow table bridge table_id flow_id
+
+flush map ip table_id MyMap
+flush map ip6 table_id MyMap
+flush map inet table_id MyMap
+flush map netdev table_id MyMap
+flush map bridge table_id MyMap
+flush map arp table_id MyMap
+
+flush meter table_id MyMap
+flush meter ip table_id MyMap
+flush meter ip6 table_id MyMap
+flush meter inet table_id MyMap
+flush meter netdev table_id MyMap
+flush meter arp table_id MyMap
+
+flush ruleset 
+flush ruleset ip 
+flush ruleset ip6
+flush ruleset inet
+
+flush set table_id set_id
+flush set ip6 table_id set_id
+flush set inet table_id set_id
+flush set netdev table_id set_id
+flush set bridge table_id set_id
+flush set arp table_id set_id
+
+

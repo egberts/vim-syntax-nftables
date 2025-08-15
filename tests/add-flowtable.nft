@@ -2,7 +2,7 @@
 # File: all-flowtable.nft
 # Description: Test NFT file exercises '[add] flowtable' Vim syntax highlightings.
 #
-# base_cmd add_cmd 'flowtable' 
+# base_cmd add_cmd 'flowtable'
 # nft_line/nft_base_cmd/nft_base_cmd_add/nft_base_cmd_add_flowtable
 #
 ################################################################################

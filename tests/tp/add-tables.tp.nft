@@ -1,0 +1,206 @@
+#!/usr/sbin/nft -f
+# File: all-tables.nft
+# Description: A test NFT file to exercise 'add table' Vim syntax highlightings.
+#
+# Identifiers begin with an alphabetic character (a-z,A-Z),
+# followed by zero or more alphanumeric characters (a-z,A-Z,0-9)
+# and the characters slash (/), backslash (\), underscore (_)
+# and dot (.).
+#
+# Identifiers using different characters or clashing with a
+# keyword need to be enclosed in double quotes (").
+#
+# Syntax Pathway:
+#   base_cmd add_cmd 'table'
+#
+# Semantic Actions (reverse parser_bison.y):
+#   nft_line/nft_base_cmd/nft_base_cmd_add/nft_base_cmd_add_table/nft_add_table_chain_block policy_spec
+#
+################################################################################
+# true positive test (properly hightlighted correctly; has good content; perfect
+################################################################################
+
+add table filter
+add table last
+
+add table my/IpTable
+add table my/IpTable 
+add table my/IpTable; 
+add table my/IpTable ;
+add table my/IpTable ; 
+add table my\IpTable    # defaults to 'ip' family
+add table my./_IpTable { };
+add table my.IpTable
+add table my_./\IpTable    # defaults to 'ip' family
+add table A#;   # not so invalid character, it's an inline comment
+
+table A
+table Z
+table a
+table z
+table a0
+table z0
+table A/
+table A\
+table A.
+table A
+table A   # comment
+table T { ; };
+table $VARIABLE # variable ALLOWED in declarative '^table'
+
+table $MY_VAR {
+    flags dormant;
+    flags persist;
+    flags dormant,persist;
+    flags persist,dormant;
+};
+
+table T { chain C { type filter ; }; };  # incomplete chain (but this here is table)
+table T { synproxy SP { mss 1490 ; wscale 5 } };  # very incorrect
+
+
+##########################################################################
+# All-in-One
+##########################################################################
+table T {
+    # common_block
+    include "/directory/subdirectory/filename.filetype";
+    define A = 1
+    redefine A = 2
+    undefine A
+    # table_option
+    flags dormant, persist;
+    comment "A Hello XYZ"
+    comment "A ;Hello XYZ"
+    comment "ABCDEFGHIJKLMNOPQRSTUVXWYZabcdefghijklmnopqrstuvwxyz"
+    comment ABCDEFGHIJKLMNOPQRSTUVXWYZabcdefghijklmnopqrstuvwxyz;
+    comment 0123456789~!@#$%&*()_+=-|\}\{[]:/.,<>?\
+    comment Hello ;
+    # chain_block
+    chain C {
+        # common_block
+        include "/directory/subdirectory/filename.filetype";
+        define A = 1
+        redefine A = 2
+        undefine A
+        # hook_spec
+        type filter hook ingress device $ETHERNAME policy accept
+        policy $CHAINPOLICY
+        # set_flags
+        flags offload
+        # rule/rule_alloc/stmt/stateful_stmt/counter_stmt
+        counter;
+        # devices
+        devices = { "eth0", $BRIDGEVAR };
+        # comment_spec
+        comment 'ABCDEFGHIJKLMNOPQRSTUVXWYZabcdefghijklmnopqrstuvwxyz' ;
+    };
+    # set_block
+    set S {
+        # common_block
+        include "/directory/subdirectory/filename.filetype";
+        define A = 1
+        redefine A = 2
+        undefine A
+        # typeof_key_expr
+        typeof ether : ip interval ip;
+        type classid : limit;
+        # set_flags
+        flags constant, interval, timeout, dynamic;
+        timeout 14h;
+        gc-interval 30s;
+        # rule/rule_alloc/stmt/stateful_stmt/counter_stmt
+        counter;
+        # rule/rule_alloc/stmt/stateful_stmt/limit_stmt
+        limit rate 15 / second;
+        limit rate over 15 / second;
+        limit rate until 15 / second burst 15 packets;
+        limit rate 15 Mbytes / second;
+        limit rate over 15 Kbytes / second burst 15 kbytes;
+        # rule/rule_alloc/stmt/stateful_stmt/quota_stmt
+        quota over 15 bytes
+        quota over 15 bytes used 15 Mbytes
+        # rule/rule_alloc/stmt/stateful_stmt/connlimit_stmt
+        ct count over 20
+        # rule/rule_alloc/stmt/stateful_stmt/last_stmt
+        last
+        last used never
+        last used 15m
+        # set_mechanism
+        policy performance;
+        policy memory;
+        # comment_spec
+        comment 'ABCDEFGHIJKLMNOPQRSTUVXWYZabcdefghijklmnopqrstuvwxyz' ;
+        # 'elements'/set_block_expr
+        elements = $VARNAME;
+        # elements = { "tesdf",2,3,4 };
+        auto-merge;
+    };
+    # map_block
+    map M {
+        # common_block
+        include "/directory/subdirectory/filename.filetype";
+        define A = 1
+        redefine A = 2
+        undefine A
+        # 'timeout'
+        timeout 14h;
+        # 'gc-interval'
+        gc-interval 30s;
+        # set_flags
+        flags constant, interval, timeout, dynamic;
+        # stateful_stmt/counter_stmt
+        counter;
+        # stateful_stmt/limit_stmt
+        limit rate 15 / second;
+        limit rate over 15 / second;
+        limit rate until 15 / second burst 15 packets;
+        limit rate 15 Mbytes / second;
+        limit rate over 15 Bytes / second burst 15 bytes;
+        # stateful_stmt/quota_stmt
+        quota over 15 bytes
+        quota over 15 bytes used 15 Mbytes
+        # stateful_stmt/connlimit_stmt
+        ct count over 20
+        # stateful_stmt/last_stmt
+        last
+        last used never
+        last used 15m
+        # comment_spec
+        comment 'ABCDEFGHIJKLMNOPQRSTUVXWYZabcdefghijklmnopqrstuvwxyz' ;
+        # set_mechanism
+        policy performance;
+        policy memory;
+        size 1230;
+        # typeof_data_expr
+        typeof ether : ip interval ip;
+        type classid : limit;
+        # 'elements'/set_block_expr
+        elements = $VARNAME;
+        #elements = { "tesdf",2,3,4 };
+        auto-merge
+    };
+    flowtable FT {
+        hook ABC priority -150
+        devices = { eth0, wlan0 }
+        flags offload
+        counter
+    }
+
+    # counter_block
+    counter CT { };
+    # quota_block
+    quota Q { };
+    # ct_helper_block
+    ct helper Q { };
+    # ct_timeout_block
+    ct timeout Q { };
+    # ct_expect_block
+    ct expectation Q { };
+    # secmark_block
+    secmark SM { };
+    # synproxy_block
+    synproxy SP { };
+};
+
+

@@ -1,0 +1,20 @@
+
+################################################################################
+# false positive test: looks highlighted correctly; has bad content; oops.
+################################################################################
+
+ct helper  # premature EOS
+ct timeout  # premature EOS
+ct expectation  # premature EOS
+
+add ct helper  # premature EOS
+add ct timeout  # premature EOS
+add ct expectation  # premature EOS
+
+create ct helper  # premature EOS
+create ct timeout  # premature EOS
+create ct expectation  # premature EOS
+
+list table ct  # premature EOS
+list ct helpers table 
+

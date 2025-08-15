@@ -1,0 +1,28 @@
+################################################################################
+# true negative test: properly hightlighted wrongly to show an error; 
+# so far, so good.
+################################################################################
+
+# 'reset counters' <ruleset_spec>
+reset counters 
+
+
+reset rules table  # missing table_id
+reset rules table;  # missing table_id
+reset rules table ;  # missing table_id
+reset rules table ;  # missing table_id
+
+reset rule  # premature EOS
+reset rule table_id  # premature EOS
+reset rule table_id chain_id # premature EOS
+reset rule ip  # premature EOS
+reset rule ip6  # premature EOS
+reset rule inet  # premature EOS
+reset rule netdev  # premature EOS
+reset rule bridge  # premature EOS
+reset rule arp  # premature EOS
+reset rule ip ipT    # premature EOS
+reset rule ip T C   # premature EOS
+reset rule ip T C offset 15  # wrong handle_spec
+
+

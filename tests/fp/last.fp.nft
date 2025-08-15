@@ -1,0 +1,8 @@
+
+################################################################################
+# false positive test: looks highlighted correctly; has bad content; oops.
+################################################################################
+
+add rule last
+add rule last used never
+add rule last used time_spec

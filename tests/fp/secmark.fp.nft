@@ -1,0 +1,15 @@
+
+################################################################################
+# false positive test: looks highlighted correctly; has bad content; oops.
+################################################################################
+
+secmark table_id 
+secmark myTable mySecMark 
+secmark myTable mySecMark ;
+
+add secmark table_id 
+add secmark myTable mySecMark 
+add secmark myTable mySecMark ;
+add secmark T SM { define my_var =  }; };
+
+

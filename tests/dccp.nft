@@ -2,30 +2,30 @@
 # File: dccp.nft
 # Description: A test NFT file to exercise 'dccp_hdr_field' Vim syntax highlightings.
 #
-# base_cmd add_cmd 'set' 
+# base_cmd add_cmd 'set'
 # nft_line/nft_base_cmd/nft_base_cmd_add/nft_base_cmd_add_set
 #
 ################################################################################
 # true positive test: properly hightlighted correctly; has good content; perfect
 ################################################################################
 
-add rule table_id chain_id dccp sport
-add rule table_id chain_id dccp dport
-add rule table_id chain_id dccp type
+add rule table_id chain_id dccp sport;
+add rule table_id chain_id dccp dport;
+add rule table_id chain_id dccp type;
 
-add rule table_id chain_id dccp option 15
+add rule table_id chain_id dccp option 15;
 
 
 ################################################################################
-# true negative test: properly hightlighted wrongly to show an error; 
+# true negative test: properly hightlighted wrongly to show an error;
 # so far, so good.
 ################################################################################
 
-add rule table_id chain_id dccp sport abc
-add rule table_id chain_id dccp sport def
-add rule table_id chain_id dccp sport ghi
+add rule table_id chain_id dccp sport abc;
+add rule table_id chain_id dccp sport def;
+add rule table_id chain_id dccp sport ghi;
 
-add rule table_id chain_id dccp option 15 jkl
+add rule table_id chain_id dccp option 15 jkl;
 
 
 ################################################################################
@@ -36,4 +36,4 @@ add rule table_id chain_id dccp option 15 jkl
 # false positive test: looks highlighted correctly; has bad content; oops.
 ################################################################################
 
-add rule table_id chain_id dccp $MYVAR
+add rule table_id chain_id dccp $MYVAR;

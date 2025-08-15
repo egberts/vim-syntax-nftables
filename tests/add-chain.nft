@@ -1,16 +1,19 @@
 #!/usr/sbin/nft -f
-# File: all-tables.nft
-# Description: A test NFT file to exercise 'add table' Vim syntax highlightings.
+# File: all-chain.nft
+# Description: A false positive test NFT file to exercise 'chain' Vim syntax highlightings.
 #
-# Identifiers begin with an alphabetic character (a-z,A-Z), 
-# followed by zero or more alphanumeric characters (a-z,A-Z,0-9) 
-# and the characters slash (/), backslash (\), underscore (_) 
-# and dot (.). 
+# Identifiers begin with an standard practice of allowing
+# alphabetic character (a-z,A-Z) for first character followed
+# by zero or more alphanumeric characters (a-z,A-Z,0-9),
+# characters dash (-), and underscore (_).
 #
-# Identifiers using different characters or clashing with a 
-# keyword need to be enclosed in double quotes (").  
+# Dot, backslash, forward slash are discourage as dot
+# confused nftable concatenation effort.
 #
-# base_cmd add_cmd 'table' 
+# base_cmd add_cmd 'chain'
+# base_cmd 'add' add_cmd 'chain'
+# base_cmd add_cmd 'table' TABLE_ID '{' table_block 'chain' CHAIN_ID '{' chain_block
+# base_cmd 'add' add_cmd 'table' TABLE_ID '{' table_block chain' CHAIN_ID {' chain_block
 # nft_line/nft_base_cmd/nft_base_cmd_add/nft_base_cmd_add_table/nft_add_table_chain_block policy_spec
 #
 ################################################################################
@@ -62,10 +65,8 @@ table T { chain C {
 # base_cmd add_cmd 'table' table_spec table_block 'comment' string
 table bridge T { chain { comment 'Hello world!' } }
 table T { chain C { comment "Hello world!" } }
-table T { chain C { comment *Hello world!* } }
 table netdev xxxx { chain C { comment "test" } ; }
 table xxxx { chain C { comment 'test' }; }
-table T { chain C { comment *Hello world!* ;  } }
 table arp xxxx { chain C { comment test;  }; }
 table T { chain C {
     comment Hello
@@ -76,11 +77,11 @@ table T { chain C {
 }
 
 # base_cmd add_cmd 'table' table_spec table_block chain_block flags_spec 'type'
-table T { chain C { flags offload} } };
+table T { chain C { flags offload} } ;
 
 table T { chain C { flags offload;} }
 table T { chain C { flags offload;}; };
-table T { chain C { flags offload ;} } };
+table T { chain C { flags offload ;} };
 table T {chain C { flags offload; } };
 table T {chain C { flags offload ; } };
 table T {chain C { flags offload ;}; };
@@ -88,16 +89,9 @@ table T {chain C { flags offload; }; };
 table T {chain C { flags offload ; }; };
 table T {chain C {  flags offload } };
 table T { chain C { flags offload; } };
-table T {chain C { flags offload,offload} };
-table T { chain C { flags offload, offload } };
 table T { chain C { flags offload; } ; };
-table T {chain C {  flags offload,offload} ;  };
-table T {chain C {  flags offload, offload } ;  };
 # base_cmd add_cmd 'table' table_spec table_block { table_options ';' } };
 table T { chain C { flags offload } ; };
-table ip xxxx { chain C { flags a, b, c}; };
-table xxxx { chain C { ; flags a, b, c; comment "new stuff"; }; };
-table T { chain C { flags a, b, c; chain C { type ; }; }; };
 
 table T {
 chain C {     # common_block
@@ -106,7 +100,7 @@ chain C {     # common_block
     redefine A = 2
     undefine A
     # table_option
-    flags a, b, c
+    flags offload;
     comment Hello
 } };
 
@@ -177,17 +171,8 @@ table T {
     chain S { }
 }
 
-add table T { 
-    chain C {
-        comment asdf 
-    }; 
-    chain D { }; 
-};
-
 
 # nft_line/nft_c_base_cmd/nft_base_cmd_add/nft_add_table_spec
-add table ip T { ip chain C { type ; }; } # comment ;   # supposed to be highlighted (incomplete type)
-add table ip T { ip chain C { type ; }; } ;   # supposed to be highlighted (incomplete type)
 table T { chain C { type filter hook ingress device $MY_DEVICE ; }; };
 table T { chain C { type filter hook ingress device $MY_DEVICE ; }; };
 table T { chain C { type filter hook ingress devices = $MY_DEVICE ; }; };
@@ -932,8 +917,28 @@ table ip6 firewall {
 table xxxx { undefine abc; chain last { chain last; undefine abc; }; };  # oopsie
 
 
+
+
+#!/usr/sbin/nft -f
+# File: all-chain.negative.nft
+# Description: A negative test NFT file to exercise 'chain'-related Vim syntax highlightings.
+#
+# Identifiers begin with an standard practice of allowing
+# alphabetic character (a-z,A-Z) for first character followed
+# by zero or more alphanumeric characters (a-z,A-Z,0-9),
+# characters dash (-), and underscore (_).
+#
+# Dot, backslash, forward slash are discourage as dot
+# confused nftable concatenation effort.
+#
+# base_cmd add_cmd 'chain'
+# base_cmd 'add' add_cmd chain'
+# base_cmd add_cmd 'table' table_cmd '{' table_block 'chain'
+# base_cmd 'add' add_cmd 'table' table_cmd 'chain' (not supported)
+# nft_line/nft_base_cmd/nft_base_cmd_add/nft_base_cmd_add_table/nft_add_table_chain_block policy_spec
+#
 ################################################################################
-# true negative test: properly hightlighted wrongly to show an error; 
+# true negative test: properly hightlighted wrongly to show an error;
 # so far, so good.
 ################################################################################
 
@@ -941,13 +946,13 @@ table "*weirdname"  # allowable '*' but only inside double quote???
 table "$weirdname"  # allowable '$' but only inside double quote???
 table "#weirdname"  # allowable '#' but only inside double quote???
 
-table ip 
-table ip6   
+table ip
+table ip6
 
 
 table inet  #
 
-table bridge ;  
+table bridge ;
 table netdev  # intentionally invalid; invalid table identifier
 table arp  # intentionally invalid; invalid table identifier
 table ip {  };
@@ -974,6 +979,7 @@ table T { chain C { devices = MYVARIABLE } }
 table T { chain C { devices = $MYVARIABLE } }
 
 table A!error
+
 
 
 ################################################################################
@@ -1003,7 +1009,6 @@ table T { chain C { devices = { eth0 } ; # comment
     }; # comment
 }; # comment
 table T { chain C { devices = { eth0 } }; };
-
 
 ################################################################################
 # false positive test: looks highlighted correctly; has bad content; oops.

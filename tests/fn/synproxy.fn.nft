@@ -1,0 +1,15 @@
+
+################################################################################
+# false negative test: highlighted wrongly; still has good content; oops.
+# TODO: Needs work
+################################################################################
+
+
+synproxy myTable https-synproxy {
+    mss 1460 wscale 7;
+    mss 1460
+    wscale 7  # trigger line here
+    timestamp sack-perm
+}
+
+

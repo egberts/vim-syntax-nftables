@@ -1,0 +1,9 @@
+################################################################################
+# true negative test: properly hightlighted wrongly to show an error;
+# so far, so good.
+################################################################################
+
+monitor wierd
+
+monitor new chains json vm
+

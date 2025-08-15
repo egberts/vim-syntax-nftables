@@ -2,7 +2,7 @@
 # File: destroy.nft
 # Description: A test NFT file to exercise 'destroy' Vim syntax highlightings.
 #
-# base_cmd 'destroy' destroy_cmd 
+# base_cmd 'destroy' destroy_cmd
 # nft_line/nft_base_cmd/nft_base_cmd_add/nft_base_cmd_add_set
 #
 ################################################################################

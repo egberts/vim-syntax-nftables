@@ -9,7 +9,7 @@
 #   'create' 'limit' obj_spec limit_obj limit_config close_scope_limit
 #   'delete' 'limit' obj_spec
 #   'delete' 'limit' objid_spec
-#   'delete' 'limit' ( obj_spec | objid_spec ) 
+#   'delete' 'limit' ( obj_spec | objid_spec )
 #   [ [ 'add' ] 'rule' ] 'limit'
 #   [ [ 'add' ] 'rule' ] 'limit' 'table' table_spec
 #

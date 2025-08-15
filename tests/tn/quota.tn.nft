@@ -1,0 +1,122 @@
+################################################################################
+# true negative test: properly hightlighted wrongly to show an error; 
+# so far, so good.
+################################################################################
+
+# quota statements
+add 
+
+
+add quota 
+
+
+add quota last  
+
+
+add quota filter 
+
+
+add quota filter http_quota { over 25 mbytes };
+add quota ip mangle eth0output over 500 mbytes
+add quota ip6 myIpfilter http_quota until 525 kbytes
+add quota inet myIpfilter http_quota over 25 mbytes
+add quota netdev myIpfilter http_quota over 25 mbytes;
+add quota bridge myIpfilter http-quota over 25 mbytes
+add quota arp myIpfilter http-quota over 25 mbytes
+
+quota 
+
+
+quota T 
+
+
+quota example 
+
+
+quota ip 
+
+
+quota ip myIpfilter 
+
+
+create 
+
+
+create quota 
+
+
+create quota filter 
+
+
+delete 
+
+
+delete quota 
+
+
+delete quota ip 
+
+
+delete quota ip table_name 
+
+
+delete quota inet myInetFilter position 234
+
+delete quota netdev table_name handle 
+
+
+list 
+
+
+list quota 
+
+
+list quota quota_name 
+
+
+list quota ip 
+
+
+list quota ip myTable 
+
+
+list quotas 
+
+
+list quotas table 
+
+
+list quotas table ip 
+
+
+reset quota 
+
+
+reset quota ip 
+
+
+reset quota myIpTable 
+
+
+reset quota myIpTable myChain extra
+
+
+reset quotas 
+
+
+reset quotas bridge 
+
+
+reset quotas bridge MyIpTable 
+
+
+reset quotas table 
+
+
+reset quotas table arp 
+
+
+reset quotas table arp MyIpTable 
+
+
+

@@ -1,0 +1,25 @@
+################################################################################
+# true negative test: properly hightlighted wrongly to show an error; 
+# so far, so good.
+################################################################################
+
+tableid chainid meter ;
+
+add rule T C index 1 comment "a comment quote";
+add rule T C index 1 comment "a comment quote";
+add rule      ip      T      C      position      1 comment "oh well";
+
+# Bison: identifier/table_spec/chain_spec/rule_position/'rule'/add_cmd/base_cmd/line
+rule myTableID myChainID { };
+rule my_table_id my_chain_id { };
+rule T C & 1;
+rule T C ! 1;
+rule T C [ 1;
+rule T C { 1;
+rule T C - 1;
+
+# Bison: identifier/table_spec/chain_spec/rule_position/'rule'/'add'/add_cmd/base_cmd/line
+add rule myTableID myChainID { };
+add rule my_table_id my_chain_id { };
+
+

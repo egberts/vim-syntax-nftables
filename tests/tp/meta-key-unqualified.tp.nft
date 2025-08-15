@@ -1,0 +1,220 @@
+#!/usr/sbin/nft -f
+# File: meta-key-unqualified.nft
+# Description: A test NFT file to exercise 'meta_key' Vim syntax highlightings.
+#
+# Note: for 'meta' as an statement ('meta_stmt') see test/meta-stmt.nft
+# Note: for 'meta' as an expression ('meta_expr') see test/meta-expr.nft
+# Note: for 'meta' as a key ('meta_key'), see test/meta-key.nft
+# Note: for unqualified 'meta', see test/meta-key-unqualified.nft
+# Note: for qualified 'meta', see test/meta-key-qualified.nft
+#
+# If it's followed by a set, it's likely meta_stmt.
+# If it's followed by a field name and then a comparison (==, <, etc.),
+# it's meta_expr.
+#
+# meta_stmt is followed by a set.
+# meta_expr is followed by a comparison.
+# meta_expr is followed by a field name.
+#
+#     meta subkey  Operand Type  Notes / Example
+#     iif          integer       Interface index
+#     oif          integer       Interface index
+#     iifname      string        "eth0"
+#     oifname      string        "wlan0"
+#     iifgroup     integer       Interface group ID
+#     oifgroup     integer       Interface group ID
+#     iiftype      integer       Interface type (see Linux if_arp.h)
+#     oiftype      integer       Interface type
+#     ibrname      string        Ingress bridge name
+#     obrname      string        Egress bridge name
+#     ibriport     string        Ingress bridge port name
+#     obriport     string        Egress bridge port name
+#     mark         integer       Packet mark
+#     priority     integer       Priority of packet (qdisc)
+#     length       integer       Packet length
+#     protocol     integer/symbolic    Layer 4 protocol (e.g., tcp)
+#     pkttype      symbolic      unicast, broadcast, multicast
+#     nfproto      symbolic      ip, ip6, inet, etc.
+#     rtclassid    integer       Routing class ID
+#     skuid        integer       Socket UID
+#     skgid        integer       Socket GID
+#     secmark      integer       SELinux security mark
+#     nftrace      boolean (0/1)    Packet tracing flag
+#     cgroup       integer       CGroup v2 classid
+#     ipsec        boolean (0/1)    Whether packet is IPsec encapsulated
+#     cpu          integer       CPU ID that handled the packet
+#     time         integer       Seconds since epoch
+#     day          symbolic      monday, tuesday, ..., sunday
+#     hour         integer (0–23)    Hour of day
+#
+# 'meta' keyword is almost always followed by a value (except maybe for 'random', 'nftrace', 'ipsec')
+#
+# There are a few meta keys that do not require a value and behave like flags:
+#    Meta key    Notes
+#    random      Used as a condition; no operand
+#    nftrace     Used as a condition; defaults to "set"
+#    ipsec       Acts like a boolean flag in conditionals
+#
+# But in some contexts (like expressions), they may still support an explicit value:
+#
+# meta nftrace == 1
+# meta ipsec == 0
+#
+# So:
+#
+#     In statements, meta nftrace can appear without a value.
+#
+#     In expressions, it usually appears with == 0/1 or similar.
+#
+#     Form               Requires Operand?    Example
+#     meta iifname       ✅ Yes               meta iifname "eth0"
+#     meta rtclassid     ✅ Yes               meta rtclassid 10
+#     meta random        ❌ No                meta random
+#     meta nftrace       ❌ No (usually)      meta nftrace
+#     meta nftrace == 1  ✅ Yes (expr)        meta nftrace == 1
+#     meta ipsec         ❌/✅ Depends        meta ipsec or meta ipsec 0
+#
+# Key Diagnostic: Try putting meta xyz in a log or set
+#
+#    If it makes sense to assign or print it, it’s being used as a meta_expr.
+#
+#    If it makes sense to use as a match, it’s a meta_stmt.
+#
+#⚠️ Gotchas
+#
+#    You cannot write meta random as a meta_expr. It’s only valid as a statement.
+#
+#    Some meta keys like secmark, nftrace, random are statement-only, not expressions.
+#
+################################################################################
+# true positive test: properly hightlighted correctly; has good content; perfect
+################################################################################
+
+# meta_stmt
+#
+# meta_stmt - flags only (support expression only in meta_expr)
+rule T C meta random;  # qualified META (requires 'meta' before it)
+rule T C ipsec;  # 'meta ipsec 0' only in meta_expr
+rule T C meta ipsec;  # 'meta ipsec 0' only in meta_expr
+rule T C nftrace 0;  # 'meta nftrace == 1' only in meta_expr
+rule T C meta nftrace set 1;  # 'meta nftrace == 1' only in meta_expr
+
+# meta_stmt - INTERNALS; found in scanner.c (not in parser_bison.y)
+# 'meta nfproto' is integer or string (as listed in /etc/protocol)
+rule inet T C meta nfproto 1;
+rule inet T C meta nfproto 1;
+rule inet T C meta nfproto inet;
+rule inet T C meta nfproto 2;
+rule inet T C meta nfproto ip;
+rule inet T C meta nfproto 3;
+rule inet T C meta nfproto arp;
+rule inet T C meta nfproto 7;
+rule inet T C meta nfproto bridge;
+rule inet T C meta nfproto 10;
+rule inet T C meta nfproto ip6;
+rule inet T C meta nfproto 12;
+rule inet T C meta nfproto netdev;
+# 'meta l4proto' is integer or string (as listed in Linux kernel include/uapi/linux/netfilter.h)
+rule inet T C meta l4proto 1;
+rule inet T C meta l4proto icmp;
+rule inet T C meta l4proto 6;
+rule inet T C meta l4proto tcp;
+rule inet T C meta l4proto 17;
+rule inet T C meta l4proto udp;
+
+# meta_stmt - unqualified META, with a value (no 'meta' needed)
+rule T C mark 64;  # length
+rule T C iif 2;
+rule T C iifname "eth0";  # L3 layer, by interface name
+rule T C iiftype 1;
+rule T C oif 4;
+rule T C oifname "wlan0";  # L3 layer, by interface name
+rule T C oiftype 1;
+rule T C skgid 14;
+rule T C skuid 14;
+rule T C rtclassid 14;
+rule T C ibriport "br0";  # L2 layer, by interface name
+rule T C obriport "br1";  # L2 layer, by interface name
+rule T C ibrname "under-bridge";
+rule T C obrname "over-bridge";
+rule T C pkttype broadcast;
+rule T C cpu 1;
+rule T C iifgroup 0;
+rule T C oifgroup 0;
+rule T C cgroup 1048577;
+rule T C time 12;
+rule T C day sunday;
+rule T C hour 0;
+rule T C hour 00;
+rule T C hour 9;
+rule T C hour 09;
+rule T C hour 10;
+rule T C hour 19;
+rule T C hour 20;
+rule T C hour 23;
+
+# meta_stmt - unqualified META, with a value (optional 'meta' used here)
+rule t c meta mark 0x01;
+rule t c meta mark 1234;
+rule T C meta mark 64;  # length
+rule T C meta mark 0x4;
+rule T C meta mark 0x1234;
+rule T C meta mark 0x00000032;
+rule T C meta iif 2;
+rule T C meta iifname "eth0";
+# iiftype/oiftype are listed in Linux kernel linux/if_arp.h file.
+rule T C meta iiftype 1;
+rule T C meta oif 4;
+rule T C meta oifname "wlan0";
+rule T C meta oiftype 1;
+rule T C meta skgid 14;
+rule T C meta skuid 14;
+# 'meta nftace' requires no argument, but still 'unqualified' (no 'meta' needed).
+# 'meta rtclassid' is used with 'realm' keyword, mnemonics are in /etc/iproute2/rt_realms
+rule T C meta rtclassid 14;
+rule T C meta ibriport "br0";
+rule T C meta obriport "br1";
+rule T C meta ibrname "under-bridge";
+rule T C meta ibrname "br0";
+rule T C meta obrname "under-bridge";
+rule T C meta pkttype broadcast;
+rule T C meta pkttype unicast;
+rule T C meta pkttype multicast;
+rule T C meta pkttype loopback;
+rule T C meta pkttype otherhost;
+rule T C meta pkttype outgoing;
+rule T C meta cpu 1;
+rule T C meta iifgroup 0;
+rule T C meta oifgroup 0;
+rule T C meta cgroup 1048577;
+rule T C meta cgroup 0x1;
+rule T C meta cgroup 0x01;
+rule T C meta cgroup 0x0123;
+rule T C meta cgroup 0x01234567;
+rule T C meta time 12;
+rule T C meta day Monday;
+rule T C meta day saturday;
+rule T C meta hour 23;
+rule T C meta hour 15;
+
+# meta_stmt - qualified META, with a value (requires 'meta' before it)
+rule T C meta length 1512;
+
+rule T C meta protocol loopback;
+rule T C meta protocol ip;
+rule T C meta protocol ip6;
+rule T C meta protocol arp;
+rule T C meta protocol mpls_uc;
+rule T C meta protocol mpls_mc;
+rule T C meta protocol 802_1q;
+rule T C meta protocol pppoe;
+rule T C meta protocol lldp;
+rule T C meta protocol qinq;
+rule T C meta protocol arp;
+
+rule T C meta priority none;
+
+rule T C meta secmark set 14;
+rule T C meta secmark set 42;
+
+

@@ -1,0 +1,38 @@
+################################################################################
+# false negative test: highlighted wrongly; still has good content; oops.
+################################################################################
+map ip T C { typeof b };
+map T C { typeof a.b.c.d.e.f };
+
+# online comment
+
+add map T C { typeof a : interval g.h };  # online comment
+add map T C { typeof a : interval .i };
+add map T C { typeof b.c.d.e.f : i.j };
+add map T C { typeof b.c.d.e.f : counter  };
+add map T C { typeof b.c.d.e.f : quota  };
+add map T C { typeof b.c.d.e.f : limit  };
+add map T C { typeof b.c.d.e.f : secmark  };
+add map T C { typeof b.c.d.e.f : synproxy  };
+add map T C { typeof b.c.d.e.f : ct timeout };
+add map T C { typeof b.c.d.e.f : ct expectation };
+add map T C { type time : };
+add map T C { type string : };
+add map T C { type mark : };
+add map T C { type dscp : };
+add map T C { type ecn : };
+add map T C { type classid : };
+add map T C { type mark.classid : };
+add map T C { type time : interval };
+add map T C { type time : interval time };
+add map T C { type time : interval string; };
+add map T C { type time : interval mark ; };
+add map T C { type time : interval dscp   ;  }
+add map T C { type time : interval ecn };
+add map T C { type time : interval classid };
+add map T C { 
+    define A = -15 ;
+    type time : interval classid
+};
+
+

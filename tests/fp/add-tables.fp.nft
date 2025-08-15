@@ -1,0 +1,16 @@
+################################################################################
+# false positive test: looks highlighted correctly; has bad content; oops.
+################################################################################
+
+add table last   # 'last' is a valid identifier, but confusing with 'last' special keyword
+
+table last   # 'last' is a valid identifier, but confusing with 'last' special keyword
+
+table A-   # invalid character
+
+# those are 'rule' table_spec, not 'add table' nor 'table'.
+# but 'rule' is here to ensure highlight consistency with each others.
+A$
+A^
+
+

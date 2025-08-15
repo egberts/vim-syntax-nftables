@@ -1,0 +1,51 @@
+#!/usr/sbin/nft -f
+# File: identifier.nft
+# Title: Test file for the initial 'identifier ' highlightings.
+# Description:
+#   Identifier that starts with from 1st column may imply
+#   a '[add] table' command.
+#
+# nftables manpage shows:
+#
+#   <table_id> <object_id> ...
+#   <family> <table_id> <object_id> ...
+#   rule <table_id> <object_id> ...
+#   rule <family> <table_id> <object_id> ...
+#   [rule] [family] table_id object_id ...
+#
+# Vim: nft_line/nft_base_cmd/nft_base_cmd_add/nft_base_cmd_add_table
+# Bison: identifier/table_spec/chain_spec/rule_position/add_cmd/base_cmd/line
+# Bison: identifier/table_spec/chain_spec/rule_position/'rule'/add_cmd/base_cmd/line
+# Bison: identifier/'ip|ip6|inet|netdev|bridge|arp'/family_spec_explicit/family_spec/table_spec/chain_spec/rule_position/add_cmd/base_cmd/line
+# Bison: identifier/'ip|ip6|inet|netdev|bridge|arp'/family_spec_explicit/family_spec/table_spec/chain_spec/rule_position/'rule'/add_cmd/base_cmd/line
+#
+################################################################################
+# true positive test (properly hightlighted correctly; has good content; perfect)
+################################################################################
+
+# Bison: identifier/table_spec/chain_spec/rule_position/add_cmd/base_cmd/line
+# NOTE: Stuck nft_common_block_undefine_error into nft_line
+myTableID myChainID accept ;
+my_table_id my_chain_id drop;
+
+# Bison: identifier/'ip|ip6|inet|netdev|bridge|arp'/family_spec_explicit/family_spec/table_spec/chain_spec/rule_position/add_cmd/base_cmd/line
+ip my_table_id my_chain_id goto X;
+ip6 my_table_id my_chain_id jump X;
+inet my_table_id my_chain_id continue;
+netdev my_table_id my_chain_id accept;
+bridge my_table_id my_chain_id drop;
+arp my_table_id my_chain_id continue;
+
+# Bison: identifier/'ip|ip6|inet|netdev|bridge|arp'/family_spec_explicit/family_spec/table_spec/chain_spec/rule_position/'rule'/add_cmd/base_cmd/line
+rule ip myTableID myChainID { };
+rule ip6 myTableID myChainID { };
+rule inet myTableID myChainID { };
+rule netdev myTableID myChainID { };
+rule bridge myTableID myChainID { };
+rule arp myTableID myChainID { };
+
+# multi-line
+table myTableID {
+    chain myChainID { };
+};
+

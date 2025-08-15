@@ -1,0 +1,22 @@
+################################################################################
+# false positive test: looks highlighted correctly; has bad content; oops.
+# (this is the part where additional Vimscript is needed)
+################################################################################
+
+# meta_stmt - unqualified META, with a value (no 'meta' needed)
+rule T C meta oifname { };
+rule T C meta skgid { };
+rule T C meta skuid { };
+
+rule T C meta mark ;  # missing info
+rule T C iif ;  # missing interface name
+
+
+rule T C meta iifgroup { };
+rule T C meta oifgroup { };
+
+# meta_stmt - qualified META, with a value (requires 'meta' before it)
+rule T C meta length 65536;
+rule T C meta length { };
+rule T C meta protocol ip;
+# 'meta random' - qualified META, but without a value

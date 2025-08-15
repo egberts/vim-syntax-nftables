@@ -1,0 +1,825 @@
+#!/usr/sbin/nft -f
+# File: ct.nft
+# Description: A test NFT file to exercise 'ct' Vim syntax highlightings.
+#
+# There are two syntaxes for 'ct' that must be kept separate due to the 
+# following convolution of primary_expr->basic_expr->primary_expr that
+# connects two syntaxes together to its top-level base_cmd/primary_expr:
+#
+#    ct_stmt
+#    ct_expr
+#
+# ct_stmt->stmt is used ONLY within add_cmd, rule_alloc, chain_block, chain_stmt, insert_cmd replace_cmd & meter_stmt_alloc
+# custom ct is used in list_cmd, delete_cmd, destroy_cmd
+# ct_expr is used ONLY after expr syntax
+#
+# ct_stmt/ct_expr are used in:
+#
+#   ct_stmt
+#   table ip filter {
+#     ct_stmt
+#     chain x {
+#         goto { ct_stmt }
+#         jump { ct_stmt }
+#         tcp dport 22 add @ssh_flood '{ ip saddr ct ct_expr}' reject
+#     }
+#   }
+#
+#
+# Both ct_stmt and ct_expr have nearly all identical 2nd sub-keywords
+# (except for breakaway standalone 'list ct helpers' syntax, note plural
+# form) but only ct_stmt have a mandatory 3rd keyword 'set' after
+# its sub-keywords.
+#
+# NFTABLES MANPAGE details the following syntaxes:
+#
+#   Connection Tracking Statement (ct_stmt)
+#
+#     The enforced syntax are:
+#
+#       [add rule ] ct {mark | event | label | zone} set value
+#
+#   Connection Tracking Expression (ct_expr)
+#
+#     The enforced syntax are:
+#
+#       ct {state | direction | status | mark | expiration | helper | label | count | id}
+#       ct [original | reply] {l3proto | protocol | bytes | packets | avgpkt | zone}
+#       ct {original | reply} {proto-src | proto-dst}
+#       ct {original | reply} {ip | ip6} {saddr | daddr}
+#
+#   Listing (list_cmd)
+#     The enforced syntax are:
+#
+#       list ct { timeout | expectation | helper | helpers } table [family] table
+#
+#   Delete (delete_cmd)
+#
+#       delete ct helper [family] table name
+#
+#   Connection Limit Statement (connlimit_stmt->stateful_stmt)
+#
+#       add rule tcp port 15 ct count over 15
+#
+# PARSER (BISON) details the following:
+#   According to parser_bison.y, the possible 2nd keywords after 'ct' in ct_expr syntax are
+#
+#     [add rule ] ct avgpkt
+#     ct bytes
+#     ct count   # not found in ct_stmt
+#     ct daddr
+#     ct direction
+#     ct event
+#     ct expiration
+#     ct helper
+#     ct id
+#     ct label
+#     ct l3proto
+#     ct mark
+#     ct original avgpkt
+#     ct original bytes
+#     ct original daddr
+#     ct original ip saddr
+#     ct original ip daddr
+#     ct original ip6 saddr
+#     ct original ip6 daddr
+#     ct original l3proto
+#     ct original packets
+#     ct original proto-src
+#     ct original proto-dst
+#     ct original protocol
+#     ct original saddr
+#     ct original zone
+#     ct packets
+#     ct proto-src
+#     ct proto-dst
+#     ct protocol
+#     ct reply avgpkt
+#     ct reply bytes
+#     ct reply daddr
+#     ct reply ip saddr
+#     ct reply ip daddr
+#     ct reply ip6 saddr
+#     ct reply ip6 daddr
+#     ct reply l3proto
+#     ct reply packets
+#     ct reply proto-src
+#     ct reply proto-dst
+#     ct reply protocol
+#     ct reply saddr
+#     ct reply zone
+#     ct saddr
+#     ct state
+#     ct status
+#     ct secmark
+#     ct zone
+#
+#   For ct_stmt, 2nd keywords after 'ct' syntax:
+#     [ add rule ] ct avgpkt set
+#     ct bytes set
+#     ct daddr set
+#     ct direction set
+#     ct event set
+#     ct expectation set
+#     ct expiration set
+#     ct helper set
+#     ct id set
+#     ct l3proto set
+#     ct label set
+#     ct mark set
+#     ct original bytes set
+#     ct original packets set
+#     ct original avgpkt set
+#     ct original zone set
+#     ct original set $VARIABLE
+#     ct packets
+#     ct proto-src set
+#     ct proto-dst set
+#     ct protocol set
+#     ct reply avgpkt set
+#     ct reply bytes set
+#     ct reply packets set
+#     ct reply set
+#     ct reply zone set
+#     ct saddr set
+#     ct secmark set
+#     ct state set
+#     ct status set
+#     ct zone
+#
+# Other syntax usage of 'ct' are given below for completeness:
+#
+#   list_cmd
+#     list ct expectations family_spec
+#     list ct expectations [ family_spec ] table_id ct_id
+#     list ct expectations table [ family_spec ] table_id
+#     list ct helper family_spec
+#     list ct helper  [ family_spec ] table_id ct_id
+#     list ct helpers table [ family_spec ] table_id
+#     list ct timeout family_spec
+#     list ct timeout [ family_spec ] table_id ct_id
+#     list ct timeout table [ family_spec ] table_id
+#   counter_cmd
+#     counter ct count <NUM>
+#     counter ct count over <NUM>
+#   add_cmd
+#     ct helper
+#     ct timeout
+#     ct expectation
+#     add ct helper
+#     add ct timeout
+#     add ct expectation
+#   create_cmd
+#     create ct helper
+#     create ct timeout
+#     create ct expectation
+#   delete_cmd
+#     delete ct helper
+#     delete ct timeout
+#     delete ct expectation
+#   destroy_cmd
+#     destroy ct helper
+#     destroy ct timeout
+#     destroy ct expectation
+#
+# Because of the different syntax pathway after ct's 2nd subkeyword,
+# all ct sub-keywords must be kept separate (and duplicated) between
+# ct_stmt and ct_expr.  This is important for a simple follow-on
+# parser used by syntax highlighters like Vim/NeoVim.
+#
+# Furthermore, a breakout of 2nd-subkeyword 'helpers' will be created
+# apart from
+#
+# The following keywords after ANY 'ct' keyword are (in lexical order):
+#
+#     avgpkt     ct_key_dir_optional->ct_key->'ct'->ct_expr->(primary_expr|primary_stmt_expr)
+#     bytes      ct_key_dir_optional->ct_key->'ct'->ct_expr->(primary_expr|primary_stmt_expr)
+#     daddr      ct_key->'ct'->ct_expr->(primary_expr|primary_stmt_expr)
+#     direction  ct_key->'ct'->ct_expr->(primary_expr|primary_stmt_expr)
+#     expiration ct_key->'ct'->ct_expr->(primary_expr|primary_stmt_expr)
+#     event      ct_key->'ct'->ct_expr->(primary_expr|primary_stmt_expr)
+#     helper     ct_key->'ct'->ct_expr->(primary_expr|primary_stmt_expr)
+#     id         ct_key->'ct'->ct_expr->(primary_expr|primary_stmt_expr)
+#     l3proto    ct_key->'ct'->ct_expr->(primary_expr|primary_stmt_expr)
+#     label      ct_key->'ct'->ct_expr->(primary_expr|primary_stmt_expr)
+#     mark       ct_key->'ct'->ct_expr->(primary_expr|primary_stmt_expr)
+#     original   ct_dir->'ct'->ct_expr->(primary_expr|primary_stmt_expr)
+#     packets    ct_key_dir_optional->ct_key->'ct'->ct_expr->(primary_expr|primary_stmt_expr)
+#     proto-src  ct_key->'ct'->ct_expr->(primary_expr|primary_stmt_expr)
+#     proto-dst  ct_key->'ct'->ct_expr->(primary_expr|primary_stmt_expr)
+#     protocol   ct_key->'ct'->ct_expr->(primary_expr|primary_stmt_expr)
+#     reply      ct_dir->'ct'->ct_expr->(primary_expr|primary_stmt_expr)
+#     saddr       ct_key->'ct'->ct_expr->(primary_expr|primary_stmt_expr)
+#     state      ct_key->'ct'->ct_expr->(primary_expr|primary_stmt_expr)
+#     status     ct_key->'ct'->ct_expr->(primary_expr|primary_stmt_expr)
+#     secmark    ct_key->'ct'->ct_expr->(primary_expr|primary_stmt_expr)
+#     zone       ct_key_dir_optional->ct_key->'ct'->ct_expr->(primary_expr|primary_stmt_expr)
+#
+#     expectation ct_obj_type->'delete'->delete_cmd->base_cmd
+#     expectation ct_obj_type->'destroy'->destroy_cmd->base_cmd
+#     expectation ct_obj_type->'list'->list_cmd->base_cmd
+#     expectation ct_cmd_type->'list'->list_cmd->base_cmd
+#     expectation 'ct'->add_cmd->base_cmd
+#     expectation create_cmd->base_cmd
+#     expectation table_block->'table'->add_cmd->base_cmd
+#     expectation table_block->create_cmd->base_cmd
+#     helper     'ct'->add_cmd->base_cmd
+#     helper     create_cmd->base_cmd
+#     helper     ct_obj_type->'delete'->delete_cmd->base_cmd
+#     helper     ct_obj_type->'destroy'->destroy_cmd->base_cmd
+#     helper     ct_obj_type->'list'->list_cmd->base_cmd
+#     helper     table_block->add_cmd->base_cmd
+#     helper     table_block->create_cmd->base_cmd
+#
+#     helpers    ct_cmd_type->'list'->list_cmd->base_cmd
+#     timeout    'ct'->add_cmd->base_cmd
+#     timeout    create_cmd->base_cmd
+#     timeout    ct_obj_type->'delete'->delete_cmd->base_cmd
+#     timeout    ct_obj_type->'destroy'->destroy_cmd->base_cmd
+#     timeout    ct_cmd_type->'list'->list_cmd->base_cmd
+#     timeout    ct_obj_type->'list'->list_cmd->base_cmd
+#     timeout    table_block->add_cmd->base_cmd
+#     timeout    table_block->create_cmd->base_cmd
+#
+#     avgpkt     'set' ct_key_dir_optional->ct_key->'ct'->ct_stmt->stmt
+#     bytes      'set' ct_key_dir_optional->ct_key->'ct'->ct_stmt->stmt
+#     daddr      'set' ct_key->'ct'->ct_stmt->stmt
+#     direction  'set' ct_key->'ct'->ct_stmt->stmt
+#     expiration 'set' ct_key->'ct'->ct_stmt->stmt
+#     event      'set' ct_key->'ct'->ct_stmt->stmt
+#     helper     'set' ct_key->'ct'->ct_stmt->stmt
+#     id         'set' ct_key->'ct'->ct_stmt->stmt
+#     l3proto    'set' ct_key->'ct'->ct_stmt->stmt
+#     label      'set' ct_key->'ct'->ct_stmt->stmt
+#     mark       'set' ct_key->'ct'->ct_stmt->stmt
+#     expectation 'set' 'ct'->objref_stmt_ct->objref_stmt->stmt
+#     original   'set' ct_dir->'ct'->ct_stmt->stmt
+#     packets    'set' ct_key_dir_optional->ct_key->'ct'->ct_stmt->stmt
+#     proto-src  'set' ct_key->'ct'->ct_stmt->stmt
+#     proto-dst  'set' ct_key->'ct'->ct_stmt->stmt
+#     protocol   'set' ct_key->'ct'->ct_stmt->stmt
+#     reply      'set' ct_dir->'ct'->ct_stmt->stmt
+#     saddr      'set' ct_key->'ct'->ct_stmt->stmt
+#     secmark    'set' ct_key->'ct'->ct_stmt->stmt
+#     state      'set' ct_key->'ct'->ct_stmt->stmt
+#     status     'set' ct_key->'ct'->ct_stmt->stmt
+#     zone       'set' ct_key_dir_optional->ct_key->'ct'->ct_stmt->stmt
+#     timeout    'set' 'ct'->objref_stmt_ct->objref_stmt->stmt
+#
+#
+# clarification on stmt, top-down approach
+#  stmt->
+#  concat_expr->basic_expr->primary_expr->hash_expr->expr->concat_expr->basic-expr->primary_expr->ct_expr
+#  primary_expr->basic_expr->primary_expr->hash_expr->expr->concat_expr->basic-expr->primary_expr->ct_expr
+#  base_cmd->describe_cmd->primary_expr->hash_expr->expr->concat_expr->basic-expr->primary_expr->ct_expr
+#  base_cmd->add_cmd->map_block->typeof_expr->primary_expr->hash_expr->expr->concat_expr->basic-expr->primary_expr->ct_expr
+#  base_cmd->create_cmd->map_block->typeof_expr->primary_expr->hash_expr->expr->concat_expr->basic-expr->primary_expr->ct_expr
+#  base_cmd->add_cmd->table_block->map_block->typeof_expr->primary_expr->hash_expr->expr->concat_expr->basic-expr->primary_expr->ct_expr
+#  base_cmd->add_cmd->table_block->map_block->typeof_data_expr->typeof_expr->primary_expr->hash_expr->expr->concat_expr->basic-expr->primary_expr->ct_expr
+#  base_cmd->add_cmd->set_block->typeof_key_expr->typeof_expr->primary_expr->hash_expr->expr->concat_expr->basic-expr->primary_expr->ct_expr
+#  base_cmd->create_cmd->set_block->typeof_key_expr->typeof_expr->primary_expr->hash_expr->expr->concat_expr->basic-expr->primary_expr->ct_expr
+#  base_cmd->add_cmd->table_block->set_block->typeof_key_expr->typeof_expr->primary_expr->hash_expr->expr->concat_expr->basic-expr->primary_expr->ct_expr
+#
+#  base_cmd->add_cmd->table_block->map_block->typeof_data_expr->typeof_verdict_expr->typeof_expr->primary_expr->hash_expr->expr->concat_expr->basic-expr->primary_expr->ct_expr
+#  base_cmd->add_cmd->table_block->map_block->typeof_verdict_expr->primary_expr->hash_expr->expr->concat_expr->basic-expr->primary_expr->ct_expr
+#  stmt->ct_stmt->stmt_expr->map_stmt_expr->concat_stmt_expr->primary_stmt_expr->hash_expr->expr->concat_expr->basic-expr->primary_expr->ct_expr
+#  stmt->dup_stmt->stmt_expr->map_stmt_expr->concat_stmt_expr->primary_stmt_expr->hash_expr->expr->concat_expr->basic-expr->primary_expr->ct_expr
+#  stmt->fwd_stmt->stmt_expr->map_stmt_expr->concat_stmt_expr->primary_stmt_expr->hash_expr->expr->concat_expr->basic-expr->primary_expr->ct_expr
+#  stmt->masq_stmt->masq_stmt_args->stmt_expr->map_stmt_expr->concat_stmt_expr->primary_stmt_expr->hash_expr->expr->concat_expr->basic-expr->primary_expr->ct_expr
+#  stmt->meta_stmt->stmt_expr->map_stmt_expr->concat_stmt_expr->primary_stmt_expr->hash_expr->expr->concat_expr->basic-expr->primary_expr->ct_expr
+#  stmt->nat_stmt->stmt_expr->map_stmt_expr->concat_stmt_expr->primary_stmt_expr->hash_expr->expr->concat_expr->basic-expr->primary_expr->ct_expr
+#  stmt->objref_stmt->objref_stmt_counter->stmt_expr->map_stmt_expr->concat_stmt_expr->primary_stmt_expr->hash_expr->expr->concat_expr->basic-expr->primary_expr->ct_expr
+#  stmt->objref_stmt->objref_stmt_ct->stmt_expr->map_stmt_expr->concat_stmt_expr->primary_stmt_expr->hash_expr->expr->concat_expr->basic-expr->primary_expr->ct_expr
+#  stmt->objref_stmt->objref_stmt_limit->stmt_expr->map_stmt_expr->concat_stmt_expr->primary_stmt_expr->hash_expr->expr->concat_expr->basic-expr->primary_expr->ct_expr
+#  stmt->objref_stmt->objref_stmt_quota->stmt_expr->map_stmt_expr->concat_stmt_expr->primary_stmt_expr->hash_expr->expr->concat_expr->basic-expr->primary_expr->ct_expr
+#  stmt->objref_stmt->objref_stmt_synproxy->stmt_expr->map_stmt_expr->concat_stmt_expr->primary_stmt_expr->hash_expr->expr->concat_expr->basic-expr->primary_expr->ct_expr
+#  stmt->payload_stmt->stmt_expr->map_stmt_expr->concat_stmt_expr->primary_stmt_expr->hash_expr->expr->concat_expr->basic-expr->primary_expr->ct_expr
+#  stmt->redir_stmt->redir_stmt_arg->stmt_expr->map_stmt_expr->concat_stmt_expr->primary_stmt_expr->hash_expr->expr->concat_expr->basic-expr->primary_expr->ct_expr
+#  stmt->tproxy_stmt->stmt_expr->map_stmt_expr->concat_stmt_expr->primary_stmt_expr->hash_expr->expr->concat_expr->basic-expr->primary_expr->ct_expr
+#  stmt->*->stmt_expr->map_stmt_expr->concat_stmt_expr->basic_stmt_expr->exclusive_or_stmt_expr->and_stmt_expr->shift_stmt_expr->primary_stmt_expr->hash_expr->expr->concat_expr->basic-expr->primary_expr->ct_expr
+#  stmt->*->stmt_expr->multiton_stmt_expr->prefix_stmt_expr->basic_stmt_expr->exclusive_or_stmt_expr->and_stmt_expr->shift_stmt_expr->primary_stmt_expr->hash_expr->expr->concat_expr->basic-expr->primary_expr->ct_expr
+#  concat_stmt_expr->primary_stmt_expr->basic_stmt_expr->exclusive_or_stmt_expr->and_stmt_expr->shift_stmt_expr->primary_stmt_expr->hash_expr->expr->concat_expr->basic-expr->primary_expr->ct_expr
+#  stmt->*->stmt_expr->map_stmt_expr->shift_stmt_expr->primary_stmt_expr->basic_stmt_expr->exclusive_or_stmt_expr->and_stmt_expr->shift_stmt_expr->primary_stmt_expr->hash_expr->expr->concat_expr->basic-expr->primary_expr->ct_expr
+#  stmt->*->stmt_expr->multiton_stmt_expr->range_stmt_expr->basic_stmt_expr->exclusive_or_stmt_expr->and_stmt_expr->shift_stmt_expr->primary_stmt_expr->hash_expr->expr->concat_expr->basic-expr->primary_expr->ct_expr
+#  stmt->queue_stmt->queue_stmt_expr->hash_expr->expr->concat_expr->basic-expr->primary_expr->ct_expr
+#  stmt->match_stmt->relational_expr->expr->concat_expr->basic-expr->primary_expr->ct_expr
+#  stmt->*->hash_expr->expr->map_expr->concat_expr->basic-expr->primary_expr->ct_expr
+#  stmt->match_stmt->relational_expr->expr->map_expr->concat_expr->basic-expr->primary_expr->ct_expr
+#  stmt->queue_stmt->queue_stmt_expr->map_expr->concat_expr->basic-expr->primary_expr->ct_expr
+#
+#  stmt->meter_stmt->meter_stmt_alloc->meter_key_expr->meter_key_expr_alloc->concat_expr->basic-expr->primary_expr->ct_expr
+#  stmt->map_stmt->set_elem_expr_stmt->set_elem_expr_stmt_alloc->concat_expr->basic-expr->primary_expr->ct_expr
+#  stmt->set_stmt->set_elem_expr_stmt->set_elem_expr_stmt_alloc->concat_expr->basic-expr->primary_expr->ct_expr
+#  stmt->verdict_stmt->verdict_map_stmt->concat_expr->basic-expr->primary_expr->ct_expr
+#
+#  primary_expr->basic-expr->primary_expr->ct_expr
+#  basic-expr->primary_expr->ct_expr
+#  base_cmd->describe_cmd->primary_expr->ct_expr
+#  typeof_expr->>primary_expr->ct_expr
+#  typeof_verdict_expr->>primary_expr->ct_expr
+#  primary_expr->ct_expr
+#  primary_stmt_expr->ct_expr
+#
+# Note:
+#   Syntax '*_cmd' is the command, often at the beginning of a line, block, or group.
+#   Syntax '*_stmt' is the statement, almost always after the 'add rule',
+#       'rule' or alone by itself on a line.
+#
+################################################################################
+# true positive test: properly hightlighted correctly; has good content; perfect
+################################################################################
+
+# Lexical: [ [ 'add' ] 'rule' ] ct_stmt
+# add_cmd without the 'add'
+#
+# Bison: ct helper <obj_spec> '{' }
+ct helper table_id ct_id { }
+
+# Bison: ct helper <obj_spec> '{' ';' '}'
+ct helper ip table_id ct_id { ; };
+
+# ct helper <obj_spec> '{' <common_block> '}'
+# ct helper <obj_spec> '{' <include> '}'
+ct helper ip table_id ct_id { 
+    include "ct-helper-rules.nft"; 
+};
+# ct helper <obj_spec> '{' <define> '}'
+ct helper ip table_id ct_id { 
+    define X = 1;
+};
+# ct helper <obj_spec> '{' <redefine> '}'
+ct helper ip table_id ct_id { 
+    redefine X = 1;
+};
+# ct helper <obj_spec> '{' <undefine> '}'
+ct helper ip table_id ct_id { 
+    undefine X;
+};
+
+# ct helper <obj_spec> '{' type <quoted_str> protocol <ct_l4protoname> '}'
+ct helper table_id { type "sip" protocol tcp; l3proto ip; }
+ct helper ip table_id cth { type "sip" protocol tcp; l3proto ip; }
+ct helper ip6 table_id cth { type "sip" protocol tcp; l3proto ip; }
+ct helper inet table_id cth { type "sip" protocol tcp; l3proto ip; }
+ct helper arp table_id cth { type "sip" protocol tcp; l3proto ip; }
+ct helper bridge table_id cth { type "sip" protocol tcp; l3proto ip; }
+ct helper netdev table_id cth { type "sip" protocol tcp; l3proto ip; }
+
+
+# Bison: CT HELPER obj_spec ct_obj ct_config '{' ct_block } close_scope_ct 
+# Bison: ct helper <obj_spec> '{' <ct_helper_block> }
+# Bison: ct helper <table_spec> '{' <ct_helper_block> }
+# Bison: ct helper <family_spec> <table_id> '{' <ct_helper_block> }
+# Syntax: obj_spec->'helper'->'ct'->add_cmd->base_cmd
+ct helper ip table_id ct_id l3proto zone set ip6 table_id { };
+ct helper ip6 table_id ct_id l3proto type sip zone set ip6 { };
+ct helper inet table_id ct_id l3proto zone set ip6 table_id { };
+ct helper netdev table_id ct_id l3proto zone set ip6 table_id { };
+ct helper bridge table_id ct_id l3proto zone set ip6 table_id { };
+ct helper arp table_id ct_id l3proto zone set ip6 table_id { };
+
+# obj_spec->'helper'->'ct'->'rule'->add_cmd->base_cmd
+rule ct helper ip table_id ct_id l3proto zone set ip6 table_id { };
+rule ct helper ip6 table_id ct_id l3proto type sip zone set ip6 { };
+rule ct helper inet table_id ct_id l3proto zone set ip6 table_id { };
+rule ct helper netdev table_id ct_id l3proto zone set ip6 table_id { };
+rule ct helper bridge table_id ct_id l3proto zone set ip6 table_id { };
+rule ct helper arp table_id ct_id l3proto zone set ip6 table_id { };
+
+# base_cmd add_cmd 'table' table_spec table_block 'ct' 'helper' ct_helper_block
+
+table T { ct helper CT {; }; };
+table ip T { ct helper CT {;} }
+table ip6 T { ct helper CT { };}
+table inet T { ct helper CT { } };
+table netdev T { ct helper CT { } }
+table bridge T { ct helper CT { } }
+table arp T { ct helper CT { } }
+table T { ct helper CT { type "MYTYPE" protocol tcp } }
+table T { ct helper CT { l3proto ip6 } }
+table T { ct helper CT { l3proto ip6; } }
+table T {
+    ct helper CT {
+        type "MYTYPE" protocol tcp;
+        l3proto bridge;
+    }
+}
+table T {
+    ct helper CT {
+        # common_block
+        include "/directory/subdirectory/filename.filetype"
+        define A = 1
+        redefine A = 2
+        undefine A;
+    }
+}
+
+# base_cmd add_cmd 'table' table_spec table_block 'ct' 'timeout' ct_timeout_block
+table T {
+    ct timeout CT {
+        protocol tcp
+        policy = { established : 1h };
+        protocol udp
+        policy = { replied : 1h, unreplied : 15 };
+        l3proto ip6;
+        # common_block
+        include "/directory/subdirectory/filename.filetype"
+        define A = 1
+        redefine A = 2
+        undefine A;
+        comment "some comments"
+    }
+}
+table T { ct timeout TO { } }
+table ip T { ct timeout TO { } }
+table ip6 T { ct timeout TO { } }
+table inet T { ct timeout TO { } }
+table netdev T { ct timeout TO { } }
+table bridge T { ct timeout TO { } }
+table arp T { ct timeout TO { } }
+table T { ct timeout TO { protocol tcp } }
+table T { ct timeout TO { l3proto ip6 } }
+table T { ct timeout TO { protocol udp policy = { unreplied : 126; }; }; };
+table T { ct timeout TO { protocol udp policy = { replied : 126; }; }; };
+table T { ct timeout TO { protocol udp policy = { unreplied:126, replied : 126; }; }; };
+table T { ct timeout TO { protocol tcp policy = { last_ack:15s, established : 1H15M } } }
+
+# base_cmd add_cmd 'table' table_spec table_block 'ct' 'expectation' ct_expect_block
+table T {
+    ct expectation CE {
+        # common_block
+        include "/directory/subdirectory/filename.filetype"
+        define A = 1
+        redefine A = 2
+        undefine A
+    }
+}
+table T { ct expectation CE { } }
+table ip T { ct expectation CE { } }
+table ip6 T { ct expectation CE { } }
+table inet T { ct expectation CE { } }
+table netdev T { ct expectation CE { } }
+table bridge T { ct expectation CE { } }
+table arp T { ct expectation CE { } }
+table T { ct expectation CE { protocol tcp } }
+table T { ct expectation CE { dport 23 } }
+table T { ct expectation CE { size 123 } }
+table T { ct expectation CE { timeout 15h } }
+table T { ct expectation CE { l3proto netdev } }
+table T {
+    ct expectation CE {
+        protocol tcp
+        dport 23
+        size 123
+        timeout 15h
+        l3proto netdev
+    }
+}
+
+# 'helper'->'ct'->'rule'->'add'->add_cmd->base_cmd
+add rule ct helper ip table_id l3proto zone set ip6 table_id { };
+add rule ct helper ip6 table_id l3proto type sip zone set ip6 { };
+add rule ct helper inet table_id l3proto zone set ip6 table_id { };
+add rule ct helper netdev table_id l3proto zone set ip6 table_id { };
+add rule ct helper bridge table_id l3proto zone set ip6 table_id { };
+add rule ct helper arp table_id l3proto zone set ip6 table_id { };
+#
+add rule table_id chain_id { ct helper ip table_id type l3proto zone set ip6 { }; }
+
+# ct helper <obj_spec> '{' <ct_helper_config> '}'
+add rule table_id chain_id { ct helper ip table_id type l3proto zone set ip6 { }; }
+
+# ct timeout obj_spec ct_obj_alloc '{' ct_timeout_block '}' close_scope_ct
+ct timeout  l3proto zone set ip6 table_id { };
+ct timeout table_id ctt { protocol udp; l3proto ip; policy = { unreplied : 15, replied : 12 }; }
+ct timeout netdev myNetdevTable ctt { protocol udp; l3proto ip; policy = { unreplied : 15, replied : 12 }; }
+ct timeout bridge myBridgeTable ctt { protocol udp; l3proto ip; policy = { unreplied : 15, replied : 12 }; }
+ct timeout arp myArpTable ctt { protocol udp; l3proto ip; policy = { unreplied : 15, replied : 12 }; }
+ct timeout ip table_id ctt { protocol udp; l3proto ip; policy = { unreplied : 15, replied : 12 }; }
+ct timeout ip6 myIp6Table ctt { protocol udp; l3proto ip; policy = { unreplied : 15, replied : 12 }; }
+ct timeout inet myInetTable ctt { protocol udp; l3proto ip; policy = { unreplied : 15, replied : 12 }; }
+
+ct timeout table_id agressive-tcp {
+        l3proto ip;
+        protocol tcp;
+        policy = {established: 100, close_wait: 4, close: 4}
+    }
+
+table ip filter {  # nftables manpage
+    ct timeout customtimeout {
+        protocol tcp;
+        l3proto ip
+        policy = { established: 120, close: 20 }
+    }
+
+    chain output {
+        type filter hook output priority filter; policy accept;
+        ct timeout set "customtimeout"
+    }
+}
+
+# Bison: ADD CT EXPECTATION obj_spec ct_obj_alloc '{' ct_expect_block '}' close_scope_ct
+ct expectation  l3proto zone set ip6 table_id { };
+ct expectation table_id myExpectation { ; } 
+ct expectation table_id e_pgsql {
+        protocol tcp
+        dport 5432
+        timeout 1h
+        size 12
+        l3proto ip
+    }
+
+# create_cmd
+# create ct helper  obj_spec ct_obj_alloc '{' ct_helper_block '}' close_scope_ct
+create ct helper table_id { };
+create ct helper table_id { ; }
+create ct helper table_id { ; };
+create ct helper table_id { type "sip" protocol tcp; l3proto ip; }
+create ct helper ip table_id cth { type "sip" protocol tcp; l3proto ip; }
+
+# create ct timeout  obj_spec ct_obj_alloc '{' ct_timeout_block '}' 
+create ct timeout
+create ct timeout table_id ctt { protocol udp; l3proto ip; policy = { unreplied : 15, replied : 12 }; }
+create ct timeout netdev myNetdevTable ctt { protocol udp; l3proto ip; policy = { unreplied : 15, replied : 12 }; }
+create ct timeout bridge myBridgeTable ctt { protocol udp; l3proto ip; policy = { unreplied : 15, replied : 12 }; }
+create ct timeout arp myArpTable ctt { protocol udp; l3proto ip; policy = { unreplied : 15, replied : 12 }; }
+create ct timeout ip table_id ctt { protocol udp; l3proto ip; policy = { unreplied : 15, replied : 12 }; }
+create ct timeout ip6 myIp6Table ctt { protocol udp; l3proto ip; policy = { unreplied : 15, replied : 12 }; }
+create ct timeout inet myInetTable ctt { protocol udp; l3proto ip; policy = { unreplied : 15, replied : 12 }; }
+create ct timeout table_id agressive-tcp {
+        l3proto ip;
+        protocol tcp;
+        policy = {established: 100, close_wait: 4, close: 4}
+    }
+
+# create ct expectation  obj_spec ct_obj_alloc '{' ct_expect_block '}' close_scope_ct
+create ct expectation table_id myExpectation { ; }
+create ct expectation table_id myExpectation { ; } 
+create ct expectation table_id e_pgsql {
+        protocol tcp
+        dport 5432
+        timeout 1h
+        size 12
+        l3proto ip
+    }
+
+# list_cmd
+list ct expectation table_id ct_id
+list ct expectation ip table_id ct_id
+list ct expectation ip6 table_id ct_id
+list ct expectation inet table_id ct_id
+list ct expectation netdev table_id ct_id
+list ct expectation bridge table_id ct_id
+list ct expectation arp table_id ct_id
+list ct expectation table table_id
+list ct expectation table ip table_id
+list ct expectation table ip6 table_id
+list ct expectation table inet table_id
+list ct expectation table netdev table_id
+list ct expectation table bridge table_id
+list ct expectation table arp table_id
+list ct helper table_id ct_id
+list ct helper ip table_id ct_id
+list ct helper ip6 table_id ct_id
+list ct helper net table_id ct_id
+list ct helper netdev table_id ct_id
+list ct helper bridge table_id ct_id
+list ct helper arp table_id ct_id
+
+# table_spec->'table'->'helpers'->list_cmd->base_cmd
+list ct helpers table table_id
+list ct helpers table ip table_id
+list ct helpers table ip6 table_id
+list ct helpers table inet table_id
+list ct helpers table netdev table_id
+list ct helpers table bridge table_id
+list ct helpers table arp table_id
+
+
+# table_spec->'table'->'helpers'->list_cmd->base_cmd
+list ct timeout table_id ct_id
+list ct timeout ip table_id ct_id
+list ct timeout ip6 table_id ct_id
+list ct timeout inet table_id ct_id
+list ct timeout netdev table_id ct_id
+list ct timeout bridge table_id ct_id
+list ct timeout arp table_id ct_id
+list ct timeout table table_id
+list ct timeout table ip table_id
+list ct timeout table ip6 table_id
+list ct timeout table inet table_id
+list ct timeout table netdev table_id
+list ct timeout table bridge table_id
+list ct timeout table arp table_id
+
+list ct helper table_id {}
+list ct helper table_id { };
+list ct helper table_id { ; }
+list ct helper table_id { ; };
+
+# delete_cmd
+# delete ct <ct_obj_type> <obj_spec> <ct_obj_alloc>
+delete ct helper table_id ct_id
+delete ct helper ip table_id ct_id
+delete ct helper ip6 table_id ct_id
+delete ct helper inet table_id ct_id
+delete ct helper netdev table_id ct_id
+delete ct helper bridge table_id ct_id
+delete ct helper arp table_id ct_id
+
+delete ct helper table_id {}
+delete ct helper table_id { };
+delete ct timeout
+delete ct expectation
+
+# destroy_cmd
+destroy ct helper
+destroy ct timeout
+destroy ct expectation
+
+destroy ct helper table_id {}
+destroy ct helper table_id { };
+
+
+# ct_expr
+T C position 1 ct helper set ip6 table_id myCTHchain { };
+T C position 1 ct original set ip table_id myCTHchain { };
+T C position 1 ct reply set inet table_id myCTHchain { };
+
+ip6 T C position 1 ct helper set ip6 table_id myCTHchain { };
+ip6 T C position 1 ct original set ip table_id myCTHchain { };
+ip6 T C position 1 ct reply set inet table_id myCTHchain { };
+
+rule ip6 table_id myChain position 1 ct helper set ip6 table_id myCTHchain { };
+rule ip6 table_id myChain position 1 ct original set ip table_id myCTHchain { };
+rule ip6 table_id myChain position 1 ct reply set inet table_id myCTHchain { };
+
+add rule ip6 table_id myChain position 1 ct proto zone set ip6 table_id myCTHchain { };
+add rule ip6 table_id myChain position 1 ct mark zone set ip6 table_id myCTHchain { };
+add rule ip6 table_id myChain position 1 ct state zone set ip6 table_id myCTHchain { };
+add rule ip6 table_id myChain position 1 ct direction zone set ip6 table_id myCTHchain { };
+add rule ip6 table_id myChain position 1 ct status zone set ip6 table_id myCTHchain { };
+add rule ip6 table_id myChain position 1 ct expiration zone set ip6 table_id myCTHchain { };
+add rule ip6 table_id myChain position 1 ct helper zone set ip6 table_id myCTHchain { };
+add rule ip6 table_id myChain position 1 ct saddr zone set ip6 table_id myCTHchain { };
+add rule ip6 table_id myChain position 1 ct daddr zone set ip6 table_id myCTHchain { };
+add rule ip6 table_id myChain position 1 ct proto-src zone set ip6 table_id myCTHchain { };
+add rule ip6 table_id myChain position 1 ct proto-dst zone set ip6 table_id myCTHchain { };
+add rule ip6 table_id myChain position 1 ct label zone set ip6 table_id myCTHchain { };
+add rule ip6 table_id myChain position 1 ct event zone set ip6 table_id myCTHchain { };
+add rule ip6 table_id myChain position 1 ct secmark zone set ip6 table_id myCTHchain { };
+add rule ip6 table_id myChain position 1 ct id zone set ip6 table_id myCTHchain { };
+
+add rule ip6 table_id myChain position 1 ct bytes set ip6 table_id myCTHchain { };
+add rule ip6 table_id myChain position 1 ct packets set ip6 table_id myCTHchain { };
+add rule ip6 table_id myChain position 1 ct avgpkt set ip6 table_id myCTHchain { };
+add rule ip6 table_id myChain position 1 ct zone set ip6 table_id myCTHchain { };
+
+add rule table_id myChain ct state { new, established, related, untracked }
+add rule table_id myChain ct state != related
+add rule table_id myChain ct state established
+add rule table_id myChain ct state 8
+add rule table_id myChain ct direction original
+add rule table_id myChain ct direction != original
+add rule table_id myChain ct direction { reply, original }
+add rule table_id myChain ct status expected
+add rule table_id myChain (ct status & expected) != expected
+add rule table_id myChain ct status { expected, seen-reply, assured, confirmed, snat, dnat, dying }
+add rule table_id myChain ct mark 0
+add rule table_id myChain ct mark or 0x23 == 0x11
+add rule table_id myChain ct mark or 0x3 != 0x1
+add rule table_id myChain ct mark and 0x23 == 0x11
+add rule table_id myChain ct mark and 0x3 != 0x1
+add rule table_id myChain ct mark xor 0x23 == 0x11
+add rule table_id myChain ct mark xor 0x3 != 0x1
+add rule table_id myChain ct mark 0x00000032
+add rule table_id myChain ct mark != 0x00000032
+add rule table_id myChain ct mark 0x00000032-0x00000045
+add rule table_id myChain ct mark != 0x00000032-0x00000045
+add rule table_id myChain ct mark { 0x32, 0x2222, 0x42de3 }
+add rule table_id myChain ct mark { 0x32-0x2222, 0x4444-0x42de3 }
+add rule table_id myChain ct mark set 0x11 xor 0x1331
+add rule table_id myChain ct mark set 0x11333 and 0x11
+add rule table_id myChain ct mark set 0x12 or 0x11
+add rule table_id myChain ct mark set 0x11
+add rule table_id myChain ct mark set mark
+add rule table_id myChain ct mark set mark map { 1 : 10, 2 : 20, 3 : 30 }
+add rule table_id myChain ct expiration 30
+add rule table_id myChain ct expiration 30s
+add rule table_id myChain ct expiration != 233
+add rule table_id myChain ct expiration != 3m53s
+add rule table_id myChain ct expiration 33-45
+add rule table_id myChain ct expiration 33s-45s
+add rule table_id myChain ct expiration != 33-45
+add rule table_id myChain ct expiration != 33s-45s
+add rule table_id myChain ct expiration { 33, 55, 67, 88 }
+add rule table_id myChain ct expiration { 1m7s, 33s, 55s, 1m28s }
+add rule table_id myChain ct helper "ftp"
+add rule table_id myChain ct original bytes > 100000
+add rule table_id myChain ct bytes > 100000
+add rule table_id myChain ct reply packets < 100
+add rule table_id myChain ct original ip saddr 192.168.0.1
+add rule table_id myChain ct reply ip saddr 192.168.0.1
+add rule table_id myChain ct original ip saddr 192.168.1.0/24
+add rule table_id myChain ct reply ip saddr 192.168.1.0/24
+add rule table_id myChain ct original ip daddr 192.168.0.1
+add rule table_id myChain ct reply ip daddr 192.168.0.1
+add rule table_id myChain ct original ip daddr 192.168.1.0/24
+add rule table_id myChain ct reply ip daddr 192.168.1.0/24
+add rule table_id myChain ct original l3proto ipv4
+add rule table_id myChain ct original protocol 6
+add rule table_id myChain ct original proto-dst 22
+add rule table_id myChain ct reply proto-src 53
+add rule table_id myChain ct count 2
+add rule table_id myChain ct count over 4
+
+# delete ct <ct_obj_type> <obj_spec> <ct_obj_alloc>
+delete ct timeout table_id ctt
+delete ct timeout ip table_id ctt
+delete ct timeout ip6 myIp6Table ctt
+delete ct timeout inet myInetTable ctt
+delete ct timeout netdev myNetdevTable ctt
+delete ct timeout bridge myBridgeTable ctt
+delete ct timeout arp myArpTable ctt
+
+delete ct expectation table_name quota_name 
+delete ct expectation ip table_name quota_name
+delete ct expectation ip6 table_name quota_name
+delete ct expectation inet table_name quota_name
+delete ct expectation netdev table_name quota_name
+delete ct expectation arp table_name quota_name
+delete ct expectation bridge table_name quota_name
+
+list chain table_name chain_name ct
+
+# 
+# connlimit_stmt->stateful_stmt->stmt->rule_position->rule->add_cmd
+ct count 123
+ct count 123
+rule ct count over 123
+add rule ct count over 15
+
+##########################################################################
+# complex
+##########################################################################
+table inet raw {  # nftables manpage
+  table inet raw
+  chain prerouting {
+      type filter hook prerouting priority raw;
+      ct zone set iif map { "eth1" : 1, "veth1" : 2 }
+  }
+  chain output {
+      type filter hook output priority raw;
+      ct zone set oif map { "eth1" : 1, "veth1" : 2 }
+  }
+}
+
+table ip filter {  # nftables manpage
+    ct timeout customtimeout {
+        protocol tcp;
+        l3proto ip
+        policy = { established: 120, close: 20 }
+    }
+    chain output {
+        type filter hook output priority filter; policy accept;
+        ct timeout set "customtimeout"
+    }
+}
+
+table inet myhelpers {  # nftables manpage
+    ct helper ftp-standard {
+        type "ftp" protocol tcp
+    }
+    chain prerouting {
+        type filter hook prerouting priority filter;
+        tcp dport 21 ct helper set "ftp-standard"
+    }
+}
+
+table inet raw {  # nftables manpage
+    chain prerouting {
+        type filter hook prerouting priority raw;
+        ct zone set iif map { "eth1" : 1, "veth1" : 2 }
+    }
+    chain output {
+        type filter hook output priority raw;
+        ct zone set oif map { "eth1" : 1, "veth1" : 2 }
+    }
+}
+ct event set new,related,destroy  # nftables manpage
+table ip x {
+    chain z {
+        type filter hook input priority filter; policy accept;
+        ct state invalid, untracked synproxy mss 1460 wscale 9 timestamp sack-perm
+        ct state invalid drop
+    }
+}
+
+table inet filter {  # nftables manpage
+    chain input {
+        type filter hook input priority filter; policy accept;
+        ct state established,related accept # handle 4
+        ip saddr 10.1.1.1 tcp dport ssh accept # handle 5
+    }
+}
+

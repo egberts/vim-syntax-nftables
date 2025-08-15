@@ -2,7 +2,7 @@
 # File: replace.nft
 # Description: A test NFT file to exercise 'replace' Vim syntax highlightings.
 #
-# base_cmd 'replace' 
+# base_cmd 'replace'
 # nft_line/nft_base_cmd/nft_base_cmd_replace
 #
 ################################################################################

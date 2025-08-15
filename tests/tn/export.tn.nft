@@ -1,0 +1,20 @@
+################################################################################
+# true negative test: properly hightlighted wrongly to show an error; 
+# so far, so good.
+################################################################################
+
+export ruleset vm xml
+export ruleset vm
+
+export 
+
+
+export rulset 
+
+
+export ruleset 
+
+
+export ruleset vm 
+
+

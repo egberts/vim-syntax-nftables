@@ -1,0 +1,8 @@
+################################################################################
+# false negative test: highlighted wrongly; still has good content; oops.
+################################################################################
+
+delete table bad-table-name
+delete table handle 123ABC
+delete table handle $ABC
+

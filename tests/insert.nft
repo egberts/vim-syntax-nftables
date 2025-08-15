@@ -2,7 +2,7 @@
 # File: insert.nft
 # Description: A test NFT file to exercise 'insert' Vim syntax highlightings.
 #
-# base_cmd add_cmd 'insert' 
+# base_cmd add_cmd 'insert'
 #
 ################################################################################
 # true positive test: properly hightlighted correctly; has good content; perfect

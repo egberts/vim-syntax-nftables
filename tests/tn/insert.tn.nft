@@ -1,0 +1,72 @@
+################################################################################
+# true negative test: properly hightlighted wrongly to show an error;
+# so far, so good)
+################################################################################
+
+insert 
+
+
+insert crapola
+
+
+insert ;
+
+insert rule 
+
+
+insert rule;
+
+
+insert rule table_id 
+
+
+insert rule table_id;
+
+insert rule what_family table_id 
+
+
+insert rule ip table_id 
+
+
+insert rule ip table_id;
+
+insert rule arp T C;
+
+insert rule arp T C 
+
+
+insert rule T C offset
+insert rule T last offset
+insert rule last C offset
+insert rule last last offset
+
+insert rule T C position 
+
+
+insert rule T C position;
+
+
+insert rule T C position abc
+
+insert rule T C handle 123
+insert rule T C index 123
+insert rule ip T C position 123
+insert rule ip T C handle 123
+insert rule ip T C index 123
+insert rule ip6 T C position 123
+insert rule ip6 T C handle 123
+insert rule ip6 T C index 123
+insert rule inet T C position 123
+insert rule inet T C handle 123
+insert rule inet T C index 123
+insert rule netdev T C position 123
+insert rule netdev T C handle 123
+insert rule netdev T C index 123
+insert rule bridge T C position 123
+insert rule bridge T C handle 123
+insert rule bridge T C index 123
+insert rule arp T C position 123
+insert rule arp T C handle 123
+insert rule arp T C index 123
+
+

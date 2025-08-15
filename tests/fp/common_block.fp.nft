@@ -1,0 +1,33 @@
+
+################################################################################
+# false positive test: looks highlighted correctly; has bad content; oops.
+################################################################################
+
+oppsie
+
+define  ;
+define A  
+
+define last  
+
+define A x 1
+define A | 1
+define A & 1
+
+define A =  ;
+define last = 
+define ABC = -1: 
+define last = -1: 
+define ABC = { x , };
+define last = { x , };
+
+
+
+undefine A$A123DH 
+undefine $A123DH 
+undefine & 
+undefine $ 
+undefine A;BCDE;
+undefine last
+asdf asdf { };
+

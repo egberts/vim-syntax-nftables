@@ -1,0 +1,8 @@
+
+################################################################################
+# false positive test: looks highlighted correctly; has bad content; oops.
+################################################################################
+
+insert rule crap\table/+name chain\id
+insert rule table-id
+

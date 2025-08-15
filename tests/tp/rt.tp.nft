@@ -1,0 +1,23 @@
+#!/usr/sbin/nft -f
+# File: rt.nft
+# Description: A test NFT file to exercise '[add] rt' Vim syntax highlightings.
+#
+# base_cmd add_cmd 'rt'
+# nft_line/nft_base_cmd/nft_base_cmd_add/nft_base_cmd_add_rt
+#
+################################################################################
+# true positive test: properly hightlighted correctly; has good content; perfect
+################################################################################
+
+add rule T C rt classid 
+add rule T C rt nexthop 
+add rule T C rt mtu 
+add rule T C rt ipsec 
+
+
+add rule T C rt ip classid 
+
+
+add rule T C rt ip6 classid 
+
+

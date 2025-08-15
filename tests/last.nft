@@ -16,9 +16,6 @@ last used time_spec
 rule last
 rule last used never
 rule last used time_spec
-add rule last
-add rule last used never
-add rule last used time_spec
 
 # 'last'->last_stmt->stateful_stmt->stmt->rule_alloc->rule->chain_block
 table T {
@@ -69,3 +66,6 @@ last used never again
 # false positive test: looks highlighted correctly; has bad content; oops.
 ################################################################################
 
+add rule last
+add rule last used never
+add rule last used time_spec

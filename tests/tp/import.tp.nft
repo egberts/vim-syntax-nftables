@@ -1,0 +1,16 @@
+#!/usr/sbin/nft -f
+# File: import.nft
+# Description: Test NFT file to exercise 'import' Vim syntax highlightings.
+#
+# base_cmd  import_cmd
+#
+
+################################################################################
+# true positive test: properly hightlighted correctly; has good content; perfect
+################################################################################
+
+import ruleset xml
+import ruleset vm json
+import ruleset json
+
+

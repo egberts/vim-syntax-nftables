@@ -1,0 +1,31 @@
+################################################################################
+# true negative test: properly hightlighted wrongly to show an error;
+# so far, so good.
+################################################################################
+
+flush table MyTable InvalidChain  # intentional invalid
+flush table ip MyTable InvalidChain  # intentional invalid
+flush table arp MyTable InvalidChain  # intentional invalid
+flush table arp MyTable  xyz
+flush table MyTable unwanted stuff; 
+flush chain MyTable MyChain XYZ ; 
+flush chain arp MyTable MyChain ExtraIdentifier  # intentional invalid
+flush chain wrong_family_spec ip MyTable MyChain  # intentional invalid
+flush set MyTable MyChain ExtraIdentifier  # intentional invalid
+flush set arp MyTable MyChain ExtraIdentifier  # intentional invalid
+flush set ip table_id set_id  xyz
+flush map MyTable MyChain ExtraIdentifier  # intentional invalid
+flush map arp MyTable MyChain ExtraIdentifier  # intentional invalid
+flush map table_id MyMap  xyz
+flush flow MyFlow MyChain ExtraIdentifier  # intentional invalid
+flush flow table arp table_id flow_id  xyz
+flush flow table MyFlow MyChain ExtraIdentifier  # intentional invalid
+flush flow table ip MyFlow MyChain ExtraIdentifier  # intentional invalid
+flush meter MyTable MyChain ExtraIdentifier  # intentional invalid
+flush meter arp MyTable MyChain ExtraIdentifier  # intentional invalid
+flush meter bridge table_id MyMap  xyz
+flush ruleset netdev  # intentional invalid; netdev is not a flushable
+flush ruleset bridge  # intentional invalid; bridge is not a flushable
+flush ruleset arp  # intentional invalid; arp is not a flushable
+
+

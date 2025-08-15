@@ -1,0 +1,16 @@
+################################################################################
+# false negative test: highlighted wrongly; still has good content; oops.
+################################################################################
+
+identifier_table chain_identifierposition15
+identifier_table chain_identifier position15
+identifier_table chain_identifierposition 15
+
+T C rtclassid xyz ;
+rule T C rtclassid xyz ;
+add rule T C rtclassid xyz ;
+add T C rtclassid xyz ;
+
+rule T C rtclassid redirect A ;
+
+

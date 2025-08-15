@@ -1,0 +1,26 @@
+################################################################################
+# false positive test: looks highlighted correctly; has bad content; oops.
+################################################################################
+
+add counter
+
+counter
+  
+ 
+counter T C packet !xxx
+counter T C packet 123 xxx xxx; 
+counter T last packet !xxx
+counter T last packet 123 xxx xxx; 
+counter T last xxx
+counter T last 123 
+
+counter T C { automerge }  # non-supporting block option
+add counter T C { automerge }  # non-supporting block option
+
+counter T C&  # invalid character
+counter T C+  # invalid character
+counter T C=  # invalid character
+counter T C)  # invalid character
+
+
+

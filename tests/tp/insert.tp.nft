@@ -1,0 +1,45 @@
+#!/usr/sbin/nft -f
+# File: insert.nft
+# Description: A test NFT file to exercise 'insert' Vim syntax highlightings.
+#
+# base_cmd add_cmd 'insert'
+#
+################################################################################
+# true positive test: properly hightlighted correctly; has good content; perfect
+################################################################################
+
+# base_cmd 'insert'
+# 'rule'->insert_cmd->'insert'->line
+# chain_spec->table_spec->'rule'->insert_cmd->'insert'->line
+
+insert rule T C
+insert rule ip T C
+insert rule ip6 T C
+insert rule inet T C
+insert rule netdev T C
+insert rule bridge T C
+insert rule arp T C
+
+insert rule T C position 123
+insert rule T C handle 123
+insert rule T C index 123
+insert rule ip T C position 123
+insert rule ip T C handle 123
+insert rule ip T C index 123
+insert rule ip6 T C position 123
+insert rule ip6 T C handle 123
+insert rule ip6 T C index 123
+insert rule inet T C position 123
+insert rule inet T C handle 123
+insert rule inet T C index 123
+insert rule netdev T C position 123
+insert rule netdev T C handle 123
+insert rule netdev T C index 123
+insert rule bridge T C position 123
+insert rule bridge T C handle 123
+insert rule bridge T C index 123
+insert rule arp T C position 123
+insert rule arp T C handle 123
+insert rule arp T C index 123
+
+

@@ -1,0 +1,144 @@
+################################################################################
+# true negative test: properly hightlighted wrongly to show an error;
+# so far, so good)
+################################################################################
+
+# meta_stmt - INTERNALS; found in scanner.c (not in parser_bison.y)
+rule inet T C meta nfproto;
+rule inet T C meta nfproto abcde;
+rule inet T C meta l4proto;
+rule inet T C meta l4proto abc;
+rule inet T C meta l4proto { abc };
+
+# meta_stmt - no value
+rule T C ipsec 1234;  # value only accepts '0' or '1', or 'exists' or 'missing'
+rule T C meta ipsec 1234;  # value only accepts '0' or '1', or 'exists' or 'missing'
+rule T C meta ipsec;  # missing keyword value
+
+rule T C nftrace 1234;  # 'meta nftrace == 1' only in meta_expr
+rule T C meta nftrace 1234;  # 'meta nftrace == 1' only in meta_expr
+
+rule T C meta random 1234;  # cannot use a value to start
+rule T C meta random abc;  # only 'mod' enum supported
+
+rule T C meta mark == abc;  # non-integer is invalid
+rule T C meta mark != abc;
+rule T C meta mark <= abc;
+rule T C meta mark >= abc;
+
+rule T C iif;  # missing interface name
+rule T C meta iif;  # missing interface name
+rule T C meta iif lo accept;  # missing interface index (integer)
+rule T C meta iif eth0;  # missing interface index (integer)
+rule T C meta iif != eth0;
+
+rule T C iifname;  # missing interface name
+rule T C meta iifname;  # missing interface name
+rule T C meta iifname eth0;  # missing double-quote
+rule T C meta iifname "eth-0_b*";  # no wildcard allowed
+rule T C meta oifname wlan0;  # missing double-quote
+rule T C meta oifname "eth*";
+
+rule T C iiftype;  # missing interface type
+rule T C meta iiftype;  # missing interface type
+rule T C meta iiftype ether;  # can only handle integer
+rule T C meta iiftype != ether;  # can only handle integer
+rule T C meta iiftype { ether, ppp, ipip, ipip6, loopback, sit, ipgre };  # can only handle integer
+rule T C meta iiftype wlan;  # can only handle integer
+
+rule T C oif;  # missing interface name
+rule T C meta oif;  # missing interface name
+rule T C meta oif != lo;
+rule T C meta oif lo;
+
+rule T C oiftype;  # missing interface type
+rule T C meta oiftype;  # missing interface type
+rule T C meta oiftype ether;  # can only handle integer
+rule T C meta oiftype != ether;  # can only handle integer
+rule T C meta oiftype { ether, ppp, ipip, ipip6, loopback, sit, ipgre };  # can only handle integer
+rule T C meta oiftype wlan;  # can only handle integer
+
+rule T C meta skuid;  # missing socket_uid_t
+rule T C meta skuid 99999999999;  # too many digits for 32-bit
+rule T C meta skuid abc-3001;
+rule T C meta skuid 3001-abc;
+rule T C meta skuid { abc };
+
+rule T C skgid;  # missing socket gid_t
+rule T C meta skgid 99999999999;  # too many digits for 32-bit
+rule T C meta skgid abc-3001;
+rule T C meta skgid 3001-abc;
+rule T C meta skuid { abc };
+
+rule T C meta nftrace 1;  # no argument expected for meta_stmt state.
+rule T C meta nftrace abc;  # no argument expected for meta_stmt state.
+
+rule T C meta rtclassid;  # missing route index number
+rule T C meta rtclassid 123456;  # too many digits for 16-bit
+rule T C meta rtclassid cosmos;  # no mnemonic in 'meta rtclassid', but you can with 'realm'
+
+rule T C meta ibriport;  # missing bridge interface name
+rule T C meta ibriport 123;  # double-quote missing
+rule T C meta ibriport "0bcdef";  # device name starts with alpha-only
+
+rule T C meta obriport;  # missing bridge interface name
+rule T C meta obriport 123;  # double-quote missing
+rule T C meta obriport "0bcdef";  # device name starts with alpha-only
+
+rule T C meta ibrname;  # missing bridge interface name
+rule T C meta ibrname 123;  # double-quote missing
+rule T C meta ibrname "0bcdef";  # device name starts with alpha-only
+
+rule T C meta obrname;  # missing bridge interface name
+rule T C meta obrname 123;  # double-quote missing
+rule T C meta obrname "0bcdef";  # device name starts with alpha-only
+
+rule T C meta pkttype;  # missing packet type
+rule T C meta pkttype 1;   # mnemonic-only (no integer)
+rule T C meta pkttype alternet;   # invalid packet type
+
+rule T C cpu;
+rule T C cpu abc;
+rule T C meta abc;
+rule T C meta cpu abc;
+
+rule T C iifgroup;
+rule T C iifgroup abc;
+
+rule T C oifgroup;
+rule T C oifgroup abc;
+
+rule T C cgroup;
+rule T C cgroup abc;
+
+rule T C day;
+rule T C day wHiNeSdAy;
+rule T C day Flukesday;
+
+rule T C hour;
+rule T C hour 24;
+
+rule T C length 123;  # 'meta' missing (qualified)
+rule T C length abc;  # 'meta' missing (qualified)
+rule T C meta length 165536;  # too many digits for 16-bit 
+rule T C meta length abc;  # integer expected
+rule T C meta length abc-45;
+rule T C meta length 33-abc;
+
+rule T C protocol; # 'meta' missing (qualified)
+rule T C protocol tcp;  # 'meta' missing (qualified)
+rule T C meta protocol; # missing protocol
+rule T C meta protocol napster;   # non-existant protocol name
+rule T C meta protocol "802.1q";
+rule T C meta protocol 802_1q;
+
+rule T C priority abc;   # 'meta' missing (qualified)
+rule T C priority default;   # 'meta' missing (qualified)
+rule T C meta priority;
+
+rule T C secmark;  # missing 'set' (this here is meta_stmt, not meta_expr)
+rule T C secmark 12345678901;  # too many digits for 32-bit
+rule T C meta secmark;  # missing integer
+rule T C meta secmark 12345678901;  # too many digits
+
+

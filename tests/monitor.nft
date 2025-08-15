@@ -13,9 +13,9 @@ monitor   ### sanity test
 # true positive test: properly hightlighted correctly; has good content; perfect
 ################################################################################
 
-# monitor <monitor_event> 
+# monitor <monitor_event>
 monitor new  # monitor 'ANY'
-# monitor <monitor_event> <monitor_object> 
+# monitor <monitor_event> <monitor_object>
 monitor new tables 
 monitor new chains
 monitor new sets

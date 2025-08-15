@@ -1,0 +1,10 @@
+
+################################################################################
+# false negative test: highlighted wrongly; still has good content; oops.
+################################################################################
+
+T C position 12 comment "yet another comment"
+T C handle 12
+T C index 12
+
+

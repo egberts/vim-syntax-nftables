@@ -2,7 +2,7 @@
 # File: quota.nft
 # Description: Test NFT file to exercise '[add] quota' Vim syntax highlightings.
 #
-# base_cmd add_cmd 'quota' 
+# base_cmd add_cmd 'quota'
 # nft_line/nft_base_cmd/nft_base_cmd_add/nft_base_cmd_add_quota
 #
 ################################################################################

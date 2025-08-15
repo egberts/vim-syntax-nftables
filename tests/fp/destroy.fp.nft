@@ -1,0 +1,17 @@
+
+################################################################################
+# false positive test: looks highlighted correctly; has bad content; oops.
+################################################################################
+
+destroytable T
+
+# tableid_spec->'table'->destroy_cmd->'destroy'->base_cmd->line
+destroy table handle123   # highlight 'handle' if it is part of the table identifier?
+destroy table ip handle123
+destroy table ip6 handle123
+destroy table inet handle123
+destroy table netdev handle123
+destroy table bridge handle123
+destroy table arp handle123
+
+

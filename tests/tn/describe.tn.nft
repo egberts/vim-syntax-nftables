@@ -1,0 +1,13 @@
+################################################################################
+# true negative test: properly hightlighted wrongly to show an error; 
+# so far, so good.
+################################################################################
+
+describe 
+
+
+describe rt0 addr [   ]
+describe rt0 addr []
+describe rt0 addr [ abcdefghi ]  # oopsie
+
+

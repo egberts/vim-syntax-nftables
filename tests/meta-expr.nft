@@ -55,14 +55,14 @@
 #    ipsec       Acts like a boolean flag in conditionals
 #
 # But in some contexts (like expressions), they may still support an explicit value:
-# 
+#
 # meta nftrace == 1
 # meta ipsec == 0
-# 
+#
 # So:
-# 
+#
 #     In statements, meta nftrace can appear without a value.
-# 
+#
 #     In expressions, it usually appears with == 0/1 or similar.
 #
 #     Form               Requires Operand?    Example
@@ -74,7 +74,7 @@
 #     meta ipsec         ❌/✅ Depends        meta ipsec or meta ipsec 0
 #
 # Key Diagnostic: Try putting meta xyz in a log or set
-# 
+#
 #    If it makes sense to assign or print it, it’s being used as a meta_expr.
 #
 #    If it makes sense to use as a match, it’s a meta_stmt.

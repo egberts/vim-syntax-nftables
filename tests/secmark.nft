@@ -2,8 +2,8 @@
 # File: secmark.nft
 # Description: A test NFT file to exercise 'secmark' Vim syntax highlightings.
 #
-# base_cmd 'secmark' 
-# base_cmd add_cmd 'secmark' 
+# base_cmd 'secmark'
+# base_cmd add_cmd 'secmark'
 # nft_line/nft_base_cmd/nft_base_cmd_add/nft_base_cmd_keyword_secmark
 #
 ################################################################################

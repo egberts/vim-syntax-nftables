@@ -1,0 +1,44 @@
+################################################################################
+# true negative test: properly hightlighted wrongly to show an error; 
+# so far, so good.
+################################################################################
+
+table "*weirdname"  # allowable '*' but only inside double quote???
+table "$weirdname"  # allowable '$' but only inside double quote???
+table "#weirdname"  # allowable '#' but only inside double quote???
+
+table ip 
+table ip6   
+
+
+table inet  #
+
+table bridge ;  
+table netdev  # intentionally invalid; invalid table identifier
+table arp  # intentionally invalid; invalid table identifier
+table ip {  };
+
+table 0   # invalid identifier (started with non-letter)
+table 0abc   # invalid identifier (started with non-letter)
+table /abc   # invalid identifier (started with non-letter)
+table \abc   # invalid identifier (started with non-letter)
+table _abc   # invalid identifier (started with non-letter)
+table .abc   # invalid identifier (started with non-letter)
+
+table T { devices = eth0 }
+
+table T { chain C { type filter hook ingress ; }; };  # incomplete
+table T { chain C { type filter hook ingress devices ; }; };  # incomplete
+table T { chain C { type filter hook ingress devices = ; }; };  # incomplete
+
+table T { chain C { type filter hook ingress device eth0 priority ; }; };  # incomplete
+
+table T { chain C { devices =    $eth0,$ABC,$DEF;  }; };
+table T { chain C { devices ={ $MYVARIABLE; } } }
+table T { chain C { devices ={ MYVARIABLE } } }
+table T { chain C { devices = MYVARIABLE } }
+table T { chain C { devices = $MYVARIABLE } }
+
+table A!error
+
+
