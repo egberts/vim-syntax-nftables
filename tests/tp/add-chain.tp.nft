@@ -20,40 +20,44 @@
 # true positive test (properly hightlighted correctly; has good content; perfect
 ################################################################################
 
+add table T;
 add chain T C;
 
 # base_cmd add_cmd 'table' table_spec table_block chain_block common_block 'include'
 table T {
     chain C {
-        include "file"
+        include "rule-counter.tp.nft"
     }
-}
-# base_cmd add_cmd 'table' table_spec table_block chain_block common_block 'define'
-table T
-{
-    chain C
-    {
+};
+table T {
+    chain C {
         define A = 1
     }
 }
 table T { chain C {
     define A = 1 
-    define A = 1 ;
-    define last = 1
-    define last = 1 ;
+    redefine A = 1 ;
+    undefine A;
+    define last = 1 ; # not an ideal variable name (reserved word)
+    redefine last = 1 ;
     define A = {} ;
     }
 }
 # base_cmd add_cmd 'table' table_spec table_block chain_block common_block 'redefine'
-table T { chain C { redefine A = 1 } }
-table T { chain C { redefine A = 1; } }
+table T { chain C { redefine A = 1; }; };
+
+table T { chain C { redefine A = 1; }; }
+
+
+add table T;
+
 table T { chain C {
     redefine A = 1
     redefine A = 1 ;
     }
 }
 # base_cmd add_cmd 'table' table_spec table_block chain_block common_block 'undefine'
-table xxxx { chain C { undefine abc ; } }
+
 table xxxx { chain C { undefine abc ; } ; }
 table T { chain C {
     undefine A
@@ -63,46 +67,20 @@ table T { chain C {
 
 # base_cmd add_cmd 'table' table_spec table_block chain_block common_block 'comment'
 # base_cmd add_cmd 'table' table_spec table_block 'comment' string
-table bridge T { chain { comment 'Hello world!' } }
-table T { chain C { comment "Hello world!" } }
-table netdev xxxx { chain C { comment "test" } ; }
-table xxxx { chain C { comment 'test' }; }
+
+
+
+table xxxx { chain C { comment "test"; }; }
 table arp xxxx { chain C { comment test;  }; }
-table T { chain C {
-    comment Hello
-    comment Hello
-    comment Hello
-    comment Hello
-    }
-}
+
 
 # base_cmd add_cmd 'table' table_spec table_block chain_block flags_spec 'type'
-table T { chain C { flags offload} } ;
 
-table T { chain C { flags offload;} }
-table T { chain C { flags offload;}; };
-table T { chain C { flags offload ;} };
-table T {chain C { flags offload; } };
-table T {chain C { flags offload ; } };
-table T {chain C { flags offload ;}; };
-table T {chain C { flags offload; }; };
-table T {chain C { flags offload ; }; };
-table T {chain C {  flags offload } };
-table T { chain C { flags offload; } };
-table T { chain C { flags offload; } ; };
-# base_cmd add_cmd 'table' table_spec table_block { table_options ';' } };
-table T { chain C { flags offload } ; };
 
-table T {
-chain C {     # common_block
-    include "/directory/subdirectory/filename.filetype";
-    define A = 1
-    redefine A = 2
-    undefine A
-    # table_option
-    flags offload;
-    comment Hello
-} };
+
+
+
+
 
 
 # base_cmd add_cmd 'table' table_spec table_block 'chain' chain_block
@@ -119,86 +97,32 @@ table T {
 # base_cmd add_cmd 'table' table_spec table_block 'rule' rule
 
 ######################
-table T { chain C { comment "unique, uh?"; flags a, b, c; chain C { type ; }; };
+
 table xxxx {
     chain C { comment test;
-    include "add-more-table-xxxx.nft";
+    include "rule-counter.tp.nft";
 }; };
 
-table T { chain last }
-table T { chain last; }
-table T { chain last; };
-table xxxx { 
-    chain last  
-}
-table xxxx { 
-    chain last; };
-table T { chain C }
-table T { chain C };
-table T { chain C ; } ;
-table T { chain C ; } ;
+
+
 table T { chain C { }; };
 table T { chain C { }; chain D { }; };
 
-# base_cmd add_cmd 'table' table_spec table_block 'chain' chain_block
-table T { chain C { } }
-table ip T { chain C { } }
-table ip6 T { chain C { } }
-table inet T { chain C { } }
-table netdev T { chain C { } }
-table bridge T { chain C { } }
-table arp T { chain C { } }
 
-table T { chain last }
-table T { chain last; }
-table T { chain last; };
-table xxxx {
-    chain last
-}
-table xxxx {
-    chain last; };
-table T { chain C }
-table T { chain C };
-table T { chain C ; } ;
-table T { chain C ; } ;
+
+
 table T { chain C { }; };
 table T { chain C { }; chain D { }; };
-table T { chain C { type filter hook ingress device eth0 priority ; }; };  # incomplete
-table T { chain C { devices = { $MYVARIABLE; } } }
-table T { chain C { devices ={ MYVARIABLE } } }
-table T { chain C { devices = $MYVARIABLE } }
-table T {
-    chain S { }
-}
 
+define MY_POLICY = deny
+table T { chain C { policy $MY_POLICY; };};
 
-# nft_line/nft_c_base_cmd/nft_base_cmd_add/nft_add_table_spec
-table T { chain C { type filter hook ingress device $MY_DEVICE ; }; };
-table T { chain C { type filter hook ingress device $MY_DEVICE ; }; };
-table T { chain C { type filter hook ingress devices = $MY_DEVICE ; }; };
-table T { chain C { type filter hook ingress devices = $MY_DEVICE }; };
-table T { chain C { type filter hook ingress devices = { a }; }; };
-table T { chain C { type filter hook ingress devices = { $a }; }; };
-table ip MyTable { chain C { type filter hook ingress devices = { a }; };
-table T { chain C { type filter hook ingress device eth0 priority 256 }; };
-table T { chain C { type filter hook ingress device eth0 priority 1; } };
-table T { chain C { type filter hook ingress device eth0 priority 1; } };
-add table T { chain C { type filter hook ingress device eth0 priority 1; }; };
+define MY_DEVICE = eth0
+define SECOND_DEVICE = eth1
+table T { chain C { devices=$MY_DEVICE;  }; };
+table T { chain C { devices =$MY_DEVICE;  }; };
+table T { chain C { devices= $MY_DEVICE;  }; };
 
-table T { chain C { policy $MYPOLICY; };};
-table T { chain C { policy drop; };};
-table T { chain C { policy accept; };};
-table T { chain C { flags offload; }; };
-table T { chain C { comment "asdf" ;  }; };
-table T { chain C { rule define = 1; comment "asdf" ;  }; };
-table T { chain C { devices=$MYDEVICE;  }; };
-table T { chain C { devices =$MYDEVICE;  }; };
-table T { chain C { devices= $MYDEVICE;  }; };
-table T { chain C { xxx devices = $MYDEVICE;  }; };
-table T { chain C { xxx devices = { $MYDEVICE,$SECONDDEVICE,"br0" }  }; };
-
-table myIpTable { flags dormant; }
-table netdev myNetdev { flags dormant; }
 table bridge myBridge { flags dormant; }
 table arp myArpTable { flags dormant; }
 table ip myIpTable { flags dormant; }
@@ -210,23 +134,14 @@ table xxxx { undefine abc; chain last { undefine abc; }; };
 
 
 
-table inet MyIpNet {
-    chain MyForwardChain {
-        type filter hook prerouting device wlan0 priority 1;
-        flags offload;
-        policy drop;
-        policy accept;
-    }
-    flags a, b, c
-    comment "unique"
-};
+
 
 
 
 
 table xxxx { chain last {
     undefine abc;
-    include "file";
+    include "rule-counter.tp.nft";
     define a = 123;
 }; };
 table arp A0b_._/RP_TABLE {
@@ -283,46 +198,7 @@ table inet filter {
 	}
 }
 
-table netdev NETDEV_TABLE {
-    # mind the NIC, it must exists
-    chain ingress_filter_netdev_lo { 
-        type filter hook ingress device lo priority -100; policy accept
-        udp dport 53 ether type 0x8006 ether saddr aa:bb:cc:dd:ff:ee ether daddr numgen inc mod 2 ; map {  0 : ca:fe:ba:be:00:00, 1: de:ad:be:ef:00:00 } fwd to eth0;
-    };
-    chain red_ingress_netdev_eth0 { 
-        # You'll get a cryptic error if 'device eth0' is missing after 'chain'
-        type filter hook ingress device eth0 priority -100; 
-        policy accept;
 
-        # tcp dport 80 ether saddr set aa:bb:cc:dd:ff:ee ether daddr set jhash ip saddr . tcp sport mod 2 map { 0 : ca:fe:ba:be:00:00, 1: de:ad:be:ef:00:00 } fwd to eth0;
-        udp dport 53 ether saddr set aa:bb:cc:dd:ff:ee ether daddr set numgen inc mod 2 map {  0 : ca:fe:ba:be:00:00, 1: de:ad:be:ef:00:00 } fwd to eth0;
-    }
-}
-table bridge workstation_bridge {
-    chain workstn_bridge_filter_input {
-        type filter hook input priority -200;
-        policy accept;
-        ct state established,related accept # handle 4
-        ct helper ftp-standard {
-            type "ftp" protocol tcp
-        }
-        type filter hook output priority -200;
-    } 
-    chain workstn_bridge_filter_output {
-        type filter hook output priority -200;
-        policy accept;
-    }
-
-    chain workstn_bridge_filter_forward {
-        type filter hook forward priority -200;
-        # default drop on all bridge forwarding
-        policy drop;
-
-        oif eth0 ip protocol icmp icmp type echo-request accept
-        iif eth0 ip protocol icmp icmp type echo-reply accept
-        counter log drop
-    }
-}
 table inet INET_TABLE {
   define interface_name2 = "br0"
     chain workstation_inet_filter_input {
@@ -614,6 +490,14 @@ table inet filter {
     }
 }
 
+define server1_ipv4 = 127.0.0.1
+define server1_ipv6 = ff:fe:00::1
+define workstation1_ipv4 = 127.0.0.2
+define workstation1_ipv6 = ff:fe:00::2
+define nic_lan = 172.28.130.1
+define nic_dmz = 10.0.0.1
+define nic_inet = 192.168.1.1
+define guarded_ports = 53
 table inet filter {
     chain global {
         ct state established,related accept
@@ -848,29 +732,23 @@ table ip filter {
    }
 }
 
-# Will count all udp port 5060 packets towards the 
-# quota and drop all packets once the quota hits 
-# its "over 100 mbytes" threshold.
-table inet foo {
-    quota example { over 100 mbytes used 0 bytes }
-
-    chain dropafterquota {
-        type filter hook postrouting priority 0; policy accept;
-        udp port 5060 quota name "example" drop
-    }
-}
 table ip x {
-    chain c {
-        ct timeout set saddr map {
-            192.168.0.14 :"policy1"
+    ct timeout policy1 {
+        protocol tcp;
+        timeouts {
+            established 120s;
+            fin_wait    30s;
         }
     }
-    ct timeout "policy1" {
-        protocol tcp
-        timeouts = {
-            established: 120s
-            fin_wait: 30;
-        }
+
+    map ip_timeout_map {
+        type ipv4_addr : ct_timeout
+        elements = { 192.168.0.14 : policy1 }
+    }
+
+    chain c {
+        type filter hook input priority 0;
+        ct timeout set ip saddr map @ip_timeout_map
     }
 }
 

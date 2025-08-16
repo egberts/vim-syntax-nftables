@@ -1,8 +1,9 @@
 
 NFT_FILES := $(wildcard *.nft)
+TRUE_POSITIVE_NFT_FILES := $(wildcard tp/*.nft)
 VIM_FILES := $(wildcard *.vim)
 
-test: $(NFT_FILES)
+test: $(TRUE_POSITIVE_NFT_FILES)
 	@for f in $^; do \
 		echo "Checking $$f"; \
 		sudo /usr/sbin/nft -c -f "$$f" || exit 1; \

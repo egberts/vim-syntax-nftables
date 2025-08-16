@@ -59,3 +59,120 @@ table T { chain C { devices = $MYVARIABLE } }
 
 table A!error
 
+table T { chain C {
+    comment Hello
+    comment Hello
+    comment Hello
+    }
+}
+
+table xxxx {
+    chain last
+}
+
+table xxxx {
+    chain last; };
+table T { chain C }
+table T { chain C };
+table T { chain C ; } ;
+table T { chain C ; } ;
+
+# base_cmd add_cmd 'table' table_spec table_block 'chain' chain_block
+table T { chain C { } }
+table ip T { chain C { } }
+table ip6 T { chain C { } }
+table inet T { chain C { } }
+table netdev T { chain C { } }
+table bridge T { chain C { } }
+table arp T { chain C { } }
+
+table T { chain last }
+table T { chain last; }
+table T { chain last; };
+table xxxx {
+    chain last
+}
+table xxxx {
+    chain last; };
+table T { chain C }
+table T { chain C };
+table T { chain C ; } ;
+table T { chain C ; } ;
+
+table T { chain C { type filter hook ingress device eth0 priority ; }; };  # incomplete
+table T { chain C { devices = { $MYVARIABLE; } } }
+table T { chain C { devices ={ MYVARIABLE } } }
+table T { chain C { devices = $MYVARIABLE } }
+table T {
+    chain S { }
+}
+
+# nft_line/nft_c_base_cmd/nft_base_cmd_add/nft_add_table_spec
+define MY_DEVICE = eth0
+table T { chain C { type filter hook ingress device $MY_DEVICE ; }; };
+table T { chain C { type filter hook ingress device $MY_DEVICE ; }; };
+table T { chain C { type filter hook ingress devices = $MY_DEVICE ; }; };
+table T { chain C { type filter hook ingress devices = $MY_DEVICE }; };
+table T { chain C { type filter hook ingress devices = { a }; }; };
+table T { chain C { type filter hook ingress devices = { $a }; }; };
+table ip MyTable { chain C { type filter hook ingress devices = { a }; };
+table T { chain C { type filter hook ingress device eth0 priority 256 }; };
+table T { chain C { type filter hook ingress device eth0 priority 1; } };
+
+
+table T { chain C { type filter hook ingress device eth0 priority 1; } };
+add table T { chain C { type filter hook ingress device eth0 priority 1; }; };
+
+table T { chain C { policy drop; };};
+table T { chain C { policy accept; };};
+table T { chain C { flags offload; }; };
+table T { chain C { comment "asdf" ;  }; };
+table T { chain C { rule define = 1; comment "asdf" ;  }; };
+
+
+table myIpTable { flags dormant; }
+
+table T { chain C { xxx devices = $MY_DEVICE;  }; };
+table T { chain C { xxx devices = { $MY_DEVICE,$SECOND_DEVICE,"br0" }  }; };
+
+table netdev myNetdev { flags dormant; }
+
+table netdev NETDEV_TABLE {
+    # mind the NIC, it must exists
+    chain ingress_filter_netdev_lo {
+        type filter hook ingress device lo priority -100; policy accept
+        udp dport 53 ether type 0x8006 ether saddr aa:bb:cc:dd:ff:ee ether daddr numgen inc mod 2 ; map {  0 : ca:fe:ba:be:00:00, 1: de:ad:be:ef:00:00 } fwd to eth0;  # unexpected 'numgen'
+    };
+    chain red_ingress_netdev_eth0 {
+        # You'll get a cryptic error if 'device eth0' is missing after 'chain'
+        type filter hook ingress device eth0 priority -100;
+        policy accept;
+
+        # tcp dport 80 ether saddr set aa:bb:cc:dd:ff:ee ether daddr set jhash ip saddr . tcp sport mod 2 map { 0 : ca:fe:ba:be:00:00, 1: de:ad:be:ef:00:00 } fwd to eth0;
+        udp dport 53 ether saddr set aa:bb:cc:dd:ff:ee ether daddr set numgen inc mod 2 map {  0 : ca:fe:ba:be:00:00, 1: de:ad:be:ef:00:00 } fwd to eth0;
+    }
+}
+
+table bridge workstation_bridge {
+    chain workstn_bridge_filter_input {
+        type filter hook input priority -200;
+        policy accept;
+        ct state established,related accept # handle 4
+        ct helper ftp-standard {
+            type "ftp" protocol tcp  # unepected type
+        }
+        type filter hook output priority -200;
+    }
+}
+
+# Will count all udp port 5060 packets towards the
+# quota and drop all packets once the quota hits
+# its "over 100 mbytes" threshold.
+table inet foo {
+    quota example { over 100 mbytes used 0 bytes }
+
+    chain dropafterquota {
+        type filter hook postrouting priority 0; policy accept;
+        udp port 5060 quota name "example" drop  # must be 'sport' or 'dport'
+    }
+}

@@ -1,0 +1,106 @@
+#!/usr/sbin/nft -f
+# File: all-chain.false-positive.nft
+# Description: A false positive test NFT file to exercise 'chain' Vim syntax highlightings.
+#
+# Identifiers begin with an standard practice of allowing
+# alphabetic character (a-z,A-Z) for first character followed
+# by zero or more alphanumeric characters (a-z,A-Z,0-9),
+# characters dash (-), and underscore (_).
+#
+# Dot, backslash, forward slash are discourage as dot
+# confused nftable concatenation effort.
+
+################################################################################
+# false positive test: looks highlighted correctly; has bad content; oops.
+################################################################################
+
+table T { chain C { type filter ; }; };  # incomplete
+
+table xxxx { chain MyIpNet {
+    chain last;  # oopsie
+    };
+};
+
+table @TX
+table A @# @   # invalid character
+table A# { };   # invalid character
+table A$ { };   # invalid character
+table A%   # invalid character
+table A^   # invalid character
+table A&   # invalid character
+table A*   # invalid character
+table A(   # invalid character
+table A)   # invalid character
+table A-   # invalid character
+table A+   # invalid character
+table A=   # invalid character
+table A[   # invalid character
+table A]   # invalid character
+table A<   # invalid character
+table A>   # invalid character
+table A,   # invalid character
+table A?   # invalid character
+table A|   # invalid character
+table A:   # invalid character
+
+table T { chain C { redefine A = 1; } };  # actually missing ';' after chain_block
+
+table T { chain C { redefine A = 1 }; };  # missing ';' before end of table_block's '}'
+
+table T { chain C { redefine A = 1 } };  # missing ';' before '}', twice
+
+table T { chain C { redefine A = 1; } }  # missing ';' before table_block's '}'
+
+table T { chain C { redefine A = 1 }; }  # missing ';' before chain_block's '}'
+
+table T { chain C { redefine A = 1 } }  # missing ';' before chain_block's '}'
+
+table xxxx { chain C { undefine abc ; } }
+
+table bridge T { chain { comment 'Hello world!' } }
+table T { chain C { comment "Hello world!" } }
+table netdev xxxx { chain C { comment "test" } ; }
+table T { chain C { flags offload; } } ;
+table T { chain C { flags offload;} }
+table T { chain C { flags offload;}; };
+table T { chain C { flags offload ;} };
+table T {chain C { flags offload; } };
+table T {chain C { flags offload ; } };
+table T {chain C { flags offload ;}; };
+
+table T {chain C { flags offload; }; };
+table T {chain C { flags offload ; }; };
+table T {chain C {  flags offload } };
+table T { chain C { flags offload; } };
+table T { chain C { flags offload; } ; };
+# base_cmd add_cmd 'table' table_spec table_block { table_options ';' } };
+table T { chain C { flags offload } ; };
+
+table T {
+chain C {     # common_block
+    include "/directory/subdirectory/filename.filetype";
+    define A = 1
+    redefine A = 2
+    undefine A
+    # table_option
+    flags offload;
+    comment Hello
+} };
+
+table T { chain C { comment "unique, uh?"; flags a, b, c; chain C { type ; }; };
+
+
+table T { chain last }
+table T { chain last; }
+table T { chain last; };
+
+table inet MyIpNet {
+    chain MyForwardChain {
+        type filter hook prerouting device wlan0 priority 1;
+        flags offload;
+        policy drop;
+        policy accept;  # cannot set 'policy' twice
+    }
+    flags a, b, c
+    comment "unique"
+};
