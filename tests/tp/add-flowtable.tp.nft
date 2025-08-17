@@ -17,6 +17,7 @@ add table inet table_id
 add table netdev table_id
 add table bridge table_id
 add table arp table_id
+
 add flowtable ip table_id flowtable_id { hook ingress priority 0 ; devices = { eno2, wlo1 } ; }
 add flowtable ip6 table_id flowtable_id { hook ingress priority 0 ; devices = { eno2, wlo1 } ; }
 add flowtable inet table_id flowtable_id { hook ingress priority 0 ; devices = { eno2, wlo1 } ; }
@@ -24,8 +25,6 @@ add flowtable inet table_id flowtable_id { hook ingress priority 0 ; devices = {
 delete flowtable ip table_id flowtable_id
 delete flowtable ip6 table_id flowtable_id
 delete flowtable inet table_id flowtable_id
-
-
 
 # flowtableid_spec->'flowtable'->'destroy'->destroy_cmd->base_cmd
 destroy flowtable table_id handle 15 
@@ -50,8 +49,6 @@ list flow tables ip
 list flow tables ip6
 list flow tables inet
 
-
-
 # ruleset_spec->'flowtables'->'list'->list_cmd->base_cmd
 list flowtables
 list flowtables ip
@@ -61,9 +58,6 @@ list flowtables inet
 # flowtable_spec->'flowtable'->'list'->list_cmd->base_cmd
 
 add table ip6 T
-
-
-
 
 # ruleset_spec->'tables'->'flow'->flush_cmd->base_cmd
 add table table_id
