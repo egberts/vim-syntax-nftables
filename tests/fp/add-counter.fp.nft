@@ -22,5 +22,34 @@ counter T C+  # invalid character
 counter T C=  # invalid character
 counter T C)  # invalid character
 
+# Prototyping error highlighting here
+counter T C { packet 123 bytes 12345 } ;
+counter T C { packet 123 bytes 12345 } ;
+counter T last { packet 123 bytes 12345; } ;
+counter ip T C { packet 123 bytes 123; packet 123 bytes 123; };
+counter ip T C {
+    packet 123 bytes 123
+    include "include_counters_file.nft";
+};
 
+add counter T C ;
+
+add counter T last packet 123 bytes 12345;
+add counter T C { packet 123 bytes 12345 };
+add counter T C { packet 123 bytes 12345; packet 321 bytes 4321; };
+add counter T C {
+    packet 123 bytes 12345;
+    packet 321 bytes 4321;
+};
+
+add counter ip T C { packet 123 bytes 123 };
+
+counter T last packet 123 bytes 12345;
+
+add rule filter input name tcp dport map { 80 : "http", 443 : "https" } drop # nftables manpage
+
+add table table_id
+add counter table_id counter_id
+list counter table_id counter_id
+list counter table_id counter_id ;
 

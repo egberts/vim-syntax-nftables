@@ -25,21 +25,32 @@
 
 # base_cmd add_cmd 'counter'
 
+add table table_id
 counter table_id counter_id
 add counter table_id counter_id
 
 # line->add_cmd->rule_position
+add table T
+add chain T C
 counter T C
 
 
 counter T C
+add table T0
 counter T0 C
+add table T_
 counter T_ C
-counter T\ C
+
 counter T C/C
 
 counter T C ;
 
+add table ip T
+add table ip6 T
+add table inet T
+add table netdev T
+add table bridge T
+add table arp T
 counter ip T C
 counter ip6 T C 
 counter inet T C
@@ -54,51 +65,39 @@ counter netdev T C;
 counter bridge T C; 
 counter arp T C  ;  
 
-# Prototyping error highlighting here
-counter T C { packet 123 bytes 12345 } ;
-counter T C { packet 123 bytes 12345 } ;
-counter T last { packet 123 bytes 12345; } ;
-counter ip T C { packet 123 bytes 123; packet 123 bytes 123; };
-counter ip T C { 
-    packet 123 bytes 123 
-    include "include_counters_file.nft";
-};
 
-add counter T/T C
+
+
 add counter T C0
 add counter T C_
 add counter T C\
-add counter T C ;
+
 add counter T last;
-add counter T last packet 123 bytes 12345;
-add counter T C { packet 123 bytes 12345 };
-add counter T C { packet 123 bytes 12345; packet 321 bytes 4321; };
-add counter T C { 
-    packet 123 bytes 12345; 
-    packet 321 bytes 4321; 
-};
+
 add counter T C ;
-add counter ip T C { packet 123 bytes 123 };
+
 counter T last;
-counter T last packet 123 bytes 12345;
+
 
 add counter filter http
+add counter table_id counter_id
 
 
 add counter filter https
 
-add rule filter input tcp dport 80 counter name \"http\"  # nftables manpage
-add rule filter input name tcp dport map { 80 : "http", 443 : "https" }  # nftables manpage
-
+add table filter
+add chain filter input
+add rule filter input tcp dport 80 counter name "http"  # nftables manpage
 delete counter table_id counter_id
 
 destroy counter table_id counter_id
 
-list counter table_id counter_id
-list counter table_id counter_id ;
-
+add table table_id2
+add counter table_id2 chain_id2
+list counter table_id2 chain_id2
 reset counter table_id counter_id
-reset counter table_id  chain_id  ; reset counter table_id2 chain_id2
+reset counter table_id  chain_id  ;
+reset counter table_id2 chain_id2
 
 
 table inet x {  # from nftables manpage

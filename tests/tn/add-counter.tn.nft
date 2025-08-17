@@ -48,6 +48,8 @@ counter T C* x
 
 counter T C%
 
+counter T\ C
+
 
 counter ip 
 
@@ -115,4 +117,4 @@ reset counter table_id
 
 reset counter table_id  chain_id  x
 
-
+add counter T/T C

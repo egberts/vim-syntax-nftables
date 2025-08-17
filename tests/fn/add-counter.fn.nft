@@ -11,4 +11,3 @@ list counter table_id counter_id index index_id
 reset counter table_id counter_id handle handle_id
 reset counter table_id counter_id index index_id
 
-
