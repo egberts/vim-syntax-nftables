@@ -35,15 +35,19 @@ table T {
     }
 }
 table T { chain C {
+;
     define A = 1 
     redefine A = 1 ;
     undefine A;
-    define last = 1 ; # not an ideal variable name (reserved word)
+    define last = 1 ;
+ # not an ideal variable name (reserved word)
     redefine last = 1 ;
-    define A = {} ;
+    define A = { 127.0.0.1 } ;
+;
     }
 }
 # base_cmd add_cmd 'table' table_spec table_block chain_block common_block 'redefine'
+table T { chain C { define A = { 127.0.0.1}; }; };
 table T { chain C { redefine A = 1; }; };
 
 table T { chain C { redefine A = 1; }; }
@@ -146,7 +150,6 @@ table arp A0b_._/RP_TABLE {
         define a = 123;
         type filter hook input priority 100;
         policy drop;
-        counter log drop
     }
     chain ARP_INPUT_FILTER {
         counter log return
@@ -185,7 +188,7 @@ table inet filter {
 		ip6 nexthdr icmpv6 icmpv6 type echo-request limit rate over 1/minute burst 4 packets drop
 
 		# ct state {established, related} accept
-		ct state invalid drop
+		ct state set invalid;
 
 		iifname lo accept
 
