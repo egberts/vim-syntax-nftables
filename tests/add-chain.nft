@@ -38,10 +38,10 @@ table T
 }
 table T { chain C {
     define A = 1 
-    define A = 1 ;
+    redefine A = 1 ;
     define last = 1
-    define last = 1 ;
-    define A = {} ;
+    redefine last = 1 ;
+    # redefine A = {} ;
     }
 }
 # base_cmd add_cmd 'table' table_spec table_block chain_block common_block 'redefine'
@@ -119,7 +119,13 @@ table T {
 # base_cmd add_cmd 'table' table_spec table_block 'rule' rule
 
 ######################
-table T { chain C { comment "unique, uh?"; flags a, b, c; chain C { type ; }; };
+table T { 
+    chain C { 
+        comment "unique, uh?"; 
+        flags offload; 
+    }
+    chain C { type ; }; 
+};
 table xxxx {
     chain C { comment test;
     include "add-more-table-xxxx.nft";
@@ -168,7 +174,7 @@ table T { chain C ; } ;
 table T { chain C { }; };
 table T { chain C { }; chain D { }; };
 table T { chain C { type filter hook ingress device eth0 priority ; }; };  # incomplete
-table T { chain C { devices = { $MYVARIABLE; } } }
+table T { chain C { devices = { $MYVARIABLE; }; } }
 table T { chain C { devices ={ MYVARIABLE } } }
 table T { chain C { devices = $MYVARIABLE } }
 table T {
@@ -181,25 +187,22 @@ table T { chain C { type filter hook ingress device $MY_DEVICE ; }; };
 table T { chain C { type filter hook ingress device $MY_DEVICE ; }; };
 table T { chain C { type filter hook ingress devices = $MY_DEVICE ; }; };
 table T { chain C { type filter hook ingress devices = $MY_DEVICE }; };
-table T { chain C { type filter hook ingress devices = { a }; }; };
+table T { chain C { type filter hook ingress devices = { a; } ; } ; };
 table T { chain C { type filter hook ingress devices = { $a }; }; };
 table ip MyTable { chain C { type filter hook ingress devices = { a }; }; };
 table T { chain C { type filter hook ingress device eth0 priority 256 }; };
 table T { chain C { type filter hook ingress device eth0 priority 1; } };
 table T { chain C { type filter hook ingress device eth0 priority 1; } };
-add table T { chain C { type filter hook ingress device eth0 priority 1; }; };
 
 table T { chain C { policy $MYPOLICY; };};
 table T { chain C { policy drop; };};
 table T { chain C { policy accept; };};
 table T { chain C { flags offload; }; };
 table T { chain C { comment "asdf" ;  }; };
-table T { chain C { rule define = 1; comment "asdf" ;  }; };
+table T { chain C { define RULE = 1; comment "asdf" ;  }; };
 table T { chain C { devices=$MYDEVICE;  }; };
 table T { chain C { devices =$MYDEVICE;  }; };
 table T { chain C { devices= $MYDEVICE;  }; };
-table T { chain C { xxx devices = $MYDEVICE;  }; };
-table T { chain C { xxx devices = { $MYDEVICE,$SECONDDEVICE,"br0" }  }; };
 
 table myIpTable { flags dormant; }
 table netdev myNetdev { flags dormant; }
@@ -221,7 +224,7 @@ table inet MyIpNet {
         policy drop;
         policy accept;
     }
-    flags a, b, c
+    flags persist, dormant
     comment "unique"
 };
 

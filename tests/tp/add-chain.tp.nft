@@ -26,7 +26,7 @@ add chain T C;
 # base_cmd add_cmd 'table' table_spec table_block chain_block common_block 'include'
 table T {
     chain C {
-        include "rule-counter.tp.nft"
+        include "../include/rule-counter.nft"
     }
 };
 table T {
@@ -43,12 +43,12 @@ table T { chain C {
  # not an ideal variable name (reserved word)
     redefine last = 1 ;
     define A = {} ; 
-    define A = { 127.0.0.1 } ; 
+    redefine A = { 127.0.0.1 } ;  
 ;
-    }
-}
+    };
+};
 # base_cmd add_cmd 'table' table_spec table_block chain_block common_block 'redefine'
-table T { chain C { define A = { 127.0.0.1}; }; };
+table T { define A = 1; chain C { redefine A = { 127.0.0.1 } ; } ; } ;
 table T { chain C { redefine A = 1; }; };
 
 table T { chain C { redefine A = 1; }; }
@@ -59,7 +59,7 @@ add table T;
 table T { chain C {
     redefine A = 1
     redefine A = 1 ;
-    }
+    } ;
 }
 # base_cmd add_cmd 'table' table_spec table_block chain_block common_block 'undefine'
 
@@ -105,7 +105,7 @@ table T {
 
 table xxxx {
     chain C { comment test;
-    include "rule-counter.tp.nft";
+    include "../include/rule-counter.nft";
 }; };
 
 
@@ -143,7 +143,7 @@ table xxxx { undefine abc; chain last { undefine abc; }; };
 define MY_PRIORITY = 100
 table xxxx { chain last {
     undefine abc;
-    include "rule-counter.tp.nft";
+    include "../include/rule-counter.nft";
     define a = 123;
 }; };
 table arp A0b_._/RP_TABLE {
@@ -189,7 +189,7 @@ table inet filter {
 		ip6 nexthdr icmpv6 icmpv6 type echo-request limit rate over 1/minute burst 4 packets drop
 
 		# ct state {established, related} accept
-		ct state set invalid;
+		ip protocol tcp ct state invalid accept;
 
 		iifname lo accept
 
