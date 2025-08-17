@@ -32,4 +32,29 @@ map T C ;
 
 map T C ;
 
+map T C { flags constant, interval, timeout, dynamic; };  # missing ';' inside map_block
+map T C { flags constant; flags interval; flags timeout; flags dynamic; };  # missing ';' inside map_block
 
+map T C { comment 'A comment string' }  # single-quote not supported
+
+map T C { size 123 };
+
+map T C { flags constant, interval, timeout, dynamic; };
+map T C { flags constant; flags interval; flags timeout; flags dynamic; };
+map T C { elements = 1:00:1 }  # missing ';' at the end of inside map_block
+map T C { elements = 1:00:1; }
+
+add map T C { timeout 15:00:01 }  # wrong time format
+add map T C { gc-interval 1h00m1s }  # missing ';' near end of inside map_block
+
+add map T C { timeout 15:00:01 }
+
+map ip nat E { flags interval; type ipv4_addr : verdict; flags interval; flags timeout; flags dynamic; };
+
+table ip T {
+    map M {
+        type integer : verdict
+        flags dynamic, interval
+        elements = { 3601-7200 : accept } # 3601 seconds (1:00:01) to 7200 seconds (2:00:00)
+    }
+}
