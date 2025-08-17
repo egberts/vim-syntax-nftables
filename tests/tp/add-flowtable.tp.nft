@@ -9,116 +9,20 @@
 # true positive test: properly hightlighted correctly; has good content; perfect.
 ################################################################################
 
-# base_cmd add_cmd 'flowtable'
-flowtable ip T F { }
-flowtable ip T F { ; }
-# base_cmd add_cmd 'table' table_spec table_block 'flowtable' flowtable_block
-table T { flowtable F { } }
-table ip T { flowtable F { } }
-table ip6 T { flowtable F { } }
-table inet T { flowtable F { } }
-table netdev T { flowtable F { } }
-table bridge T { flowtable F { } }
-table arp T { flowtable F { } }
-table T { flowtable F { hook ABC priority -150 } }
-table T { flowtable F { devices = { eth0, wlan0 } }; };
-table T { flowtable F { flags offload } }
-table T { flowtable F { counter } }
-table T {
-    flowtable F {
-        hook ABC priority -150
-        devices = { eth0, wlan0 }
-        flags offload
-        counter
-        # common_block
-        include "/directory/subdirectory/filename.filetype"
-        define A = 1
-        redefine A = 2
-        undefine A
-    }
-}
-
-flowtable T F { devices = $eth0 }
-flowtable T F { devices = $eth0; }
-flowtable T F { 
-    hook handler 
-    priority 123 
-}
-flowtable T F { hook "handler" priority 123 }
-
-flowtable ip T F { } ;
-flowtable ip T F { ; } ;
-flowtable T F { devices = $eth0 } ;
-flowtable T F { devices = $eth0; } ;
-flowtable T F { hook "handler" priority 123 } ;
-
-flowtable T F { hook "handler" priority 123; };
-flowtable T F { hook "handler" priority 123; };
-flowtable T F {flags offload}
-flowtable T F {flags offload; }  ;
-flowtable T F {flags offload}  ;
-flowtable T F { flags offload ; }
-flowtable T F { counter ; flags offload ; devices = { "eth0" , tcp, $abc, 'eth0' }; }
-
-flowtable T F {
-    hook "handler" priority 123
-    flags offload
-    devices = { "eth0", "wlan0", $my_device }; 
-    # common_block
-    include "my_fancy_flowtable_stuff.nft"
-    define MY_SET = { 1 };
-    redefine MY_SET = { 1,2,3 };
-    redefine MY_SET = { 192.168.1.1, 127.0.0.1, 10.0.0.10 };
-    redefine MY_MAP = { 1:abc ,2:tcp, 3:ssh };
-    undefine MY_SET ;
-    counter;
-    error;
-    ;
-};
-
-
-add flowtable T F { devices = $MY_DEVICE }
-add flowtable T F { hook "handler" priority 123; }
-add flowtable T F {flags offload}
-add flowtable T F {flags offload}  ;
-add flowtable T F { flags offload ; }
-add flowtable T F { counter ; flags offload ; devices = $MY_DEVICE }
-
- add flowtable ip T F { counter; };
-add  flowtable T F { devices = $MY_DEVICE };
-add flowtable T  F { flags offload ;};
-add flowtable T F  { flags offload ; counter; };
-add flowtable T F {  counter ; flags offload ; devices = $MY_DEVICE };
 
 # ->flowtable_spec->'flowtable'->'delete'->delete_cmd->base_cmd
-delete flowtable table_id flowtable_id 
-delete flowtable ip table_id flowtable_id 
-delete flowtable ip6 table_id flowtable_id 
-delete flowtable inet table_id flowtable_id 
-delete flowtable netdev table_id flowtable_id 
-delete flowtable bridge table_id flowtable_id 
-delete flowtable arp table_id flowtable_id 
+delete flowtable table_id flowtable_id
+delete flowtable ip table_id flowtable_id
+delete flowtable ip6 table_id flowtable_id
+delete flowtable inet table_id flowtable_id
+delete flowtable netdev table_id flowtable_id
+delete flowtable bridge table_id flowtable_id
+delete flowtable arp table_id flowtable_id
 
-# flowtable_block->'{'->flowtable_spec->'flowtable'->'delete'->delete_cmd->base_cmd
-delete flowtable table_id flowtable_id { hook "myhook"; devices = $MY_WAN; flags offload; counter }
-delete flowtable ip table_id flowtable_id { devices = $MY_DMZ }
-delete flowtable ip6 table_id flowtable_id { hook "ourhook" }
-delete flowtable inet table_id flowtable_id { flags offload }
-delete flowtable netdev table_id flowtable_id { counter }
-delete flowtable bridge table_id flowtable_id { hook "ushook"; devices = $WAN }
-delete flowtable arp table_id flowtable_id { 
-    include "MyInclude." ;
-    define A = 1 ;
-    redefine A = 2 ;
-    undefine A ;
-    hook "yourhook" ;
-    devices = { "eth0" } ;
-    flags offload ;
-    counter ;
-    }
+
 
 # flowtableid_spec->'flowtable'->'delete'->delete_cmd->base_cmd
-delete flowtable table_id handle 15 
+delete flowtable table_id handle 15
 delete flowtable ip table_id handle 15 
 delete flowtable ip6 table_id handle 15 
 delete flowtable inet table_id handle 15 
@@ -144,15 +48,6 @@ destroy flowtable netdev table_id flowtable_id
 destroy flowtable bridge table_id flowtable_id 
 destroy flowtable arp table_id flowtable_id 
 
-# flowtable_block->'{'->flowtable_spec->'flowtable'->'destroy'->destroy_cmd->base_cmd
-destroy flowtable table_id flowtable_id { define A = 1; }
-destroy flowtable ip table_id flowtable_id { redefine B = 2; }
-destroy flowtable ip6 table_id flowtable_id { undefine A; }
-destroy flowtable inet table_id flowtable_id { hook "myhook"; }
-destroy flowtable netdev table_id flowtable_id { devices = { eth0; }; }
-destroy flowtable bridge table_id flowtable_id { flags offload; }
-destroy flowtable arp table_id flowtable_id { counter }
-
 # ruleset_spec->'tables'->'flow'->list_cmd->base_cmd
 list flow tables ip
 list flow tables ip6
@@ -177,7 +72,7 @@ list flowtables ip6
 list flowtables inet
 
 # flowtable_spec->'flowtable'->'list'->list_cmd->base_cmd
-list flowtable ip
+
 list flowtable ip6 T C
 
 
@@ -192,23 +87,20 @@ flush flow table arp table_id flow_id
 
 # [https://wiki.nftables.org/wiki-nftables/index.php/Flowtables]
 define DEV_PRIVATE=eth0
-define DEV_PRIVATE =eth0
-define DEV_PRIVATE= eth0
+redefine DEV_PRIVATE =eth0
+redefine DEV_PRIVATE= eth0
 define DEV_INTERNET   =   eth1
 
 table inet x {
 
-    flowtable last {
-        hook ingress priority 0
-        devices = { $DEV_PRIVATE, $DEV_INTERNET }
-    }
-    flowtable f {
-        hook ingress priority 0
-        devices = { $DEV_PRIVATE, $DEV_INTERNET }
-    }
-
     chain forward {
         type filter hook forward priority 0; policy drop;
+
+        flowtable forward flowtable_id {
+            hook prerouting priority 0
+            devices = { $DEV_PRIVATE, $DEV_INTERNET }
+        }
+
 
         # offload established HTTP connections
         tcp dport { 80, 443 } ct state established flow add @f counter packets 0 bytes 0

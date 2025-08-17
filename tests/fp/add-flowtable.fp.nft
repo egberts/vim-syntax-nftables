@@ -8,4 +8,35 @@
 
 flowtableTableId
 
+table T { flowtable F { } }
+table ip T { flowtable F { } }
+table ip6 T { flowtable F { } }
+table inet T { flowtable F { } }
+table netdev T { flowtable F { } }
+table bridge T { flowtable F { } }
+table arp T { flowtable F { } }
+table T { flowtable F { hook ABC priority -150 } }
+table T { flowtable F { devices = { eth0, wlan0 } }; };
+table T { flowtable F { flags offload } }
 
+table T { flowtable F { counter } }
+
+# flowtable_block->'{'->flowtable_spec->'flowtable'->'delete'->delete_cmd->base_cmd
+delete flowtable table_id flowtable_id { hook input; devices = $MY_WAN; flags offload; counter }
+delete flowtable ip table_id flowtable_id { devices = $MY_DMZ }
+delete flowtable ip6 table_id flowtable_id { hook postrouting }
+delete flowtable inet table_id flowtable_id { flags offload }
+delete flowtable netdev table_id flowtable_id { counter }
+delete flowtable bridge table_id flowtable_id { hook prerouting; devices = $WAN }
+delete flowtable arp table_id flowtable_id {
+    include "MyInclude." ;
+    define A = 1 ;
+    redefine A = 2 ;
+    undefine A ;
+    hook output ;
+    devices = { "eth0" } ;
+    flags offload ;
+    counter ;
+    }
+
+list flowtable ip

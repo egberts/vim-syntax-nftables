@@ -20,13 +20,13 @@ table inet T { flowtable F { } }
 table netdev T { flowtable F { } }
 table bridge T { flowtable F { } }
 table arp T { flowtable F { } }
-table T { flowtable F { hook ABC priority -150 } }
+table T { flowtable F { hook prerouting priority -150 } }
 table T { flowtable F { devices = { eth0, wlan0 } }; };
 table T { flowtable F { flags offload } }
 table T { flowtable F { counter } }
 table T {
     flowtable F {
-        hook ABC priority -150
+        hook postrouting priority -150
         devices = { eth0, wlan0 }
         flags offload
         counter
@@ -41,7 +41,7 @@ table T {
 flowtable T F { devices = $eth0 }
 flowtable T F { devices = $eth0; }
 flowtable T F { 
-    hook handler 
+    hook input 
     priority 123 
 }
 flowtable T F { hook "handler" priority 123 }

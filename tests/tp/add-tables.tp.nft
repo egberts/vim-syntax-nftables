@@ -185,7 +185,7 @@ table T {
         devices = { eth0, wlan0 }
         flags offload
         counter
-    }
+    } ;
 
     # counter_block
     counter CT { };
