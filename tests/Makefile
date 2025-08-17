@@ -1,12 +1,29 @@
 
+NFT ?= nft
+
+export MAKE
+export NFT
+
+SUBDIRS := tp
 NFT_FILES := $(wildcard *.nft)
-TRUE_POSITIVE_NFT_FILES := $(wildcard tp/*.nft)
 VIM_FILES := $(wildcard *.vim)
 
-test: $(TRUE_POSITIVE_NFT_FILES)
+highlight: $(SUBDIRS)
 	@for f in $^; do \
-		echo "Checking $$f"; \
-		sudo /usr/sbin/nft -c -f "$$f" || exit 1; \
+		echo "Running highlight in subdirectory $$f"; \
+		make -C $$f highlight;  \
+	done
+
+check: $(SUBDIRS)
+	@for f in $^; do \
+		echo "Running check in subdirectory $$f"; \
+		make -C $$f check;  \
+	done
+
+test: $(SUBDIRS)
+	@for f in $^; do \
+		echo "Running test in subdirectory $$f"; \
+		make -C $$f test;  \
 	done
 
 # Optional lint rule if you use a linter like `nftables` checker or `shellcheck`

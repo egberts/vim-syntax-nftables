@@ -176,3 +176,7 @@ table inet foo {
         udp port 5060 quota name "example" drop  # must be 'sport' or 'dport'
     }
 }
+
+
+table xxxx { undefine abc; chain last { chain last; undefine abc; }; };  # oopsie
+

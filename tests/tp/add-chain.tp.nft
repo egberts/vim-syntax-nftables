@@ -114,14 +114,11 @@ table T { chain C { }; chain D { }; };
 table T { chain C { }; };
 table T { chain C { }; chain D { }; };
 
-define MY_POLICY = deny
-table T { chain C { policy $MY_POLICY; };};
-
 define MY_DEVICE = eth0
 define SECOND_DEVICE = eth1
-table T { chain C { devices=$MY_DEVICE;  }; };
-table T { chain C { devices =$MY_DEVICE;  }; };
-table T { chain C { devices= $MY_DEVICE;  }; };
+table T { chain input { type filter hook input priority 0; policy drop; iifname $MY_DEVICE accept;  }; };
+table T { chain nat { type nat hook prerouting priority 0; policy drop; iifname $MY_DEVICE accept;  }; };
+undefine MY_DEVICE
 
 table bridge myBridge { flags dormant; }
 table arp myArpTable { flags dormant; }
@@ -138,7 +135,7 @@ table xxxx { undefine abc; chain last { undefine abc; }; };
 
 
 
-
+define MY_PRIORITY = 100
 table xxxx { chain last {
     undefine abc;
     include "rule-counter.tp.nft";
@@ -147,13 +144,11 @@ table xxxx { chain last {
 table arp A0b_._/RP_TABLE {
     chain ARP_INPUT_FILTER {
         define a = 123;
-        type filter hook input priority table_id;
+        type filter hook input priority 100;
         policy drop;
         counter log drop
     }
     chain ARP_INPUT_FILTER {
-        type filter hook prerouting priority 0;
-        policy drop;
         counter log return
     }
     chain workstation_arp_filter_output {
@@ -162,10 +157,12 @@ table arp A0b_._/RP_TABLE {
         counter log drop
     }
 }
+
+define MY_DEVICE = eno2
 table netdev A {
     chain a { 
         type filter hook ingress device lo priority -100; policy accept
-        udp dport 53 ether type 0x8006 ether saddr set aa:bb:cc:dd:ff:ee ether daddr set numgen inc mod 2 map {  0 : ca:fe:ba:be:00:00, 1: de:ad:be:ef:00:00 } fwd to eth0;
+        udp dport 53 ether type 0x8006 ether saddr set aa:bb:cc:dd:ff:ee ether daddr set numgen inc mod 2 map {  0 : ca:fe:ba:be:00:00, 1: de:ad:be:ef:00:00 } fwd to $MY_DEVICE;
     };
 
 
@@ -377,11 +374,11 @@ table ip workstn_ip_nat {
 table inet raw {
     chain prerouting {
         type filter hook prerouting priority -300;
-        ct zone set iif map { "eth1" : 1, "veth1" : 2 }
+        ct zone set iif map { $MY_DEVICE : 1, "virbr0" : 2 }
     };
     chain output {
         type filter hook output priority -300;
-        ct zone set oif map { "eth1" : 1, "veth1" : 2 }
+        ct zone set oif map { "eno2" : 1, "virbr0" : 2 }
     }
 }
 table inet filter {
@@ -414,30 +411,20 @@ table ip my_filter_table {
    }
 }
 
-table ip filter {
-    set myset {
-        type inet_service
-        flags timeout
-        elements = { http expires 9s}
-    }
 
+table ip filter {
     chain input {
         type filter hook input priority 0; policy accept;
-        update @myset { tcp dport timeout 1m }
+
+        # Directly match IP address from the set
+        ip saddr 1.1.1.1 accept
     }
 }
 
-table ip filter {
-    set myset {
-        type ipv4_addr
-        elements = { 1.1.1.1 }
-    }
 
-    chain input {
-        type filter hook input priority 0; policy accept;
-        add @myset { ip saddr }
-    }
-}
+
+
+
 
 table inet myfilter {
     set myset {
@@ -732,25 +719,15 @@ table ip filter {
    }
 }
 
-table ip x {
-    ct timeout policy1 {
-        protocol tcp;
-        timeouts {
-            established 120s;
-            fin_wait    30s;
-        }
-    }
-
-    map ip_timeout_map {
-        type ipv4_addr : ct_timeout
-        elements = { 192.168.0.14 : policy1 }
-    }
-
-    chain c {
-        type filter hook input priority 0;
-        ct timeout set ip saddr map @ip_timeout_map
+table ip filter {
+    chain input {
+        type filter hook input priority 0; policy drop;
+        ct state new, established accept;
+        ct state new,invalid accept;
+        ct state untracked drop;
     }
 }
+
 
 table firewall {
   chain incoming {
@@ -791,9 +768,6 @@ table ip6 firewall {
     tcp dport { ssh, http } accept
   }
 }
-
-table xxxx { undefine abc; chain last { chain last; undefine abc; }; };  # oopsie
-
 
 
 

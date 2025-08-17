@@ -10,6 +10,6 @@ The stages of test are:
 We do testing by executing one of the following:
 
     make test  (tests everything)
-    make test-linter (or 'make vint')
-    make test-syntax
-    make test-highlight
+    make lint (or 'make vint')
+    make check  (`nft -c` approach)
+    make highlight (Vader-approch)
