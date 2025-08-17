@@ -11,24 +11,21 @@
 
 
 # ->flowtable_spec->'flowtable'->'delete'->delete_cmd->base_cmd
-delete flowtable table_id flowtable_id
+add table ip table_id
+add table ip6 table_id
+add table inet table_id
+add table netdev table_id
+add table bridge table_id
+add table arp table_id
+add flowtable ip table_id flowtable_id { hook ingress priority 0 ; devices = { eno2, wlo1 } ; }
+add flowtable ip6 table_id flowtable_id { hook ingress priority 0 ; devices = { eno2, wlo1 } ; }
+add flowtable inet table_id flowtable_id { hook ingress priority 0 ; devices = { eno2, wlo1 } ; }
+
 delete flowtable ip table_id flowtable_id
 delete flowtable ip6 table_id flowtable_id
 delete flowtable inet table_id flowtable_id
-delete flowtable netdev table_id flowtable_id
-delete flowtable bridge table_id flowtable_id
-delete flowtable arp table_id flowtable_id
 
 
-
-# flowtableid_spec->'flowtable'->'delete'->delete_cmd->base_cmd
-delete flowtable table_id handle 15
-delete flowtable ip table_id handle 15 
-delete flowtable ip6 table_id handle 15 
-delete flowtable inet table_id handle 15 
-delete flowtable netdev table_id handle 15 
-delete flowtable bridge table_id handle 15 
-delete flowtable arp table_id handle 15 
 
 # flowtableid_spec->'flowtable'->'destroy'->destroy_cmd->base_cmd
 destroy flowtable table_id handle 15 
@@ -53,17 +50,7 @@ list flow tables ip
 list flow tables ip6
 list flow tables inet
 
-# set_spec->'table'->'flow'->list_cmd->base_cmd
-list flow table table_id synproxy_id
-list flow table last synproxy_id
-list flow table table_id last
-list flow table last last
-list flow table ip table_id synproxy_id
-list flow table ip last synproxy_id
-list flow table ip table_id last
-list flow table ip last last
-list flow table ip6 table_id synproxy_id
-list flow table inet table_id synproxy_id
+
 
 # ruleset_spec->'flowtables'->'list'->list_cmd->base_cmd
 list flowtables
@@ -73,17 +60,20 @@ list flowtables inet
 
 # flowtable_spec->'flowtable'->'list'->list_cmd->base_cmd
 
-list flowtable ip6 T C
+add table ip6 T
+
+
 
 
 # ruleset_spec->'tables'->'flow'->flush_cmd->base_cmd
-flush flow table table_id flow_id
-flush flow table ip table_id flow_id
-flush flow table ip6 table_id flow_id
-flush flow table inet table_id flow_id
-flush flow table netdev table_id flow_id
-flush flow table bridge table_id flow_id
-flush flow table arp table_id flow_id
+add table table_id
+# flush flow table table_id flow_id
+# flush flow table ip table_id flow_id
+# flush flow table ip6 table_id flow_id
+# flush flow table inet table_id flow_id
+# flush flow table netdev table_id flow_id
+# flush flow table bridge table_id flow_id
+# flush flow table arp table_id flow_id
 
 # [https://wiki.nftables.org/wiki-nftables/index.php/Flowtables]
 define DEV_PRIVATE=eth0
@@ -91,27 +81,5 @@ redefine DEV_PRIVATE =eth0
 redefine DEV_PRIVATE= eth0
 define DEV_INTERNET   =   eth1
 
-table inet x {
-
-    chain forward {
-        type filter hook forward priority 0; policy drop;
-
-        flowtable forward flowtable_id {
-            hook prerouting priority 0
-            devices = { $DEV_PRIVATE, $DEV_INTERNET }
-        }
-
-
-        # offload established HTTP connections
-        tcp dport { 80, 443 } ct state established flow add @f counter packets 0 bytes 0
-
-        # Allow traffic from established and related packets, drop invalid
-        ct state vmap { established : accept, related : accept, invalid : drop }
-
-        # connections from the internal net to the internet or to other
-        # internal nets are allowed
-        iifname $DEV_PRIVATE counter accept
-    }
-}
 
 
