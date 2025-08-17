@@ -42,7 +42,8 @@ table T { chain C {
     define last = 1 ;
  # not an ideal variable name (reserved word)
     redefine last = 1 ;
-    define A = { 127.0.0.1 } ;
+    define A = {} ; 
+    define A = { 127.0.0.1 } ; 
 ;
     }
 }

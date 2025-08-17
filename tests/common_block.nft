@@ -111,6 +111,7 @@ redefine A = { 127.0.0.1 }
 redefine A = { 127.0.0.1, 192.168.1.7 }
 redefine A = { };
 redefine A = { x }; 
+redefine A = { };
 redefine A = { } ;
 redefine A = { } ; 
 redefine A = 2

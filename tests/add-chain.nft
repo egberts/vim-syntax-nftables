@@ -139,6 +139,10 @@ table T { chain C ; } ;
 table T { chain C ; } ;
 table T { chain C { }; };
 table T { chain C { }; chain D { }; };
+table T {
+    chain C { };
+    chain D { };
+};
 
 # base_cmd add_cmd 'table' table_spec table_block 'chain' chain_block
 table T { chain C { } }
@@ -179,7 +183,7 @@ table T { chain C { type filter hook ingress devices = $MY_DEVICE ; }; };
 table T { chain C { type filter hook ingress devices = $MY_DEVICE }; };
 table T { chain C { type filter hook ingress devices = { a }; }; };
 table T { chain C { type filter hook ingress devices = { $a }; }; };
-table ip MyTable { chain C { type filter hook ingress devices = { a }; };
+table ip MyTable { chain C { type filter hook ingress devices = { a }; }; };
 table T { chain C { type filter hook ingress device eth0 priority 256 }; };
 table T { chain C { type filter hook ingress device eth0 priority 1; } };
 table T { chain C { type filter hook ingress device eth0 priority 1; } };
