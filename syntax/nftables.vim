@@ -1589,7 +1589,6 @@ syn match nft_base_cmd_keyword_describe '\vdescribe\ze[ \t]' oneline skipwhite c
 "*************** END OF SECOND-LEVEL SYNTAXES *******************************
 "*************** END OF FIRST-LEVEL & SECOND-LEVEL SYNTAXES ****************************
 
-
 "*************** BEGIN OF TOP-LEVEL SYNTAXES ****************************
 " **************** BEGIN destroy_cmd ***************
 hi link   nft_destroy_cmd_keyword_chain_chainid_spec_num nftHL_Handle
@@ -2080,7 +2079,7 @@ syn match nft_delete_cmd_keyword_flowtable_table_spec_keyword_last '\vlast\ze[ \
 \    nft_delete_cmd_keyword_flowtable_flowtable_spec_identifier_string_flowtable
 
 hi link   nft_delete_cmd_keyword_flowtable_table_spec_family_spec nftHL_Family
-syn match nft_delete_cmd_keyword_flowtable_table_spec_family_spec '\v(ip6?|inet|netdev|bridge|arp)' skipwhite contained
+syn match nft_delete_cmd_keyword_flowtable_table_spec_family_spec '\v(bridge|netdev|inet|arp|ip6|ip)' skipwhite contained
 \ nextgroup=
 \    nft_delete_cmd_keyword_flowtable_table_spec_keyword_last,
 \    nft_delete_cmd_keyword_flowtable_table_spec_identifier_string_table,
@@ -2249,7 +2248,7 @@ syn match nft_delete_cmd_keyword_limit_table_spec_keyword_last '\vlast\ze[ \t]' 
 
 hi link   nft_delete_cmd_keyword_limit_obj_or_id_spec_table_spec_identifier_table nftHL_Table
 hi link   nft_delete_cmd_keyword_limit_table_spec_family_spec_explicit nftHL_Family
-syn match nft_delete_cmd_keyword_limit_table_spec_family_spec_explicit '\v(bridge|netdev|inet|arp|ip6?)' skipwhite contained
+syn match nft_delete_cmd_keyword_limit_table_spec_family_spec_explicit '\v(bridge|netdev|inet|arp|ip6|ip)' skipwhite contained
 \ nextgroup=
 \    nft_delete_cmd_keyword_limit_obj_or_id_spec_table_spec_identifier_table,
 \    nft_Error
@@ -4544,7 +4543,7 @@ syn match nft_list_table_spec_identifier_string "\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}"
 
 " base_cmd list_cmd 'table' table_spec family_spec family_spec_explicit
 hi link   nft_list_table_spec_family_spec_valid nftHL_Family  " _add_ to make 'table_spec' pathway unique
-syn match nft_list_table_spec_family_spec_valid "\v(ip6?|inet|arp|bridge|netdev)" skipwhite contained
+syn match nft_list_table_spec_family_spec_valid "\v(bridge|netdev|inet|arp|ip6|ip)" skipwhite contained
 \ nextgroup=
 \    nft_list_table_spec_identifier_string,
 \    nft_UnexpectedSemicolon,
@@ -4566,7 +4565,7 @@ syn match nft_base_cmd_list_keyword_table_end "\vtable\ze[ \t]" skipwhite contai
 \    nft_UnexpectedEOS
 
 hi link   nft_list_cmd_tables_chains_ruleset_meters_flowtables_maps_ruleset_spec nftHL_Family
-syn match nft_list_cmd_tables_chains_ruleset_meters_flowtables_maps_ruleset_spec "\v(ip6?|inet|netdev|bridge|arp)" skipwhite contained
+syn match nft_list_cmd_tables_chains_ruleset_meters_flowtables_maps_ruleset_spec "\v(bridge|netdev|inet|arp|ip6|ip)" skipwhite contained
 \ nextgroup=nft_Error
 
 " base_cmd list_cmd 'table'
@@ -4636,7 +4635,7 @@ syn match nft_base_cmd_list_keyword_chain_end "\vchain\ze[ \t]" skipwhite contai
 \    nft_Error
 
 hi link   nft_list_cmd_keywords_sets_et_al_ruleset_spec nftHL_Family
-syn match nft_list_cmd_keywords_sets_et_al_ruleset_spec  "\v(ip6?|inet|netdev|bridge|arp)" skipwhite contained
+syn match nft_list_cmd_keywords_sets_et_al_ruleset_spec  "\v(bridge|netdev|inet|arp|ip6|ip)" skipwhite contained
 \ nextgroup=nft_Error
 
 " 'list' ('sets'|'counters'|'quotas'|'limits'|'secmarks'|'synproxys')
@@ -4655,7 +4654,7 @@ syn match nft_list_cmd_keywords_sets_et_al_table_spec_identifier_keyword_last  "
 \    nft_Error
 
 hi link   nft_list_cmd_keywords_sets_et_al_table_spec_family_spec_explicit nftHL_Family
-syn match nft_list_cmd_keywords_sets_et_al_table_spec_family_spec_explicit  "\v(ip6?|inet|netdev|bridge|arp)" skipwhite contained
+syn match nft_list_cmd_keywords_sets_et_al_table_spec_family_spec_explicit  "\v(bridge|netdev|inet|arp|ip6|ip)" skipwhite contained
 \ nextgroup=
 \    nft_list_cmd_keywords_sets_et_al_table_spec_identifier_keyword_last,
 \    nft_list_cmd_keywords_sets_et_al_table_spec_identifier_string_table,
@@ -4715,7 +4714,7 @@ syn match nft_list_set_table_spec_identifier_keyword_last "last" skipwhite conta
 \    nft_Error
 
 hi link   nft_list_set_spec_family_spec_explicit nftHL_Family
-syn match nft_list_set_spec_family_spec_explicit "\v(ip6?|inet|arp|bridge|netdev)" skipwhite contained
+syn match nft_list_set_spec_family_spec_explicit "\v(bridge|netdev|inet|arp|ip6|ip)" skipwhite contained
 \ nextgroup=
 \    nft_list_set_table_spec_identifier_keyword_last,
 \    nft_list_set_table_spec_identifier_string,
@@ -4783,7 +4782,7 @@ syn match nft_list_flowtable_ruleset_table_spec_identifier_keyword_last "last" s
 \    nft_Error
 
 hi link   nft_list_flowtable_spec_family_spec_explicit nftHL_Family
-syn match nft_list_flowtable_spec_family_spec_explicit "\v(ip6?|inet)" skipwhite contained
+syn match nft_list_flowtable_spec_family_spec_explicit "\v(inet|ip6|ip)" skipwhite contained
 \ nextgroup=
 \    nft_list_flowtable_ruleset_table_spec_identifier_keyword_last,
 \    nft_list_flowtable_ruleset_table_spec_identifier_string,
@@ -4799,7 +4798,7 @@ syn match nft_list_flowtable_spec_family_spec_explicit_unsupported "\v(netdev|br
 \    nft_Error
 
 hi link   nft_list_cmd_keyword_flow_keyword_tables_ruleset_spec_family_spec_explicit nftHL_Family
-syn match nft_list_cmd_keyword_flow_keyword_tables_ruleset_spec_family_spec_explicit "\v(ip6?|inet)" skipwhite contained
+syn match nft_list_cmd_keyword_flow_keyword_tables_ruleset_spec_family_spec_explicit "\v(inet|ip6|ip)" skipwhite contained
 \ nextgroup=
 \    nft_list_flowtables_ruleset_table_spec_identifier_keyword_last,
 \    nft_list_flowtables_ruleset_table_spec_identifier_string,
@@ -4822,7 +4821,7 @@ syn match nft_list_cmd_keyword_flow_keyword_table_set_spec_family_spec_identifie
 " base_cmd [ 'list' ] [ 'flow' ] [ 'tables' ] ruleset_spec
 " ruleset_spec->'table'->list_cmd->'list'->line
 hi link   nft_list_cmd_keyword_flow_keyword_tables_ruleset_spec_family_spec_explicit nftHL_Family
-syn match nft_list_cmd_keyword_flow_keyword_tables_ruleset_spec_family_spec_explicit "\v(ip6?|inet)" skipwhite contained
+syn match nft_list_cmd_keyword_flow_keyword_tables_ruleset_spec_family_spec_explicit "\v(inet|ip6|ip)" skipwhite contained
 \ nextgroup=
 \    nft_list_cmd_keyword_flow_keyword_tables_ruleset_spec_identifier_keyword_last,
 \    nft_list_cmd_keyword_flow_keyword_tables_ruleset_spec_identifier_string
@@ -4867,7 +4866,7 @@ syn match nft_list_cmd_keyword_flow_keyword_table_set_spec_table_spec_identifier
 " base_cmd [ 'list' ] [ 'flow' ] [ 'table' ] set_spec
 " family_spec_explicit->family_spec->table_spec->set_spec->'table'->list_cmd->'list'->base_cmd->line
 hi link   nft_list_cmd_keyword_flow_keyword_table_set_spec_table_spec_family_spec_explicit nftHL_Family
-syn match nft_list_cmd_keyword_flow_keyword_table_set_spec_table_spec_family_spec_explicit "\v(ip6?|inet)" skipwhite contained
+syn match nft_list_cmd_keyword_flow_keyword_table_set_spec_table_spec_family_spec_explicit "\v(inet|ip6|ip)" skipwhite contained
 \ nextgroup=
 \    nft_list_cmd_keyword_flow_keyword_table_set_spec_table_spec_identifier_keyword_last,
 \    nft_list_cmd_keyword_flow_keyword_table_set_spec_table_spec_identifier_string,
@@ -4893,7 +4892,7 @@ syn match nft_list_cmd_keyword_flow_keyword_table "\vtable\ze " skipwhite contai
 " base_cmd [ 'list' ] [ 'flow' ] [ 'tables' ] ruleset_spec
 " family_spec_explicit->ruleset_spec->'tables'->'flow'->list_cmd->'list'->base_cmd->line
 hi link   nft_list_cmd_keyword_flow_keyword_tables_ruleset_spec_family_spec_explicit nftHL_Family
-syn match nft_list_cmd_keyword_flow_keyword_tables_ruleset_spec_family_spec_explicit "\v(ip6?|inet)" skipwhite contained
+syn match nft_list_cmd_keyword_flow_keyword_tables_ruleset_spec_family_spec_explicit "\v(inet|ip6|ip)" skipwhite contained
 \ nextgroup=
 \    nft_list_cmd_keyword_flow_keyword_tables_ruleset_spec_identifier_keyword_last,
 \    nft_list_cmd_keyword_flow_keyword_tables_ruleset_spec_identifier_string,
@@ -4957,7 +4956,7 @@ syn match nft_list_cmd_keyword_flowtable_flowtable_spec_table_spec_identifier_st
 " base_cmd [ 'list' ] [ 'flowtable' ] flowtable_spec
 " family_spec_explicit->family_spec->table_spec->flowtable_spec->'flowtable'->list_cmd->'list'->base_cmd->line
 hi link   nft_list_cmd_keyword_flowtable_flowtable_spec_table_spec_family_spec_explicit nftHL_Family
-syn match nft_list_cmd_keyword_flowtable_flowtable_spec_table_spec_family_spec_explicit "\v(ip6?|inet)" skipwhite contained
+syn match nft_list_cmd_keyword_flowtable_flowtable_spec_table_spec_family_spec_explicit "\v(inet|ip6|ip)" skipwhite contained
 \ nextgroup=
 \    nft_list_cmd_keyword_flowtable_flowtable_spec_table_spec_identifier_keyword_last,
 \    nft_list_cmd_keyword_flowtable_flowtable_spec_table_spec_identifier_string,
@@ -5017,7 +5016,7 @@ syn match nft_list_cmd_keyword_ct_keywords_timeout_expectation_table_spec_keywor
 " 'list' 'ct' ('helpers'|'timeout'|'expectation') ('ip'|'ip6'|'inet'|'netdev'|'bridge'|'arp')
 " family_spec_explicit->family_spec->table_spec->list_cmd->base_cmd->line
 hi link   nft_list_cmd_keyword_ct_keywords_timeout_expectation_table_spec_family_spec_explicit nftHL_Family
-syn match nft_list_cmd_keyword_ct_keywords_timeout_expectation_table_spec_family_spec_explicit "\v(ip6?|inet|netdev|bridge|arp)" skipwhite contained
+syn match nft_list_cmd_keyword_ct_keywords_timeout_expectation_table_spec_family_spec_explicit "\v(bridge|netdev|inet|arp|ip6|ip)" skipwhite contained
 \ nextgroup=
 \    nft_list_cmd_keyword_ct_keywords_timeout_expectation_table_spec_keyword_last,
 \    nft_list_cmd_keyword_ct_keywords_timeout_expectation_table_spec_identifier_string,
@@ -5063,7 +5062,7 @@ syn match nft_list_cmd_keyword_ct_keywords_timeout_expectation_keyword_table "\v
 " 'list' 'ct' 'helper'
 " 'helper'->ct_obj_type->'ct'->list_cmd->'list'->base_cmd->line
 hi link   nft_list_cmd_keyword_ct_keyword_helper_obj_spec_family_spec_explicit nftHL_Family
-syn match nft_list_cmd_keyword_ct_keyword_helper_obj_spec_family_spec_explicit "\v(ip6?|inet|netdev|bridge|arp)" skipwhite contained
+syn match nft_list_cmd_keyword_ct_keyword_helper_obj_spec_family_spec_explicit "\v(bridge|netdev|inet|arp|ip6|ip)" skipwhite contained
 \ nextgroup=
 \    nft_list_cmd_keyword_ct_keyword_helper_obj_spec_table_spec_identifier_keyword_last,
 \    nft_list_cmd_keyword_ct_keyword_helper_obj_spec_table_spec_identifier_string,
@@ -5131,7 +5130,7 @@ syn match nft_list_cmd_keyword_hooks_basehook_spec_basehook_device_name_keyword_
 " 'list' 'hooks'
 " family_spec_explicit->family_spec->ruleset_spec->basehook_spec->'hooks'->list_cmd->'list'->base_cmd->line
 hi link   nft_list_cmd_keyword_hooks_basehook_spec_ruleset_spec_family_spec_explicit nftHL_Family
-syn match nft_list_cmd_keyword_hooks_basehook_spec_ruleset_spec_family_spec_explicit "\v(ip6?|inet|netdev|bridge|arp)" skipwhite contained
+syn match nft_list_cmd_keyword_hooks_basehook_spec_ruleset_spec_family_spec_explicit "\v(bridge|netdev|inet|arp|ip6|ip)" skipwhite contained
 \ nextgroup=
 \    nft_list_cmd_keyword_hooks_basehook_spec_ruleset_spec_family_spec_explicit,
 \    nft_list_cmd_keyword_hooks_basehook_spec_basehook_device_name_keyword_device
@@ -5209,7 +5208,7 @@ syn match nft_add_cmd_keyword_ct_keyword_timeout_obj_spec_table_spec_identifier_
 
 " base_cmd 'ct' 'timeout' obj_spec table_spec
 hi link   nft_base_cmd_add_ct_timeout_obj_spec_table_spec_family_spec_explicit nftHL_Family
-syn match nft_base_cmd_add_ct_timeout_obj_spec_table_spec_family_spec_explicit "\v(ip6?|inet|netdev|bridge|arp)" skipwhite contained
+syn match nft_base_cmd_add_ct_timeout_obj_spec_table_spec_family_spec_explicit "\v(bridge|netdev|inet|arp|ip6|ip)" skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_keyword_ct_keyword_timeout_obj_spec_table_spec_identifier_table
 
@@ -5572,7 +5571,7 @@ syn match nft_base_cmd_keyword_get "get" skipwhite contained
 "***************** flush_cmd BEGIN *****************
 " base_cmd 'flush' 'ruleset' ruleset_spec
 hi link   nft_flush_cmd_keyword_ruleset_ruleset_spec_family_spec_explicit nftHL_Family
-syn match nft_flush_cmd_keyword_ruleset_ruleset_spec_family_spec_explicit "\v(ip6?|inet)" skipwhite contained
+syn match nft_flush_cmd_keyword_ruleset_ruleset_spec_family_spec_explicit "\v(inet|ip6|ip)" skipwhite contained
 \ nextgroup=
 \    nft_stmt_separator,
 \    nft_EOS,
@@ -5831,7 +5830,7 @@ syn match nft_insert_cmd_keyword_rule_rule_position_chain_spec_table_spec_identi
 \    nft_Error
 
 hi link   nft_insert_cmd_keyword_rule_rule_position_chain_spec_table_spec_family_spec_explicit nftHL_Family
-syn match nft_insert_cmd_keyword_rule_rule_position_chain_spec_table_spec_family_spec_explicit "\v(ip6?|inet|netdev|bridge|arp)" skipwhite contained
+syn match nft_insert_cmd_keyword_rule_rule_position_chain_spec_table_spec_family_spec_explicit "\v(bridge|netdev|inet|arp|ip6|ip)" skipwhite contained
 \ nextgroup=
 \    nft_insert_cmd_keyword_rule_rule_position_chain_spec_table_spec_identifier_keyword_last,
 \    nft_insert_cmd_keyword_rule_rule_position_chain_spec_table_spec_identifier_string_table,
@@ -6044,7 +6043,7 @@ syn match nft_base_cmd_reset_cmd_ruleid_spec_chain_spec_table_spec_identifier '\
 \    nft_Error
 
 hi link   nft_base_cmd_reset_cmd_ruleid_spec_chain_spec_table_spec_family_spec_explicit nftHL_Family
-syn match nft_base_cmd_reset_cmd_ruleid_spec_chain_spec_table_spec_family_spec_explicit '\v(bridge|netdev|inet|arp|ip6?)' skipwhite contained
+syn match nft_base_cmd_reset_cmd_ruleid_spec_chain_spec_table_spec_family_spec_explicit '\v(bridge|netdev|inet|arp|ip6|ip)' skipwhite contained
 \ nextgroup=
 \    nft_base_cmd_reset_cmd_ruleid_spec_chain_spec_table_spec_identifier,
 \    nft_UnexpectedEOS,
@@ -6124,7 +6123,7 @@ syn match nft_reset_cmd_keyword_rules_table_spec_keyword_last "last" skipwhite c
 
 
 hi link   nft_reset_cmd_keyword_rules_table_spec_family_spec nftHL_Family
-syn match nft_reset_cmd_keyword_rules_table_spec_family_spec "\v(ip6?|inet|netdev|bridge|arp)" skipwhite contained
+syn match nft_reset_cmd_keyword_rules_table_spec_family_spec "\v(bridge|netdev|inet|arp|ip6|ip)" skipwhite contained
 \ nextgroup=
 \    nft_reset_cmd_keyword_rules_table_spec_table_id,
 \    nft_reset_cmd_keyword_rules_table_spec_keyword_last,
@@ -6426,7 +6425,7 @@ syn match nft_add_cmd_keyword_limit_obj_spec_table_spec_identifier "\v[A-Za-z][A
 " base_cmd add_cmd 'limit' ('ip'|'ip6'|'inet'|'arp'|'bridge'|'netdev')
 " base_cmd add_cmd 'limit' family_spec
 hi link   nft_add_cmd_keyword_limit_obj_spec_family_spec nftHL_Family
-syn match nft_add_cmd_keyword_limit_obj_spec_family_spec "\v(ip6?|inet|arp|bridge|netdev)" skipwhite contained
+syn match nft_add_cmd_keyword_limit_obj_spec_family_spec "\v(bridge|netdev|inet|arp|ip6|ip)" skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_keyword_limit_obj_spec_table_spec_identifier
 
@@ -6630,7 +6629,7 @@ syn match nft_add_cmd_quota_cmd_obj_spec_table_spec_identifier_keyword_last "las
 \    nft_Error
 
 hi link   nft_add_cmd_quota_cmd_obj_spec_table_spec_family_spec_explicit nftHL_Family
-syn match nft_add_cmd_quota_cmd_obj_spec_table_spec_family_spec_explicit "\v(ip6?|inet|netdev|bridge|arp)" skipwhite contained
+syn match nft_add_cmd_quota_cmd_obj_spec_table_spec_family_spec_explicit "\v(bridge|netdev|inet|arp|ip6|ip)" skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_quota_cmd_obj_spec_table_spec_identifier_keyword_last,
 \    nft_add_cmd_quota_cmd_obj_spec_table_spec_identifier_string,
@@ -6683,7 +6682,7 @@ syn match nft_quota_cmd_obj_spec_table_spec_identifier_keyword_last "last" skipw
 \    nft_Error
 
 hi link   nft_quota_cmd_obj_spec_table_spec_family_spec_explicit nftHL_Family
-syn match nft_quota_cmd_obj_spec_table_spec_family_spec_explicit "\v(ip6?|inet|netdev|bridge|arp)" skipwhite contained
+syn match nft_quota_cmd_obj_spec_table_spec_family_spec_explicit "\v(bridge|netdev|inet|arp|ip6|ip)" skipwhite contained
 \ nextgroup=
 \    nft_quota_cmd_obj_spec_table_spec_identifier_keyword_last,
 \    nft_quota_cmd_obj_spec_table_spec_identifier_string,
@@ -9844,7 +9843,7 @@ syn match nft_create_cmd_keyword_table_identifier_table "\v[a-zA-Z][a-zA-Z0-9_\-
 \    nft_UnexpectedEOS
 
 hi link   nft_create_cmd_keyword_table_absolute_family_spec nftHL_Family
-syn match nft_create_cmd_keyword_table_absolute_family_spec "\v(ip6?|inet|netdev|bridge|arp)" skipwhite contained
+syn match nft_create_cmd_keyword_table_absolute_family_spec "\v(bridge|netdev|inet|arp|ip6|ip)" skipwhite contained
 \ nextgroup=
 \    nft_create_cmd_keyword_table_identifier_table,
 \    nft_UnexpectedSemicolon,
@@ -9887,7 +9886,7 @@ syn match nft_create_cmd_keyword_secmark_obj_spec_table_spec_identifier_table "\
 \    nft_UnexpectedEOS
 
 hi link   nft_create_cmd_keyword_secmark_obj_spec_table_spec_family_spec_explicit nftHL_Family
-syn match nft_create_cmd_keyword_secmark_obj_spec_table_spec_family_spec_explicit "\v(ip6?|inet|netdev|bridge|arp)" skipwhite contained
+syn match nft_create_cmd_keyword_secmark_obj_spec_table_spec_family_spec_explicit "\v(bridge|netdev|inet|arp|ip6|ip)" skipwhite contained
 \ nextgroup=
 \    nft_create_cmd_keyword_secmark_obj_spec_table_spec_identifier_table,
 \    nft_UnexpectedSemicolon,
