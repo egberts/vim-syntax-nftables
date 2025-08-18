@@ -62,7 +62,7 @@ table T { synproxy SP { mss 1490 ; wscale 5 } };  # very incorrect
 ##########################################################################
 # All-in-One
 ##########################################################################
-table T {
+table T {  # nft_add_cmd_keyword_table_table_block_delimiters
     # common_block
     include "/directory/subdirectory/filename.filetype";
     define A = 1
@@ -77,7 +77,7 @@ table T {
     comment 0123456789~!@#$%&*()_+=-|\}\{[]:/.,<>?\
     comment Hello ;
     # chain_block
-    chain C {
+    chain C {  # nft_add_cmd_keyword_table_table_block_chain_chain_block_delimiters
         # common_block
         include "/directory/subdirectory/filename.filetype";
         define A = 1
@@ -95,8 +95,11 @@ table T {
         # comment_spec
         comment 'ABCDEFGHIJKLMNOPQRSTUVXWYZabcdefghijklmnopqrstuvwxyz' ;
     };
+    chain C1 { };
+    chain C2 { };
+    chain C3 { comment 'wow';};
     # set_block
-    set S {
+    set S {  # nft_add_cmd_table_block_set_block_delimiters
         # common_block
         include "/directory/subdirectory/filename.filetype";
         define A = 1
@@ -136,8 +139,8 @@ table T {
         # elements = { "tesdf",2,3,4 };
         auto-merge;
     };
-    # map_block
-    map M {
+    # map_block 
+    map M {  # (nft_add_cmd_table_block_map_block_delimiters)
         # common_block
         include "/directory/subdirectory/filename.filetype";
         define A = 1
@@ -180,8 +183,10 @@ table T {
         #elements = { "tesdf",2,3,4 };
         auto-merge
     };
-    flowtable FT {
-        hook ABC priority -150
+
+
+    flowtable FT {  # nft_add_cmd_table_block_flowtable_block_delimiters
+        hook ingress priority -150
         devices = { eth0, wlan0 }
         flags offload
         counter
@@ -192,11 +197,11 @@ table T {
     # quota_block
     quota Q { };
     # ct_helper_block
-    ct helper Q { };
+    ct helper CT_H { };
     # ct_timeout_block
-    ct timeout Q { };
+    ct timeout CT_T { };
     # ct_expect_block
-    ct expectation Q { };
+    ct expectation CT_E { };
     # secmark_block
     secmark SM { };
     # synproxy_block

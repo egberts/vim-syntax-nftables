@@ -8236,8 +8236,6 @@ hi link    nft_add_cmd_keyword_table_table_block_chain_chain_block_delimiters nf
 "syn region nft_add_cmd_keyword_table_table_block_chain_chain_block_delimiters start='\v\{' end=+}+ keepend skipwhite contained
 "syn region nft_add_cmd_keyword_table_table_block_chain_chain_block_delimiters start='\v\s*\zs\{' end='\v\}' skipwhite skipempty
 syn region nft_add_cmd_keyword_table_table_block_chain_chain_block_delimiters start='\v\s*\zs\{' end='\v\}' skipwhite skipempty contained
-\ containedin=
-\    nft_add_cmd_keyword_table_table_block_delimiters
 \ nextgroup=
 \    nft_table_block_stmt_separator,
 \    nft_comment_inline
@@ -8811,7 +8809,7 @@ syn region nft_add_cmd_table_block_map_block_delimiters start="{" end="}" skip="
 \    nft_comment_inline
 \ nextgroup=
 \    nft_comment_inline,
-\    nft_add_cmd_table_block_map_block_separator
+\    nft_table_block_stmt_separator
 
 " base_cmd add_cmd 'table' table_block 'map' identifier
 hi link   nft_add_cmd_table_block_keyword_map_identifier nftHL_Identifier
@@ -8987,7 +8985,7 @@ syn region nft_add_cmd_table_block_flowtable_block_delimiters start="{" end="}" 
 \    nft_add_cmd_table_block_flowtable_stmt_separator
 \ nextgroup=
 \    nft_comment_inline,
-\    nft_line_stmt_separator
+\    nft_table_block_stmt_separator
 
 " base_cmd add_cmd 'table' table_block 'flowtable' identifier
 hi link   nft_add_cmd_table_block_keyword_flowtable_identifier nftHL_Identifier
