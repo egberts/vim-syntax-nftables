@@ -14,6 +14,15 @@
 # false positive test: looks highlighted correctly; has bad content; oops.
 ################################################################################
 
+
+table ip
+table ip6
+
+table "*weirdname"  # allowable '*' but only inside double quote???
+table "$weirdname"  # allowable '$' but only inside double quote???
+
+table ip {  };
+
 table T { chain C { type filter ; }; };  # incomplete
 
 table xxxx { chain MyIpNet {
@@ -89,7 +98,6 @@ chain C {     # common_block
 
 table T { chain C { comment "unique, uh?"; flags a, b, c; chain C { type ; }; };
 
-
 table T { chain last }
 table T { chain last; }
 table T { chain last; };
@@ -104,3 +112,10 @@ table inet MyIpNet {
     flags a, b, c
     comment "unique"
 };
+
+table T { chain C { devices = { eno2 }  # chain identifier is not 'output', et al.
+    }  # comment
+}  # comment
+table T { chain C { devices = { eno2 } ;  # chain is not 'input', et al.
+    }; # comment
+}; # comment

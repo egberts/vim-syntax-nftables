@@ -8,10 +8,10 @@ SUBDIRS := tp
 NFT_FILES := $(wildcard *.nft)
 VIM_FILES := $(wildcard *.vim)
 
-highlight: $(SUBDIRS)
+test: $(SUBDIRS)
 	@for f in $^; do \
-		echo "Running highlight in subdirectory $$f"; \
-		make -C $$f highlight;  \
+		echo "Running test in subdirectory $$f"; \
+		make -C $$f test;  \
 	done
 
 check: $(SUBDIRS)
@@ -20,10 +20,10 @@ check: $(SUBDIRS)
 		make -C $$f check;  \
 	done
 
-test: $(SUBDIRS)
+highlight: $(SUBDIRS)
 	@for f in $^; do \
-		echo "Running test in subdirectory $$f"; \
-		make -C $$f test;  \
+		echo "Running highlight in subdirectory $$f"; \
+		make -C $$f highlight;  \
 	done
 
 # Optional lint rule if you use a linter like `nftables` checker or `shellcheck`

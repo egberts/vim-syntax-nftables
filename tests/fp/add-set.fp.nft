@@ -10,4 +10,45 @@ set ip S
 
 add set
 
+table inet filter {
+    set myset_ipv4 {
+        type ipv4_addr;
+        elements = { $server1_ipv4 , $workstation1_ipv4 }
+    }
+    set myset_ipv6 {
+        type ipv6_addr;
+        elements = { $server1_ipv6 , $workstation1_ipv6 }
+    }
+}
 
+set T S { limit rate 15/second
+    limit rate over 1/minutes
+    limit rate until 1/second burst 20 packets
+    limit rate 1 kbytes/second
+    limit rate 1 Mbytes/second burst 20 kbytes
+}
+
+
+set T S { comment "A comment string" }
+set T S { elements = 1:00:1 }
+set T S { elements = { 1.2.3.4 : accept, 5.6.7.8 timeout 30s : drop comment "spam host" } }
+set T S { elements = { 10.0.0.0/24, 8.8.8.8 timeout 10m comment "temporary host" } }
+set T S { auto-merge }
+    set
+
+add set T S { counter }
+add set T S { counter bytes 2048 }
+add set T S { counter packets 3 }
+add set T S { counter packets 3 counter packets 3 }
+
+define MY_SET_VARS = { 1.1.1.1 }
+add set nat S {
+    flags interval
+    type ipv4_addr
+    elements = $MY_SET_VARS
+    # elements = { 1,2,3,4 }  # errors until 'syntax region' created
+
+    # automerge
+    flags interval   # required for 'auto-merge'
+    auto-merge
+}

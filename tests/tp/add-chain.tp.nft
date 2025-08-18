@@ -20,8 +20,11 @@
 # true positive test (properly hightlighted correctly; has good content; perfect
 ################################################################################
 
+
+
 add table T;
 add chain T C;
+
 
 # base_cmd add_cmd 'table' table_spec table_block chain_block common_block 'include'
 table T {

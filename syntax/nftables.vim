@@ -1973,7 +1973,7 @@ syn match nft_base_cmd_destroy_delete_cmds_keyword_set "\vset\ze[ \t]" skipwhite
 hi link   nft_delete_cmd_keyword_map_map_spec_identifier_string_map nftHL_Table
 syn match nft_delete_cmd_keyword_map_map_spec_identifier_string_map "\v[a-zA-Z][a-zA-Z0-9\\\/_\.\-]{0,63}" skipwhite contained
 \ nextgroup=
-\    nft_EOS
+\    nft_line_stmt_separator
 
 hi link   nft_delete_cmd_keyword_map_map_spec_keyword_last nftHL_Action
 syn match nft_delete_cmd_keyword_map_map_spec_keyword_last "\vlast\ze[ \t]" skipwhite contained
@@ -6988,7 +6988,7 @@ syn match nft_add_cmd_table_block_set_block_stateful_stmt_list_stmt_stateful_stm
 \    nft_add_cmd_set_block_stateful_stmt_list_stateful_stmt_connlimit_stmt_keyword_count
 " ******************** END stateful_stmt
 
-hi link   nft_add_cmd_map_map_spec_map_block_separator nftHL_Normal
+hi link   nft_add_cmd_map_map_spec_map_block_separator nftHL_Separator
 syn match nft_add_cmd_map_map_spec_map_block_separator /;/ skipwhite contained
 \ nextgroup=
 \    nft_Semicolon,
@@ -7098,7 +7098,6 @@ syn region nft_add_cmd_map_map_spec_map_block_elements_map_block_expr start="{" 
 \    nft_add_cmd_map_map_spec_map_block_elements_block_items
 \ nextgroup=
 \    nft_Semicolon,
-\    nft_EOS,
 \    nft_Error
 
 " base_cmd add_cmd 'map' map_spec '{' map_block 'elements' '='
@@ -7206,7 +7205,8 @@ syn region nft_add_cmd_map_map_spec_map_block start="{" end="}" skipnl skipempty
 \    nft_comment_spec,
 \    nft_add_cmd_map_map_spec_map_block_separator
 \ nextgroup=
-\    nft_comment_inline
+\    nft_comment_inline,
+\    nft_line_stmt_separator
 
 " base_cmd add_cmd 'map' map_spec set_identifier (chain)
 hi link   nft_add_cmd_map_map_spec_identifier_set nftHL_Chain

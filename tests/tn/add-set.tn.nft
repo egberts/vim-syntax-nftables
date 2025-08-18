@@ -112,4 +112,178 @@ set T C ;
 
 add set T S ;
 
+set ip T S { typeof b } ;
+set T S { typeof a.b.c.d.e.f };
+set T S { flags constant }
+set T S { flags interval; }
+set T S { flags timeout };
+set T S { flags dynamic ; } ;
+set T S { flags constant, interval, timeout, dynamic };
+set T S { flags constant; flags interval; flags timeout; flags dynamic };
+set T S { timeout 15:00:01 }
 
+set T S { gc-interval 1:00:1 }
+# base_cmd add_cmd 'table' table_spec table_block 'set' set_block
+table T { set S { } }
+table last { set S { } }
+table T { set last { } }
+table last { set last { } }
+table ip last { set S { } }
+table ip T { set S { } }
+table ip6 T { set S { } }
+
+table inet T { set S { } }
+table netdev T { set S { } }
+table bridge T { set S { } }
+table arp T { set S { } }
+table T { set S { typeof A.B : interval 15 } }
+table T { set S { type string : } }
+table T { set S { type mark : interval mark.time } }
+table T { set S { type dscp : ecn.classid } }
+table T { set S { type ecn : } }
+table T { set S { type classid : } }
+
+table T { set S { type time : } }
+table T { set S { flags constant,interval,timeout,dynamic }; }
+table T { set S { flags constant,interval,timeout,dynamic }; };
+table T { set S { timeout 15 } }
+table T { set S { timeout 15; gc-interval 15 } }
+table T { set S { gc-interval 15 } }
+# table_block/set_block/set_mechanism/'policy'
+table T { set S { policy performance } }
+table T { set S { policy memory } }
+table T { set S { comment "this line of comment" }; };
+
+table T { set S { counter } }
+table T { set S { counter bytes 123; } }
+table T { set S { counter packets 123 }; };
+table T { set S { counter packets 123 bytes 123 } }
+table T { set S { counter bytes 123 packets 123 limit rate 123} }
+table T { set S { counter bytes 123 packets 123; limit rate 123} }
+table T { set S { limit rate 123 } }
+table T { set S { limit rate over 123 } }
+
+table T { set S { limit rate until 123 } }
+table T { set S { quota over 123 bytes } }
+table T { set S { quota over 123 bytes used 123 bytes } }
+table T { set S { quota until 123 bytes } }
+table T { set S { quota until 123 bytes used 123 bytes } }
+table T { set S { ct count 123 } }
+table T { set S { ct count over 123 } }
+table T { set S { last } }
+table T { set S { last used never } }
+table T { set S { last used 4h15m20s } }
+
+table T { set S { policy performance } }
+table T { set S { policy memory } }
+table T { set S { size 123 } }
+table T { set S { comment "xx" } }
+table T { set S { comment "Hello" } }
+table T { set S { elements = $VARIABLE } }
+table T { set S { elements = { a, b, c } } }
+table T { set S { auto-merge } }
+table ip filter {
+    set myset {
+        type inet_service
+        flags timeout
+        elements = $MY_SET_VARNAME
+        elements = { http expires 9s}
+    }
+}
+
+
+set T S {
+    quota 1 byte quota 1 byte
+    quota 1 byte used 15 kbytes
+    quota over 1 byte
+    quota over 1 byte used 15 kbytes
+    quota until 1 byte;
+    quota until 1 byte used 15 kbytes
+}
+
+set T S {
+    elements = $MY_SET_VARS
+    elements = { 1,2,3,4 }  # errors until 'syntax region' created
+    # automerge
+    auto-merge
+}
+
+
+add set ip T S { typeof b };
+add set T S { typeof a.b.c.d.e.f };
+add set T S { flags constant }
+add set T S { flags interval; }
+add set T S { flags timeout };
+add set T S { flags dynamic ; } ;
+add set T S { flags constant, interval, timeout, dynamic };
+add set T S { flags constant; flags interval; flags timeout; flags dynamic };
+add set T S { timeout 15:00:01 }
+
+
+add set T S { gc-interval 1:00:1 }
+add set T S { elements = 1:00:1 }
+add set ip T C { elements = 192.168.1.5 }
+add set T S { comment "A comment string" }
+add set T S { counter }
+add set T S { counter packets 123 bytes 123}
+add set T S {
+    limit rate 15/second
+    limit rate over 1/minutes
+    limit rate until 1/second burst 20 packets
+    limit rate 1 kbytes/second
+    limit rate 1 Mbytes/second burst 20 kbytes
+}
+
+add set T S {
+    quota 1 byte
+    quota 1 byte used 15 kbytes
+    quota over 1 byte
+    quota over 1 byte used 15 kbytes
+    quota until 1 byte
+    quota until 1 byte used 15 kbytes
+}
+
+add set T S {
+    include "my_sets.nft"
+    # common_block
+    define A = 1
+    redefine A = 2
+    undefine A
+    error
+    # typeof
+    typeof mine.ip
+    type string
+    # set_flat_list
+    flags constant,interval, dynamic , timeout
+    timeout 1h15s
+    gc-interval 123
+    # stateful_stmt
+    counter
+    counter packets 123 bytes 123
+    limit rate 15/second
+    limit rate over 1/minutes
+    limit rate until 1/second burst 20 packets
+    limit rate 1 kbytes/second
+    limit rate 1 Mbytes/second burst 20 kbytes
+    quota 1 byte
+    quota 1 byte used 15 kbytes
+    quota over 1 byte
+    quota over 1 byte used 15 kbytes
+    quota until 1 byte
+    quota until 1 byte used 15 kbytes
+    ct count 15
+    ct count over 15
+    last
+    last used never
+    last used 2h5m30s
+    # set-mechanism
+    policy memory
+    policy performance
+    size 1490
+    comment "my comment string"
+    elements = $MY_SET_VARS
+    elements = $MY_SET_VARS
+    elements = { 1,2,3,4 }  # errors until 'syntax region' created
+    # automerge
+    auto-merge
+};
