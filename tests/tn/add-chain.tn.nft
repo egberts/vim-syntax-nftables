@@ -22,6 +22,17 @@
 ################################################################################
 
 
+chain T C;
+add chain;
+add chain ;
+add chain * C &
+
+add chain     ;
+add chain *
+add chain &&&&
+add chain   $
+
+
 table "#weirdname"  # allowable '#' but only inside double quote???
 
 

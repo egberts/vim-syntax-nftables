@@ -23,7 +23,22 @@
 
 
 add table T;
+add chain T C
+add chain T C
 add chain T C;
+
+chain T C;
+chain T C { };
+chain T C {
+    include "../include/rule-counter.nft"
+    define A = 1
+}
+
+chain T C {
+    include "../include/rule-counter.nft";
+    define A = 1;
+    iifname "eno2" accept;
+};
 
 
 # base_cmd add_cmd 'table' table_spec table_block chain_block common_block 'include'
@@ -47,7 +62,8 @@ table T { chain C {
     redefine last = 1 ;
     define A = {} ; 
     redefine A = { 127.0.0.1 } ;  
-;
+    iif "lo" accept
+    iifname "my_device" accept;
     };
 };
 # base_cmd add_cmd 'table' table_spec table_block chain_block common_block 'redefine'
@@ -149,7 +165,7 @@ table xxxx { chain last {
     include "../include/rule-counter.nft";
     define a = 123;
 }; };
-table arp A0b_._/RP_TABLE {
+table arp A0b__RP_TABLE {
     chain ARP_INPUT_FILTER {
         define a = 123;
         type filter hook input priority 100;
@@ -185,21 +201,21 @@ table netdev A {
 }
 
 table inet filter {
-	chain input {
-		type filter hook input priority 0; policy drop;
+    chain input {
+        type filter hook input priority 0; policy drop;
 
-		ip protocol icmp icmp type echo-request limit rate over 1/minute burst 4 packets  drop
-		ip6 nexthdr icmpv6 icmpv6 type echo-request limit rate over 1/minute burst 4 packets drop
+        ip protocol icmp icmp type echo-request limit rate over 1/minute burst 4 packets  drop
+        ip6 nexthdr icmpv6 icmpv6 type echo-request limit rate over 1/minute burst 4 packets drop
 
-		# ct state {established, related} accept
-		ip protocol tcp ct state invalid accept;
+        # ct state {established, related} accept
+        ip protocol tcp ct state invalid accept;
 
-		iifname lo accept
+        iifname lo accept
 
-		ip protocol icmp accept
-		ip6 nexthdr icmpv6 accept
+        ip protocol icmp accept
+        ip6 nexthdr icmpv6 accept
 
-	}
+    }
 }
 
 
