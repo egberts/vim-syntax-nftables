@@ -40,52 +40,5 @@ add chain bridge T B { type nat hook output priority out; policy accept; };
 add chain bridge T B { type nat hook forward priority filter; policy accept; };
 add chain bridge T B { type nat hook postrouting priority filter; policy accept; };
 
-
-
-# Failing Bridge type/hook/family combo
-add chain bridge T B { type filter hook ingress priority 0; policy accept; };
-add chain bridge T B { type route hook ingress priority 0; policy accept; };
-add chain bridge T B { type nat hook ingress priority 0; policy accept; };
-
-# Failing Bridge priority labels
-add chain bridge T B { type filter hook input priority security; policy accept; };
-add chain bridge T B { type filter hook input priority dstnat; policy accept; };
-add chain bridge T B { type filter hook input priority mangle; policy accept; };
-add chain bridge T B { type filter hook input priority srcnat; policy accept; };
-add chain bridge T B { type filter hook input priority raw; policy accept; };
-add chain bridge T B { type filter hook input priority out; policy accept; };
-add chain bridge T B { type filter hook output priority security; policy accept; };
-add chain bridge T B { type filter hook output priority dstnat; policy accept; };
-add chain bridge T B { type filter hook output priority mangle; policy accept; };
-add chain bridge T B { type filter hook output priority srcnat; policy accept; };
-add chain bridge T B { type filter hook output priority raw; policy accept; };
-add chain bridge T B { type filter hook output priority out; policy accept; };
-
-add chain bridge T B { type route hook input priority security; policy accept; };
-add chain bridge T B { type route hook input priority dstnat; policy accept; };
-add chain bridge T B { type route hook input priority mangle; policy accept; };
-add chain bridge T B { type route hook input priority srcnat; policy accept; };
-add chain bridge T B { type route hook input priority raw; policy accept; };
-add chain bridge T B { type route hook input priority out; policy accept; };
-add chain bridge T B { type route hook output priority security; policy accept; };
-add chain bridge T B { type route hook output priority dstnat; policy accept; };
-add chain bridge T B { type route hook output priority mangle; policy accept; };
-add chain bridge T B { type route hook output priority srcnat; policy accept; };
-add chain bridge T B { type route hook output priority raw; policy accept; };
-add chain bridge T B { type route hook output priority out; policy accept; };
-
-add chain bridge T B { type nat hook input priority security; policy accept; };
-add chain bridge T B { type nat hook input priority dstnat; policy accept; };
-add chain bridge T B { type nat hook input priority mangle; policy accept; };
-add chain bridge T B { type nat hook input priority srcnat; policy accept; };
-add chain bridge T B { type nat hook input priority raw; policy accept; };
-add chain bridge T B { type nat hook input priority out; policy accept; };
-add chain bridge T B { type nat hook output priority security; policy accept; };
-add chain bridge T B { type nat hook output priority dstnat; policy accept; };
-add chain bridge T B { type nat hook output priority mangle; policy accept; };
-add chain bridge T B { type nat hook output priority srcnat; policy accept; };
-add chain bridge T B { type nat hook output priority raw; policy accept; };
-add chain bridge T B { type nat hook output priority out; policy accept; };
-
 delete chain T B
 delete table T

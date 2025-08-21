@@ -8129,10 +8129,11 @@ syn match nft_add_cmd_keyword_table_table_block_chain_chain_block_policy_spec_ke
 \    nft_EOL,
 \    nft_Error
 
-" add_cmd 'table' table_block 'chain' chain_block flags_spec 'offload' ';'
+" add_cmd 'table' table_block 'chain' chain_block flags_spec ';'
 hi link   nft_add_cmd_keyword_table_table_block_chain_chain_flags_spec_separator nftHL_BlockDelimitersChain
 syn match nft_add_cmd_keyword_table_table_block_chain_chain_flags_spec_separator /;/ skipwhite contained
 
+" TODO: 'offload' is only valid with chain hook 'ingress' and 'netdev' family
 " add_cmd 'table' table_block 'chain' chain_block flags_spec 'offload'
 hi link   nft_add_cmd_keyword_table_table_block_chain_chain_block_flags_spec_keyword_offload nftHL_Define
 syn match nft_add_cmd_keyword_table_table_block_chain_chain_block_flags_spec_keyword_offload '\voffload\ze[ \t\n;\}]' skipwhite contained

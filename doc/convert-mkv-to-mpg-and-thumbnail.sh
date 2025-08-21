@@ -7,12 +7,6 @@ ffmpeg -i $1.mp4 -vf "select=eq(n\,0)" -vframes 1 $1.thumbnail.jpg
 
 
 
-
-
-
-
-
-
-
 ffmpeg -i $1.mp4 -vf mpdecimate -vsync vfr $1.mpdecimate.mp4
 
+ffmpeg -i $1.mpdecimate.mp4 -vf "fps=10,scale=640:-1" $1.mpdecimate.mp4.gif
