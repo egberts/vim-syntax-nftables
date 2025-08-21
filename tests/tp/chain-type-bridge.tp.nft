@@ -1,44 +1,15 @@
 
-add table bridge T
-add chain bridge T B;
+#  This requires kernel modules for bridging
+#      sudo modprobe nf_tables_bridge
+#      sudo modprobe br_netfilter
+
+#add table bridge T
+#add chain bridge T B;
+
 # Passing Bridge type/hook/family combo
-add chain bridge T B { type filter hook prerouting priority 0; policy accept; };
-add chain bridge T B { type filter hook input priority 0; policy accept; };
-add chain bridge T B { type filter hook output priority 0; policy accept; };
-add chain bridge T B { type filter hook forward priority 0; policy accept; };
-add chain bridge T B { type filter hook postrouting priority 0; policy accept; };
 
-add chain bridge T B { type route hook prerouting priority 0; policy accept; };
-add chain bridge T B { type route hook input priority 0; policy accept; };
-add chain bridge T B { type route hook output priority 0; policy accept; };
-add chain bridge T B { type route hook forward priority 0; policy accept; };
-add chain bridge T B { type route hook postrouting priority 0; policy accept; };
-
-add chain bridge T B { type nat hook prerouting priority 0; policy accept; };
-add chain bridge T B { type nat hook input priority 0; policy accept; };
-add chain bridge T B { type nat hook output priority 0; policy accept; };
-add chain bridge T B { type nat hook forward priority 0; policy accept; };
-add chain bridge T B { type nat hook postrouting priority 0; policy accept; };
 
 # Passing Bridge priority labels
-add chain bridge T B { type filter hook prerouting priority filter; policy accept; };
-add chain bridge T B { type filter hook input priority filter; policy accept; };
-add chain bridge T B { type filter hook forward priority filter; policy accept; };
-add chain bridge T B { type filter hook postrouting priority filter; policy accept; };
-add chain bridge T B { type filter hook output priority filter; policy accept; };
-add chain bridge T B { type filter hook output priority out; policy accept; };
-add chain bridge T B { type route hook prerouting priority filter; policy accept; };
-add chain bridge T B { type route hook input priority filter; policy accept; };
-add chain bridge T B { type route hook output priority filter; policy accept; };
-add chain bridge T B { type route hook output priority out; policy accept; };
-add chain bridge T B { type route hook forward priority filter; policy accept; };
-add chain bridge T B { type route hook postrouting priority filter; policy accept; };
-add chain bridge T B { type nat hook prerouting priority filter; policy accept; };
-add chain bridge T B { type nat hook input priority filter; policy accept; };
-add chain bridge T B { type nat hook output priority filter; policy accept; };
-add chain bridge T B { type nat hook output priority out; policy accept; };
-add chain bridge T B { type nat hook forward priority filter; policy accept; };
-add chain bridge T B { type nat hook postrouting priority filter; policy accept; };
 
-delete chain T B
-delete table T
+#delete chain T B
+#delete table T

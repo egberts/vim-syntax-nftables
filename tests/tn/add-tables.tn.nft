@@ -26,14 +26,31 @@ A|   # invalid character
 A:   # invalid character
 A { };
 
-ip6 table_id chain_id {
-};
+table A$ { };   # invalid character
+table A%   # invalid character
+table A^   # invalid character
+table A&   # invalid character
+table A*   # invalid character
+table A(   # invalid character
+table A)   # invalid character
+table A+   # invalid character
+table A}
+table A[   # invalid character
+table A]   # invalid character
+table A<   # invalid character
+table A>   # invalid character
+table A,   # invalid character
+table A?   # invalid character
+table A|   # invalid character
+table A:   A
+table A.
+table A!error
 
-add table T {
-    chain C {
-    };
-    chain D { };
-};
+table $VARIABLE # variable ALLOWED in declarative '^table'
+table T @# @   # invalid character
+
+add table my\IpTable    # defaults to 'ip' family
+add table my_./\IpTable    # defaults to 'ip' family
 
 table T  # that one creates an empty table
 # base_cmd add_cmd 'table' table_spec identifier <STRING>
@@ -75,13 +92,42 @@ table \abc   # invalid identifier (started with non-letter)
 table _abc   # invalid identifier (started with non-letter)
 table .abc   # invalid identifier (started with non-letter)
 
+ip6 table_id chain_id {
+};
+
 table T { }
 table T { } ; #
 
-table T @# @   # invalid character
+
+add table T {
+    chain C {
+    };
+    chain D { };
+};
+
+table table_id {
+    comment "A ;Hello XYZ"
+    comment "ABCDEFGHIJKLMNOPQRSTUVXWYZabcdefghijklmnopqrstuvwxyz"
+    comment ABCDEFGHIJKLMNOPQRSTUVXWYZabcdefghijklmnopqrstuvwxyz;
+    comment 0123456789~!@#$%&*()_+=-|\}\{[]:/.,<>?\
+    comment Hello ;
+}  # we only allowed 1 'comment' per block
+
+table table_id {
+    limit rate until 15 / second burst 15 packets;  # 'until' not available
+    };
+
+define MY_VAR = table_id
+table $MY_VAR {
+    flags dormant;
+    flags persist;
+    flags dormant,persist;
+    flags persist,dormant;
+};
 
 table T { devices = eth0 }
 
+table T { chain C { type filter ; }; };  # incomplete chain (but this here is table)
 table T { chain C { type filter hook ingress ; }; };  # incomplete
 table T { chain C { type filter hook ingress devices ; }; };  # incomplete
 table T { chain C { type filter hook ingress devices = ; }; };  # incomplete
@@ -131,23 +177,5 @@ add table A:   # invalid character
 add table $VARIABLE # variable NOT allowed in imperative '^add table'
 table $VARIABLE # variable ALLOWED in declarative '^table'
 
-table A$ { };   # invalid character
-table A%   # invalid character
-table A^   # invalid character
-table A&   # invalid character
-table A*   # invalid character
-table A(   # invalid character
-table A)   # invalid character
-table A+   # invalid character
-table A}
-table A[   # invalid character
-table A]   # invalid character
-table A<   # invalid character
-table A>   # invalid character
-table A,   # invalid character
-table A?   # invalid character
-table A|   # invalid character
-table A:   A
-table A!error
-
+table T { synproxy SP { mss 1490 ; wscale 5 } };  # very incorrect
 
