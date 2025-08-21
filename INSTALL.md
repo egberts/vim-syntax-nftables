@@ -1,6 +1,6 @@
-# Installing vim-nftables Syntax Files (Gentoo Style)
+# Installing vim-nftables Syntax Files
 
-Guide to get vim-nftables syntax highlighting up and running on Gentoo.
+Guide to get vim-nftables syntax highlighting up and running on a Linux platform.
 
 ## Setup Vim Config
 
@@ -22,8 +22,8 @@ Clone the repo from GitHub and copy files:
 
 ```bash
 cd ~/src
-git clone https://github.com/egberts/vim-nftables.git
-cp -R vim-nftables/{indent,ftdetect,ftplugin,syntax}/* ~/.vim/{indent,ftdetect,ftplugin,syntax}/
+git clone https://github.com/egberts/vim-syntax-nftables.git
+cp -R vim-syntax-nftables/{indent,ftdetect,ftplugin,syntax}/* ~/.vim/{indent,ftdetect,ftplugin,syntax}/
 ```
 
 ## Verify Highlighting
@@ -31,5 +31,5 @@ cp -R vim-nftables/{indent,ftdetect,ftplugin,syntax}/* ~/.vim/{indent,ftdetect,f
 Test the syntax highlighting with the provided file:
 
 ```bash
-vim ~/src/vim-nftables/test/all-syntaxes-good.nft
+vim ~/src/vim-syntax-nftables/test/passing-syntax.nft
 ```
