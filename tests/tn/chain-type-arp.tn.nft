@@ -1,0 +1,24 @@
+
+
+add chain arp %
+add chain arp \
+add chain arp &
+add chain arp $var A;
+
+add table arp T x
+add table arp T x;
+add table arp T $;
+add table arp T $variable;
+
+
+add chain arp T A { oopsie filter hook input priority -100; policy accept; };
+add chain arp T A { type oopsie hook input priority 100; policy drop; };
+add chain arp T A { type filter oopsie input priority -100; policy accept; };
+add chain arp T A { type filter hook oopsie priority filter; policy accept; };
+add chain arp T A { type filter hook output oopsie 0; policy accept; };
+add chain arp T A { type filter hook output priority oopsie; policy drop; };
+add chain arp T A { type filter hook output priority -100 oopsie; policy accept; };
+add chain arp T A { type filter hook output priority -100; oopsie accept; };
+add chain arp T A { type filter hook output priority filter; policy oopsie; };
+add chain arp T A { type filter hook output priority filter; policy drop oopsie; };
+

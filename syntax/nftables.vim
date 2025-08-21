@@ -8080,7 +8080,7 @@ syn cluster nft_c_add_table_block_chain_block_hook_spec_dev_spec
 \    nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_prio_spec
 
 hi link   nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_hooks nftHL_Hook
-syn match nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_hooks "\v(postrouting|prerouting|forward|ingress|output|input)\ze\s" skipwhite contained
+syn match nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_hooks "\v(postrouting|prerouting|forward|ingress|egress|output|input)\ze\s" skipwhite contained
 \ nextgroup=
 \    @nft_c_add_table_block_chain_block_hook_spec_dev_spec,
 \    nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_prio_spec,
@@ -8089,7 +8089,8 @@ syn match nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_hooks "\v(
 hi link   nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_keyword_hook nftHL_Statement
 syn match nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_keyword_hook "\vhook\ze\s" skipwhite contained
 \ nextgroup=
-\    nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_hooks
+\    nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_hooks,
+\    nft_Error
 
 hi link   nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_types nftHL_Type
 syn match nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_types "\v(filter|route|nat)" skipwhite contained

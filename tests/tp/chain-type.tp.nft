@@ -1,36 +1,12 @@
-#!/usr/sbin/nft -f
-# File: chain-type
-# Description: A test NFT file to exercise 'chain-type' Vim syntax highlighting
-#
-#
-################################################################################
-# true positive test: properly hightlighted correctly; has good content; perfect
-################################################################################
 
-# Note that only jump and goto actions to regular chains are allowed. 
+add table arp T
+add chain arp T A;
+add chain arp T A { type filter hook input priority 0; policy accept; };
+add chain arp T A { type filter hook output priority filter; policy accept; };
 
-chain T C { ip protocol jump C2 };
-chain ip T C { ip protocol jump C2 };
-chain ip T C { counter };
-
-
-add chain T C { ip protocol jump C2 };
-add chain ip T C { ip protocol jump C2 };
-add chain ip T C { counter };
-table T {
-
-    chain C {
-        ip protocol jump C2;
-    }  ;
-    chain C {
-        ip protocol jump C2;
-    } 
-    chain C {
-        ip protocol jump C2
-    }
-    chain C {
-        ip protocol jump C2
-    }
-
-}
-
+# Failing ARP chains
+add chain arp T A { type filter hook ingress priority 0; policy accept; };
+add chain arp T A { type filter hook prerouting priority 0; policy accept; };
+add chain arp T A { type filter hook postrouting priority 0; policy accept; };
+add chain arp T A { type filter hook forward priority 0; policy accept; };
+add chain arp T A { type filter hook output priority srcnat; policy accept; };

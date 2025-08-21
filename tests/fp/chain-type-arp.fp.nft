@@ -1,0 +1,47 @@
+
+add chain arp;
+add chain arp ;
+
+# actual breakage of vim-syntax-nftables
+add chain arp T A xx;
+delete chain arp T A $
+delete chain arp T $var x
+
+# Unexpected (undocumented) NFT CLI syntax passed (but not scanner)
+add chain arp T A { type route hook input priority 0; policy accept; };
+delete chain arp T A
+
+add chain arp T A { type route hook forward priority 0; policy accept; };
+delete chain arp T A
+
+add chain arp T A { type route hook output priority 0; policy accept; };
+delete chain arp T A
+
+add chain arp T A { type filter hook forward priority 0; policy accept; };
+delete chain arp T A
+
+# Failing ARP chain type (false highlight positive)
+add chain arp T A { type nat hook ingress priority 0; policy accept; };
+add chain arp T A { type nat hook prerouting priority 0; policy accept; };
+add chain arp T A { type nat hook input priority 0; policy accept; };
+add chain arp T A { type nat hook forward priority 0; policy accept; };
+add chain arp T A { type nat hook output priority 0; policy accept; };
+add chain arp T A { type nat hook postrouting priority 0; policy accept; };
+add chain arp T A { type route hook ingress priority 0; policy accept; };
+add chain arp T A { type route hook prerouting priority 0; policy accept; };
+add chain arp T A { type route hook postrouting priority 0; policy accept; };
+
+# Failing ARP chain hooks (false highlight positive)
+add chain arp T A { type filter hook ingress priority 0; policy accept; };
+add chain arp T A { type filter hook prerouting priority 0; policy accept; };
+add chain arp T A { type filter hook postrouting priority 0; policy accept; };
+
+# failing priority labels (false highlight positive)
+add chain arp T A { type filter hook output priority srcnat; policy accept; };
+add chain arp T A { type filter hook output priority security; policy accept; };
+add chain arp T A { type filter hook output priority dstnat; policy accept; };
+add chain arp T A { type filter hook output priority mangle; policy accept; };
+add chain arp T A { type filter hook output priority raw; policy accept; };
+add chain arp T A { type filter hook output priority out; policy accept; };
+
+
