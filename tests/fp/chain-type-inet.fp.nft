@@ -1,0 +1,57 @@
+
+# false positive for chain-type-inet.fp.nft
+
+add chain inet TH B { type route hook ingress priority 0; policy accept; };
+add chain inet TI B { type route hook prerouting priority 0; policy accept; };
+add chain inet TJ B { type route hook input priority 0; policy accept; };
+add chain inet TL B { type route hook forward priority 0; policy accept; };
+add chain inet TM B { type route hook postrouting priority 0; policy accept; };
+
+add chain inet TN B { type nat hook ingress priority 0; policy accept; };
+add chain inet TR B { type nat hook forward priority 0; policy accept; };
+
+# Failed chain priority label names
+add chain inet T B { type filter hook input priority mangle; policy accept; };
+add chain inet T B { type filter hook input priority srcnat; policy accept; };
+add chain inet T B { type filter hook input priority raw; policy accept; };
+add chain inet T B { type filter hook output priority security; policy accept; };
+add chain inet T B { type filter hook output priority dstnat; policy accept; };
+add chain inet T B { type filter hook output priority mangle; policy accept; };
+add chain inet T B { type filter hook output priority raw; policy accept; };
+
+add chain inet T B { type route hook input priority security; policy accept; };
+add chain inet T B { type route hook input priority mangle; policy accept; };
+add chain inet T B { type route hook input priority srcnat; policy accept; };
+add chain inet T B { type route hook input priority raw; policy accept; };
+add chain inet T B { type route hook output priority security; policy accept; };
+add chain inet T B { type route hook output priority dstnat; policy accept; };
+add chain inet T B { type route hook output priority mangle; policy accept; };
+add chain inet T B { type route hook output priority raw; policy accept; };
+
+add chain inet T B { type nat hook input priority security; policy accept; };
+add chain inet T B { type nat hook input priority mangle; policy accept; };
+add chain inet T B { type nat hook input priority srcnat; policy accept; };
+add chain inet T B { type nat hook input priority raw; policy accept; };
+add chain inet T B { type nat hook output priority security; policy accept; };
+add chain inet T B { type nat hook output priority dstnat; policy accept; };
+add chain inet T B { type nat hook output priority mangle; policy accept; };
+add chain inet T B { type nat hook output priority raw; policy accept; };
+
+
+add table inet T
+add chain inet T B { type filter hook input priority dstnat; policy accept; };
+add chain inet T B { type filter hook input priority out; policy accept; };
+add chain inet T B { type filter hook output priority srcnat; policy accept; };
+add chain inet T B { type filter hook output priority out; policy accept; };
+
+add chain inet T B { type route hook input priority dstnat; policy accept; };
+add chain inet T B { type route hook input priority out; policy accept; };
+
+add chain inet T B { type route hook output priority srcnat; policy accept; };
+add chain inet T B { type route hook output priority out; policy accept; };
+
+add chain inet T B { type nat hook input priority dstnat; policy accept; };
+add chain inet T B { type nat hook input priority out; policy accept; };
+
+add chain inet T B { type nat hook output priority srcnat; policy accept; };
+add chain inet T B { type nat hook output priority out; policy accept; };

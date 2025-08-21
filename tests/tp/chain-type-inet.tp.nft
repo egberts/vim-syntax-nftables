@@ -1,12 +1,44 @@
 
-add table arp T
-add chain arp T A;
-add chain arp T A { type filter hook input priority 0; policy accept; };
-add chain arp T A { type filter hook output priority filter; policy accept; };
+add table inet T
+add table inet TA
+add table inet TB
+add table inet TC
+add table inet TD
+add table inet TE
+add table inet TF
+add table inet TG
+add table inet TH
+add table inet TI
+add table inet TJ
+add table inet TK
+add table inet TL
+add table inet TM
+add table inet TN
+add table inet TO
+add table inet TP
+add table inet TQ
+add table inet TR
+add table inet TS
 
-# Failing ARP chains
-add chain arp T A { type filter hook ingress priority 0; policy accept; };
-add chain arp T A { type filter hook prerouting priority 0; policy accept; };
-add chain arp T A { type filter hook postrouting priority 0; policy accept; };
-add chain arp T A { type filter hook forward priority 0; policy accept; };
-add chain arp T A { type filter hook output priority srcnat; policy accept; };
+
+
+# passing inet type/hook/family combo
+add chain inet TB B { type filter hook ingress priority 0; policy accept; };
+add chain inet TC B { type filter hook prerouting priority 0; policy accept; };
+add chain inet TD B { type filter hook input priority 0; policy accept; };
+add chain inet TE B { type filter hook output priority 0; policy accept; };
+add chain inet TF B { type filter hook forward priority 0; policy accept; };
+add chain inet TG B { type filter hook postrouting priority 0; policy accept; };
+
+add chain inet TK B { type route hook output priority 0; policy accept; };
+
+add chain inet TO B { type nat hook prerouting priority 0; policy accept; };
+add chain inet TP B { type nat hook input priority 0; policy accept; };
+add chain inet TQ B { type nat hook output priority 0; policy accept; };
+
+add chain inet TS B { type nat hook postrouting priority 0; policy accept; };
+
+# chain priority label names
+add chain inet T B { type filter hook input priority security; policy accept; };
+add chain inet TA A { type filter hook output priority filter; policy accept; };
+
