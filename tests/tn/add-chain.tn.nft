@@ -32,6 +32,11 @@ add chain *
 add chain &&&&
 add chain   $
 
+delete chain ip T C { asdfasdf };
+destroy chain ip T C { asdfasdf };
+destroy chain ip T C a ;
+destroy chain ip T C 12312310 ;
+destroy chain ip T C & ;
 
 table "#weirdname"  # allowable '#' but only inside double quote???
 

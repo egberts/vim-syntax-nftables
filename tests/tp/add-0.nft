@@ -1,0 +1,12 @@
+
+add table arp T
+add chain arp T A;
+add chain arp T A { type filter hook input priority 0; policy accept; };
+add chain arp T A { type filter hook output priority filter; policy accept; };
+
+# Failing ARP chains
+add chain arp T A { type filter hook ingress priority 0; policy accept; };
+add chain arp T A { type filter hook prerouting priority 0; policy accept; };
+add chain arp T A { type filter hook postrouting priority 0; policy accept; };
+add chain arp T A { type filter hook forward priority 0; policy accept; };
+add chain arp T A { type filter hook output priority srcnat; policy accept; };

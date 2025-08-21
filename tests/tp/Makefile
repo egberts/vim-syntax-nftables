@@ -15,11 +15,11 @@ DEFAULT_NFT_FILES := $(wildcard *.tp.nft)
 VIM_FILES := $(wildcard *.vim)
 
 check:
-	@if ! sudo -v >/dev/null 2>&1; then \
-		sudo /opt/nftables/sbin/nft --version; \
+	@if ! sudo -v -n -N >/dev/null 2>&1; then \
 		echo "Need sudo for 'nft -c' check."; \
-	fi;\
-	if [ $(words $(MAKECMDGOALS)) -eq 2 ]; then \
+		sudo /opt/nftables/sbin/nft --version; \
+	fi;
+	@if [ $(words $(MAKECMDGOALS)) -eq 2 ]; then \
 		FILE="$(word 2, $(MAKECMDGOALS))"; \
 		echo "Checking file: $$FILE"; \
 		sudo /opt/nftables/sbin/nft -c -f "$$FILE"; \

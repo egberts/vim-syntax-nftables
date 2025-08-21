@@ -20,38 +20,137 @@
 # true positive test (properly hightlighted correctly; has good content; perfect
 ################################################################################
 
+# input hook chain, type filter @ srcnat priority
+add table ip table_id
+chain ip table_id chain_id { type filter hook input priority srcnat; policy accept;};
+delete chain ip table_id chain_id { type filter hook input priority srcnat; policy accept; };
+delete table ip table_id
+
+# prerouting hook chain, type nat @ mangle priority
+add table inet table_id
+chain inet table_id chain_id        { type nat hook prerouting priority mangle; policy accept; };
+delete chain inet table_id chain_id { type nat hook prerouting priority mangle; policy accept; };
+delete table inet table_id
+
+define MY_PRIORITY = security
+add table ip table_id
+add chain ip table_id chain_id { type filter hook input priority $MY_PRIORITY; policy drop; }
+delete chain ip table_id chain_id
+delete table ip table_id
+undefine MY_PRIORITY
+
+add table ip table_id
+add chain ip table_id chain_id    { type filter hook input priority 12345; policy drop; }
+delete chain ip table_id chain_id { type filter hook input priority 12345; policy drop; }
+delete table ip table_id
+
+add table ip table_id
+add chain ip table_id chain_id    { type filter hook input priority -12345; policy drop; }
+delete chain ip table_id chain_id { type filter hook input priority 12345; policy drop; }
+delete table ip table_id
+
+
+add table ip table_id
+chain ip table_id chain_id {  # regular base chain ('regular chain')
+        ip daddr 192.168.1.100 dnat to 192.168.1.200;
+}
+delete chain ip table_id chain_id
+delete table ip table_id
+
+add table ip table_id
+table ip table_id {
+    chain chain_id {
+        # hook base chain ('hook chain')
+        type filter hook input priority 0; policy drop;
+        ip daddr 192.168.1.100 dnat to 192.168.1.200;
+    };
+};
+delete chain ip table_id chain_id { type filter hook input priority 0; policy drop; };
 
 
 add table T;
-add chain T C
-add chain T C
-add chain T C;
+add chain ip T C
+delete chain ip T C
 
-chain T C;
-chain T C { };
-chain T C {
-    include "../include/rule-counter.nft"
+add chain ip T C    { type filter hook input priority 0; policy accept; }
+delete chain ip T C { type filter hook input priority 0; policy accept; }
+
+# base_cmd add_cmd 'chain' '{' chain_block common_block
+add chain ip T C    { type filter hook input priority 0; policy accept; };
+delete chain ip T C { type filter hook input priority 0; policy accept; };
+destroy chain ip T C
+delete table ip T
+destroy table ip T
+
+add table ip T
+chain ip T C {
+    type filter hook input priority 0; policy accept;
+    # base_cmd add_cmd 'table' table_spec table_block chain_block common_block 'include'
+    include "../include/chain-flags.nft"
+    # base_cmd add_cmd 'table' table_spec table_block chain_block common_block 'define'
     define A = 1
+    # base_cmd add_cmd 'table' table_spec table_block chain_block common_block 'redefine'
+    redefine A = 2
+    # base_cmd add_cmd 'table' table_spec table_block chain_block common_block 'undefine'
+    undefine A;
+    # base_cmd add_cmd 'table' table_spec table_block chain_block common_block 'error'
+    # error "what goes here";
 }
+delete chain ip T C { type filter hook input priority 0; policy accept; };
+list table ip T
+delete table ip T
 
+# base_cmd add_cmd 'chain' '{' chain_block hook_spec
+add table T
 chain T C {
-    include "../include/rule-counter.nft";
-    define A = 1;
-    iifname "eno2" accept;
-};
-
-
-# base_cmd add_cmd 'table' table_spec table_block chain_block common_block 'include'
-table T {
-    chain C {
-        include "../include/rule-counter.nft"
-    }
-};
-table T {
-    chain C {
-        define A = 1
-    }
+    # base_cmd add_cmd 'chain' '{' chain_block hook_spec 'type'
+    type filter hook input priority mangle; 
+    type filter hook input priority srcnat; policy accept;
 }
+delete chain T C { type filter hook input priority mangle; policy accept; };
+delete table T
+
+define MY_PRIORITY = 0
+define MY_POLICY = "accept"
+define MY_DEVICES = { "eth0" }
+define MY_DEVICE = eno2
+add table netdev T
+add table bridge T
+chain bridge T C { type filter hook output priority 100; policy drop; }
+chain netdev T C { type filter hook ingress priority $MY_PRIORITY; policy $MY_POLICY; }
+chain netdev T C { type filter hook ingress priority filter; policy drop; }
+chain netdev T C { type nat hook postrouting priority mangle; policy drop; }
+chain netdev T C { type filter hook prerouting priority dstnat; policy drop; }
+chain netdev T C { type filter hook postrouting priority filter; policy drop; }
+# chain netdev T C { type filter hook ingress device lo priority security; policy drop; };  # 'security' not available
+chain T C { type filter hook postrouting priority srcnat; policy drop; };
+# chain T C { type filter hook postrouting devices = { $MY_DEVICES } priority 0; policy drop; }
+# chain T C { type route hook input priority ulog; policy drop;}  # 'ulog' not available
+chain T C { type route hook output priority mangle + 10; policy drop ; };
+# chain netdev T C { type route hook ingress priority raw; policy drop;}  # 'raw' not available
+# chain T C { type route hook forward priority default; policy drop;}  # 'default' not available
+# chain T C { type route hook prerouting  priority conntrack; policy drop;}  # 'conntrack' not available
+# chain T C { type route hook postrouting  priority helper; policy drop;}  # 'helper' not available
+chain T C { type nat hook input priority 0; policy drop;}
+delete chain T nat
+
+chain T C { type nat hook output priority 0; policy drop;}
+add table netdev T
+chain netdev T C { type nat hook ingress priority 0; policy drop;}
+chain T C { type nat hook forward priority 0; policy drop;}
+chain T C { type nat hook prerouting priority 0; policy drop;}
+chain T C { type nat hook postrouting priority 0; policy drop; };
+
+# base_cmd add_cmd 'chain' '{' chain_block flags_spec
+chain T C {
+    flags offload;
+};
+
+# base_cmd add_cmd 'chain' '{' chain_block comment_spec
+chain T C {
+    comment "a comment line"
+}
+
 table T { chain C {
 ;
     define A = 1 
@@ -131,17 +230,23 @@ table xxxx {
 
 table T { chain C { }; };
 table T { chain C { }; chain D { }; };
+delete chain T C
+delete chain T D
 
 
 
 
 table T { chain C { }; };
 table T { chain C { }; chain D { }; };
+delete chain T C
+delete chain T D
 
-define MY_DEVICE = eth0
-define SECOND_DEVICE = eth1
-table T { chain input { type filter hook input priority 0; policy drop; iifname $MY_DEVICE accept;  }; };
-table T { chain nat { type nat hook prerouting priority 0; policy drop; iifname $MY_DEVICE accept;  }; };
+define MY_DEVICE2 = eth0
+define SECOND_DEVICE2 = eth1
+table T { chain input { type filter hook input priority 0; policy drop; iifname $MY_DEVICE2 accept;  }; };
+table T { chain nat { type nat hook prerouting priority 0; policy drop; iifname $MY_DEVICE2 accept;  }; };
+delete chain T input
+delete chain T nat
 undefine MY_DEVICE
 
 table bridge myBridge { flags dormant; }
@@ -159,7 +264,6 @@ table xxxx { undefine abc; chain last { undefine abc; }; };
 
 
 
-define MY_PRIORITY = 100
 table xxxx { chain last {
     undefine abc;
     include "../include/rule-counter.nft";
