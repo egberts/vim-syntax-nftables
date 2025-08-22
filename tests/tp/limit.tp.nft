@@ -19,182 +19,36 @@
 ################################################################################
 
 
-# limit_burst_pkts->limit_rate_pkts->limit_config->identifier->table_spec->'limit'->'add'->add_cmd->base_cmd
-add limit myIpTable myIpLimit rate 1/second
-add limit myIpTable myIpLimit rate 1/second burst 1514 packet
-add limit myIpTable myIpLimit rate 1/second burst 15 packets
-
-# limit_burst_pkts->limit_rate_pkts->limit_config->identifier->family_spec->table_spec->'limit'->'add'->add_cmd->base_cmd
-add limit ip6 myIp6Table myIp6Limit rate 1 / week burst 1 packet
-add limit ip6 myIp6Table myIp6Limit rate 1 / week burst 1 packets
-add limit ip myIpTable myIpLimit rate 1/ day burst 1 packet
-add limit inet myInetTable myInetLimit rate 1/second burst 1 packets
-add limit inet myInetTable myInetLimit rate 1/second burst 10 packets
-add limit inet myInetTable myInetLimit rate 1/second burst 100000 packets
-add limit inet myInetTable myInetLimit rate 1/second burst 1000000000 packets
-add limit inet myInetTable myInetLimit rate 1/second burst 10000000000000 packets
-add limit inet myInetTable myInetLimit rate 1/second burst 10000000000000000 packets
-add limit inet myInetTable myInetLimit rate 1/second burst 10000000000000000000 packets
-add limit netdev myNetdevTable myNetdevLimit rate 1/minute burst 1 packets
-add limit bridge myBridgeTable myBridgeLimit rate 1 /hour burst 1T packets
-add limit arp myBridgeTable myBridgeLimit rate 1 /hour burst 1000000 packets
-
-# limit_rate_pkts->obj_spec->'limit'->'rule'->'add'->add_cmd->base_cmd
-# limit_rate_pkts->identifier->table_spec->'limit'->'rule'->'add'->add_cmd->base_cmd
-add limit myIp6Table myIp6Limit rate 1 / week
-
-# 'limit'->'add'->add_cmd->base_cmd
-# 'limit'->add_cmd->base_cmd
-# identifier->table_spec->obj_spec->'limit'->add_cmd->base_cmd
-# identifier->obj_spec->'limit'->add_cmd->base_cmd
-# 'rate'->limit_config->'limit'->add_cmd->base_cmd
-# NUM->limit_rate_pkts->'rate'->limit_config->'limit'->add_cmd->base_cmd
-# SLASH->limit_rate_pkts->'rate'->limit_config->'limit'->add_cmd->base_cmd
-limit myIp6Table myIp6Limit rate 1/second
-limit myIp6Table myIp6Limit rate 12/second
-limit myIp6Table myIp6Limit rate 123/second
-limit myIp6Table myIp6Limit rate 1234/second
-limit myIp6Table myIp6Limit rate 12345/second
-limit myIp6Table myIp6Limit rate 123456/second
-limit myIp6Table myIp6Limit rate 1234567/second
-limit myIp6Table myIp6Limit rate 12345678/second
-limit myIp6Table myIp6Limit rate 123456789/second
-limit myIp6Table myIp6Limit rate 1234567890/second
-
-limit myIp6Table myIp6Limit rate 1/second
-limit myIp6Table myIp6Limit rate 1/ second
-limit myIp6Table myIp6Limit rate 1 /second
-limit myIp6Table myIp6Limit rate 1 / second
-limit myIp6Table myIp6Limit rate 1 / seconds
-limit myIp6Table myIp6Limit rate 1 / minute
-limit myIp6Table myIp6Limit rate 1 / minutes
-limit myIp6Table myIp6Limit rate 1 / hour
-limit myIp6Table myIp6Limit rate 1 / hours
-limit myIp6Table myIp6Limit rate 1 / day
-limit myIp6Table myIp6Limit rate 1 / days
-limit myIp6Table myIp6Limit rate 1 / week
-limit myIp6Table myIp6Limit rate 1 / weeks 
-
-limit myIp6Table myIp6Limit rate 1 / second;
-limit myIp6Table myIp6Limit rate 1 / second; 
-limit myIp6Table myIp6Limit rate 1 / second ;
-limit myIp6Table myIp6Limit rate 1 / second ; 
-
-# 'rate'->limit_config->'limit'->add_cmd->base_cmd
-# limit_mode->'rate'->limit_config->'limit'->add_cmd->base_cmd
-# NUM->limit_rate_pkts->'rate'->limit_config->'limit'->add_cmd->base_cmd
-# SLASH->limit_rate_pkts->'rate'->limit_config->'limit'->add_cmd->base_cmd
-# time_unit->limit_rate_pkts->'rate'->limit_config->'limit'->add_cmd->base_cmd
-limit myIpTable myIpLimit rate over 3600000 / days
-limit myIpTable myIpLimit rate over 3600000 / days;
-limit myInetTable myInetLimit rate until 1/seconds
-
-# 'rate'->limit_config->'limit'->add_cmd->base_cmd
-# limit_mode->'rate'->limit_config->'limit'->add_cmd->base_cmd
-# NUM->limit_rate_bytes->'rate'->limit_config->'limit'->add_cmd->base_cmd
-# SLASH->limit_rate_bytes->'rate'->limit_config->'limit'->add_cmd->base_cmd
-# time_unit->limit_rate_bytes->'rate'->limit_config->'limit'->add_cmd->base_cmd
-# 'burst'->limit_burst_bytes->'rate'->limit_config->'limit'->add_cmd->base_cmd
-# NUM->limit_burst_bytes->'rate'->limit_config->'limit'->add_cmd->base_cmd
-# time_unit->limit_burst_pkts->'rate'->limit_config->'limit'->add_cmd->base_cmd
-limit myNetdevTable myNetdevLimit rate 1 byte/minute
-limit myNetdevTable myNetdevLimit rate 1 bytes/minute
-limit myNetdevTable myNetdevLimit rate 1 kbyte/minute
-limit myNetdevTable myNetdevLimit rate 1 kbytes/minute
-limit myNetdevTable myNetdevLimit rate 1 Mbyte/minute
-limit myNetdevTable myNetdevLimit rate 1 Mbytes/minute
-limit myNetdevTable myNetdevLimit rate 1 Gbyte/minute
-limit myNetdevTable myNetdevLimit rate 1 Gbytes/minute
-limit myNetdevTable myNetdevLimit rate 1 Pbyte/minute
-limit myNetdevTable myNetdevLimit rate 1 Pbytes/minute
-
-limit myNetdevTable myNetdevLimit rate 1 byte/ minute
-limit myNetdevTable myNetdevLimit rate 1 byte /minute
-limit myNetdevTable myNetdevLimit rate 1 byte / minute
-
-limit myNetdevTable myNetdevLimit rate 1 kbyte/second
-limit myNetdevTable myNetdevLimit rate 1 kbyte/seconds
-limit myNetdevTable myNetdevLimit rate 1 kbyte/minute
-limit myNetdevTable myNetdevLimit rate 1 kbyte/minutes
-limit myNetdevTable myNetdevLimit rate 1 kbyte/hour
-limit myNetdevTable myNetdevLimit rate 1 kbyte/hours
-limit myNetdevTable myNetdevLimit rate 1 kbyte/day
-limit myNetdevTable myNetdevLimit rate 1 kbyte/days
-limit myNetdevTable myNetdevLimit rate 1 kbyte/week
-limit myNetdevTable myNetdevLimit rate 1 kbyte/weeks
-
-limit myNetdevTable myNetdevLimit rate 1 kbyte/weeks;
-limit myNetdevTable myNetdevLimit rate 1 kbyte/weeks; 
-limit myNetdevTable myNetdevLimit rate 1 kbyte/weeks ;
-limit myNetdevTable myNetdevLimit rate 1 kbyte/weeks ; 
-
-limit myNetdevTable myNetdevLimit rate 1 byte/minute burst 5 byte
-limit myNetdevTable myNetdevLimit rate 1 Gbytes/minute burst 5 byte 
-limit myNetdevTable myNetdevLimit rate 1 Gbytes/minute burst 5 bytes 
-limit myNetdevTable myNetdevLimit rate 1 Gbytes/minute burst 5 kbyte
-limit myNetdevTable myNetdevLimit rate 1 Gbytes/minute burst 5 kbytes
-limit myNetdevTable myNetdevLimit rate 1 Gbytes/minute burst 5 Mbyte
-limit myNetdevTable myNetdevLimit rate 1 Gbytes/minute burst 5 Mbytes
-limit myNetdevTable myNetdevLimit rate 1 Gbytes/minute burst 5 GBYTE
-limit myNetdevTable myNetdevLimit rate 1 Gbytes/minute burst 5 GBYTES
-
-# limit_config->obj_spec->'limit'->add_cmd->base_cmd
-# limit_config->identifier->family_spec->table_spec->'limit'->add_cmd->base_cmd
-limit ip6 myIp6Table myIp6Limit rate 1 / week
-limit ip myIpTable myIpLimit rate 1/ day
-limit inet myInetTable myInetLimit rate 1/second
-limit netdev myNetdevTable myNetdevLimit rate 1/minute 
-limit bridge myBridgeTable myBridgeLimit rate 1 /hour 
-limit arp myBridgeTable myBridgeLimit rate 1 /hour
-
-# [ add rule ] limit obj_spec limit_obj { limit_config } close_scope_limit
-# limit_block->'{'->identifier->family_spec->table_spec->'limit'->'rule'->'add'->add_cmd->base_cmd
-#limit myTable lim_400ppm { rate 400/minute ; comment "use to limit incoming icmp" ; }
-limit myTable lim_1kbps  { 
-    rate over 1024 bytes/second burst 512 bytes ;
-    comment "use to limit incoming smtp" ; }
-
-# limit obj_spec limit_obj { stmt_separator } close_scope_limit
-limit myTable lim_400ppm { ; }
-
-# limit obj_spec limit_obj { comment_spec } close_scope_limit
-limit myTable lim_400ppm { comment "comments here"; }
-
-# limit obj_spec limit_obj { common_block } close_scope_limit
-limit myTable lim_400ppm { 
-    include "rate-limit.nft"
-    rate 400/minute ; comment "use to limit incoming icmp" ; 
-}
 
 # base_cmd add_cmd 'table' table_spec table_block 'limit' limit_block
-table ip T { limit L { } }
-table ip6 T { limit L { } }
-table inet T { limit L { } }
-table netdev T { limit L { } }
-table bridge T { limit L { } }
-table arp T { limit L { } }
-table T { limit L { rate 15 byte } }
-table T { limit L { rate 15 bytes } }
-table T { limit L { rate over 15 / second } }
-table T { limit L { rate over 15 / minute } }
-table T { limit L { rate over 15 / hour } }
-table T { limit L { rate over 15 / day } }
-table T { limit L { rate over 15 / week } }
-table T { limit L { rate over 15 bytes / second } }
-table T { limit L { rate over 15 kbytes / minute } }
-table T { limit L { rate over 15 mbytes / hour } }
-table T { limit L { rate over 15 gbytes / day } }
-table T { limit L { rate over 15 pbytes / week } }
-table T { limit L { rate until 15 / second } }
-table T { limit L { rate until 15 / minute } }
-table T { limit L { rate until 15 / hour } }
-table T { limit L { rate until 15 / day } }
-table T { limit L { rate until 15 / week } }
-table T { limit L { rate until 15 bytes / second } }
-table T { limit L { rate until 15 bytes / minute } }
-table T { limit L { rate until 15 bytes / hour } }
-table T { limit L { rate until 15 bytes / day } }
-table T { limit L { rate until 15 bytes / week } }
+table ip T { limit L { }; }
+table ip6 T { limit L { }; }
+table inet T { limit L { }; }
+table netdev T { limit L { }; }
+table bridge T { limit L { }; }
+table arp T { limit L { }; }
+table T { limit L { rate 15 byte }; }
+table T { limit L { rate 15 bytes }; }
+table T { limit L { rate over 15 / second }; }
+table T { limit L { rate over 15 / minute }; }
+table T { limit L { rate over 15 / hour }; }
+table T { limit L { rate over 15 / day }; }
+table T { limit L { rate over 15 / week }; }
+table T { limit L { rate over 15 bytes / second }; }
+table T { limit L { rate over 15 kbytes / minute }; }
+table T { limit L { rate over 15 mbytes / hour }; }
+table T { limit L { rate over 15 gbytes / day }; }
+table T { limit L { rate over 15 pbytes / week }; }
+table T { limit L { rate until 15 / second }; }
+table T { limit L { rate until 15 / minute }; }
+table T { limit L { rate until 15 / hour }; }
+table T { limit L { rate until 15 / day }; }
+table T { limit L { rate until 15 / week }; }
+table T { limit L { rate until 15 bytes / second }; }
+table T { limit L { rate until 15 bytes / minute }; }
+table T { limit L { rate until 15 bytes / hour }; }
+table T { limit L { rate until 15 bytes / day }; }
+table T { limit L { rate until 15 bytes / week }; }
 table T {
     limit L {
         rate 1 / second
@@ -239,8 +93,6 @@ table T {
     }
 };
 
-# TODO create limit
-# limit_rate_pkts->limit_config->obj_spec->'limit'->'create'->add_cmd->base_cmd
 # limit_rate_pkts->limit_config->identifier->table_spec->'limit'->'create'->create_cmd->base_cmd
 create limit myIp6Table myIp6Limit rate 1 / week
 
@@ -260,49 +112,6 @@ create limit inet myInetTable myInetLimit rate 1/second
 create limit netdev myNetdevTable myNetdevLimit rate 1/minute 
 create limit bridge myBridgeTable myBridgeLimit rate 1 /hour 
 create limit arp myBridgeTable myBridgeLimit rate 1 /hour 
-
-# TODO delete limit
-# limit_rate_pkts->limit_config->obj_spec->'limit'->'delete'->add_cmd->base_cmd
-# limit_rate_pkts->limit_config->identifier->table_spec->'limit'->'delete'->delete_cmd->base_cmd
-delete 
-
-
-delete limit 
-
-
-delete limit last 
-delete limit T 
-
-delete limit T handle 1 
-delete limit last handle 1 
-
-delete limit last H      
-delete limit last last      
-delete limit T last      
-delete limit T H      
-delete limit T H
-delete limit T H;
-delete limit T H; 
-delete limit T H ;
-delete limit T H ; 
-
-delete limit ip T H; 
-delete limit ip6 T H; 
-delete limit inet T H; 
-delete limit netdev T H; 
-delete limit bridge T H; 
-delete limit arp T H; 
-delete limit T handle 1
-
-# Syntax:  delete limit objid_spec
-delete limit table_id handle 15
-delete limit ip table_id handle 15
-delete limit ip6 table_id handle 15
-delete limit inet table_id handle 15
-delete limit netdev table_id handle 15
-delete limit bridge table_id handle 15
-delete limit arp table_id handle 15
-
 
 # TODO list limit
 # obj_spec->'limit'->list_cmd->base_cmd
