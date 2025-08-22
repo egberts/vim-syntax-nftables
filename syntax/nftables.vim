@@ -813,19 +813,10 @@ syn match nft_add_cmd_keyword_counter_obj_spec_table_spec_table_id '\v[a-zA-Z][a
 \    nft_UnexpectedSemicolon,
 \    nft_UnexpectedEOS
 
-hi link   nft_add_cmd_keyword_counter_obj_spec_table_spec_table_id_keyword_last nftHL_Action
-syn match nft_add_cmd_keyword_counter_obj_spec_table_spec_table_id_keyword_last 'last' skipwhite contained
-\ nextgroup=
-\    nft_add_cmd_keyword_counter_obj_spec_identifier_last,
-\    nft_add_cmd_counter_obj_spec_obj_id,
-\    nft_UnexpectedSemicolon,
-\    nft_UnexpectedEOS
-
 " _add_ to make 'chain_spec' pathway unique
 hi link   nft_add_cmd_keyword_counter_obj_spec_table_spec_family_spec_explicit nftHL_Family
 syn match nft_add_cmd_keyword_counter_obj_spec_table_spec_family_spec_explicit '\v(bridge|netdev|inet|arp|ip6|ip)' skipwhite contained
 \ nextgroup=
-\    nft_add_cmd_keyword_counter_obj_spec_table_spec_table_id_keyword_last,
 \    nft_add_cmd_keyword_counter_obj_spec_table_spec_table_id,
 \    nft_UnexpectedSemicolon,
 \    nft_UnexpectedEOS
@@ -834,7 +825,6 @@ syn match nft_add_cmd_keyword_counter_obj_spec_table_spec_family_spec_explicit '
 syn cluster nft_c_add_cmd_keyword_counter_obj_spec
 \ contains=
 \    nft_add_cmd_keyword_counter_obj_spec_table_spec_family_spec_explicit,
-\    nft_add_cmd_keyword_counter_obj_spec_table_spec_table_id_keyword_last,
 \    nft_add_cmd_keyword_counter_obj_spec_table_spec_table_id,
 
 " Match the 'counter' keyword
@@ -1693,19 +1683,10 @@ syn match nft_add_cmd_keyword_counter_obj_spec_table_spec_table_id '\v[a-zA-Z][a
 \    nft_UnexpectedSemicolon,
 \    nft_UnexpectedEOS
 
-hi link   nft_add_cmd_keyword_counter_obj_spec_table_spec_table_id_keyword_last nftHL_Action
-syn match nft_add_cmd_keyword_counter_obj_spec_table_spec_table_id_keyword_last 'last' skipwhite contained
-\ nextgroup=
-\    nft_add_cmd_keyword_counter_obj_spec_identifier_last,
-\    nft_base_cmd_keyword_counter_keyword_table_obj_spec_obj_id,
-\    nft_UnexpectedSemicolon,
-\    nft_UnexpectedEOS
-
 " _add_ to make 'chain_spec' pathway unique
 hi link   nft_add_cmd_keyword_counter_obj_spec_table_spec_family_spec_explicit nftHL_Family
 syn match nft_add_cmd_keyword_counter_obj_spec_table_spec_family_spec_explicit '\v(bridge|netdev|inet|arp|ip6|ip)' skipwhite contained
 \ nextgroup=
-\    nft_add_cmd_keyword_counter_obj_spec_table_spec_table_id_keyword_last,
 \    nft_add_cmd_keyword_counter_obj_spec_table_spec_table_id,
 \    nft_UnexpectedSemicolon,
 \    nft_UnexpectedEOS
@@ -1714,7 +1695,6 @@ syn match nft_add_cmd_keyword_counter_obj_spec_table_spec_family_spec_explicit '
 syn cluster nft_c_add_cmd_keyword_counter_obj_spec
 \ contains=
 \    nft_add_cmd_keyword_counter_obj_spec_table_spec_family_spec_explicit,
-\    nft_add_cmd_keyword_counter_obj_spec_table_spec_table_id_keyword_last,
 \    nft_add_cmd_keyword_counter_obj_spec_table_spec_table_id,
 
 " 'counter'->add_cmd->base_cmd->line
@@ -2178,61 +2158,6 @@ syn match nft_base_cmd_destroy_delete_cmds_keyword_flowtable '\vflowtable\ze[ \t
 \    nft_Error
 " flowtableflowtableflowtable
 
-hi link   nft_delete_cmd_keyword_counter_objid_spec_num nftHL_Handle
-syn match nft_delete_cmd_keyword_counter_objid_spec_num '\v[0-9]{1,10}' skipwhite contained
-\ nextgroup=
-\    nft_EOS
-
-hi link   nft_delete_cmd_keyword_counter_obj_spec_identifier_string_counter nftHL_Table
-syn match nft_delete_cmd_keyword_counter_obj_spec_identifier_string_counter '\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}' skipwhite contained
-
-hi link   nft_delete_cmd_keyword_counter_objid_spec_keyword_handle nftHL_Action
-syn match nft_delete_cmd_keyword_counter_objid_spec_keyword_handle '\vhandle\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_delete_cmd_keyword_counter_objid_spec_num,
-\    nft_UnexpectedSemicolon,
-\    nft_UnexpectedEOS,
-\    nft_Error
-
-hi link   nft_delete_cmd_keyword_counter_obj_spec_keyword_last nftHL_Action
-syn match nft_delete_cmd_keyword_counter_obj_spec_keyword_last '\vlast\ze[ \t]' skipwhite contained
-
-hi link   nft_delete_cmd_keyword_counter_table_spec_identifier_string_table nftHL_Table
-syn match nft_delete_cmd_keyword_counter_table_spec_identifier_string_table '\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}' skipwhite contained
-\ nextgroup=
-\    nft_delete_cmd_keyword_counter_objid_spec_keyword_handle,
-\    nft_delete_cmd_keyword_counter_obj_spec_keyword_last,
-\    nft_delete_cmd_keyword_counter_obj_spec_identifier_string_counter,
-\    nft_UnexpectedSemicolon,
-\    nft_UnexpectedEOS,
-\    nft_Error
-
-hi link   nft_delete_cmd_keyword_counter_table_spec_keyword_last nftHL_Action
-syn match nft_delete_cmd_keyword_counter_table_spec_keyword_last '\vlast\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_delete_cmd_keyword_counter_objid_spec_keyword_handle,
-\    nft_delete_cmd_keyword_counter_obj_spec_keyword_last,
-\    nft_delete_cmd_keyword_counter_obj_spec_identifier_string_set
-
-hi link   nft_delete_cmd_keyword_counter_table_spec_family_spec nftHL_Family
-syn match nft_delete_cmd_keyword_counter_table_spec_family_spec '\v(bridge|netdev|inet|arp|ip6|ip)' skipwhite contained
-\ nextgroup=
-\    nft_delete_cmd_keyword_counter_table_spec_keyword_last,
-\    nft_delete_cmd_keyword_counter_table_spec_identifier_string_table,
-\    nft_UnexpectedSemicolon,
-\    nft_UnexpectedEOS,
-\    nft_Error
-
-hi link   nft_base_cmd_destroy_delete_cmds_keyword_counter nftHL_Statement
-syn match nft_base_cmd_destroy_delete_cmds_keyword_counter '\vcounter\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_delete_cmd_keyword_counter_table_spec_family_spec,
-\    nft_delete_cmd_keyword_counter_table_spec_keyword_last,
-\    nft_delete_cmd_keyword_counter_table_spec_identifier_string_table,
-\    nft_UnexpectedSemicolon,
-\    nft_UnexpectedEOS,
-\    nft_Error
-
 hi link   nft_base_cmd_destroy_delete_cmds_keyword_quota nftHL_Statement
 syn match nft_base_cmd_destroy_delete_cmds_keyword_quota '\vquota\ze[ \t]' skipwhite contained
 \ nextgroup=
@@ -2373,7 +2298,6 @@ syn match nft_base_cmd_keyword_delete '\vdelete\ze[ \t]' skipwhite contained
 \    nft_base_cmd_destroy_delete_cmds_keyword_synproxy,
 \    nft_base_cmd_destroy_delete_cmds_keyword_element,
 \    nft_base_cmd_destroy_delete_cmds_keyword_secmark,
-\    nft_base_cmd_destroy_delete_cmds_keyword_counter,
 \    nft_base_cmd_delete_cmd_keyword_chain,
 \    nft_base_cmd_destroy_delete_cmds_keyword_table,
 \    nft_base_cmd_destroy_delete_cmds_keyword_limit,
@@ -2395,7 +2319,6 @@ syn match nft_base_cmd_keyword_destroy '\vdestroy\ze[ \t]' skipwhite contained
 \    nft_base_cmd_destroy_delete_cmds_keyword_synproxy,
 \    nft_base_cmd_destroy_delete_cmds_keyword_element,
 \    nft_base_cmd_destroy_delete_cmds_keyword_secmark,
-\    nft_base_cmd_destroy_delete_cmds_keyword_counter,
 \    nft_base_cmd_destroy_cmd_keyword_chain,
 \    nft_base_cmd_destroy_delete_cmds_keyword_table,
 \    nft_base_cmd_destroy_delete_cmds_keyword_limit,
@@ -6793,7 +6716,7 @@ syn match nft_base_cmd_add_cmd_rule_rule_alloc_stmt_objref_stmt_objref_stmt_coun
 hi link   nft_base_cmd_add_cmd_rule_rule_alloc_stmt_objref_stmt_objref_stmt_counter_stmt_expr_symbol_expr_string_quoted nftHL_String
 syn match nft_base_cmd_add_cmd_rule_rule_alloc_stmt_objref_stmt_objref_stmt_counter_stmt_expr_symbol_expr_string_quoted '\v\"[a-zA-Z][a-zA-Z0-9\-_]{0,63}\"\ze[ \t\n;]' skipwhite contained
 syn match nft_base_cmd_add_cmd_rule_rule_alloc_stmt_objref_stmt_objref_stmt_counter_stmt_expr_symbol_expr_string_quoted '\v\'[a-zA-Z][a-zA-Z0-9\-_]{0,63}\'\ze[ \t\n;]' skipwhite contained
-hi link   nft_base_cmd_add_cmd_rule_rule_alloc_stmt_objref_stmt_objref_stmt_counter_stmt_expr_symbol_expr_string_raw nftHL_String
+hi link   nft_base_cmd_add_cmd_rule_rule_alloc_stmt_objref_stmt_objref_stmt_counter_stmt_expr_symbol_expr_string_raw nftHL_Identifier
 syn match nft_base_cmd_add_cmd_rule_rule_alloc_stmt_objref_stmt_objref_stmt_counter_stmt_expr_symbol_expr_string_raw '\v[a-zA-Z][a-zA-Z0-9\-_]{0,63}\ze[ \t\n;]' skipwhite contained
 
 " 'name'->'counter'->objref_stmt_counter->objref_stmt->stmt->rule_alloc->rule->add_cmd->base_cmd->line

@@ -30,6 +30,7 @@
 # true positive test: properly hightlighted correctly; has good content; perfect
 ################################################################################
 
+add table ip table_id
 
 add counter ip table_id counter_id packets 5 bytes 1500
 add counter ip table_id counter_id packets 5 bytes 1500;
@@ -45,7 +46,8 @@ add counter table_id counter_id ;
 add counter table_id counter_id ;
 
 
-add counter inet mytable my_counter_name
+add table   inet table_id_inet
+add counter inet table_id_inet my_counter_name
 
 
 add counter table_id counter_id { comment "Nice to say things" }
@@ -62,26 +64,29 @@ add counter table_id counter_id { packets 5 bytes 1500 } ;
 add counter table_id counter_id {
     define A = 1
     packets 5 bytes 1500
+    undefine A
 };
 
 counter table_id counter_id
 counter table_id counter_id; 
 counter table_id counter_id ;
 counter table_id counter_id ; 
-counter last counter_id
-counter table_id last
-counter last last
-counter ip table_id counter_id
-counter ip6 table_id counter_id;
-counter inet table_id counter_id ;
-counter netdev table_id counter_id; 
-counter bridge table_id counter_id ; 
-counter arp table_id counter_id
-counter arp last counter_id
-counter arp table_id last
-counter arp last counter_id
-counter arp last last
-counter bridge table_id counter_id name mycountername; 
+counter table_id last;
+
+add table ip table_id_ip
+add table ip6 table_id_ip6
+add table inet table_id_inet
+add table netdev table_id_netdev
+add table bridge table_id_bridge
+add table arp table_id_arp
+counter ip     table_id_ip counter_id
+counter ip6    table_id_ip6 counter_id;
+counter inet   table_id_inet counter_id ;
+counter netdev table_id_netdev counter_id; 
+counter bridge table_id_bridge counter_id ; 
+counter arp    table_id_arp counter_id
+counter arp    table_id_arp last
+
 
 counter table_id counter_id packets 5 bytes 1500
 counter table_id counter_id packets 5 bytes 1500; 
@@ -102,30 +107,28 @@ counter table_id counter_id {
     define A = 1  # inline comments
     redefine A = 2  # inline comments
     undefine A  # inline comments
-    error; 
     packets 5 bytes 1500  # inline comments
-    include "global_firewall.nft";
-    include "lou_s_firewall.nft"
-    comment "this stuff!`~@#$%^&*()_+-={}[]|\\:\"<>?/";
+    include "../include/comment-just-a-comment.nft";
 };
 
 
 # base_cmd add_cmd 'table' table_spec table_block 'counter' counter_block
-table T { counter C { } }
-table ip T { counter C { } }
-table ip6 T { counter C { } }
-table inet T { counter C { } }
-table netdev T { counter C { } };
-table netdev T { counter C { } } ;
-table netdev T { counter C { } };
-table netdev T { counter C { } } ;
-table bridge T { counter C { } }
-table arp T { counter C { } }
-table T { counter C { packets 123 bytes 15 } }
+
+
+
+add table netdev Tnetdev
+table netdev Tnetdev { counter C { }; }
+table netdev Tnetdev { counter C { }; } ;
+table netdev Tnetdev { counter C { }; };
+table netdev Tnetdev { counter C { }; } ;
+add table bridge Tbridge
+table bridge Tbridge { counter C { }; }
+table arp Tarp { counter C { }; }
+table T { counter C { packets 123 bytes 15 }; }
 table T {
     counter C {
         # common_block
-        include "/directory/subdirectory/filename.filetype"
+        include "../include/comment-just-a-comment.nft";
         define A = 1
         redefine A = 2
         undefine A
@@ -135,55 +138,50 @@ table T {
 }
 
 
-
-table inet mytable {
-    comment "asdfasdfasdff"
+add table inet mytable_inet
+table inet mytable_inet {
     # table_block/common_block
-    include "global_firewall.nft";
+    include "../include/comment-just-a-comment.nft";
     # inline comments
     define A = 1  # inline comments
     redefine A = 2  # inline comments
     undefine A  # inline comments
-    error; 
     # table_options
-    flags dormant, persist, owner
+    #flags dormant, persist, owner
+    flags dormant
     #counter { counter_config };
     # 'counter' keyword is under add_cmd->table_block->'counter'
-    counter packets 123;  # THIS IS AN ERROR
-    counter name my_counter_name;  # THIS IS AN ERROR
+
     counter C {
         # table_block/counter_block/comment_spec
-        comment "comment part"
+        include "../include/comment-just-a-comment.nft";
         # counter_config
         # table_block/common_block
-        include "global_firewall.nft";
-        packets 123
-        bytes 123
+        # packets 123
+        # bytes 123
         # inline comments
         define A = 1  # inline comments
         redefine A = 2  # inline comments
         undefine A  # inline comments
-        error; 
     }
 };
 
-table inet mytable {
-    chain mychain {
+table inet mytable_inet2 {
+    counter my_counter_name { };
+    chain mychain_inet2 {
         # common_block
-        include "global_firewall.nft";
+        include "../include/comment-just-a-comment.nft";
         define A = 1  # inline comments
         redefine A = 2  # inline comments
         undefine A  # inline comments
-        error; 
         # chain_block/flags_spec
-        flags offload
+        #flags offload
         # chain_block/rule/rule_alloc/stmt/stateful_stmt/counter_stmt
         counter
         counter packets 123 bytes 123123
         # chain_block/rule/rule_alloc/stmt/objref_stmt/objref_stmt_counter
         counter name my_counter_name
         counter name my_counter_name;
-        comment "asdfasdfasdff"
     };
 };
 
@@ -191,74 +189,34 @@ table inet mytable {
 # counter_stmt->stateful_stmt->stateful_stmt_list->set_spec
 # counter_stmt->stateful_stmt->(stmt|stateful_stmt_list)
 
-add set T S { counter }
-add set T S { counter } ;
-
-add set T S { counter bytes 2048 }
-add set T S { counter packets 3 }
-
-# repeated stateful_stmt
-add set T S { counter packets 3 counter packets 3 }
-
-delete counter T CC
-delete counter ip T CC
-delete counter ip6 T CC
-delete counter inet T CC
-delete counter netdev T CC
-delete counter bridge T CC
-delete counter arp T CC
-
-delete counter T handle 1
-delete counter ip T handle 1
-delete counter ip6 T handle 1
-delete counter inet T handle 1
-delete counter netdev T handle 1
-delete counter bridge T handle 1
-delete counter arp T handle 1
-
-destroy counter T CC
-destroy counter ip T CC
-destroy counter ip6 T CC
-destroy counter inet T CC
-destroy counter netdev T CC
-destroy counter bridge T CC
-destroy counter arp T CC
-
-destroy counter T handle 1
-destroy counter ip T handle 1
-destroy counter ip6 T handle 1
-destroy counter inet T handle 1
-destroy counter netdev T handle 1
-destroy counter bridge T handle 1
-destroy counter arp T handle 1
 
 list counter T C
 
 reset counter T C
 
-add table T {
-    chain C {
-        iif == "eth0" counter;
+table Tdefault1 {
+    counter named_counter_identifier { };
+    chain Cdefault1 {
+        define MY_COUNTER_VARNAME = "named_counter_identifier"
+        iif == "eno2" counter;
         counter name $MY_COUNTER_VARNAME;
         counter name "named_counter_identifier";
-        counter name 'named_counter_identifier';
         counter name named_counter_identifier;
     }
 };
 
 # counter_stmt (used in rule/stmt and table-counter counter_block)
 table T {
-    counter last {
+    counter my_count {
         # inline comments
         define A = 1  # inline comments
         redefine A = 2  # inline comments
         undefine A  # inline comments
-        error; 
-        include "global_firewall.nft";
-        include "lou_s_firewall.nft"
-        comment "this stuff!`~@#$%^&*()_+-={}[]|\\:\"<>?/";
+        include "../include/comment-just-a-comment.nft";
     }
-    counter name my_count;
+    chain C1 {
+        counter name my_count;
+    }
 } ;
 
 
