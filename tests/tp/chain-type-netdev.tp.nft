@@ -1,18 +1,18 @@
 
-add table netdev T
+add table netdev TA
+add table netdev TB
+add table netdev TC
+add table netdev TD
 
-add    chain netdev T A { type filter hook ingress priority -500; policy accept; };
-delete chain netdev T A { type filter hook ingress priority -500; policy accept; };
+add    chain netdev TA A { type filter hook ingress priority -500; policy accept; };
+delete chain netdev TA A { type filter hook ingress priority -500; policy accept; };
 
-add    chain netdev T A { type filter hook ingress device eno2 priority -500; policy accept; };
-delete chain netdev T A { type filter hook ingress device eno2 priority -500; policy accept; };
+add    chain netdev TB A { type filter hook ingress device eno2 priority -500; policy accept; };
+delete chain netdev TB A { type filter hook ingress device eno2 priority -500; policy accept; };
 
-add    chain netdev T A { type filter hook ingress priority -500; policy accept; };
-delete chain netdev T A { type filter hook ingress priority -500; policy accept; };
+add    chain netdev TC A { type filter hook egress device eno2 priority -500; policy accept; };
+delete chain netdev TC A { type filter hook egress device eno2 priority -500; policy accept; };
 
-add    chain netdev T A { type filter hook egress device eno2 priority -500; policy accept; };
-delete chain netdev T A { type filter hook egress device eno2 priority -500; policy accept; };
-
-add    chain netdev T A { type filter hook egress device eno2 priority -500; policy accept; };
-delete chain netdev T A { type filter hook egress device eno2 priority -500; policy accept; };
+add    chain netdev TD A { type filter hook egress device eno2 priority -500; policy accept; };
+delete chain netdev TD A { type filter hook egress device eno2 priority -500; policy accept; };
 

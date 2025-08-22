@@ -7,97 +7,93 @@
 ################################################################################
 # true positive test: properly hightlighted correctly; has good content; perfect
 ################################################################################
-
 ;
-  ;
- ;  
+ ;
+;
+ ;
 
 # line/common_block/INCLUDE
-include "directory/filename.filetype"
+include "../include/add-table-a.nft"
+
 # line/common_block/INCLUDE/stmt_separator
-include "directory/filename.filetype";
-include "directory/filename.filetype"; 
-include "directory/filename.filetype" ;
-include "directory/filename.filetype" ; 
-# line common_block 'include' <QUOTED_STRING>
-include "filespec"
-include "filename.filetype"
-include "directory/filename.filetype"
-include "https://directory/filename.filetype"  # valid filespec but URL are not processed here (filesystem reject)
-include "file:///directory/filename.filetype"  # valid filespec but URL are not processed here (filesystem reject)
+include "../include/add-table-a.nft";
+include "../include/add-table-a.nft";
+include "../include/add-table-a.nft" ;
+include "../include/add-table-a.nft" ;
 
 # line common_block 'define' identifier '=' initializer_expr
 # line/common_block/DEFINE
 define A=1
-define A= 1
-define A =1
-define A = 1
-define last=1
-define last= 1
-define last =1
-define last = 1
+define B= 1
+define C =1
+define D = 1
+define lastA=1
+define lastB= 1
+define lastC =1
+define lastD = 1
 define ABC= 1  # missing stmt_separator
-define ABC = 1  ;
-define ABC = 1, 2, 3  ;  # set
-define ABC = 127.0.0.1  # missing stmt_separator
-define ABC = 127.0.0.1;
-define ABC = 127.0.0.1, 192.168.1.1;  # set
-define ABC =-1   # missing stmt_separator
-define ABC = -1   # missing stmt_separator
-define ABC = -1;
-define ABC = -1; 
-define ABC = -1 ;
-define ABC = -1 ; 
+define ABD = 1  ;
+define ABE = 1, 2, 3  ;  # set
+define ABF = 127.0.0.1  # missing stmt_separator
+define ABG = 127.0.0.1;
+define ABH = 127.0.0.1, 192.168.1.1;  # set
+define ABI =-1   # missing stmt_separator
+define ABJ = -1   # missing stmt_separator
+define ABK = -1;
+define ABL = -1;
+define ABM = -1 ;
+define ABN = -1 ;
 define port_range = 1024-32767
-define port_range = 1024-32767 ;
-define ABC = identifier # missing stmt_separator
-define ABC = identifier ;
-define ABC = $identifier # missing stmt_separator
-define ABC = $identifier;
-define ABC = "string"  # missing stmt_separator
-define ABC = "string";
+define port_rangeA = 1024-32767 ;
+define ABO = identifier # missing stmt_separator
+define ABP = identifier ;
+define my_identifier = "ACC";
+define ABQ = $my_identifier # missing stmt_separator
+define ABR = $my_identifier;
+define ABS = "string"  # missing stmt_separator
+define ABT = "string";
 
 # line/common_block/DEFINE/initializer_expr/rhs_expr/.../primary_rhs_expr/set_expr/{}
-define ABC = {};
+define ABU = {};
 define last = {   }
-define ABC = { }
-define ABC = { }
-define ABC = {            }
+define ABV = { }
+define ABW = { }
+define ABX = {            }
 
 # Set section
-define ABC = { 1 };
-define MY_SET = { 1, 2 }
-define MY_SET = { 1, 2, 3, 4 };
+define ABY = { 1 };
+define MY_SET_A = { 1, 2 }
+define MY_SET_B = { 1, 2, 3, 4 };
 
-define MY_IP = { 127.0.0.1 };
-define MY_IP_SET = { 127.0.0.1, 192.168.1.1, 192.168.10.10 };
+define MY_IP_SET_A = { 127.0.0.1 };
+define MY_IP_SET_B = { 127.0.0.1, 192.168.1.1, 192.168.10.10 };
 
-define ABC = { x };
+define ABZ = { x };
 define MY_PORTS = { test };
 define MY_PORTS_SET = { test, ssh, tcp, icmp };
 
 define MY_DEV = { "eth0" };
 
-define MY_DEV = { 1024-2048 };
+define MY_PORT_RANGE = { 1024-2048 };
 
 # Map section
-define MY_MAP = { 1:1 };
-define MY_MAP = { 1:tcp };
-define MY_MAP = { 1:"abc" };
-define MY_MAP = { 1 : "abc" };
-define MY_MAP = { 1:"eth0",  2:"br0" };
-define MY_MAP = { tcp : tcp };
-define MY_MAP = { eth0:127.0.0.1 };
-define MY_MAP = { eth0 : 127.0.0.1 };
-define MY_MAP = { eth0:127.0.0.1, bro0:192.168.1.1 };
-define MY_MAP = { 192.168.20.20: ssh };
-define MY_MAP = { 192.168.20.20: ssh, 127.0.0.1: http };
-define MY_MAP = { 192.168.20.20: 127.0.0.1 };
-define MY_MAP = { 192.168.20.20: 127.0.0.1, 127.0.0.1: 127.0.0.1};
+define MY_MAP_A = { 1:1 };
+define MY_MAP_B = { 1:tcp };
+define MY_MAP_C = { 1:"abc" };
+define MY_MAP_D = { 1 : "abc" };
+define MY_MAP_E = { 1:"eth0",  2:"br0" };
+define MY_MAP_F = { tcp : tcp };
+define MY_MAP_G = { eth0:127.0.0.1 };
+define MY_MAP_H = { eth0 : 127.0.0.1 };
+define MY_MAP_I = { eth0:127.0.0.1, bro0:192.168.1.1 };
+define MY_MAP_J = { 192.168.20.20: ssh };
+define MY_MAP_K = { 192.168.20.20: ssh, 127.0.0.1: http };
+define MY_MAP_L = { 192.168.20.20: 127.0.0.1 };
+define MY_MAP_M = { 192.168.20.20: 127.0.0.1, 127.0.0.1: 127.0.0.1};
 
 # line/common_block/DEFINE/initializer_expr/DASH_NUM
-define negative_value = -1000
-define negative_value = -1000 ;
+define negative_valueA = -1000
+define negative_valueB = -1000 ;
 #
 # line common_block 'redefine' identifier '=' initializer_expr
 # line/common_block/REDEFINE
@@ -128,37 +124,29 @@ undefine A
 undefine ABC
 # line/common_block/UNDEFINE/stmt_separator
 undefine A;
-undefine A$BCDE;
+
 undefine A_BCDE;
 undefine A123DF; 
 undefine A123DG ;
 undefine A123DH ; 
 
-error
-error;
-  error;
-error ;
-    error ;
-error ;
-error ; 
-error  # inline comment line
 
 # base_cmd add_cmd 'table' table_spec table_block common_block 'include'
 table T {
-    include "file"
+    include "../include/comment-just-a-comment.nft"
 }
 
 # base_cmd add_cmd 'table' table_spec table_block common_block 'define'
-table T { define A = 1 }
+table T { define A = 1; }
 table T {
-    define A = 1
-    define A = 1 ;
-    define last = 1
-    define last = 1 ;
-    define A = {} ;
+    define BAA = 1
+    define BAB = 1 ;
+    define lastBBA = 1
+    define lastBBB = 1 ;
+    define BAC = {} ;
 }
 # base_cmd add_cmd 'table' table_spec table_block common_block 'redefine'
-table T { redefine A = 1 }
+
 table T { redefine A = 1; }
 table T {
     redefine A = 1
@@ -176,29 +164,19 @@ table xxxx { undefine abc ; } ;
 # base_cmd add_cmd 'table' table_spec table_block 'comment' string
 table T {
     comment Hello
-    comment Hello
-    comment Hello
-    comment Hello
 }
-table bridge T { comment 'Hello world!' }
-table T { comment "Hello world!" }
-table netdev xxxx { comment "test" } ;
-table xxxx { comment 'test' };
-table arp xxxx { comment test;  };
+
+
 
 # base_cmd add_cmd 'table' table_spec table_block 'policy' 'offload'
 # base_cmd add_cmd 'table' table_spec table_block hook_spec 'type'
 # base_cmd add_cmd 'table' table_spec table_block 'flags' flag_spec
-table T {flags persist}
+
 table T {flags dormant;}
-table T {flags owner, persist,dormant };
-table T {flags owner,persist ;}
-table T {flags dormant,owner; }
-table T {flags persist,dormant ; }
+
+
 # base_cmd add_cmd 'table' table_spec table_block { table_options ';' }
-table ip xxxx { flags persist, owner, dormant};
-table xxxx { ; flags owner; comment "new stuff"; };
-table T { flags dormant; chain C { type ; }; };
+
 
 table myIpTable { flags dormant; }
 table netdev myNetdev { flags dormant; }

@@ -37,6 +37,7 @@ define MY_MAP = { 192.168.20.20: ssh, 127.0.0.1: #http };
 define PORT_RANGE = { 1024 - 2048 };
 define PORT_RANGE = { 1024 -2048 };
 define PORT_RANGE = { 1024- 2048 };
+undefine A$BCDE;
 
 redefine A = { ;
 redefine A = { 1,2, 3, 4; }
@@ -82,3 +83,27 @@ undefine TABLE_ID UNKNOWN_TOKEN ;
 
 error x 
 
+error
+error;
+  error;
+error ;
+    error ;
+error ;
+error ;
+error  # inline comment line
+
+table T { define A = 1 }  # requires semicolon at end of inside table_block
+table T { redefine A = 1 }  # requires semicolon at end of inside table_block
+
+table T { comment "Hello world!" }   # requires semicolon at end of inside table_block
+table bridge T { comment 'Hello world!' }  # requires semicolon at end of inside table_block
+table netdev xxxx { comment "test" } ;
+table xxxx { comment 'test' };
+table arp xxxx { comment test;  };
+
+table T {flags persist}  # requires semicolon at end of inside table_block
+
+table T {flags owner, persist,dormant };  # requires semicolon at end of inside table_block
+table ip xxxx { flags persist, owner, dormant};  # requires semicolon at end of inside table_block
+
+table T { flags dormant; chain C { type ; }; };

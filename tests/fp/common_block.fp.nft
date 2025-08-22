@@ -31,3 +31,8 @@ undefine A;BCDE;
 undefine last
 asdf asdf { };
 
+table T {flags owner,persist ;}
+table T {flags dormant,owner; }
+table T {flags persist,dormant ; }
+table xxxx { ; flags owner; comment "new stuff"; };
+
