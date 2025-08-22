@@ -197,7 +197,8 @@ reset counter T C
 table Tdefault1 {
     counter named_counter_identifier { };
     chain Cdefault1 {
-        define MY_COUNTER_VARNAME = "named_counter_identifier"
+        define MY_COUNTER_VARNAME = named_counter_identifier
+        redefine MY_COUNTER_VARNAME = "named_counter_identifier"
         iif == "eno2" counter;
         counter name $MY_COUNTER_VARNAME;
         counter name "named_counter_identifier";

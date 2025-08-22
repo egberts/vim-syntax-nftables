@@ -10,4 +10,83 @@ create oopsie
 
 create set T 
 
+# 'device' can only be used with 'netdev' family_spec
+create chain myIpTable4 myIpChain11 { type filter hook input device eno2 priority 0; policy drop;}
+create chain arp myArpTable myArpChain20 { type filter hook input device eno2 priority 0; policy accept; }
+create chain bridge myBridgeTable myBridgeChain30 { type filter hook input device eno2 priority 0; policy accept; }
+create chain ip myIpTable myIpChain { type filter hook input device eno2 priority 0; policy accept; }
+create chain ip6 myIp6Table myIp6Chain { type filter hook input device eno2 priority 0; policy accept; }
+create chain inet myInetTable myInetChain { type filter hook input device eno2 priority 0; policy accept; }
 
+create chain bridge myBridgeTable myBridgeChain { type filter hook prerouting devices = { eno2, eth1, eth2 } priority 0; policy drop;}
+create chain arp myArpTable myArpChain { type filter hook input devices = { eno2, eth1, eth2 } priority 0; policy drop;}
+create chain ip myIpTable myIpChain { type nat hook postrouting devices = { eno2, eth1, eth2 } priority 0; policy drop;}
+create chain ip6 myIp6Table myIp6Chain { type filter hook input devices = { eno2, eth1, eth2 } priority 0; policy drop;}
+create chain inet myInetTable myInetChain { type route hook output devices = { eno2, eth1, eth2 } priority 0; policy drop;}
+
+create set my_filter_table my_ssh_meter { type ipv4_addr . inet_service; flags timeout;}
+####create set my_filter_table my_ssh_meter { type ipv4_addr . inet_service; flags timeout . dynamic ;}
+
+create map myIpTable myIpMap { flags interval; elements = { ipv4_addr }; size 1200; policy performance; }
+####create map myIpTable myIpMap { type mark : 5; flags interval; elements = { ipv4_addr }; size 1200; policy performance; }
+
+create map netdev myNetdevTable myNetdevMap { flags interval; elements = { ether_addr }; size 1200; policy performance; }
+####create map netdev myNetdevTable myNetdevMap { type mark; flags interval; elements = { ether_addr }; size 1200; policy performance; }
+
+create map bridge myBridgeTable myBridgeMap { flags interval; elements = { ether_addr }; size 1200; policy performance; }
+####create map bridge myBridgeTable myBridgeMap { type mark; flags interval; elements = { ether_addr }; size 1200; policy performance; }
+
+create map arp myArpTable myArpMap { flags interval; elements = { ipv4_addr }; size 1200; policy performance; }
+####create map arp myArpTable myArpMap { type mark; flags interval; elements = { ipv4_addr }; size 1200; policy performance; }
+
+
+create map ip6 myIp6Table myIp6Map { flags interval; elements = { ipv6_addr }; size 1200; policy performance; }
+####create map ip6 myIp6Table myIp6Map { type mark; flags interval; elements = { ipv6_addr }; size 1200; policy performance; }
+
+create element netdev myNetdevTable myNetdevSet { 10.20.255.48/29 : goto group_114, 10.20.255.88/29 : goto group_114, 10.20.255.128/29 : goto group_114 }
+create element bridge myBridgeTable myBridgeSet { 8.8.8.8, 8.8.4.4 }
+create element arp myArpTable myArpSet { 10.20.255.50 : 1:ffd8, 10.20.255.90 : 1:ffd5, 10.20.255.130 : 1:ffd2 }
+create element ip myIpTable myIpSet { 10.20.255.88/29 : goto group_114 }
+create element ip6 myIp6Table myIp6Set { 10.20.255.128/29 : goto group_114 }
+create element inet myInetTable myInetSet { 10.20.255.50/32 : "1:0xffd9" }
+
+create map ip myIpTable myIpMap { type inet_service: ipv4_addr; flags interval; elements = { ipv4_addr }; size 1200; policy performance; }
+
+create map inet myInetTable myInetMap {
+    flags interval;
+    size 1200;
+    elements = { inet_proto };
+    policy performance;
+};
+create map inet myInetTable myInetMap { flags interval; elements = { inet_proto : ipv4_addr }; size 1200; policy performance; }
+create map inet myInetTable myInetMap {
+    flags interval;
+    elements = { inet_proto };
+    size 1200;
+    policy performance;
+};
+
+create ct timeout myTable agressive-tcp {
+        l3proto ip;
+        protocol tcp;
+        policy = {established: 100, close_wait: 4, close: 4}
+    }
+
+# create ct helper  obj_spec ct_obj_alloc { ct_helper_block } close_scope_ct
+create ct helper myIpTable myCTHchain200 { };
+create ct helper myIpTable myCTHchain201 { ; }
+create ct helper myIpTable myCTHchain202 { ; };
+
+
+create ct expectation myTable myExpectation { ; }
+create ct expectation myTable myExpectation { ; }
+create ct expectation myTable e_pgsql {
+        protocol tcp
+        dport 5432
+        timeout 1h
+        size 12
+        l3proto ip
+    }
+
+create ct timeout netdev myNetdevTable ctt { protocol udp; l3proto ip; policy = { unreplied : 15, replied : 12 }; }
+create ct timeout arp myArpTable ctt { protocol udp; l3proto ip; policy = { unreplied : 15, replied : 12 }; }
