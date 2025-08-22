@@ -59,50 +59,6 @@ destroy chain bridge T handle 15
 destroy chain arp T handle 15
 destroy chain netdev T handle 15
 
-# destroy counter <obj_spec>
-destroy counter T CounterName
-destroy counter ip T CounterName
-destroy counter ip6 T CounterName
-destroy counter inet T CounterName
-destroy counter netdev T CounterName
-destroy counter bridge T CounterName
-destroy counter arp T CounterName
-
-# destroy counter <objid_spec>
-destroy counter netdev T handle 1
-#destroy counter bridge T position 1  # not yet available
-#destroy counter arp T index 1  # not yet available
-destroy counter T CounterName index index_id
-
-# destroy ct <ct_obj_type> <obj_spec> <ct_obj_alloc>
-destroy ct expectation
-destroy ct expectation T Q 
-destroy ct expectation ip T Q
-destroy ct expectation ip6 T Q
-destroy ct expectation inet T Q
-destroy ct expectation netdev T Q
-destroy ct expectation bridge T Q
-destroy ct expectation arp T Q
-
-destroy ct helper T ct_id
-destroy ct helper ip T ct_id
-destroy ct helper ip6 T ct_id
-destroy ct helper inet T ct_id
-destroy ct helper netdev T ct_id
-destroy ct helper bridge T ct_id
-destroy ct helper arp T ct_id
-destroy ct helper T { };
-destroy ct helper T {}
-
-destroy ct timeout
-destroy ct timeout T ct_id
-destroy ct timeout ip T ct_id
-destroy ct timeout ip6 T ct_id
-destroy ct timeout inet T ct_id
-destroy ct timeout netdev T ct_id
-destroy ct timeout bridge T ct_id
-destroy ct timeout arp T ct_id
-
 # destroy element <set_spec> <set_block_expr>
 destroy element T M { 4.4.4.4 }
 destroy element T M { elements = { element, element }; }
@@ -151,36 +107,6 @@ destroy flowtable inet T handle 15
 destroy flowtable netdev T handle 15 
 destroy flowtable bridge T handle 15 
 destroy flowtable arp T handle 15 
-
-#   'destroy' 'limit' ( obj_spec | objid_spec ) 
-# limit_config->identifier->family_spec->table_spec->'limit'->'destroy'->destroy_cmd->base_cmd
-destroy limit T L 
-destroy limit ip T L
-destroy limit ip6 T L
-destroy limit inet T L
-destroy limit netdev T L
-destroy limit bridge T L
-destroy limit arp T L
-
-destroy limit T handle 15
-destroy limit ip T handle 15
-destroy limit ip6 T handle 15
-destroy limit inet T handle 15
-destroy limit netdev T handle 15
-destroy limit bridge T handle 15
-destroy limit arp T handle 15
-
-destroy limit T L rate 1 /hour 
-destroy limit T L rate 1 / week
-destroy limit T L rate over 3600000/ day
-destroy limit T L rate until 1/second
-destroy limit T L rate 1/minute burst 5 packets
-destroy limit ip T L rate 1/ day
-destroy limit ip6 T L rate 1 / week
-destroy limit inet T L rate 1/second
-destroy limit netdev T L rate 1/minute 
-destroy limit bridge T L rate 1 /hour 
-destroy limit arp T L rate 1 /hour 
 
 # destroy map <set_spec>
 destroy map T M 

@@ -156,20 +156,6 @@ create quota ip myQuotaIpTable http-quota over 25 mbytes
 create quota ip6 myQuotaIp6Table http-quota until 525 kbytes
 create quota inet myQuotaInetTable http-quota over 25 mbytes
 
-
-create ct helper myIpTable myCTHchain203 { type "sip" protocol tcp; l3proto ip; }
-create ct helper ip myIpTable cth { type "sip" protocol tcp; l3proto ip; }
-
-# create ct timeout  obj_spec ct_obj_alloc { ct_timeout_block } 
-create ct timeout myIpTable ctt { protocol udp; l3proto ip; policy = { unreplied : 15, replied : 12 }; }
-
-create ct timeout ip myIpTable ctt1 { protocol udp; l3proto ip; policy = { unreplied : 15, replied : 12 }; }
-create ct timeout ip6 myIp6Table ctt2 { protocol udp; l3proto ip; policy = { unreplied : 15, replied : 12 }; }
-create ct timeout inet myInetTable ctt3 { protocol udp; l3proto ip; policy = { unreplied : 15, replied : 12 }; }
-# create ct expectation  obj_spec ct_obj_alloc { ct_expect_block } close_scope_ct
-
-
-
 # create limit <obj_spec> <limit_obj> <limit_config>
 create limit myIpTable myIpLimit80 rate 1/second
 create limit netdev myNetdevTable myNetdevLimit rate 1/minute

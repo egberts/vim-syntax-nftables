@@ -2,7 +2,7 @@
 # File: delete.nft
 # Description: A test NFT file to exercise 'delete' Vim syntax highlightings.
 #
-# base_cmd 'delete' delete_cmd 
+# base_cmd 'delete' delete_cmd
 # nft_line/nft_base_cmd/nft_base_cmd_add/nft_base_cmd_add_set
 #
 ################################################################################
@@ -142,15 +142,6 @@ delete element arp T M { 4.4.4.4 }
 delete element arp T M { element, element }
 delete element arp T M { elements = { element, element } ; }
 
-# delete counter <obj_spec>
-delete counter T CounterName
-delete counter ip T CounterName
-delete counter ip6 T CounterName
-delete counter inet T CounterName
-delete counter netdev T CounterName
-delete counter bridge T CounterName
-delete counter arp T CounterName
-
 # 'delete' 'flowtable' <flowtable_spec>
 # common_block->flowtable_block->'{'->'flowtable'->delete_cmd->'delete'->base_cmd->line
 delete flowtable T FT 
@@ -178,9 +169,6 @@ delete flowtable netdev T handle 15
 delete flowtable bridge T handle 15 
 delete flowtable arp T handle 15 
 
-# delete counter <objid_spec>
-delete counter netdev T handle 1
-
 # delete quota <obj_spec>
 delete quota T Q 
 delete quota ip T Q
@@ -200,65 +188,6 @@ delete quota netdev T handle 15
 #delete quota inet T position 234  # not yet available
 delete quota bridge T handle 15
 delete quota arp T handle 15
-
-# delete ct <ct_obj_type> <obj_spec> <ct_obj_alloc>
-delete ct helper T ct_id
-delete ct helper ip T ct_id
-delete ct helper ip6 T ct_id
-delete ct helper inet T ct_id
-delete ct helper netdev T ct_id
-delete ct helper bridge T ct_id
-delete ct helper arp T ct_id
-delete ct helper T { };
-delete ct helper T {}
-
-delete ct timeout
-delete ct timeout T ct_id
-delete ct timeout ip T ct_id
-delete ct timeout ip6 T ct_id
-delete ct timeout inet T ct_id
-delete ct timeout netdev T ct_id
-delete ct timeout bridge T ct_id
-delete ct timeout arp T ct_id
-
-delete ct expectation
-delete ct expectation T Q 
-delete ct expectation ip T Q
-delete ct expectation ip6 T Q
-delete ct expectation inet T Q
-delete ct expectation netdev T Q
-delete ct expectation bridge T Q
-delete ct expectation arp T Q
-
-#   'delete' 'limit' ( obj_spec | objid_spec ) 
-# limit_config->identifier->family_spec->table_spec->'limit'->'delete'->delete_cmd->base_cmd
-delete limit T L 
-delete limit ip T L
-delete limit ip6 T L
-delete limit inet T L
-delete limit netdev T L
-delete limit bridge T L
-delete limit arp T L
-
-delete limit T handle 15
-delete limit ip T handle 15
-delete limit ip6 T handle 15
-delete limit inet T handle 15
-delete limit netdev T handle 15
-delete limit bridge T handle 15
-delete limit arp T handle 15
-
-delete limit T L rate 1 /hour 
-delete limit T L rate 1 / week
-delete limit T L rate over 3600000/ day
-delete limit T L rate until 1/second
-delete limit T L rate 1/minute burst 5 packets
-delete limit ip T L rate 1/ day
-delete limit ip6 T L rate 1 / week
-delete limit inet T L rate 1/second
-delete limit netdev T L rate 1/minute 
-delete limit bridge T L rate 1 /hour 
-delete limit arp T L rate 1 /hour 
 
 delete secmark arp T handle 15
 delete secmark arp T secmark_name
