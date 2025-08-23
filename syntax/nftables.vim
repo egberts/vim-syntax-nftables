@@ -8946,7 +8946,8 @@ syn region nft_add_cmd_table_block_quota_block_delimiters start=+{+ end=+}+ skip
 \    nft_add_cmd_table_block_quota_block_quota_config_num
 \ nextgroup=
 \    nft_table_block_stmt_separator,
-\    nft_MissingSemicolon,
+\    nft_EOS,
+\    nft_UnexpectedCurlyBrace,
 \    nft_Error
 
 hi link   nft_add_cmd_table_block_keyword_quota_obj_identifier_identifier_string nftHL_Identifier

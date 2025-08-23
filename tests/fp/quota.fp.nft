@@ -3,3 +3,12 @@
 # false positive test: looks highlighted correctly; has bad content; oops.
 ################################################################################
 
+# 'over'/'until' not available ... yet.
+table T {
+    quota Q4 {
+        # quota_config
+        # 15 mbytes used 30 mbytes
+        over 25 kbytes used 2500000 kbytes
+        # until 30 kbytes used 130 mbytes
+    }
+}

@@ -139,11 +139,24 @@ reset quotas table arp
 
 reset quotas table arp MyIpTable 
 
+table T { 
+    quota Q { 
+        500 bytes
+     }
+  # ok without ';' due to <new-line>
+};
 table T { quota Q { }; };  # missing ';' after quote_block '}' delimiter
-table ip T { quota Q { } }  # missing ';' after quote_block '}' delimiter
+table ip T { quota Q { }; }  # missing ';' after quote_block '}' delimiter
 table ip6 T { quota Q { } }  # missing ';' after quote_block '}' delimiter
 table inet T { quota Q { } }  # missing ';' after quote_block '}' delimiter
 table netdev T { quota Q { } }  # missing ';' after quote_block '}' delimiter
 table bridge T { quota Q { } }  # missing ';' after quote_block '}' delimiter
 table arp T { quota Q { } }  # missing ';' after quote_block '}' delimiter
 
+delete quota table_name handle 15
+delete quota ip table_name handle 15
+delete quota ip6 table_name handle 15
+delete quota inet myInetFilter handle 123
+delete quota netdev table_name handle 15
+delete quota bridge table_name handle 15
+delete quota arp table_name handle 15
