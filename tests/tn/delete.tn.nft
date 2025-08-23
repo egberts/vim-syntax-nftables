@@ -126,28 +126,27 @@ delete element arp T M { elements = { element, element } ; }
 
 # 'delete' 'flowtable' <flowtable_spec>
 # common_block->flowtable_block->'{'->'flowtable'->delete_cmd->'delete'->base_cmd->line
-delete flowtable T FT 
-delete flowtable ip T FT 
-delete flowtable ip6 T FT 
-delete flowtable inet T FT 
-delete flowtable netdev T FT 
-delete flowtable bridge T FT 
-delete flowtable arp T FT 
-
-delete flowtable T FT { define my_var; };
-delete flowtable T FT { hook input priority 0; devices = { br0, eth0, eth1} ; }
-delete flowtable ip T FT { hook input priority 0; devices = { eth0, eth1 } ; }
-delete flowtable ip6 T FT { hook input priority 0; devices = { br0, eth0 } ; }
-delete flowtable inet T FT { hook input priority 0; devices = { br0, eth1 } ; }
+add table Tnetdev
+add table Tbridge
+add table Tarp
+add flowtable netdev Tnetdev FTnetdev { hook ingress priority 0; devices = { eno2 }; }
+add flowtable bridge Tbridge FTbridge { hook ingress priority 0; devices = { eno2 }; }
+add flowtable arp Tarp FTarp { hook ingress priority 0; devices = { eno2 }; };
 delete flowtable netdev T FT { flowtable_block }
 delete flowtable bridge T FT { hook input priority 0; devices = { br0, eth1 } ; }
 delete flowtable arp T FT { hook input priority 0; devices = { br0, eth1 } ; }
 
-delete flowtable T handle 15 
-delete flowtable ip T handle 15
-delete flowtable ip6 T handle 15 
-delete flowtable inet T handle 15 
-delete flowtable netdev T handle 15 
+add table Tnetdev
+add table Tbridge
+add table Tarp
+add flowtable netdev Tnetdev FTnetdev { hook ingress priority 0; devices = { eno2 }; }
+add flowtable bridge Tbridge FTbridge { hook ingress priority 0; devices = { eno2 }; }
+add flowtable arp Tarp FTarp { hook ingress priority 0; devices = { eno2 }; };
+# delete flowtable netdev Tnetdev FTnetdev { hook ingress priority 0; devices = { eno2 }; }
+# delete flowtable bridge Tbridge FTbridge { hook input priority 0; devices = { br0, eth1 } ; }
+# delete flowtable arp Tarp FTarp { hook input priority 0; devices = { br0, eth1 } ; }
+
+delete flowtable netdev T handle 15
 delete flowtable bridge T handle 15 
 delete flowtable arp T handle 15 
 
@@ -171,35 +170,30 @@ delete quota netdev T handle 15
 delete quota bridge T handle 15
 delete quota arp T handle 15
 
-delete secmark arp T handle 15
-delete secmark arp T secmark_name
-delete secmark bridge T handle 15
-delete secmark bridge T secmark_name
-delete secmark inet T handle 15
-delete secmark inet T secmark_name
-delete secmark ip6 T handle 15
-delete secmark ip6 T secmark_name
-delete secmark ip T handle 15
-delete secmark ip T secmark_name
-delete secmark netdev T handle 15
-delete secmark netdev T secmark_name
-delete secmark T handle 15
-delete secmark T secmark_name 
+add table ip T
+add secmark T SM { "system_u:object_r:ssh_server_packet_t:s0" }  # fails, family_spec required
+delete secmark T SM
 
-delete synproxy arp T handle 15
-delete synproxy arp T synproxy_name
-delete synproxy bridge T handle 15
-delete synproxy bridge T synproxy_name
-delete synproxy inet T handle 15
-delete synproxy inet T synproxy_name
-delete synproxy ip6 T handle 15
-delete synproxy ip6 T synproxy_name
-delete synproxy ip T handle 15
-delete synproxy ip T synproxy_name
-delete synproxy netdev T handle 15
-delete synproxy netdev T synproxy_name
-delete synproxy T handle 15
-delete synproxy T synproxy_name 
+delete secmark T synproxy_name  # must supply family_spec
+
+delete secmark arp T secmark_name
+delete secmark bridge T secmark_name
+delete secmark inet T secmark_name
+delete secmark ip6 T secmark_name
+delete secmark ip T secmark_name
+delete secmark netdev T secmark_name
+delete secmark T secmark_name
+
+
+add table inet Tnetdev
+add table inet Tbridge
+add table inet Tarp
+add synproxy netdev Tnetdev SPnetdev mss 1593 wscale 1
+add synproxy bridge Tbridge SPbridge mss 1518 wscale 3;
+add synproxy arp Tarp SParp mss 1512  wscale 2;
+delete synproxy netdev Tnetdev SPnetdev
+delete synproxy bridge Tbridge SPbridge
+delete synproxy arp Tarp SParp
 
  delete quantum
 

@@ -19,6 +19,14 @@ add secmark T SM { undefine my_var; };
 add secmark T SM { typeof b.c.d.e.f : secmark  };
 add secmark myTable sshtag { "system_u:object_r:ssh_server_packet_t:s0" }
 
+# other common secmarks:
+#    system_u:object_r:ftp_server_packet_t:s0
+#    system_u:object_r:smtp_server_packet_t:s0
+#    system_u:object_r:ssh_server_packet_t:s0
+#    system_u:object_r:generic_packet_t:s0
+#    system_u:object_r:unlabeled_t:s0
+#    system_u:object_r:default_t:s0
+
 secmark obj_spec secmark_obj { }
 secmark obj_spec secmark_obj { } 
 secmark obj_spec secmark_obj {;} 
@@ -28,6 +36,16 @@ secmark T SM { redefine my_var = 2; };
 secmark T SM { undefine my_var; };
 secmark T SM { typeof b.c.d.e.f : secmark  };
 secmark myTable sshtag { "system_u:object_r:ssh_server_packet_t:s0" }
+
+add table ip Tip
+add table ip6 Tip6
+add table inet Tinet
+add secmark ip Tip SMip { "system_u:object_r:ssh_server_packet_t:s0" }
+add secmark ip6 Tip6 SMip6 { "system_u:object_r:http_server_packet_t:s0" }  # fails, family_spec required
+add secmark inet Tinet SMinet { "system_u:object_r:dns_server_packet_t:s0" }
+delete secmark ip Tip SMip
+delete secmark ip6 Tip6 SMip6
+delete secmark inet Tinet SMinet
 
 
 # base_cmd add_cmd 'table' table_spec table_block 'secmark' secmark_block

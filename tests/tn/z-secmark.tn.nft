@@ -10,12 +10,23 @@ secmark;
 
 secmark ;
 
-secmark table_id
-secmark table_id ;
+secmark table_id  # must supply family_spec
+secmark table_id ;  # must supply family_spec
 secmark myTable mySecMark
 secmark obj_spec secmark_obj { unknwon_secmark_block } 
 
 add secmark table_id
+
+add table netdev Tnetdev
+add table bridge Tbridge
+add table arp Tarp
+add secmark netdev Tnetdev SMnetdev { "system_u:object_r:ssh_server_packet_t:s0" }
+add secmark bridge Tbridge SMbridge { "system_u:object_r:ssh_server_packet_t:s0" }
+add secmark arp Tarp SMarp { "system_u:object_r:ssh_server_packet_t:s0" }
+delete secmark netdev Tnetdev SMnetdev
+delete secmark bridge Tbridge SMbridge
+delete secmark arp Tarp SMarp
+
 
 destroy secmark 
 

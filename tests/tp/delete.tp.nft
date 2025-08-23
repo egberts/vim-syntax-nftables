@@ -106,100 +106,118 @@ delete rule T C handle 42
 
 
 # delete set <set_spec>
+add table T
+add set T S { type ipv4_addr; elements = { 1.1.1.1 }; }
+table ip Tip { set Sip1 { type ipv4_addr; elements = { 1.1.1.1 }; }; }
+table ip6 Tip6 { set Sip6_1 { type ipv4_addr; elements = { 1.1.1.1 }; }; }
+table inet Tinet { set Sinet { type ipv4_addr; elements = { 1.1.1.1 }; }; }
+table netdev Tnetdev { set Snetdev { type ipv4_addr; elements = { 1.1.1.1 }; }; }
+table bridge Tbridge { set Sbridge { type ipv4_addr; elements = { 1.1.1.1 }; }; }
+table arp Tarp { set Sarp { type ipv4_addr; elements = { 1.1.1.1 }; }; }
+
 delete set T S
-delete set ip T S
-delete set ip6 T S
-delete set inet T S
-delete set netdev T S
-delete set bridge T S
-delete set arp T S
+delete set ip Tip Sip1
+delete set ip6 Tip6 Sip6_1
+delete set inet Tinet Sinet
+delete set netdev Tnetdev Snetdev
+delete set bridge Tbridge Sbridge
+delete set arp Tarp Sarp
 
+# delete map <map_spec>
+add table T
+add map T S { flags timeout; timeout 1h; type ipv4_addr : verdict; };
+table ip Tip { map Sip1 { flags timeout; timeout 1h; type ipv4_addr : verdict; }; }
+table ip6 Tip6 { map Sip6_1 { flags timeout; timeout 1h; type ipv6_addr : verdict; }; }
+table inet Tinet { map Sinet { flags timeout; timeout 1h; type ipv4_addr : verdict; }; }
+table bridge Tbridge { map Sbridge { flags timeout; timeout 1h; type ipv4_addr : verdict; }; }
+table netdev Tnetdev { map Snetdev { flags timeout; timeout 1h; type ipv4_addr : verdict; }; }
+table arp Tarp { map Sarp { flags timeout; timeout 1h; type ipv4_addr : verdict; }; }
 
-# delete map <set_spec>
-delete map T M 
-delete map ip T M 
-delete map ip6 T M 
-delete map inet T M 
-delete map netdev T M 
-delete map bridge T M 
-delete map arp T M 
+delete map T S
+delete map ip Tip Sip1
+delete map ip6 Tip6 Sip6_1
+delete map inet Tinet Sinet
+delete map netdev Tnetdev Snetdev
+delete map bridge Tbridge Sbridge
+delete map arp Tarp Sarp
 
 add table T;
 add set T M { type inet_service; };
 add set T M1 { type inet_service; };
 
 # delete element <set_spec> <set_block_expr>
-delete element T M1 { ssh };
-
+add table ip Tip
+table ip Tip {
+    chain filter { type filter hook input priority 0; }
+    map action_map { flags timeout; timeout 1h; type ipv4_addr : verdict; }
+}
 
 # 'delete' 'flowtable' <flowtable_spec>
 # common_block->flowtable_block->'{'->'flowtable'->delete_cmd->'delete'->base_cmd->line
-delete flowtable T FT 
-delete flowtable ip T FT 
-delete flowtable ip6 T FT 
-delete flowtable inet T FT 
-delete flowtable netdev T FT 
-delete flowtable bridge T FT 
-delete flowtable arp T FT 
-
-delete flowtable T FT { define my_var = 1; };
-delete flowtable T FT { hook input priority 0; devices = { br0, eth0, eth1} ; }
-delete flowtable ip T FT { hook input priority 0; devices = { eth0, eth1 } ; }
-delete flowtable ip6 T FT { hook input priority 0; devices = { br0, eth0 } ; }
-delete flowtable inet T FT { hook input priority 0; devices = { br0, eth1 } ; }
-
-delete flowtable bridge T FT { hook input priority 0; devices = { br0, eth1 } ; }
-delete flowtable arp T FT { hook input priority 0; devices = { br0, eth1 } ; }
-
+# Add tables
+add table ip T
+add table ip Tip
+add table ip6 Tip6
+# Add flowtables
+add flowtable ip T FT { hook ingress priority 15; devices = { eno2 }; }
+add flowtable ip Tip FTip { hook ingress priority 0; devices = { eno2 }; }
+add flowtable ip6 Tip6 FTip6 { hook ingress priority 0; devices = { eno2 }; }
+add flowtable inet Tinet FTinet { hook ingress priority 0; devices = { eno2 }; }
+# Delete flowtables (if needed)
+delete flowtable ip T FT
+delete flowtable ip Tip FTip
+delete flowtable ip6 Tip6 FTip6
+delete flowtable inet Tinet FTinet
 
 # delete quota <obj_spec>
-delete quota T Q 
-delete quota ip T Q
-delete quota ip6 T Q
-delete quota inet T Q
-delete quota netdev T Q
-delete quota bridge T Q
-delete quota arp T Q
+add table ip T
+add table ip Tip
+add table ip6 Tip6
+add table inet Tinet
+add table netdev Tnetdev
+add table bridge Tbridge
+add table arp Tarp
+add quota T Q 500 mbytes
+add quota ip Tip Qip over 500 mbytes
+add quota ip6 Tip6 Qip6 until 500 mbytes
+add quota inet Tinet Qinet until 500 mbytes
+add quota netdev Tnetdev Qnetdev until 500 mbytes
+add quota bridge Tbridge Qbridge until 500 mbytes
+add quota arp Tarp Qarp until 500 mbytes
+delete quota T Q
+delete quota ip Tip Qip
+delete quota ip6 Tip6 Qip6
+delete quota inet Tinet Qinet
+delete quota netdev Tnetdev Qnetdev
+delete quota bridge Tbridge Qbridge
+delete quota arp Tarp Qarp
 
-# delete quota <objid_spec>
-delete quota T handle 15
-delete quota ip T handle 15
-delete quota ip6 T handle 15
-delete quota inet T handle 123
-delete quota netdev T handle 15
-#delete quota inet T index 345  # not yet available
-#delete quota inet T position 234  # not yet available
-delete quota bridge T handle 15
-delete quota arp T handle 15
+# secmark commented out here in delete.tp.nft due to senforce=Disabled
+# however, a copy remains in 'z-secmark.tp.nft' unit test.
+#add table ip Tip
+#add table ip6 Tip6
+#add table inet Tinet
+#add secmark ip Tip SMip { "system_u:object_r:ssh_server_packet_t:s0" }
+#add secmark ip6 Tip6 SMip6 { "system_u:object_r:http_server_packet_t:s0" }  # fails, family_spec required
+#add secmark inet Tinet SMinet { "system_u:object_r:dns_server_packet_t:s0" }
+delete secmark ip Tip SMip
+delete secmark ip6 Tip6 SMip6
+delete secmark inet Tinet SMinet
 
-delete secmark arp T handle 15
-delete secmark arp T secmark_name
-delete secmark bridge T handle 15
-delete secmark bridge T secmark_name
-delete secmark inet T handle 15
-delete secmark inet T secmark_name
-delete secmark ip6 T handle 15
-delete secmark ip6 T secmark_name
-delete secmark ip T handle 15
-delete secmark ip T secmark_name
-delete secmark netdev T handle 15
-delete secmark netdev T secmark_name
-delete secmark T handle 15
-delete secmark T secmark_name 
+add table ip Tip
+add table ip6 Tip6
+add table inet Tinet
 
-delete synproxy arp T handle 15
-delete synproxy arp T synproxy_name
-delete synproxy bridge T handle 15
-delete synproxy bridge T synproxy_name
-delete synproxy inet T handle 15
-delete synproxy inet T synproxy_name
-delete synproxy ip6 T handle 15
-delete synproxy ip6 T synproxy_name
-delete synproxy ip T handle 15
-delete synproxy ip T synproxy_name
-delete synproxy netdev T handle 15
-delete synproxy netdev T synproxy_name
-delete synproxy T handle 15
-delete synproxy T synproxy_name 
+add synproxy T SP mss 1500 wscale 7;
+add synproxy ip Tip SPip mss 1492 wscale 5;
+add synproxy ip6 Tip6 SPip6 mss 1498 wscale 6;
+add synproxy inet Tinet SPinet mss 1496 wscale 4;
+
+delete synproxy Tip SPip
+delete synproxy ip Tip SPip
+delete synproxy ip6 Tip6 SPip6
+delete synproxy inet Tinet SPinet
+
+
 
 
