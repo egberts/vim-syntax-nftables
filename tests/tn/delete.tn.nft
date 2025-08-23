@@ -105,7 +105,9 @@ delete map ip6 T M
 delete map inet T M 
 delete map netdev T M 
 delete map bridge T M 
-delete map arp T M 
+delete map arp T M
+
+
 
 # delete element <set_spec> <set_block_expr>
 delete element T M { elements = { element, element }; }

@@ -114,10 +114,6 @@ delete set netdev T S
 delete set bridge T S
 delete set arp T S
 
-# delete set <setid_spec>
-delete set T handle 123
-delete set ip T handle 123
-delete set inet T handle 42  # comment
 
 # delete map <set_spec>
 delete map T M 
@@ -155,13 +151,6 @@ delete flowtable inet T FT { hook input priority 0; devices = { br0, eth1 } ; }
 delete flowtable bridge T FT { hook input priority 0; devices = { br0, eth1 } ; }
 delete flowtable arp T FT { hook input priority 0; devices = { br0, eth1 } ; }
 
-delete flowtable T handle 15 
-delete flowtable ip T handle 15
-delete flowtable ip6 T handle 15 
-delete flowtable inet T handle 15 
-delete flowtable netdev T handle 15 
-delete flowtable bridge T handle 15 
-delete flowtable arp T handle 15 
 
 # delete quota <obj_spec>
 delete quota T Q 

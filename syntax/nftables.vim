@@ -1900,42 +1900,17 @@ syn match nft_base_cmd_destroy_delete_cmds_keyword_rule '\vrule\ze[ \t]' skipwhi
 \    nft_UnexpectedEOS,
 \    nft_Error
 
-hi link   nft_delete_cmd_keyword_set_setid_spec_num nftHL_Handle
-syn match nft_delete_cmd_keyword_set_setid_spec_num '\v[0-9]{1,10}' skipwhite contained
-\ nextgroup=
-\    nft_EOS,
-\    nft_Error
-
 hi link   nft_delete_cmd_keyword_set_set_spec_identifier_string_set nftHL_Table
 syn match nft_delete_cmd_keyword_set_set_spec_identifier_string_set '\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}' skipwhite contained
-
-hi link   nft_delete_cmd_keyword_set_setid_spec_keyword_handle nftHL_Action
-syn match nft_delete_cmd_keyword_set_setid_spec_keyword_handle '\vhandle\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_delete_cmd_keyword_set_setid_spec_num,
-\    nft_Error
-
-hi link   nft_delete_cmd_keyword_set_set_spec_keyword_last nftHL_Action
-syn match nft_delete_cmd_keyword_set_set_spec_keyword_last '\vlast\ze[ \t]' skipwhite contained
 
 hi link   nft_delete_cmd_keyword_set_table_spec_identifier_string_table nftHL_Table
 syn match nft_delete_cmd_keyword_set_table_spec_identifier_string_table '\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}' skipwhite contained
 \ nextgroup=
-\    nft_delete_cmd_keyword_set_setid_spec_keyword_handle,
-\    nft_delete_cmd_keyword_set_set_spec_keyword_last,
-\    nft_delete_cmd_keyword_set_set_spec_identifier_string_set
-
-hi link   nft_delete_cmd_keyword_set_table_spec_keyword_last nftHL_Action
-syn match nft_delete_cmd_keyword_set_table_spec_keyword_last '\vlast\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_delete_cmd_keyword_set_setid_spec_keyword_handle,
-\    nft_delete_cmd_keyword_set_set_spec_keyword_last,
 \    nft_delete_cmd_keyword_set_set_spec_identifier_string_set
 
 hi link   nft_delete_cmd_keyword_set_table_spec_family_spec nftHL_Family
 syn match nft_delete_cmd_keyword_set_table_spec_family_spec '\v(bridge|netdev|inet|arp|ip6|ip)' skipwhite contained
 \ nextgroup=
-\    nft_delete_cmd_keyword_set_table_spec_keyword_last,
 \    nft_delete_cmd_keyword_set_table_spec_identifier_string_table,
 \    nft_UnexpectedSemicolon,
 \    nft_UnexpectedEOS,
@@ -1945,7 +1920,6 @@ hi link   nft_base_cmd_destroy_delete_cmds_keyword_set nftHL_Statement
 syn match nft_base_cmd_destroy_delete_cmds_keyword_set '\vset\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    nft_delete_cmd_keyword_set_table_spec_family_spec,
-\    nft_delete_cmd_keyword_set_table_spec_keyword_last,
 \    nft_delete_cmd_keyword_set_table_spec_identifier_string_table,
 \    nft_UnexpectedSemicolon,
 \    nft_UnexpectedEOS,
@@ -2045,12 +2019,6 @@ syn match nft_base_cmd_destroy_delete_cmds_keyword_element '\velement\ze[ \t]' s
 \    nft_UnexpectedEOS,
 \    nft_Error
 
-" flowtableflowtableflowtable
-hi link   nft_delete_cmd_keyword_flowtable_flowtableid_spec_num nftHL_Handle
-syn match nft_delete_cmd_keyword_flowtable_flowtableid_spec_num '\v[0-9]{1,10}' skipwhite contained
-\ nextgroup=
-\    nft_EOS
-
 hi link   nft_delete_cmd_keyword_flowtable_flowtable_spec_identifier_string_flowtable nftHL_Table
 syn match nft_delete_cmd_keyword_flowtable_flowtable_spec_identifier_string_flowtable '\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}' skipwhite contained
 \ nextgroup=
@@ -2059,28 +2027,14 @@ syn match nft_delete_cmd_keyword_flowtable_flowtable_spec_identifier_string_flow
 \    nft_UnexpectedCurlyBrace,
 \    nft_Error
 
-hi link   nft_delete_cmd_keyword_flowtable_flowtableid_spec_keyword_handle nftHL_Action
-syn match nft_delete_cmd_keyword_flowtable_flowtableid_spec_keyword_handle '\vhandle\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_delete_cmd_keyword_flowtable_flowtableid_spec_num
-
-hi link   nft_delete_cmd_keyword_flowtable_flowtable_spec_keyword_last nftHL_Action
-syn match nft_delete_cmd_keyword_flowtable_flowtable_spec_keyword_last '\vlast\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_add_cmd_keyword_flowtable_flowtable_spec_flowtable_block
-
 hi link   nft_delete_cmd_keyword_flowtable_table_spec_identifier_string_table nftHL_Table
 syn match nft_delete_cmd_keyword_flowtable_table_spec_identifier_string_table '\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}' skipwhite contained
 \ nextgroup=
-\    nft_delete_cmd_keyword_flowtable_flowtableid_spec_keyword_handle,
-\    nft_delete_cmd_keyword_flowtable_flowtable_spec_keyword_last,
 \    nft_delete_cmd_keyword_flowtable_flowtable_spec_identifier_string_flowtable,
 
 hi link   nft_delete_cmd_keyword_flowtable_table_spec_keyword_last nftHL_Action
 syn match nft_delete_cmd_keyword_flowtable_table_spec_keyword_last '\vlast\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_delete_cmd_keyword_flowtable_flowtableid_spec_keyword_handle,
-\    nft_delete_cmd_keyword_flowtable_flowtable_spec_keyword_last,
 \    nft_delete_cmd_keyword_flowtable_flowtable_spec_identifier_string_flowtable
 
 hi link   nft_delete_cmd_keyword_flowtable_table_spec_family_spec nftHL_Family
