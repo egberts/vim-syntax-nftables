@@ -24,7 +24,7 @@ add quota netdev myIpfilter http_quota over 25 mbytes;
 add quota bridge myIpfilter http-quota over 25 mbytes
 add quota arp myIpfilter http-quota over 25 mbytes
 
-quota 
+quota
 
 
 quota T 
@@ -36,7 +36,21 @@ quota example
 quota ip 
 
 
-quota ip myIpfilter 
+quota ip myIpfilter
+
+
+quota T Q over 123
+quota table1 last over 123
+quota last quota2 over 123
+quota last last over 123
+quota example { over 100 mbytes used 0 bytes }
+quota ip T Q over 123
+quota ip myIpfilter http-quota over 25 mbytes
+quota ip6 myIpfilter http-quota until 525 kbytes
+quota inet myIpfilter http-quota over 25 mbytes
+quota netdev myIpfilter http-quota over 25 mbytes;
+quota bridge myIpfilter http-quota over 25 mbytes
+quota arp myIpfilter http-quota over 25 mbytes
 
 
 create 
@@ -48,7 +62,11 @@ create quota
 create quota filter 
 
 
-delete 
+create quota filter http-quota { 25 mbytes };
+create quota filter ssh-quota { 10 kbytes }
+
+
+delete
 
 
 delete quota 
@@ -57,12 +75,13 @@ delete quota
 delete quota ip 
 
 
-delete quota ip table_name 
-
+delete quota ip table_name
 
 delete quota inet myInetFilter position 234
-
-delete quota netdev table_name handle 
+delete quota netdev table_name handle
+delete quota ip table_name index 15
+delete quota inet myInetFilter position 234
+delete quota inet myInetFilter index 345
 
 
 list 
@@ -86,7 +105,9 @@ list quotas
 list quotas table 
 
 
-list quotas table ip 
+list quotas table ip
+
+
 
 
 reset quota 
@@ -118,5 +139,11 @@ reset quotas table arp
 
 reset quotas table arp MyIpTable 
 
-
+table T { quota Q { }; };  # missing ';' after quote_block '}' delimiter
+table ip T { quota Q { } }  # missing ';' after quote_block '}' delimiter
+table ip6 T { quota Q { } }  # missing ';' after quote_block '}' delimiter
+table inet T { quota Q { } }  # missing ';' after quote_block '}' delimiter
+table netdev T { quota Q { } }  # missing ';' after quote_block '}' delimiter
+table bridge T { quota Q { } }  # missing ';' after quote_block '}' delimiter
+table arp T { quota Q { } }  # missing ';' after quote_block '}' delimiter
 

@@ -8945,7 +8945,9 @@ syn region nft_add_cmd_table_block_quota_block_delimiters start=+{+ end=+}+ skip
 \    nft_comment_inline,
 \    nft_add_cmd_table_block_quota_block_quota_config_num
 \ nextgroup=
-\    nft_table_block_stmt_separator
+\    nft_table_block_stmt_separator,
+\    nft_MissingSemicolon,
+\    nft_Error
 
 hi link   nft_add_cmd_table_block_keyword_quota_obj_identifier_identifier_string nftHL_Identifier
 syn match nft_add_cmd_table_block_keyword_quota_obj_identifier_identifier_string '\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}' skipwhite contained
@@ -9770,7 +9772,6 @@ syn cluster nft_c_base_cmd_add_cmd_unused_placeholder
 \    nft_base_cmd_add_cmd_keyword_element,
 \    nft_base_cmd_add_cmd_keyword_secmark,
 \    nft_base_cmd_add_cmd_keyword_chain,
-\    nft_base_cmd_add_cmd_keyword_quota,
 \    nft_base_cmd_add_cmd_keyword_limit,
 \    nft_base_cmd_add_cmd_keyword_table_declarative,
 \    nft_base_cmd_add_cmd_keyword_table_imperative,
