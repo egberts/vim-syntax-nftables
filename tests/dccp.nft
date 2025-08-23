@@ -9,7 +9,7 @@
 # true positive test: properly hightlighted correctly; has good content; perfect
 ################################################################################
 
-add rule table_id chain_id dccp sport;
+add rule table_id chain_id dccp sport drop;
 add rule table_id chain_id dccp dport;
 add rule table_id chain_id dccp type;
 

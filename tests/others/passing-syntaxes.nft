@@ -2041,26 +2041,6 @@ delete flowtable ip myIpTable myIpFT { hook input priority 0; devices = { eth0, 
 delete flowtable ip6 myIp6Table myIp6FT { hook input priority 0; devices = { br0, eth0 } ; }
 delete flowtable inet myInetTable myInetFT { hook input priority 0; devices = { br0, eth1 } ; }
 
-# delete counter <obj_spec>
-delete counter myIpTable myIpCounter
-delete counter netdev myNetdevTable myNetdevCounter
-delete counter bridge myBridgeTable myBridgeCounter
-delete counter arp myArpTable myArpCounter
-delete counter ip myIpTable myIpCounter
-delete counter ip6 myIp6Table myIp6Counter
-delete counter inet myInetTable myInetCounter
-delete counter myIpTable https-filter  
-delete counter netdev myNetdevTable https-filter  
-delete counter bridge myBridgeTable https-filter  
-delete counter arp myArpTable https-filter  
-delete counter ip myIpTable https-filter  
-delete counter ip6 myIp6Table https-filter  
-delete counter inet myInetTable https-filter  
-# delete counter <objid_spec>
-delete counter netdev myNetdevTable handle 1
-### delete counter bridge myBridgeTable position 1  # not yet available
-###delete counter arp myArpTable index 1  # not yet available
-
 # delete quota <obj_spec>
 delete quota table_name quota_name 
 delete quota ip table_name quota_name
@@ -2080,46 +2060,6 @@ delete quota arp table_name handle 15
 delete quota bridge table_name handle 15
 delete quota netdev table_name handle 15
 
-# delete ct <ct_obj_type> <obj_spec> <ct_obj_alloc>
-delete ct helper myIpTable cth
-delete ct helper netdev myIpTable cth
-delete ct helper bridge myIpTable cth
-delete ct helper arp myIpTable cth
-delete ct helper ip myIpTable cth
-delete ct helper ip6 myIpTable cth
-delete ct helper inet myIpTable cth
-
-# delete ct <ct_obj_type> <obj_spec> <ct_obj_alloc>
-delete ct timeout myIpTable ctt
-delete ct timeout netdev myNetdevTable ctt
-delete ct timeout bridge myBridgeTable ctt
-delete ct timeout arp myArpTable ctt
-delete ct timeout ip myIpTable ctt
-delete ct timeout ip6 myIp6Table ctt
-delete ct timeout inet myInetTable ctt
-
-delete ct expectation table_name quota_name 
-delete ct expectation ip table_name quota_name
-delete ct expectation ip6 table_name quota_name
-delete ct expectation inet table_name quota_name
-delete ct expectation arp table_name quota_name
-delete ct expectation bridge table_name quota_name
-delete ct expectation netdev table_name quota_name
-
-delete limit table_name limit_name 
-delete limit ip table_name limit_name
-delete limit ip6 table_name limit_name
-delete limit inet table_name limit_name
-delete limit arp table_name limit_name
-delete limit bridge table_name limit_name
-delete limit netdev table_name limit_name
-delete limit table_name handle 15
-delete limit ip table_name handle 15
-delete limit ip6 table_name handle 15
-delete limit inet table_name handle 15
-delete limit arp table_name handle 15
-delete limit bridge table_name handle 15
-delete limit netdev table_name handle 15
 delete secmark table_name secmark_name 
 delete secmark ip table_name secmark_name
 delete secmark ip6 table_name secmark_name

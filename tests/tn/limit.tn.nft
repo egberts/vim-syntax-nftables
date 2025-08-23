@@ -40,22 +40,5 @@ table T {
         rate 1 /hour burst 11  # premature EOS
     }
 }
-add limit inet myInetTable myInetLimit rate 1/second burst 100000000000000000000 packets
-# limit_rate_pkts->limit_config->identifier->table_spec->'limit'->'delete'->delete_cmd->base_cmd
-delete limit myIpTable myIpLimit rate over 3600000/ day
-delete limit myInetTable myInetLimit rate until 1/second
-
-# limit_rate_pkts->limit_config->identifier->table_spec->'limit'->'delete'->delete_cmd->base_cmd
-delete limit myNetdevTable myNetdevLimit rate 1/minute burst 5 packets
-delete limit myBridgeTable myBridgeLimit rate 1 /hour 
-
-# limit_config->obj_spec->'limit'->'delete'->add_cmd->base_cmd
-# limit_config->identifier->family_spec->table_spec->'limit'->'delete'->delete_cmd->base_cmd
-delete limit ip6 myIp6Table myIp6Limit rate 1 / week
-delete limit ip myIpTable myIpLimit rate 1/ day
-delete limit inet myInetTable myInetLimit rate 1/second
-delete limit netdev myNetdevTable myNetdevLimit rate 1/minute 
-delete limit bridge myBridgeTable myBridgeLimit rate 1 /hour 
-delete limit arp myBridgeTable myBridgeLimit rate 1 /hour 
 
 

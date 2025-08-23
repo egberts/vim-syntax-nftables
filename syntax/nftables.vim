@@ -513,6 +513,9 @@ syn match nft_common_block_undefine_error '\v[A-Za-z_][A-Za-z0-9_]{0,63}' contai
 hi link   nft_line_nonidentifier_error nftHL_Error
 syn match nft_line_nonidentifier_error '\v[^ ]{1,35}[^A-Za-z_]{1}' contained
 
+hi link   nft_line_nonvariable_error nftHL_Error
+syn match nft_line_nonvariable_error '\v\$[^A-Za-z][^A-Za-z0-9_\-]{0,1}' skipwhite contained
+
 
 " expected end-of-line (iterator capped for speed)
 syn match nft_EOL /[\n\r]\{1,16}/ skipwhite contained
@@ -1717,36 +1720,9 @@ syn match nft_delete_cmd_keyword_table_table_or_id_spec_table_spec_identifier '\
 \    nft_UnexpectedEOS,
 \    nft_Error
 
-" 'delete' 'table' [ ip|ip6|inet|netdev|bridge|arp ] 'last'
-" 'last'->identifier->table_spec->table_or_id_spec->'table'->delete_cmd->'delete'->base_cmd->line
-hi link   nft_delete_cmd_keyword_table_table_or_id_spec_table_spec_keyword_last nftHL_Action
-syn match nft_delete_cmd_keyword_table_table_or_id_spec_table_spec_keyword_last 'last' skipwhite contained
-\ nextgroup=
-\    nft_UnexpectedSemicolon,
-\    nft_UnexpectedEOS,
-\    nft_Error
-
-" 'delete' 'table' 'handle' <NUM>
-" <NUM>->'handle'->'table'->delete_cmd->'delete'->base_cmd->line
-" <NUM>->tableid_spec->table_or_id_spec->'table'->delete_cmd->'delete'->base_cmd->line
-hi link   nft_delete_cmd_keyword_table_table_or_id_spec_tableid_spec_keyword_handle_num nftHL_Number
-syn match nft_delete_cmd_keyword_table_table_or_id_spec_tableid_spec_keyword_handle_num '\v[0-9]{1,10}' skipwhite contained
-
-" 'delete' 'table' 'handle'
-" 'handle'>tableid_spec->table_or_id_spec->'table'->delete_cmd->'delete'->base_cmd->line
-hi link   nft_delete_cmd_keyword_table_table_or_id_spec_tableid_spec_keyword_handle nftHL_Action
-syn match nft_delete_cmd_keyword_table_table_or_id_spec_tableid_spec_keyword_handle '\vhandle\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_delete_cmd_keyword_table_table_or_id_spec_tableid_spec_keyword_handle_num,
-\    nft_UnexpectedSemicolon,
-\    nft_UnexpectedEOS,
-\    nft_Error
-
 hi link   nft_delete_cmd_keyword_table_table_or_id_spec_family_spec nftHL_Family
 syn match nft_delete_cmd_keyword_table_table_or_id_spec_family_spec '\v(bridge|netdev|inet|arp|ip6|ip)\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_delete_cmd_keyword_table_table_or_id_spec_tableid_spec_keyword_handle,
-\    nft_delete_cmd_keyword_table_table_or_id_spec_table_spec_keyword_last,
 \    nft_delete_cmd_keyword_table_table_or_id_spec_table_spec_identifier,  " last match entry
 \    nft_UnexpectedSemicolon,
 \    nft_UnexpectedEOS,
@@ -1758,17 +1734,9 @@ hi link   nft_base_cmd_destroy_delete_cmds_keyword_table nftHL_Statement
 syn match nft_base_cmd_destroy_delete_cmds_keyword_table '\vtable\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    nft_delete_cmd_keyword_table_table_or_id_spec_family_spec,
-\    nft_delete_cmd_keyword_table_table_or_id_spec_tableid_spec_keyword_handle,
-\    nft_delete_cmd_keyword_table_table_or_id_spec_table_spec_keyword_last,
 \    nft_delete_cmd_keyword_table_table_or_id_spec_table_spec_identifier,  " last match entry
 \    nft_UnexpectedSemicolon,
 \    nft_UnexpectedEOS,
-\    nft_Error
-
-hi link   nft_delete_cmd_keyword_chain_chainid_spec_num nftHL_Handle
-syn match nft_delete_cmd_keyword_chain_chainid_spec_num '\v[0-9]{1,10}' skipwhite contained
-\ nextgroup=
-\    nft_EOS,
 \    nft_Error
 
 hi link   nft_delete_cmd_keyword_chain_chain_spec_identifier_string_chain nftHL_Table
@@ -1777,37 +1745,15 @@ syn match nft_delete_cmd_keyword_chain_chain_spec_identifier_string_chain '\v[a-
 \    nft_add_cmd_keyword_table_table_block_chain_chain_block_delimiters,
 \    nft_Error
 
-hi link   nft_delete_cmd_keyword_chain_chainid_spec_keyword_handle nftHL_Action
-syn match nft_delete_cmd_keyword_chain_chainid_spec_keyword_handle 'handle' skipwhite contained
-\ nextgroup=
-\    nft_delete_cmd_keyword_chain_chainid_spec_num,
-\    nft_UnexpectedSemicolon,
-\    nft_UnexpectedEOS,
-\    nft_Error
-
-hi link   nft_delete_cmd_keyword_chain_chain_spec_keyword_last nftHL_Action
-syn match nft_delete_cmd_keyword_chain_chain_spec_keyword_last 'last' skipwhite contained
-
 hi link   nft_delete_cmd_keyword_chain_table_spec_identifier_string_table nftHL_Table
 syn match nft_delete_cmd_keyword_chain_table_spec_identifier_string_table '\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}' skipwhite contained
 \ nextgroup=
-\    nft_delete_cmd_keyword_chain_chainid_spec_keyword_handle,
-\    nft_delete_cmd_keyword_chain_chain_spec_keyword_last,
-\    nft_delete_cmd_keyword_chain_chain_spec_identifier_string_chain,
-\    nft_Error
-
-hi link   nft_delete_cmd_keyword_chain_table_spec_keyword_last nftHL_Action
-syn match nft_delete_cmd_keyword_chain_table_spec_keyword_last 'last' skipwhite contained
-\ nextgroup=
-\    nft_delete_cmd_keyword_chain_chainid_spec_keyword_handle,
-\    nft_delete_cmd_keyword_chain_chain_spec_keyword_last,
 \    nft_delete_cmd_keyword_chain_chain_spec_identifier_string_chain,
 \    nft_Error
 
 hi link   nft_delete_cmd_keyword_chain_table_spec_family_spec nftHL_Family
 syn match nft_delete_cmd_keyword_chain_table_spec_family_spec '\v(bridge|netdev|inet|arp|ip6|ip)' skipwhite contained
 \ nextgroup=
-\    nft_delete_cmd_keyword_chain_table_spec_keyword_last,
 \    nft_delete_cmd_keyword_chain_table_spec_identifier_string_table,
 \    nft_UnexpectedSemicolon,
 \    nft_UnexpectedEOS,
@@ -1817,7 +1763,6 @@ hi link   nft_base_cmd_delete_cmd_keyword_chain nftHL_Statement
 syn match nft_base_cmd_delete_cmd_keyword_chain '\vchain\ze\s' skipwhite contained
 \ nextgroup=
 \    nft_delete_cmd_keyword_chain_table_spec_family_spec,
-\    nft_delete_cmd_keyword_chain_table_spec_keyword_last,
 \    nft_delete_cmd_keyword_chain_table_spec_identifier_string_table,
 \    nft_UnexpectedSemicolon,
 \    nft_UnexpectedEOS,
@@ -9256,7 +9201,7 @@ syn match nft_table_spec_variable_expr "\v\$[a-zA-Z][A-Za-z0-9_\-]{0,63}" skipwh
 \    nft_comment_inline,
 \    nft_EOS,
 \    nft_line_separator,
-\    nft_line_nonidentifier_error
+\    nft_line_nonidentifier_error,
 
 " base_cmd add_cmd 'table' table_spec family_spec identifier
 hi link   nft_add_table_spec_identifier nftHL_Identifier
@@ -9371,7 +9316,7 @@ syn match nft_add_cmd_chain_spec_identifier '\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}' ski
 \    nft_add_cmd_keyword_chain_chain_block_delimiters
 
 hi link   nft_add_cmd_chain_spec_table_spec_identifier nftHL_Identifier
-syn match nft_add_cmd_chain_spec_table_spec_identifier '\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}\ze\s' skipwhite contained
+syn match nft_add_cmd_chain_spec_table_spec_identifier '\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}' skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_chain_spec_identifier,
 \    nft_UnexpectedVariableName,
@@ -9528,6 +9473,7 @@ syn match nft_base_cmd_add_cmd_keyword_table_declarative '\vtable\ze[ \t]' skipw
 \    nft_table_spec_family_spec_valid,
 \    nft_table_spec_variable_expr,
 \    nft_table_spec_identifier,
+\    nft_line_nonvariable_error,
 \    nft_UnexpectedNonIdentifier,
 \    nft_UnexpectedQuote,
 \    nft_UnexpectedAtSymbol,

@@ -10,54 +10,83 @@
 ################################################################################
 
 
-delete table ;
+add table ip Tip
 
 # delete table <table_spec>
 # 'table'->delete_cmd->'delete'->base_cmd->line
-delete table T
-delete table last
-delete table ip T
-delete table ip6 T
-delete table inet T
-delete table netdev T
-delete table bridge T
-delete table arp T
-delete table handle 123
-delete table ip handle 123
-delete table ip6 handle 123
-delete table inet handle 123
-delete table netdev handle 123
-delete table bridge handle 123
-delete table arp handle 123
+delete table Tip
+
+
+add table ip Tip
+delete table ip Tip
+
+add table ip6 Tip6
+delete table ip6 Tip6
+
+add table inet Tinet
+delete table inet Tinet
+
+add table netdev Tnetdev
+delete table netdev Tnetdev
+
+add table bridge Tbridge
+delete table bridge Tbridge
+
+add table arp Tarp
+delete table arp Tarp
+
+add table ip Tip2
+add table ip6 Tip6_2
+add table inet Tinet2
+add table netdev Tnetdev2
+add table bridge Tbridge2
+add table arp Tarp2
+
 
 # delete chain <chainid_spec>
 # common_block->chain_block->'{'->'chain'->delete_cmd->'delete'->base_cmd->line
-delete chain T C
-delete chain ip T C
-delete chain ip6 T C
-delete chain inet T C
-delete chain netdev T C
-delete chain bridge T C
-delete chain arp T C
+add table Tchain
+add table ip TchainIp
+add table ip6 TchainIp6
+add table inet TchainInet
+add table netdev TchainNetdev
+add table bridge TchainBridge
+add table arp TchainArp
+add chain Tchain C1
+add chain ip TchainIp C2
+add chain ip6 TchainIp6 C3
+add chain inet TchainInet C4
+add chain netdev TchainNetdev C5
+add chain bridge TchainBridge C6
+add chain arp TchainArp C7
 
-delete chain T C { }
-delete chain ip T C {  }
-delete chain ip6 T C {  }
-delete chain inet T C {  }
-delete chain netdev T C {  }
-delete chain bridge T C {  }
-delete chain arp T C { }
+delete chain Tchain C1
+delete chain ip TchainIp C2
+delete chain ip6 TchainIp6 C3
+delete chain inet TchainInet C4
+delete chain netdev TchainNetdev C5
+delete chain bridge TchainBridge C6
+delete chain arp TchainArp C7
 
-delete chain T C { define my_var; };
+add chain Tchain C11
+add chain Tchain C11
+add chain ip TchainIp C12
+add chain ip6 TchainIp6 C13
+add chain inet TchainInet C14
+add chain netdev TchainNetdev C15
+add chain bridge TchainBridge C16
+add chain arp TchainArp C17
+delete chain Tchain C11 { }
+delete chain ip TchainIp C12 {  }
+delete chain ip6 TchainIp6 C13 {  }
+delete chain inet TchainInet C14 {  }
+delete chain netdev TchainNetdev C15 {  }
+delete chain bridge TchainBridge C16 {  }
+delete chain arp TchainArp C17 { }
 
-delete chain T handle 123123
-delete chain ip T handle 15
-delete chain inet T handle 15
-delete chain inet T handle 42  # comment
-delete chain ip6 T handle 15
-delete chain bridge T handle 15
-delete chain arp T handle 15
-delete chain netdev T handle 15
+add chain Tchain C
+delete chain Tchain C { define my_var = 1; };
+
 
 # delete rule <ruleid_spec>
 delete rule T C handle 16
@@ -67,35 +96,14 @@ delete rule last last handle 16
 delete rule arp T C handle 16
 delete rule bridge T C handle 16
 delete rule filter output handle 5
-delete rule filter output ip saddr 192.168.1.1 counter  # not implemented yet
+
 delete rule inet T C handle 16
 delete rule ip6 T C handle 16
 delete rule ip T C handle 42
 delete rule netdev T C handle 16
 delete rule T C handle 42
-delete rule T C ip saddr 127.0.0.1
-delete rule T C ct l3proto set $MYMAP map { *eth0 }
-delete rule T C ct proto set 1 / 1
-delete rule T C ct mark set 1-1
-delete rule T C ct state set ether 12:23:34:45:56:67  # keyword_expr
-delete rule T C ct direction set ip 127.0.0.1  # keyword_expr
-delete rule T C ct status set vlan 1  # keyword_expr
-delete rule T C ct expiration set arp  # keyword_expr
-delete rule T C ct helper set dnat  # keyword_expr
-delete rule T C ct saddr set ecn  # keyword_expr
-delete rule T C ct daddr set reset  # keyword_expr
-delete rule T C ct proto-src set destroy  # keyword_expr
-delete rule T C ct proto-dst set original  # keyword_expr
-delete rule T C ct label set reply  # keyword_expr
-delete rule T C ct event set label  # keyword_expr
-delete rule T C ct secmark set last  # keyword_expr
-delete rule T C ct id set
-delete rule T C ct bytes set
-delete rule T C ct packets set
-delete rule T C ct avgpkt set
-delete rule T C ct zone set
-delete rule T C ct original set
-delete rule T C ct reply set last 
+
+
 
 # delete set <set_spec>
 delete set T S
@@ -120,27 +128,13 @@ delete map netdev T M
 delete map bridge T M 
 delete map arp T M 
 
+add table T;
+add set T M { type inet_service; };
+add set T M1 { type inet_service; };
+
 # delete element <set_spec> <set_block_expr>
-delete element T M { 4.4.4.4 }
-delete element T M { elements = { element, element }; }
-delete element ip T M { 4.4.4.4 }
-delete element ip T M { element, element }
-delete element ip T M { elements = { element, element } ; }
-delete element ip6 T M { 4.4.4.4 }
-delete element ip6 T M { element, element }
-delete element ip6 T M { elements = { element, element } ; }
-delete element inet T M { 10.0.0.1 }
-delete element inet T M { element, element }
-delete element inet T M { elements = { element, element } ; }
-delete element netdev T M { 10.0.0.1, 127.0.0.1 }
-delete element netdev T M { element, element }
-delete element netdev T M { elements = { element, element } ; }
-delete element bridge T M { 4.4.4.4 }
-delete element bridge T M { element, element }
-delete element bridge T M { elements = { element, element } ; }
-delete element arp T M { 4.4.4.4 }
-delete element arp T M { element, element }
-delete element arp T M { elements = { element, element } ; }
+delete element T M1 { ssh };
+
 
 # 'delete' 'flowtable' <flowtable_spec>
 # common_block->flowtable_block->'{'->'flowtable'->delete_cmd->'delete'->base_cmd->line
@@ -152,12 +146,12 @@ delete flowtable netdev T FT
 delete flowtable bridge T FT 
 delete flowtable arp T FT 
 
-delete flowtable T FT { define my_var; };
+delete flowtable T FT { define my_var = 1; };
 delete flowtable T FT { hook input priority 0; devices = { br0, eth0, eth1} ; }
 delete flowtable ip T FT { hook input priority 0; devices = { eth0, eth1 } ; }
 delete flowtable ip6 T FT { hook input priority 0; devices = { br0, eth0 } ; }
 delete flowtable inet T FT { hook input priority 0; devices = { br0, eth1 } ; }
-delete flowtable netdev T FT { flowtable_block }
+
 delete flowtable bridge T FT { hook input priority 0; devices = { br0, eth1 } ; }
 delete flowtable arp T FT { hook input priority 0; devices = { br0, eth1 } ; }
 

@@ -4,3 +4,44 @@
 ################################################################################
 
 
+delete chain T C {
+    # comment
+    tcp sport 123
+    udp sport 123
+    devices = { eth0 };
+}
+
+delete rule T C ip saddr 127.0.0.1
+delete rule T C ct l3proto set $MYMAP map { *eth0 }
+delete rule T C ct proto set 1 / 1
+delete rule T C ct mark set 1-1
+delete rule T C ct state set ether 12:23:34:45:56:67  # keyword_expr
+delete rule T C ct direction set ip 127.0.0.1  # keyword_expr
+delete rule T C ct status set vlan 1  # keyword_expr
+delete rule T C ct expiration set arp  # keyword_expr
+delete rule T C ct helper set dnat  # keyword_expr
+delete rule T C ct saddr set ecn  # keyword_expr
+
+delete rule T C ct daddr set reset  # keyword_expr
+delete rule T C ct proto-src set destroy  # keyword_expr
+delete rule T C ct proto-dst set original  # keyword_expr
+delete rule T C ct label set reply  # keyword_expr
+delete rule T C ct event set label  # keyword_expr
+delete rule T C ct secmark set last  # keyword_expr
+delete rule T C ct id set
+delete rule T C ct bytes set
+delete rule T C ct packets set
+delete rule T C ct avgpkt set
+delete rule T C ct zone set
+delete rule T C ct original set
+delete rule T C ct reply set last
+
+delete flowtable netdev T FT { flowtable_block }
+
+delete element ip T M1 { 4.4.4.4 }
+delete element ip6 T M1 { 4.4.4.4 }
+delete element inet T M { 10.0.0.1 }
+delete element netdev T M { 10.0.0.1, 127.0.0.1 }
+delete element bridge T M { 4.4.4.4 }
+delete element arp T M { 4.4.4.4 }
+

@@ -46,7 +46,8 @@ table A:   A
 table A.
 table A!error
 
-table $VARIABLE # variable ALLOWED in declarative '^table'
+table last # reserved words as identifier
+table $0VARIABLE # variable ALLOWED in declarative '^table'
 table T @# @   # invalid character
 
 add table my\IpTable    # defaults to 'ip' family
@@ -55,7 +56,11 @@ add table my_./\IpTable    # defaults to 'ip' family
 table T  # that one creates an empty table
 # base_cmd add_cmd 'table' table_spec identifier <STRING>
 table xxxx
-# base_cmd add_cmd 'table' table_spec identifier 'last'
+
+table xlast 
+table last 
+table last1
+table lastone 
 
 # base_cmd add_cmd 'table' table_spec table_block
 table inet xxxx { };
