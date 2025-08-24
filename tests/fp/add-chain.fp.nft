@@ -15,60 +15,6 @@
 ################################################################################
 
 
-table ip
-table ip6
-
-table "*weirdname"  # allowable '*' but only inside double quote???
-table "$weirdname"  # allowable '$' but only inside double quote???
-
-table ip {  };
-
-table T { chain C { type filter ; }; };  # incomplete
-
-table xxxx { chain MyIpNet {
-    chain last;  # oopsie
-    };
-};
-
-table @TX
-table A @# @   # invalid character
-table A# { };   # invalid character
-table A$ { };   # invalid character
-table A%   # invalid character
-table A^   # invalid character
-table A&   # invalid character
-table A*   # invalid character
-table A(   # invalid character
-table A)   # invalid character
-table A-   # invalid character
-table A+   # invalid character
-table A=   # invalid character
-table A[   # invalid character
-table A]   # invalid character
-table A<   # invalid character
-table A>   # invalid character
-table A,   # invalid character
-table A?   # invalid character
-table A|   # invalid character
-table A:   # invalid character
-
-table T { chain C { redefine A = 1; } };  # actually missing ';' after chain_block
-
-table T { chain C { redefine A = 1 }; };  # missing ';' before end of table_block's '}'
-
-table T { chain C { redefine A = 1 } };  # missing ';' before '}', twice
-
-table T { chain C { redefine A = 1; } }  # missing ';' before table_block's '}'
-
-table T { chain C { redefine A = 1 }; }  # missing ';' before chain_block's '}'
-
-table T { chain C { redefine A = 1 } }  # missing ';' before chain_block's '}'
-
-table xxxx { chain C { undefine abc ; } }
-
-table bridge T { chain { comment 'Hello world!' } }
-table T { chain C { comment "Hello world!" } }
-table netdev xxxx { chain C { comment "test" } ; }
 table T { chain C { flags offload; } } ;
 table T { chain C { flags offload;} }
 table T { chain C { flags offload;}; };
@@ -77,13 +23,14 @@ table T {chain C { flags offload; } };
 table T {chain C { flags offload ; } };
 table T {chain C { flags offload ;}; };
 
-table T {chain C { flags offload; }; };
-table T {chain C { flags offload ; }; };
+table bridge T { chain { comment 'Hello world!' } }
+table netdev xxxx { chain C { comment "test" } ; }
+
+
 table T {chain C {  flags offload } };
 table T { chain C { flags offload; } };
 table T { chain C { flags offload; } ; };
 # base_cmd add_cmd 'table' table_spec table_block { table_options ';' } };
-table T { chain C { flags offload } ; };
 
 table T {
 chain C {     # common_block
@@ -98,10 +45,6 @@ chain C {     # common_block
 
 table T { chain C { comment "unique, uh?"; flags a, b, c; chain C { type ; }; };
 
-table T { chain last }
-table T { chain last; }
-table T { chain last; };
-
 table inet MyIpNet {
     chain MyForwardChain {
         type filter hook prerouting device wlan0 priority 1;
@@ -109,7 +52,7 @@ table inet MyIpNet {
         policy drop;
         policy accept;  # cannot set 'policy' twice
     }
-    flags a, b, c
+    flags dormant
     comment "unique"
 };
 

@@ -41,7 +41,7 @@ undefine MY_PRIORITY
 
 add table ip table_id
 add chain ip table_id chain_id    { type filter hook input priority 12345; policy drop; }
-delete chain ip table_id chain_id { type filter hook input priority 12345; policy drop; }
+delete chain ip table_id chain_id { type filter hook input priority 12345; policy drop; } 
 delete table ip table_id
 
 add table ip table_id
@@ -81,4 +81,3 @@ delete chain ip T C { type filter hook input priority 0; policy accept; };
 destroy chain ip T C
 delete table ip T
 destroy table ip T
-
