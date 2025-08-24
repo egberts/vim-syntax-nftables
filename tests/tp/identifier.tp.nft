@@ -23,29 +23,62 @@
 # true positive test (properly hightlighted correctly; has good content; perfect)
 ################################################################################
 
+# setup
+add table T
+add table ip Tip
+add table ip6 Tip6
+add table inet Tinet
+add table netdev Tnetdev
+add table bridge Tbridge
+add table arp Tarp
+
+add chain T C;
+add chain ip Tip  Cip ;
+add chain ip6 Tip6 Cip6;
+add chain inet Tinet Cinet;
+add chain netdev Tnetdev Cnetdev;
+add chain bridge Tbridge Cbridge;
+add chain arp Tarp Carp;
+
 # Bison: identifier/table_spec/chain_spec/rule_position/add_cmd/base_cmd/line
-# NOTE: Stuck nft_common_block_undefine_error into nft_line
-myTableID myChainID accept ;
-my_table_id my_chain_id drop;
+
+# <table_id> <chain_id>
+T C ip saddr 127.0.0.1 drop
+ip Tip Cip ip saddr 127.0.0.1 drop
+ip6 Tip6 Cip6 ip6 saddr fffe::ffff drop
+inet Tinet Cinet ip saddr 127.0.0.1 drop
+netdev Tnetdev Cnetdev ip saddr 127.0.0.1 drop
+bridge Tbridge Cbridge ip saddr 127.0.0.1 drop
+arp Tarp Carp arp hlen 16 drop
+
+# <family_spec> <table_id> <chain_id>
+T C goto C;
+ip Tip Cip goto Cip;
+ip6 Tip6 Cip6 jump Cip6;
+inet Tinet Cinet continue;
+netdev Tnetdev Cnetdev accept;
+bridge Tbridge Cbridge drop;
+arp Tarp Carp continue;
+
+# 'table' <family_spec> <table_id> <chain_id>
+table T {
+    chain C { }
+}
 
 # Bison: identifier/'ip|ip6|inet|netdev|bridge|arp'/family_spec_explicit/family_spec/table_spec/chain_spec/rule_position/add_cmd/base_cmd/line
-ip my_table_id my_chain_id goto X;
-ip6 my_table_id my_chain_id jump X;
-inet my_table_id my_chain_id continue;
-netdev my_table_id my_chain_id accept;
-bridge my_table_id my_chain_id drop;
-arp my_table_id my_chain_id continue;
+# 'add' 'rule' <family_spec> <table_id> <chain_id>
+add rule T C ip saddr 127.0.0.1 accept
+add rule ip Tip Cip ip saddr 127.0.0.1 drop
+add rule ip6 Tip6 Cip6 ip6 saddr fffe::ffff accept
+add rule inet Tinet Cinet ip saddr 127.0.0.1 drop
+add rule netdev Tnetdev Cnetdev ip saddr 127.0.0.1 drop
+add rule bridge Tbridge Cbridge ip saddr 127.0.0.1 drop
+add rule arp Tarp Carp arp hlen 16 drop
 
-# Bison: identifier/'ip|ip6|inet|netdev|bridge|arp'/family_spec_explicit/family_spec/table_spec/chain_spec/rule_position/'rule'/add_cmd/base_cmd/line
-rule ip myTableID myChainID { };
-rule ip6 myTableID myChainID { };
-rule inet myTableID myChainID { };
-rule netdev myTableID myChainID { };
-rule bridge myTableID myChainID { };
-rule arp myTableID myChainID { };
 
 # multi-line
 table myTableID {
     chain myChainID { };
 };
 
+# Bison: identifier/'ip|ip6|inet|netdev|bridge|arp'/family_spec_explicit/family_spec/table_spec/chain_spec/rule_position/'rule'/add_cmd/base_cmd/line

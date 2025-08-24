@@ -126,7 +126,7 @@ delete set arp Tarp Sarp
 
 # delete map <map_spec>
 add table T
-add map T S { flags timeout; timeout 1h; type ipv4_addr : verdict; };
+#### add map T S { flags timeout; timeout 1h; type ipv4_addr : verdict; };
 table ip Tip { map Sip1 { flags timeout; timeout 1h; type ipv4_addr : verdict; }; }
 table ip6 Tip6 { map Sip6_1 { flags timeout; timeout 1h; type ipv6_addr : verdict; }; }
 table inet Tinet { map Sinet { flags timeout; timeout 1h; type ipv4_addr : verdict; }; }
@@ -134,7 +134,7 @@ table bridge Tbridge { map Sbridge { flags timeout; timeout 1h; type ipv4_addr :
 table netdev Tnetdev { map Snetdev { flags timeout; timeout 1h; type ipv4_addr : verdict; }; }
 table arp Tarp { map Sarp { flags timeout; timeout 1h; type ipv4_addr : verdict; }; }
 
-delete map T S
+#### delete map T S
 delete map ip Tip Sip1
 delete map ip6 Tip6 Sip6_1
 delete map inet Tinet Sinet

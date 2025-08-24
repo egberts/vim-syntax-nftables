@@ -27,10 +27,18 @@ map bridge T
 map arp T 
 
 
-map T C ; 
-
-
+map T C;
+map T C; 
 map T C ;
+map T C ; };
+
+map ip Tip Cip;  # missing '{' '}' block pair
+map ip6 Tip6 Cip6; 
+map inet Tinet Cinet;
+
+map netdev Tnetdev Cnetdev; 
+map bridge Tbridge Cbridge; 
+map arp Tarp Carp; 
 
 map T C { flags constant, interval, timeout, dynamic; };  # missing ';' inside map_block
 map T C { flags constant; flags interval; flags timeout; flags dynamic; };  # missing ';' inside map_block
@@ -58,3 +66,20 @@ table ip T {
         elements = { 3601-7200 : accept } # 3601 seconds (1:00:01) to 7200 seconds (2:00:00)
     }
 }
+
+map ip T C { flags constant, interval, timeout, dynamic; };  # missing ';' inside map_block
+map ip T C { flags constant; flags interval; flags timeout; flags dynamic; };  # missing ';' inside map_block
+
+map ip T C { comment 'A comment string' }  # single-quote not supported
+
+map ip T C { size 123 };
+
+map ip T C { flags constant, interval, timeout, dynamic; };
+map ip T C { flags constant; flags interval; flags timeout; flags dynamic; };
+map ip T C { elements = 1:00:1 }  # missing ';' at the end of inside map_block
+map ip T C { elements = 1:00:1; }
+
+add map ip T C { timeout 15:00:01 }  # wrong time format
+add map ip T C { gc-interval 1h00m1s }  # missing ';' near end of inside map_block
+
+add map ip T C { timeout 15:00:01 }

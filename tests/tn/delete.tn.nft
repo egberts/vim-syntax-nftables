@@ -99,7 +99,7 @@ delete set ip T handle 123
 delete set inet T handle 42  # comment
 
 # delete map <set_spec>
-delete map T M 
+delete map T M   # intentionally error to prevent implicit 'ip'
 delete map ip T M 
 delete map ip6 T M 
 delete map inet T M 

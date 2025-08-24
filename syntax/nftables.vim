@@ -593,7 +593,7 @@ syn match nft_line_stmt_separator  '\v[;\n]{1,16}' skipwhite contained
 "
 " identifier->table_spec->chain_spec->rule_position->add_cmd->'add'->base_cmd
 hi link   nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier_declarative_invalid_keywords nftHL_Error
-syn match nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier_declarative_invalid_keywords '\v(flowtable|flow)' skipwhite contained
+syn match nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier_declarative_invalid_keywords '\v(expectation|masquerade|flowtable|rtclassid|continue|ibriport|oifgroup|redirect|cfgroup|ibrname|iifname|iiftype|nftrace|notrack|obrname|oifname|oiftype|pkttype|timeout|udplite|accept|cgroup|geneve|handle|helper|reject|return|tproxy|update|ether|icmp6|skgid|skuid|vxlan|auth|comp|dccp|dnat|drop|flow|frag|goto|icmp|igmp|jump|last|meta|mark|snat|cpu|day|dst|dup|esp|fwd|gre|hbh|iif|ip6|log|oif|src|tcp|udp|at|mh|rt|th|xt)' skipwhite contained
 
 hi link   nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier_declarative nftHL_Identifier
 syn match nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier_declarative '\v[A-Za-z][A-Za-z0-9_]{0,63}' skipwhite contained

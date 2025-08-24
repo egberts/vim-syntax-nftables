@@ -5,4 +5,187 @@
 
 Oop$ie chain accept;
 
+# reserved words
+accept
+at
+auth
+cfgroup
+cgroup
+comp
+continue
+cpu
+dccp
+day
+dnat
+drop
+dst
+dup
+ether
+expectation
+flow
+flowtable
+frag
+fwd
+geneve
+goto
+gre
+handle
+helper 
+hbh
+ibriport
+ibrname
+icmp
+icmp6
+igmp
+iif
+iifname
+iiftype
+jump
+last
+log
+masquerade
+meta
+mh
+nftrace
+notrack
+obrname
+oif
+oifname
+oiftype
+oifgroup
+pkttype
+redirect
+reject
+return
+rt
+rtclassid
+skgid
+skuid
+snat
+src
+tcp
+timeout
+th
+tproxy
+udp
+udplite
+update
+vxlan
+xt
+
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+&
+!
+@
+#
+#
+$
+%
+^
+&
+*
+(
+)
+-
+=
++
+_
+|
+\
+}
+]
+{
+[
+"
+'
+:
+;
+?
+/
+>
+.
+<
+,
+~
+`
+
+AB%EFG
+AB$DEFG
+ABCD3FG
+
+ABCD3FG CDE%GHIJ 
+ABCD3FG CDE$GHIJ 
+
+add table table_id 
+add table table_id 
+
+table _table_id_;
+table t~*le_id_;
+table ta*le_id_;
+table tab`e_id_;
+table tabl!_id_;
+table table@id_;
+table table_$d_;
+table table_i%_;
+table table_id^;
+table table_i&_;
+table table_*d_;
+table table(id_;
+table tabl)_id_;
+table tab+e_id_;
+table ta=le_id_;
+table t}ble_id_;
+table t{ble_id_;
+table ta[le_id_;
+table ta]le_id_;
+table tab|e_id_;
+table tabl\_id_;
+table table"id_;
+table table_'d_;
+table table_i:_;
+table table_?d_;
+table table/id_;
+table tabl>_id_;
+table tab<e_id_;
+table ta.le_id_;
+table t,ble_id_;
+
+add chain table_id c`ain_id { accept };
+add chain table_id ch~in_id { accept };
+add chain table_id cha!n_id { accept };
+add chain table_id chai@_id { accept };
+add chain table_id chain$id { accept };
+add chain table_id chain_%d { accept };
+add chain table_id chain^id { accept };
+add chain table_id chai&_id { accept };
+add chain table_id cha*n_id { accept };
+add chain table_id ch(in_id { accept };
+add chain table_id c)ain_id { accept };
+add chain table_id ch+in_id { accept };
+add chain table_id cha=n_id { accept };
+add chain table_id chai\_id { accept };
+add chain table_id chain|id { accept };
+add chain table_id chain_]d { accept };
+add chain table_id chain[id { accept };
+add chain table_id chai}_id { accept };
+add chain table_id cha{n_id { accept };
+add chain table_id ch'in_id { accept };
+add chain table_id c"ain_id { accept };
+add chain table_id ch:in_id { accept };
+add chain table_id cha?n_id { accept };
+add chain table_id chai/_id { accept };
+add chain table_id chain.id { accept };
+add chain table_id chain_,d { accept };
+
+add rule table_id chain_id ip saddr 127.0.0.1 accept;
+
 
