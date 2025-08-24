@@ -1997,8 +1997,6 @@ hi link   nft_base_cmd_destroy_delete_cmds_keyword_map nftHL_Statement
 syn match nft_base_cmd_destroy_delete_cmds_keyword_map '\vmap\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    nft_delete_cmd_keyword_map_table_spec_family_spec,
-\    nft_delete_cmd_keyword_map_table_spec_keyword_last,
-\    nft_delete_cmd_keyword_map_table_spec_identifier_string_table,
 \    nft_UnexpectedSemicolon,
 \    nft_UnexpectedEOS,
 \    nft_Error
@@ -7043,7 +7041,6 @@ syn match nft_add_cmd_map_map_spec_table_spec_family_spec_family_spec_explicit s
 syn cluster nft_c_add_cmd_map_map_spec_table_spec
 \ contains=
 \    nft_add_cmd_map_map_spec_table_spec_family_spec_family_spec_explicit,
-\    nft_add_cmd_map_map_spec_table_spec_family_spec_identifier_table,
 \    nft_UnexpectedEOS
 
 " base_cmd [ 'add' ] 'map' map_spec
@@ -7054,7 +7051,8 @@ syn cluster nft_c_add_cmd_map_map_spec
 hi link   nft_base_cmd_add_cmd_keyword_map nftHL_Command
 syn match nft_base_cmd_add_cmd_keyword_map "\vmap\ze[ \t]" skipwhite contained
 \ nextgroup=
-\    @nft_c_add_cmd_map_map_spec
+\    @nft_c_add_cmd_map_map_spec,
+\    nft_Error
 
 hi link   nft_base_cmd_keyword_map nftHL_Command
 syn match nft_base_cmd_keyword_map "\vmap\ze " skipwhite contained

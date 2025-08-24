@@ -16,6 +16,7 @@ table ip filter {
         elements = { 1.1.1.1 }
     }
 }
+add table nat
 
 # add_cmd 'set' set_block '{' 'ct' 'count'
 add set nat S_CT_COUNT {

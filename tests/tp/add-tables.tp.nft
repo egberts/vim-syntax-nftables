@@ -54,9 +54,19 @@ table T { ; };
 ##########################################################################
 # All-in-One
 ##########################################################################
+flush ruleset
+
 define ETHERNAME = eno2
 define CHAINPOLICY = "drop"
 define BRIDGE_INTERFACE = "virbr2"
+destroy table ip Tip
+add table ip Tip
+#table ip Tip {
+#    chain Cip {
+#        type filter hook input priority 100; policy drop;
+#        oifname eno2 ip saddr 127.0.0.1 counter drop;
+#    }
+#}
 table ip Tip {  # nft_add_cmd_keyword_table_table_block_delimiters
     # common_block
     include "../include/comment-just-a-comment.nft";
@@ -64,9 +74,10 @@ table ip Tip {  # nft_add_cmd_keyword_table_table_block_delimiters
     redefine A = 2
     undefine A
     # table_option
-    flags dormant, persist;
+    ###flags dormant,persist;  # dormant=undefined chain Cip; persist=Operation not supported
     # chain_block
     chain Cip {  # nft_add_cmd_keyword_table_table_block_chain_chain_block_delimiters
+        ip saddr 127.0.0.1 counter drop;
         # common_block
         include "../include/comment-just-a-comment.nft"
         type filter hook input priority 100; policy drop;
@@ -75,7 +86,7 @@ table ip Tip {  # nft_add_cmd_keyword_table_table_block_delimiters
         undefine A
         # hook_spec
         # set_flags
-        flags offload
+        ##### flags offload (only useful if Ethernet NIC supports MAC filtering)
         # rule/rule_alloc/stmt/stateful_stmt/counter_stmt
         # counter CounterA SomethingB
         # devices
@@ -121,7 +132,7 @@ table ip Tip {  # nft_add_cmd_keyword_table_table_block_delimiters
 #        # elements = { "tesdf",2,3,4 };
 #        auto-merge;
 #    };
-    # map_block 
+    # map_block
 #    map M {  # (nft_add_cmd_table_block_map_block_delimiters)
 #        # common_block
 #        # comment_spec

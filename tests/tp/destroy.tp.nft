@@ -30,8 +30,10 @@ add table inet Tinet
 add table netdev Tnetdev
 add table bridge Tbridge
 add table arp Tarp
+
 create chain T C
 create chain ip Tip Cip
+
 destroy chain T C
 destroy chain ip Tip Cip
 destroy chain ip6 Tip6 Cip6
@@ -40,17 +42,25 @@ destroy chain netdev Tnetdev Cnetdev
 destroy chain bridge Tbridge Cbridge
 destroy chain arp Tarp Carp
 
+destroy map ip Tip Mip
+
 # destroy map <set_spec>
-add table T
+
 add table ip Tip
 add table ip6 Tip6
 add table inet Tinet
 add table netdev Tnetdev
 add table bridge Tbridge
 add table arp Tarp
-add map T M { type ipv4_addr : verdict; }
+
 add map ip Tip Mip { type ipv4_addr : verdict; }
-destroy map T M
+add map ip Tip Mip { type ipv4_addr : verdict; }
+add map ip6 Tip6 Mip6 { type ipv6_addr : verdict; }
+add map inet Tinet Minet { type ipv6_addr : verdict; }
+add map netdev Tnetdev Mnetdev { type ipv6_addr : verdict; }
+add map bridge Tbridge Mbridge { type ipv6_addr : verdict; }
+add map arp Tarp Marp { type ipv6_addr : verdict; }
+
 destroy map ip Tip Mip
 destroy map ip6 Tip6 Mip6
 destroy map inet Tinet Minet

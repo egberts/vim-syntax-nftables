@@ -8,6 +8,7 @@
 ################################################################################
 # true positive test: properly hightlighted correctly; has good content; perfect
 ################################################################################
+add table ip nat
 add map ip nat M {
         type ipv4_addr : verdict
         flags dynamic

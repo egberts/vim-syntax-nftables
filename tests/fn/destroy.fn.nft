@@ -2,3 +2,6 @@
 # false negative test: highlighted wrongly; still has good content; oops.
 ################################################################################
 
+add table T
+add map T M { type ipv4_addr : verdict; }
+destroy map T M
