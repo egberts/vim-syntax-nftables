@@ -19,7 +19,7 @@ check:
 		sudo /opt/nftables/sbin/nft --version; \
 		echo "Need sudo for 'nft -c' check."; \
 	fi; \
-	@if [ $(words $(MAKECMDGOALS)) -eq 2 ]; then \
+	if [ $(words $(MAKECMDGOALS)) -eq 2 ]; then \
 		FILE="$(word 2, $(MAKECMDGOALS))"; \
 		echo "Checking file: $$FILE"; \
 		sudo /opt/nftables/sbin/nft -c -f "$$FILE"; \

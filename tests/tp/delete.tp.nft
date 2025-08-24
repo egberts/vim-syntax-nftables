@@ -88,20 +88,21 @@ add chain Tchain C
 delete chain Tchain C { define my_var = 1; };
 
 
+# TODO: Polish up the 'delete rule'
 # delete rule <ruleid_spec>
-delete rule T C handle 16
-delete rule last C handle 16
-delete rule T last handle 16
-delete rule last last handle 16
-delete rule arp T C handle 16
-delete rule bridge T C handle 16
-delete rule filter output handle 5
+#delete rule T C handle 16
+#delete rule last C handle 16
+#delete rule T last handle 16
+#delete rule last last handle 16
+#delete rule arp T C handle 16
+#delete rule bridge T C handle 16
+#delete rule filter output handle 5
 
-delete rule inet T C handle 16
-delete rule ip6 T C handle 16
-delete rule ip T C handle 42
-delete rule netdev T C handle 16
-delete rule T C handle 42
+#delete rule inet T C handle 16
+#delete rule ip6 T C handle 16
+#delete rule ip T C handle 42
+#delete rule netdev T C handle 16
+#delete rule T C handle 42
 
 
 
@@ -200,10 +201,11 @@ delete quota arp Tarp Qarp
 #add secmark ip Tip SMip { "system_u:object_r:ssh_server_packet_t:s0" }
 #add secmark ip6 Tip6 SMip6 { "system_u:object_r:http_server_packet_t:s0" }  # fails, family_spec required
 #add secmark inet Tinet SMinet { "system_u:object_r:dns_server_packet_t:s0" }
-delete secmark ip Tip SMip
-delete secmark ip6 Tip6 SMip6
-delete secmark inet Tinet SMinet
+#delete secmark ip Tip SMip
+#delete secmark ip6 Tip6 SMip6
+#delete secmark inet Tinet SMinet
 
+add table T
 add table ip Tip
 add table ip6 Tip6
 add table inet Tinet
@@ -213,7 +215,7 @@ add synproxy ip Tip SPip mss 1492 wscale 5;
 add synproxy ip6 Tip6 SPip6 mss 1498 wscale 6;
 add synproxy inet Tinet SPinet mss 1496 wscale 4;
 
-delete synproxy Tip SPip
+delete synproxy T SP
 delete synproxy ip Tip SPip
 delete synproxy ip6 Tip6 SPip6
 delete synproxy inet Tinet SPinet

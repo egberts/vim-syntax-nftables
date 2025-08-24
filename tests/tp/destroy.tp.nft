@@ -19,183 +19,138 @@ destroy table inet T
 destroy table netdev T
 destroy table bridge T
 destroy table arp T
-# tableid_spec->'table'->destroy_cmd->'destroy'->base_cmd->line
-destroy table handle 123
-destroy table ip handle 123
-destroy table ip6 handle 123
-destroy table inet handle 123
-destroy table netdev handle 123
-destroy table bridge handle 123
-destroy table arp handle 123
+
 
 # destroy chain <chainid_spec>
 # common_block->chain_block->'{'->'chain'->destroy_cmd->'destroy'->base_cmd->line
+add table T
+add table ip Tip
+add table ip6 Tip6
+add table inet Tinet
+add table netdev Tnetdev
+add table bridge Tbridge
+add table arp Tarp
+create chain T C
+create chain ip Tip Cip
 destroy chain T C
-destroy chain last C
-destroy chain T last
-destroy chain last last
-destroy chain ip T C
-destroy chain ip6 T C
-destroy chain inet T C
-destroy chain netdev T C
-destroy chain bridge T C
-destroy chain arp T C
+destroy chain ip Tip Cip
+destroy chain ip6 Tip6 Cip6
+destroy chain inet Tinet Cinet
+destroy chain netdev Tnetdev Cnetdev
+destroy chain bridge Tbridge Cbridge
+destroy chain arp Tarp Carp
 
-destroy chain T C { }
-destroy chain ip T C {  }
-destroy chain ip6 T C {  }
-destroy chain inet T C {  }
-destroy chain netdev T C {  }
-destroy chain bridge T C {  }
-destroy chain arp T C { }
+# destroy map <set_spec>
+add table T
+add table ip Tip
+add table ip6 Tip6
+add table inet Tinet
+add table netdev Tnetdev
+add table bridge Tbridge
+add table arp Tarp
+add map T M { type ipv4_addr : verdict; }
+add map ip Tip Mip { type ipv4_addr : verdict; }
+destroy map T M
+destroy map ip Tip Mip
+destroy map ip6 Tip6 Mip6
+destroy map inet Tinet Minet
+destroy map netdev Tnetdev Mnetdev
+destroy map bridge Tbridge Mbridge
+destroy map arp Tarp Marp
 
-
-destroy chain T handle 123123
-destroy chain ip T handle 15
-destroy chain inet T handle 15
-destroy chain inet T handle 42  # comment
-destroy chain ip6 T handle 15
-destroy chain bridge T handle 15
-destroy chain arp T handle 15
-destroy chain netdev T handle 15
 
 # destroy element <set_spec> <set_block_expr>
-destroy element T M { 4.4.4.4 }
-destroy element T M { elements = { element, element }; }
-destroy element ip T M { 4.4.4.4 }
-destroy element ip T M { element, element }
-destroy element ip T M { elements = { element, element } ; }
-destroy element ip6 T M { 4.4.4.4 }
-destroy element ip6 T M { element, element }
-destroy element ip6 T M { elements = { element, element } ; }
-destroy element inet T M { 10.0.0.1 }
-destroy element inet T M { element, element }
-destroy element inet T M { elements = { element, element } ; }
-destroy element netdev T M { 10.0.0.1, 127.0.0.1 }
-destroy element netdev T M { element, element }
-destroy element netdev T M { elements = { element, element } ; }
-destroy element bridge T M { 4.4.4.4 }
-destroy element bridge T M { element, element }
-destroy element bridge T M { elements = { element, element } ; }
-destroy element arp T M { 4.4.4.4 }
-destroy element arp T M { element, element }
-destroy element arp T M { elements = { element, element } ; }
+add table T
+add table ip Tip
+add table ip6 Tip6
+add table inet Tinet
+add table netdev Tnetdev
+add table bridge Tbridge
+add table arp Tarp
+add set T E { type ipv4_addr; policy memory; size 1490; comment "my comment string"; }
+add set ip Tip Eip { type ipv4_addr; size 1490; }
+add set ip6 Tip6 Eip6 { type ipv4_addr; size 1490; }
+add set inet Tinet Einet { type ipv4_addr; size 1490; }
+add set netdev Tnetdev Enetdev { type ipv4_addr; size 1490; }
+add set bridge Tbridge Ebridge { type ipv4_addr; size 1490; }
+add set arp Tarp Earp { type ipv4_addr; size 1490; }
+destroy element T E { 4.4.4.4 }
+destroy element ip Tip Eip { 4.4.4.4 }
+destroy element ip6 Tip6 Eip6 { 4.4.4.4 }
+destroy element inet Tinet Einet { 10.0.0.1 }
+destroy element netdev Tnetdev Enetdev { 10.0.0.1, 127.0.0.1 }
+destroy element bridge Tbridge Ebridge { 4.4.4.4 }
+destroy element arp Tarp Earp { 4.4.4.4 }
+
 
 # 'destroy' 'flowtable' <flowtable_spec>
 # common_block->flowtable_block->'{'->'flowtable'->destroy_cmd->'destroy'->base_cmd->line
-destroy flowtable T FT 
-destroy flowtable ip T FT 
-destroy flowtable ip6 T FT 
-destroy flowtable inet T FT 
-destroy flowtable netdev T FT 
-destroy flowtable bridge T FT 
-destroy flowtable arp T FT 
-
-destroy flowtable T FT { define my_var; };
-destroy flowtable T FT { hook input priority out+1; devices = { br0, eth0, eth1} ; hook input priority false }
-destroy flowtable ip T FT { hook input priority 0; devices = { eth0, eth1 } ; }
-destroy flowtable ip6 T FT { hook input priority 0; devices = { br0, eth0 } ; }
-destroy flowtable inet T FT { hook input priority 0; devices = { br0, eth1 } ; }
-destroy flowtable netdev T FT { flowtable_block }
-destroy flowtable bridge T FT { hook input priority 0; devices = { br0, eth1 } ; }
-destroy flowtable arp T FT { hook input priority 0; devices = { br0, eth1 } ; }
-
-destroy flowtable T handle 15 
-destroy flowtable ip T handle 15
-destroy flowtable ip6 T handle 15 
-destroy flowtable inet T handle 15 
-destroy flowtable netdev T handle 15 
-destroy flowtable bridge T handle 15 
-destroy flowtable arp T handle 15 
-
-# destroy map <set_spec>
-destroy map T M 
-destroy map ip T M 
-destroy map ip6 T M 
-destroy map inet T M 
-destroy map netdev T M 
-destroy map bridge T M 
-destroy map arp T M 
+# Add tables
+add table ip T
+add table ip Tip
+add table ip6 Tip6
+# Add flowtables
+add flowtable ip T FT { hook ingress priority 15; devices = { eno2 }; }
+add flowtable ip Tip FTip { hook ingress priority 0; devices = { eno2 }; }
+add flowtable ip6 Tip6 FTip6 { hook ingress priority 0; devices = { eno2 }; }
+add flowtable inet Tinet FTinet { hook ingress priority 0; devices = { eno2 }; }
+# Delete flowtables (if needed)
+destroy flowtable ip T FT
+destroy flowtable ip Tip FTip
+destroy flowtable ip6 Tip6 FTip6
+destroy flowtable inet Tinet FTinet
 
 # destroy quota <obj_spec>
-destroy quota T Q 
-destroy quota ip T Q
-destroy quota ip6 T Q
-destroy quota inet T Q
-destroy quota netdev T Q
-destroy quota bridge T Q
-destroy quota arp T Q
+add table ip T
+add table ip Tip
+add table ip6 Tip6
+add table inet Tinet
+add table netdev Tnetdev
+add table bridge Tbridge
+add table arp Tarp
+add quota T Q 500 mbytes
+add quota ip Tip Qip over 500 mbytes
+add quota ip6 Tip6 Qip6 until 500 mbytes
+add quota inet Tinet Qinet until 500 mbytes
+add quota netdev Tnetdev Qnetdev until 500 mbytes
+add quota bridge Tbridge Qbridge until 500 mbytes
+add quota arp Tarp Qarp until 500 mbytes
+destroy quota T Q
+destroy quota ip Tip Qip
+destroy quota ip6 Tip6 Qip6
+destroy quota inet Tinet Qinet
+destroy quota netdev Tnetdev Qnetdev
+destroy quota bridge Tbridge Qbridge
+destroy quota arp Tarp Qarp
 
-# destroy quota <objid_spec>
-destroy quota T handle 15
-destroy quota ip T handle 15
-destroy quota ip6 T handle 15
-destroy quota inet T handle 123
-destroy quota netdev T handle 15
-#destroy quota inet T index 345  # not yet available
-#destroy quota inet T position 234  # not yet available
-destroy quota bridge T handle 15
-destroy quota arp T handle 15
+# secmark commented out here in destroy.tp.nft due to senforce=Disabled
+# however, a copy remains in 'z-secmark.tp.nft' unit test.
+#add table ip Tip
+#add table ip6 Tip6
+#add table inet Tinet
+#add secmark ip Tip SMip { "system_u:object_r:ssh_server_packet_t:s0" }
+#add secmark ip6 Tip6 SMip6 { "system_u:object_r:http_server_packet_t:s0" }  # fails, family_spec required
+#add secmark inet Tinet SMinet { "system_u:object_r:dns_server_packet_t:s0" }
+#destroy secmark ip Tip SMip
+#destroy secmark ip6 Tip6 SMip6
+#destroy secmark inet Tinet SMinet
 
-# destroy rule <ruleid_spec>
-destroy rule arp T C handle 16
-destroy rule bridge T C handle 16
-destroy rule filter output handle 5
-destroy rule filter output ip saddr 192.168.1.1 counter  # not implemented yet
-destroy rule inet T C handle 16
-destroy rule ip6 T C handle 16
-destroy rule ip T C handle 42
-destroy rule ip T handle 42
-destroy rule netdev T C handle 16
-destroy rule T C handle 42
-destroy rule T handle 42
-destroy secmark arp T handle 15
-destroy secmark arp T secmark_name
-destroy secmark bridge T handle 15
-destroy secmark bridge T secmark_name
-destroy secmark inet T handle 15
-destroy secmark inet T secmark_name
-destroy secmark ip6 T handle 15
-destroy secmark ip6 T secmark_name
-destroy secmark ip T handle 15
-destroy secmark ip T secmark_name
-destroy secmark netdev T handle 15
-destroy secmark netdev T secmark_name
-destroy secmark T handle 15
-destroy secmark T secmark_name 
+add table T
+add table ip Tip
+add table ip6 Tip6
+add table inet Tinet
 
-# destroy set <set_spec>
-destroy set T S
-destroy set ip T S
-destroy set ip6 T S
-destroy set inet T S
-destroy set netdev T S
-destroy set bridge T S
-destroy set arp T S
+add synproxy T SP mss 1500 wscale 7;
+add synproxy ip Tip SPip mss 1492 wscale 5;
+add synproxy ip6 Tip6 SPip6 mss 1498 wscale 6;
+add synproxy inet Tinet SPinet mss 1496 wscale 4;
 
-# destroy set <setid_spec>
-destroy set T handle 123
-destroy set ip T handle 123
-destroy set inet T handle 42  # comment
+destroy synproxy T SP
+destroy synproxy ip Tip SPip
+destroy synproxy ip6 Tip6 SPip6
+destroy synproxy inet Tinet SPinet
 
-delete synproxy arp T handle 15
-destroy synproxy arp T handle 15
-destroy synproxy arp T synproxy_name
-destroy synproxy bridge T handle 15
-destroy synproxy bridge T synproxy_name
-destroy synproxy inet T handle 15
-destroy synproxy inet T synproxy_name
-destroy synproxy ip6 T handle 15
-destroy synproxy ip6 T synproxy_name
-destroy synproxy ip T handle 15
-destroy synproxy ip T synproxy_name
-destroy synproxy netdev T handle 15
-destroy synproxy netdev T synproxy_name
-destroy synproxy T handle 15
-destroy synproxy T synproxy_name 
-destroy synproxy T synproxy_name;
-destroy synproxy T synproxy_name; 
-destroy synproxy T synproxy_name ;
-destroy synproxy T synproxy_name ; 
+
+########################################################333
 
 

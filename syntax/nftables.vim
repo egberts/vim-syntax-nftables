@@ -1740,6 +1740,36 @@ syn match nft_base_cmd_destroy_delete_cmds_keyword_table '\vtable\ze[ \t]' skipw
 \    nft_UnexpectedEOS,
 \    nft_Error
 
+" 'destroy' 'table' [ ip|ip6|inet|netdev|bridge|arp ] identifier
+" 'last'->identifier->table_spec->table_or_id_spec->'table'->destroy_cmd->'destroy'->base_cmd->line
+hi link   nft_destroy_cmd_keyword_table_table_or_id_spec_table_spec_identifier nftHL_Identifier
+syn match nft_destroy_cmd_keyword_table_table_or_id_spec_table_spec_identifier '\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}' skipwhite contained
+\ nextgroup=
+\    nft_line_stmt_separator,
+\    nft_EOS,
+\    nft_UnexpectedSemicolon,
+\    nft_UnexpectedIdentifierChar,
+\    nft_Error
+
+hi link   nft_destroy_cmd_keyword_table_table_or_id_spec_family_spec nftHL_Family
+syn match nft_destroy_cmd_keyword_table_table_or_id_spec_family_spec '\v(bridge|netdev|inet|arp|ip6|ip)\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_destroy_cmd_keyword_table_table_or_id_spec_table_spec_identifier,  " last match entry
+\    nft_UnexpectedSemicolon,
+\    nft_UnexpectedEOS,
+\    nft_Error
+
+" 'destroy' 'table'
+" 'table'->destroy_cmd->'destroy'->base_cmd->line
+hi link   nft_base_cmd_destroy_cmd_keyword_table nftHL_Statement
+syn match nft_base_cmd_destroy_cmd_keyword_table '\vtable\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_destroy_cmd_keyword_table_table_or_id_spec_family_spec,
+\    nft_destroy_cmd_keyword_table_table_or_id_spec_table_spec_identifier,  " last match entry
+\    nft_UnexpectedSemicolon,
+\    nft_UnexpectedEOS,
+\    nft_Error
+
 hi link   nft_delete_cmd_keyword_chain_chain_spec_identifier_string_chain nftHL_Table
 syn match nft_delete_cmd_keyword_chain_chain_spec_identifier_string_chain '\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}' skipwhite contained
 \ nextgroup=
@@ -2139,7 +2169,7 @@ syn match nft_base_cmd_keyword_destroy '\vdestroy\ze[ \t]' skipwhite contained
 \    nft_base_cmd_destroy_delete_cmds_keyword_element,
 \    nft_base_cmd_destroy_delete_cmds_keyword_secmark,
 \    nft_base_cmd_destroy_cmd_keyword_chain,
-\    nft_base_cmd_destroy_delete_cmds_keyword_table,
+\    nft_base_cmd_destroy_cmd_keyword_table,
 \    nft_base_cmd_destroy_delete_cmds_keyword_quota,
 \    nft_base_cmd_destroy_delete_cmds_keyword_rule,
 \    nft_base_cmd_destroy_delete_cmds_keyword_set,

@@ -15,3 +15,12 @@ destroy table bridge handle123
 destroy table arp handle123
 
 
+destroy chain T handle 123123
+destroy chain ip T handle 15
+destroy chain inet T handle 15
+destroy chain inet T handle 42  # comment
+destroy chain ip6 T handle 15
+destroy chain bridge T handle 15
+destroy chain arp T handle 15
+destroy chain netdev T handle 15
+

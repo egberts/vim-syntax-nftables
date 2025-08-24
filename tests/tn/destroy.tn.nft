@@ -3,24 +3,40 @@
 # so far, so good.
 ################################################################################
 
+# tableid_spec->'table'->destroy_cmd->'destroy'->base_cmd->line
+destroy table T handle 123
+destroy table ip Tip handle 123
+destroy table ip6 Tip6 handle 123
+destroy table inet Tinet handle 123
+destroy table netdev Tnetdev handle 123
+destroy table bridge Tbridge handle 123
+destroy table arp Tarp handle 123
+
+
+destroy chain last C
+destroy chain T last
+destroy chain last last
+destroy chain T C { }
+destroy chain ip T C {  }
+destroy chain ip6 T C {  }
+destroy chain inet T C {  }
+destroy chain netdev T C {  }
+destroy chain bridge T C {  }
+destroy chain arp T C { }
+
 destroy chain T C { define my_var; };
 
-destroy tableT
-destroy tablelast
-destroy tableip T
-destroy tableip6 T
-destroy tableinet T
-destroy tablenetdev T
-destroy tablebridge T
-destroy tablearp T
-destroy tablehandle 123
-destroy table iphandle 123   # got lucky here
-destroy table ip6handle 123
-destroy table inethandle 123
-destroy table netdevhandle 123
-destroy table bridgehandle 123
-destroy table arphandle 123
-destroy table handle123
-destroy table handle123 ; 
-
+destroy element T M { elements = { element, element }; }
+destroy element ip T M { element, element }
+destroy element ip T M { elements = { element, element } ; }
+destroy element ip6 T M { element, element }
+destroy element ip6 T M { elements = { element, element } ; }
+destroy element inet T M { element, element }
+destroy element inet T M { elements = { element, element } ; }
+destroy element netdev T M { element, element }
+destroy element netdev T M { elements = { element, element } ; }
+destroy element bridge T M { element, element }
+destroy element bridge T M { elements = { element, element } ; }
+destroy element arp T M { element, element }
+destroy element arp T M { elements = { element, element } ; }
 
