@@ -79,15 +79,10 @@ add counter T C ;
 counter T last;
 
 
-add counter filter http
-add counter table_id counter_id
-
-
-add counter filter https
-
 add table filter
 add chain filter input
-add rule filter input tcp dport 80 counter name "http"  # nftables manpage ;
+add counter filter http
+add rule filter input tcp dport 80 counter name http  # nftables manpage ;
 delete counter table_id counter_id
 
 destroy counter table_id counter_id
