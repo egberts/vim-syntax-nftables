@@ -5599,10 +5599,14 @@ syn match nft_base_cmd_keyword_import "import" skipwhite contained
 hi link   nft_export_cmd_export_format_keyword_xml nftHL_Action
 syn match nft_export_cmd_export_format_keyword_xml "\vxml\ze[ \t;\n]" skipwhite keepend contained
 
-hi link   nft_export_cmd_export_format_keyword_json nftHL_Action
+" 'export json' and 'export vm json' got ... obsoleted,
+" use 'nft -j list ruleset' instead
+hi link   nft_export_cmd_export_format_keyword_json nftHL_Error
 syn match nft_export_cmd_export_format_keyword_json "\vjson\ze[ \t;\n]" skipwhite keepend contained
 
-hi link   nft_export_cmd_export_format_keyword_vm_keyword_json nftHL_Action
+" 'export json' and 'export vm json' got ... obsoleted,
+" use 'nft -j list ruleset' instead
+hi link   nft_export_cmd_export_format_keyword_vm_keyword_json nftHL_Error
 syn match nft_export_cmd_export_format_keyword_vm_keyword_json "\vvm\s+json\ze[ \t;\n]" skipwhite keepend contained
 
 " export_cmd markup_format (via export_cmd)

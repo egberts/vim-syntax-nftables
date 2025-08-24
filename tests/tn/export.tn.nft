@@ -18,3 +18,9 @@ export ruleset
 export ruleset vm 
 
 
+export ruleset json
+export ruleset vm json
+
+export xml
+export ruleset xml
+
