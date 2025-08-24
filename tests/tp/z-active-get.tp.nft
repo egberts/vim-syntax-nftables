@@ -1,0 +1,146 @@
+#!/usr/sbin/nft -f
+# File: get.nft
+# Description: A test NFT file to exercise 'get' Vim syntax highlightings.
+#
+# nft_line/nft_base_cmd/nft_c_base_cmd_get
+# base_cmd 'get' get_cmd
+# base_cmd 'get' 'element' set_spec set_block_expr
+#
+################################################################################
+# true positive test: properly hightlighted correctly; has good content; perfect
+################################################################################
+
+# setup 'get element'
+
+#add table T
+#table T {
+#    # Create a dynamic map for both IPv4 and IPv6 addresses → verdict
+#    map M {
+#        type ether_addr : verdict
+#        flags dynamic
+#    }
+#    chain C {
+#        type filter hook input priority 0; policy accept;
+#
+#        # Apply the verdicts from the map
+#        ether saddr vmap @M
+#    }
+#}
+#add element T M { 00:2c:0a:01:01:01 : drop }
+#get element T M { 00:2c:0a:01:01:01 };
+
+flush ruleset
+add table ip Tip
+add map ip Tip Mip { type ether_addr : verdict ; flags dynamic ; }
+add element ip Tip Mip { 00:2c:0a:01:01:01 : drop }
+list map ip Tip Mip
+get element ip Tip Mip { 00:2c:0a:01:01:01 }
+
+add table ip Tip
+list tables
+table ip Tip {
+    # Create a dynamic map for both IPv4 and IPv6 addresses → verdict
+    map Mip {
+        type ether_addr : verdict
+        flags dynamic
+    }
+    chain Cip {
+        type filter hook input priority 0; policy accept;
+
+        # Apply the verdicts from the map
+        ether saddr vmap @Mip
+    }
+}
+add element ip Tip Mip { 00:2c:0a:01:01:01 : drop }
+list maps
+get element ip Tip Mip { 00:2c:0a:01:01:01 };
+
+add table ip6 Tip6
+table ip6 Tip6 {
+    # Create a dynamic map for both IPv4 and IPv6 addresses → verdict
+    map Mip6 {
+        type ether_addr : verdict
+        flags dynamic
+    }
+    chain Cip6 {
+        type filter hook input priority 0; policy accept;
+
+        # Apply the verdicts from the map
+        ether saddr vmap @Mip6
+    }
+}
+add element ip6 Tip6 Mip6 { 00:2c:0a:01:01:01 : drop }
+get element ip6 Tip6 Mip6 { 00:2c:0a:01:01:01 };
+
+add table inet Tinet
+table inet Tinet {
+    # Create a dynamic map for both IPv4 and IPv6 addresses → verdict
+    map Minet {
+        type ether_addr : verdict
+        flags dynamic
+    }
+    chain Cinet {
+        type filter hook input priority 0; policy accept;
+
+        # Apply the verdicts from the map
+        ether saddr vmap @Minet
+    }
+}
+add element inet Tinet Minet { 00:2c:0a:01:01:01 : drop }
+get element inet Tinet Minet { 00:2c:0a:01:01:01 };
+
+add table netdev Tnetdev
+table netdev Tnetdev {
+    # Create a dynamic map for both IPv4 and IPv6 addresses → verdict
+    map Mnetdev {
+        type ether_addr : verdict
+        flags dynamic
+    }
+    chain Cnetdev {
+        type filter hook ingress priority 0; policy accept;
+
+        # Apply the verdicts from the map
+        ether saddr vmap @Mnetdev
+    }
+}
+add element netdev Tnetdev Mnetdev { 00:2c:0a:01:01:01 : drop }
+get element netdev Tnetdev Mnetdev { 00:2c:0a:01:01:01 };
+
+add table bridge Tbridge
+table bridge Tbridge {
+    # Create a dynamic map for both IPv4 and IPv6 addresses → verdict
+    map Mbridge {
+        type ether_addr : verdict
+        flags dynamic
+    }
+    chain Cbridge {
+        type filter hook input priority 0; policy accept;
+
+        # Apply the verdicts from the map
+        ether saddr vmap @Mbridge
+    }
+}
+add element bridge Tbridge Mbridge { 00:2c:0a:01:01:01 : drop }
+get element bridge Tbridge Mbridge { 00:2c:0a:01:01:01 };
+
+add table arp Tarp
+table arp Tarp {
+    # Create a dynamic map for both IPv4 and IPv6 addresses → verdict
+    map Marp {
+        type ether_addr : verdict
+        flags dynamic
+    }
+    chain Carp {
+        type filter hook input priority 0; policy accept;
+
+        # Apply the verdicts from the map
+        ether saddr vmap @Marp
+    }
+}
+add element arp Tarp Marp { 00:2c:0a:01:01:01 : drop }
+get element arp Tarp Marp { 00:2c:0a:01:01:01 };
+
+
+
+
+
