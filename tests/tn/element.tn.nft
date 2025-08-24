@@ -25,19 +25,34 @@ element ipT S { };
 element ip6 TS { };
 element inet T S{ };
 
+element T S { };
+element last S { };
+element T last { };
+element last last { };
+element ip T S { };
+element ip6 T S { };
+element inet T S { };
+element netdev T S { };
+element bridge T S { };
+element arp T S { };
+
 # variable_expr->set_block_expr->'element'->add_cmd->base_cmd->line
 element T S { };
 element ip T S $MY_ELEMENT
+element ip filter service_map { 1.2.3.4 : accept, 5.6.7.8; timeout 30s : drop; comment "spam host" }
+
 
 # set_block_expr->'element'->add_cmd->'add'->base_cmd->line
-add element 
+add element
 
 
 add element T 
 
+add element ip T last $MY_ELEMENT;
 
 add element T C
 
+element ip Tip last $MY_ELEMENT;
 
 
 # set_block_expr->'element'->create_cmd->'create'->base_cmd->line

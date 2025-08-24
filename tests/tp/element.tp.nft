@@ -14,70 +14,148 @@
 ################################################################################
 
 # base_cmd add_cmd 'set'
+add table T
+add table ip Tip
+add table ip6 Tip6
+add table inet Tinet
+add table netdev Tnetdev
+add table bridge Tbridge
+add table arp Tarp
+# Create a table called 'filter'
+table T {
+    # Create a dynamic set for blocked IPs
+    map M {
+        type ipv4_addr : verdict
+        flags dynamic
+    }
+    # Create a chain to filter incoming traffic
+    chain C {
+        type filter hook input priority 0; policy accept;
+        # Drop packets if source IP is in the set
+        ip saddr @M drop
+    }
+}
+add element T M { 203.0.113.5: drop }
+delete element T M { 203.0.113.5: drop }
+
+table ip Tip {
+    # Create a dynamic set for blocked IPs
+    map Mip {
+        type ipv4_addr : verdict
+        flags dynamic
+    }
+    # Create a chain to filter incoming traffic
+    chain Cip {
+        type filter hook input priority 0; policy accept;
+        # Drop packets if source IP is in the set
+        ip saddr @Mip drop
+    }
+}
+add element ip Tip Mip { 203.0.113.5: drop }
+delete element ip Tip Mip { 203.0.113.5: drop }
+
+table ip6 Tip6 {
+    # Create a dynamic set for blocked IPs
+    map Mip6 {
+        type ipv6_addr : verdict
+        flags dynamic
+    }
+    # Create a chain to filter incoming traffic
+    chain Cip6 {
+        type filter hook input priority 0; policy accept;
+        # Drop packets if source IP is in the set
+        ip6 saddr @Mip6 drop
+    }
+}
+add element ip6 Tip6 Mip6 { fffe::ffff : drop }
+delete element ip6 Tip6 Mip6 { fffe::ffff  : drop }
+
+table inet Tinet {
+    # Create a dynamic map for both IPv4 and IPv6 addresses → verdict
+    map Mip {
+        type ipv4_addr : verdict
+        flags dynamic
+    }
+    map Mip6 {
+        type ipv6_addr : verdict
+        flags dynamic
+    }
+    chain Cinet {
+        type filter hook input priority 0; policy accept;
+
+        # Apply the verdicts from the map
+        ip saddr @Mip
+        ip6 saddr @Mip6
+    }
+}
+add element inet Tinet Mip { 127.0.0.1 : drop, 10.0.0.1 : drop }
+add element inet Tinet Mip6 { fffe::ffff : drop }
+delete element inet Tinet Mip { 127.0.0.1 : drop, 10.0.0.1 : drop }
+delete element inet Tinet Mip6 { fffe::ffff : drop }
+
+table bridge Tbridge {
+    # Create a dynamic map for both IPv4 and IPv6 addresses → verdict
+    map Mbridge {
+        type ether_addr : verdict
+        flags dynamic
+    }
+    chain Cbridge {
+        type filter hook input priority 0; policy accept;
+
+        # Apply the verdicts from the map
+        ether saddr vmap @Mbridge
+    }
+}
+add element bridge Tbridge Mbridge { 00:2c:0a:01:01:01 : drop }
+delete element bridge Tbridge Mbridge { 00:2c:0a:01:01:01 : drop }
+
+table netdev Tnetdev {
+    # Create a dynamic map for both IPv4 and IPv6 addresses → verdict
+    map Mnetdev {
+        type ether_addr : verdict
+        flags dynamic
+    }
+    chain Cnetdev {
+        type filter hook ingress priority 0; policy accept;
+
+        # Apply the verdicts from the map
+        ether saddr vmap @Mnetdev
+    }
+}
+add element netdev Tnetdev Mnetdev { 00:2c:0a:01:01:01 : drop }
+delete element netdev Tnetdev Mnetdev { 00:2c:0a:01:01:01 : drop }
+
+table arp Tarp {
+    # Create a dynamic map for both IPv4 and IPv6 addresses → verdict
+    map Marp {
+        type ether_addr : verdict
+        flags dynamic
+    }
+    chain Carp {
+        type filter hook input priority 0; policy accept;
+
+        # Apply the verdicts from the map
+        ether saddr vmap @Marp
+    }
+}
+add element arp Tarp Marp { 00:2c:0a:01:01:01 : drop }
+delete element arp Tarp Marp { 00:2c:0a:01:01:01 : drop }
+
+
 
 # set_expr->set_block_expr->'element'->add_cmd->base_cmd->line
-element T S { };
-element last S { };
-element T last { };
-element last last { };
-element ip T S { };
-element ip6 T S { };
-element inet T S { };
-element netdev T S { };
-element bridge T S { };
-element arp T S { };
+
 
 # variable_expr->set_block_expr->'element'->add_cmd->base_cmd->line
-element ip T last $MY_ELEMENT;
-element ip T S $MY_ELEMENT ;
+
+define MY_MAP_ELEMENT = { 10.0.0.1 timeout 1h : continue }
+add map ip Tip Mip2 { flags timeout; timeout 1h; type ipv4_addr : verdict; };
+add element ip Tip Mip2 $MY_MAP_ELEMENT ;
 
 # set_expr->set_block_expr->'element'->add_cmd->'add'->base_cmd->line
 # 'add element' only takes map key-value
 # 'add element' will not take anonymous set (that occurs in 'rule'->set_expr, not 'add element')
-element ip filter service_map { 1.2.3.4 : accept, 5.6.7.8 timeout 30s : drop comment "spam host" }
-# CORRECT — timeout is applied to the element, value follows after colon
-add element ip filter blocked_ips { 192.168.1.10 expires 1h }
-add element ip filter blocked_ips { 192.168.1.10 timeout 1h }
-add element ip filter action_map { 10.0.0.1 timeout 1h : continue }
-add element ip filter action_map { 10.0.0.1 timeout 1h : return }
-add element ip filter action_map { 10.0.0.1 timeout 1h : accept }
-add element ip filter action_map { 10.0.0.1 timeout 1h : jump LIBVIRT_IN }
-add element ip filter action_map { 10.0.0.1 timeout 1h : jump $my_LIBVIRT_IN }
-add element ip filter action_map { 10.0.0.1 timeout 1h : goto $my_LIBVIRT_FWD}
-add element ip filter action_map { 10.0.0.1 timeout 1h : goto LIBVIRT_FWD}
-add element ip filter action_map { 10.0.0.1 timeout 1h : drop }
-
-add element ip filter action_map { 
-    10.0.0.1 timeout 1h : goto $my_LIBVIRT_FWD,
-    10.0.0.1 timeout 1h : goto LIBVIRT_FWD,
-    10.0.0.1 timeout 1h : goto $my_LIBVIRT_FWD,
-    10.0.0.1 timeout 1h : goto LIBVIRT_FWD,
-}
 
 
-# variable_expr->set_block_expr->'element'->add_cmd->'add'->base_cmd->line
-add element T S $MY_ELEMENT
-
-add element T S { };
-
-# set_expr->set_block_expr->'element'->create_cmd->'create'->base_cmd->line
-create element T S { };
-# variable_expr->set_block_expr->'element'->create_cmd->'create'->base_cmd->line
-create element T S $MY_ELEMENT
-
-# set_expr->set_block_expr->'element'->destroy_cmd->'destroy'->base_cmd->line
-destroy element T S { };
-# variable_expr->set_block_expr->'element'->destroy_cmd->'destroy'->base_cmd->line
-destroy element T S $MY_ELEMENT
-
-# set_expr->set_block_expr->'element'->get_cmd->'get'->base_cmd->line
-get element T S { };
-# variable_expr->set_block_expr->'element'->get_cmd->'get'->base_cmd->line
-get element T S $MY_ELEM!NT
-
-# set_expr->set_block_expr->'element'->reset_cmd->'reset'->base_cmd->line
-reset element T S { };
-# variable_expr->set_block_expr->'element'->reset_cmd->'reset'->base_cmd->line
-reset element T S $MY_ELEMENT
 
 
