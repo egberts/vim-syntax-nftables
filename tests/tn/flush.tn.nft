@@ -28,4 +28,73 @@ flush ruleset netdev  # intentional invalid; netdev is not a flushable
 flush ruleset bridge  # intentional invalid; bridge is not a flushable
 flush ruleset arp  # intentional invalid; arp is not a flushable
 
+# Create tables
+add table T
+add table ip Tip
+add table ip6 Tip6
+add table inet Tinet
+add table netdev Tnetdev
+add table bridge Tbridge
+add table arp Tarp
 
+# Setup flowtables
+# set_spec->'table'->'flow'->flush_cmd->base_cmd
+add flowtable T FT { hook ingress priority 0 ; devices = { eno2, wlo1 } ; }
+add flowtable ip Tip FTip { hook ingress priority 0 ; devices = { eno2, wlo1 } ; }
+add flowtable ip6 Tip6 FTip6 { hook ingress priority 0 ; devices = { eno2, wlo1 } ; }
+add flowtable inet Tinet FTinet { hook ingress priority 0 ; devices = { eno2, wlo1 } ; }
+add flowtable netdev Tnetdev FTnetdev { hook ingress priority 0 ; devices = { eno2, wlo1 } ; }
+add flowtable bridge Tbridge FTbridge { hook ingress priority 0 ; devices = { eno2, wlo1 } ; }
+add flowtable arp Tarp FTarp { hook ingress priority 0 ; devices = { eno2, wlo1 } ; }
+
+# Flush flowtables
+# set_spec->'table'->'flow'->flush_cmd->base_cmd
+flush flowtable T FT
+flush flowtable ip Tip FTip
+flush flowtable ip6 Tip6 FTip6
+flush flowtable inet Tinet FTinet
+flush flowtable netdev Tnetdev FTnetdev
+flush flowtable bridge Tbridge FTbridge
+flush flowtable arp Tarp FTarp
+
+# setup 'meter'
+add table T
+add table ip Tip
+add table ip6 Tip6
+add table inet Tinet
+add table netdev Tnetdev
+add table bridge Tbridge
+add table arp Tarp
+
+add meter T MT { ip saddr limit rate 10/second }
+add meter ip Tip MTip { ip saddr limit rate 10/second }
+add meter ip6 Tip6 MTip6 { ip6 saddr limit rate 10/second }
+add meter inet Tinet MTinet { ip saddr limit rate 10/second }
+add meter netdev Tnetdev MTnetdev { ip saddr limit rate 10/second }
+add meter bridge Tbridge MTbridge { ip saddr limit rate 10/second }
+add meter arp Tarp MTarp { arp saddr limit rate 10/second }
+
+add chain T C { type filter hook input priority 0; policy accept; }
+add chain ip Tip Cip { type filter hook input priority 0; policy accept; }
+add chain ip6 Tip6 Cip6 { type filter hook input priority 0; policy accept; }
+add chain inet Tinet Cinet { type filter hook input priority 0; policy accept; }
+add chain netdev Tnetdev Cnetdev { type filter hook ingress priority 0; policy accept; }
+add chain bridge Tbridge Cbridge { type filter hook input priority 0; policy accept; }
+add chain arp Tarp Carp { type filter hook input priority 0; policy accept; }
+
+add rule T C tcp flags syn tcp dport ssh meter flood size 128000 { ip saddr timeout 10s limit rate over 10/second} drop
+add rule ip Tip Cip tcp flags syn tcp dport ssh meter flood size 128000 { ip saddr timeout 10s limit rate over 10/second} drop
+add rule ip6 Tip6 Cip6 tcp flags syn tcp dport ssh meter flood size 128000 { ip6 saddr timeout 10s limit rate over 10/second} drop
+add rule inet Tinet Cinet tcp flags syn tcp dport ssh meter flood size 128000 { ip saddr timeout 10s limit rate over 10/second} drop
+add rule netdev Tnetdev Cnetdev tcp flags syn tcp dport ssh meter flood size 128000 { ip saddr timeout 10s limit rate over 10/second} drop
+add rule bridge Tbridge Cbridge tcp flags syn tcp dport ssh meter flood size 128000 { ip saddr timeout 10s limit rate over 10/second} drop
+add rule arp Tarp Carp arp hlen 16 meter flood size 128000 { ether saddr timeout 10s limit rate over 10/second} drop
+
+# exercise 'flush meter'
+flush meter T MT
+flush meter ip Tip MTip
+flush meter ip6 Tip6 MTip6
+flush meter inet Tinet MTinet
+flush meter netdev Tnetdev MTnetdev
+flush meter bridge Tbridge MTbridge
+flush meter arp Tarp MTarp

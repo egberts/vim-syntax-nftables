@@ -8,64 +8,76 @@
 ################################################################################
 # true positive test: properly hightlighted correctly; has good content; perfect
 ################################################################################
+# Setup
+add table T
+add table ip Tip
+add table ip6 Tip6
+add table inet Tinet
+add table netdev Tnetdev
+add table bridge Tbridge
+add table arp Tarp
+add chain T C
+add chain ip Tip Cip
+add chain ip6 Tip6 Cip6
+add chain inet Tinet Cinet
+add chain netdev Tnetdev Cnetdev
+add chain bridge Tbridge Cbridge
+add chain arp Tarp Carp
 
-flush table MyTable
-flush table ip MyTable
-flush table ip6 MyTable
-flush table inet MyTable
-flush table netdev MyTable
-flush table bridge MyTable
-flush table arp MyTable 
-flush table MyTable;
-flush table MyTable; 
-flush table MyTable ;
-flush table MyTable ; 
+flush table T
+flush table ip Tip
+flush table ip6 Tip6
+flush table inet Tinet
+flush table netdev Tnetdev
+flush table bridge Tbridge
+flush table arp Tarp
+
+# Semicolon placements
+flush table T;
+flush table T;
+flush table T ;
+flush table T ;
 
 
-flush chain MyTable MyChain
-flush chain ip MyTable MyChain
-flush chain ip6 MyTable MyChain
-flush chain inet MyTable MyChain
-flush chain netdev MyTable MyChain
-flush chain bridge MyTable MyChain
-flush chain arp MyTable MyChain
-flush chain MyTable MyChain;
-flush chain MyTable MyChain; 
-flush chain MyTable MyChain ;
-flush chain MyTable MyChain ; 
+flush chain T C
+flush chain ip Tip Cip
+flush chain ip6 Tip6 Cip6
+flush chain inet Tinet Cinet
+flush chain netdev Tnetdev Cnetdev
+flush chain bridge Tbridge Cbridge
+flush chain arp Tarp Carp
 
-# set_spec->'table'->'flow'->flush_cmd->base_cmd
-flush flow table table_id flow_id
-flush flow table ip table_id flow_id
-flush flow table ip6 table_id flow_id
-flush flow table inet table_id flow_id
-flush flow table netdev table_id flow_id
-flush flow table bridge table_id flow_id
+# semicolon placement, chain
+flush chain T C;
+flush chain T C;
+flush chain T C ;
+flush chain T C ;
 
-flush map ip table_id MyMap
-flush map ip6 table_id MyMap
-flush map inet table_id MyMap
-flush map netdev table_id MyMap
-flush map bridge table_id MyMap
-flush map arp table_id MyMap
+# Setup map
+map T M { flags timeout; timeout 1h; type ipv4_addr : verdict; };
+map ip Tip Mip { flags timeout; timeout 1h; type ipv4_addr : verdict; };
+map ip6 Tip6 Mip6 { flags timeout; timeout 1h; type ipv4_addr : verdict; };
+map inet Tinet Minet { flags timeout; timeout 1h; type ipv4_addr : verdict; };
+map netdev Tnetdev Mnetdev { flags timeout; timeout 1h; type ipv4_addr : verdict; };
+map bridge Tbridge Mbridge { flags timeout; timeout 1h; type ipv4_addr : verdict; };
+map arp Tarp Marp { flags timeout; timeout 1h; type ipv4_addr : verdict; };
 
-flush meter table_id MyMap
-flush meter ip table_id MyMap
-flush meter ip6 table_id MyMap
-flush meter inet table_id MyMap
-flush meter netdev table_id MyMap
-flush meter arp table_id MyMap
+# exercise 'flush map'
+flush map T M
+flush map ip Tip Mip
+flush map ip6 Tip6 Mip6
+flush map inet Tinet Minet
+flush map netdev Tnetdev Mnetdev
+flush map bridge Tbridge Mbridge
+flush map arp Tarp Marp
+
+# 'flush meter' is an invalid command (parser-OK, scanner-rejected)
 
 flush ruleset 
 flush ruleset ip 
 flush ruleset ip6
 flush ruleset inet
 
-flush set table_id set_id
-flush set ip6 table_id set_id
-flush set inet table_id set_id
-flush set netdev table_id set_id
-flush set bridge table_id set_id
-flush set arp table_id set_id
+
 
 

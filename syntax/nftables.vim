@@ -5471,10 +5471,9 @@ syn cluster nft_c_flush_cmd_keyword_set_et_al_set_spec_end
 \    nft_flush_cmd_keyword_set_et_al_table_spec_identifier
 
 " base_cmd [ 'flush' ] [ 'set' ] set_spec
-" base_cmd [ 'flush' ] [ 'flow' ] [ 'table' ] set_spec
 " base_cmd [ 'flush' ] [ 'meter' ] set_spec
 hi link   nft_flush_cmd_keyword_set_map_flow_meter_end nftHL_Command
-syn match nft_flush_cmd_keyword_set_map_flow_meter_end "\v(set|map|meter|flow table)" skipwhite contained
+syn match nft_flush_cmd_keyword_set_map_flow_meter_end "\v(set|map)" skipwhite contained
 \ nextgroup=
 \    @nft_c_flush_cmd_keyword_set_et_al_set_spec_end,
 \    nft_UnexpectedSemicolon,
