@@ -9,8 +9,4 @@
 # true positive test: properly hightlighted correctly; has good content; perfect
 ################################################################################
 
-import ruleset xml
-import ruleset vm json
-import ruleset json
-
 

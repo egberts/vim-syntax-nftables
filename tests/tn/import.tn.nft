@@ -3,6 +3,11 @@
 # so far, so good.
 ################################################################################
 
+import ruleset xml
+import ruleset vm json
+import ruleset json
+
+
 import ruleset json vm
 import ruleset vm xml
 import ruleset vm

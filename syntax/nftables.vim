@@ -593,7 +593,7 @@ syn match nft_line_stmt_separator  '\v[;\n]{1,16}' skipwhite contained
 "
 " identifier->table_spec->chain_spec->rule_position->add_cmd->'add'->base_cmd
 hi link   nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier_declarative_invalid_keywords nftHL_Error
-syn match nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier_declarative_invalid_keywords '\v(expectation|masquerade|flowtable|rtclassid|continue|ibriport|oifgroup|redirect|cfgroup|ibrname|iifname|iiftype|nftrace|notrack|obrname|oifname|oiftype|pkttype|timeout|udplite|accept|cgroup|geneve|handle|helper|reject|return|tproxy|update|ether|icmp6|skgid|skuid|vxlan|auth|comp|dccp|dnat|drop|flow|frag|goto|icmp|igmp|jump|last|meta|mark|snat|cpu|day|dst|dup|esp|fwd|gre|hbh|iif|ip6|log|oif|src|tcp|udp|at|mh|rt|th|xt)' skipwhite contained
+syn match nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier_declarative_invalid_keywords '\v(expectation|masquerade|flowtable|rtclassid|continue|ibriport|oifgroup|redirect|cfgroup|ibrname|iifname|iiftype|nftrace|notrack|obrname|oifname|oiftype|pkttype|timeout|udplite|accept|cgroup|geneve|handle|helper|import|reject|return|tproxy|update|export|ether|icmp6|skgid|skuid|vxlan|auth|comp|dccp|dnat|drop|flow|frag|goto|icmp|igmp|jump|last|meta|mark|snat|cpu|day|dst|dup|esp|fwd|gre|hbh|iif|log|oif|src|tcp|udp|at|mh|rt|th|xt)' skipwhite contained
 
 hi link   nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier_declarative nftHL_Identifier
 syn match nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier_declarative '\v[A-Za-z][A-Za-z0-9_]{0,63}' skipwhite contained
@@ -5560,74 +5560,6 @@ syn match nft_base_cmd_keyword_flush "\vflush\ze " skipwhite contained
 \    nft_Error
 "***************** flush_cmd END *****************
 
-" *************** BEGIN import_cmd *******************
-hi link   nft_import_cmd_import_format_keyword_xml nftHL_Action
-syn match nft_import_cmd_import_format_keyword_xml "\vxml\ze[ \t;\n]" skipwhite keepend contained
-
-hi link   nft_import_cmd_import_format_keyword_json nftHL_Action
-syn match nft_import_cmd_import_format_keyword_json "\vjson\ze[ \t;\n]" skipwhite keepend contained
-
-hi link   nft_import_cmd_import_format_keyword_vm_keyword_json nftHL_Action
-syn match nft_import_cmd_import_format_keyword_vm_keyword_json "\vvm\s+json\ze[ \t;\n]" skipwhite keepend contained
-
-" base_cmd 'import' (via base_cmd)
-hi link   nft_import_cmd_keyword_ruleset nftHL_Operator
-syn match nft_import_cmd_keyword_ruleset "ruleset" skipwhite keepend contained
-\ nextgroup=
-\    nft_import_cmd_import_format_keyword_json,
-\    nft_import_cmd_import_format_keyword_xml,
-\    nft_import_cmd_import_format_keyword_vm_keyword_json,
-\    nft_UnexpectedSemicolon,
-\    nft_UnexpectedEOS,
-\    nft_Error
-
-" 'import'->base_cmd->line
-hi link   nft_base_cmd_keyword_import nftHL_Command
-syn match nft_base_cmd_keyword_import "import" skipwhite contained
-\ nextgroup=
-\    nft_import_cmd_keyword_ruleset,
-\    nft_markup_format,
-\    nft_UnexpectedSemicolon,
-\    nft_UnexpectedEOS,
-\    nft_Error
-" *************** END import_cmd *******************
-
-" *************** BEGIN export_cmd *******************
-hi link   nft_export_cmd_export_format_keyword_xml nftHL_Action
-syn match nft_export_cmd_export_format_keyword_xml "\vxml\ze[ \t;\n]" skipwhite keepend contained
-
-" 'export json' and 'export vm json' got ... obsoleted,
-" use 'nft -j list ruleset' instead
-hi link   nft_export_cmd_export_format_keyword_json nftHL_Error
-syn match nft_export_cmd_export_format_keyword_json "\vjson\ze[ \t;\n]" skipwhite keepend contained
-
-" 'export json' and 'export vm json' got ... obsoleted,
-" use 'nft -j list ruleset' instead
-hi link   nft_export_cmd_export_format_keyword_vm_keyword_json nftHL_Error
-syn match nft_export_cmd_export_format_keyword_vm_keyword_json "\vvm\s+json\ze[ \t;\n]" skipwhite keepend contained
-
-" export_cmd markup_format (via export_cmd)
-hi link   nft_export_cmd_keyword_ruleset nftHL_Operator
-syn match nft_export_cmd_keyword_ruleset "ruleset" skipwhite contained
-\ nextgroup=
-\    nft_export_cmd_export_format_keyword_json,
-\    nft_export_cmd_export_format_keyword_xml,
-\    nft_export_cmd_export_format_keyword_vm_keyword_json,
-\    nft_UnexpectedSemicolon,
-\    nft_UnexpectedEOS,
-\    nft_Error
-
-" 'export'->base_cmd->line
-hi link   nft_base_cmd_keyword_export nftHL_Command
-syn match nft_base_cmd_keyword_export "export" skipwhite contained
-\ nextgroup=
-\    nft_export_cmd_keyword_ruleset,
-\    nft_markup_format,
-\    nft_UnexpectedSemicolon,
-\    nft_UnexpectedEOS,
-\    nft_Error
-" *************** END export_cmd *******************
-
 " *************** BEGIN insert_cmd *******************
 hi link   nft_insert_cmd_keyword_rule_rule_position_keywords_position_spec_num nftHL_Number
 syn match nft_insert_cmd_keyword_rule_rule_position_keywords_position_spec_num "\v[0-9]{1,10}" skipwhite contained
@@ -9869,8 +9801,6 @@ syn match nft_line '^\v\s{0,63}'
 \    nft_base_cmd_keyword_create,
 \    nft_common_block_keyword_define,
 \    nft_base_cmd_keyword_delete,
-\    nft_base_cmd_keyword_export,
-\    nft_base_cmd_keyword_import,
 \    nft_base_cmd_keyword_insert,
 \    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_netdev,
 \    nft_base_cmd_keyword_rename,
