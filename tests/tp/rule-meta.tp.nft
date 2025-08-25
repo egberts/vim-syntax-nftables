@@ -195,10 +195,21 @@ rule T C meta hour 15;
 # meta_stmt - qualified META, with a value (requires 'meta' before it)
 rule T C meta length 1512;
 
-rule T C meta protocol loopback;
 rule T C meta protocol ip;
 rule T C meta protocol ip6;
 rule T C meta protocol arp;
+rule T C meta protocol vlan;
+rule T C meta protocol 8021q;
+rule T C meta protocol 8021ad;
+rule T C meta protocol any;
+rule T C meta protocol 0x0806;
+rule T C meta protocol 0x806;
+rule T C meta protocol 0x800;
+rule T C meta protocol 0x1;
+rule T C meta protocol 0x80600;
+rule T C meta protocol 0x00806;
+rule T C meta protocol from_etc_services_file;
+rule T C meta protocol loopback;
 rule T C meta protocol mpls_uc;
 rule T C meta protocol mpls_mc;
 rule T C meta protocol 802.1q;
@@ -206,7 +217,6 @@ rule T C meta protocol 802_1q;
 rule T C meta protocol pppoe;
 rule T C meta protocol lldp;
 rule T C meta protocol qinq;
-rule T C meta protocol arp;
 
 rule T C meta priority none;
 

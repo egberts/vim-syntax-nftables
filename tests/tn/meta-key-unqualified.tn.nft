@@ -137,6 +137,16 @@ rule T C protocol; # 'meta' missing (qualified)
 rule T C protocol tcp;  # 'meta' missing (qualified)
 rule T C meta protocol; # missing protocol
 rule T C meta protocol napster;   # non-existant protocol name
+rule T C meta protocol loopback;
+rule T C meta protocol ppp;
+rule T C meta protocol mpls-uc;
+rule T C meta protocol mpls-mc;
+rule T C meta protocol geneve;
+rule T C meta protocol netdev;
+rule T C meta protocol gre;
+rule T C meta protocol pppoe;
+rule T C meta protocol lldp;
+rule T C meta protocol qinq;
 
 rule T C priority abc;   # 'meta' missing (qualified)
 rule T C priority default;   # 'meta' missing (qualified)

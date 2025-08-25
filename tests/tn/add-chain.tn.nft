@@ -204,3 +204,10 @@ table T { chain C { devices = eth0;  } }
 table T { chain C { devices = { eth0; }  } }
 
 table T { chain C { devices = { eth0 } }; };
+
+table ip T filter {
+    chain input {
+        tcp flags syn tcp dport ssh meter flood size 128000 { ip saddr timeout 10s limit rate over 10/second} add @blackhole { ip saddr timeout 1m } drop  # meter as expr
+    }
+}
+

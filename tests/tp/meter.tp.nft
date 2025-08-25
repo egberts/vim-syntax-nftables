@@ -6,20 +6,58 @@
 ################################################################################
 # true positive test: properly hightlighted correctly; has good content; perfect
 ################################################################################
+# setup
+add table T
+add table ip Tip
+add table ip6 Tip6
+add table inet Tinet
+add table netdev Tnetdev
+add table bridge Tbridge
+add table arp Tarp
+add chain T C
+add chain ip Tip Cip
+add chain ip6 Tip6 Cip6
+add chain inet Tinet Cinet
+add chain netdev Tnetdev Cnetdev
+add chain bridge Tbridge Cbridge
+add chain arp Tarp Carp
+add set T Sblackhole { type ipv4_addr; elements = { 1.1.1.1 }; }
+add set ip Tip Sblackhole { type ipv4_addr; elements = { 1.1.1.1 }; }
+add set ip6 Tip6 Sblackhole { type ipv6_addr; elements = { fffe::ffff }; }
+add set inet Tinet Sblackhole { type ipv4_addr; elements = { 1.1.1.1 }; }
+add set netdev Tnetdev Sblackhole { type ipv4_addr; elements = { 1.1.1.1 }; }
+add set bridge Tbridge Sblackhole { type ipv4_addr; elements = { 1.1.1.1 }; }
+add set arp Tarp Sblackhole { type ipv4_addr; elements = { 1.1.1.1 }; }
 
-add rule ip filter input tcp flags syn tcp dport ssh meter flood size 128000 { ip saddr timeout 10s limit rate over 10/second} add @blackhole { ip saddr timeout 1m } drop
+# as a stmt_expr
+add rule T C tcp flags syn tcp dport ssh meter flood size 128000 { ip saddr timeout 10s limit rate over 10/second} add @Sblackhole { ip saddr timeout 1m } drop
+add rule ip Tip Cip tcp flags syn tcp dport ssh meter flood size 128000 { ip saddr timeout 10s limit rate over 10/second} add @Sblackhole { ip saddr timeout 1m } drop
+add rule ip6 Tip6 Cip6 tcp flags syn tcp dport ssh meter flood size 128000 { ip6 saddr timeout 10s limit rate over 10/second} add @Sblackhole { ip6 saddr timeout 1m } drop
+add rule inet Tinet Cinet tcp flags syn tcp dport ssh meter flood size 128000 { ip saddr timeout 10s limit rate over 10/second} add @Sblackhole { ip saddr timeout 1m } drop
+add rule netdev Tnetdev Cnetdev tcp flags syn tcp dport ssh meter flood size 128000 { ip saddr timeout 10s limit rate over 10/second} add @Sblackhole { ip saddr timeout 1m } drop
+add rule bridge Tbridge Cbridge tcp flags syn tcp dport ssh meter flood size 128000 { ip saddr timeout 10s limit rate over 10/second} add @Sblackhole { ip saddr timeout 1m } drop
+add rule arp Tarp Carp arp saddr ip @Sblackhole meter flood { arp saddr ip limit rate 10/second burst 20 packets } drop;
 
-list meter table_name identifier
-list meter ip table_name identifier
-list meter bridge table_name identifier
-list meter netdev table_name identifier
 
-flush meter myIpTable mySet
-flush meter ip myIpTable mySet
-flush meter ip6 myIp6Table mySet
-flush meter inet myInetTable mySet ; 
-flush meter netdev myNetdevTable mySet
-flush meter bridge myBridgeTable mySet
-flush meter arp myArpTable mySet
+
+# as a stmt
+table ip T {
+    chain C {
+        tcp flags syn tcp dport ssh meter flood size 128000 { ip saddr timeout 10s limit rate over 10/second} add @Sblackhole { ip saddr timeout 1m } drop
+    }
+}
+
+list meter T flood
+list meter ip Tip flood
+list meter bridge Tbridge flood
+list meter netdev Tnetdev flood
+
+flush meter T flood
+flush meter ip Tip flood
+flush meter ip6 Tip6 flood
+flush meter inet Tinet flood ;
+flush meter netdev Tnetdev flood
+flush meter bridge Tbridge flood
+flush meter arp Tarp flood
 
 

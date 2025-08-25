@@ -1,0 +1,49 @@
+flush ruleset
+table arp Tarp {
+    set Sarp {
+        type ipv4_addr
+        flags interval
+        elements = { 192.168.1.0/24 }
+    }
+    chain Carp {
+        type filter hook input priority 0; policy accept;
+        arp saddr ip @Sarp meter flood { arp saddr ip limit rate 10/second burst 20 packets } drop
+        fwd to ether
+    }
+}
+list meter arp Tarp flood  # this requires stateful libnftnl/kernel interaction, not `nft -c`
+
+flush ruleset
+table inet TestKeywords {
+    chain InputChain {
+        type filter hook input priority 0; policy accept;
+        # Test 'ether' (payload expression)
+        ether type vlan counter accept
+        ether type arp counter accept
+        # Test 'ip' and 'ip6' (meta nfproto)
+        meta nfproto ipv4 counter accept
+        meta nfproto ipv6 counter accept
+        # Test 'vlan' (payload expression)
+        ether type vlan vlan id 100 counter accept
+        # Test 'arp' (meta nfproto)
+        meta nfproto arp counter accept
+        # Test 'dnat' and 'snat' (nat statements)
+        ip saddr 192.168.1.1 dnat to 10.0.0.1
+        ip saddr 192.168.1.1 snat to 10.0.0.2
+        # Test 'ecn' (payload expression)
+        ip ecn 3 counter accept
+        # Test 'reset' (tcp option reset)
+        tcp option reset counter accept
+        # Test 'label' (conntrack label)
+        ct label "test_label" counter accept
+        # Test 'original' and 'reply' (conntrack direction)
+        ct direction reply counter accept
+        # Test 'last' (meta mark to indicate last fragment)
+        ip frag-off & 0x1fff != 0 meta mark set 1 counter accept
+    }
+}
+
+delete set arp Tarp Sarp
+delete chain arp Tarp Carp
+delete table arp Tarp
+

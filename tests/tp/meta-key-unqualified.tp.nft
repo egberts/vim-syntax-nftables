@@ -119,8 +119,8 @@ rule T C meta nftrace set 1;  # 'meta nftrace == 1' only in meta_expr
 # 'nfproto' is only used with 'inet' family.
 rule inet T C meta nfproto 1;
 rule inet T C meta nfproto 1;
-rule inet T C meta nfproto ipv4 counter accept
-rule inet T C meta nfproto ipv6 counter drop
+rule inet T C meta nfproto ipv4 counter accept;
+rule inet T C meta nfproto ipv6 counter drop;
 rule inet T C meta nfproto 2;
 rule inet T C meta nfproto ipv4;
 rule inet T C meta nfproto 3;
@@ -130,7 +130,7 @@ rule inet T C meta nfproto ipv6;
 rule inet T C meta nfproto 12;
 
 # 'nfproto' only used with 'inet' family.
-rule inet Tinet Cinet meta nfproto ipv4 counter accept
+rule inet Tinet Cinet meta nfproto ipv4 counter accept;
 
 # 'meta l4proto' is integer or string (as listed in Linux kernel include/uapi/linux/netfilter.h)
 rule inet T C meta l4proto 1;
@@ -217,17 +217,14 @@ rule T C meta hour 15;
 # meta_stmt - qualified META, with a value (requires 'meta' before it)
 rule T C meta length 1512;
 
-rule T C meta protocol loopback;
+# 'meta protocol', &ethertype_type[], 
 rule T C meta protocol ip;
+rule T C meta protocol arp;
 rule T C meta protocol ip6;
-rule T C meta protocol arp;
-rule T C meta protocol mpls-uc;
-rule T C meta protocol mpls-mc;
+rule T C meta protocol 8021q;
+rule T C meta protocol 8021ad;
+rule T C meta protocol vlan;
 
-rule T C meta protocol pppoe;
-rule T C meta protocol lldp;
-rule T C meta protocol qinq;
-rule T C meta protocol arp;
 
 rule T C meta priority none;
 

@@ -21,63 +21,126 @@
 ################################################################################
 
 # input hook chain, type filter @ srcnat priority
-add table ip table_id
-chain ip table_id chain_id { type filter hook input priority srcnat; policy accept;};
-delete chain ip table_id chain_id { type filter hook input priority srcnat; policy accept; };
-delete table ip table_id
+add table T
+chain T C { type filter hook input priority srcnat; policy accept;};
+delete chain T C { type filter hook input priority srcnat; policy accept; };
 
-# prerouting hook chain, type nat @ mangle priority
-add table inet table_id
-chain inet table_id chain_id        { type nat hook prerouting priority mangle; policy accept; };
-delete chain inet table_id chain_id { type nat hook prerouting priority mangle; policy accept; };
-delete table inet table_id
+add table ip Tip
+chain ip Tip Cip { type filter hook input priority srcnat; policy accept;};
+delete chain ip Tip Cip { type filter hook input priority srcnat; policy accept; };
+delete table ip Tip
 
 define MY_PRIORITY = security
-add table ip table_id
-add chain ip table_id chain_id { type filter hook input priority $MY_PRIORITY; policy drop; }
-delete chain ip table_id chain_id
-delete table ip table_id
+add table ip6 Tip6
+add chain ip6 Tip6 Cip6 { type filter hook input priority $MY_PRIORITY; policy drop; }
+delete chain ip6 Tip6 Cip6
+delete table ip6 Tip6
 undefine MY_PRIORITY
 
-add table ip table_id
-add chain ip table_id chain_id    { type filter hook input priority 12345; policy drop; }
-delete chain ip table_id chain_id { type filter hook input priority 12345; policy drop; } 
-delete table ip table_id
+# prerouting hook chain, type nat @ mangle priority
+add table inet Tinet
+chain inet Tinet Cinet        { type nat hook prerouting priority mangle; policy accept; };
+delete chain inet Tinet Cinet { type nat hook prerouting priority mangle; policy accept; };
+delete table inet Tinet
 
-add table ip table_id
-add chain ip table_id chain_id    { type filter hook input priority -12345; policy drop; }
-delete chain ip table_id chain_id { type filter hook input priority 12345; policy drop; }
-delete table ip table_id
+add table netdev Tnetdev
+add chain netdev Tnetdev Cnetdev    { type filter hook ingress priority 12345; policy drop; }
+delete chain netdev Tnetdev Cnetdev { type filter hook ingress priority 12345; policy drop; } 
+delete table netdev Tnetdev
+
+add table bridge Tbridge
+add chain bridge Tbridge Cbridge    { type filter hook input priority -12345; policy drop; }
+delete chain bridge Tbridge Cbridge { type filter hook input priority 12345; policy drop; }
+delete table bridge Tbridge
 
 
-add table ip table_id
-chain ip table_id chain_id {  # regular base chain ('regular chain')
+add table ip Tip
+chain ip Tip Cip {  # regular base chain ('regular chain')
         ip daddr 192.168.1.100 dnat to 192.168.1.200;
 }
-delete chain ip table_id chain_id
-delete table ip table_id
+delete chain ip Tip Cip
+delete table ip Tip
 
-add table ip table_id
-table ip table_id {
-    chain chain_id {
+add table ip Tip
+table ip Tip {
+    chain Cip {
         # hook base chain ('hook chain')
         type filter hook input priority 0; policy drop;
         ip daddr 192.168.1.100 dnat to 192.168.1.200;
     };
 };
-delete chain ip table_id chain_id { type filter hook input priority 0; policy drop; };
+delete chain ip Tip Cip { type filter hook input priority 0; policy drop; };
 
 
 add table T;
-add chain ip T C
-delete chain ip T C
+add chain T C
+delete chain T C
 
-add chain ip T C    { type filter hook input priority 0; policy accept; }
-delete chain ip T C { type filter hook input priority 0; policy accept; }
+add chain ip Tip Cip    { type filter hook input priority 0; policy accept; }
+delete chain ip Tip Cip { type filter hook input priority 0; policy accept; }
 
 # base_cmd add_cmd 'chain' '{' chain_block common_block
-add chain ip T C    { type filter hook input priority 0; policy accept; };
-delete chain ip T C { type filter hook input priority 0; policy accept; };
-destroy chain ip T C
-delete table ip T
-destroy table ip T
+add chain ip Tip Cip    { type filter hook input priority 0; policy accept; };
+delete chain ip Tip Cip { type filter hook input priority 0; policy accept; };
+destroy chain ip Tip Cip
+delete table ip Tip
+destroy table ip Tip
+
+add set ip Tip Sblackhole { type ipv4_addr; elements = { 1.1.1.1 }; }
+
+
+add chain ip Tip Cip {
+    type route hook input priority 0; policy drop;
+    meta rtclassid 14 
+    continue  # verdict_expr
+    define A = 1
+    redefine A = 2
+    undefine A
+    meta ibriport "bro";
+    meta obriport "bro";
+    iifgroup 123 
+    obriport "br0";
+    oifgroup 123;
+    include "../include/chain-flags.nft";
+    redirect ;
+    comment "asdf";
+    counter;
+    devices = { eno2 };
+    ibrname "br*";
+    iifname "br*";
+    iiftype 1;
+    nftrace 1;
+    notrack;
+    obrname "asdf";
+    oifname "adsf";
+    pkttype unicast;
+    accept  # verdict_expr
+    cgroup 123;
+    flags offload;
+    ipsec ;
+    skgid 0x0000;
+    skuid 0x0000;
+    dnat ;
+    drop  # verdict_expr
+    flow offload @flood;
+    goto input  # verdict_expr
+    hour 23 ;
+    jump input  # verdict_expr
+    mark "asdf";
+    meta l4proto tcp;
+    snat ;
+    time 12 ;
+    cpu 1 ;
+    day 4 ;
+    fwd to ether;
+    iif "eno2";
+    oif "eno2";
+    # inline comment
+    return  # verdict_expr
+    ;
+    add rule tcp flags syn tcp dport ssh meter flood size 128000 { ip saddr timeout 10s limit rate over 10/second} add @Sblackhole { ip saddr timeout 1m } drop
+
+
+}
+
+delete table T
