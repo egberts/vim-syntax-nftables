@@ -3,6 +3,14 @@
 # so far, so good.
 ################################################################################
 
+table T { limit L { }; }
+table ip Tip { limit Lip { }; }
+table ip6 Tip6 { limit Lip6 { }; }
+table inet Tinet { limit Linet { }; }
+table netdev Tnetdev { limit Lnetdev { }; }
+table bridge Tbridge { limit Lbridge { }; }
+table arp Tarp { limit Larp { }; }
+
 limitmyIp6Table myIp6Limit rate 1 / weeks 
 limit myIp6TablemyIp6Limit rate 1 / weeks 
 limit myIp6Table myIp6Limitrate 1 / weeks 
@@ -36,6 +44,10 @@ table T {
         rate over 3600000/  # premature EOS
         rate until 1  # premature EOS
         rate 1 /hour burst 11  # premature EOS
+        rate until 60 / minutes burst 360 packets
+        rate until 60 mbytes / minutes burst 360 mbytes
+        rate until 3/hour burst 30 packets
+        rate until 3 Mbytes/hour burst 30 bytes
     }
 }
 
@@ -49,3 +61,5 @@ table T { limit L { rate until 15 bytes / minute }; }
 table T { limit L { rate until 15 bytes / hour }; }
 table T { limit L { rate until 15 bytes / day }; }
 table T { limit L { rate until 15 bytes / week }; }
+
+create limit myInetTable myInetLimit rate until 1/second
