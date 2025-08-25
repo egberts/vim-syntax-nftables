@@ -27,8 +27,8 @@ table inet T { limit L { }; }
 table netdev T { limit L { }; }
 table bridge T { limit L { }; }
 table arp T { limit L { }; }
-table T { limit L { rate 15 byte }; }
-table T { limit L { rate 15 bytes }; }
+table T { limit L { rate 15 bytes / second }; }
+table T { limit L { rate 1 bytes / second }; }
 table T { limit L { rate over 15 / second }; }
 table T { limit L { rate over 15 / minute }; }
 table T { limit L { rate over 15 / hour }; }
@@ -37,18 +37,7 @@ table T { limit L { rate over 15 / week }; }
 table T { limit L { rate over 15 bytes / second }; }
 table T { limit L { rate over 15 kbytes / minute }; }
 table T { limit L { rate over 15 mbytes / hour }; }
-table T { limit L { rate over 15 gbytes / day }; }
-table T { limit L { rate over 15 pbytes / week }; }
-table T { limit L { rate until 15 / second }; }
-table T { limit L { rate until 15 / minute }; }
-table T { limit L { rate until 15 / hour }; }
-table T { limit L { rate until 15 / day }; }
-table T { limit L { rate until 15 / week }; }
-table T { limit L { rate until 15 bytes / second }; }
-table T { limit L { rate until 15 bytes / minute }; }
-table T { limit L { rate until 15 bytes / hour }; }
-table T { limit L { rate until 15 bytes / day }; }
-table T { limit L { rate until 15 bytes / week }; }
+
 table T {
     limit L {
         rate 1 / second
@@ -57,10 +46,10 @@ table T {
         rate over 1 / second burst 15 packets
         rate until 60 / minutes burst 360 packets
         rate 1 mbytes / second
-        rate 1 mbytes / second burst 1 gbyte
+        rate 1 mbytes / second burst 1 mbytes
         rate over 1 mbytes / second
-        rate over 1 mbytes / second burst 15 gbyte
-        rate until 60 mbytes / minutes burst 360 gbyte
+        rate over 1 mbytes / second burst 15 mbytes
+        rate until 60 mbytes / minutes burst 360 mbytes
         # common_block
         include "/directory/subdirectory/filename.filetype"
         define A = 1

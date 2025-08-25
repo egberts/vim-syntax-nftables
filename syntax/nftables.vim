@@ -6060,7 +6060,7 @@ syn match nft_base_cmd_reset_cmd_keyword_rule_ruleset_spec_id_table "\v[a-zA-Z][
 " 'limit' [ 'over'|'until' ] <NUM> '/' ('second'|'minute'|'hour'|'day'|'week') 'burst' <NUM> ('bytes'|'string')
 " 'bytes'->limit_burst_bytes->limit_config
 hi link   nft_add_cmd_keyword_limit_limit_config_limit_burst_pkts_limit_pkts_keyword_pkts nftHL_Action
-syn match nft_add_cmd_keyword_limit_limit_config_limit_burst_pkts_limit_pkts_keyword_pkts "\v(packet)[s]?" skipwhite contained
+syn match nft_add_cmd_keyword_limit_limit_config_limit_burst_pkts_limit_pkts_keyword_pkts "\vpackets" skipwhite contained
 \ nextgroup=
 \    nft_line_stmt_separator,
 \    nft_EOS,
@@ -6106,7 +6106,7 @@ syn match nft_add_cmd_keyword_limit_limit_config_limit_rate_pkts_expression_slas
 " 'limit' [ 'over'|'until' ] <NUM> '/' ('second'|'minute'|'hour'|'day'|'week') 'burst' <NUM> ('bytes'|'string')
 " 'bytes'->limit_burst_bytes->limit_config
 hi link   nft_limit_config_limit_burst_bytes_limit_bytes_keyword_bytes nftHL_Action
-syn match nft_limit_config_limit_burst_bytes_limit_bytes_keyword_bytes "\v(pbyte|gbyte|mbyte|kbyte|byte)[s]?" skipwhite contained
+syn match nft_limit_config_limit_burst_bytes_limit_bytes_keyword_bytes "\v(pbyte|gbyte|mbyte|kbyte|byte)s" skipwhite contained
 \ nextgroup=
 \    nft_line_stmt_separator,
 \    nft_EOS,
@@ -6144,7 +6144,7 @@ syn match nft_add_cmd_keyword_limit_limit_config_limit_rate_bytes_expression_sla
 " 'limit' 'rate' [ 'over'|'until' ] <NUM> 'string'
 " 'string'->limit_rate_bytes->limit_config->(add_cmd|create_cmd|limit_block)
 hi link   nft_add_cmd_keyword_limit_limit_config_limit_rate_bytes_keyword_string nftHL_Action
-syn match nft_add_cmd_keyword_limit_limit_config_limit_rate_bytes_keyword_string "\v(kbyte|mbyte|gbyte|pbyte|byte)[s]?" skipwhite contained
+syn match nft_add_cmd_keyword_limit_limit_config_limit_rate_bytes_keyword_string "\v(kbyte|mbyte|gbyte|pbyte|byte)s" skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_keyword_limit_limit_config_limit_rate_bytes_expression_slash,
 \    nft_EOS
@@ -6225,7 +6225,7 @@ syn match nft_add_cmd_table_block_limit_block_separator /;/ skipwhite contained
 " 'limit' [ 'over'|'until' ] <NUM> '/' ('second'|'minute'|'hour'|'day'|'week') 'burst' <NUM> ('bytes'|'string')
 " 'bytes'->limit_burst_bytes->limit_confi->'limit'->'{'->table_block->'table'->
 hi link   nft_add_cmd_table_block_limit_config_limit_burst_pkts_limit_pkts_keyword_pkts nftHL_Action
-syn match nft_add_cmd_table_block_limit_config_limit_burst_pkts_limit_pkts_keyword_pkts "\v(packet)[s]?" skipwhite contained
+syn match nft_add_cmd_table_block_limit_config_limit_burst_pkts_limit_pkts_keyword_pkts "\vpackets" skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_table_block_limit_block_separator,
 \    nft_Error
@@ -6269,7 +6269,7 @@ syn match nft_add_cmd_table_block_limit_config_limit_rate_pkts_expression_slash 
 " 'limit' [ 'over'|'until' ] <NUM> '/' ('second'|'minute'|'hour'|'day'|'week') 'burst' <NUM> ('bytes'|'string')
 " 'bytes'->limit_burst_bytes->limit_config->'limit'->'{'->table_block->'table'->
 hi link   nft_limit_config_limit_burst_bytes_limit_bytes_keyword_bytes nftHL_Action
-syn match nft_limit_config_limit_burst_bytes_limit_bytes_keyword_bytes "\v(pbyte|gbyte|mbyte|kbyte|byte)[s]?" skipwhite contained
+syn match nft_limit_config_limit_burst_bytes_limit_bytes_keyword_bytes "\v(pbyte|gbyte|mbyte|kbyte|byte)s" skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_table_block_limit_block_separator,
 \    nft_Error
@@ -6306,7 +6306,7 @@ syn match nft_add_cmd_table_block_limit_config_limit_rate_bytes_expression_slash
 " 'limit' 'rate' [ 'over'|'until' ] <NUM> 'string'
 " 'string'->limit_rate_bytes->limit_config->'limit'->'{'->table_block->'table'->(add_cmd|create_cmd|limit_block)
 hi link   nft_add_cmd_table_block_limit_config_limit_rate_bytes_keyword_string nftHL_Action
-syn match nft_add_cmd_table_block_limit_config_limit_rate_bytes_keyword_string "\v(kbyte|mbyte|gbyte|pbyte|byte)[s]?" skipwhite contained
+syn match nft_add_cmd_table_block_limit_config_limit_rate_bytes_keyword_string "\v(kbyte|mbyte|gbyte|pbyte|byte)s" skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_table_block_limit_config_limit_rate_bytes_expression_slash,
 \    nft_EOS
@@ -6551,7 +6551,7 @@ syn match nft_add_cmd_table_block_set_block_stateful_stmt_list_stmt_stateful_stm
 " 'limit' [ 'over'|'until' ] <NUM> '/' ('second'|'minute'|'hour'|'day'|'week') 'burst' <NUM> ('bytes'|'string')
 " 'bytes'->limit_burst_bytes->limit_config
 hi link   nft_table_block_set_block_stateful_stmt_limit_stmt_limit_burst_pkts_keyword_packets nftHL_Action
-syn match nft_table_block_set_block_stateful_stmt_limit_stmt_limit_burst_pkts_keyword_packets "\v(packet)[s]?" skipwhite contained
+syn match nft_table_block_set_block_stateful_stmt_limit_stmt_limit_burst_pkts_keyword_packets "\vpackets" skipwhite contained
 \ nextgroup=
 \    nft_line_stmt_separator,
 \    nft_EOS,
@@ -6597,7 +6597,7 @@ syn match nft_table_block_set_block_stateful_stmt_limit_stmt_limit_rate_pkts_exp
 " 'limit' [ 'over'|'until' ] <NUM> '/' ('second'|'minute'|'hour'|'day'|'week') 'burst' <NUM> ('bytes'|'string')
 " 'bytes'->limit_burst_bytes->limit_config
 hi link   nft_table_block_set_block_stateful_stmt_limit_stmt_limit_burst_bytes_human nftHL_Action
-syn match nft_table_block_set_block_stateful_stmt_limit_stmt_limit_burst_bytes_human "\v(pbyte|gbyte|mbyte|kbyte|byte)[s]?" skipwhite contained
+syn match nft_table_block_set_block_stateful_stmt_limit_stmt_limit_burst_bytes_human "\v(pbyte|gbyte|mbyte|kbyte|byte)s" skipwhite contained
 \ nextgroup=
 \    nft_line_stmt_separator,
 \    nft_EOS,
@@ -6635,7 +6635,7 @@ syn match nft_table_block_set_block_stateful_stmt_limit_stmt_limit_rate_bytes_ex
 " 'limit' 'rate' [ 'over'|'until' ] <NUM> 'string'
 " 'string'->limit_rate_bytes->limit_config->(add_cmd|create_cmd|limit_block)
 hi link   nft_table_block_set_block_stateful_stmt_limit_stmt_limit_rate_bytes_string nftHL_Action
-syn match nft_table_block_set_block_stateful_stmt_limit_stmt_limit_rate_bytes_string "\v(kbyte|mbyte|gbyte|pbyte|byte)[s]?" skipwhite contained
+syn match nft_table_block_set_block_stateful_stmt_limit_stmt_limit_rate_bytes_string "\v(kbyte|mbyte|gbyte|pbyte|byte)s" skipwhite contained
 \ nextgroup=
 \    nft_table_block_set_block_stateful_stmt_limit_stmt_limit_rate_bytes_expression_slash,
 \    nft_EOS
@@ -6671,7 +6671,7 @@ syn match nft_add_cmd_table_block_set_block_stateful_stmt_list_stmt_stateful_stm
 \    nft_Error
 
 hi link nft_table_block_set_block_stateful_stmt_quota_stmt_quota_used_quota_unit_keywords_bytes nftHL_Action
-syn match nft_table_block_set_block_stateful_stmt_quota_stmt_quota_used_quota_unit_keywords_bytes '\v(kbyte|mbyte|gbyte|pbyte|byte)[s]?' skipwhite contained
+syn match nft_table_block_set_block_stateful_stmt_quota_stmt_quota_used_quota_unit_keywords_bytes '\v(kbyte|mbyte|gbyte|pbyte|byte)s' skipwhite contained
 
 hi link   nft_table_block_set_block_stateful_stmt_quota_stmt_quota_used_num nftHL_Integer
 syn match nft_table_block_set_block_stateful_stmt_quota_stmt_quota_used_num '\v[0-9]{1,10}' skipwhite contained
@@ -6686,7 +6686,7 @@ syn match nft_table_block_set_block_stateful_stmt_quota_stmt_quota_used_keyword_
 \    nft_Error
 
 hi link   nft_table_block_set_block_stateful_stmt_quota_stmt_quota_unit_keywords_bytes nftHL_Action
-syn match nft_table_block_set_block_stateful_stmt_quota_stmt_quota_unit_keywords_bytes '\v(kbyte|mbyte|gbyte|pbyte|byte)[s]?' skipwhite contained
+syn match nft_table_block_set_block_stateful_stmt_quota_stmt_quota_unit_keywords_bytes '\v(kbyte|mbyte|gbyte|pbyte|byte)s' skipwhite contained
 \ nextgroup=
 \    nft_table_block_set_block_stateful_stmt_quota_stmt_quota_used_keyword_used
 
@@ -7101,7 +7101,7 @@ syn match nft_add_cmd_set_block_stateful_stmt_list_stateful_stmt_counter_stmt_ke
 " 'limit' [ 'over'|'until' ] <NUM> '/' ('second'|'minute'|'hour'|'day'|'week') 'burst' <NUM> ('bytes'|'string')
 " 'bytes'->limit_burst_bytes->limit_config
 hi link   nft_add_cmd_set_block_stateful_stmt_limit_stmt_limit_burst_pkts_keyword_packets nftHL_Action
-syn match nft_add_cmd_set_block_stateful_stmt_limit_stmt_limit_burst_pkts_keyword_packets "\v(packet)[s]?" skipwhite contained
+syn match nft_add_cmd_set_block_stateful_stmt_limit_stmt_limit_burst_pkts_keyword_packets "\vpackets" skipwhite contained
 \ nextgroup=
 \    nft_line_stmt_separator,
 \    nft_EOS,
@@ -7147,7 +7147,7 @@ syn match nft_add_cmd_set_block_stateful_stmt_limit_stmt_limit_rate_pkts_express
 " 'limit' [ 'over'|'until' ] <NUM> '/' ('second'|'minute'|'hour'|'day'|'week') 'burst' <NUM> ('bytes'|'string')
 " 'bytes'->limit_burst_bytes->limit_config
 hi link   nft_add_cmd_set_block_stateful_stmt_limit_stmt_limit_burst_bytes_human nftHL_Action
-syn match nft_add_cmd_set_block_stateful_stmt_limit_stmt_limit_burst_bytes_human "\v(pbyte|gbyte|mbyte|kbyte|byte)[s]?" skipwhite contained
+syn match nft_add_cmd_set_block_stateful_stmt_limit_stmt_limit_burst_bytes_human "\v(pbyte|gbyte|mbyte|kbyte|byte)s" skipwhite contained
 \ nextgroup=
 \    nft_line_stmt_separator,
 \    nft_EOS,
@@ -7185,7 +7185,7 @@ syn match nft_add_cmd_set_block_stateful_stmt_limit_stmt_limit_rate_bytes_expres
 " 'limit' 'rate' [ 'over'|'until' ] <NUM> 'string'
 " 'string'->limit_rate_bytes->limit_config->(add_cmd|create_cmd|limit_block)
 hi link   nft_add_cmd_set_block_stateful_stmt_limit_stmt_limit_rate_bytes_string nftHL_Action
-syn match nft_add_cmd_set_block_stateful_stmt_limit_stmt_limit_rate_bytes_string "\v(kbyte|mbyte|gbyte|pbyte|byte)[s]?" skipwhite contained
+syn match nft_add_cmd_set_block_stateful_stmt_limit_stmt_limit_rate_bytes_string "\v(kbyte|mbyte|gbyte|pbyte|byte)s" skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_set_block_stateful_stmt_limit_stmt_limit_rate_bytes_expression_slash,
 \    nft_EOS
@@ -8863,7 +8863,7 @@ syn match nft_add_cmd_keyword_table_table_block_keyword_counter '\vcounter\ze[ \
 
 " ************* BEGIN table_block 'quota' quota_block ***************
 hi link   nft_add_cmd_table_block_quota_block_quota_config_quota_used_quota_unit nftHL_Action
-syn match nft_add_cmd_table_block_quota_block_quota_config_quota_used_quota_unit '\v(pbytes|gbytes|mbytes|kbytes|bytes|pbyte|gbyte|mbyte|kbyte|byte)' skipwhite contained
+syn match nft_add_cmd_table_block_quota_block_quota_config_quota_used_quota_unit '\v(pbytes|gbytes|mbytes|kbytes|bytes|pbyte|gbyte|mbyte|kbyte|byte)s' skipwhite contained
 
 hi link   nft_add_cmd_table_block_quota_block_quota_config_quota_used_num nftHL_Integer
 syn match nft_add_cmd_table_block_quota_block_quota_config_quota_used_num '\v[0-9]{1,10}' skipwhite contained
@@ -8877,7 +8877,7 @@ syn match nft_add_cmd_table_block_quota_block_quota_config_quota_used_keyword_us
 \    nft_Error
 
 hi link   nft_add_cmd_table_block_quota_block_quota_config_quota_unit nftHL_Action
-syn match nft_add_cmd_table_block_quota_block_quota_config_quota_unit '\v(pbytes|gbytes|mbytes|kbytes|bytes|pbyte|gbyte|mbyte|kbyte|byte)' skipwhite contained
+syn match nft_add_cmd_table_block_quota_block_quota_config_quota_unit '\v(pbytes|gbytes|mbytes|kbytes|bytes|pbyte|gbyte|mbyte|kbyte|byte)s' skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_table_block_quota_block_quota_config_quota_used_keyword_used
 
