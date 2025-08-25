@@ -1,0 +1,116 @@
+#!/usr/sbin/nft -f
+# File: insert.nft
+# Description: A test NFT file to exercise 'insert' Vim syntax highlightings.
+#
+# base_cmd add_cmd 'insert'
+#
+################################################################################
+# true positive test: properly hightlighted correctly; has good content; perfect
+################################################################################
+# setup
+add table T
+add table ip Tip
+add table ip6 Tip6
+add table inet Tinet
+add table netdev Tnetdev
+add table bridge Tbridge
+add table arp Tarp
+add chain T C
+add chain ip Tip Cip
+add chain ip6 Tip6 Cip6
+add chain inet Tinet Cinet
+add chain netdev Tnetdev Cnetdev
+add chain bridge Tbridge Cbridge
+add chain arp Tarp Carp
+
+# base_cmd 'insert'
+# 'rule'->insert_cmd->'insert'->line
+# chain_spec->table_spec->'rule'->insert_cmd->'insert'->line
+
+
+
+# Define a table and chain
+table ip Tip {
+    chain Cip {
+        type filter hook input priority 0; policy accept;
+        # Existing rule to accept traffic from 192.168.1.2
+        ip saddr 192.168.1.2 accept
+    }
+}
+
+# Define a table and chain
+table ip test_table {
+    chain test_chain {
+        type filter hook input priority 0; policy accept;
+        # Rule 1: Accept traffic from 192.168.1.2 (will get a handle, e.g., 2)
+        ip saddr 192.168.1.2 accept
+        # Rule 2: Log traffic from 192.168.1.3 (will get a handle, e.g., 3)
+        ip saddr 192.168.1.3 log
+    }
+}
+
+# Add a rule at index 0 (top of the chain)
+add rule ip test_table test_chain index 0 ip saddr 192.168.1.1 drop
+
+# Insert a rule after the rule with handle 2
+# Note: Handle 2 is assumed for the first rule (192.168.1.2 accept)
+insert rule ip test_table test_chain position 2 ip saddr 192.168.1.4 counter
+
+# Delete a rule using its handle (e.g., handle 3 for 192.168.1.3 log)
+delete rule ip test_table test_chain handle 3
+
+
+
+# Insert a rule at the top of the chain to drop traffic from 192.168.1.1
+insert rule ip Tip Cip ip saddr 192.168.1.1 drop
+
+# Add another rule to ensure the inserted rule is at the top
+add rule ip Tip Cip ip saddr 192.168.1.3 log
+
+# Define a table and chain
+table ip Tip {
+    chain Cip {
+        type filter hook input priority 0; policy accept;
+        # Rule 1: Accept traffic from 192.168.1.2
+        ip saddr 192.168.1.2 accept
+        # Rule 2: Log traffic from 192.168.1.3
+        ip saddr 192.168.1.3 log
+    }
+}
+
+# Add a rule at index 0 (top of the chain)
+add rule ip Tip Cip index 0 ip saddr 192.168.1.1 drop
+
+# Insert a rule after the rule with handle (to be determined at runtime)
+# For demonstration, we assume the rule with handle 2 is the first rule added above
+insert rule ip Tip Cip position 2 ip saddr 192.168.1.4 counter
+
+# Delete a rule using its handle (e.g., handle 3, which we assume is the second original rule)
+delete rule ip Tip Cip handle 3
+
+
+
+
+insert rule T C position 1 accept
+insert rule T C handle 1 accept
+insert rule T C index 1 accept
+insert rule ip Tip Cip position 2 accept
+insert rule ip Tip Cip handle 2 accept
+insert rule ip Tip Cip index 2 accept
+insert rule ip6 Tip6 Cip6 position 123 accept
+insert rule ip6 Tip6 Cip6 handle 123 accept
+insert rule ip6 Tip6 Cip6 index 123 accept
+insert rule inet Tinet Cinet position 123 accept
+insert rule inet Tinet Cinet handle 123 accept
+insert rule inet Tinet Cinet index 123 accept
+insert rule netdev Tnetdev Cnetdev position 123 accept
+insert rule netdev Tnetdev Cnetdev handle 123 accept
+insert rule netdev Tnetdev Cnetdev index 123 accept
+insert rule bridge Tbridge Cbridge position 123 accept
+insert rule bridge Tbridge Cbridge handle 123 accept
+insert rule bridge Tbridge Cbridge index 123 accept
+insert rule arp Tarp Carp position 123 accept
+insert rule arp Tarp Carp handle 123 accept
+insert rule arp Tarp Carp index 123 accept
+
+
