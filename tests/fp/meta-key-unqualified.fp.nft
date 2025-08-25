@@ -10,6 +10,7 @@ rule T C meta skuid { };
 
 rule T C meta mark ;  # missing info
 rule T C iif ;  # missing interface name
+rule T C meta protocol 802_1q;
 
 
 rule T C meta iifgroup { };

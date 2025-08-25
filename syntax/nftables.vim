@@ -3408,7 +3408,7 @@ hi link   nft_day_of_week_integer nftHL_Integer
 syn match nft_day_of_week_integer '\v[0-6]{1}' skipwhite contained
 
 hi link   nft_day_of_week_symbolic_constants Define
-syn match nft_day_of_week_symbolic_constants '\v\c(saturday|wednesday|thursday|tuesday|friday|monday|sunday)\ze[ \t;]' skipwhite contained
+syn match nft_day_of_week_symbolic_constants '\v(Saturday|Wednesday|Thursday|Tuesday|Friday|Monday|Sunday)\ze[ \t;]' skipwhite contained
 
 hi link   nft_day_of_week_set_block_element_separator nftHL_Separator
 syn match nft_day_of_week_set_block_element_separator /,/ skipwhite contained
@@ -3423,7 +3423,7 @@ syn match nft_day_of_week_set_block_element_integer '\v[0-6]{1}' skipwhite conta
 \    nft_day_of_week_set_block_element_separator,
 
 hi link   nft_day_of_week_set_block_element_symbolic_constants Define
-syn match nft_day_of_week_set_block_element_symbolic_constants '\v\c(saturday|wednesday|thursday|tuesday|friday|monday|sunday)\ze[ \t,]' skipwhite contained
+syn match nft_day_of_week_set_block_element_symbolic_constants '\v(Saturday|Wednesday|Thursday|Tuesday|Friday|Monday|Sunday)\ze[ \t,]' skipwhite contained
 \ nextgroup=
 \    nft_day_of_week_set_block_element_separator,
 
@@ -3897,11 +3897,16 @@ syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_
 \ nextgroup=
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_random_mod_divisor
 
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_random nftHL_Action
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_random '\vrandom\ze[ \t;]' skipwhite contained
+hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_set nftHL_Command
+syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_set '\vset\ze[ \t;]' skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_random_mod,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_random_expr
+
+hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_random nftHL_Action
+syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_random '\vrandom\ze[ \t;]' skipwhite contained
+\ nextgroup=
+\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_set,
 
 hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_length nftHL_Action
 syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_length '\vlength\ze[ \t]' skipwhite contained

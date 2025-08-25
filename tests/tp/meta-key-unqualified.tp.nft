@@ -90,30 +90,48 @@
 # true positive test: properly hightlighted correctly; has good content; perfect
 ################################################################################
 
+# setup
+add table T
+add table ip Tip
+add table ip6 Tip6
+add table inet Tinet
+add table netdev Tnetdev
+add table bridge Tbridge
+add table arp Tarp
+add chain T C
+add chain ip Tip Cip
+add chain ip6 Tip6 Cip6
+add chain inet Tinet Cinet
+add chain netdev Tnetdev Cnetdev
+add chain bridge Tbridge Cbridge
+add chain arp Tarp Carp
+
 # meta_stmt
 #
 # meta_stmt - flags only (support expression only in meta_expr)
-rule T C meta random;  # qualified META (requires 'meta' before it)
-rule T C ipsec;  # 'meta ipsec 0' only in meta_expr
-rule T C meta ipsec;  # 'meta ipsec 0' only in meta_expr
+rule T C meta random set ether; # qualified META (requires 'meta' before it)
+
 rule T C nftrace 0;  # 'meta nftrace == 1' only in meta_expr
 rule T C meta nftrace set 1;  # 'meta nftrace == 1' only in meta_expr
 
 # meta_stmt - INTERNALS; found in scanner.c (not in parser_bison.y)
 # 'meta nfproto' is integer or string (as listed in /etc/protocol)
+# 'nfproto' is only used with 'inet' family.
 rule inet T C meta nfproto 1;
 rule inet T C meta nfproto 1;
-rule inet T C meta nfproto inet;
+rule inet T C meta nfproto ipv4 counter accept
+rule inet T C meta nfproto ipv6 counter drop
 rule inet T C meta nfproto 2;
-rule inet T C meta nfproto ip;
+rule inet T C meta nfproto ipv4;
 rule inet T C meta nfproto 3;
-rule inet T C meta nfproto arp;
 rule inet T C meta nfproto 7;
-rule inet T C meta nfproto bridge;
 rule inet T C meta nfproto 10;
-rule inet T C meta nfproto ip6;
+rule inet T C meta nfproto ipv6;
 rule inet T C meta nfproto 12;
-rule inet T C meta nfproto netdev;
+
+# 'nfproto' only used with 'inet' family.
+rule inet Tinet Cinet meta nfproto ipv4 counter accept
+
 # 'meta l4proto' is integer or string (as listed in Linux kernel include/uapi/linux/netfilter.h)
 rule inet T C meta l4proto 1;
 rule inet T C meta l4proto icmp;
@@ -193,7 +211,7 @@ rule T C meta cgroup 0x0123;
 rule T C meta cgroup 0x01234567;
 rule T C meta time 12;
 rule T C meta day Monday;
-rule T C meta day saturday;
+rule T C meta day Saturday;
 rule T C meta hour 23;
 rule T C meta hour 15;
 
@@ -206,7 +224,7 @@ rule T C meta protocol ip6;
 rule T C meta protocol arp;
 rule T C meta protocol mpls_uc;
 rule T C meta protocol mpls_mc;
-rule T C meta protocol 802_1q;
+
 rule T C meta protocol pppoe;
 rule T C meta protocol lldp;
 rule T C meta protocol qinq;

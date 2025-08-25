@@ -10,6 +10,19 @@ rule inet T C meta l4proto;
 rule inet T C meta l4proto abc;
 rule inet T C meta l4proto { abc };
 
+rule T C meta nfproto ipv4 counter accept
+rule ip Tip Cip meta nfproto ipv4 counter accept
+rule ip6 Tip6 Cip6 meta nfproto ipv6 counter accept
+rule netdev Tnetdev Cnetdev meta nfproto ipv4 counter accept
+rule bridge Tbridge Cbridge meta nfproto ipv4 counter accept
+rule arp Tarp Carp meta nfproto ipv4 counter accept
+
+rule inet T C meta nfproto inet;  # unexpected inet
+rule inet T C meta nfproto bridge;  # unexpected bridge
+rule inet T C meta nfproto netdev;  # unexpected netdev
+rule arp T C meta nfproto arp;  # 'nfproto' only supports inet-family, not 'arp'
+
+
 # meta_stmt - no value
 rule T C ipsec 1234;  # 'meta ipsec 0' only in meta_expr
 rule T C meta ipsec 1234;  # 'meta ipsec 0' only in meta_expr
