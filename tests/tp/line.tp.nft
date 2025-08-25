@@ -10,10 +10,7 @@
 # line
 #
 # line common_block 'include' <QUOTED_STRING>
-include "filespec"
-include "filename.filetype"
-include "directory/filename.filetype"
-include "https://directory/filename.filetype"
+include "../include/add-table-a.nft"
 
 # line common_block 'define' identifier '=' initializer_expr
 define ABC = 1  # missing stmt_separator
