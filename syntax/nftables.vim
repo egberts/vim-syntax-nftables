@@ -3026,7 +3026,7 @@ syn cluster nft_c_socket_t
 " *****
 
 hi link   nft_packet_type Define
-syn match nft_packet_type '\v(broadcast|otherhost|multicast|loopback|outgoing|unicast)\ze[ \t\n;]' skipnl skipwhite contained
+syn match nft_packet_type '\v(broadcast|multicast|unicast|other|host)\ze[ \t\n;]' skipnl skipwhite contained
 
 hi link   nft_packet_type_set_block_element_separator nftHL_Separator
 syn match nft_packet_type_set_block_element_separator /,/ skipwhite contained
