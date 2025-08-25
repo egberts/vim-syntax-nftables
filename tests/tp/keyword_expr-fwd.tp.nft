@@ -1,0 +1,72 @@
+#!/usr/sbin/nft -f
+# File: fwd.tp.nft
+# Description: A false positive test NFT file to exercise 'fwd' keyword_expr Vim syntax highlightings.
+#
+# Identifiers begin with an standard practice of allowing
+# alphabetic character (a-z,A-Z) for first character followed
+# by zero or more alphanumeric characters (a-z,A-Z,0-9),
+# characters dash (-), and underscore (_).
+#
+# Dot, backslash, forward slash are discourage as dot
+# confused nftable concatenation effort.
+#
+# base_cmd add_cmd 'chain'
+# base_cmd 'add' add_cmd 'chain'
+# base_cmd add_cmd 'table' TABLE_ID '{' table_block 'chain' CHAIN_ID '{' chain_block
+# base_cmd 'add' add_cmd 'table' TABLE_ID '{' table_block chain' CHAIN_ID {' chain_block
+# nft_line/nft_base_cmd/nft_base_cmd_add/nft_base_cmd_add_table/nft_add_table_chain_block policy_spec
+#
+# keyword_expr
+#
+################################################################################
+# true positive test (properly hightlighted correctly; has good content; perfect
+################################################################################
+
+# setup
+define FWD = eno2
+add table ip Tip
+add table ip6 Tip6
+add table inet Tinet
+add table netdev Tnetdev
+add table bridge Tbridge
+add table arp Tarp
+chain ip Tip Cip { type filter hook input priority 0; policy accept;};
+chain ip6 Tip6 Cip6 { type filter hook input priority 0; policy accept;};
+chain inet Tinet Cinet { type filter hook input priority 0; policy accept;};
+chain netdev Tnetdev Cnetdev { type filter hook ingress priority 0; policy accept;};
+chain bridge Tbridge Cbridge { type filter hook input priority 0; policy accept;};
+chain arp Tarp Carp { type filter hook input priority 0; policy accept;};
+
+table netdev Tnetdev {
+    chain Cnetdev {
+        fwd to ether
+        fwd to ip
+        fwd to ip6
+        fwd to vlan
+        fwd to arp
+        fwd to dnat
+        fwd to snat
+        fwd to ecn
+        fwd to reset
+        fwd to destroy
+        fwd to destroy
+        fwd to original
+        fwd to reply
+        fwd to label
+        fwd to last
+    }
+}
+table netdev Tnetdev {
+    chain Cnetdev {
+        fwd to ether   # 'ether' supported only within 'netdev' family
+        fwd to eno2
+        fwd to $FWD
+    }
+}
+
+delete chain ip Tip Cip
+delete chain ip6 Tip6 Cip6
+delete chain inet Tinet Cinet
+delete chain netdev Tnetdev Cnetdev
+delete table netdev Tnetdev
+
