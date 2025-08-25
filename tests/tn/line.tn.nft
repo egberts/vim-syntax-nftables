@@ -3,3 +3,40 @@
 # so far, so good.
 ################################################################################
 
+list table last
+list chain last C
+list chain T last
+list chain last last
+
+list chain ip Tip last
+list chain ip last Cip
+list chain ip last last
+
+list sets table last
+list sets table ip last
+
+list meter last S
+list meter T last
+list meter last last
+
+list map last map_id
+list map last last
+
+list counters table last
+list counters table ip last
+
+list quotas table last
+list quotas table ip last
+
+list limits table last
+list limits table ip last
+
+list secmarks table last
+list secmarks table ip last
+
+list synproxys table last
+list synproxys table ip last
+
+list set last set_id
+list set T last
+list set last last

@@ -1,0 +1,486 @@
+#!/usr/sbin/nft -f
+# File: list.nft
+# Testing: active
+# kernel access: required
+# Description: A test NFT file to exercise 'list' command's Vim syntax highlightings.
+#
+# base_cmd list_cmd
+#
+################################################################################
+# true positive test: properly hightlighted correctly; has good content; perfect
+################################################################################
+# setup
+add table T
+add table ip Tip
+add table ip6 Tip6
+add table inet Tinet
+add table netdev Tnetdev
+add table bridge Tbridge
+add table arp Tarp
+add table arp Tarp2
+add chain T C
+add chain ip Tip Cip
+add chain ip6 Tip6 Cip6
+add chain inet Tinet Cinet
+add chain netdev Tnetdev Cnetdev
+add chain bridge Tbridge Cbridge
+add chain arp Tarp Carp
+add chain arp Tarp2 Carp2
+add set T S { type ipv4_addr; ct count 15; };
+add set ip Tip Sip { type ipv4_addr; ct count 15; };
+add set ip6 Tip6 Sip6 { type ipv6_addr; ct count 15; };
+add set inet Tinet Sinet { type ipv4_addr; ct count 15; };
+add set netdev Tnetdev Snetdev { type ipv4_addr; ct count 15; };
+add set bridge Tbridge Sbridge { type ipv4_addr; ct count 15; };
+add set arp Tarp Sarp { type ipv4_addr; flags interval; elements = { 192.168.1.0/24 }; }
+
+add rule ip Tip Cip tcp flags syn tcp dport ssh meter flood size 128000 { ip saddr timeout 10s limit rate over 10/second} drop
+add rule ip6 Tip6 Cip6 tcp flags syn tcp dport ssh meter flood size 128000 { ip6 saddr timeout 10s limit rate over 10/second} drop
+add rule inet Tinet Cinet tcp flags syn tcp dport ssh meter flood size 128000 { ip saddr timeout 10s limit rate over 10/second} drop
+add rule netdev Tnetdev Cnetdev tcp flags syn tcp dport ssh meter flood size 128000 { ip saddr timeout 10s limit rate over 10/second} drop
+add rule bridge Tbridge Cbridge tcp flags syn tcp dport ssh meter flood size 128000 { ip saddr timeout 10s limit rate over 10/second} drop
+add rule arp Tarp Carp arp saddr ip @Sarp meter flood { arp saddr ip limit rate 10/second burst 20 packets } drop;
+
+# 'table'->'list'->list_cmd->base_cmd
+list table T
+list table ip Tip
+list table ip6 Tip6
+list table inet Tinet
+list table netdev Tnetdev
+list table bridge Tbridge
+list table arp Tarp
+
+# 'chains'->'list'->list_cmd->base_cmd
+list chains
+list chains ip; 
+list chains ip6 ;
+list chains inet ; 
+list chains netdev 
+list chains bridge 
+list chains arp 
+
+# 'ruleset'->'list'->list_cmd->base_cmd
+list ruleset 
+list ruleset ip 
+list ruleset ip6
+list ruleset inet 
+list ruleset netdev 
+list ruleset bridge 
+list ruleset arp 
+
+# 'meters'->'list'->list_cmd->base_cmd
+list meters 
+list meters ip 
+list meters ip6
+list meters inet 
+list meters netdev 
+list meters bridge 
+list meters arp 
+
+# 'maps'->'list'->list_cmd->base_cmd
+list maps 
+list maps ip 
+list maps ip6
+list maps inet 
+list maps netdev 
+list maps bridge 
+list maps arp 
+
+# chain_spec->'chain'->'list'->list_cmd->base_cmd
+
+list chain ip Tip Cip
+list chain ip6 Tip6 Cip6
+list chain inet Tinet Cinet
+list chain netdev Tnetdev Cnetdev
+list chain bridge Tbridge Cbridge
+list chain arp Tarp Carp
+
+# ruleset_spec->'sets'->'list'->list_cmd->base_cmd
+list sets 
+list sets ip 
+list sets ip6
+list sets inet 
+list sets netdev 
+list sets bridge 
+list sets arp 
+
+# 'table'->'sets'->'list'->list_cmd->base_cmd
+list sets table T
+list sets table ip Tip
+list sets table ip6 Tip6
+list sets table inet Tinet
+list sets table netdev Tnetdev
+list sets table bridge Tbridge
+list sets table arp Tarp
+
+# ruleset_spec->'counters'->'list'->list_cmd->base_cmd
+list counters 
+list counters ip 
+list counters ip6
+list counters inet 
+list counters netdev 
+list counters bridge 
+list counters arp 
+
+# 'table'->'counters'->'list'->list_cmd->base_cmd
+list counters table T
+list counters table ip Tip
+list counters table ip6 Tip6
+list counters table inet Tinet
+list counters table netdev Tnetdev
+list counters table bridge Tbridge
+list counters table arp Tarp
+
+# ruleset_spec->'quotas'->'list'->list_cmd->base_cmd
+list quotas 
+list quotas ip 
+list quotas ip6
+list quotas inet 
+list quotas netdev 
+list quotas bridge 
+list quotas arp 
+
+# 'table'->'quotas'->'list'->list_cmd->base_cmd
+list quotas table T
+list quotas table ip Tip
+list quotas table ip6 Tip6
+list quotas table inet Tinet
+list quotas table netdev Tnetdev
+list quotas table bridge Tbridge
+list quotas table arp Tarp
+
+# ruleset_spec->'limits'->'list'->list_cmd->base_cmd
+list limits 
+list limits ip 
+list limits ip6
+list limits inet 
+list limits netdev 
+list limits bridge 
+list limits arp 
+
+# 'table'->'limits'->'list'->list_cmd->base_cmd
+list limits table T
+list limits table ip Tip
+list limits table ip6 Tip6
+list limits table inet Tinet
+list limits table netdev Tnetdev
+list limits table bridge Tbridge
+list limits table arp Tarp
+
+# ruleset_spec->'secmarks'->'list'->list_cmd->base_cmd
+list secmarks 
+list secmarks ip 
+list secmarks ip6
+list secmarks inet 
+list secmarks netdev 
+list secmarks bridge 
+list secmarks arp 
+
+# 'table'->'secmarks'->'list'->list_cmd->base_cmd
+list secmarks table T
+list secmarks table ip Tip
+list secmarks table ip6 Tip6
+list secmarks table inet Tinet
+list secmarks table netdev Tnetdev
+list secmarks table bridge Tbridge
+list secmarks table arp Tarp
+
+# ruleset_spec->'synproxys'->'list'->list_cmd->base_cmd
+list synproxys 
+list synproxys ip 
+list synproxys ip6
+list synproxys inet 
+list synproxys netdev 
+list synproxys bridge 
+list synproxys arp 
+
+# 'table'->'synproxys'->'list'->list_cmd->base_cmd
+list synproxys table T
+list synproxys table ip Tip
+list synproxys table ip6 Tip6
+list synproxys table inet Tinet
+list synproxys table netdev Tnetdev
+list synproxys table bridge Tbridge
+list synproxys table arp Tarp
+
+# set_spec->'set'->list_cmd->base_cmd
+list set T S
+list set ip Tip Sip
+list set ip6 Tip6 Sip6
+list set inet Tinet Sinet
+list set netdev Tnetdev Snetdev
+list set bridge Tbridge Sbridge
+list set arp Tarp Sarp
+
+# set_spec->'meter'->list_cmd->base_cmd
+table T {
+    chain C {
+        type filter hook input priority 0; policy accept;
+        tcp flags syn tcp dport ssh meter flood size 128000 { ip saddr timeout 10s limit rate over 10/second } drop
+    }
+    set S {
+        type ipv4_addr
+        counter
+        size 15
+    }
+}
+
+table ip Tip {
+    chain Cip {
+        type filter hook input priority 0; policy accept;
+        tcp flags syn tcp dport ssh meter flood size 128000 { ip saddr timeout 10s limit rate over 10/second } drop
+    }
+    set Sip {
+        type ipv4_addr
+        counter
+        size 15
+    }
+}
+
+table ip6 Tip6 {
+    chain Cip6 {
+        type filter hook input priority 0; policy accept;
+        tcp flags syn tcp dport ssh meter flood size 128000 { ip6 saddr timeout 10s limit rate over 10/second } drop
+    }
+    set Sip6 {
+        type ipv6_addr
+        counter
+        size 15
+    }
+}
+
+table inet Tinet {
+    chain Cinet {
+        type filter hook input priority 0; policy accept;
+        tcp flags syn tcp dport ssh meter flood size 128000 { ip saddr timeout 10s limit rate over 10/second } drop
+    }
+    set Sinet {
+        type ipv4_addr
+        counter
+        size 15
+    }
+}
+
+table netdev Tnetdev {
+    chain Cnetdev {
+        type filter hook ingress priority 0; policy accept;
+        tcp flags syn tcp dport ssh meter flood size 128000 { ip saddr timeout 10s limit rate over 10/second } drop
+    }
+    set Snetdev {
+        type ipv4_addr
+        counter
+        size 15
+    }
+}
+
+table bridge Tbridge {
+    chain Cbridge {
+        type filter hook input priority 0; policy accept;
+        tcp flags syn tcp dport ssh meter flood size 128000 { ip saddr timeout 10s limit rate over 10/second } drop
+    }
+    set Sbridge {
+        type ipv4_addr
+        counter
+        size 15
+    }
+}
+
+# Define tables and chains with meters
+table arp Tarp2 {
+    set Sarp2 {
+        type ipv4_addr
+        flags interval
+        elements = { 192.168.1.0/24 }
+    }
+    chain Carp2 {
+        type filter hook input priority 0; policy accept;
+        arp saddr ip @Sarp2 meter flood { arp saddr ip limit rate 10/second burst 20 packets } drop
+    }
+}
+list meter T S
+
+list meter ip Tip Sip
+list meter ip6 Tip6 Sip6
+list meter inet Tinet Sinet
+list meter netdev Tnetdev Snetdev
+list meter bridge Tbridge Sbridge
+list meter arp Tarp Sarp
+
+# set_spec->'map'->list_cmd->base_cmd
+list map T map_id
+list map T last
+list map ip Tip map_id
+list map ip6 Tip6 map_id
+list map inet Tinet map_id
+list map netdev Tnetdev map_id
+list map bridge Tbridge map_id
+list map arp Tarp map_id
+
+# obj_spec->'counter'->list_cmd->base_cmd
+list counter T counter_id
+list counter last counter_id
+list counter T last
+list counter last last
+list counter ip Tip counter_id
+list counter ip6 Tip6 counter_id
+list counter inet Tinet counter_id
+list counter netdev Tnetdev counter_id
+list counter bridge Tbridge counter_id
+list counter arp Tarp counter_id
+
+# obj_spec->'quota'->list_cmd->base_cmd
+list quota T quota_id
+list quota last quota_id
+list quota T last
+list quota last last
+list quota ip Tip quota_id
+list quota ip6 Tip6 quota_id
+list quota inet Tinet quota_id
+list quota netdev Tnetdev quota_id
+list quota bridge Tbridge quota_id
+list quota arp Tarp quota_id
+
+# obj_spec->'limit'->list_cmd->base_cmd
+list limit T limit_id
+list limit last limit_id
+list limit T last
+list limit last last
+list limit ip Tip limit_id
+list limit ip6 Tip6 limit_id
+list limit inet Tinet limit_id
+list limit netdev Tnetdev limit_id
+list limit bridge Tbridge limit_id
+list limit arp Tarp limit_id
+
+# obj_spec->'secmark'->list_cmd->base_cmd
+list secmark T secmark_id
+list secmark last secmark_id
+list secmark T last
+list secmark last last
+list secmark ip Tip secmark_id
+list secmark ip6 Tip6 secmark_id
+list secmark inet Tinet secmark_id
+list secmark netdev Tnetdev secmark_id
+list secmark bridge Tbridge secmark_id
+list secmark arp Tarp secmark_id
+
+# obj_spec->'synproxy'->list_cmd->base_cmd
+list synproxy T synproxy_id
+list synproxy last synproxy_id
+list synproxy T last
+list synproxy last last
+list synproxy ip Tip synproxy_id
+list synproxy ip Tip last
+list synproxy ip6 Tip6 synproxy_id
+list synproxy inet Tinet synproxy_id
+list synproxy netdev Tnetdev synproxy_id
+list synproxy bridge Tbridge synproxy_id
+list synproxy arp Tarp synproxy_id
+
+# ruleset_spec->'tables'->'flow'->list_cmd->base_cmd
+list flow tables 
+list flow tables ip
+list flow tables ip6
+list flow tables inet
+
+# set_spec->'table'->'flow'->list_cmd->base_cmd
+list flow table T synproxy_id
+list flow table ip Tip synproxy_id
+list flow table ip6 Tip6 synproxy_id
+list flow table inet Tinet synproxy_id
+
+# ruleset_spec->'tables'->'flow'->list_cmd->base_cmd
+list flowtable T C
+list flowtable T last
+list flowtable last C
+list flowtable last last
+list flowtable ip Tip Cip
+list flowtable ip6 Tip6 Cip6
+list flowtable inet Tinet Cinet
+# there is no bridge,netdev,arp for 'flowtable'
+
+# obj_spec->'helper'->ct_obj_type->'ct'->list_cmd->base_cmd
+list ct helper T CT
+list ct helper last CT
+list ct helper T last
+list ct helper last last
+list ct helper ip Tip CTip
+list ct helper ip6 Tip6 CTip6
+list ct helper inet Tinet CTinet
+list ct helper netdev Tnetdev CTnetdev
+list ct helper bridge Tbridge CTbridge
+list ct helper arp Tarp CTarp
+
+# obj_spec->'timeout'->ct_obj_type->'ct'->list_cmd->base_cmd
+list ct timeout T CT
+list ct timeout ip Tip CTip
+list ct timeout ip6 Tip6 CTip6
+list ct timeout inet Tinet CTinet
+list ct timeout netdev Tnetdev CTnetdev
+list ct timeout bridge Tbridge CTbridge
+list ct timeout arp Tarp CTarp
+
+# obj_spec->'timeout'->ct_cmd_type->'ct'->list_cmd->base_cmd
+list ct timeout table T
+list ct timeout table last
+list ct timeout table ip Tip
+list ct timeout table ip6 Tip6
+list ct timeout table inet Tinet
+list ct timeout table netdev Tnetdev
+list ct timeout table bridge Tbridge
+list ct timeout table arp Tarp
+list ct timeout table arp last
+
+# obj_spec->'expectation'->ct_obj_type->'ct'->list_cmd->base_cmd
+list ct expectation T ct_id
+list ct expectation ip Tip ct_id
+list ct expectation ip6 Tip6 ct_id
+list ct expectation inet Tinet ct_id
+list ct expectation netdev Tnetdev ct_id
+list ct expectation bridge Tbridge ct_id
+list ct expectation arp Tarp ct_id
+
+# obj_spec->'expectation'->ct_cmd_type->'ct'->list_cmd->base_cmd
+list ct expectation table T
+list ct expectation table last
+list ct expectation table ip Tip
+list ct expectation table ip6 Tip6
+list ct expectation table inet Tinet
+list ct expectation table netdev Tnetdev
+list ct expectation table bridge Tbridge
+list ct expectation table arp Tarp
+list ct expectation table arp last
+
+# obj_spec->'helpers'->ct_cmd_type->'ct'->list_cmd->base_cmd
+list ct helpers table T
+list ct helpers table last 
+list ct helpers table ip Tip
+list ct helpers table ip6 Tip6
+list ct helpers table inet Tinet
+list ct helpers table netdev Tnetdev
+list ct helpers table bridge Tbridge
+list ct helpers table arp Tarp
+list ct helpers table arp last
+
+# basehook_spec->'hooks'->list_cmd->base_cmd
+list hooks 
+list hooks ip
+list hooks ip6
+list hooks inet
+list hooks netdev
+list hooks bridge
+list hooks arp
+
+# basehook_device_name->basehook_spec->'hooks'->list_cmd->base_cmd
+list hooks ip device eth0
+
+
+# basehook_device_name->ruleset_spec->basehook_spec->'hooks'->list_cmd->base_cmd
+list hooks ip device eth0
+list hooks ip6 device wlan1
+list hooks inet device vlan2
+list hooks netdev device net3
+list hooks bridge device br4
+list hooks arp device arp5
+
+
