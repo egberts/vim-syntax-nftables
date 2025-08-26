@@ -51,7 +51,7 @@ Two types of unit tests are required to ensure correctness:
 
 ### Best Practices
 - Avoid `containedin=` for error detection; use only for nested regions (e.g., table-chain, table-set-element).
-- Use unique group names for nested regions to preserve `start=` and `end=` cohesion.
+- Use unique group names for nested regions to preserve cohesion of each pair of  `start=` and `end=`.
 - Prioritize specific patterns in regex and `nextgroup=` to ensure accurate highlighting and error detection.
 - Detail group name composes by its sets of EBNF symbol names, separated by underscores (snake-case).
 
@@ -74,9 +74,7 @@ For sake of less-repetitive and less-strong-typing, we removed `input` and `line
 
 To refer to the keyword `list`, we append "\_keyword\_" followed by its name of the keyword as a easy to read convention; makes it easier to sort keywords from longer to shorter in `contains=` and `nextgroup=`:
 
-* `input` is the starting point of Bison lexical parser.
-* `input` EBNF symbol leads to `line` symbol.
-* `line` symbol leads to `base_cmd`.
+* `line` symbol leads to `base_cmd`.  (no need to mention `line` anymore)
 * `base_cmd` symbol leads to `list_cmd`.
 * 'list' keyword is in `list_cmd` symbol (as a terminal symbol/token/keyword; rest above are non-terminal symbolss).
 
@@ -90,20 +88,18 @@ Look deeper for that `ruleset` keyword after `list`:
 
     $ nft list ruleset ip
 
-`input` is the starting point of Bison lexical parser. (We ditched that)
-`input` EBNF symbol leads to `line` symbol. (ditched that too)
-`line` symbol leads to `base_cmd`.  (still too extraneous)
-`base_cmd` symbol leads to `list_cmd`.
-'list' keyword is in `list_cmd` symbol (as a terminal symbol/token/keyword; rest above are non-terminal symbolss).
-Also within `list_cmd`, 'list' keyword leads to `ruleset_spec` non-terminal symbol.
-`ruleset_spec` leads to an optional `family_spec_explicit`.
+* `base_cmd` symbol leads to `list_cmd`.
+* 'list' keyword is in `list_cmd` symbol (as a terminal symbol/token/keyword; rest above are non-terminal symbolss).
+* Also within `list_cmd`, 'list' keyword leads to `ruleset_spec` non-terminal symbol.
+* `ruleset_spec` leads to an optional `family_spec_explicit`.
 
 Complex example:
+
  line -> base\_cmd -> delete\_cmd -> 'table' -> table\_id\_spec -> table\_spec -> family\_spec -> family\_spec\_explicit -> 'ip')
 
 translates into `base_cmd_delete_cmd_table_id_spec_table_spec_family_spec_family_spec_explicit`.
 
-Yes, makes tracking of error the easiest.
+Yes, makes tracking of Vimscript syntax error the easiest.
 
 ## Patterns
 Each Vimscript group corresponds to a an LL(1) grammar rule, mapping to a parse tree node. Keywords are grouped by semantic action, ensuring deterministic highlighting.
