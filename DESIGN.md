@@ -1,121 +1,140 @@
-# Design
+# Design Document for vim-syntax-nftables
 
 ## Overview
-The `vim-script-nftables` project maps the nftables Extended Backus-Naur Form (EBNF) grammar into a fully deterministic LL(1) grammar for Vimscript syntax highlighting. This ensures a hierarchical, structured parse tree with explicit rule and semantic action labeling.
 
-## Approach
-The nftables grammar is derived from `src/parser_bison.y`, which defines token relationships. 
+The `vim-syntax-nftables` plugin provides syntax highlighting and checking for `nftables` configuration files (`.nft`) in Vim and NeoVim. `nftables` is a Linux kernel firewall framework succeeding `iptables`, with a complex Backus-Naur Form (BNF) grammar and context-sensitive keywords (e.g., `table`, `chain`, `meter`). This plugin enhances the editing experience by accurately highlighting `nftables` constructs and aiding debugging, leveraging Vim’s LL(1) parsing capabilities.
 
-Using Bison, we generate EBNF output, visualized as Railroad diagrams via the W3C tool. 
+The design prioritizes:
+- **Accurate Syntax Highlighting**: Mapping `nftables` constructs to Vim syntax groups using snake_case naming (e.g., `nft_table_def`, `nft_meter`).
+- **LL(1) Grammar Compliance**: Ensuring a deterministic, single-pass parser for efficiency.
+- **Syntax-Directed Semantic Grouping**: Explicitly defining snake_case syntax groups for each `nftables` construct, mirroring the Bison parser’s structure (`parser_bison.y`).
+- **Debugging Support**: Facilitating error identification, as outlined in `DEBUG.md`.
+- **Compatibility**: Supporting `nftables` up to `v1.1.4` and address families (`ip`, `ip6`, `inet`, `arp`, `bridge`, `netdev`).
 
-By reviewing `scanner.c`, validation mechanisms are extracted, then enforced beyond the EBNF syntax.
+## Design Principles
 
-A Python DHParse script extracts first-encountered deeply-nested rules for all keywords of each Vimscript LL(1) group, thus creating a deterministic parse tree (true LL(1) syntax needed by Vimscript, and later tree-sitter/LSP).
+### LL(1) Grammar and Explicit Rule Labeling
 
-### Challenges
-- **EBNF to LL(1) Translation**: Simplifying complex relationships (1:M, N:1, N:M, recursion loops) results in some detail loss (e.g., `stmt -> stmt -> stmt` cycles).  To compensate of these loss, repetition is done by virtue of Vimscript syntax redoing the entire parsing for each starting lines (of course, within its own nested region scope).
-- **scanner.c Impact**: The `scanner.c` file performs secondary kernel-based validation, which was overlooked initially. I went ahead and created the 10,000+line Vimscript file based solely on this `parser_bison.y`. This oversight of mine required major adjustments to account for this required kernel-level checks.
-- Terminologies
-- Tracking pathways; best done by using very long group names that encodes the rule name of each steps, thus making one pathway unique.
+Vim’s syntax highlighting uses an LL(1) grammar, a top-down, predictive parser with single-token lookahead for deterministic parsing. The `vim-syntax-nftables` plugin adopts this by defining explicit syntax rules for each `nftables` construct, ensuring unambiguous parsing.
 
-### Syntactic Construct Terminology
+- **Explicit Rule Labeling**: Each `nftables` construct (e.g., `table`, `chain`, `rule`, `meter`, `set`) is mapped to a unique snake_case Vim syntax group (e.g., `nft_table_def`, `nft_chain_def`). This aligns with the Bison parser’s approach in `nftables`, where each EBNF rule has a dedicated non-terminal and semantic action. For example:
+  - The `table` keyword is grouped under `nft_table_def`.
+  - The `arp saddr ip` expression is grouped under `nft_arp_selector`.
+  - This “syntax-directed semantic grouping” aggregates tokens (keywords, identifiers, numbers) into a single syntax group for highlighting and semantic processing.
+- **Deterministic Pathways**: The grammar ensures unambiguous, deeply-nested rules. For instance, `table arp Tarp { chain Carp { ... } }` is parsed hierarchically, with each level (table, chain, rule) assigned a distinct snake_case syntax group.
+- **Semantic Actions**: Each syntax group is linked to a highlighting rule (e.g., `highlight nft_table_def ctermfg=White`), similar to a Bison semantic action that processes tokens into an AST node.
 
-- Semantic action - a state of the current token (Bison)
-- Group name - a non-terminal symbol or a rule that links a token keyword to a highlighting rule (Vimscript)
+### Syntax-Directed Semantic Grouping
 
+The plugin groups `nftables` keywords and constructs into snake_case Vim syntax groups to reflect their semantic roles, ensuring accurate highlighting and context awareness. For example:
 
-### Translation Stages
-1. **Keyword Grouping**: Aggregate keywords into syntax-directed semantic groups (non-terminals) at each parse tree node. (Most challenging, best done by Python DHParse)
-2. **Rule Composition**: Define rules based on actual tokens, requiring extensive re-reading of the EBNF grammar.
-3. **Parse Tree Construction**: Build a fully deterministic pathway to each token, ensuring LL(1) compliance. (Simplest)
-4. **Rule Labeling**: Create stateful transitions for semantic actions, mapping to Vimscript very-long group names. (Tedious but straightforward).  Preserves unique pathways necessary to avoid cross-contaimination of multi-nested 'syntax region' (table-chain-set).
+- **Keywords**: `table`, `chain`, `flush`, `type`, `hook`, `priority` are grouped under `nft_keyword` or specific subgroups (e.g., `nft_table_keyword`, `nft_chain_keyword`).
+- **Expressions**: Selectors like `arp saddr ip`, `ip saddr`, or `tcp dport` are grouped under `nft_selector`, with subtypes (e.g., `nft_arp_selector`, `nft_ip_selector`) for family-specific syntax.
+- **Meters and Sets**: Constructs like `meter flood size 128000 { arp saddr ip limit rate 10/second }` or `set Sarp { type ipv4_addr; size 15; }` are grouped under `nft_meter` and `nft_set`, with nested rules for components (e.g., `nft_limit`, `nft_set_type`).
+- **Comments and Strings**: Lines starting with `#` are grouped under `nft_comment`, and quoted strings under `nft_string`.
 
-This process masters and incorporates both the EBNF/Railroad diagrams and its `scanner.c`’s kernel-based validation of arguments, identifiers, and fields for completeness.
+This grouping mirrors the `nftables` BNF grammar, where each construct is a distinct node in the parse tree, enabling single-pass parsing in Vim.
 
-## Unit Testing
-Two types of unit tests are required to ensure correctness:
-- **Passive Tests**: Syntax checking using `nft -c` (via `parser_bison.y`) to validate grammar without kernel interaction.
-- **Active Tests**: Kernel-updating tests (via `scanner.c`) to verify runtime behavior.  Poses risk with current firewall rules in-situ.
+### Handling Context-Sensitive Keywords
 
-## Vimscript Gotchas
-1. **Ordering**:
-   - `syntax match` statements within the same group must be ordered; the last match is tested first, potentially missing longer patterns.
-   - Regex patterns (e.g., `\v(shortest|longest|shorter|longer|short|long)`) must prioritize longer patterns to avoid partial matches (e.g., `foobar` matching only `foo`).
-   - `nextgroup=` ordering: Longest static patterns first, followed by wildcard patterns (e.g., `nft_delete_cmd_keyword_flowtable` before `nft_delete_cmd_keyword_table`).
-2. **Scoping**:
-   - `containedin=` complicates error detection and prevents use of `\zs` or `\ze` in contained matches.
-   - Reusing group names across nested regions breaks multi-nesting cohesion (e.g., table-chain or table-set-element).
-3. **Performance**:
-   - `containedin=` is computationally expensive; minimize its use to region nesting only.
-   - Regex operators `*` and `+` are costly; use bounded quantifiers like `{0,5}` or `{1,64}`.
+`nftables` keywords like `filter` (used as a type, chain name, or variable) require context-aware parsing. The plugin addresses this by:
+- **Context-Aware Rules**: Using Vim’s `syntax region` and `syntax match` to define context-specific patterns. For example:
+  ```vim
+  syntax region nft_table_def start=/table \S\+ \S\+/ end=/}/ contains=nft_keyword,nft_chain_def
+  syntax keyword nft_keyword table chain contained
+  ```
+  This ensures `table` is highlighted correctly within a table definition.
+- **Family-Specific Selectors**: Defining separate groups (e.g., `nft_arp_selector` for `arp saddr ip`, `nft_ip_selector` for `ip saddr`) to avoid conflicts, addressing errors like `ip vs. arp` seen in `list.tp.nft`.
 
-### Best Practices
-- Avoid `containedin=` for error detection; use only for nested regions (e.g., table-chain, table-set-element).
-- Use unique group names for nested regions to preserve cohesion of each pair of  `start=` and `end=`.
-- Prioritize specific patterns in regex and `nextgroup=` to ensure accurate highlighting and error detection.
-- Detail group name composes by its sets of EBNF symbol names, separated by underscores (snake-case).
+### IPv6 Limitation Workaround
 
-## Group Name
+Vim 8.1 has a limitation of 9 parenthetical groupings in regular expressions, impacting IPv6 address matching (e.g., `[0-9a-fA-F:]+`). To address this:
+- IPv6 patterns are split into multiple `syntax match` rules to reduce complexity.
+- Example:
+  ```vim
+  syntax match nft_ipv6_addr /[0-9a-fA-F]\{1,4\}:\{1,7\}[0-9a-fA-F]\{1,4\}/
+  syntax match nft_ipv6_addr /::[0-9a-fA-F]\{1,4\}/
+  highlight link nft_ipv6_addr nft_number
+  ```
+- This ensures robust IPv6 highlighting without exceeding Vim’s limits.
 
-Group name (Vimscript syntax) is derived from its EBNF symbol(s).  If the symbol is deep in its grammar pathway or is used across region boundaries (table-chain-set), then its group name is constructed by stringing several EBNF symbols together. Simple `nft` example:
+## Syntax Groups and Highlighting
 
-```console
-    $ nft list ruleset ip
+The plugin defines the following snake_case syntax groups, mapped to Vim highlight groups for a 4-bit (16-color) color scheme, supporting light and dark themes:
+
+- **nft_table_def**: Table definitions (e.g., `table arp Tarp`), highlighted as `ctermfg=White`.
+- **nft_chain_def**: Chain definitions (e.g., `chain Carp`), highlighted as `ctermfg=White`.
+- **nft_keyword**: Core keywords (e.g., `table`, `chain`, `type`, `hook`), linked to `Keyword`.
+- **nft_selector**: Protocol selectors (e.g., `arp saddr ip`, `ip saddr`), linked to `Identifier`.
+- **nft_meter**: Meter expressions (e.g., `meter flood size 128000`), highlighted as `ctermfg=Cyan`.
+- **nft_set**: Set definitions (e.g., `set Sarp { type ipv4_addr; size 15; }`), highlighted as `ctermfg=Blue`.
+- **nft_set_entry**: Set elements (e.g., `192.168.1.0/24`), highlighted as `ctermfg=White`.
+- **nft_comment**: Lines starting with `#`, linked to `Comment`.
+- **nft_string**: Quoted strings (e.g., `"log prefix"`), linked to `String`.
+- **nft_number**: Numeric values (e.g., `128000`, `10/second`), highlighted as `ctermfg=DarkCyan`.
+- **nft_delimiter**: Symbols like `{`, `}`, `;`, highlighted as `ctermfg=Gray`.
+
+Example configuration and highlighting:
+```nft
+table arp Tarp {
+    chain Carp {
+        type filter hook input priority 0; policy accept;
+        arp saddr ip 192.168.1.0/24 meter flood size 128000 { arp saddr ip limit rate 10/second } drop
+    }
+    set Sarp {
+        type ipv4_addr
+        size 15
+    }
+}
 ```
+- `table`, `chain`, `type`, `hook`, `priority` → `nft_keyword` (bold, white).
+- `arp saddr ip 192.168.1.0/24` → `nft_arp_selector` (cyan).
+- `meter flood size 128000` → `nft_meter` (cyan).
+- `set Sarp` → `nft_set` (blue).
+- `192.168.1.0/24`, `15` → `nft_number` (dark cyan).
+- `{`, `}` → `nft_delimiter` (gray).
 
-can be inserted into a `nft` script file (with `.nft` filetype notation):
+## Debugging Support
 
-```nftables
-list ruleset ip
-```
+Debugging syntax highlighting issues is critical for complex `nftables` configurations. The plugin follows `DEBUG.md`:
+- **Highlight Testing**: Use `hilinks.vim` (Dr. Chip’s plugin) to display the syntax group under the cursor, identifying mis-highlighted tokens (e.g., `arp saddr ip` as `nft_ip_selector` instead of `nft_arp_selector`).
+- **Narrowing Down Errors**: Isolate problematic lines in `.nft` files and report issues with expected vs. actual highlighting.
+- **Vim Commands**: `:syntax` and `:highlight` inspect active syntax groups and colors.
+- Example: A semicolon in `set Sarp { ... }` highlighted as `nft_number` (dark cyan) instead of `nft_delimiter` (light green) indicates a syntax failure.
 
-* `input` is the starting point of Bison lexical parser.  Vimscript syntax built-in does this already
-* `input` EBNF symbol leads to `line` symbol.  Vimscript syntax built-in does this already
-* `line` symbol leads to `base_cmd`.
-* `base_cmd` symbol leads to `list_cmd`.
+## Installation and Configuration
 
-Its group name would be `input_line_base_cmd_list_cmd`.
+Per `INSTALL.md`:
+- Clone the repository: `git clone https://github.com/egberts/vim-syntax-nftables`.
+- Copy files to Vim’s directories:
+  ```bash
+  mkdir -p ~/.vim/syntax ~/.vim/ftdetect
+  cp vim-syntax-nftables/syntax/nftables.vim ~/.vim/syntax/
+  cp vim-syntax-nftables/ftdetect/nftables.vim ~/.vim/ftdetect/
+  ```
+- Enable filetype detection in `~/.vim/ftdetect/nftables.vim`:
+  ```vim
+  au BufRead,BufNewFile *.nft set filetype=nftables
+  ```
+- Use `vim-addon-manager` for Debian systems to activate the plugin.
 
-For sake of less-repetitive and less-strong-typing, we removed `input` and `line` and start with `base_cmd`.
+## Challenges and Limitations
 
-    base_cmd_list_cmd
+- **Context-Sensitive Keywords**: Keywords like `filter` require context-aware rules, handled via `syntax region` and `contained` keywords.
+- **Vim 8.1 Limitation**: The 9-grouping limit for regular expressions necessitated splitting IPv6 patterns, impacting maintenance but not functionality.
+- **nftables Version Compatibility**: Supports `nftables` up to `v1.1.4`, including `meter` and `arp saddr ip`, but users must ensure kernel support for runtime use.
+- **Large Configurations**: Long `.nft` files (e.g., `list.tp.nft` with errors at line 292) may cause parsing issues in Vim if syntax groups are not scoped properly, addressed by modular `syntax region` definitions.
 
-To refer to the keyword `list`, we append "\_keyword\_" followed by its name of the keyword as a easy to read convention; makes it easier to sort keywords from longer to shorter in `contains=` and `nextgroup=`:
+## Future Improvements
 
-* `line` symbol leads to `base_cmd`.  (no need to mention `line` anymore)
-* `base_cmd` symbol leads to `list_cmd`.
-* 'list' keyword is in `list_cmd` symbol (as a terminal symbol/token/keyword; rest above are non-terminal symbolss).
+- **Enhanced Context Sensitivity**: Refine rules for ambiguous keywords using granular `syntax region`.
+- **Dynamic Syntax Checking**: Integrate `nft -c -f` for real-time error feedback in Vim.
+- **Extended Family Support**: Add groups for new `nftables` features or families.
+- **Color Scheme Flexibility**: Support 24-bit (true color) terminals for richer highlighting.
 
-Group name would then be:
+## References
 
-    base_cmd_list_cmd_keyword_list  # that's 'list' in actual token-speak
-
-As we go deeper for longer group name, we then remove `base_cmd` from its group name, and sometimes do furthertop-level removals.
-
-Look deeper for that `ruleset` keyword after `list`:
-
-```console
-    $ nft list ruleset ip
-```
-
-* `base_cmd` symbol leads to `list_cmd`.
-* 'list' keyword is in `list_cmd` symbol (as a terminal symbol/token/keyword; rest above are non-terminal symbolss).
-* Also within `list_cmd`, 'list' keyword leads to `ruleset_spec` non-terminal symbol.
-* `ruleset_spec` leads to an optional `family_spec_explicit`.
-
-Complex example:
-
- line -> base\_cmd -> delete\_cmd -> 'table' -> table\_id\_spec -> table\_spec -> family\_spec -> family\_spec\_explicit -> 'ip')
-
-translates into `base_cmd_delete_cmd_table_id_spec_table_spec_family_spec_family_spec_explicit`.
-
-Yes, makes tracking of Vimscript syntax error the easiest.
-
-## Patterns
-Each Vimscript group corresponds to a an LL(1) grammar rule, mapping to a parse tree node. Keywords are grouped by semantic action, ensuring deterministic highlighting.
-
-## Error Handling
-Error detection is challenging with `containedin=`. Use distinct group names and avoid same-group multiple matches to improve error reporting. Order patterns from specific to wildcard for accurate matching.
-
-## Color Scheme
-The color scheme leverages Vim’s highlighting groups, mapping semantic actions to distinct colors for clarity. Specific patterns take precedence to ensure accurate visual feedback.  Works for both light and dark background.
+- `DEBUG.md`: Debugging instructions.
+- `INSTALL.md`: Installation steps.
+- `nftables` Wiki: https://wiki.nftables.org for grammar and reference.
+- Vim Documentation: `:help syntax` for LL(1) parsing and highlighting.
