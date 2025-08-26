@@ -57,9 +57,17 @@ Two types of unit tests are required to ensure correctness:
 
 ## Group Name
 
-Group name (Vimscript syntax) is derived from its EBNF symbol(s).  If the symbol is deep in its grammar pathway or is used across region boundaries (table-chain-set), then its group name is constructed by stringing several EBNF symbols together. Simple example:
+Group name (Vimscript syntax) is derived from its EBNF symbol(s).  If the symbol is deep in its grammar pathway or is used across region boundaries (table-chain-set), then its group name is constructed by stringing several EBNF symbols together. Simple `nft` example:
 
+```console
     $ nft list ruleset ip
+```
+
+can be inserted into a `nft` script file (with `.nft` filetype notation):
+
+```nftables
+list ruleset ip
+```
 
 * `input` is the starting point of Bison lexical parser.  Vimscript syntax built-in does this already
 * `input` EBNF symbol leads to `line` symbol.  Vimscript syntax built-in does this already
@@ -86,7 +94,9 @@ As we go deeper for longer group name, we then remove `base_cmd` from its group 
 
 Look deeper for that `ruleset` keyword after `list`:
 
+```console
     $ nft list ruleset ip
+```
 
 * `base_cmd` symbol leads to `list_cmd`.
 * 'list' keyword is in `list_cmd` symbol (as a terminal symbol/token/keyword; rest above are non-terminal symbolss).
