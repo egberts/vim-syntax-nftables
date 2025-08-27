@@ -30,6 +30,7 @@ add set bridge Tbridge Sblackhole { type ipv4_addr; elements = { 1.1.1.1 }; }
 add set arp Tarp Sblackhole { type ipv4_addr; elements = { 1.1.1.1 }; }
 
 # as a stmt_expr
+add rule T C tcp flags syn tcp dport ssh meter flood { ip saddr timeout 10s limit rate over 10/second} add @Sblackhole { ip saddr timeout 1m } drop
 add rule T C tcp flags syn tcp dport ssh meter flood size 128000 { ip saddr timeout 10s limit rate over 10/second} add @Sblackhole { ip saddr timeout 1m } drop
 add rule ip Tip Cip tcp flags syn tcp dport ssh meter flood size 128000 { ip saddr timeout 10s limit rate over 10/second} add @Sblackhole { ip saddr timeout 1m } drop
 add rule ip6 Tip6 Cip6 tcp flags syn tcp dport ssh meter flood size 128000 { ip6 saddr timeout 10s limit rate over 10/second} add @Sblackhole { ip6 saddr timeout 1m } drop

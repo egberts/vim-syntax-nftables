@@ -58,6 +58,26 @@ reset counter table_id  chain_id  ; reset counter table_id2 chain_id2
 table inet x {  # from nftables manpage
     chain y {
         type filter hook input priority filter; policy accept; ;;;;
+        masquerade 
+        masquerade random,fully-random,persistent  # meta_key_qualified/meta_key/meta_expr/primary_stmt_expr/basic_stmt_expr/concat_stmt_expr/stmt_expr/masq_stmt_expr/masq_stmt/stmt
+        masquerade to : $MY_MASQ  # meta_key_qualified/meta_key/meta_expr/primary_stmt_expr/basic_stmt_expr/concat_stmt_expr/stmt_expr/masq_stmt_expr/masq_stmt/stmt
+        masquerade to : $MY_MASQ random,fully-random,persistent  # meta_key_qualified/meta_key/meta_expr/primary_stmt_expr/basic_stmt_expr/concat_stmt_expr/stmt_expr/masq_stmt_expr/masq_stmt/stmt
+        masquerade to : 1234  # meta_key_qualified/meta_key/meta_expr/primary_stmt_expr/basic_stmt_expr/concat_stmt_expr/stmt_expr/masq_stmt_expr/masq_stmt/stmt
+        masquerade to : 1234 random,fully-random,persistent  # meta_key_qualified/meta_key/meta_expr/primary_stmt_expr/basic_stmt_expr/concat_stmt_expr/stmt_expr/masq_stmt_expr/masq_stmt/stmt
+        masquerade to : exist  # meta_key_qualified/meta_key/meta_expr/primary_stmt_expr/basic_stmt_expr/concat_stmt_expr/stmt_expr/masq_stmt_expr/masq_stmt/stmt
+        masquerade to : exist random,fully-random,persistent  # meta_key_qualified/meta_key/meta_expr/primary_stmt_expr/basic_stmt_expr/concat_stmt_expr/stmt_expr/masq_stmt_expr/masq_stmt/stmt
+        masquerade to : missing  # meta_key_qualified/meta_key/meta_expr/primary_stmt_expr/basic_stmt_expr/concat_stmt_expr/stmt_expr/masq_stmt_expr/masq_stmt/stmt
+        masquerade to : missing random,fully-random,persistent  # meta_key_qualified/meta_key/meta_expr/primary_stmt_expr/basic_stmt_expr/concat_stmt_expr/stmt_expr/masq_stmt_expr/masq_stmt/stmt
+        masquerade to : meta length 5  # meta_key_qualified/meta_key/meta_expr/primary_stmt_expr/basic_stmt_expr/concat_stmt_expr/stmt_expr/masq_stmt_expr/masq_stmt/stmt
+        masquerade to : meta length 5 random,fully-random,persistent  # meta_key_qualified/meta_key/meta_expr/primary_stmt_expr/basic_stmt_expr/concat_stmt_expr/stmt_expr/masq_stmt_expr/masq_stmt/stmt
+        masquerade to : meta protocol 5  # meta_key_qualified/meta_key/meta_expr/primary_stmt_expr/basic_stmt_expr/concat_stmt_expr/stmt_expr/masq_stmt_expr/masq_stmt/stmt
+        masquerade to : meta protocol 5 random,fully-random,persistent  # meta_key_qualified/meta_key/meta_expr/primary_stmt_expr/basic_stmt_expr/concat_stmt_expr/stmt_expr/masq_stmt_expr/masq_stmt/stmt
+        masquerade to : meta priority 5  # meta_key_qualified/meta_key/meta_expr/primary_stmt_expr/basic_stmt_expr/concat_stmt_expr/stmt_expr/masq_stmt_expr/masq_stmt/stmt
+        masquerade to : meta priority 5 random,fully-random,persistent  # meta_key_qualified/meta_key/meta_expr/primary_stmt_expr/basic_stmt_expr/concat_stmt_expr/stmt_expr/masq_stmt_expr/masq_stmt/stmt
+        masquerade to : meta random 5  # meta_key_qualified/meta_key/meta_expr/primary_stmt_expr/basic_stmt_expr/concat_stmt_expr/stmt_expr/masq_stmt_expr/masq_stmt/stmt
+        masquerade to : meta random 5 random,fully-random,persistent  # meta_key_qualified/meta_key/meta_expr/primary_stmt_expr/basic_stmt_expr/concat_stmt_expr/stmt_expr/masq_stmt_expr/masq_stmt/stmt
+        masquerade to : meta secmark 0x000  # meta_key_qualified/meta_key/meta_expr/primary_stmt_expr/basic_stmt_expr/concat_stmt_expr/stmt_expr/masq_stmt_expr/masq_stmt/stmt
+        masquerade to : meta secmark 0x000 random,fully-random,persistent  # meta_key_qualified/meta_key/meta_expr/primary_stmt_expr/basic_stmt_expr/concat_stmt_expr/stmt_expr/masq_stmt_expr/masq_stmt/stmt
         socket cgroupv2 level 1 "user.slice" counter
     }
 }
@@ -202,12 +222,13 @@ add map inet T C
 add map netdev T C 
 add map bridge T C 
 add map arp T C 
-add map T C ;
-add map T C { timeout 15:00:01 }
-add map T C { gc-interval 1:00:1 }
-add map T C { flags constant }
-add map T C { flags interval; }
-add map T C { flags timeout };
+add map ip T C ;
+
+add map ip6 T C { timeout 15:00:01 }
+add map inet T C { gc-interval 1:00:1 }
+add map netdev T C { flags constant }
+add map bridge  T C { flags interval; }
+add map arp T C { flags timeout };
 add map T C { flags dynamic ; } ;
 add map T C { flags constant, interval, timeout, dynamic };
 add map T C { flags constant; flags interval; flags timeout; flags dynamic };
@@ -709,15 +730,15 @@ table inet raw {
     chain output {
         type filter hook output priority -300;
         ct zone set oif map { "eth1" : 1, "veth1" : 2 }
-    }
-}
+    };
+};
 table inet filter {
     chain input {
         type filter hook input priority 0; policy accept;
         ct state established,related accept # handle 4
         ip saddr 10.1.1.1 tcp dport ssh accept # handle 5
-    }
-}
+    };
+};
 table ip my_filter_table {
     set my_connlimit {
         type ipv4_addr
@@ -728,8 +749,8 @@ table ip my_filter_table {
     chain my_output_chain {
         type filter hook output priority filter; policy accept;
         ct state new add @my_connlimit { ip daddr ct count over 20 } counter packets 0 bytes 0 drop
-   }
-}
+   };
+};
 table ip filter {
     set myset {
         type inet_service
@@ -751,8 +772,8 @@ table ip filter {
     chain input {
         type filter hook input priority 0; policy accept;
         add @myset { ip saddr }
-    }
-}
+    };
+};
 table inet myfilter {
     set myset {
         type ipv4_addr
@@ -769,8 +790,8 @@ table ip filter {
         iif lo accept
         # count and drop any other traffic
         counter drop
-    }
-}
+    };
+};
 table ip6 filter {
     chain input {
         type filter hook input priority 0;
@@ -795,8 +816,8 @@ table inet filter {
         ip6 nexthdr icmpv6 icmpv6 type { nd-neighbor-solicit, echo-request, nd-router-advert, nd-neighbor-advert } accept
         # count and drop any other traffic
         counter drop
-    }
-}
+    };
+};
 table inet filter {
     chain global {
         ct state established,related accept
@@ -832,12 +853,12 @@ table inet filter {
         jump global
         oifname vmap { $nic_dmz : jump dmz_in , $nic_lan : jump lan_in }
         oifname $nic_inet iifname vmap { $nic_dmz : jump dmz_out , $nic_lan : jump lan_out }
-    }
+    };
     chain input {
-        type filter hook input priority 0 ; policy drop;
-        jump global
+        type filter hook input priority 0 ; policy drop;;
+        jump global;
         # your rules for traffic to the firewall here
-    }
+    };
     chain output {
         type filter hook output priority 0 ; policy drop;
         jump global
@@ -927,7 +948,7 @@ table ip Inet4 {
     chain Knock_4 {
         set update ip saddr timeout 0s @Knocked_3
         set add ip saddr @Knocked_4 log prefix "Port-Knock accepted: "
-    }
+    };
     chain RefreshKnock {
         set update ip saddr timeout 2m @Knocked_4
     }

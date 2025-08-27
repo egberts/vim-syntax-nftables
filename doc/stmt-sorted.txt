@@ -1,3 +1,6 @@
+List of keywords found at 'stmt' symbol of nftables/src/parser_bison.y, 
+sorted by longest length first
+
 masquerade/masq_stmt_alloc/masq_stmt
 
 rtclassid/meta_key_unqualified/meta_stmt
