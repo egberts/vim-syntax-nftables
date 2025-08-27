@@ -834,7 +834,115 @@ syn cluster nft_c_stmt_expr
 " ******************* END stmt_expr **********************************
 
 " ************************* Begin of 'stmt' *************************
-" ************************* END of 'stmt' *************************
+
+" ************************* Begin of 'log_stmt' *************************
+hi link   nft_stmt_log_stmt_log_arg_num nftHL_Integer
+syn match nft_stmt_log_stmt_log_arg_num '\v[0-9]{1,10}' skipwhite contained
+
+hi link   nft_stmt_log_stmt_log_arg_keyword_queue_threshold nftHL_Action
+syn match nft_stmt_log_stmt_log_arg_keyword_queue_threshold '\vqueue\-threshold\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_stmt_log_stmt_log_arg_num,
+\    nft_Error
+
+hi link   nft_stmt_log_stmt_log_arg_keyword_snaplen nftHL_Action
+syn match nft_stmt_log_stmt_log_arg_keyword_snaplen '\vsnaplen\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_stmt_log_stmt_log_arg_num,
+\    nft_Error
+
+hi link   nft_stmt_log_stmt_log_arg_keyword_prefix_string_valid nftHL_String
+syn match nft_stmt_log_stmt_log_arg_keyword_prefix_string_valid '\v[ a-zA-Z0-9_\-:;~!@#\$%^&\*\(\)\+\|\}\{\?><`=\\\]\[\'\/\.,]{1,64}' skipwhite contained
+
+syn region nft_stmt_log_stmt_log_arg_keyword_prefix_string start='\"' end='\"' contained
+\ contains=
+\    nft_stmt_log_stmt_log_arg_keyword_prefix_string_valid
+
+hi link   nft_stmt_log_stmt_log_arg_keyword_prefix nftHL_Action
+syn match nft_stmt_log_stmt_log_arg_keyword_prefix '\vprefix\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_stmt_log_stmt_log_arg_keyword_prefix_string,
+\    nft_Error
+
+hi link   nft_stmt_log_stmt_log_arg_keyword_level_defines nftHL_Define
+syn match nft_stmt_log_stmt_log_arg_keyword_level_defines '\v(notice|alert|debug|emerg|crit|info|warn|err)' skipwhite contained
+
+hi link   nft_stmt_log_stmt_log_arg_log_flags_keyword_ether nftHL_Action
+syn match nft_stmt_log_stmt_log_arg_log_flags_keyword_ether '\vether' skipwhite contained
+
+hi link   nft_stmt_log_stmt_log_arg_log_flags_keyword_skuid nftHL_Action
+syn match nft_stmt_log_stmt_log_arg_log_flags_keyword_skuid '\vskuid' skipwhite contained
+
+hi link   nft_stmt_log_stmt_log_arg_log_flags_keyword_all nftHL_Action
+syn match nft_stmt_log_stmt_log_arg_log_flags_keyword_all '\vall' skipwhite contained
+
+hi link   nft_stmt_log_stmt_log_arg_log_flags_log_flag_tcp_symbol_comma nftHL_Element
+syn match nft_stmt_log_stmt_log_arg_log_flags_log_flag_tcp_symbol_comma /,/ skipwhite contained
+\ nextgroup=
+\    nft_stmt_log_stmt_log_arg_log_flags_log_flag_tcp_keyword_sequence,
+\    nft_stmt_log_stmt_log_arg_log_flags_log_flag_tcp_keyword_options
+
+hi link   nft_stmt_log_stmt_log_arg_log_flags_log_flag_tcp_keyword_options nftHL_Define
+syn match nft_stmt_log_stmt_log_arg_log_flags_log_flag_tcp_keyword_options '\voptions' skipwhite contained
+\ nextgroup=
+\    nft_stmt_log_stmt_log_arg_log_flags_log_flag_tcp_symbol_comma
+
+hi link   nft_stmt_log_stmt_log_arg_log_flags_log_flag_tcp_keyword_sequence nftHL_Define
+syn match nft_stmt_log_stmt_log_arg_log_flags_log_flag_tcp_keyword_sequence '\vsequence' skipwhite contained
+\ nextgroup=
+\    nft_stmt_log_stmt_log_arg_log_flags_log_flag_tcp_symbol_comma,
+\    nft_Error
+
+hi link   nft_stmt_log_stmt_log_arg_log_flags_keyword_tcp nftHL_Action
+syn match nft_stmt_log_stmt_log_arg_log_flags_keyword_tcp '\vtcp' skipwhite contained
+\ nextgroup=
+\    nft_stmt_log_stmt_log_arg_log_flags_log_flag_tcp_keyword_sequence,
+\    nft_stmt_log_stmt_log_arg_log_flags_log_flag_tcp_keyword_options,
+\    nft_Error
+
+hi link   nft_stmt_log_stmt_log_arg_log_flags_log_flag_ip_keyword_options nftHL_Define
+syn match nft_stmt_log_stmt_log_arg_log_flags_log_flag_ip_keyword_options '\voptions' skipwhite contained
+
+hi link   nft_stmt_log_stmt_log_arg_log_flags_keyword_ip nftHL_Action
+syn match nft_stmt_log_stmt_log_arg_log_flags_keyword_ip '\vip' skipwhite contained
+\ nextgroup=
+\    nft_stmt_log_stmt_log_arg_log_flags_log_flag_ip_keyword_options,
+\    nft_Error
+
+hi link   nft_stmt_log_stmt_log_arg_keyword_flags nftHL_Action
+syn match nft_stmt_log_stmt_log_arg_keyword_flags '\vflags\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_stmt_log_stmt_log_arg_log_flags_keyword_ether,
+\    nft_stmt_log_stmt_log_arg_log_flags_keyword_skuid,
+\    nft_stmt_log_stmt_log_arg_log_flags_keyword_all,
+\    nft_stmt_log_stmt_log_arg_log_flags_keyword_tcp,
+\    nft_stmt_log_stmt_log_arg_log_flags_keyword_ip,
+\    nft_Error
+
+hi link   nft_stmt_log_stmt_log_arg_keyword_group nftHL_Action
+syn match nft_stmt_log_stmt_log_arg_keyword_group '\vgroup\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_stmt_log_stmt_log_arg_num,
+\    nft_Error
+
+hi link   nft_stmt_log_stmt_log_arg_keyword_level nftHL_Action
+syn match nft_stmt_log_stmt_log_arg_keyword_level '\vlevel\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_stmt_log_stmt_log_arg_keyword_level_defines,
+\    nft_Error
+
+hi link   nft_stmt_log_stmt_log_stmt_alloc_keyword_log nftHL_Command
+syn match nft_stmt_log_stmt_log_stmt_alloc_keyword_log '\vlog\ze[ \t\n;]' skipwhite contained
+\ nextgroup=
+\    nft_stmt_log_stmt_log_arg_keyword_queue_threshold,
+\    nft_stmt_log_stmt_log_arg_keyword_snaplen,
+\    nft_stmt_log_stmt_log_arg_keyword_prefix,
+\    nft_stmt_log_stmt_log_arg_keyword_flags,
+\    nft_stmt_log_stmt_log_arg_keyword_group,
+\    nft_stmt_log_stmt_log_arg_keyword_level,
+\    nft_expected_semicolon_or_new_line
+" no error handling
+" ************************* End of 'log_stmt' *************************
 
 " ************************* Begin of 'counter_cmd' *************************
 "**** BEGIN OF add_cmd_/'counter'/obj_spec *****
@@ -2825,6 +2933,7 @@ syn cluster nft_c_base_cmd_add_cmd_rule_alloc_stmt_cluster
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_cpu,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_day,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iif,
+\    nft_stmt_log_stmt_log_stmt_alloc_keyword_log,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oif,
 \    nft_rule_cluster_Error
 "\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_hash_expr_keyword_symhash,
@@ -3974,7 +4083,10 @@ syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keywor
 
 hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iifname nftHL_Statement
 syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iifname '\viifname\ze[ \t]' skipwhite contained
-\ nextgroup=@nft_c_interface_name, nft_Error
+\ nextgroup=
+\    nft_variable_identifier,
+\    @nft_c_interface_name,
+\    nft_Error
 
 hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iiftype nftHL_Statement
 syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iiftype '\viiftype\ze[ \t]' skipwhite contained
@@ -8233,6 +8345,7 @@ syn region nft_add_cmd_keyword_table_table_block_chain_chain_block_delimiters st
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_cpu,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_day,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iif,
+\    nft_stmt_log_stmt_log_stmt_alloc_keyword_log,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oif,
 \    nft_comment_inline,
 \    nft_add_cmd_keyword_table_table_block_chain_chain_block_stmt_separator,
@@ -9398,6 +9511,7 @@ syn region nft_add_cmd_keyword_chain_chain_block_delimiters start='\v\s*\zs\{' e
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_cpu,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_day,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iif,
+\    nft_stmt_log_stmt_log_stmt_alloc_keyword_log,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oif,
 \    nft_comment_inline,
 \    nft_add_cmd_keyword_table_table_block_chain_chain_block_stmt_separator,
