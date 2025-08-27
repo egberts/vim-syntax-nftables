@@ -1,6 +1,9 @@
 #!/usr/sbin/nft -f
 # File: meta-key-unqualified.nft
 # Description: A test NFT file to exercise 'meta_key' Vim syntax highlightings.
+# Kernel:   Active
+# Root?:    Yes
+# Stateful: Yes (only 'meta secmark')
 #
 # Note: for 'meta' as an statement ('meta_stmt') see test/meta-stmt.nft
 # Note: for 'meta' as an expression ('meta_expr') see test/meta-expr.nft
@@ -99,46 +102,58 @@ add table netdev Tnetdev
 add table bridge Tbridge
 add table arp Tarp
 add chain T C
-add chain ip Tip Cip
-add chain ip6 Tip6 Cip6
-add chain inet Tinet Cinet
-add chain netdev Tnetdev Cnetdev
-add chain bridge Tbridge Cbridge
-add chain arp Tarp Carp
+add chain ip Tip CipFilterInput {type filter hook input priority 0; policy drop; }
+add chain ip Tip CipFilterOutput {type filter hook output priority 0; policy drop; }
+add chain ip Tip CipNatInput {type nat hook input priority 0; policy drop; }
+add chain ip Tip CipNatPrerouting {type nat hook prerouting priority -100; policy drop; }
+add chain ip Tip CipNatOutput {type nat hook output priority 0; policy drop; }
+add chain ip Tip CipNatPostrouting {type nat hook postrouting priority 100; policy drop; }
+add chain ip6 Tip6 Cip6 {type filter hook input priority 0; policy drop; }
+add chain inet Tinet Cinet {type filter hook input priority 0; policy drop; }
+add chain netdev Tnetdev Cnetdev {type filter hook ingress priority 0; policy drop; }
+add chain bridge Tbridge Cbridge {type filter hook input priority 0; policy drop; }
+add chain arp Tarp Carp {type filter hook input priority 0; policy drop; }
 
 # meta_stmt
 #
 # meta_stmt - flags only (support expression only in meta_expr)
-rule T C meta random set ether; # qualified META (requires 'meta' before it)
 
-rule T C nftrace 0;  # 'meta nftrace == 1' only in meta_expr
-rule T C meta nftrace set 1;  # 'meta nftrace == 1' only in meta_expr
+rule Tip CipNatPrerouting numgen random mod 2 vmap { 0 : accept, 1: drop } counter drop;
+rule Tip CipNatPostrouting numgen random mod 2 vmap { 0 : accept, 1: drop } counter drop;
+rule Tip CipFilterInput numgen random mod 2 vmap { 0 : accept, 1: drop } counter drop;
+
+rule Tip CipNatPrerouting meta random vmap { 0 : accept, 1: drop } counter accept;
+rule Tip CipNatPostrouting meta random vmap { 0 : accept, 1: drop } counter accept;
+rule Tip CipFilterInput meta random vmap { 0 : accept, 1: drop } counter accept;
+
+# rule T C nftrace 0;  # 'meta nftrace == 1' only in meta_expr
+# rule T C meta nftrace == 1;  # 'meta nftrace == 1' only in meta_expr
 
 # meta_stmt - INTERNALS; found in scanner.c (not in parser_bison.y)
 # 'meta nfproto' is integer or string (as listed in /etc/protocol)
 # 'nfproto' is only used with 'inet' family.
-rule inet T C meta nfproto 1;
-rule inet T C meta nfproto 1;
-rule inet T C meta nfproto ipv4 counter accept;
-rule inet T C meta nfproto ipv6 counter drop;
-rule inet T C meta nfproto 2;
-rule inet T C meta nfproto ipv4;
-rule inet T C meta nfproto 3;
-rule inet T C meta nfproto 7;
-rule inet T C meta nfproto 10;
-rule inet T C meta nfproto ipv6;
-rule inet T C meta nfproto 12;
+rule inet Tinet Cinet meta nfproto 1;
+rule inet Tinet Cinet meta nfproto 1;
+rule inet Tinet Cinet meta nfproto ipv4 counter accept;
+rule inet Tinet Cinet meta nfproto ipv6 counter drop;
+rule inet Tinet Cinet meta nfproto 2;
+rule inet Tinet Cinet meta nfproto ipv4;
+rule inet Tinet Cinet meta nfproto 3;
+rule inet Tinet Cinet meta nfproto 7;
+rule inet Tinet Cinet meta nfproto 10;
+rule inet Tinet Cinet meta nfproto ipv6;
+rule inet Tinet Cinet meta nfproto 12;
 
 # 'nfproto' only used with 'inet' family.
 rule inet Tinet Cinet meta nfproto ipv4 counter accept;
 
 # 'meta l4proto' is integer or string (as listed in Linux kernel include/uapi/linux/netfilter.h)
-rule inet T C meta l4proto 1;
-rule inet T C meta l4proto icmp;
-rule inet T C meta l4proto 6;
-rule inet T C meta l4proto tcp;
-rule inet T C meta l4proto 17;
-rule inet T C meta l4proto udp;
+rule inet Tinet Cinet meta l4proto 1;
+rule inet Tinet Cinet meta l4proto icmp;
+rule inet Tinet Cinet meta l4proto 6;
+rule inet Tinet Cinet meta l4proto tcp;
+rule inet Tinet Cinet meta l4proto 17;
+rule inet Tinet Cinet meta l4proto udp;
 
 # meta_stmt - unqualified META, with a value (no 'meta' needed)
 rule T C mark 64;  # length
@@ -151,10 +166,10 @@ rule T C oiftype 1;
 rule T C skgid 14;
 rule T C skuid 14;
 rule T C rtclassid 14;
-rule T C ibriport "br0";  # L2 layer, by interface name
-rule T C obriport "br1";  # L2 layer, by interface name
-rule T C ibrname "under-bridge";
-rule T C obrname "over-bridge";
+rule bridge Tbridge Cbridge ibriport "br0";  # L2 layer, by interface name
+rule bridge Tbridge Cbridge obriport "br1";  # L2 layer, by interface name
+rule bridge Tbridge Cbridge ibrname "under-bridge";
+rule bridge Tbridge Cbridge obrname "over-bridge";
 rule T C pkttype broadcast;
 rule T C cpu 1;
 rule T C iifgroup 0;
@@ -172,8 +187,8 @@ rule T C hour 20;
 rule T C hour 23;
 
 # meta_stmt - unqualified META, with a value (optional 'meta' used here)
-rule t c meta mark 0x01;
-rule t c meta mark 1234;
+rule T C meta mark 0x01;
+rule T C meta mark 1234;
 rule T C meta mark 64;  # length
 rule T C meta mark 0x4;
 rule T C meta mark 0x1234;
@@ -190,11 +205,11 @@ rule T C meta skuid 14;
 # 'meta nftace' requires no argument, but still 'unqualified' (no 'meta' needed).
 # 'meta rtclassid' is used with 'realm' keyword, mnemonics are in /etc/iproute2/rt_realms
 rule T C meta rtclassid 14;
-rule T C meta ibriport "br0";
-rule T C meta obriport "br1";
-rule T C meta ibrname "under-bridge";
-rule T C meta ibrname "br0";
-rule T C meta obrname "under-bridge";
+rule bridge Tbridge Cbridge meta ibriport "br0";
+rule bridge Tbridge Cbridge meta obriport "br1";
+rule bridge Tbridge Cbridge meta ibrname "under-bridge";
+rule bridge Tbridge Cbridge meta ibrname "br0";
+rule bridge Tbridge Cbridge meta obrname "under-bridge";
 rule T C meta pkttype broadcast;
 rule T C meta pkttype unicast;
 rule T C meta pkttype multicast;
@@ -228,7 +243,42 @@ rule T C meta protocol vlan;
 
 rule T C meta priority none;
 
-rule T C meta secmark set 14;
-rule T C meta secmark set 42;
+rule ip Tip CipNatPrerouting redirect;
+rule ip Tip CipNatInput redirect;
 
+# Notes:
+#
+# 'meta secmark' requires SELinux enabled on the system with
+# appropriate policies, otherwise this error occurs:
+#
+#     Error: Could not process rule: No such file or directory
+#
+# Use in mangle or filter chains at hooks like input,
+# prerouting, or forward.
+#
+# verify with `nft list ruleset`
+# and check SELinux logs (ausearch -m avc) if issues arise.
+#rule ip Tip CipFilterInput meta secmark set 14;
+#rule ip Tip CipFilterInput meta secmark set 42;
+
+# teardown
+delete chain arp Tarp Carp {type filter hook input priority 0; policy drop; }
+delete chain bridge Tbridge Cbridge {type filter hook input priority 0; policy drop; }
+delete chain netdev Tnetdev Cnetdev {type filter hook ingress priority 0; policy drop; }
+delete chain inet Tinet Cinet {type filter hook input priority 0; policy drop; }
+delete chain ip6 Tip6 Cip6 {type filter hook input priority 0; policy drop; }
+delete chain ip Tip CipFilterInput {type filter hook input priority 0; policy drop; }
+delete chain ip Tip CipFilterOutput {type filter hook output priority 0; policy drop; }
+delete chain ip Tip CipNatInput {type nat hook input priority 0; policy drop; }
+delete chain ip Tip CipNatPrerouting {type nat hook prerouting priority -100; policy drop; }
+delete chain ip Tip CipNatOutput {type nat hook output priority 0; policy drop; }
+delete chain ip Tip CipNatPostrouting {type nat hook postrouting priority 100; policy drop; }
+delete chain T C
+delete table T
+delete table ip Tip
+delete table ip6 Tip6
+delete table inet Tinet
+delete table netdev Tnetdev
+delete table bridge Tbridge
+delete table arp Tarp
 
