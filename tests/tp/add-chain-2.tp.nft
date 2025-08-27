@@ -25,7 +25,7 @@
 add table T
 chain T C {
     # base_cmd add_cmd 'chain' '{' chain_block hook_spec 'type'
-    type filter hook input priority mangle;
+    type filter hook input priority mangle; 
     type filter hook input priority srcnat; policy accept;
 }
 delete chain T C { type filter hook input priority mangle; policy accept; };
@@ -177,30 +177,11 @@ table arp A0b__RP_TABLE {
     }
     chain ARP_INPUT_FILTER {
         counter log return
-        counter; log; return;
     }
     chain workstation_arp_filter_output {
         type filter hook output priority 0;
         policy drop;
-        counter log prefix "log-prefix~!@#%^&*()_+|}{: ?><`-=\][;'/.," drop
-        counter log queue-threshold 15
-        counter log snaplen 64
-        counter log group 64
-        counter log level debug
-        counter log level info
-        counter log level crit
-        counter log level warn
-        counter log level notice
-        counter log level alert
-        counter log level emerg
-        counter log level err
-        counter log flags tcp sequence
-        counter log flags tcp sequence,options
-        counter log flags tcp options
-        counter log flags ip options
-        counter log flags skuid
-        counter log flags ether
-        counter log flags all
+        counter log drop
     }
 }
 
