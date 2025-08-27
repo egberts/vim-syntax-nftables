@@ -181,7 +181,28 @@ table inet mytable_inet2 {
         counter packets 123 bytes 123123
         # chain_block/rule/rule_alloc/stmt/objref_stmt/objref_stmt_counter
         counter name my_counter_name
-        counter name my_counter_name;
+        counter name my_counter_name 
+
+        log prefix "log-prefix~!@#%^&*()_+|}{: ?><`-=\][;'/.," drop
+        log queue-threshold 15
+        log snaplen 64
+        log group 64
+        log level debug
+        log level info
+        log level crit
+        log level warn
+        log level notice
+        log level alert
+        log level emerg
+        log level err
+        log flags tcp sequence
+        log flags tcp sequence,options
+        log flags tcp options
+        log flags ip options
+        log flags skuid
+        log flags ether
+        log flags all
+
     };
 };
 
