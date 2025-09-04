@@ -327,9 +327,6 @@ syn match nft_InlineComment '\v\# ' skipwhite contained
 hi link   nft_UnexpectedSymbol nftHL_Error
 syn match nft_UnexpectedSymbol '\v\s{1,5}\zs[^a-zA-Z0-9]{1,64}' skipwhite contained
 
-hi link   nft_UnexpectedSemicolon nftHL_Error
-syn match nft_UnexpectedSemicolon '\v;{1,7}' skipwhite contained
-
 hi link   nft_UnexpectedNewLine nftHL_Error
 syn match nft_UnexpectedNewLine '\v\s{1,30}${1,7}' display contained
 
@@ -460,9 +457,6 @@ syn match nft_MissingDeviceVariable '\v[^ \t\$\{]{1,5}' skipwhite contained " do
 hi link   nft_MissingCurlyBrace nftHL_Error
 syn match nft_MissingCurlyBrace '\v[ \t]\ze[^\{]{1,1}' skipwhite contained " do not use 'keepend' here
 
-hi link   nft_MissingSemicolon nftHL_Error
-syn match nft_MissingSemicolon '\v\s{1,5}\zs[^;]{1,5}' skipwhite contained " do not use 'keepend' here
-
 hi link   nft_UnexpectedCurlyBrace nftHL_Error
 syn match nft_UnexpectedCurlyBrace '\v\s{0,7}[\{\}]' skipwhite contained " do not use 'keepend' here
 
@@ -483,6 +477,13 @@ syn match nft_UnexpectedNumber '\v[0-9\-\+]{1,4}' skipwhite contained
 " Uncomment following two lines for RED highlight of typos (still Beta here)
 hi link   nft_UnexpectedEOS nftHL_Error
 syn match nft_UnexpectedEOS contained '\v[\t ]{0,2}[\#;\n]{1,2}.{0,1}' contained
+
+hi link   nft_UnexpectedSemicolon nftHL_Error
+syn match nft_UnexpectedSemicolon '\v;{1,7}' skipwhite contained
+
+hi link   nft_MissingSemicolon nftHL_Error
+syn match nft_MissingSemicolon '\v\s{1,5}\zs[^;]{1,5}' skipwhite contained " do not use 'keepend' here
+
 
 hi link   nft_Error_Always nftHL_Error
 syn match nft_Error_Always /[^(\n|\r)\.]\{1,15}/ skipwhite contained
@@ -519,6 +520,7 @@ syn match nft_line_nonvariable_error '\v\$[^A-Za-z][^A-Za-z0-9_\-]{0,1}' skipwhi
 
 " expected end-of-line (iterator capped for speed)
 syn match nft_EOL /[\n\r]\{1,16}/ skipwhite contained
+syn match nft_ExpectedEOL /[\n\r]\{1,16}/ skipnl skipwhite contained
 
 " syntax keyword nft_CounterKeyword last contained
 
@@ -681,6 +683,14 @@ syn match nft_comment_spec_keyword_comment '\vcomment' skipwhite contained
 
 "****************** BEGIN OF NFTABLE SYNTAX *******************************
 " ******************* BEGIN meta_expr **********************************
+" ******************* BEGIN socket_expr **********************************
+" socket_expr -> primary_expr
+" socket_expr -> primary_stmt_expr
+hi link   nft_chain_block_primary_expr_socket_expr_keyword_socket nftHL_Command
+syn match nft_socket_expr_keyword_socket '\vsocket\ze[ \t]' skipwhite contained
+
+" ******************* END socket_expr **********************************
+
 " meta_expr - trying for a generic Vim syntax group (to reside ONLY within chain_block)
 "   used by primary_expr and primary_stmt_expr
 syn cluster nft_c_meta_key_qualified
@@ -8035,11 +8045,11 @@ syn cluster nft_c_add_table_block_chain_block_hook_spec_dev_spec
 \    nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_prio_spec
 
 hi link   nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_hooks nftHL_Hook
-syn match nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_hooks "\v(postrouting|prerouting|forward|ingress|egress|output|input)" skipwhite contained
+syn match nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_hooks "\v(postrouting|prerouting|forward|ingress|egress|output|input)" skipnl skipwhite contained
 \ nextgroup=
 \    @nft_c_add_table_block_chain_block_hook_spec_dev_spec,
 \    nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_prio_spec,
-\    nft_UnexpectedEOS
+\    nft_UnexpectedSemicolon
 
 hi link   nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_keyword_hook nftHL_Statement
 syn match nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_keyword_hook "\vhook\ze\s" skipwhite contained
@@ -8049,12 +8059,10 @@ syn match nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_keyword_ho
 \    nft_Error
 
 hi link   nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_types nftHL_Type
-syn match nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_types "\v(filter|route|nat)" skipwhite contained
+syn match nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_types "\v(filter|route|nat)" skipnl skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_keyword_hook,
 \    nft_UnexpectedSemicolon,
-\    nft_UnexpectedSymbol,
-\    nft_EOL,
 \    nft_Error
 
 hi link   nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_keyword_type nftHL_Command

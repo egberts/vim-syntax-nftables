@@ -351,7 +351,7 @@ add table my_./\IpTable    # defaults to 'ip' family
 table T {
     include "file"
 }
-table T { define A = 1 }
+table T { define A = 1; }
 table T { 
     define A = 1 
     define A = 1 ;
@@ -359,7 +359,7 @@ table T {
     define last = 1 ;
     define A = {} ;
 }
-table T { redefine A = 1 }
+table T { redefine A = 1; }
 table T { redefine A = 1; }
 table T { 
     redefine A = 1
@@ -423,6 +423,8 @@ table T { chain C ; } ;
 table T { chain C ; } ;
 table T { chain C { }; };
 table T { chain C { }; chain D { }; };
+
+
 add table T { 
     chain C {
         comment asdf 
