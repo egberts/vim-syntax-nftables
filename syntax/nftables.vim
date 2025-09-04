@@ -12,7 +12,7 @@
 "
 "  WARNING:  Do not use 'containedin=', computationally expensive.
 "  WARNING:  Do not add online comments using a double-quote, it ALTERS patterns
-"
+"  WARNING:  Do not use 'keepend' except for only the most innermost region blocks
 "
 "  ~/.vimrc flags used:
 "
@@ -954,6 +954,61 @@ syn match nft_stmt_log_stmt_log_stmt_alloc_keyword_log '\vlog\ze[ \t\n;]' skipwh
 " no error handling
 " ************************* End of 'log_stmt' *************************
 
+syn cluster nft_c_stmt
+\ contains=
+\    nft_add_cmd_rule_rule_alloc_stmt_masq_keyword_masquerade,
+\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_rtclassid,
+\    nft_add_cmd_rule_rule_alloc_stmt_verdict_stmt_verdict_expr_keyword_continue,
+\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_ibriport,
+\    nft_common_block_keyword_redefine,
+\    nft_common_block_keyword_undefine,
+\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iifgroup,
+\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_obriport,
+\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oifgroup,
+\    nft_common_block_keyword_include,
+\    nft_add_cmd_rule_rule_alloc_stmt_redir_stmt_redir_stmt_alloc_keyword_redirect,
+\    nft_add_cmd_keyword_table_table_block_chain_chain_block_comment_spec,
+\    nft_base_cmd_add_cmd_rule_rule_alloc_stmt_objref_stmt_objref_stmt_counter_keyword_counter,
+\    nft_add_cmd_keyword_table_table_block_chain_chain_block_keyword_devices,
+\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_ibrname,
+\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iifname,
+\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iiftype,
+\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_nftrace,
+\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_keyword_notrack,
+\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_obrname,
+\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oifname,
+\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oiftype,
+\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_pkttype,
+\    nft_add_cmd_rule_rule_alloc_stmt_verdict_stmt_verdict_expr_keyword_accept,
+\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_cgroup,
+\    nft_common_block_keyword_define,
+\    nft_add_cmd_keyword_table_table_block_chain_chain_block_policy_spec_keyword_policy,
+\    nft_add_cmd_rule_rule_alloc_stmt_verdict_stmt_verdict_expr_keyword_return,
+\    nft_common_block_keyword_error,
+\    nft_add_cmd_keyword_table_table_block_chain_chain_block_flags_spec_keyword_flags,
+\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_ipsec,
+\    nft_add_cmd_rule_rule_alloc_stmt_meter_stmt_meter_stmt_alloc_keyword_meter,
+\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_skgid,
+\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_skuid,
+\    nft_add_cmd_rule_rule_alloc_stmt_nat_stmt_nat_stmt_alloc_keyword_dnat,
+\    nft_add_cmd_rule_rule_alloc_stmt_verdict_stmt_verdict_expr_keyword_drop,
+\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_keyword_flow,
+\    nft_add_cmd_rule_rule_alloc_stmt_verdict_stmt_verdict_expr_keyword_goto,
+\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_hour,
+\    nft_add_cmd_rule_rule_alloc_stmt_verdict_stmt_verdict_expr_keyword_jump,
+\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_mark,
+\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_keyword_meta,
+\    nft_add_cmd_rule_rule_alloc_stmt_nat_stmt_nat_stmt_alloc_keyword_snat,
+\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_time,
+\    nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_keyword_type,
+\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_cpu,
+\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_day,
+\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iif,
+\    nft_stmt_log_stmt_log_stmt_alloc_keyword_log,
+\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oif,
+\    nft_comment_inline,
+\    nft_add_cmd_keyword_table_table_block_chain_chain_block_stmt_separator,
+\    nft_rule_cluster_Error
 " ************************* Begin of 'counter_cmd' *************************
 "**** BEGIN OF add_cmd_/'counter'/obj_spec *****
 hi link   nft_add_cmd_keyword_counter_block_stmt_separator nftHL_Separator
@@ -1571,6 +1626,7 @@ syn cluster nft_c_flowtable_block
 " [ 'add' ] 'flowtable' table_id flow_id '{' flowtable_block
 " flowtable_block->'{'->'flowtable'->add_cmd->base_cmd->line
 hi link    nft_add_cmd_keyword_flowtable_flowtable_block nftHL_BlockDelimitersFlowTable
+" Can use 'keepend' if and only if there are no further nesting of blocks (what about 'elements'?)
 syn region nft_add_cmd_keyword_flowtable_flowtable_block start=/{/ end=/}/ keepend skipwhite contained
 \ contains=
 \    nft_common_block_keyword_redefine,
@@ -2937,7 +2993,6 @@ syn cluster nft_c_base_cmd_add_cmd_rule_alloc_stmt_cluster
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_hour,
 \    nft_add_cmd_rule_rule_alloc_stmt_verdict_stmt_verdict_expr_keyword_jump,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_mark,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_keyword_meta,
 \    nft_add_cmd_rule_rule_alloc_stmt_nat_stmt_nat_stmt_alloc_keyword_snat,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_time,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_cpu,
@@ -2946,6 +3001,7 @@ syn cluster nft_c_base_cmd_add_cmd_rule_alloc_stmt_cluster
 \    nft_stmt_log_stmt_log_stmt_alloc_keyword_log,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oif,
 \    nft_rule_cluster_Error
+"\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_keyword_meta,
 "\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_hash_expr_keyword_symhash,
 "\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_payload_expr_keyword_udplite,
 "\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_exthdr_exists_expr_keyword_exthdr,
@@ -5858,7 +5914,7 @@ hi link   nft_insert_cmd_keyword_rule_rule_position_table_spec_identifier_string
 syn match nft_insert_cmd_keyword_rule_rule_position_table_spec_identifier_string_chain "\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}" skipwhite contained
 \ nextgroup=
 \    nft_insert_cmd_keyword_rule_rule_position_keywords_position_et_al_spec,
-\    @nft_c_rule,
+\    @nft_c_rule,  " this got taken by chain_block; ain't gonna work, gotta duplicate @nft_c_rule
 \    nft_UnexpectedSemicolon,
 \    nft_UnexpectedEOS,
 \    nft_Error
@@ -8066,7 +8122,9 @@ syn match nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_types "\v(
 \    nft_Error
 
 hi link   nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_keyword_type nftHL_Command
-syn match nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_keyword_type "type" skipwhite contained
+" A more restrictive type look-behind is required due to reuse of 'type' keyword elsewhere:
+" A left curly brace or a new line (start of line)
+syn match nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_keyword_type "\v(^|\{)\s{0,40}[ \t]{0,40}\zstype" skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_types,
 \    nft_UnexpectedSymbol,
@@ -9512,7 +9570,6 @@ syn region nft_add_cmd_keyword_chain_chain_block_delimiters start='\v\s*\zs\{' e
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_hour,
 \    nft_add_cmd_rule_rule_alloc_stmt_verdict_stmt_verdict_expr_keyword_jump,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_mark,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_keyword_meta,
 \    nft_add_cmd_rule_rule_alloc_stmt_nat_stmt_nat_stmt_alloc_keyword_snat,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_time,
 \    nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_keyword_type,
@@ -9524,6 +9581,7 @@ syn region nft_add_cmd_keyword_chain_chain_block_delimiters start='\v\s*\zs\{' e
 \    nft_comment_inline,
 \    nft_add_cmd_keyword_table_table_block_chain_chain_block_stmt_separator,
 \    nft_rule_cluster_Error
+"\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_keyword_meta,
 
 hi link   nft_add_cmd_chain_spec_identifier nftHL_Identifier
 syn match nft_add_cmd_chain_spec_identifier '\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}' skipwhite contained
