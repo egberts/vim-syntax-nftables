@@ -57,7 +57,6 @@ table T {
 
         ip6 nexthdr no-next accept
 
-        ip6 nexthdr routing type 5 accept
         ip6 nexthdr routing type 2 accept          # Matches Type 2 Routing Header
         ip6 nexthdr routing type in { 0, 2 } drop  # Inline set
         ip6 nexthdr routing type @my_types accept  # Named set
@@ -67,27 +66,80 @@ table T {
         ip6 nexthdr routing segments-left @my_segments accept  # Named set
         ip6 nexthdr routing segments-left > 0 accept       # Comparison
         ip6 nexthdr routing addr fffe:::0001 accept
+        ip6 nexthdr routing addr in { fffe:::0001 } accept
+        ip6 nexthdr routing addr @my_routing accept  # Named set
+        ip6 nexthdr routing addr != fffe:::0001 accept  # Comparison
 
+        ip6 nexthdr icmpv6 checksum 1888888888 accept;
+        ip6 nexthdr icmpv6 checksum 0x23123123 accept;
+        ip6 nexthdr icmpv6 checksum in { 0x123123123, 4234234234, 5345345345 } accept;
+        ip6 nexthdr icmpv6 checksum @named_sequences accept
+        ip6 nexthdr icmpv6 checksum > 1000000 accept
+        ip6 nexthdr icmpv6 sequence 123123123 accept;
+        ip6 nexthdr icmpv6 sequence 0x23123123 accept;
+        ip6 nexthdr icmpv6 sequence in { 123123123, 4234234234, 5345345345 } accept;
+        ip6 nexthdr icmpv6 sequence @named_sequences accept
+        ip6 nexthdr icmpv6 sequence > 1000000 accept
         # ICMP ping dealt with separately to rate limit
-        ip6 nexthdr icmpv6 icmpv6 type echo-request limit rate over 1/second counter drop
-        ip6 nexthdr icmpv6 icmpv6 type echo-request counter accept
-        # accept neighbour discovery otherwise IPv6 connectivity breaks.
-        ip6 nexthdr icmpv6 icmpv6 type destination-unreachable counter accept;
-        ip6 nexthdr icmpv6 icmpv6 type packet-too-big counter accept;
-        ip6 nexthdr icmpv6 icmpv6 type time-exceeded counter accept;
-        ip6 nexthdr icmpv6 icmpv6 type parameter-problem counter accept;
-        ip6 nexthdr icmpv6 icmpv6 type echo-reply counter accept;
-        ip6 nexthdr icmpv6 icmpv6 type nd-router-advert counter accept;
-        ip6 nexthdr icmpv6 icmpv6 type nd-neighbor-solicit counter accept;
-        ip6 nexthdr icmpv6 icmpv6 type nd-neighbor-advert counter accept;
-        ip6 nexthdr icmpv6 icmpv6 code accept;
-        ip6 nexthdr icmpv6 icmpv6 id accept;
-        ip6 nexthdr icmpv6 icmpv6 sequence accept;
+        ip6 nexthdr icmpv6 type echo-request limit rate over 1/second counter drop
+        ip6 nexthdr icmpv6 type echo-request counter accept
+        # accept neighbour otherwise IPv6 connectivity breaks.
+        ip6 nexthdr icmpv6 type destination-unreachable counter accept;
+        ip6 nexthdr icmpv6 type packet-too-big counter accept;
+        ip6 nexthdr icmpv6 type time-exceeded counter accept;
+        ip6 nexthdr icmpv6 type parameter-problem counter accept;
+        ip6 nexthdr icmpv6 type echo-reply counter accept;
+        ip6 nexthdr icmpv6 type nd-router-advert counter accept;
+        ip6 nexthdr icmpv6 type nd-neighbor-solicit counter accept;
+        ip6 nexthdr icmpv6 type nd-neighbor-advert counter accept;
+        ip6 nexthdr icmpv6 type echo-request limit rate over 1/second counter drop
+        ip6 nexthdr icmpv6 type echo-request counter accept
+        # Accept neighbor discovery and other ICMPv6 types
+        ip6 nexthdr icmpv6 type destination-unreachable counter accept
+        ip6 nexthdr icmpv6 type packet-too-big counter accept
+        ip6 nexthdr icmpv6 type time-exceeded counter accept
+        ip6 nexthdr icmpv6 type parameter-problem counter accept
+        ip6 nexthdr icmpv6 type echo-reply counter accept
+        ip6 nexthdr icmpv6 type nd-router-advert counter accept
+        ip6 nexthdr icmpv6 type nd-neighbor-solicit counter accept
+        ip6 nexthdr icmpv6 type nd-neighbor-advert counter accept
+        ip6 nexthdr icmpv6 type in { nd-neighbor-advert, echo-request } counter accept
+        # Example for code (specific value required)
+        ip6 nexthdr icmpv6 type destination-unreachable code 0 counter accept
+        # Example for id and sequence (specific to echo-request/reply)
+        ip6 nexthdr icmpv6 type echo-request id 100 sequence 1 counter accept
+        ip6 nexthdr icmpv6 code 255 accept;
+        ip6 nexthdr icmpv6 code 0x15 accept;
+        ip6 nexthdr icmpv6 code in { 7,8, 9} accept;
+        ip6 nexthdr icmpv6 code @named_codes accept;
+        ip6 nexthdr icmpv6 code > 17 accept;
+        ip6 nexthdr icmpv6 id 15 accept;
+        ip6 nexthdr icmpv6 id in { 0, 1} accept;
+        ip6 nexthdr icmpv6 id @named_ids accept;
+        ip6 nexthdr icmpv6 id > 127 accept;
+        ip6 nexthdr icmpv6 code 15 id 1 accept;
+        ip6 nexthdr icmpv6 id 15 code 15 accept;
 
-        ip6 nexthdr dccp dport accept
-        ip6 nexthdr dccp sport accept
-        ip6 nexthdr dccp type accept
-        ip6 nexthdr dccp checksum accept
+        ip6 nexthdr dccp checksum 32767 accept
+        ip6 nexthdr dccp checksum 0x3232 accept
+        ip6 nexthdr dccp checksum in { 0x1000, 0x2000, 0x3000 } accept
+        ip6 nexthdr dccp checksum @named_dccp_checksums accept
+        ip6 nexthdr dccp checksum > 32767 accept
+        ip6 nexthdr dccp dport 22 accept
+        ip6 nexthdr dccp dport 0x16 accept
+        ip6 nexthdr dccp dport in { 0x16, 22 } accept
+        ip6 nexthdr dccp dport @named_dports accept
+        ip6 nexthdr dccp dport > 1024 accept
+        ip6 nexthdr dccp sport 22 accept
+        ip6 nexthdr dccp sport 0x16 accept
+        ip6 nexthdr dccp sport in { 0x16, 22} accept
+        ip6 nexthdr dccp sport @named_sports accept
+        ip6 nexthdr dccp sport > 1024 accept
+        ip6 nexthdr dccp type 5 accept
+        ip6 nexthdr dccp type 0x10 accept
+        ip6 nexthdr dccp type in { 1,4, 5} accept
+        ip6 nexthdr dccp type @named_dccp_types accept
+        ip6 nexthdr dccp type > 127 accept
 
         ip6 nexthdr dest opt-data 5
         ip6 nexthdr dest opt-type 5 accept
