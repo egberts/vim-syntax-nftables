@@ -136,10 +136,20 @@ table T {
         ip6 nexthdr dccp sport @named_sports accept
         ip6 nexthdr dccp sport > 1024 accept
         ip6 nexthdr dccp type 5 accept
-        ip6 nexthdr dccp type 0x10 accept
-        ip6 nexthdr dccp type in { 1,4, 5} accept
+        ip6 nexthdr dccp type 0x1 accept
+        ip6 nexthdr dccp type request accept
+        ip6 nexthdr dccp type response accept
+        ip6 nexthdr dccp type data accept
+        ip6 nexthdr dccp type ack accept
+        ip6 nexthdr dccp type dataack accept
+        ip6 nexthdr dccp type closereq accept
+        ip6 nexthdr dccp type close accept
+        ip6 nexthdr dccp type reset accept
+        ip6 nexthdr dccp type sync accept
+        ip6 nexthdr dccp type syncack accept
+        ip6 nexthdr dccp type in { close, 1,4, 5} accept
         ip6 nexthdr dccp type @named_dccp_types accept
-        ip6 nexthdr dccp type > 127 accept
+        ip6 nexthdr dccp type > 9 drop
 
         ip6 nexthdr dest opt-data 5
         ip6 nexthdr dest opt-type 5 accept

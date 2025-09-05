@@ -1686,22 +1686,34 @@ syn match nft_payload_expr_ip6_nexthdr_dccp_keyword_sport '\vsport\ze[ \t]' skip
 " ************************* End of 'ip6 nexthdr dccp sport' *************************
 
 " ************************* Begin of 'ip6 nexthdr dccp type' *************************
-hi link   nft_payload_expr_ip6_nexthdr_dccp_type nftHL_Integer
-syn match nft_payload_expr_ip6_nexthdr_dccp_type '\v((0x[0-9a-fA-F]{1,2})|([0-9]{1,3}))\ze[ \t;$]' skipwhite contained
+" type: DCCP packet types, which include:
+"
+hi link   nft_payload_expr_ip6_nexthdr_dccp_type nftHL_Define
+syn match nft_payload_expr_ip6_nexthdr_dccp_type '\v(closereq|response|dataack|request|syncack|close|reset|data|sync|ack)' skipwhite contained
+\ nextgroup=
+\    nft_payload_expr_ip6_nexthdr_dccp_keyword_checksum,
+\    nft_payload_expr_ip6_nexthdr_dccp_keyword_dport,
+\    nft_payload_expr_ip6_nexthdr_dccp_keyword_sport,
+
+hi link   nft_payload_expr_ip6_nexthdr_dccp_type_int nftHL_Integer
+syn match nft_payload_expr_ip6_nexthdr_dccp_type_int '\v((0x[0-9a-fA-F]{1,1})|([0-9]{1,1}))\ze[ \t,;$\}]' skipwhite contained
 \ nextgroup=
 \    nft_payload_expr_ip6_nexthdr_dccp_keyword_checksum,
 \    nft_payload_expr_ip6_nexthdr_dccp_keyword_dport,
 \    nft_payload_expr_ip6_nexthdr_dccp_keyword_sport,
 
 " ip6 nexthdr dccp type in { 1,127,255 }
-hi link   nft_payload_expr_ip6_nexthdr_dccp_set_block_type nftHL_Integer
-syn match nft_payload_expr_ip6_nexthdr_dccp_set_block_type '\v((0x[0-9a-fA-F]{1,2})|([0-9]{1,3}))\ze[ \t,;$\}]' skipwhite contained
+hi link   nft_payload_expr_ip6_nexthdr_dccp_set_block_type nftHL_Define
+syn match nft_payload_expr_ip6_nexthdr_dccp_set_block_type '\v(closereq|response|dataack|request|syncack|close|reset|data|sync|ack)' skipwhite contained
+hi link   nft_payload_expr_ip6_nexthdr_dccp_set_block_type_int nftHL_Integer
+syn match nft_payload_expr_ip6_nexthdr_dccp_set_block_type_int '\v((0x[0-9a-fA-F]{1,2})|([0-9]{1,3}))\ze[ \t,;$\}]' skipwhite contained
 
 " ip6 nexthdr dccp type in {  }
 hi link    nft_payload_expr_ip6_nexthdr_dccp_type_set_block nftHL_BlockDelimitersSet
 syn region nft_payload_expr_ip6_nexthdr_dccp_type_set_block start=+{+ end=+}+ skipwhite contained
 \ contains=
-\    nft_payload_expr_ip6_nexthdr_dccp_set_block_type
+\    nft_payload_expr_ip6_nexthdr_dccp_set_block_type,
+\    nft_payload_expr_ip6_nexthdr_dccp_set_block_type_int
 
 " ip6 nexthdr dccp type in
 hi link   nft_payload_expr_ip6_nexthdr_dccp_type_keyword_in nftHL_Action
@@ -1714,6 +1726,7 @@ hi link   nft_payload_expr_ip6_nexthdr_dccp_type_operator_1char nftHL_Expression
 syn match nft_payload_expr_ip6_nexthdr_dccp_type_operator_1char '\v([\>\<\!])' skipwhite contained
 \ nextgroup=
 \    nft_payload_expr_ip6_nexthdr_dccp_type,
+\    nft_payload_expr_ip6_nexthdr_dccp_type_int,
 \    nft_chainError
 
 " ip6 nexthdr dccp type >=
@@ -1721,17 +1734,19 @@ hi link   nft_payload_expr_ip6_nexthdr_dccp_type_operator_2char nftHL_Expression
 syn match nft_payload_expr_ip6_nexthdr_dccp_type_operator_2char '\v([\>\<\!])\=' skipwhite contained
 \ nextgroup=
 \    nft_payload_expr_ip6_nexthdr_dccp_type,
+\    nft_payload_expr_ip6_nexthdr_dccp_type_int,
 \    nft_chainError
 
 " ip6 nexthdr dccp type
 hi link   nft_payload_expr_ip6_nexthdr_dccp_keyword_type nftHL_Action
 syn match nft_payload_expr_ip6_nexthdr_dccp_keyword_type '\vtype\ze[ \t]' skipwhite contained
 \ nextgroup=
+\    nft_payload_expr_ip6_nexthdr_dccp_type,
 \    nft_payload_expr_ip6_nexthdr_dccp_type_operator_2char,
 \    nft_payload_expr_ip6_nexthdr_dccp_type_keyword_in,
 \    nft_payload_expr_ip6_nexthdr_named_set,
 \    nft_payload_expr_ip6_nexthdr_dccp_type_operator_1char,
-\    nft_payload_expr_ip6_nexthdr_dccp_type,
+\    nft_payload_expr_ip6_nexthdr_dccp_type_int,
 \    nft_chainError
 " ************************* End of 'ip6 nexthdr dccp type' *************************
 
