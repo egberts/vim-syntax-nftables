@@ -4275,6 +4275,14 @@ syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_set_keyword_in,
 \    nft_Error
 
+hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_set_keyword_exclaimation nftHL_Operator
+syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_set_keyword_exclaimation '\v\!\ze[ \t\{]' skipwhite contained
+\ nextgroup=
+\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_set_keyword_out,
+\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_set_keyword_spi,
+\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_set_keyword_in,
+\    nft_Error
+
 hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_expr_keyword_meta_meta_key_unqualified_ipsec_keyword_exists nftHL_Define
 syn match nft_add_cmd_rule_rule_alloc_stmt_meta_expr_keyword_meta_meta_key_unqualified_ipsec_keyword_exists '\vexists' skipwhite contained
 
@@ -4283,7 +4291,7 @@ syn match nft_add_cmd_rule_rule_alloc_stmt_meta_expr_keyword_meta_meta_key_unqua
 \ nextgroup=nft_add_cmd_rule_rule_alloc_stmt_meta_expr_keyword_meta_meta_key_unqualified_ipsec_keyword_exists
 
 hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_expr_keyword_meta_meta_key_unqualified_ipsec_keyword_exclaimation nftHL_Expression
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_expr_keyword_meta_meta_key_unqualified_ipsec_keyword_exclaimation '\v!' skipwhite contained
+syn match nft_add_cmd_rule_rule_alloc_stmt_meta_expr_keyword_meta_meta_key_unqualified_ipsec_keyword_exclaimation '\v\!' skipwhite contained
 \ nextgroup=nft_add_cmd_rule_rule_alloc_stmt_meta_expr_keyword_meta_meta_key_unqualified_ipsec_keyword_exists
 
 " LL(1) maintains distinction between 'meta ipsec' and 'ipsec'
@@ -4304,6 +4312,7 @@ syn match nft_add_cmd_rule_rule_alloc_stmt_meta_expr_keyword_ipsec '\vipsec\ze[ 
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_set_keyword_in,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_operators_relational,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_operators_equality,
+\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_set_keyword_exclaimation,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_value_integer,
 \    nft_Error
 
