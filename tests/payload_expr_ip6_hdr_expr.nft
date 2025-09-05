@@ -157,10 +157,28 @@ table T {
         ip6 nexthdr dest opt-data 40 accept
         ip6 nexthdr dest opt-data 0x0806 accept
 
-        ip6 nexthdr sctp dport accept
-        ip6 nexthdr sctp sport accept
-        ip6 nexthdr sctp vtag accept
-        ip6 nexthdr sctp checksum accept
+        ip6 nexthdr sctp checksum 22 accept
+        ip6 nexthdr sctp checksum 0x16161616 accept
+        ip6 nexthdr sctp checksum 0x16161616-0xffffffff accept
+        ip6 nexthdr sctp checksum in { 0x16, 22 } accept
+        ip6 nexthdr sctp checksum @named_sctp_dports accept
+        ip6 nexthdr sctp checksum > 1024 accept
+        ip6 nexthdr sctp dport 22 accept
+        ip6 nexthdr sctp dport 0x16 accept
+        ip6 nexthdr sctp dport in { 0x16, 22 } accept
+        ip6 nexthdr sctp dport @named_sctp_dports accept
+        ip6 nexthdr sctp dport > 1024 accept
+        ip6 nexthdr sctp sport 22 accept
+        ip6 nexthdr sctp sport 0x16 accept
+        ip6 nexthdr sctp sport in { 0x16, 22 } accept
+        ip6 nexthdr sctp sport @named_sctp_dports accept
+        ip6 nexthdr sctp sport > 1024 accept
+        ip6 nexthdr sctp vtag 22 accept
+        ip6 nexthdr sctp vtag 0x16 accept
+        ip6 nexthdr sctp vtag 0x00000000-0x80000000 accept
+        ip6 nexthdr sctp vtag in { 0x16, 22 } accept
+        ip6 nexthdr sctp vtag @named_sctp_dports accept
+        ip6 nexthdr sctp vtag > 1024 accept
 
         ip6 nexthdr esp spi 5 accept
         ip6 nexthdr esp sequence 5 accept
