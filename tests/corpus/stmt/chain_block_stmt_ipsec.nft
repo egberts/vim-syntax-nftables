@@ -1,0 +1,45 @@
+# corpus/stmt/chain_block_stmt_payload.nft
+
+# setup
+flush ruleset
+add table T
+add table netdev Tnetdev
+add chain T C { type filter hook input priority 0; policy accept; }
+add chain netdev Tnetdev Cnetdev { type filter hook ingress priority 0; policy accept; }
+# define '@flood'
+# rule netdev Tnetdev Cnetdev tcp flags syn tcp dport ssh meter flood size 128000 { ip saddr timeout 10s limit rate over 10/second } drop
+
+
+table T {
+  chain C {
+    ipsec in reqid 1 accept
+    ipsec in spi 0x12331 accept
+    ipsec out reqid 1 accept
+    ipsec not in reqid 1 accept
+    ipsec not in spi 0x12331 accept
+    ipsec not out reqid 1 accept
+    ipsec ! in reqid 1 accept
+    ipsec ! in spi 0x12331 accept
+    ipsec ! out reqid 1 accept
+    meta ipsec exists drop
+    meta ipsec ! exists drop
+    meta ipsec not exists drop
+    not meta ipsec exists drop  # hardest to highlight (not common)
+
+
+    # BADDIES
+    ipsec exists drop  # bad highlight
+    meta ipsec in reqid 1 accept # bad highlight
+    meta not ipsec exists drop  # INVALID
+    ipsec out spi 0x12331 accept
+  }
+}
+
+insert rule T C meta ipsec exists drop
+# meta_key_unqualfied 'set' stmt_expr
+insert rule T C ipsec in reqid 1 accept
+
+# cleanup
+delete chain netdev Tnetdev Cnetdev
+delete chain T C
+delete table T
