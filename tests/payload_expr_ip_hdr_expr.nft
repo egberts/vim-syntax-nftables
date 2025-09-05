@@ -1,0 +1,15 @@
+
+add table ip T
+table T {
+    chain C {
+        type filter hook input priority 0; policy accept
+
+        # ICMP ping dealt with separately to rate limit
+        ip protocol icmp icmp type echo-request limit rate over 1/second counter drop
+        ip protocol icmp icmp type echo-request counter accept
+        ip protocol icmp icmp type echo-request counter accept
+
+    }
+}
+delete chain C
+delete table T

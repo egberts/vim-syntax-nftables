@@ -1,0 +1,155 @@
+# corpus/stmt/chain_block_stmt_payload.nft
+
+# setup
+flush ruleset
+add table T
+add table netdev Tnetdev
+add chain T C { type filter hook input priority 0; policy accept; }
+add chain netdev Tnetdev Cnetdev { type filter hook ingress priority 0; policy accept; }
+# define '@flood'
+# rule netdev Tnetdev Cnetdev tcp flags syn tcp dport ssh meter flood size 128000 { ip saddr timeout 10s limit rate over 10/second } drop
+
+
+table T {
+  chain C {
+    define A = 1;
+    redefine A = 2;
+    undefine A;
+    masquerade random;
+    masquerade fully-random
+    masquerade persistent
+    rtclassid 1 drop
+    rtclassid set 1 drop
+    # meta_key_qualfied 'set' stmt_expr
+    meta length 5 drop
+    meta length == 5 drop
+    meta length > 5 drop
+    meta length >= 5 drop
+    meta length < 5 drop
+    meta length <= 5 drop
+    meta protocol 5 drop
+    meta protocol == 5 drop
+    meta protocol >= 5 drop
+    meta protocol <= 5 drop
+    meta priority 5 drop
+    meta priority any drop
+    meta priority none drop
+    meta priority set none drop
+    meta priority set 5 drop
+    meta priority 5 drop
+    meta priority == 5 drop
+    meta priority > 5 drop
+    meta priority >= 5 drop
+    meta priority < 5 drop
+    meta priority <= 5 drop
+    meta random 5 drop
+    meta random set 5 drop
+    meta random set mod 3 != 5 drop
+    meta mark 15 drop
+    meta mark @nameset drop
+    meta mark set 15 drop
+    meta mark set @nameset drop
+    meta iif 1 drop
+    meta iif eno2 drop
+    meta iif "eno*" drop
+    meta iifname eno2 drop
+    meta iifname "eno*" drop
+    meta oifname eno2 drop
+    meta oifname "eno*" drop
+    meta iiftype 1 drop
+    meta iiftype == 1 drop
+    meta iiftype != 1 drop
+    meta iiftype >= 1 drop
+    meta iiftype <= 1 drop
+    meta iiftype @nameset drop
+    meta iiftype ether drop
+    meta oiftype 1 drop
+    meta oiftype == 1 drop
+    meta oiftype != 1 drop
+    meta oiftype >= 1 drop
+    meta oiftype <= 1 drop
+    meta oiftype @nameset drop
+    meta oiftype ether drop
+    meta skuid 5 drop
+    meta skgid 5 drop
+    meta nftrace 1 drop
+    meta nftrace set 1 drop
+    meta rtclassid 1 drop
+    meta rtclassid set 1 drop
+    meta ibriport "br0" drop
+    meta obriport "br0" drop
+    meta ibrname "br0" drop
+    meta obrname "br0" drop
+    meta pkttype unicast drop
+    meta pkttype set unicast drop
+    meta cpu 5 drop
+    meta iifgroup 5 drop
+    meta oifgroup 5 drop
+    meta ipsec exists drop
+    meta cgroup 000 drop
+    meta time 12 drop
+    meta day 5 drop
+    meta hour 12 drop
+    # meta_key_unqualfied 'set' stmt_expr
+    mark 15 drop
+    mark set 15 drop
+    mark set @nameset drop
+    iif "eno2" drop
+    oif "eno2" drop
+    iifname "eno2" drop
+    oifname "eno2" drop
+    iiftype 5 drop
+    oiftype 5 drop
+    skuid 5 drop
+    skgid 5 drop
+    nftrace 1 drop
+    nftrace set 1 drop
+    rtclassid 1 drop
+    rtclassid set 1 drop
+    ibriport "br0" drop
+    obriport "br0" drop
+    ibrname "br0" drop
+    obrname "br0" drop
+    pkttype unicast drop
+    cpu 5 drop
+    iifgroup 5 drop
+    oifgroup 5 drop
+    cgroup 000 drop
+
+    ipsec in reqid 1 accept
+    ipsec not in reqid 1 accept
+    meta ipsec exists drop
+    meta not ipsec exists drop
+
+    ipsec exists drop  # bad
+    meta ipsec in reqid 1 accept # bad
+
+    time 12 drop
+    day 5 drop
+    hour 12 drop
+  }
+}
+
+# 'insert' 'rule' 'meta' meta_key meta_key_qualfied 'set' stmt_expr
+insert rule T C meta priority set 5 drop
+# insert rule netdev Tnetdev Cnetdev meta secmark set 0x0000
+
+# 'insert' 'rule' 'meta' meta_key meta_key_unqualfied 'set' stmt_expr
+insert rule T C meta mark set 15
+insert rule T C meta nftrace set 1
+insert rule T C meta rtclassid set 1
+insert rule T C meta pkttype set unicast
+# meta_key_unqualfied 'set' stmt_expr
+insert rule T C mark set 15
+insert rule T C nftrace set 1
+insert rule T C rtclassid set 1
+insert rule T C pkttype set unicast
+# meta_stmt
+insert rule netdev Tnetdev Cnetdev flow offload @flood
+insert rule netdev Tnetdev Cnetdev flow add @flood
+insert rule T C notrack
+
+# cleanup
+delete chain netdev Tnetdev Cnetdev
+delete chain T C
+delete table T

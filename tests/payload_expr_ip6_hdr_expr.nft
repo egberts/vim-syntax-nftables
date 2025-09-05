@@ -1,0 +1,128 @@
+
+add table ip T
+table T {
+    chain C {
+        type filter hook input priority 0; policy accept
+
+        ip6 flowlabel 0x2000
+        ip6 flowlabel 1234 accept          # Matches specific flow label
+        ip6 flowlabel 0x2000 accept          # Matches specific flow label
+        ip6 flowlabel @my_flowlabels accept   # Matches named set
+        ip6 flowlabel > 1000 accept        # Matches range with comparison
+        ip6 flowlabel >= 1000 accept        # Matches range with comparison
+        ip6 flowlabel < 1000 accept        # Matches range with comparison
+        ip6 flowlabel <= 1000 accept        # Matches range with comparison
+        ip6 flowlabel ! 1000 accept        # Matches range with comparison
+        ip6 flowlabel not 1000 accept        # Matches range with comparison
+        ip6 flowlabel in { 1234, 5678 } drop  # Matches inline set
+        ip6 flowlabel not 1000 accept        # nested block guard test data
+
+        ip6 hoplimit 0x2000
+        ip6 hoplimit 1234 accept          # Matches specific flow label
+        ip6 hoplimit 0x2000 accept          # Matches specific flow label
+        ip6 hoplimit @my_flowlabels accept   # Matches named set
+        ip6 hoplimit > 1000 accept        # Matches range with comparison
+        ip6 hoplimit >= 1000 accept        # Matches range with comparison
+        ip6 hoplimit < 1000 accept        # Matches range with comparison
+        ip6 hoplimit <= 1000 accept        # Matches range with comparison
+        ip6 hoplimit ! 1000 accept        # Matches range with comparison
+        ip6 hoplimit not 1000 accept        # Matches range with comparison
+        ip6 hoplimit in { 1234, 5678 } drop  # Matches inline set
+
+        ip6 nexthdr hop-by-hop opt-type 5 accept;
+        ip6 nexthdr hop-by-hop opt-len 40 accept
+        ip6 nexthdr hop-by-hop opt-data 40 accept
+        ip6 nexthdr hop-by-hop opt-data 0x0806 accept
+
+        ip6 nexthdr fragment id 1 accept
+        ip6 nexthdr fragment id > 1 accept
+        ip6 nexthdr fragment id >= 1 accept
+        ip6 nexthdr fragment id < 1 accept
+        ip6 nexthdr fragment id <= 1 accept
+        ip6 nexthdr fragment id != 1 accept
+        ip6 nexthdr fragment id ! 1 accept
+        ip6 nexthdr fragment id 1-2000 accept
+        ip6 nexthdr fragment id @nameset accept
+        ip6 nexthdr fragment id in {1,2,3} accept
+        ip6 nexthdr fragment not id 1 accept
+
+        ip6 nexthdr fragment offset 1 accept
+        ip6 nexthdr fragment offset @nameset accept
+        ip6 nexthdr fragment more-fragments accept
+        ip6 nexthdr fragment more-fragments accept
+        ip6 nexthdr fragment not more-fragments accept
+        ip6 nexthdr fragment id in { 1, 2, 3 } accept;
+        ip6 nexthdr fragment id in { 1, 2, 3 } accept;
+        ip6 nexthdr fragment offset in { 4,5,6 } accept;
+
+        ip6 nexthdr no-next accept
+
+        ip6 nexthdr routing type 5 accept
+        ip6 nexthdr routing type 2 accept          # Matches Type 2 Routing Header
+        ip6 nexthdr routing type in { 0, 2 } drop  # Inline set
+        ip6 nexthdr routing type @my_types accept  # Named set
+        ip6 nexthdr routing type > 0 accept        # Comparison
+        ip6 nexthdr routing segments-left 1 accept         # Matches 1 segment left
+        ip6 nexthdr routing segments-left in { 0, 1 } drop # Inline set
+        ip6 nexthdr routing segments-left @my_segments accept  # Named set
+        ip6 nexthdr routing segments-left > 0 accept       # Comparison
+        ip6 nexthdr routing addr fffe:::0001 accept
+
+        # ICMP ping dealt with separately to rate limit
+        ip6 nexthdr icmpv6 icmpv6 type echo-request limit rate over 1/second counter drop
+        ip6 nexthdr icmpv6 icmpv6 type echo-request counter accept
+        # accept neighbour discovery otherwise IPv6 connectivity breaks.
+        ip6 nexthdr icmpv6 icmpv6 type destination-unreachable counter accept;
+        ip6 nexthdr icmpv6 icmpv6 type packet-too-big counter accept;
+        ip6 nexthdr icmpv6 icmpv6 type time-exceeded counter accept;
+        ip6 nexthdr icmpv6 icmpv6 type parameter-problem counter accept;
+        ip6 nexthdr icmpv6 icmpv6 type echo-reply counter accept;
+        ip6 nexthdr icmpv6 icmpv6 type nd-router-advert counter accept;
+        ip6 nexthdr icmpv6 icmpv6 type nd-neighbor-solicit counter accept;
+        ip6 nexthdr icmpv6 icmpv6 type nd-neighbor-advert counter accept;
+        ip6 nexthdr icmpv6 icmpv6 code accept;
+        ip6 nexthdr icmpv6 icmpv6 id accept;
+        ip6 nexthdr icmpv6 icmpv6 sequence accept;
+
+        ip6 nexthdr dccp dport accept
+        ip6 nexthdr dccp sport accept
+        ip6 nexthdr dccp type accept
+        ip6 nexthdr dccp checksum accept
+
+        ip6 nexthdr dest opt-data 5
+        ip6 nexthdr dest opt-type 5 accept
+        ip6 nexthdr dest opt-len 40 accept
+        ip6 nexthdr dest opt-data 40 accept
+        ip6 nexthdr dest opt-data 0x0806 accept
+
+        ip6 nexthdr sctp dport accept
+        ip6 nexthdr sctp sport accept
+        ip6 nexthdr sctp vtag accept
+        ip6 nexthdr sctp checksum accept
+
+        ip6 nexthdr esp spi 5 accept
+        ip6 nexthdr esp sequence 5 accept
+
+        ip6 nexthdr tcp sport accept
+        ip6 nexthdr tcp dport accept
+        ip6 nexthdr tcp sequence accept
+        ip6 nexthdr tcp ackseq accept
+        ip6 nexthdr tcp doff accept
+        ip6 nexthdr tcp flags accept
+        ip6 nexthdr tcp window accept
+        ip6 nexthdr tcp checksum accept
+        ip6 nexthdr tcp urgptr accept
+
+        ip6 nexthdr udp sport accept
+        ip6 nexthdr udp dport accept
+        ip6 nexthdr udp length accept
+        ip6 nexthdr udp checksum accept
+
+        ip6 nexthdr ah spi 5 accept
+        ip6 nexthdr ah sequence 5 accept
+
+
+    }
+}
+delete chain C
+delete table T
