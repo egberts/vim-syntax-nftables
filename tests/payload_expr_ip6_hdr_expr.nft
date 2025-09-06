@@ -221,6 +221,7 @@ table T {
         ip6 nexthdr tcp doff @my_ports drop               # named set
         ip6 nexthdr tcp doff > 80 drop                    # comparison
         ip6 nexthdr tcp flags 0  accept                   # SYN flag
+        ip6 nexthdr tcp flags 0x80  accept                   # SYN flag
         ip6 nexthdr tcp flags syn accept                   # SYN flag
         ip6 nexthdr tcp flags ack accept                   # SYN flag
         ip6 nexthdr tcp flags rst accept                   # SYN flag
@@ -228,7 +229,7 @@ table T {
         ip6 nexthdr tcp flags urg accept                   # SYN flag
         ip6 nexthdr tcp flags ecn accept                   # SYN flag
         ip6 nexthdr tcp flags cwr accept                   # SYN flag
-        ip6 nexthdr tcp flags in {syn,psh, 1, ecn } accept                   # SYN flag
+        ip6 nexthdr tcp flags in {syn,psh, 1, 0xcf } accept                   # SYN flag
         #ip6 nexthdr tcp flags in { syn, ack } drop         # Inline set for flags
         ip6 nexthdr tcp flags @my_flags accept             # Named set for flags
         ip6 nexthdr tcp window 122 accept                    # Window Size
@@ -249,10 +250,26 @@ table T {
         ip6 nexthdr tcp dport 80 sport 443 accept          # mixed expressions
         ip6 nexthdr tcp sport 80 dport 443 accept          # mixed expressions
 
-        ip6 nexthdr udp sport accept
-        ip6 nexthdr udp dport accept
-        ip6 nexthdr udp length accept
-        ip6 nexthdr udp checksum accept
+        ip6 nexthdr udp sport 53 accept                    # Source port 53 (DNS)
+        ip6 nexthdr udp sport 0x35 accept                  # Source port 53 (DNS)
+        ip6 nexthdr udp sport in { 53, 456 } accept        # inline set
+        ip6 nexthdr udp sport @my_sports accept            # named set
+        ip6 nexthdr udp sport > 53 accept                  # comparison
+        ip6 nexthdr udp dport 53 accept                    # Source port 53 (DNS)
+        ip6 nexthdr udp dport 0x35 accept                  # Source port 53 (DNS)
+        ip6 nexthdr udp dport in { 53, 456 } accept        # inline set
+        ip6 nexthdr udp dport @my_dports accept            # named set
+        ip6 nexthdr udp dport > 53 accept                  # comparison
+        ip6 nexthdr udp length 127 accept                    # Source port 53 (DNS)
+        ip6 nexthdr udp length 0x35 accept                  # Source port 53 (DNS)
+        ip6 nexthdr udp length in { 53, 456 } accept        # inline set
+        ip6 nexthdr udp length @my_length accept            # named set
+        ip6 nexthdr udp length > 53 accept                  # comparison
+        ip6 nexthdr udp checksum 127 accept                    # Source port 53 (DNS)
+        ip6 nexthdr udp checksum 0x35 accept                  # Source port 53 (DNS)
+        ip6 nexthdr udp checksum in { 0x7fff, 0x8000 } accept        # inline set
+        ip6 nexthdr udp checksum @my_checksum accept            # named set
+        ip6 nexthdr udp checksum > 0x8001 accept                  # comparison
 
         ip6 nexthdr ah spi 22 accept  # specific value, integer
         ip6 nexthdr ah spi 0x16161616 accept  # specific value, hexidecimal
