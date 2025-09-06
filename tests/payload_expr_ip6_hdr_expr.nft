@@ -1,6 +1,8 @@
 
 add table ip T
 table T {
+    set my_ports { type number; elements = { 80, 443 } }
+    set my_flags { type string; elements = { "syn", "ack" } }
     chain C {
         type filter hook input priority 0; policy accept
 
@@ -193,15 +195,59 @@ table T {
         ip6 nexthdr esp sequence @named_esp_sequences accept  # named set
         ip6 nexthdr esp sequence > 1024 accept  # comparison
 
-        ip6 nexthdr tcp sport accept
-        ip6 nexthdr tcp dport accept
-        ip6 nexthdr tcp sequence accept
-        ip6 nexthdr tcp ackseq accept
-        ip6 nexthdr tcp doff accept
-        ip6 nexthdr tcp flags accept
-        ip6 nexthdr tcp window accept
-        ip6 nexthdr tcp checksum accept
-        ip6 nexthdr tcp urgptr accept
+        ip6 nexthdr tcp sport 80 accept                    # Source port 80
+        ip6 nexthdr tcp sport 0x4c accept                  # Source port 80 (hexidecimal)
+        ip6 nexthdr tcp sport in { 80, 443 } drop          # inline set
+        ip6 nexthdr tcp sport @my_ports drop               # named set
+        ip6 nexthdr tcp sport > 80 drop                    # comparison
+        ip6 nexthdr tcp dport 80 accept                    # Source port 80
+        ip6 nexthdr tcp dport 0x4c accept                  # Source port 80 (hexidecimal)
+        ip6 nexthdr tcp dport in { 80, 443 } drop          # inline set
+        ip6 nexthdr tcp dport @my_ports drop               # named set
+        ip6 nexthdr tcp dport > 80 drop                    # comparison
+        ip6 nexthdr tcp sequence 1000000 accept            # Sequence number
+        ip6 nexthdr tcp sequence 0x4c accept               # Sequence number (hexidecimal)
+        ip6 nexthdr tcp sequence in { 80, 443 } drop       # inline set
+        ip6 nexthdr tcp sequence @my_sequences drop        # named set
+        ip6 nexthdr tcp sequence > 80 drop                 # comparison
+        ip6 nexthdr tcp ackseq 1000000 accept            # Sequence number
+        ip6 nexthdr tcp ackseq 0x4c accept               # Sequence number (hexidecimal)
+        ip6 nexthdr tcp ackseq in { 80, 443 } drop       # inline set
+        ip6 nexthdr tcp ackseq @my_sequences drop        # named set
+        ip6 nexthdr tcp ackseq > 80 drop                 # comparison
+        ip6 nexthdr tcp doff 80 accept                    # Source port 80
+        ip6 nexthdr tcp doff 0x4c accept                  # Source port 80 (hexidecimal)
+        ip6 nexthdr tcp doff in { 80, 443 } drop          # inline set
+        ip6 nexthdr tcp doff @my_ports drop               # named set
+        ip6 nexthdr tcp doff > 80 drop                    # comparison
+        ip6 nexthdr tcp flags 0  accept                   # SYN flag
+        ip6 nexthdr tcp flags syn accept                   # SYN flag
+        ip6 nexthdr tcp flags ack accept                   # SYN flag
+        ip6 nexthdr tcp flags rst accept                   # SYN flag
+        ip6 nexthdr tcp flags psh accept                   # SYN flag
+        ip6 nexthdr tcp flags urg accept                   # SYN flag
+        ip6 nexthdr tcp flags ecn accept                   # SYN flag
+        ip6 nexthdr tcp flags cwr accept                   # SYN flag
+        ip6 nexthdr tcp flags in {syn,psh, 1, ecn } accept                   # SYN flag
+        #ip6 nexthdr tcp flags in { syn, ack } drop         # Inline set for flags
+        ip6 nexthdr tcp flags @my_flags accept             # Named set for flags
+        ip6 nexthdr tcp window 122 accept                    # Window Size
+        ip6 nexthdr tcp window 0x1234 accept               # Sequence number (hexidecimal)
+        ip6 nexthdr tcp window in { 80, 443 } drop       # inline set
+        ip6 nexthdr tcp window @my_tcp_window drop        # named set
+        ip6 nexthdr tcp window > 80 drop                 # comparison
+        ip6 nexthdr tcp checksum 1000000 accept            # Sequence number
+        ip6 nexthdr tcp checksum 0x4c accept               # Sequence number (hexidecimal)
+        ip6 nexthdr tcp checksum in { 80, 443 } drop       # inline set
+        ip6 nexthdr tcp checksum @my_checksums drop        # named set
+        ip6 nexthdr tcp checksum > 80 drop                 # comparison
+        ip6 nexthdr tcp urgptr 122 accept                    # Urgent pointer
+        ip6 nexthdr tcp urgptr 0x1234 accept               # Sequence number (hexidecimal)
+        ip6 nexthdr tcp urgptr in { 80, 443 } drop       # inline set
+        ip6 nexthdr tcp urgptr @my_tcp_urgptrs drop        # named set
+        ip6 nexthdr tcp urgptr > 80 drop                 # comparison
+        ip6 nexthdr tcp dport 80 sport 443 accept          # mixed expressions
+        ip6 nexthdr tcp sport 80 dport 443 accept          # mixed expressions
 
         ip6 nexthdr udp sport accept
         ip6 nexthdr udp dport accept
@@ -212,13 +258,13 @@ table T {
         ip6 nexthdr ah spi 0x16161616 accept  # specific value, hexidecimal
         ip6 nexthdr ah spi 0x16161616-0xffffffff accept  # range
         ip6 nexthdr ah spi in { 0x16, 22 } accept    # inline set
-        ip6 nexthdr ah spi @named_sctp_dports accept  # named set
+        ip6 nexthdr ah spi @named_ah_spis accept  # named set
         ip6 nexthdr ah spi > 1024 accept  # comparison
         ip6 nexthdr ah sequence 22 accept  # specific value, integer
         ip6 nexthdr ah sequence 0x16161616 accept  # specific value, hexidecimal
         ip6 nexthdr ah sequence 0x12345678-0x12345678 accept  # range
         ip6 nexthdr ah sequence in { 0x12345678, 0x16, 22 } accept    # inline set
-        ip6 nexthdr ah sequence @named_sctp_dports accept  # named set
+        ip6 nexthdr ah sequence @named_ah_sequences accept  # named set
         ip6 nexthdr ah sequence > 1024 accept  # comparison
 
     }
