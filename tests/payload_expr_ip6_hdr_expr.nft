@@ -180,8 +180,18 @@ table T {
         ip6 nexthdr sctp vtag @named_sctp_dports accept
         ip6 nexthdr sctp vtag > 1024 accept
 
-        ip6 nexthdr esp spi 5 accept
-        ip6 nexthdr esp sequence 5 accept
+        ip6 nexthdr esp spi 22 accept  # specific value, integer
+        ip6 nexthdr esp spi 0x16161616 accept  # specific value, hexidecimal
+        ip6 nexthdr esp spi 0x16161616-0xffffffff accept  # range
+        ip6 nexthdr esp spi in { 0x16, 22 } accept    # inline set
+        ip6 nexthdr esp spi @named_sctp_dports accept  # named set
+        ip6 nexthdr esp spi > 1024 accept  # comparison
+        ip6 nexthdr esp sequence 22 accept  # specific value, integer
+        ip6 nexthdr esp sequence 0x16161616 accept  # specific value, hexidecimal
+        ip6 nexthdr esp sequence 0x12345678-0x12345678 accept  # range
+        ip6 nexthdr esp sequence in { 0x12345678, 0x16, 22 } accept    # inline set
+        ip6 nexthdr esp sequence @named_sctp_dports accept  # named set
+        ip6 nexthdr esp sequence > 1024 accept  # comparison
 
         ip6 nexthdr tcp sport accept
         ip6 nexthdr tcp dport accept
@@ -198,8 +208,18 @@ table T {
         ip6 nexthdr udp length accept
         ip6 nexthdr udp checksum accept
 
-        ip6 nexthdr ah spi 5 accept
-        ip6 nexthdr ah sequence 5 accept
+        ip6 nexthdr ah spi 22 accept  # specific value, integer
+        ip6 nexthdr ah spi 0x16161616 accept  # specific value, hexidecimal
+        ip6 nexthdr ah spi 0x16161616-0xffffffff accept  # range
+        ip6 nexthdr ah spi in { 0x16, 22 } accept    # inline set
+        ip6 nexthdr ah spi @named_sctp_dports accept  # named set
+        ip6 nexthdr ah spi > 1024 accept  # comparison
+        ip6 nexthdr ah sequence 22 accept  # specific value, integer
+        ip6 nexthdr ah sequence 0x16161616 accept  # specific value, hexidecimal
+        ip6 nexthdr ah sequence 0x12345678-0x12345678 accept  # range
+        ip6 nexthdr ah sequence in { 0x12345678, 0x16, 22 } accept    # inline set
+        ip6 nexthdr ah sequence @named_sctp_dports accept  # named set
+        ip6 nexthdr ah sequence > 1024 accept  # comparison
 
 
     }
