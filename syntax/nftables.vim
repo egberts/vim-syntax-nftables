@@ -2031,10 +2031,10 @@ syn match nft_payload_expr_ip6_nexthdr_esp_sequence_dash_symbol '\v\-' contained
 \    nft_chainError
 
 hi link   nft_payload_expr_ip6_nexthdr_esp_sequence nftHL_Integer
-syn match nft_payload_expr_ip6_nexthdr_esp_sequence '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))\ze[ \t\-;$]' contained
+syn match nft_payload_expr_ip6_nexthdr_esp_sequence '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))' contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_esp_sequence_dash_symbol,
-\    nft_payload_expr_ip6_nexthdr_esp_keyword_spi
+\    nft_payload_expr_ip6_nexthdr_esp_keyword_spi,
+\    nft_payload_expr_ip6_nexthdr_esp_sequence_dash_symbol
 
 " ip6 nexthdr esp sequence in { 1,127,255 }
 hi link   nft_payload_expr_ip6_nexthdr_esp_set_block_sequence nftHL_Integer
@@ -2094,9 +2094,7 @@ syn match nft_payload_expr_ip6_nexthdr_esp_spi_dash_symbol '\v\-' contained
 hi link   nft_payload_expr_ip6_nexthdr_esp_spi nftHL_Integer
 syn match nft_payload_expr_ip6_nexthdr_esp_spi '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))' contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_esp_keyword_checksum,
-\    nft_payload_expr_ip6_nexthdr_esp_keyword_dport,
-\    nft_payload_expr_ip6_nexthdr_esp_keyword_spi,
+\    nft_payload_expr_ip6_nexthdr_esp_keyword_sequence,
 \    nft_payload_expr_ip6_nexthdr_esp_spi_dash_symbol,
 
 " ip6 nexthdr esp spi in { 1,127,255 }
@@ -2108,12 +2106,6 @@ hi link    nft_payload_expr_ip6_nexthdr_esp_spi_set_block nftHL_BlockDelimitersS
 syn region nft_payload_expr_ip6_nexthdr_esp_spi_set_block start=+{+ end=+}+ skipwhite contained
 \ contains=
 \    nft_payload_expr_ip6_nexthdr_esp_set_block_spi,
-
-" ip6 nexthdr esp spi in
-hi link   nft_payload_expr_ip6_nexthdr_esp_spi_keyword_in nftHL_Action
-syn match nft_payload_expr_ip6_nexthdr_esp_spi_keyword_in '\vin' skipwhite contained
-\ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_esp_spi_set_block
 
 " ip6 nexthdr esp spi >
 hi link   nft_payload_expr_ip6_nexthdr_esp_spi_operator_1char nftHL_Expression
@@ -2129,9 +2121,15 @@ syn match nft_payload_expr_ip6_nexthdr_esp_spi_operator_2char '\v([\>\<\!])\=' s
 \    nft_payload_expr_ip6_nexthdr_esp_spi,
 \    nft_chainError
 
+" ip6 nexthdr esp spi in
+hi link   nft_payload_expr_ip6_nexthdr_esp_spi_keyword_in nftHL_Action
+syn match nft_payload_expr_ip6_nexthdr_esp_spi_keyword_in '\vin' skipwhite contained
+\ nextgroup=
+\    nft_payload_expr_ip6_nexthdr_esp_spi_set_block
+
 " ip6 nexthdr esp spi
 hi link   nft_payload_expr_ip6_nexthdr_esp_keyword_spi nftHL_Action
-syn match nft_payload_expr_ip6_nexthdr_esp_keyword_spi '\vspi\ze[ \t]' skipwhite contained
+syn match nft_payload_expr_ip6_nexthdr_esp_keyword_spi '\vspi' skipwhite contained
 \ nextgroup=
 \    nft_payload_expr_ip6_nexthdr_esp_spi_operator_2char,
 \    nft_payload_expr_ip6_nexthdr_esp_spi_keyword_in,
