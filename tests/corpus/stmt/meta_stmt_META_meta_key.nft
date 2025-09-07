@@ -1,0 +1,33 @@
+# corpus/stmt/meta_stmt
+
+# setup
+flush ruleset
+add table T
+
+# exercise meta_stmt
+add chain T C {
+    type filter hook input priority 0; policy accept;
+    meta length 5
+    meta protocol 5
+    meta priority 5
+    meta random 5
+    meta secmark 0x0000
+}
+table T {
+    chain C {
+        meta length 5
+        meta protocol 5
+        meta priority 5
+        meta random 5
+        meta secmark 0x0000
+    }
+}
+insert rule T C meta length 5
+insert rule T C meta protocol 5
+insert rule T C meta priority 5
+insert rule T C meta random 5
+insert rule T C meta secmark 0x0000
+
+# cleanup
+delete chain C
+delete table T

@@ -1,0 +1,30 @@
+
+# File: payload_raw_expr.nft
+
+add table T
+
+table T {
+    chain C {
+        type filter hook input priority 0; policy drop;
+
+        @ih,0,8 43 accept
+        @ll,0,8 43 accept
+        @nh,0,8 43 accept
+        @th,0,8 43 accept
+
+        # IPv6 header: Hop-by-Hop as first header, Routing as second
+        ip6 nexthdr hop-by-hop @nh,0,8 43 counter accept
+
+        # IPv6 header: Routing as first header, Fragment as second
+        ip6 nexthdr routing @nh,0,8 44 counter accept
+
+        # IPv6 header: Hop-by-Hop as first, TCP as second
+        ip6 nexthdr hop-by-hop @nh,0,8 6 counter accept
+
+        # IPv6 header: Fragment as first, UDP as second
+        ip6 nexthdr fragment @nh,0,8 17 counter accept
+    }
+}
+
+delete chain C
+delete table T

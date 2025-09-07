@@ -1,0 +1,88 @@
+# corpus/stmt/meta_stmt/meta_key_unqualified
+#
+# syntax: 'meta' meta_key_unqualified 'set' stmt_expr
+
+# setup
+flush ruleset
+add table T
+
+# exercise meta_stmt
+add chain T C {
+    type filter hook input priority 0; policy accept;
+    # 'meta' meta_key meta_key_qualfied 'set' stmt_expr
+    meta length set 1
+    meta protocol set 1
+    meta priority set 1
+    meta random set 1
+    meta secmark set 1
+    # 'meta' meta_key meta_key_unqualfied 'set' stmt_expr
+    meta mark set 15
+    meta iif set "eno2"
+    meta oof set "eno2"
+    meta iifname set "eno2"
+    meta oifname set "eno2"
+    meta iiftype set 5
+    meta oiftype set 5
+    meta skuid set 5
+    meta skgid set 5
+    meta nftrace set 1
+    meta rtclassid set 1
+    meta ibriport set "br0"
+    meta obriport set "br0"
+    meta ibriname set "br0"
+    meta obriname set "br0"
+    meta pkttype set unicast
+    meta cpu set 5
+    meta iifgroup set 5
+    meta oifgroup set 5
+    meta cgroup set 000
+    meta ipsec 0
+    meta time set 12
+    meta day set 5
+    meta hour set 12
+    # meta_key_unqualfied 'set' stmt_expr
+    mark set 15
+    iif set "eno2"
+    oof set "eno2"
+    iifname set "eno2"
+    oifname set "eno2"
+    iiftype set 5
+    oiftype set 5
+    skuid set 5
+    skgid set 5
+    nftrace set 1
+    rtclassid set 1
+    ibriport set "br0"
+    obriport set "br0"
+    ibriname set "br0"
+    obriname set "br0"
+    pkttype set unicast
+    cpu set 5
+    iifgroup set 5
+    oifgroup set 5
+    cgroup set 000
+    ipsec 0
+    time set 12
+    day set 5
+    hour set 12
+    # meta_stmt
+    flow offload at flood 
+    flow add at flood 
+    notrack
+}
+table T {
+    chain C {
+    }
+}
+insert rule T C flow offload at flood 
+insert rule T C flow add at flood 
+insert rule T C notrack
+insert rule T C meta length 5
+insert rule T C meta protocol 5
+insert rule T C meta priority 5
+insert rule T C meta random 5
+insert rule T C meta secmark 0x0000
+
+# cleanup
+delete chain C
+delete table T

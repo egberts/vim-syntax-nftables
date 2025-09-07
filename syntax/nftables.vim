@@ -847,47 +847,59 @@ syn cluster nft_c_stmt_expr
 
 " ************************* Begin of 'payload_raw_expr' *************************
 " Inside chain_block
-hi link   nft_payload_raw_expr_value nftHL_Integer
-syn match nft_payload_raw_expr_value '\v(0x[0-9a-fA-F]{1,8})|([0-9]{1,10})' contained
+" '@ih,0,8 48'
+hi link   nft_payload_raw_expr_payload_raw_len nftHL_Integer
+syn match nft_payload_raw_expr_payload_raw_len '\v(0x[0-9a-fA-F]{1,8})|([0-9]{1,10})' skipwhite contained
 
+" '@ih,0,8'
 hi link   nft_payload_raw_expr_num2 nftHL_Integer
 syn match nft_payload_raw_expr_num2 '\v(0x[0-9a-fA-F]{1,4})|([0-9]{1,5})' skipwhite contained
 \ nextgroup=
-\    nft_payload_raw_expr_value
+\    nft_payload_raw_expr_payload_raw_len
 
+" '@ih,0,'
 hi link   nft_payload_raw_expr_comma2_symbol nftHL_Element
 syn match nft_payload_raw_expr_comma2_symbol '\v,' contained
 \ nextgroup=
 \    nft_payload_raw_expr_num2
 
+" '@ih,0'
 hi link   nft_payload_raw_expr_num1 nftHL_Integer
 syn match nft_payload_raw_expr_num1 '\v(0x[0-9a-fA-F]{1,4})|([0-9]{1,5})' contained
 \ nextgroup=
 \    nft_payload_raw_expr_comma2_symbol
 
+" '@ih,'
 hi link   nft_payload_raw_expr_comma1_symbol nftHL_Element
 syn match nft_payload_raw_expr_comma1_symbol '\v,' contained
 \ nextgroup=
 \    nft_payload_raw_expr_num1
 
+" Predefined payload base: @ih, @ll, @nh, @th
 " payload_raw_expr/payload_expr/primary_expr/basic_expr/concat_expr/relational_expr/match_stmt/stmt/rule_alloc/rule/chain_block ...
-hi link   nft_payload_raw_expr_keyword_at_ih nftHL_Statement
-syn match nft_payload_raw_expr_keyword_at_ih '\v\@ih' contained
+" '@ih,9,9 99'
+hi link   nft_payload_raw_expr_payload_base_spec_keyword_at_ih nftHL_Statement
+syn match nft_payload_raw_expr_payload_base_spec_keyword_at_ih '\v\@ih' contained
 \ nextgroup=
-\    nft_payload_raw_expr_comma1_symbol
-hi link   nft_payload_raw_expr_keyword_at_ll nftHL_Statement
-syn match nft_payload_raw_expr_keyword_at_ll '\v\@ll' contained
-\ nextgroup=
-\    nft_payload_raw_expr_comma1_symbol
-hi link   nft_payload_raw_expr_keyword_at_nh nftHL_Statement
-syn match nft_payload_raw_expr_keyword_at_nh '\v\@nh' contained
-\ nextgroup=
-\    nft_payload_raw_expr_comma1_symbol
-hi link   nft_payload_raw_expr_keyword_at_th nftHL_Statement
-syn match nft_payload_raw_expr_keyword_at_th '\v\@th' contained
-\ nextgroup=
-\    nft_payload_raw_expr_comma1_symbol
+\    nft_payload_raw_expr_comma1_symbol, nft_Error
 
+" '@ll,9,9 99'
+hi link   nft_payload_raw_expr_payload_base_spec_keyword_at_ll nftHL_Statement
+syn match nft_payload_raw_expr_payload_base_spec_keyword_at_ll '\v\@ll' contained
+\ nextgroup=
+\    nft_payload_raw_expr_comma1_symbol, nft_Error
+
+" '@nh,9,9 99'
+hi link   nft_payload_raw_expr_payload_base_spec_keyword_at_nh nftHL_Statement
+syn match nft_payload_raw_expr_payload_base_spec_keyword_at_nh '\v\@nh' contained
+\ nextgroup=
+\    nft_payload_raw_expr_comma1_symbol, nft_Error
+
+" '@th,9,9 99'
+hi link   nft_payload_raw_expr_payload_base_spec_keyword_at_th nftHL_Statement
+syn match nft_payload_raw_expr_payload_base_spec_keyword_at_th '\v\@th' contained
+\ nextgroup=
+\    nft_payload_raw_expr_comma1_symbol, nft_Error
 " ************************* End of 'payload_raw_expr' *************************
 
 " ************************* Begin of 'payload_expr' *************************
@@ -10735,10 +10747,10 @@ syn region nft_add_cmd_keyword_table_table_block_chain_chain_block_delimiters st
 \    nft_add_cmd_rule_rule_alloc_stmt_nat_stmt_nat_stmt_alloc_keyword_snat,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_time,
 \    nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_keyword_type,
-\    nft_payload_raw_expr_keyword_at_ih,
-\    nft_payload_raw_expr_keyword_at_ll,
-\    nft_payload_raw_expr_keyword_at_nh,
-\    nft_payload_raw_expr_keyword_at_th,
+\    nft_payload_raw_expr_payload_base_spec_keyword_at_ih,
+\    nft_payload_raw_expr_payload_base_spec_keyword_at_ll,
+\    nft_payload_raw_expr_payload_base_spec_keyword_at_nh,
+\    nft_payload_raw_expr_payload_base_spec_keyword_at_th,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_cpu,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_day,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iif,
