@@ -1,0 +1,109 @@
+
+add table T
+
+table T {
+    chain C {
+        tcp checksum 15 accept
+        tcp checksum 15 accept
+        tcp checksum 15-2000 accept
+        tcp checksum @named_set_tcp_checksum accept
+        tcp checksum in { 5, 10, 15 } accept
+        tcp checksum in {
+             5,
+             10,
+             15
+        } accept
+
+        tcp sequence 15 accept
+        tcp sequence > 15 accept
+        tcp sequence 15-2000 accept
+        tcp sequence @named_set_tcp_sequence accept
+        tcp sequence in { 5, 10, 15 } accept
+        tcp sequence in {
+             5,
+             10,
+             15
+        } accept;
+        tcp ackseq 15 accept
+        tcp ackseq > 15 accept
+        tcp ackseq 15-2000 accept
+        tcp ackseq @named_set_tcp_ackseq accept
+        tcp ackseq in { 5, 10, 15 } accept
+        tcp ackseq in {
+             5,
+             10,
+             15
+        } accept;
+        tcp urgptr 15 accept
+        tcp urgptr > 15 accept
+        tcp urgptr 15-2000 accept
+        tcp urgptr @named_set_tcp_urgptr accept
+        tcp urgptr in { 5, 10, 15 } accept
+        tcp urgptr in {
+             5,
+             10,
+             15
+        } accept;
+        tcp window 15 accept
+        tcp window > 15 accept
+        tcp window 15-2000 accept
+        tcp window @named_set_tcp_window accept
+        tcp window in { 5, 10, 15 } accept
+        tcp window in {
+             5,
+             10,
+             15
+        } accept;
+        tcp dport 15 accept
+        tcp dport > 15 accept
+        tcp dport 15-2000 accept
+        tcp dport @named_set_tcp_dport accept
+        tcp dport in { 5, 10, 15 } accept
+        tcp dport in {
+             5,
+             10,
+             15
+        } accept;
+        tcp flags 15 accept
+        tcp flags syn accept
+        tcp flags ack accept
+        tcp flags fin accept
+        tcp flags rst accept
+        tcp flags psh accept
+        tcp flags urg accept
+        tcp flags ecn accept
+        tcp flags cwr accept
+        tcp flags > 9 accept
+        tcp flags 1-9 accept
+        tcp flags @named_set_tcp_flags accept
+        tcp flags in { syn,6,8,ack,rst } accept
+        tcp flags in { 5, 10, 15 } accept
+        tcp flags in {
+             5,
+             10,
+             15
+        } accept;
+        tcp sport 15 accept
+        tcp sport > 15 accept
+        tcp sport 15-2000 accept
+        tcp sport @named_set_tcp_sport accept
+        tcp sport in { 5, 10, 15 } accept
+        tcp sport in {
+             5,
+             10,
+             15
+        } accept;
+        tcp doff 15 accept
+        tcp doff > 15 accept
+        tcp doff 15-2000 accept
+        tcp doff @named_set_tcp_sport accept
+        tcp doff in { 5, 10, 15 } accept
+        tcp doff in {
+             5,
+             10,
+             15
+        } accept;
+    }
+}
+delete chain C
+delete table T
