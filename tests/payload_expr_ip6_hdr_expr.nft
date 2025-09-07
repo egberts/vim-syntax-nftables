@@ -168,41 +168,41 @@ table T {
         ip6 nexthdr dest opt-data 40 accept
         ip6 nexthdr dest opt-data 0x0806 accept
 
-        ip6 nexthdr sctp checksum 22 accept
-        ip6 nexthdr sctp checksum 0x16161616 accept
-        ip6 nexthdr sctp checksum 0x16161616-0xffffffff accept
-        ip6 nexthdr sctp checksum in { 0x16, 22 } accept
-        ip6 nexthdr sctp checksum @named_sctp_dports accept
-        ip6 nexthdr sctp checksum > 1024 accept
-        ip6 nexthdr sctp dport 22 accept
-        ip6 nexthdr sctp dport 0x16 accept
-        ip6 nexthdr sctp dport in { 0x16, 22 } accept
-        ip6 nexthdr sctp dport @named_sctp_dports accept
-        ip6 nexthdr sctp dport > 1024 accept
-        ip6 nexthdr sctp sport 22 accept
-        ip6 nexthdr sctp sport 0x16 accept
-        ip6 nexthdr sctp sport in { 0x16, 22 } accept
-        ip6 nexthdr sctp sport @named_sctp_dports accept
-        ip6 nexthdr sctp sport > 1024 accept
-        ip6 nexthdr sctp vtag 22 accept
-        ip6 nexthdr sctp vtag 0x16 accept
-        ip6 nexthdr sctp vtag 0x00000000-0x80000000 accept
-        ip6 nexthdr sctp vtag in { 0x16, 22 } accept
-        ip6 nexthdr sctp vtag @named_sctp_dports accept
-        ip6 nexthdr sctp vtag > 1024 accept
+        ip6 nexthdr sctp sctp checksum 22 accept
+        ip6 nexthdr sctp sctp checksum 0x16161616 accept
+        ip6 nexthdr sctp sctp checksum 0x16161616-0xffffffff accept
+        ip6 nexthdr sctp sctp checksum in { 0x16, 22 } accept
+        ip6 nexthdr sctp sctp checksum @named_sctp_dports accept
+        ip6 nexthdr sctp sctp checksum > 1024 accept
+        ip6 nexthdr sctp sctp dport 22 accept
+        ip6 nexthdr sctp sctp dport 0x16 accept
+        ip6 nexthdr sctp sctp dport in { 0x16, 22 } accept
+        ip6 nexthdr sctp sctp dport @named_sctp_dports accept
+        ip6 nexthdr sctp sctp dport > 1024 accept
+        ip6 nexthdr sctp sctp sport 22 accept
+        ip6 nexthdr sctp sctp sport 0x16 accept
+        ip6 nexthdr sctp sctp sport in { 0x16, 22 } accept
+        ip6 nexthdr sctp sctp sport @named_sctp_dports accept
+        ip6 nexthdr sctp sctp sport > 1024 accept
+        ip6 nexthdr sctp sctp vtag 22 accept
+        ip6 nexthdr sctp sctp vtag 0x16 accept
+        ip6 nexthdr sctp sctp vtag 0x00000000-0x80000000 accept
+        ip6 nexthdr sctp sctp vtag in { 0x16, 22 } accept
+        ip6 nexthdr sctp sctp vtag @named_sctp_dports accept
+        ip6 nexthdr sctp sctp vtag > 1024 accept
 
-        ip6 nexthdr esp spi 22 accept  # specific value, integer
-        ip6 nexthdr esp spi 0x16161616 accept  # specific value, hexidecimal
-        ip6 nexthdr esp spi 0x16161616-0xffffffff accept  # range
-        #ip6 nexthdr esp spi in { 0x16, 22 } accept    # inline set
-        ip6 nexthdr esp spi @named_esp_spis accept  # named set
-        ip6 nexthdr esp spi > 1024 accept  # comparison
-        ip6 nexthdr esp sequence 22 accept  # specific value, integer
-        ip6 nexthdr esp sequence 0x16161616 accept  # specific value, hexidecimal
-        ip6 nexthdr esp sequence 0x12345678-0x12345678 accept  # range
-        ip6 nexthdr esp sequence in { 0x12345678, 0x16, 22 } accept    # inline set
-        ip6 nexthdr esp sequence @named_esp_sequences accept  # named set
-        ip6 nexthdr esp sequence > 1024 accept  # comparison
+        ip6 nexthdr esp esp spi 22 accept  # specific value, integer
+        ip6 nexthdr esp esp spi 0x16161616 accept  # specific value, hexidecimal
+        ip6 nexthdr esp esp spi 0x16161616-0xffffffff accept  # range
+        #ip6 nexthdr esp esp spi in { 0x16, 22 } accept    # inline set
+        ip6 nexthdr esp esp spi @named_esp_spis accept  # named set
+        ip6 nexthdr esp esp spi > 1024 accept  # comparison
+        ip6 nexthdr esp esp sequence 22 accept  # specific value, integer
+        ip6 nexthdr esp esp sequence 0x16161616 accept  # specific value, hexidecimal
+        ip6 nexthdr esp esp sequence 0x12345678-0x12345678 accept  # range
+        ip6 nexthdr esp esp sequence in { 0x12345678, 0x16, 22 } accept    # inline set
+        ip6 nexthdr esp esp sequence @named_esp_sequences accept  # named set
+        ip6 nexthdr esp esp sequence > 1024 accept  # comparison
 
         ip6 nexthdr tcp sport 80 accept                    # Source port 80
         ip6 nexthdr tcp sport 0x4c accept                  # Source port 80 (hexidecimal)
