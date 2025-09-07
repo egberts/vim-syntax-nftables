@@ -1,0 +1,50 @@
+
+add table T
+
+table T {
+    chain C {
+        udp checksum 15 accept
+        udp checksum 15-2000 accept
+        udp checksum @named_set_udp_checksum accept
+        udp checksum {5,10,15} accept
+        udp checksum in {5,10,15} accept
+        udp checksum in {
+             5,
+             10,
+             15
+        } accept
+
+        udp length 15 accept
+        udp length > 15 accept
+        udp length 15-2000 accept
+        udp length @named_set_udp_sequence accept
+        udp length in { 5, 10, 15 } accept
+        udp length in {
+             5,
+             10,
+             15
+        } accept;
+        udp dport 15 accept
+        udp dport > 15 accept
+        udp dport 15-2000 accept
+        udp dport @named_set_udp_ackseq accept
+        udp dport in { 5, 10, 15 } accept
+        udp dport in {
+             5,
+             10,
+             15
+        } accept;
+        udp sport 15 accept
+        udp sport > 15 accept
+        udp sport 15-2000 accept
+        udp sport @named_set_udp_urgptr accept
+        udp sport in { 5, 10, 15 } accept
+        udp sport in {
+             5,
+             10,
+             15
+        } accept;
+    }
+}
+delete chain C
+delete table T

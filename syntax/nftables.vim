@@ -2647,9 +2647,6 @@ syn match nft_payload_expr_keyword_esp '\vesp\ze[ \t]' skipwhite contained
 
 " ************************* Begin of ' tcp' *************************
 "  tcp: sport, dport, sequence, ackseq, doff, flags, window, checksum, urgptr
-hi link   nft_payload_expr_tcp_named_set nftHL_Set
-syn match nft_payload_expr_tcp_named_set '\v\@[a-zA-Z][a-zA-Z0-9\-_]{0,63}\ze[ \t;$]' skipwhite contained
-
 syn cluster nft_c_payload_expr_tcp_expressions
 \ contains=
 \    nft_payload_expr_tcp_keyword_sequence,
@@ -2661,7 +2658,12 @@ syn cluster nft_c_payload_expr_tcp_expressions
 \    nft_payload_expr_tcp_keyword_sport,
 \    nft_payload_expr_tcp_keyword_doff
 
-" ************************* Begin of ' tcp checksum' *************************
+hi link   nft_payload_expr_tcp_named_set nftHL_Set
+syn match nft_payload_expr_tcp_named_set '\v\@[a-zA-Z][a-zA-Z0-9\-_]{0,63}\ze[ \t\n]' skipwhite contained
+\ nextgroup=
+\    @nft_c_payload_expr_tcp_expressions
+
+" ************************* Begin of 'tcp checksum' *************************
 "  tcp checksum in { 1,127,255 }
 hi link   nft_payload_expr_tcp_inline_set_checksum nftHL_Integer
 syn match nft_payload_expr_tcp_inline_set_checksum '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))\ze[ \t,\}n]' skipwhite contained
@@ -3263,60 +3265,66 @@ syn match nft_payload_expr_keyword_tcp '\v[ \t]\zstcp' skipwhite contained
 
 " ************************* Begin of ' udp' *************************
 "  udp: sport, dport, length, checksum
-hi link   nft_payload_expr_udp_named_set nftHL_Set
-syn match nft_payload_expr_udp_named_set '\v\@[a-zA-Z][a-zA-Z0-9\-_]{0,63}\ze[ \t;$]' skipwhite contained
-
-" ************************* Begin of ' udp checksum' *************************
-"  udp checksum
-hi link   nft_payload_expr_udp_checksum_second nftHL_Integer
-syn match nft_payload_expr_udp_checksum_second '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t;$]' skipwhite contained
-\ nextgroup=
+syn cluster nft_c_payload_expr_udp_expressions
+\ contains=
+\    nft_payload_expr_udp_keyword_checksum,
 \    nft_payload_expr_udp_keyword_length,
 \    nft_payload_expr_udp_keyword_dport,
 \    nft_payload_expr_udp_keyword_sport
 
-hi link   nft_payload_expr_udp_checksum_dash_symbol nftHL_Expression
-syn match nft_payload_expr_udp_checksum_dash_symbol '\v\-' skipwhite contained
+hi link   nft_payload_expr_udp_named_set nftHL_Set
+syn match nft_payload_expr_udp_named_set '\v\@[a-zA-Z][a-zA-Z0-9\-_]{0,63}\ze[ \t\n]' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_udp_checksum_second,
-\    nft_chainError
+\    @nft_c_payload_expr_udp_expressions
 
-hi link   nft_payload_expr_udp_checksum nftHL_Integer
-syn match nft_payload_expr_udp_checksum '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t;\-$]' skipwhite contained
-\ nextgroup=
-\    nft_payload_expr_udp_keyword_length,
-\    nft_payload_expr_udp_keyword_dport,
-\    nft_payload_expr_udp_keyword_sport,
-\    nft_payload_expr_udp_checksum_dash_symbol
-
+" ************************* Begin of ' udp checksum' *************************
 "  udp checksum in { 1,127,255 }
-hi link   nft_payload_expr_udp_set_block_checksum nftHL_Integer
-syn match nft_payload_expr_udp_set_block_checksum '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t,;$\}]' skipwhite contained
+hi link   nft_payload_expr_udp_checksum_inline_set_num nftHL_Integer
+syn match nft_payload_expr_udp_checksum_inline_set_num '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t,\}\n]' skipwhite contained
 
 "  udp checksum in {  }
-hi link    nft_payload_expr_udp_checksum_set_block nftHL_BlockDelimitersSet
-syn region nft_payload_expr_udp_checksum_set_block start=+{+ end=+}+ skipwhite contained
+hi link    nft_payload_expr_udp_checksum_inline_set nftHL_BlockDelimitersSet
+syn region nft_payload_expr_udp_checksum_inline_set start=+{+ end=+}+ skipwhite contained
 \ contains=
-\    nft_payload_expr_udp_set_block_checksum
+\    nft_payload_expr_udp_checksum_inline_set_num
+\ nextgroup=
+\    @nft_c_payload_expr_udp_expressions
 
 "  udp checksum in
 hi link   nft_payload_expr_udp_checksum_keyword_in nftHL_Action
 syn match nft_payload_expr_udp_checksum_keyword_in '\vin' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_udp_checksum_set_block
+\    nft_payload_expr_udp_checksum_inline_set
+
+hi link   nft_payload_expr_udp_checksum_num2 nftHL_Integer
+syn match nft_payload_expr_udp_checksum_num2 '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    @nft_c_payload_expr_udp_expressions
+
+hi link   nft_payload_expr_udp_checksum_dash_symbol nftHL_Expression
+syn match nft_payload_expr_udp_checksum_dash_symbol '\v\-\ze[0-9]' skipwhite contained
+\ nextgroup=
+\    nft_payload_expr_udp_checksum_num2,
+\    nft_chainError
+
+hi link   nft_payload_expr_udp_checksum_num_or_range nftHL_Integer
+syn match nft_payload_expr_udp_checksum_num_or_range '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t\-]' contained
+\ nextgroup=
+\    @nft_c_payload_expr_udp_expressions,
+\    nft_payload_expr_udp_checksum_dash_symbol
 
 "  udp checksum >
 hi link   nft_payload_expr_udp_checksum_operator_1char nftHL_Expression
 syn match nft_payload_expr_udp_checksum_operator_1char '\v([\>\<\!])' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_udp_checksum,
+\    nft_payload_expr_udp_checksum_num_or_range,
 \    nft_chainError
 
 "  udp checksum >=
 hi link   nft_payload_expr_udp_checksum_operator_2char nftHL_Expression
 syn match nft_payload_expr_udp_checksum_operator_2char '\v([\>\<\!])\=' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_udp_checksum,
+\    nft_payload_expr_udp_checksum_num_or_range,
 \    nft_chainError
 
 "  udp checksum
@@ -3326,63 +3334,61 @@ syn match nft_payload_expr_udp_keyword_checksum '\vchecksum\ze[ \t]' skipwhite c
 \    nft_payload_expr_udp_checksum_operator_2char,
 \    nft_payload_expr_udp_checksum_keyword_in,
 \    nft_payload_expr_udp_checksum_operator_1char,
-\    nft_payload_expr_udp_checksum,
-\    nft_payload_expr_named_set,
+\    nft_payload_expr_udp_checksum_inline_set,
+\    nft_payload_expr_udp_checksum_num_or_range,
+\    nft_payload_expr_udp_named_set,
 \    nft_chainError
 " ************************* End of ' udp checksum' *************************
 
 " ************************* Begin of ' udp length' *************************
-"  udp length
-hi link   nft_payload_expr_udp_length_second nftHL_Integer
-syn match nft_payload_expr_udp_length_second '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t;$]' skipwhite contained
-\ nextgroup=
-\    nft_payload_expr_udp_keyword_checksum,
-\    nft_payload_expr_udp_keyword_dport,
-\    nft_payload_expr_udp_keyword_sport
-
-
-hi link   nft_payload_expr_udp_length_dash_symbol nftHL_Expression
-syn match nft_payload_expr_udp_length_dash_symbol '\v\-' contained
-\ nextgroup=
-\    nft_payload_expr_udp_length_second,
-\    nft_chainError
-
-hi link   nft_payload_expr_udp_length nftHL_Integer
-syn match nft_payload_expr_udp_length '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))' contained
-\ nextgroup=
-\    nft_payload_expr_udp_keyword_checksum,
-\    nft_payload_expr_udp_keyword_dport,
-\    nft_payload_expr_udp_keyword_sport,
-\    nft_payload_expr_udp_length_dash_symbol,
-
 "  udp length in { 1,127,255 }
-hi link   nft_payload_expr_udp_set_block_length nftHL_Integer
-syn match nft_payload_expr_udp_set_block_length '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t,;$\}]' contained
+hi link   nft_payload_expr_udp_length_inline_set_num nftHL_Integer
+syn match nft_payload_expr_udp_length_inline_set_num '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t,\}\n]' skipwhite contained
 
 "  udp length in {  }
-hi link    nft_payload_expr_udp_length_set_block nftHL_BlockDelimitersSet
-syn region nft_payload_expr_udp_length_set_block start=+{+ end=+}+ skipwhite contained
+hi link    nft_payload_expr_udp_length_inline_set nftHL_BlockDelimitersSet
+syn region nft_payload_expr_udp_length_inline_set start=+{+ end=+}+ skipwhite contained
 \ contains=
-\    nft_payload_expr_udp_set_block_length,
+\    nft_payload_expr_udp_length_inline_set_num
+\ nextgroup=
+\    @nft_c_payload_expr_udp_expressions
 
 "  udp length in
 hi link   nft_payload_expr_udp_length_keyword_in nftHL_Action
 syn match nft_payload_expr_udp_length_keyword_in '\vin' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_udp_length_set_block
+\    nft_payload_expr_udp_length_inline_set
+
+"  udp length
+hi link   nft_payload_expr_udp_length_num2 nftHL_Integer
+syn match nft_payload_expr_udp_length_num2 '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    @nft_c_payload_expr_udp_expressions
+
+hi link   nft_payload_expr_udp_length_dash_symbol nftHL_Expression
+syn match nft_payload_expr_udp_length_dash_symbol '\v\-\ze[0-9]' skipwhite contained
+\ nextgroup=
+\    nft_payload_expr_udp_length_num2,
+\    nft_chainError
+
+hi link   nft_payload_expr_udp_length_num_or_range nftHL_Integer
+syn match nft_payload_expr_udp_length_num_or_range '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t\-]' contained
+\ nextgroup=
+\    @nft_c_payload_expr_udp_expressions,
+\    nft_payload_expr_udp_length_dash_symbol
 
 "  udp length >
 hi link   nft_payload_expr_udp_length_operator_1char nftHL_Expression
 syn match nft_payload_expr_udp_length_operator_1char '\v([\>\<\!])' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_udp_length,
+\    nft_payload_expr_udp_length_num_or_range,
 \    nft_chainError
 
 "  udp length >=
 hi link   nft_payload_expr_udp_length_operator_2char nftHL_Expression
 syn match nft_payload_expr_udp_length_operator_2char '\v([\>\<\!])\=' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_udp_length,
+\    nft_payload_expr_udp_length_num_or_range,
 \    nft_chainError
 
 "  udp length
@@ -3392,48 +3398,61 @@ syn match nft_payload_expr_udp_keyword_length '\vlength\ze[ \t]' skipwhite conta
 \    nft_payload_expr_udp_length_operator_2char,
 \    nft_payload_expr_udp_length_keyword_in,
 \    nft_payload_expr_udp_length_operator_1char,
-\    nft_payload_expr_udp_length,
-\    nft_payload_expr_named_set,
+\    nft_payload_expr_udp_length_inline_set,
+\    nft_payload_expr_udp_length_num_or_range,
+\    nft_payload_expr_udp_named_set,
 \    nft_chainError
 " ************************* End of ' udp length' *************************
 
 " ************************* Begin of ' udp dport' *************************
-"   udp dport
-hi link   nft_payload_expr_udp_dport nftHL_Integer
-syn match nft_payload_expr_udp_dport '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t;$]' skipwhite contained
-\ nextgroup=
-\    nft_payload_expr_udp_keyword_checksum,
-\    nft_payload_expr_udp_keyword_length,
-\    nft_payload_expr_udp_keyword_sport
-
 "  udp dport in { 1,127,255 }
-hi link   nft_payload_expr_udp_set_block_dport nftHL_Integer
-syn match nft_payload_expr_udp_set_block_dport '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t,;$\}]' skipwhite contained
+hi link   nft_payload_expr_udp_dport_inline_set_num nftHL_Integer
+syn match nft_payload_expr_udp_dport_inline_set_num '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t,\}\n]' skipwhite contained
 
 "  udp dport in {  }
-hi link    nft_payload_expr_udp_dport_set_block nftHL_BlockDelimitersSet
-syn region nft_payload_expr_udp_dport_set_block start=+{+ end=+}+ skipwhite contained
+hi link    nft_payload_expr_udp_dport_inline_set nftHL_BlockDelimitersSet
+syn region nft_payload_expr_udp_dport_inline_set start=+{+ end=+}+ skipwhite contained
 \ contains=
-\    nft_payload_expr_udp_set_block_dport
+\    nft_payload_expr_udp_dport_inline_set_num
+\ nextgroup=
+\    @nft_c_payload_expr_udp_expressions
 
 "  udp dport in
 hi link   nft_payload_expr_udp_dport_keyword_in nftHL_Action
 syn match nft_payload_expr_udp_dport_keyword_in '\vin' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_udp_dport_set_block
+\    nft_payload_expr_udp_dport_inline_set
+
+hi link   nft_payload_expr_udp_dport_num2 nftHL_Integer
+syn match nft_payload_expr_udp_dport_num2 '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    @nft_c_payload_expr_udp_expressions
+
+hi link   nft_payload_expr_udp_dport_dash_symbol nftHL_Expression
+syn match nft_payload_expr_udp_dport_dash_symbol '\v\-\ze[0-9]' skipwhite contained
+\ nextgroup=
+\    nft_payload_expr_udp_dport_num2,
+\    nft_chainError
+
+"   udp dport
+hi link   nft_payload_expr_udp_dport_num_or_range nftHL_Integer
+syn match nft_payload_expr_udp_dport_num_or_range '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t\-]' skipwhite contained
+\ nextgroup=
+\    @nft_c_payload_expr_udp_expressions,
+\    nft_payload_expr_tcp_dport_dash_symbol
 
 "  udp dport >
 hi link   nft_payload_expr_udp_dport_operator_1char nftHL_Expression
 syn match nft_payload_expr_udp_dport_operator_1char '\v([\>\<\!])' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_udp_dport,
+\    nft_payload_expr_udp_dport_num_or_range,
 \    nft_chainError
 
 "  udp dport >=
 hi link   nft_payload_expr_udp_dport_operator_2char nftHL_Expression
 syn match nft_payload_expr_udp_dport_operator_2char '\v([\>\<\!])\=' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_udp_dport,
+\    nft_payload_expr_udp_dport_num_or_range,
 \    nft_chainError
 
 "  udp dport
@@ -3443,48 +3462,61 @@ syn match nft_payload_expr_udp_keyword_dport '\vdport\ze[ \t]' skipwhite contain
 \    nft_payload_expr_udp_dport_operator_2char,
 \    nft_payload_expr_udp_dport_keyword_in,
 \    nft_payload_expr_udp_dport_operator_1char,
-\    nft_payload_expr_udp_dport,
+\    nft_payload_expr_udp_dport_inline_set,
+\    nft_payload_expr_udp_dport_num_or_range,
 \    nft_payload_expr_udp_named_set,
 \    nft_chainError
-" ************************* End of ' udp dport' *************************
+" ************************* End of 'udp dport' *************************
 
-" ************************* Begin of ' udp sport' *************************
-"  udp sport
-hi link   nft_payload_expr_udp_sport nftHL_Integer
-syn match nft_payload_expr_udp_sport '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t;$]' skipwhite contained
-\ nextgroup=
-\    nft_payload_expr_udp_keyword_checksum,
-\    nft_payload_expr_udp_keyword_length,
-\    nft_payload_expr_udp_keyword_dport,
-
+" ************************* Begin of 'udp sport' *************************
 "  udp sport in { 1,127,255 }
-hi link   nft_payload_expr_udp_set_block_sport nftHL_Integer
-syn match nft_payload_expr_udp_set_block_sport '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t,;$\}]' skipwhite contained
+hi link   nft_payload_expr_udp_sport_inline_set_num nftHL_Integer
+syn match nft_payload_expr_udp_sport_inline_set_num '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t,\}\n]' skipwhite contained
 
 "  udp sport in {  }
-hi link    nft_payload_expr_udp_sport_set_block nftHL_BlockDelimitersSet
-syn region nft_payload_expr_udp_sport_set_block start=+{+ end=+}+ skipwhite contained
+hi link    nft_payload_expr_udp_sport_inline_set nftHL_BlockDelimitersSet
+syn region nft_payload_expr_udp_sport_inline_set start=+{+ end=+}+ skipwhite contained
 \ contains=
-\    nft_payload_expr_udp_set_block_sport
+\    nft_payload_expr_udp_sport_inline_set_num
+\ nextgroup=
+\    @nft_c_payload_expr_udp_expressions
 
 "  udp sport in
 hi link   nft_payload_expr_udp_sport_keyword_in nftHL_Action
 syn match nft_payload_expr_udp_sport_keyword_in '\vin' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_udp_sport_set_block
+\    nft_payload_expr_udp_sport_inline_set
+
+hi link   nft_payload_expr_udp_sport_num2 nftHL_Integer
+syn match nft_payload_expr_udp_sport_num2 '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    @nft_c_payload_expr_udp_expressions
+
+hi link   nft_payload_expr_udp_sport_dash_symbol nftHL_Expression
+syn match nft_payload_expr_udp_sport_dash_symbol '\v\-\ze[0-9]' skipwhite contained
+\ nextgroup=
+\    nft_payload_expr_udp_sport_num2,
+\    nft_chainError
+
+"   udp sport
+hi link   nft_payload_expr_udp_sport_num_or_range nftHL_Integer
+syn match nft_payload_expr_udp_sport_num_or_range '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t\-]' skipwhite contained
+\ nextgroup=
+\    @nft_c_payload_expr_udp_expressions,
+\    nft_payload_expr_tcp_sport_dash_symbol
 
 "  udp sport >
 hi link   nft_payload_expr_udp_sport_operator_1char nftHL_Expression
 syn match nft_payload_expr_udp_sport_operator_1char '\v([\>\<\!])' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_udp_sport,
+\    nft_payload_expr_udp_sport_num_or_range,
 \    nft_chainError
 
 "  udp sport >=
 hi link   nft_payload_expr_udp_sport_operator_2char nftHL_Expression
 syn match nft_payload_expr_udp_sport_operator_2char '\v([\>\<\!])\=' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_udp_sport,
+\    nft_payload_expr_udp_sport_num_or_range,
 \    nft_chainError
 
 "  udp sport
@@ -3494,10 +3526,12 @@ syn match nft_payload_expr_udp_keyword_sport '\vsport\ze[ \t]' skipwhite contain
 \    nft_payload_expr_udp_sport_operator_2char,
 \    nft_payload_expr_udp_sport_keyword_in,
 \    nft_payload_expr_udp_sport_operator_1char,
-\    nft_payload_expr_udp_sport,
-\    nft_payload_expr_named_set,
+\    nft_payload_expr_udp_sport_inline_set,
+\    nft_payload_expr_udp_sport_num_or_range,
+\    nft_payload_expr_udp_named_set,
 \    nft_chainError
 " ************************* End of ' udp sport' *************************
+
 
 
 hi link   nft_payload_expr_keyword_udp nftHL_Statement
