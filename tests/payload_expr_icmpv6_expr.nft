@@ -1,0 +1,23 @@
+
+add table T
+add chain C
+table T {
+    chain C {
+        type filter hook input priority 0; policy drop;
+        ip6 nexthdr icmpv6 icmpv6 type 1 accept
+        icmpv6 checksum 3 accept
+        icmpv6 code 3 accept
+        icmpv6 type echo-reply accept
+        icmpv6 id 15 accept
+
+        # Cross-over demonstration of reusing ICMPv6 expressions from above
+        icmpv6 id 1 type echo-reply code 3 type echo-reply checksum 15 accept
+        icmpv6 type 1 checksum 15 accept
+        icmpv6 type echo-reply checksum 15 accept
+        icmpv6 checksum 1000 code 1 type echo-reply id 100 accept
+        icmpv6 checksum in { 1 } code in { 123 } type in { echo-reply } id in { 10 } accept;
+        icmpv6 checksum { 1 } code { 123 } type { echo-reply } id { 10 } accept;
+
+        icmpv6 checksum in { 1 } code in { 123 } type in { echo-reply } id in { 1000 } accept
+    }
+}

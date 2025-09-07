@@ -1665,6 +1665,8 @@ hi link    nft_payload_expr_icmp_id_inline_set nftHL_BlockDelimitersSet
 syn region nft_payload_expr_icmp_id_inline_set start=+{+ end=+}+ skipwhite contained
 \ contains=
 \    nft_payload_expr_icmp_id_inline_set_num
+\ nextgroup=
+\    nft_c_payload_expr_icmp_expressions
 
 " ip6 nexthdr icmp id in
 hi link   nft_payload_expr_icmp_id_keyword_in nftHL_Action
@@ -1720,19 +1722,20 @@ syn match nft_payload_expr_keyword_icmp '\vicmp' skipwhite contained
 " ************************* Begin of 'icmpv6' expression *************************
 " Often prepended with 'ip6 nexthdr icmpv6'
 " type, code, checksum, type-specific fields (e.g., id, sequence)
-hi link   nft_payload_expr_named_set nftHL_Set
-syn match nft_payload_expr_named_set '\v\@[a-zA-Z][a-zA-Z0-9\-_]{0,63}\ze[ \t;$]' skipwhite contained
+hi link   nft_payload_expr_icmpv6_named_set nftHL_Set
+syn match nft_payload_expr_icmpv6_named_set '\v\@[a-zA-Z][a-zA-Z0-9\-_]{0,63}\ze[ \t;$]' skipwhite contained
 
-" ************************* Begin of 'icmpv6 sequence' expression *************************
-" 'icmpv6 code 1'
-hi link   nft_payload_expr_icmpv6_sequence nftHL_Integer
-syn match nft_payload_expr_icmpv6_sequence '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))\ze[ \t;$]' skipwhite contained
-\ nextgroup=
+syn cluster nft_c_payload_expr_icmpv6_expressions
+\ contains=
 \    nft_payload_expr_icmpv6_keyword_checksum,
+\    nft_payload_expr_icmpv6_keyword_sequence,
+\    nft_payload_expr_icmpv6_keyword_gateway,
 \    nft_payload_expr_icmpv6_keyword_code,
 \    nft_payload_expr_icmpv6_keyword_type,
+\    nft_payload_expr_icmpv6_keyword_mtu,
 \    nft_payload_expr_icmpv6_keyword_id,
 
+" ************************* Begin of 'icmpv6 sequence' expression *************************
 hi link   nft_payload_expr_icmpv6_sequence_inline_set_sequence nftHL_Integer
 syn match nft_payload_expr_icmpv6_sequence_inline_set_sequence '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))\ze[ \t,;$]' skipwhite contained
 
@@ -1741,12 +1744,20 @@ hi link    nft_payload_expr_icmpv6_sequence_inline_set nftHL_BlockDelimitersSet
 syn region nft_payload_expr_icmpv6_sequence_inline_set start=+{+ end=+}+ skipwhite contained
 \ contains=
 \    nft_payload_expr_icmpv6_sequence_inline_set_sequence
+\ nextgroup=
+\    nft_c_payload_expr_icmpv6_expressions
 
 " 'icmpv6 sequence in'
 hi link   nft_payload_expr_icmpv6_sequence_keyword_in nftHL_Action
 syn match nft_payload_expr_icmpv6_sequence_keyword_in '\vin' skipwhite contained
 \ nextgroup=
 \    nft_payload_expr_icmpv6_sequence_inline_set
+
+" 'icmpv6 code 1'
+hi link   nft_payload_expr_icmpv6_sequence nftHL_Integer
+syn match nft_payload_expr_icmpv6_sequence '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))\ze[ \t;$]' skipwhite contained
+\ nextgroup=
+\    nft_c_payload_expr_icmpv6_expressions
 
 " 'icmpv6 sequence >'
 hi link   nft_payload_expr_icmpv6_sequence_operator_1char nftHL_Expression
@@ -1770,33 +1781,33 @@ syn match nft_payload_expr_icmpv6_keyword_sequence '\vsequence\ze[ \t]' skipwhit
 \    nft_payload_expr_icmpv6_sequence_keyword_in,
 \    nft_payload_expr_icmpv6_sequence,
 \    nft_payload_expr_icmpv6_sequence_operator_1char,
-\    nft_payload_expr_named_set,
+\    nft_payload_expr_icmpv6_named_set,
 \    nft_chainError
 " ************************* End of 'icmpv6 sequence' expression *************************
 
 " ************************* Begin of 'icmpv6 checksum' expression *************************
-" 'icmpv6 code 1'
-hi link   nft_payload_expr_icmpv6_checksum nftHL_Integer
-syn match nft_payload_expr_icmpv6_checksum '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))\ze[ \t;$]' skipwhite contained
-\ nextgroup=
-\    nft_payload_expr_icmpv6_keyword_code,
-\    nft_payload_expr_icmpv6_keyword_type,
-\    nft_payload_expr_icmpv6_keyword_id,
-
 hi link   nft_payload_expr_icmpv6_checksum_inline_set_checksum nftHL_Integer
 syn match nft_payload_expr_icmpv6_checksum_inline_set_checksum '\v(0x[0-9a-fA-F]{1,8})|([0-9]{1,10})\ze[ \t,;$]' skipwhite contained
 
 " 'icmpv6 checksum in { 1 }'
-hi link   nft_payload_expr_icmpv6_checksum_inline_set nftHL_BlockDelimitersSet
+hi link    nft_payload_expr_icmpv6_checksum_inline_set nftHL_BlockDelimitersSet
 syn region nft_payload_expr_icmpv6_checksum_inline_set start=+{+ end=+}+ skipwhite contained
 \ contains=
 \    nft_payload_expr_icmpv6_checksum_inline_set_checksum
+\ nextgroup=
+\    @nft_c_payload_expr_icmpv6_expressions
 
 " 'icmpv6 checksum in'
 hi link   nft_payload_expr_icmpv6_checksum_keyword_in nftHL_Action
 syn match nft_payload_expr_icmpv6_checksum_keyword_in '\vin' skipwhite contained
 \ nextgroup=
 \    nft_payload_expr_icmpv6_checksum_inline_set
+
+" 'icmpv6 code 1'
+hi link   nft_payload_expr_icmpv6_checksum nftHL_Integer
+syn match nft_payload_expr_icmpv6_checksum '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))\ze[ \t;$]' skipwhite contained
+\ nextgroup=
+\    @nft_c_payload_expr_icmpv6_expressions
 
 " 'icmpv6 checksum >'
 hi link   nft_payload_expr_icmpv6_checksum_operator_1char nftHL_Expression
@@ -1820,25 +1831,22 @@ syn match nft_payload_expr_icmpv6_keyword_checksum '\vchecksum\ze[ \t]' skipwhit
 \    nft_payload_expr_icmpv6_checksum_keyword_in,
 \    nft_payload_expr_icmpv6_checksum,
 \    nft_payload_expr_icmpv6_checksum_operator_1char,
-\    nft_payload_expr_named_set,
+\    nft_payload_expr_icmpv6_named_set,
+\    nft_payload_expr_icmpv6_checksum_inline_set,
 \    nft_chainError
 " ************************* End of 'icmpv6 checksum' expression *************************
 
 " ************************* Begin of 'icmpv6 code' expression *************************
-" 'icmpv6 code 1'
-hi link   nft_payload_expr_icmpv6_code nftHL_Integer
-syn match nft_payload_expr_icmpv6_code '\v((0x[0-9a-fA-F]{1,2})|([0-9]{1,3}))\ze[ \t;$]' skipwhite contained
-\ nextgroup=
-\    nft_payload_expr_icmpv6_keyword_sequence,
-\    nft_payload_expr_icmpv6_keyword_checksum,
-\    nft_payload_expr_icmpv6_keyword_type,
-\    nft_payload_expr_icmpv6_keyword_id,
+hi link   nft_payload_expr_icmpv6_code_inline_set_num nftHL_Integer
+syn match nft_payload_expr_icmpv6_code_inline_set_num '\v((0x[0-9a-fA-F]{1,2})|([0-9]{1,3}))\ze[ \t;$]' skipwhite contained
 
 " 'icmpv6 code in { 1 }'
 hi link   nft_payload_expr_icmpv6_code_inline_set nftHL_BlockDelimitersSet
 syn region nft_payload_expr_icmpv6_code_inline_set start=+{+ end=+}+ skipwhite contained
 \ contains=
-\    nft_payload_expr_icmpv6_code
+\    nft_payload_expr_icmpv6_code_inline_set_num
+\ nextgroup=
+\    @nft_c_payload_expr_icmpv6_expressions
 
 " 'icmpv6 code in'
 hi link   nft_payload_expr_icmpv6_code_keyword_in nftHL_Action
@@ -1846,18 +1854,24 @@ syn match nft_payload_expr_icmpv6_code_keyword_in '\vin' skipwhite contained
 \ nextgroup=
 \    nft_payload_expr_icmpv6_code_inline_set
 
+" 'icmpv6 code 1'
+hi link   nft_payload_expr_icmpv6_code_num nftHL_Integer
+syn match nft_payload_expr_icmpv6_code_num '\v((0x[0-9a-fA-F]{1,2})|([0-9]{1,3}))\ze[ \t;$]' skipwhite contained
+\ nextgroup=
+\    @nft_c_payload_expr_icmpv6_expressions
+
 " 'icmpv6 code >'
 hi link   nft_payload_expr_icmpv6_code_operator_1char nftHL_Expression
 syn match nft_payload_expr_icmpv6_code_operator_1char '\v([\>\<\!])' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_icmpv6_code,
+\    nft_payload_expr_icmpv6_code_num,
 \    nft_chainError
 
 " 'icmpv6 code >='
 hi link   nft_payload_expr_icmpv6_code_operator_2char nftHL_Expression
 syn match nft_payload_expr_icmpv6_code_operator_2char '\v([\>\<\!])\=' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_icmpv6_code,
+\    nft_payload_expr_icmpv6_code_num,
 \    nft_chainError
 
 " 'icmpv6 code'
@@ -1866,106 +1880,104 @@ syn match nft_payload_expr_icmpv6_keyword_code '\vcode\ze[ \t]' skipwhite contai
 \ nextgroup=
 \    nft_payload_expr_icmpv6_code_operator_2char,
 \    nft_payload_expr_icmpv6_code_keyword_in,
-\    nft_payload_expr_icmpv6_code,
+\    nft_payload_expr_icmpv6_code_num,
 \    nft_payload_expr_icmpv6_code_operator_1char,
-\    nft_payload_expr_named_set,
+\    nft_payload_expr_icmpv6_code_inline_set,
+\    nft_payload_expr_icmpv6_named_set,
 \    nft_chainError
 " ************************* End of 'icmpv6 code' expression *************************
 
 " ************************* Begin of 'icmpv6 type' expression *************************
-" ip6 nexthdr icmpv6 type <type_name>
-hi link    nft_payload_expr_icmpv6_type_inline_set nftHL_BlockDelimitersSet
-syn region nft_payload_expr_icmpv6_type_inline_set start=+{+ end=+}+ skipwhite contained
-\ contains=
-\    nft_payload_expr_icmpv6_inline_set_type
-\ nextgroup=
-\    nft_payload_expr_icmpv6_keyword_sequence,
-\    nft_payload_expr_icmpv6_keyword_checksum,
-\    nft_payload_expr_icmpv6_keyword_code,
-\    nft_payload_expr_icmpv6_keyword_mtu,
-\    nft_payload_expr_icmpv6_keyword_id,
+hi link   nft_payload_expr_icmpv6_inline_set_type_num nftHL_Integer
+syn match nft_payload_expr_icmpv6_inline_set_type_num '\v[0-9]{1,3}\ze[ \t\},$]' skipwhite contained
 
-
-hi link   nft_payload_expr_icmpv6_inline_set_type Define
-syn match nft_payload_expr_icmpv6_inline_set_type
-\ '\v(destination\-unreachable|mld\-listener\-reduction|nd\-neighbor\-solicit|mld\-listener\-report|nd\-neighbor\-advert|mld\-listener\-query|nd\-router\-solicit|parameter\-problem|nd\-router\-advert|packet\-too\-big|time\-exceeded|nd\-redirect|echo\-request|echo\-reply)'
+hi link   nft_payload_expr_icmpv6_inline_set_type_defines nftHL_Define
+syn match nft_payload_expr_icmpv6_inline_set_type_defines
+\ '\v(destination\-unreachable|mld\-listener\-reduction|nd\-neighbor\-solicit|mld\-listener\-report|nd\-neighbor\-advert|mld\-listener\-query|nd\-router\-solicit|parameter\-problem|nd\-router\-advert|packet\-too\-big|time\-exceeded|nd\-redirect|echo\-request|echo\-reply)\ze[ \t\},$]'
 \ skipwhite contained
 
 " ip6 nexthdr icmpv6 type in { 1 }
-hi link   nft_payload_expr_icmpv6_type_inline_set nftHL_BlockDelimitersSet
+hi link    nft_payload_expr_icmpv6_type_inline_set nftHL_BlockDelimitersSet
 syn region nft_payload_expr_icmpv6_type_inline_set start=+{+ end=+}+ skipwhite contained
 \ contains=
-\    nft_payload_expr_icmpv6_inline_set_type
+\    nft_payload_expr_icmpv6_inline_set_type_defines,
+\    nft_payload_expr_icmpv6_inline_set_type_num
+\ nextgroup=
+\    @nft_c_payload_expr_icmpv6_expressions
 
 " ip6 nexthdr icmpv6 type in
 hi link   nft_payload_expr_icmpv6_type_keyword_in nftHL_Action
 syn match nft_payload_expr_icmpv6_type_keyword_in '\vin' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_icmpv6_type_inline_set
+\    nft_payload_expr_icmpv6_type_inline_set,
+\    nft_Error
 
-hi link   nft_payload_expr_icmpv6_type Define
-syn match nft_payload_expr_icmpv6_type
+hi link   nft_payload_expr_icmpv6_type_num nftHL_Integer
+syn match nft_payload_expr_icmpv6_type_num '\v[0-9]{1,3}\ze[ \t$]' skipwhite contained
+\ nextgroup=
+\    @nft_c_payload_expr_icmpv6_expressions
+
+hi link   nft_payload_expr_icmpv6_type_defines nftHL_Define
+syn match nft_payload_expr_icmpv6_type_defines
 \ '\v(destination\-unreachable|mld\-listener\-reduction|nd\-neighbor\-solicit|mld\-listener\-report|nd\-neighbor\-advert|mld\-listener\-query|nd\-router\-solicit|parameter\-problem|nd\-router\-advert|packet\-too\-big|time\-exceeded|nd\-redirect|echo\-request|echo\-reply)'
 \ skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_icmpv6_keyword_sequence,
-\    nft_payload_expr_icmpv6_keyword_checksum,
-\    nft_payload_expr_icmpv6_keyword_gateway,
-\    nft_payload_expr_icmpv6_keyword_code,
-\    nft_payload_expr_icmpv6_keyword_mtu,
-\    nft_payload_expr_icmpv6_keyword_id,
+\    @nft_c_payload_expr_icmpv6_expressions
 
 " ip6 nexthdr icmpv6 type >
 hi link   nft_payload_expr_icmpv6_type_operator_1char nftHL_Expression
 syn match nft_payload_expr_icmpv6_type_operator_1char '\v([\>\<\!])' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_icmpv6_type,
+\    nft_payload_expr_icmpv6_type_defines,
+\    nft_payload_expr_icmpv6_type_num,
 \    nft_chainError
 
 " ip6 nexthdr icmpv6 type >=
 hi link   nft_payload_expr_icmpv6_type_operator_2char nftHL_Expression
 syn match nft_payload_expr_icmpv6_type_operator_2char '\v([\>\<\!])\=' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_icmpv6_type,
+\    nft_payload_expr_icmpv6_type_defines,
+\    nft_payload_expr_icmpv6_type_num,
 \    nft_chainError
 
 " ip6 nexthdr icmpv6 type
 hi link   nft_payload_expr_icmpv6_keyword_type nftHL_Action
-syn match nft_payload_expr_icmpv6_keyword_type '\vtype\ze[ \t;$]' skipwhite contained
+syn match nft_payload_expr_icmpv6_keyword_type '\vtype\ze[ \t$]' skipwhite contained
 \ nextgroup=
 \    nft_payload_expr_icmpv6_type_operator_2char,
 \    nft_payload_expr_icmpv6_type_keyword_in,
-\    nft_payload_expr_icmpv6_type,
+\    nft_payload_expr_icmpv6_type_defines,
 \    nft_payload_expr_icmpv6_type_operator_1char,
 \    nft_payload_expr_icmpv6_type_inline_set,
-\    nft_payload_expr_named_set,
+\    nft_payload_expr_icmpv6_named_set,
+\    nft_payload_expr_icmpv6_type_num,
 \    nft_chainError
 " ************************* End of 'icmpv6 type' expression *************************
 
 " ************************* Begin of 'icmpv6 id' expression *************************
-hi link   nft_payload_expr_icmpv6_id nftHL_Integer
-syn match nft_payload_expr_icmpv6_id '\v((0x[0-9a-fA-F]{1,2})|([0-9]{1,3}))\ze[ \t;$]' skipwhite contained
-\ nextgroup=
-\    nft_payload_expr_icmpv6_keyword_sequence,
-\    nft_payload_expr_icmpv6_keyword_checksum,
-\    nft_payload_expr_icmpv6_keyword_code,
-\    nft_payload_expr_icmpv6_keyword_type,
-
 " ip6 nexthdr icmpv6 id in { 1,127,255 }
 hi link   nft_payload_expr_icmpv6_inline_set_id nftHL_Integer
-syn match nft_payload_expr_icmpv6_inline_set_id '\v((0x[0-9a-fA-F]{1,2})|([0-9]{1,3}))\ze[ \t,;$\}]' skipwhite contained
+syn match nft_payload_expr_icmpv6_inline_set_id '\v((0x[0-9a-fA-F]{1,2})|([0-9]{1,3}))\ze[ \t,$\}]' skipwhite contained
 
 " ip6 nexthdr icmpv6 id in {  }
 hi link    nft_payload_expr_icmpv6_id_inline_set nftHL_BlockDelimitersSet
 syn region nft_payload_expr_icmpv6_id_inline_set start=+{+ end=+}+ skipwhite contained
 \ contains=
 \    nft_payload_expr_icmpv6_inline_set_id
+\ nextgroup=
+\    @nft_c_payload_expr_icmpv6_expressions
 
 " ip6 nexthdr icmpv6 id in
 hi link   nft_payload_expr_icmpv6_id_keyword_in nftHL_Action
 syn match nft_payload_expr_icmpv6_id_keyword_in '\vin' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_icmpv6_id_inline_set
+\    nft_payload_expr_icmpv6_id_inline_set,
+\    nft_Error
+
+hi link   nft_payload_expr_icmpv6_id nftHL_Integer
+syn match nft_payload_expr_icmpv6_id '\v((0x[0-9a-fA-F]{1,2})|([0-9]{1,3}))\ze[ \t$]' skipwhite contained
+\ nextgroup=
+\    @nft_c_payload_expr_icmpv6_expressions
 
 " ip6 nexthdr icmpv6 id >
 hi link   nft_payload_expr_icmpv6_id_operator_1char nftHL_Expression
@@ -1990,8 +2002,17 @@ syn match nft_payload_expr_icmpv6_keyword_id '\vid\ze[ \t]' skipwhite contained
 \    nft_payload_expr_icmpv6_id_operator_1char,
 \    nft_payload_expr_icmpv6_id,
 \    nft_payload_expr_named_set,
+\    nft_payload_expr_icmpv6_id_inline_set,
 \    nft_chainError
 " ************************* End of 'icmpv6 id' expression *************************
+
+syn cluster nft_c_payload_expr_icmpv6_expressions
+\ contains=
+\    nft_payload_expr_icmpv6_keyword_sequence,
+\    nft_payload_expr_icmpv6_keyword_checksum,
+\    nft_payload_expr_icmpv6_keyword_code,
+\    nft_payload_expr_icmpv6_keyword_type,
+\    nft_payload_expr_icmpv6_keyword_id
 
 " 'icmpv6', or 'ip6 nexthdr icmpv6 icmpv6'
 hi link   nft_payload_expr_keyword_icmpv6 nftHL_Command
