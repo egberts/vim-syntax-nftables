@@ -1485,6 +1485,11 @@ syn match nft_payload_expr_icmpv6_type
 \    nft_payload_expr_icmpv6_keyword_code,
 \    nft_payload_expr_icmpv6_keyword_id,
 
+hi link    nft_payload_expr_icmpv6_type_inline_set nftHL_BlockDelimitersSet
+syn region nft_payload_expr_icmpv6_type_inline_set start=+{+ end=+}+ skipwhite contained
+\ contains=
+\    nft_payload_expr_icmpv6_type
+
 hi link   nft_payload_expr_icmpv6_set_block_type Define
 syn match nft_payload_expr_icmpv6_set_block_type
 \ '\v(destination\-unreachable|mld\-listener\-reduction|nd\-neighbor\-solicit|mld\-listener\-report|nd\-neighbor\-advert|mld\-listener\-query|nd\-router\-solicit|parameter\-problem|nd\-router\-advert|packet\-too\-big|time\-exceeded|nd\-redirect|echo\-request|echo\-reply)'
@@ -1524,6 +1529,7 @@ syn match nft_payload_expr_icmpv6_keyword_type '\vtype\ze[ \t;$]' skipwhite cont
 \    nft_payload_expr_icmpv6_type_keyword_in,
 \    nft_payload_expr_icmpv6_type,
 \    nft_payload_expr_icmpv6_type_operator_1char,
+\    nft_payload_expr_icmpv6_type_inline_set,
 \    nft_payload_expr_named_set,
 \    nft_chainError
 " ************************* End of 'icmpv6 type' expression *************************
