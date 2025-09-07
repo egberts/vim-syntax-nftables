@@ -31,6 +31,7 @@ table T {
         ip6 hoplimit not 1000 accept        # Matches range with comparison
         ip6 hoplimit in { 1234, 5678 } drop  # Matches inline set
 
+        ip6 nexthdr 46 accept
         ip6 nexthdr hop-by-hop opt-type 5 accept;
         ip6 nexthdr hop-by-hop opt-len 40 accept
         ip6 nexthdr hop-by-hop opt-data 40 accept
