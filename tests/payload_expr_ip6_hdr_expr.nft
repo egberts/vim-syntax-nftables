@@ -128,6 +128,7 @@ table T {
         ip6 nexthdr icmpv6 icmpv6 id > 127 accept;
         ip6 nexthdr icmpv6 icmpv6 code 15 id 1 accept;
         ip6 nexthdr icmpv6 icmpv6 id 15 code 15 accept;
+        ip6 ecn 1 ip6 nexthdr icmpv6
 
         # nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_keyword_ip6
         # nft_payload_expr_keyword_dccp

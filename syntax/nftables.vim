@@ -3200,6 +3200,13 @@ syn match nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_keywor
 " ************************* Begin of 'log_stmt' *************************
 hi link   nft_stmt_log_stmt_log_arg_num nftHL_Integer
 syn match nft_stmt_log_stmt_log_arg_num '\v[0-9]{1,10}' skipwhite contained
+\ nextgroup=
+\    nft_stmt_log_stmt_log_arg_keyword_prefix,
+\    nft_stmt_log_stmt_log_arg_keyword_group,
+\    nft_stmt_log_stmt_log_arg_keyword_snaplen,
+\    nft_stmt_log_stmt_log_arg_keyword_queue_threshold,
+\    nft_stmt_log_stmt_log_arg_keyword_level,
+\    nft_stmt_log_stmt_log_arg_keyword_flags,
 
 hi link   nft_stmt_log_stmt_log_arg_keyword_queue_threshold nftHL_Action
 syn match nft_stmt_log_stmt_log_arg_keyword_queue_threshold '\vqueue\-threshold\ze[ \t]' skipwhite contained
@@ -3216,9 +3223,16 @@ syn match nft_stmt_log_stmt_log_arg_keyword_snaplen '\vsnaplen\ze[ \t]' skipwhit
 hi link   nft_stmt_log_stmt_log_arg_keyword_prefix_string_valid nftHL_String
 syn match nft_stmt_log_stmt_log_arg_keyword_prefix_string_valid '\v[ a-zA-Z0-9_\-:;~!@#\$%^&\*\(\)\+\|\}\{\?><`=\\\]\[\'\/\.,]{1,64}' skipwhite contained
 
-syn region nft_stmt_log_stmt_log_arg_keyword_prefix_string start='\"' end='\"' contained
+syn region nft_stmt_log_stmt_log_arg_keyword_prefix_string start='\"' end='\"' skipwhite contained
 \ contains=
 \    nft_stmt_log_stmt_log_arg_keyword_prefix_string_valid
+\ nextgroup=
+\    nft_stmt_log_stmt_log_arg_keyword_prefix,
+\    nft_stmt_log_stmt_log_arg_keyword_group,
+\    nft_stmt_log_stmt_log_arg_keyword_snaplen,
+\    nft_stmt_log_stmt_log_arg_keyword_queue_threshold,
+\    nft_stmt_log_stmt_log_arg_keyword_level,
+\    nft_stmt_log_stmt_log_arg_keyword_flags,
 
 hi link   nft_stmt_log_stmt_log_arg_keyword_prefix nftHL_Action
 syn match nft_stmt_log_stmt_log_arg_keyword_prefix '\vprefix\ze[ \t]' skipwhite contained
@@ -3228,6 +3242,13 @@ syn match nft_stmt_log_stmt_log_arg_keyword_prefix '\vprefix\ze[ \t]' skipwhite 
 
 hi link   nft_stmt_log_stmt_log_arg_keyword_level_defines nftHL_Define
 syn match nft_stmt_log_stmt_log_arg_keyword_level_defines '\v(notice|alert|debug|emerg|crit|info|warn|err)' skipwhite contained
+\ nextgroup=
+\    nft_stmt_log_stmt_log_arg_keyword_prefix,
+\    nft_stmt_log_stmt_log_arg_keyword_group,
+\    nft_stmt_log_stmt_log_arg_keyword_snaplen,
+\    nft_stmt_log_stmt_log_arg_keyword_queue_threshold,
+\    nft_stmt_log_stmt_log_arg_keyword_level,
+\    nft_stmt_log_stmt_log_arg_keyword_flags,
 
 hi link   nft_stmt_log_stmt_log_arg_log_flags_keyword_ether nftHL_Action
 syn match nft_stmt_log_stmt_log_arg_log_flags_keyword_ether '\vether' skipwhite contained
