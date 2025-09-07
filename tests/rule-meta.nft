@@ -89,7 +89,7 @@
 # meta_stmt - flags only (support expression only in meta_expr)
 rule T C meta random;  # qualified META (requires 'meta' before it)
 rule T C ipsec;  # 'meta ipsec 0' only in meta_expr
-rule T C meta ipsec;  # 'meta ipsec 0' only in meta_expr
+rule T C meta ipsec exists;  # 'meta ipsec 0' only in meta_expr
 rule T C nftrace;  # 'meta nftrace == 1' only in meta_expr
 rule T C meta nftrace;  # 'meta nftrace == 1' only in meta_expr
 

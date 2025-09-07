@@ -900,6 +900,13 @@ hi link   nft_payload_raw_expr_payload_base_spec_keyword_at_th nftHL_Statement
 syn match nft_payload_raw_expr_payload_base_spec_keyword_at_th '\v\@th' contained
 \ nextgroup=
 \    nft_payload_raw_expr_comma1_symbol, nft_Error
+
+" '@<string>,9,9 99'
+hi link   nft_payload_raw_expr_payload_base_spec_keyword_at_string nftHL_Statement
+syn match nft_payload_raw_expr_payload_base_spec_keyword_at_string '\v\@[a-zA-Z][a-zA-Z0-9\-_]{0,15}\ze,' contained
+\ nextgroup=
+\    nft_payload_raw_expr_comma1_symbol, nft_Error
+
 " ************************* End of 'payload_raw_expr' *************************
 
 " ************************* Begin of 'payload_expr' *************************
@@ -923,6 +930,7 @@ syn match nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_keywor
 " ip protocol: tcp, udp, icmp, igmp, esp, ah, sctp, dccp, gre, ipip, ipv6.
 " icmp protocol: echo-reply, destination-unreachable, source-quench, redirect, echo-request, router-advertisement, router-solicitation, time-exceeded, parameter-problem, timestamp-request, timestamp-reply, info-request, info-reply, address-mask-request, address-mask-reply.
 " Takeaway: corresponding 'ip[6] nexthdr' and 'ip[6] protocol' are identical
+" Enforce 'ip protocol' and 'ip6 nexthdr'
 hi link   nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_keyword_ip nftHL_Statement
 syn match nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_keyword_ip '\vip' skipwhite contained
 \ nextgroup=
@@ -10758,6 +10766,7 @@ syn region nft_add_cmd_keyword_table_table_block_chain_chain_block_delimiters st
 \    nft_stmt_log_stmt_log_stmt_alloc_keyword_log,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oif,
 \    nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_keyword_ip,
+\    nft_payload_raw_expr_payload_base_spec_keyword_at_string,
 \    nft_comment_inline,
 \    nft_add_cmd_keyword_table_table_block_chain_chain_block_stmt_separator,
 \    nft_rule_cluster_Error

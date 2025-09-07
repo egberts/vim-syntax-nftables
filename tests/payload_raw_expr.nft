@@ -11,6 +11,11 @@ table T {
         @ll,0,8 43 accept
         @nh,0,8 43 accept
         @th,0,8 43 accept
+        @s3,0,16 65536 drop
+
+        @ll,96,16 0x86DD counter accept  # Matches EtherType for IPv6 (0x86DD)
+        ip6 nexthdr tcp @th,16,16 80 counter accept  # TCP destination port 80
+        ip protocol ipip @ih,8,8 6 counter accept  # Inner IPv4 header with TCP
 
         # IPv6 header: Hop-by-Hop as first header, Routing as second
         ip6 nexthdr hop-by-hop @nh,0,8 43 counter accept
