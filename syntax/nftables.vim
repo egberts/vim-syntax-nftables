@@ -1895,7 +1895,7 @@ syn match nft_payload_expr_sctp_keyword_checksum '\vchecksum\ze[ \t]' skipwhite 
 \    nft_payload_expr_sctp_checksum_keyword_in,
 \    nft_payload_expr_sctp_checksum_operator_1char,
 \    nft_payload_expr_sctp_checksum,
-\    nft_payload_expr_ip6_nexthdr_named_set,
+\    nft_payload_expr_named_set,
 \    nft_chainError
 " ************************* End of 'sctp checksum' *************************
 
@@ -1946,7 +1946,7 @@ syn match nft_payload_expr_sctp_keyword_dport '\vdport\ze[ \t]' skipwhite contai
 \    nft_payload_expr_sctp_dport_keyword_in,
 \    nft_payload_expr_sctp_dport_operator_1char,
 \    nft_payload_expr_sctp_dport,
-\    nft_payload_expr_ip6_nexthdr_named_set,
+\    nft_payload_expr_named_set,
 \    nft_chainError
 " ************************* End of ' sctp dport' *************************
 
@@ -1997,7 +1997,7 @@ syn match nft_payload_expr_sctp_keyword_sport '\vsport\ze[ \t]' skipwhite contai
 \    nft_payload_expr_sctp_sport_keyword_in,
 \    nft_payload_expr_sctp_sport_operator_1char,
 \    nft_payload_expr_sctp_sport,
-\    nft_payload_expr_ip6_nexthdr_named_set,
+\    nft_payload_expr_named_set,
 \    nft_chainError
 " ************************* End of 'sctp sport' *************************
 
@@ -2064,7 +2064,7 @@ syn match nft_payload_expr_sctp_keyword_vtag '\vvtag\ze[ \t]' skipwhite containe
 \    nft_payload_expr_sctp_vtag_keyword_in,
 \    nft_payload_expr_sctp_vtag_operator_1char,
 \    nft_payload_expr_sctp_vtag,
-\    nft_payload_expr_ip6_nexthdr_named_set,
+\    nft_payload_expr_named_set,
 \    nft_chainError
 " ************************* End of 'sctp vtag' *************************
 
@@ -2078,1001 +2078,1001 @@ syn match nft_payload_expr_keyword_sctp '\vsctp' skipwhite contained
 \    nft_chainError
 " ************************* End of ' sctp' *************************
 
-" ************************* Begin of 'ip6 nexthdr esp' *************************
-" ip6 nexthdr esp: spi, sequence
-" ************************* Begin of 'ip6 nexthdr esp sequence' *************************
-" ip6 nexthdr esp sequence
-hi link   nft_payload_expr_ip6_nexthdr_esp_sequence_second nftHL_Integer
-syn match nft_payload_expr_ip6_nexthdr_esp_sequence_second '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))\ze[ \t;$]' contained
+" ************************* Begin of ' esp' *************************
+"  esp: spi, sequence
+" ************************* Begin of ' esp sequence' *************************
+"  esp sequence
+hi link   nft_payload_expr_esp_sequence_second nftHL_Integer
+syn match nft_payload_expr_esp_sequence_second '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))\ze[ \t;$]' contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_esp_keyword_spi,
+\    nft_payload_expr_esp_keyword_spi,
 
-hi link   nft_payload_expr_ip6_nexthdr_esp_sequence_dash_symbol nftHL_Expression
-syn match nft_payload_expr_ip6_nexthdr_esp_sequence_dash_symbol '\v\-' contained
+hi link   nft_payload_expr_esp_sequence_dash_symbol nftHL_Expression
+syn match nft_payload_expr_esp_sequence_dash_symbol '\v\-' contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_esp_sequence_second,
+\    nft_payload_expr_esp_sequence_second,
 \    nft_chainError
 
-hi link   nft_payload_expr_ip6_nexthdr_esp_sequence nftHL_Integer
-syn match nft_payload_expr_ip6_nexthdr_esp_sequence '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))' contained
+hi link   nft_payload_expr_esp_sequence nftHL_Integer
+syn match nft_payload_expr_esp_sequence '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))' contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_esp_keyword_spi,
-\    nft_payload_expr_ip6_nexthdr_esp_sequence_dash_symbol
+\    nft_payload_expr_esp_keyword_spi,
+\    nft_payload_expr_esp_sequence_dash_symbol
 
-" ip6 nexthdr esp sequence in { 1,127,255 }
-hi link   nft_payload_expr_ip6_nexthdr_esp_set_block_sequence nftHL_Integer
-syn match nft_payload_expr_ip6_nexthdr_esp_set_block_sequence '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))\ze[ \t,;$\}]' contained
+"  esp sequence in { 1,127,255 }
+hi link   nft_payload_expr_esp_set_block_sequence nftHL_Integer
+syn match nft_payload_expr_esp_set_block_sequence '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))\ze[ \t,;$\}]' contained
 
-" ip6 nexthdr esp sequence in {  }
-hi link    nft_payload_expr_ip6_nexthdr_esp_sequence_set_block nftHL_BlockDelimitersSet
-syn region nft_payload_expr_ip6_nexthdr_esp_sequence_set_block start=+{+ end=+}+ skipwhite contained
+"  esp sequence in {  }
+hi link    nft_payload_expr_esp_sequence_set_block nftHL_BlockDelimitersSet
+syn region nft_payload_expr_esp_sequence_set_block start=+{+ end=+}+ skipwhite contained
 \ contains=
-\    nft_payload_expr_ip6_nexthdr_esp_set_block_sequence
+\    nft_payload_expr_esp_set_block_sequence
 
-" ip6 nexthdr esp sequence in
-hi link   nft_payload_expr_ip6_nexthdr_esp_sequence_keyword_in nftHL_Action
-syn match nft_payload_expr_ip6_nexthdr_esp_sequence_keyword_in '\vin' skipwhite contained
+"  esp sequence in
+hi link   nft_payload_expr_esp_sequence_keyword_in nftHL_Action
+syn match nft_payload_expr_esp_sequence_keyword_in '\vin' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_esp_sequence_set_block
+\    nft_payload_expr_esp_sequence_set_block
 
-" ip6 nexthdr esp sequence >
-hi link   nft_payload_expr_ip6_nexthdr_esp_sequence_operator_1char nftHL_Expression
-syn match nft_payload_expr_ip6_nexthdr_esp_sequence_operator_1char '\v([\>\<\!])' skipwhite contained
+"  esp sequence >
+hi link   nft_payload_expr_esp_sequence_operator_1char nftHL_Expression
+syn match nft_payload_expr_esp_sequence_operator_1char '\v([\>\<\!])' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_esp_sequence,
+\    nft_payload_expr_esp_sequence,
 \    nft_chainError
 
-" ip6 nexthdr esp sequence >=
-hi link   nft_payload_expr_ip6_nexthdr_esp_sequence_operator_2char nftHL_Expression
-syn match nft_payload_expr_ip6_nexthdr_esp_sequence_operator_2char '\v([\>\<\!])\=' skipwhite contained
+"  esp sequence >=
+hi link   nft_payload_expr_esp_sequence_operator_2char nftHL_Expression
+syn match nft_payload_expr_esp_sequence_operator_2char '\v([\>\<\!])\=' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_esp_sequence,
+\    nft_payload_expr_esp_sequence,
 \    nft_chainError
 
-" ip6 nexthdr esp sequence
-hi link   nft_payload_expr_ip6_nexthdr_esp_keyword_sequence nftHL_Action
-syn match nft_payload_expr_ip6_nexthdr_esp_keyword_sequence '\vsequence\ze[ \t]' skipwhite contained
+"  esp sequence
+hi link   nft_payload_expr_esp_keyword_sequence nftHL_Action
+syn match nft_payload_expr_esp_keyword_sequence '\vsequence\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_esp_sequence_operator_2char,
-\    nft_payload_expr_ip6_nexthdr_esp_sequence_keyword_in,
-\    nft_payload_expr_ip6_nexthdr_esp_sequence_operator_1char,
-\    nft_payload_expr_ip6_nexthdr_esp_sequence,
-\    nft_payload_expr_ip6_nexthdr_named_set,
+\    nft_payload_expr_esp_sequence_operator_2char,
+\    nft_payload_expr_esp_sequence_keyword_in,
+\    nft_payload_expr_esp_sequence_operator_1char,
+\    nft_payload_expr_esp_sequence,
+\    nft_payload_expr_named_set,
 \    nft_chainError
-" ************************* End of 'ip6 nexthdr esp sequence' *************************
+" ************************* End of ' esp sequence' *************************
 
-" ************************* Begin of 'ip6 nexthdr esp spi' *************************
-" ip6 nexthdr esp spi
-hi link   nft_payload_expr_ip6_nexthdr_esp_spi_second nftHL_Integer
-syn match nft_payload_expr_ip6_nexthdr_esp_spi_second '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))\ze[ \t;$]' skipwhite contained
+" ************************* Begin of ' esp spi' *************************
+"  esp spi
+hi link   nft_payload_expr_esp_spi_second nftHL_Integer
+syn match nft_payload_expr_esp_spi_second '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))\ze[ \t;$]' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_esp_keyword_sequence,
+\    nft_payload_expr_esp_keyword_sequence,
 
-hi link   nft_payload_expr_ip6_nexthdr_esp_spi_dash_symbol nftHL_Expression
-syn match nft_payload_expr_ip6_nexthdr_esp_spi_dash_symbol '\v\-' contained
+hi link   nft_payload_expr_esp_spi_dash_symbol nftHL_Expression
+syn match nft_payload_expr_esp_spi_dash_symbol '\v\-' contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_esp_spi_second,
+\    nft_payload_expr_esp_spi_second,
 \    nft_chainError
 
-hi link   nft_payload_expr_ip6_nexthdr_esp_spi nftHL_Integer
-syn match nft_payload_expr_ip6_nexthdr_esp_spi '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))' contained
+hi link   nft_payload_expr_esp_spi nftHL_Integer
+syn match nft_payload_expr_esp_spi '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))' contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_esp_keyword_sequence,
-\    nft_payload_expr_ip6_nexthdr_esp_spi_dash_symbol,
+\    nft_payload_expr_esp_keyword_sequence,
+\    nft_payload_expr_esp_spi_dash_symbol,
 
-" ip6 nexthdr esp spi in { 1,127,255 }
-hi link   nft_payload_expr_ip6_nexthdr_esp_set_block_spi nftHL_Integer
-syn match nft_payload_expr_ip6_nexthdr_esp_set_block_spi '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))\ze[ \t,;$\}]' contained
+"  esp spi in { 1,127,255 }
+hi link   nft_payload_expr_esp_set_block_spi nftHL_Integer
+syn match nft_payload_expr_esp_set_block_spi '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))\ze[ \t,;$\}]' contained
 
-" ip6 nexthdr esp spi in {  }
-hi link    nft_payload_expr_ip6_nexthdr_esp_spi_set_block nftHL_BlockDelimitersSet
-syn region nft_payload_expr_ip6_nexthdr_esp_spi_set_block start=+{+ end=+}+ skipwhite contained
+"  esp spi in {  }
+hi link    nft_payload_expr_esp_spi_set_block nftHL_BlockDelimitersSet
+syn region nft_payload_expr_esp_spi_set_block start=+{+ end=+}+ skipwhite contained
 \ contains=
-\    nft_payload_expr_ip6_nexthdr_esp_set_block_spi,
+\    nft_payload_expr_esp_set_block_spi,
 
-" ip6 nexthdr esp spi >
-hi link   nft_payload_expr_ip6_nexthdr_esp_spi_operator_1char nftHL_Expression
-syn match nft_payload_expr_ip6_nexthdr_esp_spi_operator_1char '\v([\>\<\!])' skipwhite contained
+"  esp spi >
+hi link   nft_payload_expr_esp_spi_operator_1char nftHL_Expression
+syn match nft_payload_expr_esp_spi_operator_1char '\v([\>\<\!])' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_esp_spi,
+\    nft_payload_expr_esp_spi,
 \    nft_chainError
 
-" ip6 nexthdr esp spi >=
-hi link   nft_payload_expr_ip6_nexthdr_esp_spi_operator_2char nftHL_Expression
-syn match nft_payload_expr_ip6_nexthdr_esp_spi_operator_2char '\v([\>\<\!])\=' skipwhite contained
+"  esp spi >=
+hi link   nft_payload_expr_esp_spi_operator_2char nftHL_Expression
+syn match nft_payload_expr_esp_spi_operator_2char '\v([\>\<\!])\=' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_esp_spi,
+\    nft_payload_expr_esp_spi,
 \    nft_chainError
 
-" ip6 nexthdr esp spi in
-hi link   nft_payload_expr_ip6_nexthdr_esp_spi_keyword_in nftHL_Action
-syn match nft_payload_expr_ip6_nexthdr_esp_spi_keyword_in '\vin' skipwhite contained
+"  esp spi in
+hi link   nft_payload_expr_esp_spi_keyword_in nftHL_Action
+syn match nft_payload_expr_esp_spi_keyword_in '\vin' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_esp_spi_set_block
+\    nft_payload_expr_esp_spi_set_block
 
-" ip6 nexthdr esp spi
-hi link   nft_payload_expr_ip6_nexthdr_esp_keyword_spi nftHL_Action
-syn match nft_payload_expr_ip6_nexthdr_esp_keyword_spi '\vspi' skipwhite contained
+"  esp spi
+hi link   nft_payload_expr_esp_keyword_spi nftHL_Action
+syn match nft_payload_expr_esp_keyword_spi '\vspi' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_esp_spi_operator_2char,
-\    nft_payload_expr_ip6_nexthdr_esp_spi_keyword_in,
-\    nft_payload_expr_ip6_nexthdr_esp_spi_operator_1char,
-\    nft_payload_expr_ip6_nexthdr_esp_spi,
-\    nft_payload_expr_ip6_nexthdr_named_set,
+\    nft_payload_expr_esp_spi_operator_2char,
+\    nft_payload_expr_esp_spi_keyword_in,
+\    nft_payload_expr_esp_spi_operator_1char,
+\    nft_payload_expr_esp_spi,
+\    nft_payload_expr_named_set,
 \    nft_chainError
-" ************************* End of 'ip6 nexthdr esp spi' *************************
+" ************************* End of ' esp spi' *************************
 
-hi link   nft_payload_expr_ip6_nexthdr_keyword_esp nftHL_Action
-syn match nft_payload_expr_ip6_nexthdr_keyword_esp '\vesp\ze[ \t]' skipwhite contained
+hi link   nft_payload_expr_keyword_esp nftHL_Statement
+syn match nft_payload_expr_keyword_esp '\vesp\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_esp_keyword_sequence,
-\    nft_payload_expr_ip6_nexthdr_esp_keyword_spi,
+\    nft_payload_expr_esp_keyword_sequence,
+\    nft_payload_expr_esp_keyword_spi,
 \    nft_chainError
-" ************************* End of 'ip6 nexthdr esp' *************************
+" ************************* End of ' esp' *************************
 
-" ************************* Begin of 'ip6 nexthdr tcp' *************************
-" ip6 nexthdr tcp: sport, dport, sequence, ackseq, doff, flags, window, checksum, urgptr
-" ************************* Begin of 'ip6 nexthdr tcp checksum' *************************
-" ip6 nexthdr tcp checksum
-hi link   nft_payload_expr_ip6_nexthdr_tcp_checksum_second nftHL_Integer
-syn match nft_payload_expr_ip6_nexthdr_tcp_checksum_second '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))\ze[ \t;$]' skipwhite contained
+" ************************* Begin of ' tcp' *************************
+"  tcp: sport, dport, sequence, ackseq, doff, flags, window, checksum, urgptr
+" ************************* Begin of ' tcp checksum' *************************
+"  tcp checksum
+hi link   nft_payload_expr_tcp_checksum_second nftHL_Integer
+syn match nft_payload_expr_tcp_checksum_second '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))\ze[ \t;$]' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_sequence,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_ackseq,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_urgptr,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_window,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_dport,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_flags,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_sport,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_doff
+\    nft_payload_expr_tcp_keyword_sequence,
+\    nft_payload_expr_tcp_keyword_ackseq,
+\    nft_payload_expr_tcp_keyword_urgptr,
+\    nft_payload_expr_tcp_keyword_window,
+\    nft_payload_expr_tcp_keyword_dport,
+\    nft_payload_expr_tcp_keyword_flags,
+\    nft_payload_expr_tcp_keyword_sport,
+\    nft_payload_expr_tcp_keyword_doff
 
-hi link   nft_payload_expr_ip6_nexthdr_tcp_checksum_dash_symbol nftHL_Expression
-syn match nft_payload_expr_ip6_nexthdr_tcp_checksum_dash_symbol '\v\-' skipwhite contained
+hi link   nft_payload_expr_tcp_checksum_dash_symbol nftHL_Expression
+syn match nft_payload_expr_tcp_checksum_dash_symbol '\v\-' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_checksum_second,
+\    nft_payload_expr_tcp_checksum_second,
 \    nft_chainError
 
-hi link   nft_payload_expr_ip6_nexthdr_tcp_checksum nftHL_Integer
-syn match nft_payload_expr_ip6_nexthdr_tcp_checksum '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))\ze[ \t;\-$]' skipwhite contained
+hi link   nft_payload_expr_tcp_checksum nftHL_Integer
+syn match nft_payload_expr_tcp_checksum '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))\ze[ \t;\-$]' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_sequence,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_ackseq,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_urgptr,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_window,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_dport,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_flags,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_sport,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_doff,
-\    nft_payload_expr_ip6_nexthdr_tcp_checksum_dash_symbol
+\    nft_payload_expr_tcp_keyword_sequence,
+\    nft_payload_expr_tcp_keyword_ackseq,
+\    nft_payload_expr_tcp_keyword_urgptr,
+\    nft_payload_expr_tcp_keyword_window,
+\    nft_payload_expr_tcp_keyword_dport,
+\    nft_payload_expr_tcp_keyword_flags,
+\    nft_payload_expr_tcp_keyword_sport,
+\    nft_payload_expr_tcp_keyword_doff,
+\    nft_payload_expr_tcp_checksum_dash_symbol
 
-" ip6 nexthdr tcp checksum in { 1,127,255 }
-hi link   nft_payload_expr_ip6_nexthdr_tcp_set_block_checksum nftHL_Integer
-syn match nft_payload_expr_ip6_nexthdr_tcp_set_block_checksum '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))\ze[ \t,;$\}]' skipwhite contained
+"  tcp checksum in { 1,127,255 }
+hi link   nft_payload_expr_tcp_set_block_checksum nftHL_Integer
+syn match nft_payload_expr_tcp_set_block_checksum '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))\ze[ \t,;$\}]' skipwhite contained
 
-" ip6 nexthdr tcp checksum in {  }
-hi link    nft_payload_expr_ip6_nexthdr_tcp_checksum_set_block nftHL_BlockDelimitersSet
-syn region nft_payload_expr_ip6_nexthdr_tcp_checksum_set_block start=+{+ end=+}+ skipwhite contained
+"  tcp checksum in {  }
+hi link    nft_payload_expr_tcp_checksum_set_block nftHL_BlockDelimitersSet
+syn region nft_payload_expr_tcp_checksum_set_block start=+{+ end=+}+ skipwhite contained
 \ contains=
-\    nft_payload_expr_ip6_nexthdr_tcp_set_block_checksum
+\    nft_payload_expr_tcp_set_block_checksum
 
-" ip6 nexthdr tcp checksum in
-hi link   nft_payload_expr_ip6_nexthdr_tcp_checksum_keyword_in nftHL_Action
-syn match nft_payload_expr_ip6_nexthdr_tcp_checksum_keyword_in '\vin' skipwhite contained
+"  tcp checksum in
+hi link   nft_payload_expr_tcp_checksum_keyword_in nftHL_Action
+syn match nft_payload_expr_tcp_checksum_keyword_in '\vin' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_checksum_set_block
+\    nft_payload_expr_tcp_checksum_set_block
 
-" ip6 nexthdr tcp checksum >
-hi link   nft_payload_expr_ip6_nexthdr_tcp_checksum_operator_1char nftHL_Expression
-syn match nft_payload_expr_ip6_nexthdr_tcp_checksum_operator_1char '\v([\>\<\!])' skipwhite contained
+"  tcp checksum >
+hi link   nft_payload_expr_tcp_checksum_operator_1char nftHL_Expression
+syn match nft_payload_expr_tcp_checksum_operator_1char '\v([\>\<\!])' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_checksum,
+\    nft_payload_expr_tcp_checksum,
 \    nft_chainError
 
-" ip6 nexthdr tcp checksum >=
-hi link   nft_payload_expr_ip6_nexthdr_tcp_checksum_operator_2char nftHL_Expression
-syn match nft_payload_expr_ip6_nexthdr_tcp_checksum_operator_2char '\v([\>\<\!])\=' skipwhite contained
+"  tcp checksum >=
+hi link   nft_payload_expr_tcp_checksum_operator_2char nftHL_Expression
+syn match nft_payload_expr_tcp_checksum_operator_2char '\v([\>\<\!])\=' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_checksum,
+\    nft_payload_expr_tcp_checksum,
 \    nft_chainError
 
-" ip6 nexthdr tcp checksum
-hi link   nft_payload_expr_ip6_nexthdr_tcp_keyword_checksum nftHL_Action
-syn match nft_payload_expr_ip6_nexthdr_tcp_keyword_checksum '\vchecksum\ze[ \t]' skipwhite contained
+"  tcp checksum
+hi link   nft_payload_expr_tcp_keyword_checksum nftHL_Action
+syn match nft_payload_expr_tcp_keyword_checksum '\vchecksum\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_checksum_operator_2char,
-\    nft_payload_expr_ip6_nexthdr_tcp_checksum_keyword_in,
-\    nft_payload_expr_ip6_nexthdr_tcp_checksum_operator_1char,
-\    nft_payload_expr_ip6_nexthdr_tcp_checksum,
-\    nft_payload_expr_ip6_nexthdr_named_set,
+\    nft_payload_expr_tcp_checksum_operator_2char,
+\    nft_payload_expr_tcp_checksum_keyword_in,
+\    nft_payload_expr_tcp_checksum_operator_1char,
+\    nft_payload_expr_tcp_checksum,
+\    nft_payload_expr_named_set,
 \    nft_chainError
-" ************************* End of 'ip6 nexthdr tcp checksum' *************************
+" ************************* End of ' tcp checksum' *************************
 
-" ************************* Begin of 'ip6 nexthdr tcp sequence' *************************
-" ip6 nexthdr tcp sequence
-hi link   nft_payload_expr_ip6_nexthdr_tcp_sequence_second nftHL_Integer
-syn match nft_payload_expr_ip6_nexthdr_tcp_sequence_second '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))\ze[ \t;$]' skipwhite contained
+" ************************* Begin of ' tcp sequence' *************************
+"  tcp sequence
+hi link   nft_payload_expr_tcp_sequence_second nftHL_Integer
+syn match nft_payload_expr_tcp_sequence_second '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))\ze[ \t;$]' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_checksum,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_ackseq,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_urgptr,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_window,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_dport,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_flags,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_sport,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_doff
+\    nft_payload_expr_tcp_keyword_checksum,
+\    nft_payload_expr_tcp_keyword_ackseq,
+\    nft_payload_expr_tcp_keyword_urgptr,
+\    nft_payload_expr_tcp_keyword_window,
+\    nft_payload_expr_tcp_keyword_dport,
+\    nft_payload_expr_tcp_keyword_flags,
+\    nft_payload_expr_tcp_keyword_sport,
+\    nft_payload_expr_tcp_keyword_doff
 
-hi link   nft_payload_expr_ip6_nexthdr_tcp_sequence_dash_symbol nftHL_Expression
-syn match nft_payload_expr_ip6_nexthdr_tcp_sequence_dash_symbol '\v\-' skipwhite contained
+hi link   nft_payload_expr_tcp_sequence_dash_symbol nftHL_Expression
+syn match nft_payload_expr_tcp_sequence_dash_symbol '\v\-' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_sequence_second,
+\    nft_payload_expr_tcp_sequence_second,
 \    nft_chainError
 
-hi link   nft_payload_expr_ip6_nexthdr_tcp_sequence nftHL_Integer
-syn match nft_payload_expr_ip6_nexthdr_tcp_sequence '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))\ze[ \t;\-$]' skipwhite contained
+hi link   nft_payload_expr_tcp_sequence nftHL_Integer
+syn match nft_payload_expr_tcp_sequence '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))\ze[ \t;\-$]' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_checksum,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_ackseq,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_urgptr,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_window,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_dport,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_flags,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_sport,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_doff,
-\    nft_payload_expr_ip6_nexthdr_tcp_sequence_dash_symbol
+\    nft_payload_expr_tcp_keyword_checksum,
+\    nft_payload_expr_tcp_keyword_ackseq,
+\    nft_payload_expr_tcp_keyword_urgptr,
+\    nft_payload_expr_tcp_keyword_window,
+\    nft_payload_expr_tcp_keyword_dport,
+\    nft_payload_expr_tcp_keyword_flags,
+\    nft_payload_expr_tcp_keyword_sport,
+\    nft_payload_expr_tcp_keyword_doff,
+\    nft_payload_expr_tcp_sequence_dash_symbol
 
-" ip6 nexthdr tcp sequence in { 1,127,255 }
-hi link   nft_payload_expr_ip6_nexthdr_tcp_set_block_sequence nftHL_Integer
-syn match nft_payload_expr_ip6_nexthdr_tcp_set_block_sequence '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))\ze[ \t,;$\}]' skipwhite contained
+"  tcp sequence in { 1,127,255 }
+hi link   nft_payload_expr_tcp_set_block_sequence nftHL_Integer
+syn match nft_payload_expr_tcp_set_block_sequence '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))\ze[ \t,;$\}]' skipwhite contained
 
-" ip6 nexthdr tcp sequence in {  }
-hi link    nft_payload_expr_ip6_nexthdr_tcp_sequence_set_block nftHL_BlockDelimitersSet
-syn region nft_payload_expr_ip6_nexthdr_tcp_sequence_set_block start=+{+ end=+}+ skipwhite contained
+"  tcp sequence in {  }
+hi link    nft_payload_expr_tcp_sequence_set_block nftHL_BlockDelimitersSet
+syn region nft_payload_expr_tcp_sequence_set_block start=+{+ end=+}+ skipwhite contained
 \ contains=
-\    nft_payload_expr_ip6_nexthdr_tcp_set_block_sequence
+\    nft_payload_expr_tcp_set_block_sequence
 
-" ip6 nexthdr tcp sequence in
-hi link   nft_payload_expr_ip6_nexthdr_tcp_sequence_keyword_in nftHL_Action
-syn match nft_payload_expr_ip6_nexthdr_tcp_sequence_keyword_in '\vin' skipwhite contained
+"  tcp sequence in
+hi link   nft_payload_expr_tcp_sequence_keyword_in nftHL_Action
+syn match nft_payload_expr_tcp_sequence_keyword_in '\vin' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_sequence_set_block
+\    nft_payload_expr_tcp_sequence_set_block
 
-" ip6 nexthdr tcp sequence >
-hi link   nft_payload_expr_ip6_nexthdr_tcp_sequence_operator_1char nftHL_Expression
-syn match nft_payload_expr_ip6_nexthdr_tcp_sequence_operator_1char '\v([\>\<\!])' skipwhite contained
+"  tcp sequence >
+hi link   nft_payload_expr_tcp_sequence_operator_1char nftHL_Expression
+syn match nft_payload_expr_tcp_sequence_operator_1char '\v([\>\<\!])' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_sequence,
+\    nft_payload_expr_tcp_sequence,
 \    nft_chainError
 
-" ip6 nexthdr tcp sequence >=
-hi link   nft_payload_expr_ip6_nexthdr_tcp_sequence_operator_2char nftHL_Expression
-syn match nft_payload_expr_ip6_nexthdr_tcp_sequence_operator_2char '\v([\>\<\!])\=' skipwhite contained
+"  tcp sequence >=
+hi link   nft_payload_expr_tcp_sequence_operator_2char nftHL_Expression
+syn match nft_payload_expr_tcp_sequence_operator_2char '\v([\>\<\!])\=' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_sequence,
+\    nft_payload_expr_tcp_sequence,
 \    nft_chainError
 
-" ip6 nexthdr tcp sequence
-hi link   nft_payload_expr_ip6_nexthdr_tcp_keyword_sequence nftHL_Action
-syn match nft_payload_expr_ip6_nexthdr_tcp_keyword_sequence '\vsequence\ze[ \t]' skipwhite contained
+"  tcp sequence
+hi link   nft_payload_expr_tcp_keyword_sequence nftHL_Action
+syn match nft_payload_expr_tcp_keyword_sequence '\vsequence\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_sequence_operator_2char,
-\    nft_payload_expr_ip6_nexthdr_tcp_sequence_keyword_in,
-\    nft_payload_expr_ip6_nexthdr_tcp_sequence_operator_1char,
-\    nft_payload_expr_ip6_nexthdr_tcp_sequence,
-\    nft_payload_expr_ip6_nexthdr_named_set,
+\    nft_payload_expr_tcp_sequence_operator_2char,
+\    nft_payload_expr_tcp_sequence_keyword_in,
+\    nft_payload_expr_tcp_sequence_operator_1char,
+\    nft_payload_expr_tcp_sequence,
+\    nft_payload_expr_named_set,
 \    nft_chainError
-" ************************* End of 'ip6 nexthdr tcp sequence' *************************
+" ************************* End of ' tcp sequence' *************************
 
-" ************************* Begin of 'ip6 nexthdr tcp ackseq' *************************
-hi link   nft_payload_expr_ip6_nexthdr_tcp_ackseq_second nftHL_Integer
-syn match nft_payload_expr_ip6_nexthdr_tcp_ackseq_second '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))\ze[ \t;$]' skipwhite contained
+" ************************* Begin of ' tcp ackseq' *************************
+hi link   nft_payload_expr_tcp_ackseq_second nftHL_Integer
+syn match nft_payload_expr_tcp_ackseq_second '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))\ze[ \t;$]' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_checksum,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_sequence,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_urgptr,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_window,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_dport,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_flags,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_sport,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_doff
+\    nft_payload_expr_tcp_keyword_checksum,
+\    nft_payload_expr_tcp_keyword_sequence,
+\    nft_payload_expr_tcp_keyword_urgptr,
+\    nft_payload_expr_tcp_keyword_window,
+\    nft_payload_expr_tcp_keyword_dport,
+\    nft_payload_expr_tcp_keyword_flags,
+\    nft_payload_expr_tcp_keyword_sport,
+\    nft_payload_expr_tcp_keyword_doff
 
-hi link   nft_payload_expr_ip6_nexthdr_tcp_ackseq_dash_symbol nftHL_Expression
-syn match nft_payload_expr_ip6_nexthdr_tcp_ackseq_dash_symbol '\v\-' skipwhite contained
+hi link   nft_payload_expr_tcp_ackseq_dash_symbol nftHL_Expression
+syn match nft_payload_expr_tcp_ackseq_dash_symbol '\v\-' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_ackseq_second,
+\    nft_payload_expr_tcp_ackseq_second,
 \    nft_chainError
 
-hi link   nft_payload_expr_ip6_nexthdr_tcp_ackseq nftHL_Integer
-syn match nft_payload_expr_ip6_nexthdr_tcp_ackseq '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))\ze[ \t;\-$]' skipwhite contained
+hi link   nft_payload_expr_tcp_ackseq nftHL_Integer
+syn match nft_payload_expr_tcp_ackseq '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))\ze[ \t;\-$]' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_checksum,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_sequence,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_urgptr,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_window,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_dport,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_flags,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_sport,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_doff,
-\    nft_payload_expr_ip6_nexthdr_tcp_ackseq_dash_symbol
+\    nft_payload_expr_tcp_keyword_checksum,
+\    nft_payload_expr_tcp_keyword_sequence,
+\    nft_payload_expr_tcp_keyword_urgptr,
+\    nft_payload_expr_tcp_keyword_window,
+\    nft_payload_expr_tcp_keyword_dport,
+\    nft_payload_expr_tcp_keyword_flags,
+\    nft_payload_expr_tcp_keyword_sport,
+\    nft_payload_expr_tcp_keyword_doff,
+\    nft_payload_expr_tcp_ackseq_dash_symbol
 
-" ip6 nexthdr tcp ackseq in { 1,127,255 }
-hi link   nft_payload_expr_ip6_nexthdr_tcp_set_block_ackseq nftHL_Integer
-syn match nft_payload_expr_ip6_nexthdr_tcp_set_block_ackseq '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))\ze[ \t,;$\}]' skipwhite contained
+"  tcp ackseq in { 1,127,255 }
+hi link   nft_payload_expr_tcp_set_block_ackseq nftHL_Integer
+syn match nft_payload_expr_tcp_set_block_ackseq '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))\ze[ \t,;$\}]' skipwhite contained
 
-" ip6 nexthdr tcp ackseq in {  }
-hi link    nft_payload_expr_ip6_nexthdr_tcp_ackseq_set_block nftHL_BlockDelimitersSet
-syn region nft_payload_expr_ip6_nexthdr_tcp_ackseq_set_block start=+{+ end=+}+ skipwhite contained
+"  tcp ackseq in {  }
+hi link    nft_payload_expr_tcp_ackseq_set_block nftHL_BlockDelimitersSet
+syn region nft_payload_expr_tcp_ackseq_set_block start=+{+ end=+}+ skipwhite contained
 \ contains=
-\    nft_payload_expr_ip6_nexthdr_tcp_set_block_ackseq
+\    nft_payload_expr_tcp_set_block_ackseq
 
-" ip6 nexthdr tcp ackseq in
-hi link   nft_payload_expr_ip6_nexthdr_tcp_ackseq_keyword_in nftHL_Action
-syn match nft_payload_expr_ip6_nexthdr_tcp_ackseq_keyword_in '\vin' skipwhite contained
+"  tcp ackseq in
+hi link   nft_payload_expr_tcp_ackseq_keyword_in nftHL_Action
+syn match nft_payload_expr_tcp_ackseq_keyword_in '\vin' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_ackseq_set_block
+\    nft_payload_expr_tcp_ackseq_set_block
 
-" ip6 nexthdr tcp ackseq >
-hi link   nft_payload_expr_ip6_nexthdr_tcp_ackseq_operator_1char nftHL_Expression
-syn match nft_payload_expr_ip6_nexthdr_tcp_ackseq_operator_1char '\v([\>\<\!])' skipwhite contained
+"  tcp ackseq >
+hi link   nft_payload_expr_tcp_ackseq_operator_1char nftHL_Expression
+syn match nft_payload_expr_tcp_ackseq_operator_1char '\v([\>\<\!])' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_ackseq,
+\    nft_payload_expr_tcp_ackseq,
 \    nft_chainError
 
-" ip6 nexthdr tcp ackseq >=
-hi link   nft_payload_expr_ip6_nexthdr_tcp_ackseq_operator_2char nftHL_Expression
-syn match nft_payload_expr_ip6_nexthdr_tcp_ackseq_operator_2char '\v([\>\<\!])\=' skipwhite contained
+"  tcp ackseq >=
+hi link   nft_payload_expr_tcp_ackseq_operator_2char nftHL_Expression
+syn match nft_payload_expr_tcp_ackseq_operator_2char '\v([\>\<\!])\=' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_ackseq,
+\    nft_payload_expr_tcp_ackseq,
 \    nft_chainError
 
-" ip6 nexthdr tcp ackseq
-hi link   nft_payload_expr_ip6_nexthdr_tcp_keyword_ackseq nftHL_Action
-syn match nft_payload_expr_ip6_nexthdr_tcp_keyword_ackseq '\vackseq\ze[ \t]' skipwhite contained
+"  tcp ackseq
+hi link   nft_payload_expr_tcp_keyword_ackseq nftHL_Action
+syn match nft_payload_expr_tcp_keyword_ackseq '\vackseq\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_ackseq_operator_2char,
-\    nft_payload_expr_ip6_nexthdr_tcp_ackseq_keyword_in,
-\    nft_payload_expr_ip6_nexthdr_tcp_ackseq_operator_1char,
-\    nft_payload_expr_ip6_nexthdr_tcp_ackseq,
-\    nft_payload_expr_ip6_nexthdr_named_set,
+\    nft_payload_expr_tcp_ackseq_operator_2char,
+\    nft_payload_expr_tcp_ackseq_keyword_in,
+\    nft_payload_expr_tcp_ackseq_operator_1char,
+\    nft_payload_expr_tcp_ackseq,
+\    nft_payload_expr_named_set,
 \    nft_chainError
-" ************************* End of 'ip6 nexthdr tcp ackseq' *************************
+" ************************* End of ' tcp ackseq' *************************
 
-" ************************* Begin of 'ip6 nexthdr tcp urgptr' *************************
-" ip6 nexthdr tcp urgptr
-hi link   nft_payload_expr_ip6_nexthdr_tcp_urgptr nftHL_Integer
-syn match nft_payload_expr_ip6_nexthdr_tcp_urgptr '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t;$]' skipwhite contained
+" ************************* Begin of ' tcp urgptr' *************************
+"  tcp urgptr
+hi link   nft_payload_expr_tcp_urgptr nftHL_Integer
+syn match nft_payload_expr_tcp_urgptr '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t;$]' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_checksum,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_sequence,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_ackseq,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_window,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_dport,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_flags,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_sport,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_doff
+\    nft_payload_expr_tcp_keyword_checksum,
+\    nft_payload_expr_tcp_keyword_sequence,
+\    nft_payload_expr_tcp_keyword_ackseq,
+\    nft_payload_expr_tcp_keyword_window,
+\    nft_payload_expr_tcp_keyword_dport,
+\    nft_payload_expr_tcp_keyword_flags,
+\    nft_payload_expr_tcp_keyword_sport,
+\    nft_payload_expr_tcp_keyword_doff
 
-" ip6 nexthdr tcp urgptr in { 1,127,255 }
-hi link   nft_payload_expr_ip6_nexthdr_tcp_set_block_urgptr nftHL_Integer
-syn match nft_payload_expr_ip6_nexthdr_tcp_set_block_urgptr '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t,;$\}]' skipwhite contained
+"  tcp urgptr in { 1,127,255 }
+hi link   nft_payload_expr_tcp_set_block_urgptr nftHL_Integer
+syn match nft_payload_expr_tcp_set_block_urgptr '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t,;$\}]' skipwhite contained
 
-" ip6 nexthdr tcp urgptr in {  }
-hi link    nft_payload_expr_ip6_nexthdr_tcp_urgptr_set_block nftHL_BlockDelimitersSet
-syn region nft_payload_expr_ip6_nexthdr_tcp_urgptr_set_block start=+{+ end=+}+ skipwhite contained
+"  tcp urgptr in {  }
+hi link    nft_payload_expr_tcp_urgptr_set_block nftHL_BlockDelimitersSet
+syn region nft_payload_expr_tcp_urgptr_set_block start=+{+ end=+}+ skipwhite contained
 \ contains=
-\    nft_payload_expr_ip6_nexthdr_tcp_set_block_urgptr
+\    nft_payload_expr_tcp_set_block_urgptr
 
-" ip6 nexthdr tcp urgptr in
-hi link   nft_payload_expr_ip6_nexthdr_tcp_urgptr_keyword_in nftHL_Action
-syn match nft_payload_expr_ip6_nexthdr_tcp_urgptr_keyword_in '\vin' skipwhite contained
+"  tcp urgptr in
+hi link   nft_payload_expr_tcp_urgptr_keyword_in nftHL_Action
+syn match nft_payload_expr_tcp_urgptr_keyword_in '\vin' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_urgptr_set_block
+\    nft_payload_expr_tcp_urgptr_set_block
 
-" ip6 nexthdr tcp urgptr >
-hi link   nft_payload_expr_ip6_nexthdr_tcp_urgptr_operator_1char nftHL_Expression
-syn match nft_payload_expr_ip6_nexthdr_tcp_urgptr_operator_1char '\v([\>\<\!])' skipwhite contained
+"  tcp urgptr >
+hi link   nft_payload_expr_tcp_urgptr_operator_1char nftHL_Expression
+syn match nft_payload_expr_tcp_urgptr_operator_1char '\v([\>\<\!])' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_urgptr,
+\    nft_payload_expr_tcp_urgptr,
 \    nft_chainError
 
-" ip6 nexthdr tcp urgptr >=
-hi link   nft_payload_expr_ip6_nexthdr_tcp_urgptr_operator_2char nftHL_Expression
-syn match nft_payload_expr_ip6_nexthdr_tcp_urgptr_operator_2char '\v([\>\<\!])\=' skipwhite contained
+"  tcp urgptr >=
+hi link   nft_payload_expr_tcp_urgptr_operator_2char nftHL_Expression
+syn match nft_payload_expr_tcp_urgptr_operator_2char '\v([\>\<\!])\=' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_urgptr,
+\    nft_payload_expr_tcp_urgptr,
 \    nft_chainError
 
-" ip6 nexthdr tcp urgptr
-hi link   nft_payload_expr_ip6_nexthdr_tcp_keyword_urgptr nftHL_Action
-syn match nft_payload_expr_ip6_nexthdr_tcp_keyword_urgptr '\vurgptr\ze[ \t]' skipwhite contained
+"  tcp urgptr
+hi link   nft_payload_expr_tcp_keyword_urgptr nftHL_Action
+syn match nft_payload_expr_tcp_keyword_urgptr '\vurgptr\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_urgptr_operator_2char,
-\    nft_payload_expr_ip6_nexthdr_tcp_urgptr_keyword_in,
-\    nft_payload_expr_ip6_nexthdr_tcp_urgptr_operator_1char,
-\    nft_payload_expr_ip6_nexthdr_tcp_urgptr,
-\    nft_payload_expr_ip6_nexthdr_named_set,
+\    nft_payload_expr_tcp_urgptr_operator_2char,
+\    nft_payload_expr_tcp_urgptr_keyword_in,
+\    nft_payload_expr_tcp_urgptr_operator_1char,
+\    nft_payload_expr_tcp_urgptr,
+\    nft_payload_expr_named_set,
 \    nft_chainError
-" ************************* End of 'ip6 nexthdr tcp urgptr' *************************
+" ************************* End of ' tcp urgptr' *************************
 
-" ************************* Begin of 'ip6 nexthdr tcp window' *************************
-" ip6 nexthdr tcp window
-hi link   nft_payload_expr_ip6_nexthdr_tcp_window nftHL_Integer
-syn match nft_payload_expr_ip6_nexthdr_tcp_window '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t;$]' skipwhite contained
+" ************************* Begin of ' tcp window' *************************
+"  tcp window
+hi link   nft_payload_expr_tcp_window nftHL_Integer
+syn match nft_payload_expr_tcp_window '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t;$]' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_checksum,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_sequence,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_ackseq,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_urgptr,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_dport,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_flags,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_sport,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_doff
+\    nft_payload_expr_tcp_keyword_checksum,
+\    nft_payload_expr_tcp_keyword_sequence,
+\    nft_payload_expr_tcp_keyword_ackseq,
+\    nft_payload_expr_tcp_keyword_urgptr,
+\    nft_payload_expr_tcp_keyword_dport,
+\    nft_payload_expr_tcp_keyword_flags,
+\    nft_payload_expr_tcp_keyword_sport,
+\    nft_payload_expr_tcp_keyword_doff
 
-" ip6 nexthdr tcp window in { 1,127,255 }
-hi link   nft_payload_expr_ip6_nexthdr_tcp_set_block_window nftHL_Integer
-syn match nft_payload_expr_ip6_nexthdr_tcp_set_block_window '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t,;$\}]' skipwhite contained
+"  tcp window in { 1,127,255 }
+hi link   nft_payload_expr_tcp_set_block_window nftHL_Integer
+syn match nft_payload_expr_tcp_set_block_window '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t,;$\}]' skipwhite contained
 
-" ip6 nexthdr tcp window in {  }
-hi link    nft_payload_expr_ip6_nexthdr_tcp_window_set_block nftHL_BlockDelimitersSet
-syn region nft_payload_expr_ip6_nexthdr_tcp_window_set_block start=+{+ end=+}+ skipwhite contained
+"  tcp window in {  }
+hi link    nft_payload_expr_tcp_window_set_block nftHL_BlockDelimitersSet
+syn region nft_payload_expr_tcp_window_set_block start=+{+ end=+}+ skipwhite contained
 \ contains=
-\    nft_payload_expr_ip6_nexthdr_tcp_set_block_window
+\    nft_payload_expr_tcp_set_block_window
 
-" ip6 nexthdr tcp window in
-hi link   nft_payload_expr_ip6_nexthdr_tcp_window_keyword_in nftHL_Action
-syn match nft_payload_expr_ip6_nexthdr_tcp_window_keyword_in '\vin' skipwhite contained
+"  tcp window in
+hi link   nft_payload_expr_tcp_window_keyword_in nftHL_Action
+syn match nft_payload_expr_tcp_window_keyword_in '\vin' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_window_set_block
+\    nft_payload_expr_tcp_window_set_block
 
-" ip6 nexthdr tcp window >
-hi link   nft_payload_expr_ip6_nexthdr_tcp_window_operator_1char nftHL_Expression
-syn match nft_payload_expr_ip6_nexthdr_tcp_window_operator_1char '\v([\>\<\!])' skipwhite contained
+"  tcp window >
+hi link   nft_payload_expr_tcp_window_operator_1char nftHL_Expression
+syn match nft_payload_expr_tcp_window_operator_1char '\v([\>\<\!])' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_window,
+\    nft_payload_expr_tcp_window,
 \    nft_chainError
 
-" ip6 nexthdr tcp window >=
-hi link   nft_payload_expr_ip6_nexthdr_tcp_window_operator_2char nftHL_Expression
-syn match nft_payload_expr_ip6_nexthdr_tcp_window_operator_2char '\v([\>\<\!])\=' skipwhite contained
+"  tcp window >=
+hi link   nft_payload_expr_tcp_window_operator_2char nftHL_Expression
+syn match nft_payload_expr_tcp_window_operator_2char '\v([\>\<\!])\=' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_window,
+\    nft_payload_expr_tcp_window,
 \    nft_chainError
 
-" ip6 nexthdr tcp window
-hi link   nft_payload_expr_ip6_nexthdr_tcp_keyword_window nftHL_Action
-syn match nft_payload_expr_ip6_nexthdr_tcp_keyword_window '\vwindow\ze[ \t]' skipwhite contained
+"  tcp window
+hi link   nft_payload_expr_tcp_keyword_window nftHL_Action
+syn match nft_payload_expr_tcp_keyword_window '\vwindow\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_window_operator_2char,
-\    nft_payload_expr_ip6_nexthdr_tcp_window_keyword_in,
-\    nft_payload_expr_ip6_nexthdr_tcp_window_operator_1char,
-\    nft_payload_expr_ip6_nexthdr_tcp_window,
-\    nft_payload_expr_ip6_nexthdr_named_set,
+\    nft_payload_expr_tcp_window_operator_2char,
+\    nft_payload_expr_tcp_window_keyword_in,
+\    nft_payload_expr_tcp_window_operator_1char,
+\    nft_payload_expr_tcp_window,
+\    nft_payload_expr_named_set,
 \    nft_chainError
-" ************************* End of 'ip6 nexthdr tcp window' *************************
+" ************************* End of ' tcp window' *************************
 
-" ************************* Begin of 'ip6 nexthdr tcp dport' *************************
-" ip6 nexthdr  tcp dport
-hi link   nft_payload_expr_ip6_nexthdr_tcp_dport nftHL_Integer
-syn match nft_payload_expr_ip6_nexthdr_tcp_dport '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t;$]' skipwhite contained
+" ************************* Begin of ' tcp dport' *************************
+"   tcp dport
+hi link   nft_payload_expr_tcp_dport nftHL_Integer
+syn match nft_payload_expr_tcp_dport '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t;$]' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_checksum,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_sequence,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_ackseq,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_urgptr,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_window,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_flags,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_sport,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_doff
+\    nft_payload_expr_tcp_keyword_checksum,
+\    nft_payload_expr_tcp_keyword_sequence,
+\    nft_payload_expr_tcp_keyword_ackseq,
+\    nft_payload_expr_tcp_keyword_urgptr,
+\    nft_payload_expr_tcp_keyword_window,
+\    nft_payload_expr_tcp_keyword_flags,
+\    nft_payload_expr_tcp_keyword_sport,
+\    nft_payload_expr_tcp_keyword_doff
 
-" ip6 nexthdr tcp dport in { 1,127,255 }
-hi link   nft_payload_expr_ip6_nexthdr_tcp_set_block_dport nftHL_Integer
-syn match nft_payload_expr_ip6_nexthdr_tcp_set_block_dport '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t,;$\}]' skipwhite contained
+"  tcp dport in { 1,127,255 }
+hi link   nft_payload_expr_tcp_set_block_dport nftHL_Integer
+syn match nft_payload_expr_tcp_set_block_dport '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t,;$\}]' skipwhite contained
 
-" ip6 nexthdr tcp dport in {  }
-hi link    nft_payload_expr_ip6_nexthdr_tcp_dport_set_block nftHL_BlockDelimitersSet
-syn region nft_payload_expr_ip6_nexthdr_tcp_dport_set_block start=+{+ end=+}+ skipwhite contained
+"  tcp dport in {  }
+hi link    nft_payload_expr_tcp_dport_set_block nftHL_BlockDelimitersSet
+syn region nft_payload_expr_tcp_dport_set_block start=+{+ end=+}+ skipwhite contained
 \ contains=
-\    nft_payload_expr_ip6_nexthdr_tcp_set_block_dport
+\    nft_payload_expr_tcp_set_block_dport
 
-" ip6 nexthdr tcp dport in
-hi link   nft_payload_expr_ip6_nexthdr_tcp_dport_keyword_in nftHL_Action
-syn match nft_payload_expr_ip6_nexthdr_tcp_dport_keyword_in '\vin' skipwhite contained
+"  tcp dport in
+hi link   nft_payload_expr_tcp_dport_keyword_in nftHL_Action
+syn match nft_payload_expr_tcp_dport_keyword_in '\vin' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_dport_set_block
+\    nft_payload_expr_tcp_dport_set_block
 
-" ip6 nexthdr tcp dport >
-hi link   nft_payload_expr_ip6_nexthdr_tcp_dport_operator_1char nftHL_Expression
-syn match nft_payload_expr_ip6_nexthdr_tcp_dport_operator_1char '\v([\>\<\!])' skipwhite contained
+"  tcp dport >
+hi link   nft_payload_expr_tcp_dport_operator_1char nftHL_Expression
+syn match nft_payload_expr_tcp_dport_operator_1char '\v([\>\<\!])' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_dport,
+\    nft_payload_expr_tcp_dport,
 \    nft_chainError
 
-" ip6 nexthdr tcp dport >=
-hi link   nft_payload_expr_ip6_nexthdr_tcp_dport_operator_2char nftHL_Expression
-syn match nft_payload_expr_ip6_nexthdr_tcp_dport_operator_2char '\v([\>\<\!])\=' skipwhite contained
+"  tcp dport >=
+hi link   nft_payload_expr_tcp_dport_operator_2char nftHL_Expression
+syn match nft_payload_expr_tcp_dport_operator_2char '\v([\>\<\!])\=' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_dport,
+\    nft_payload_expr_tcp_dport,
 \    nft_chainError
 
-" ip6 nexthdr tcp dport
-hi link   nft_payload_expr_ip6_nexthdr_tcp_keyword_dport nftHL_Action
-syn match nft_payload_expr_ip6_nexthdr_tcp_keyword_dport '\vdport\ze[ \t]' skipwhite contained
+"  tcp dport
+hi link   nft_payload_expr_tcp_keyword_dport nftHL_Action
+syn match nft_payload_expr_tcp_keyword_dport '\vdport\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_dport_operator_2char,
-\    nft_payload_expr_ip6_nexthdr_tcp_dport_keyword_in,
-\    nft_payload_expr_ip6_nexthdr_tcp_dport_operator_1char,
-\    nft_payload_expr_ip6_nexthdr_tcp_dport,
-\    nft_payload_expr_ip6_nexthdr_named_set,
+\    nft_payload_expr_tcp_dport_operator_2char,
+\    nft_payload_expr_tcp_dport_keyword_in,
+\    nft_payload_expr_tcp_dport_operator_1char,
+\    nft_payload_expr_tcp_dport,
+\    nft_payload_expr_named_set,
 \    nft_chainError
-" ************************* End of 'ip6 nexthdr tcp dport' *************************
+" ************************* End of ' tcp dport' *************************
 
-" ************************* Begin of 'ip6 nexthdr tcp flags' *************************
+" ************************* Begin of ' tcp flags' *************************
 " flags: syn, ack, fin, rst, psh, urg, ecn, cwr or 0 to 0xFF.
-hi link   nft_payload_expr_ip6_nexthdr_tcp_flags nftHL_Define
-syn match nft_payload_expr_ip6_nexthdr_tcp_flags '\v(syn|ack|fin|rst|psh|urg|ecn|cwr)|[0-9]{1}'  skipwhite contained
+hi link   nft_payload_expr_tcp_flags nftHL_Define
+syn match nft_payload_expr_tcp_flags '\v(syn|ack|fin|rst|psh|urg|ecn|cwr)|[0-9]{1}'  skipwhite contained
 
-hi link   nft_payload_expr_ip6_nexthdr_tcp_flags_int nftHL_Integer
-syn match nft_payload_expr_ip6_nexthdr_tcp_flags_int '\v[0-9]{1,3}'  skipwhite contained
+hi link   nft_payload_expr_tcp_flags_int nftHL_Integer
+syn match nft_payload_expr_tcp_flags_int '\v[0-9]{1,3}'  skipwhite contained
 
-hi link   nft_payload_expr_ip6_nexthdr_tcp_flags_hex nftHL_Integer
-syn match nft_payload_expr_ip6_nexthdr_tcp_flags_hex '\v0x[0-9a-fA-F]{1,2}'  skipwhite contained
+hi link   nft_payload_expr_tcp_flags_hex nftHL_Integer
+syn match nft_payload_expr_tcp_flags_hex '\v0x[0-9a-fA-F]{1,2}'  skipwhite contained
 
-hi link   nft_payload_expr_ip6_nexthdr_tcp_set_block_flags nftHL_Define
-syn match nft_payload_expr_ip6_nexthdr_tcp_set_block_flags '\v(syn|ack|fin|rst|psh|urg|ecn|cwr)'  contained
+hi link   nft_payload_expr_tcp_set_block_flags nftHL_Define
+syn match nft_payload_expr_tcp_set_block_flags '\v(syn|ack|fin|rst|psh|urg|ecn|cwr)'  contained
 
-" ip6 nexthdr tcp flags in { 1,127,255 }
-hi link   nft_payload_expr_ip6_nexthdr_tcp_set_block_flags_int nftHL_Integer
-syn match nft_payload_expr_ip6_nexthdr_tcp_set_block_flags_int '\v[0-9]{1,3}'  contained
+"  tcp flags in { 1,127,255 }
+hi link   nft_payload_expr_tcp_set_block_flags_int nftHL_Integer
+syn match nft_payload_expr_tcp_set_block_flags_int '\v[0-9]{1,3}'  contained
 
-hi link   nft_payload_expr_ip6_nexthdr_tcp_set_block_flags_hex nftHL_Integer
-syn match nft_payload_expr_ip6_nexthdr_tcp_set_block_flags_hex '\v0x[0-9a-fA-F]{1,2}'  contained
+hi link   nft_payload_expr_tcp_set_block_flags_hex nftHL_Integer
+syn match nft_payload_expr_tcp_set_block_flags_hex '\v0x[0-9a-fA-F]{1,2}'  contained
 
-" ip6 nexthdr tcp flags in {  }
-hi link    nft_payload_expr_ip6_nexthdr_tcp_flags_set_block nftHL_BlockDelimitersSet
-syn region nft_payload_expr_ip6_nexthdr_tcp_flags_set_block start=+{+ end=+}+ skipwhite contained
+"  tcp flags in {  }
+hi link    nft_payload_expr_tcp_flags_set_block nftHL_BlockDelimitersSet
+syn region nft_payload_expr_tcp_flags_set_block start=+{+ end=+}+ skipwhite contained
 \ contains=
-\    nft_payload_expr_ip6_nexthdr_tcp_set_block_flags,
-\    nft_payload_expr_ip6_nexthdr_tcp_set_block_flags_hex,
-\    nft_payload_expr_ip6_nexthdr_tcp_set_block_flags_int
+\    nft_payload_expr_tcp_set_block_flags,
+\    nft_payload_expr_tcp_set_block_flags_hex,
+\    nft_payload_expr_tcp_set_block_flags_int
 
-" ip6 nexthdr tcp flags in
-hi link   nft_payload_expr_ip6_nexthdr_tcp_flags_keyword_in nftHL_Action
-syn match nft_payload_expr_ip6_nexthdr_tcp_flags_keyword_in '\vin' skipwhite contained
+"  tcp flags in
+hi link   nft_payload_expr_tcp_flags_keyword_in nftHL_Action
+syn match nft_payload_expr_tcp_flags_keyword_in '\vin' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_flags_set_block
+\    nft_payload_expr_tcp_flags_set_block
 
-" ip6 nexthdr tcp flags >
-hi link   nft_payload_expr_ip6_nexthdr_tcp_flags_operator_1char nftHL_Expression
-syn match nft_payload_expr_ip6_nexthdr_tcp_flags_operator_1char '\v([\>\<\!])' skipwhite contained
+"  tcp flags >
+hi link   nft_payload_expr_tcp_flags_operator_1char nftHL_Expression
+syn match nft_payload_expr_tcp_flags_operator_1char '\v([\>\<\!])' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_flags,
-\    nft_payload_expr_ip6_nexthdr_tcp_flags_hex,
-\    nft_payload_expr_ip6_nexthdr_tcp_flags_int,
+\    nft_payload_expr_tcp_flags,
+\    nft_payload_expr_tcp_flags_hex,
+\    nft_payload_expr_tcp_flags_int,
 \    nft_chainError
 
-" ip6 nexthdr tcp flags >=
-hi link   nft_payload_expr_ip6_nexthdr_tcp_flags_operator_2char nftHL_Expression
-syn match nft_payload_expr_ip6_nexthdr_tcp_flags_operator_2char '\v([\>\<\!])\=' skipwhite contained
+"  tcp flags >=
+hi link   nft_payload_expr_tcp_flags_operator_2char nftHL_Expression
+syn match nft_payload_expr_tcp_flags_operator_2char '\v([\>\<\!])\=' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_flags,
-\    nft_payload_expr_ip6_nexthdr_tcp_flags_hex,
-\    nft_payload_expr_ip6_nexthdr_tcp_flags_int,
+\    nft_payload_expr_tcp_flags,
+\    nft_payload_expr_tcp_flags_hex,
+\    nft_payload_expr_tcp_flags_int,
 \    nft_chainError
 
-hi link   nft_payload_expr_ip6_nexthdr_tcp_keyword_flags nftHL_Action
-syn match nft_payload_expr_ip6_nexthdr_tcp_keyword_flags '\vflags\ze[ \t]' skipwhite contained
+hi link   nft_payload_expr_tcp_keyword_flags nftHL_Action
+syn match nft_payload_expr_tcp_keyword_flags '\vflags\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_flags_operator_2char,
-\    nft_payload_expr_ip6_nexthdr_tcp_flags_keyword_in,
-\    nft_payload_expr_ip6_nexthdr_tcp_flags_operator_1char,
-\    nft_payload_expr_ip6_nexthdr_tcp_flags,
-\    nft_payload_expr_ip6_nexthdr_named_set,
-\    nft_payload_expr_ip6_nexthdr_tcp_flags_hex,
-\    nft_payload_expr_ip6_nexthdr_tcp_flags_int,
+\    nft_payload_expr_tcp_flags_operator_2char,
+\    nft_payload_expr_tcp_flags_keyword_in,
+\    nft_payload_expr_tcp_flags_operator_1char,
+\    nft_payload_expr_tcp_flags,
+\    nft_payload_expr_named_set,
+\    nft_payload_expr_tcp_flags_hex,
+\    nft_payload_expr_tcp_flags_int,
 \    nft_chainError
-" ************************* End of 'ip6 nexthdr tcp flags' *************************
+" ************************* End of ' tcp flags' *************************
 
-" ************************* Begin of 'ip6 nexthdr tcp sport' *************************
-" ip6 nexthdr tcp sport
-hi link   nft_payload_expr_ip6_nexthdr_tcp_sport nftHL_Integer
-syn match nft_payload_expr_ip6_nexthdr_tcp_sport '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t;$]' skipwhite contained
+" ************************* Begin of ' tcp sport' *************************
+"  tcp sport
+hi link   nft_payload_expr_tcp_sport nftHL_Integer
+syn match nft_payload_expr_tcp_sport '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t;$]' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_checksum,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_sequence,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_ackseq,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_urgptr,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_window,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_dport,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_flags,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_doff
+\    nft_payload_expr_tcp_keyword_checksum,
+\    nft_payload_expr_tcp_keyword_sequence,
+\    nft_payload_expr_tcp_keyword_ackseq,
+\    nft_payload_expr_tcp_keyword_urgptr,
+\    nft_payload_expr_tcp_keyword_window,
+\    nft_payload_expr_tcp_keyword_dport,
+\    nft_payload_expr_tcp_keyword_flags,
+\    nft_payload_expr_tcp_keyword_doff
 
-" ip6 nexthdr tcp sport in { 1,127,255 }
-hi link   nft_payload_expr_ip6_nexthdr_tcp_set_block_sport nftHL_Integer
-syn match nft_payload_expr_ip6_nexthdr_tcp_set_block_sport '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t,;$\}]' skipwhite contained
+"  tcp sport in { 1,127,255 }
+hi link   nft_payload_expr_tcp_set_block_sport nftHL_Integer
+syn match nft_payload_expr_tcp_set_block_sport '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t,;$\}]' skipwhite contained
 
-" ip6 nexthdr tcp sport in {  }
-hi link    nft_payload_expr_ip6_nexthdr_tcp_sport_set_block nftHL_BlockDelimitersSet
-syn region nft_payload_expr_ip6_nexthdr_tcp_sport_set_block start=+{+ end=+}+ skipwhite contained
+"  tcp sport in {  }
+hi link    nft_payload_expr_tcp_sport_set_block nftHL_BlockDelimitersSet
+syn region nft_payload_expr_tcp_sport_set_block start=+{+ end=+}+ skipwhite contained
 \ contains=
-\    nft_payload_expr_ip6_nexthdr_tcp_set_block_sport
+\    nft_payload_expr_tcp_set_block_sport
 
-" ip6 nexthdr tcp sport in
-hi link   nft_payload_expr_ip6_nexthdr_tcp_sport_keyword_in nftHL_Action
-syn match nft_payload_expr_ip6_nexthdr_tcp_sport_keyword_in '\vin' skipwhite contained
+"  tcp sport in
+hi link   nft_payload_expr_tcp_sport_keyword_in nftHL_Action
+syn match nft_payload_expr_tcp_sport_keyword_in '\vin' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_sport_set_block
+\    nft_payload_expr_tcp_sport_set_block
 
-" ip6 nexthdr tcp sport >
-hi link   nft_payload_expr_ip6_nexthdr_tcp_sport_operator_1char nftHL_Expression
-syn match nft_payload_expr_ip6_nexthdr_tcp_sport_operator_1char '\v([\>\<\!])' skipwhite contained
+"  tcp sport >
+hi link   nft_payload_expr_tcp_sport_operator_1char nftHL_Expression
+syn match nft_payload_expr_tcp_sport_operator_1char '\v([\>\<\!])' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_sport,
+\    nft_payload_expr_tcp_sport,
 \    nft_chainError
 
-" ip6 nexthdr tcp sport >=
-hi link   nft_payload_expr_ip6_nexthdr_tcp_sport_operator_2char nftHL_Expression
-syn match nft_payload_expr_ip6_nexthdr_tcp_sport_operator_2char '\v([\>\<\!])\=' skipwhite contained
+"  tcp sport >=
+hi link   nft_payload_expr_tcp_sport_operator_2char nftHL_Expression
+syn match nft_payload_expr_tcp_sport_operator_2char '\v([\>\<\!])\=' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_sport,
+\    nft_payload_expr_tcp_sport,
 \    nft_chainError
 
-" ip6 nexthdr tcp sport
-hi link   nft_payload_expr_ip6_nexthdr_tcp_keyword_sport nftHL_Action
-syn match nft_payload_expr_ip6_nexthdr_tcp_keyword_sport '\vsport\ze[ \t]' skipwhite contained
+"  tcp sport
+hi link   nft_payload_expr_tcp_keyword_sport nftHL_Action
+syn match nft_payload_expr_tcp_keyword_sport '\vsport\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_sport_operator_2char,
-\    nft_payload_expr_ip6_nexthdr_tcp_sport_keyword_in,
-\    nft_payload_expr_ip6_nexthdr_tcp_sport_operator_1char,
-\    nft_payload_expr_ip6_nexthdr_tcp_sport,
-\    nft_payload_expr_ip6_nexthdr_named_set,
+\    nft_payload_expr_tcp_sport_operator_2char,
+\    nft_payload_expr_tcp_sport_keyword_in,
+\    nft_payload_expr_tcp_sport_operator_1char,
+\    nft_payload_expr_tcp_sport,
+\    nft_payload_expr_named_set,
 \    nft_chainError
-" ************************* End of 'ip6 nexthdr tcp sport' *************************
+" ************************* End of ' tcp sport' *************************
 
-" ************************* Begin of 'ip6 nexthdr tcp doff' *************************
-" ip6 nexthdr tcp doff
-hi link   nft_payload_expr_ip6_nexthdr_tcp_doff_second nftHL_Integer
-syn match nft_payload_expr_ip6_nexthdr_tcp_doff_second '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))\ze[ \t;$]' skipwhite contained
+" ************************* Begin of ' tcp doff' *************************
+"  tcp doff
+hi link   nft_payload_expr_tcp_doff_second nftHL_Integer
+syn match nft_payload_expr_tcp_doff_second '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))\ze[ \t;$]' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_checksum,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_sequence,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_ackseq,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_urgptr,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_window,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_dport,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_flags,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_sport,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_doff
+\    nft_payload_expr_tcp_keyword_checksum,
+\    nft_payload_expr_tcp_keyword_sequence,
+\    nft_payload_expr_tcp_keyword_ackseq,
+\    nft_payload_expr_tcp_keyword_urgptr,
+\    nft_payload_expr_tcp_keyword_window,
+\    nft_payload_expr_tcp_keyword_dport,
+\    nft_payload_expr_tcp_keyword_flags,
+\    nft_payload_expr_tcp_keyword_sport,
+\    nft_payload_expr_tcp_keyword_doff
 
 
-hi link   nft_payload_expr_ip6_nexthdr_tcp_doff_dash_symbol nftHL_Expression
-syn match nft_payload_expr_ip6_nexthdr_tcp_doff_dash_symbol '\v\-' contained
+hi link   nft_payload_expr_tcp_doff_dash_symbol nftHL_Expression
+syn match nft_payload_expr_tcp_doff_dash_symbol '\v\-' contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_doff_second,
+\    nft_payload_expr_tcp_doff_second,
 \    nft_chainError
 
-hi link   nft_payload_expr_ip6_nexthdr_tcp_doff nftHL_Integer
-syn match nft_payload_expr_ip6_nexthdr_tcp_doff '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))' contained
+hi link   nft_payload_expr_tcp_doff nftHL_Integer
+syn match nft_payload_expr_tcp_doff '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))' contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_checksum,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_sequence,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_ackseq,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_urgptr,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_window,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_dport,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_flags,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_sport,
-\    nft_payload_expr_ip6_nexthdr_tcp_doff_dash_symbol,
+\    nft_payload_expr_tcp_keyword_checksum,
+\    nft_payload_expr_tcp_keyword_sequence,
+\    nft_payload_expr_tcp_keyword_ackseq,
+\    nft_payload_expr_tcp_keyword_urgptr,
+\    nft_payload_expr_tcp_keyword_window,
+\    nft_payload_expr_tcp_keyword_dport,
+\    nft_payload_expr_tcp_keyword_flags,
+\    nft_payload_expr_tcp_keyword_sport,
+\    nft_payload_expr_tcp_doff_dash_symbol,
 
-" ip6 nexthdr tcp doff in { 1,127,255 }
-hi link   nft_payload_expr_ip6_nexthdr_tcp_set_block_doff nftHL_Integer
-syn match nft_payload_expr_ip6_nexthdr_tcp_set_block_doff '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))\ze[ \t,;$\}]' contained
+"  tcp doff in { 1,127,255 }
+hi link   nft_payload_expr_tcp_set_block_doff nftHL_Integer
+syn match nft_payload_expr_tcp_set_block_doff '\v((0x[0-9a-fA-F]{1,8})|([0-9]{1,10}))\ze[ \t,;$\}]' contained
 
-" ip6 nexthdr tcp doff in {  }
-hi link    nft_payload_expr_ip6_nexthdr_tcp_doff_set_block nftHL_BlockDelimitersSet
-syn region nft_payload_expr_ip6_nexthdr_tcp_doff_set_block start=+{+ end=+}+ skipwhite contained
+"  tcp doff in {  }
+hi link    nft_payload_expr_tcp_doff_set_block nftHL_BlockDelimitersSet
+syn region nft_payload_expr_tcp_doff_set_block start=+{+ end=+}+ skipwhite contained
 \ contains=
-\    nft_payload_expr_ip6_nexthdr_tcp_set_block_doff,
+\    nft_payload_expr_tcp_set_block_doff,
 
-" ip6 nexthdr tcp doff in
-hi link   nft_payload_expr_ip6_nexthdr_tcp_doff_keyword_in nftHL_Action
-syn match nft_payload_expr_ip6_nexthdr_tcp_doff_keyword_in '\vin' skipwhite contained
+"  tcp doff in
+hi link   nft_payload_expr_tcp_doff_keyword_in nftHL_Action
+syn match nft_payload_expr_tcp_doff_keyword_in '\vin' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_doff_set_block
+\    nft_payload_expr_tcp_doff_set_block
 
-" ip6 nexthdr tcp doff >
-hi link   nft_payload_expr_ip6_nexthdr_tcp_doff_operator_1char nftHL_Expression
-syn match nft_payload_expr_ip6_nexthdr_tcp_doff_operator_1char '\v([\>\<\!])' skipwhite contained
+"  tcp doff >
+hi link   nft_payload_expr_tcp_doff_operator_1char nftHL_Expression
+syn match nft_payload_expr_tcp_doff_operator_1char '\v([\>\<\!])' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_doff,
+\    nft_payload_expr_tcp_doff,
 \    nft_chainError
 
-" ip6 nexthdr tcp doff >=
-hi link   nft_payload_expr_ip6_nexthdr_tcp_doff_operator_2char nftHL_Expression
-syn match nft_payload_expr_ip6_nexthdr_tcp_doff_operator_2char '\v([\>\<\!])\=' skipwhite contained
+"  tcp doff >=
+hi link   nft_payload_expr_tcp_doff_operator_2char nftHL_Expression
+syn match nft_payload_expr_tcp_doff_operator_2char '\v([\>\<\!])\=' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_doff,
+\    nft_payload_expr_tcp_doff,
 \    nft_chainError
 
-" ip6 nexthdr tcp doff
-hi link   nft_payload_expr_ip6_nexthdr_tcp_keyword_doff nftHL_Action
-syn match nft_payload_expr_ip6_nexthdr_tcp_keyword_doff '\vdoff\ze[ \t]' skipwhite contained
+"  tcp doff
+hi link   nft_payload_expr_tcp_keyword_doff nftHL_Action
+syn match nft_payload_expr_tcp_keyword_doff '\vdoff\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_doff_operator_2char,
-\    nft_payload_expr_ip6_nexthdr_tcp_doff_keyword_in,
-\    nft_payload_expr_ip6_nexthdr_tcp_doff_operator_1char,
-\    nft_payload_expr_ip6_nexthdr_tcp_doff,
-\    nft_payload_expr_ip6_nexthdr_named_set,
+\    nft_payload_expr_tcp_doff_operator_2char,
+\    nft_payload_expr_tcp_doff_keyword_in,
+\    nft_payload_expr_tcp_doff_operator_1char,
+\    nft_payload_expr_tcp_doff,
+\    nft_payload_expr_named_set,
 \    nft_chainError
-" ************************* End of 'ip6 nexthdr tcp doff' *************************
+" ************************* End of ' tcp doff' *************************
 
-hi link   nft_payload_expr_ip6_nexthdr_keyword_tcp nftHL_Action
-syn match nft_payload_expr_ip6_nexthdr_keyword_tcp '\vtcp' skipwhite contained
+hi link   nft_payload_expr_keyword_tcp nftHL_Statement
+syn match nft_payload_expr_keyword_tcp '\vtcp' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_checksum,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_sequence,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_ackseq,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_urgptr,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_window,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_dport,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_flags,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_sport,
-\    nft_payload_expr_ip6_nexthdr_tcp_keyword_doff,
+\    nft_payload_expr_tcp_keyword_checksum,
+\    nft_payload_expr_tcp_keyword_sequence,
+\    nft_payload_expr_tcp_keyword_ackseq,
+\    nft_payload_expr_tcp_keyword_urgptr,
+\    nft_payload_expr_tcp_keyword_window,
+\    nft_payload_expr_tcp_keyword_dport,
+\    nft_payload_expr_tcp_keyword_flags,
+\    nft_payload_expr_tcp_keyword_sport,
+\    nft_payload_expr_tcp_keyword_doff,
 \    nft_chainError
-" ************************* End of 'ip6 nexthdr tcp' *************************
+" ************************* End of ' tcp' *************************
 
-" ************************* Begin of 'ip6 nexthdr udp' *************************
-" ip6 nexthdr udp: sport, dport, length, checksum
-" ************************* Begin of 'ip6 nexthdr udp checksum' *************************
-" ip6 nexthdr udp checksum
-hi link   nft_payload_expr_ip6_nexthdr_udp_checksum_second nftHL_Integer
-syn match nft_payload_expr_ip6_nexthdr_udp_checksum_second '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t;$]' skipwhite contained
+" ************************* Begin of ' udp' *************************
+"  udp: sport, dport, length, checksum
+" ************************* Begin of ' udp checksum' *************************
+"  udp checksum
+hi link   nft_payload_expr_udp_checksum_second nftHL_Integer
+syn match nft_payload_expr_udp_checksum_second '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t;$]' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_udp_keyword_length,
-\    nft_payload_expr_ip6_nexthdr_udp_keyword_dport,
-\    nft_payload_expr_ip6_nexthdr_udp_keyword_sport
+\    nft_payload_expr_udp_keyword_length,
+\    nft_payload_expr_udp_keyword_dport,
+\    nft_payload_expr_udp_keyword_sport
 
-hi link   nft_payload_expr_ip6_nexthdr_udp_checksum_dash_symbol nftHL_Expression
-syn match nft_payload_expr_ip6_nexthdr_udp_checksum_dash_symbol '\v\-' skipwhite contained
+hi link   nft_payload_expr_udp_checksum_dash_symbol nftHL_Expression
+syn match nft_payload_expr_udp_checksum_dash_symbol '\v\-' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_udp_checksum_second,
+\    nft_payload_expr_udp_checksum_second,
 \    nft_chainError
 
-hi link   nft_payload_expr_ip6_nexthdr_udp_checksum nftHL_Integer
-syn match nft_payload_expr_ip6_nexthdr_udp_checksum '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t;\-$]' skipwhite contained
+hi link   nft_payload_expr_udp_checksum nftHL_Integer
+syn match nft_payload_expr_udp_checksum '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t;\-$]' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_udp_keyword_length,
-\    nft_payload_expr_ip6_nexthdr_udp_keyword_dport,
-\    nft_payload_expr_ip6_nexthdr_udp_keyword_sport,
-\    nft_payload_expr_ip6_nexthdr_udp_checksum_dash_symbol
+\    nft_payload_expr_udp_keyword_length,
+\    nft_payload_expr_udp_keyword_dport,
+\    nft_payload_expr_udp_keyword_sport,
+\    nft_payload_expr_udp_checksum_dash_symbol
 
-" ip6 nexthdr udp checksum in { 1,127,255 }
-hi link   nft_payload_expr_ip6_nexthdr_udp_set_block_checksum nftHL_Integer
-syn match nft_payload_expr_ip6_nexthdr_udp_set_block_checksum '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t,;$\}]' skipwhite contained
+"  udp checksum in { 1,127,255 }
+hi link   nft_payload_expr_udp_set_block_checksum nftHL_Integer
+syn match nft_payload_expr_udp_set_block_checksum '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t,;$\}]' skipwhite contained
 
-" ip6 nexthdr udp checksum in {  }
-hi link    nft_payload_expr_ip6_nexthdr_udp_checksum_set_block nftHL_BlockDelimitersSet
-syn region nft_payload_expr_ip6_nexthdr_udp_checksum_set_block start=+{+ end=+}+ skipwhite contained
+"  udp checksum in {  }
+hi link    nft_payload_expr_udp_checksum_set_block nftHL_BlockDelimitersSet
+syn region nft_payload_expr_udp_checksum_set_block start=+{+ end=+}+ skipwhite contained
 \ contains=
-\    nft_payload_expr_ip6_nexthdr_udp_set_block_checksum
+\    nft_payload_expr_udp_set_block_checksum
 
-" ip6 nexthdr udp checksum in
-hi link   nft_payload_expr_ip6_nexthdr_udp_checksum_keyword_in nftHL_Action
-syn match nft_payload_expr_ip6_nexthdr_udp_checksum_keyword_in '\vin' skipwhite contained
+"  udp checksum in
+hi link   nft_payload_expr_udp_checksum_keyword_in nftHL_Action
+syn match nft_payload_expr_udp_checksum_keyword_in '\vin' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_udp_checksum_set_block
+\    nft_payload_expr_udp_checksum_set_block
 
-" ip6 nexthdr udp checksum >
-hi link   nft_payload_expr_ip6_nexthdr_udp_checksum_operator_1char nftHL_Expression
-syn match nft_payload_expr_ip6_nexthdr_udp_checksum_operator_1char '\v([\>\<\!])' skipwhite contained
+"  udp checksum >
+hi link   nft_payload_expr_udp_checksum_operator_1char nftHL_Expression
+syn match nft_payload_expr_udp_checksum_operator_1char '\v([\>\<\!])' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_udp_checksum,
+\    nft_payload_expr_udp_checksum,
 \    nft_chainError
 
-" ip6 nexthdr udp checksum >=
-hi link   nft_payload_expr_ip6_nexthdr_udp_checksum_operator_2char nftHL_Expression
-syn match nft_payload_expr_ip6_nexthdr_udp_checksum_operator_2char '\v([\>\<\!])\=' skipwhite contained
+"  udp checksum >=
+hi link   nft_payload_expr_udp_checksum_operator_2char nftHL_Expression
+syn match nft_payload_expr_udp_checksum_operator_2char '\v([\>\<\!])\=' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_udp_checksum,
+\    nft_payload_expr_udp_checksum,
 \    nft_chainError
 
-" ip6 nexthdr udp checksum
-hi link   nft_payload_expr_ip6_nexthdr_udp_keyword_checksum nftHL_Action
-syn match nft_payload_expr_ip6_nexthdr_udp_keyword_checksum '\vchecksum\ze[ \t]' skipwhite contained
+"  udp checksum
+hi link   nft_payload_expr_udp_keyword_checksum nftHL_Action
+syn match nft_payload_expr_udp_keyword_checksum '\vchecksum\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_udp_checksum_operator_2char,
-\    nft_payload_expr_ip6_nexthdr_udp_checksum_keyword_in,
-\    nft_payload_expr_ip6_nexthdr_udp_checksum_operator_1char,
-\    nft_payload_expr_ip6_nexthdr_udp_checksum,
-\    nft_payload_expr_ip6_nexthdr_named_set,
+\    nft_payload_expr_udp_checksum_operator_2char,
+\    nft_payload_expr_udp_checksum_keyword_in,
+\    nft_payload_expr_udp_checksum_operator_1char,
+\    nft_payload_expr_udp_checksum,
+\    nft_payload_expr_named_set,
 \    nft_chainError
-" ************************* End of 'ip6 nexthdr udp checksum' *************************
+" ************************* End of ' udp checksum' *************************
 
-" ************************* Begin of 'ip6 nexthdr udp length' *************************
-" ip6 nexthdr udp length
-hi link   nft_payload_expr_ip6_nexthdr_udp_length_second nftHL_Integer
-syn match nft_payload_expr_ip6_nexthdr_udp_length_second '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t;$]' skipwhite contained
+" ************************* Begin of ' udp length' *************************
+"  udp length
+hi link   nft_payload_expr_udp_length_second nftHL_Integer
+syn match nft_payload_expr_udp_length_second '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t;$]' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_udp_keyword_checksum,
-\    nft_payload_expr_ip6_nexthdr_udp_keyword_dport,
-\    nft_payload_expr_ip6_nexthdr_udp_keyword_sport
+\    nft_payload_expr_udp_keyword_checksum,
+\    nft_payload_expr_udp_keyword_dport,
+\    nft_payload_expr_udp_keyword_sport
 
 
-hi link   nft_payload_expr_ip6_nexthdr_udp_length_dash_symbol nftHL_Expression
-syn match nft_payload_expr_ip6_nexthdr_udp_length_dash_symbol '\v\-' contained
+hi link   nft_payload_expr_udp_length_dash_symbol nftHL_Expression
+syn match nft_payload_expr_udp_length_dash_symbol '\v\-' contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_udp_length_second,
+\    nft_payload_expr_udp_length_second,
 \    nft_chainError
 
-hi link   nft_payload_expr_ip6_nexthdr_udp_length nftHL_Integer
-syn match nft_payload_expr_ip6_nexthdr_udp_length '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))' contained
+hi link   nft_payload_expr_udp_length nftHL_Integer
+syn match nft_payload_expr_udp_length '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))' contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_udp_keyword_checksum,
-\    nft_payload_expr_ip6_nexthdr_udp_keyword_dport,
-\    nft_payload_expr_ip6_nexthdr_udp_keyword_sport,
-\    nft_payload_expr_ip6_nexthdr_udp_length_dash_symbol,
+\    nft_payload_expr_udp_keyword_checksum,
+\    nft_payload_expr_udp_keyword_dport,
+\    nft_payload_expr_udp_keyword_sport,
+\    nft_payload_expr_udp_length_dash_symbol,
 
-" ip6 nexthdr udp length in { 1,127,255 }
-hi link   nft_payload_expr_ip6_nexthdr_udp_set_block_length nftHL_Integer
-syn match nft_payload_expr_ip6_nexthdr_udp_set_block_length '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t,;$\}]' contained
+"  udp length in { 1,127,255 }
+hi link   nft_payload_expr_udp_set_block_length nftHL_Integer
+syn match nft_payload_expr_udp_set_block_length '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t,;$\}]' contained
 
-" ip6 nexthdr udp length in {  }
-hi link    nft_payload_expr_ip6_nexthdr_udp_length_set_block nftHL_BlockDelimitersSet
-syn region nft_payload_expr_ip6_nexthdr_udp_length_set_block start=+{+ end=+}+ skipwhite contained
+"  udp length in {  }
+hi link    nft_payload_expr_udp_length_set_block nftHL_BlockDelimitersSet
+syn region nft_payload_expr_udp_length_set_block start=+{+ end=+}+ skipwhite contained
 \ contains=
-\    nft_payload_expr_ip6_nexthdr_udp_set_block_length,
+\    nft_payload_expr_udp_set_block_length,
 
-" ip6 nexthdr udp length in
-hi link   nft_payload_expr_ip6_nexthdr_udp_length_keyword_in nftHL_Action
-syn match nft_payload_expr_ip6_nexthdr_udp_length_keyword_in '\vin' skipwhite contained
+"  udp length in
+hi link   nft_payload_expr_udp_length_keyword_in nftHL_Action
+syn match nft_payload_expr_udp_length_keyword_in '\vin' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_udp_length_set_block
+\    nft_payload_expr_udp_length_set_block
 
-" ip6 nexthdr udp length >
-hi link   nft_payload_expr_ip6_nexthdr_udp_length_operator_1char nftHL_Expression
-syn match nft_payload_expr_ip6_nexthdr_udp_length_operator_1char '\v([\>\<\!])' skipwhite contained
+"  udp length >
+hi link   nft_payload_expr_udp_length_operator_1char nftHL_Expression
+syn match nft_payload_expr_udp_length_operator_1char '\v([\>\<\!])' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_udp_length,
+\    nft_payload_expr_udp_length,
 \    nft_chainError
 
-" ip6 nexthdr udp length >=
-hi link   nft_payload_expr_ip6_nexthdr_udp_length_operator_2char nftHL_Expression
-syn match nft_payload_expr_ip6_nexthdr_udp_length_operator_2char '\v([\>\<\!])\=' skipwhite contained
+"  udp length >=
+hi link   nft_payload_expr_udp_length_operator_2char nftHL_Expression
+syn match nft_payload_expr_udp_length_operator_2char '\v([\>\<\!])\=' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_udp_length,
+\    nft_payload_expr_udp_length,
 \    nft_chainError
 
-" ip6 nexthdr udp length
-hi link   nft_payload_expr_ip6_nexthdr_udp_keyword_length nftHL_Action
-syn match nft_payload_expr_ip6_nexthdr_udp_keyword_length '\vlength\ze[ \t]' skipwhite contained
+"  udp length
+hi link   nft_payload_expr_udp_keyword_length nftHL_Action
+syn match nft_payload_expr_udp_keyword_length '\vlength\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_udp_length_operator_2char,
-\    nft_payload_expr_ip6_nexthdr_udp_length_keyword_in,
-\    nft_payload_expr_ip6_nexthdr_udp_length_operator_1char,
-\    nft_payload_expr_ip6_nexthdr_udp_length,
-\    nft_payload_expr_ip6_nexthdr_named_set,
+\    nft_payload_expr_udp_length_operator_2char,
+\    nft_payload_expr_udp_length_keyword_in,
+\    nft_payload_expr_udp_length_operator_1char,
+\    nft_payload_expr_udp_length,
+\    nft_payload_expr_named_set,
 \    nft_chainError
-" ************************* End of 'ip6 nexthdr udp length' *************************
+" ************************* End of ' udp length' *************************
 
-" ************************* Begin of 'ip6 nexthdr udp dport' *************************
-" ip6 nexthdr  udp dport
-hi link   nft_payload_expr_ip6_nexthdr_udp_dport nftHL_Integer
-syn match nft_payload_expr_ip6_nexthdr_udp_dport '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t;$]' skipwhite contained
+" ************************* Begin of ' udp dport' *************************
+"   udp dport
+hi link   nft_payload_expr_udp_dport nftHL_Integer
+syn match nft_payload_expr_udp_dport '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t;$]' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_udp_keyword_checksum,
-\    nft_payload_expr_ip6_nexthdr_udp_keyword_length,
-\    nft_payload_expr_ip6_nexthdr_udp_keyword_sport
+\    nft_payload_expr_udp_keyword_checksum,
+\    nft_payload_expr_udp_keyword_length,
+\    nft_payload_expr_udp_keyword_sport
 
-" ip6 nexthdr udp dport in { 1,127,255 }
-hi link   nft_payload_expr_ip6_nexthdr_udp_set_block_dport nftHL_Integer
-syn match nft_payload_expr_ip6_nexthdr_udp_set_block_dport '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t,;$\}]' skipwhite contained
+"  udp dport in { 1,127,255 }
+hi link   nft_payload_expr_udp_set_block_dport nftHL_Integer
+syn match nft_payload_expr_udp_set_block_dport '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t,;$\}]' skipwhite contained
 
-" ip6 nexthdr udp dport in {  }
-hi link    nft_payload_expr_ip6_nexthdr_udp_dport_set_block nftHL_BlockDelimitersSet
-syn region nft_payload_expr_ip6_nexthdr_udp_dport_set_block start=+{+ end=+}+ skipwhite contained
+"  udp dport in {  }
+hi link    nft_payload_expr_udp_dport_set_block nftHL_BlockDelimitersSet
+syn region nft_payload_expr_udp_dport_set_block start=+{+ end=+}+ skipwhite contained
 \ contains=
-\    nft_payload_expr_ip6_nexthdr_udp_set_block_dport
+\    nft_payload_expr_udp_set_block_dport
 
-" ip6 nexthdr udp dport in
-hi link   nft_payload_expr_ip6_nexthdr_udp_dport_keyword_in nftHL_Action
-syn match nft_payload_expr_ip6_nexthdr_udp_dport_keyword_in '\vin' skipwhite contained
+"  udp dport in
+hi link   nft_payload_expr_udp_dport_keyword_in nftHL_Action
+syn match nft_payload_expr_udp_dport_keyword_in '\vin' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_udp_dport_set_block
+\    nft_payload_expr_udp_dport_set_block
 
-" ip6 nexthdr udp dport >
-hi link   nft_payload_expr_ip6_nexthdr_udp_dport_operator_1char nftHL_Expression
-syn match nft_payload_expr_ip6_nexthdr_udp_dport_operator_1char '\v([\>\<\!])' skipwhite contained
+"  udp dport >
+hi link   nft_payload_expr_udp_dport_operator_1char nftHL_Expression
+syn match nft_payload_expr_udp_dport_operator_1char '\v([\>\<\!])' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_udp_dport,
+\    nft_payload_expr_udp_dport,
 \    nft_chainError
 
-" ip6 nexthdr udp dport >=
-hi link   nft_payload_expr_ip6_nexthdr_udp_dport_operator_2char nftHL_Expression
-syn match nft_payload_expr_ip6_nexthdr_udp_dport_operator_2char '\v([\>\<\!])\=' skipwhite contained
+"  udp dport >=
+hi link   nft_payload_expr_udp_dport_operator_2char nftHL_Expression
+syn match nft_payload_expr_udp_dport_operator_2char '\v([\>\<\!])\=' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_udp_dport,
+\    nft_payload_expr_udp_dport,
 \    nft_chainError
 
-" ip6 nexthdr udp dport
-hi link   nft_payload_expr_ip6_nexthdr_udp_keyword_dport nftHL_Action
-syn match nft_payload_expr_ip6_nexthdr_udp_keyword_dport '\vdport\ze[ \t]' skipwhite contained
+"  udp dport
+hi link   nft_payload_expr_udp_keyword_dport nftHL_Action
+syn match nft_payload_expr_udp_keyword_dport '\vdport\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_udp_dport_operator_2char,
-\    nft_payload_expr_ip6_nexthdr_udp_dport_keyword_in,
-\    nft_payload_expr_ip6_nexthdr_udp_dport_operator_1char,
-\    nft_payload_expr_ip6_nexthdr_udp_dport,
-\    nft_payload_expr_ip6_nexthdr_named_set,
+\    nft_payload_expr_udp_dport_operator_2char,
+\    nft_payload_expr_udp_dport_keyword_in,
+\    nft_payload_expr_udp_dport_operator_1char,
+\    nft_payload_expr_udp_dport,
+\    nft_payload_expr_named_set,
 \    nft_chainError
-" ************************* End of 'ip6 nexthdr udp dport' *************************
+" ************************* End of ' udp dport' *************************
 
-" ************************* Begin of 'ip6 nexthdr udp sport' *************************
-" ip6 nexthdr udp sport
-hi link   nft_payload_expr_ip6_nexthdr_udp_sport nftHL_Integer
-syn match nft_payload_expr_ip6_nexthdr_udp_sport '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t;$]' skipwhite contained
+" ************************* Begin of ' udp sport' *************************
+"  udp sport
+hi link   nft_payload_expr_udp_sport nftHL_Integer
+syn match nft_payload_expr_udp_sport '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t;$]' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_udp_keyword_checksum,
-\    nft_payload_expr_ip6_nexthdr_udp_keyword_length,
-\    nft_payload_expr_ip6_nexthdr_udp_keyword_dport,
+\    nft_payload_expr_udp_keyword_checksum,
+\    nft_payload_expr_udp_keyword_length,
+\    nft_payload_expr_udp_keyword_dport,
 
-" ip6 nexthdr udp sport in { 1,127,255 }
-hi link   nft_payload_expr_ip6_nexthdr_udp_set_block_sport nftHL_Integer
-syn match nft_payload_expr_ip6_nexthdr_udp_set_block_sport '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t,;$\}]' skipwhite contained
+"  udp sport in { 1,127,255 }
+hi link   nft_payload_expr_udp_set_block_sport nftHL_Integer
+syn match nft_payload_expr_udp_set_block_sport '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t,;$\}]' skipwhite contained
 
-" ip6 nexthdr udp sport in {  }
-hi link    nft_payload_expr_ip6_nexthdr_udp_sport_set_block nftHL_BlockDelimitersSet
-syn region nft_payload_expr_ip6_nexthdr_udp_sport_set_block start=+{+ end=+}+ skipwhite contained
+"  udp sport in {  }
+hi link    nft_payload_expr_udp_sport_set_block nftHL_BlockDelimitersSet
+syn region nft_payload_expr_udp_sport_set_block start=+{+ end=+}+ skipwhite contained
 \ contains=
-\    nft_payload_expr_ip6_nexthdr_udp_set_block_sport
+\    nft_payload_expr_udp_set_block_sport
 
-" ip6 nexthdr udp sport in
-hi link   nft_payload_expr_ip6_nexthdr_udp_sport_keyword_in nftHL_Action
-syn match nft_payload_expr_ip6_nexthdr_udp_sport_keyword_in '\vin' skipwhite contained
+"  udp sport in
+hi link   nft_payload_expr_udp_sport_keyword_in nftHL_Action
+syn match nft_payload_expr_udp_sport_keyword_in '\vin' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_udp_sport_set_block
+\    nft_payload_expr_udp_sport_set_block
 
-" ip6 nexthdr udp sport >
-hi link   nft_payload_expr_ip6_nexthdr_udp_sport_operator_1char nftHL_Expression
-syn match nft_payload_expr_ip6_nexthdr_udp_sport_operator_1char '\v([\>\<\!])' skipwhite contained
+"  udp sport >
+hi link   nft_payload_expr_udp_sport_operator_1char nftHL_Expression
+syn match nft_payload_expr_udp_sport_operator_1char '\v([\>\<\!])' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_udp_sport,
+\    nft_payload_expr_udp_sport,
 \    nft_chainError
 
-" ip6 nexthdr udp sport >=
-hi link   nft_payload_expr_ip6_nexthdr_udp_sport_operator_2char nftHL_Expression
-syn match nft_payload_expr_ip6_nexthdr_udp_sport_operator_2char '\v([\>\<\!])\=' skipwhite contained
+"  udp sport >=
+hi link   nft_payload_expr_udp_sport_operator_2char nftHL_Expression
+syn match nft_payload_expr_udp_sport_operator_2char '\v([\>\<\!])\=' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_udp_sport,
+\    nft_payload_expr_udp_sport,
 \    nft_chainError
 
-" ip6 nexthdr udp sport
-hi link   nft_payload_expr_ip6_nexthdr_udp_keyword_sport nftHL_Action
-syn match nft_payload_expr_ip6_nexthdr_udp_keyword_sport '\vsport\ze[ \t]' skipwhite contained
+"  udp sport
+hi link   nft_payload_expr_udp_keyword_sport nftHL_Action
+syn match nft_payload_expr_udp_keyword_sport '\vsport\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_udp_sport_operator_2char,
-\    nft_payload_expr_ip6_nexthdr_udp_sport_keyword_in,
-\    nft_payload_expr_ip6_nexthdr_udp_sport_operator_1char,
-\    nft_payload_expr_ip6_nexthdr_udp_sport,
-\    nft_payload_expr_ip6_nexthdr_named_set,
+\    nft_payload_expr_udp_sport_operator_2char,
+\    nft_payload_expr_udp_sport_keyword_in,
+\    nft_payload_expr_udp_sport_operator_1char,
+\    nft_payload_expr_udp_sport,
+\    nft_payload_expr_named_set,
 \    nft_chainError
-" ************************* End of 'ip6 nexthdr udp sport' *************************
+" ************************* End of ' udp sport' *************************
 
 
-hi link   nft_payload_expr_ip6_nexthdr_keyword_udp nftHL_Action
-syn match nft_payload_expr_ip6_nexthdr_keyword_udp '\vudp' skipwhite contained
+hi link   nft_payload_expr_keyword_udp nftHL_Statement
+syn match nft_payload_expr_keyword_udp '\vudp' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_udp_keyword_checksum,
-\    nft_payload_expr_ip6_nexthdr_udp_keyword_length,
-\    nft_payload_expr_ip6_nexthdr_udp_keyword_dport,
-\    nft_payload_expr_ip6_nexthdr_udp_keyword_sport,
+\    nft_payload_expr_udp_keyword_checksum,
+\    nft_payload_expr_udp_keyword_length,
+\    nft_payload_expr_udp_keyword_dport,
+\    nft_payload_expr_udp_keyword_sport,
 \    nft_chainError
-" ************************* End of 'ip6 nexthdr udp' *************************
+" ************************* End of ' udp' *************************
 
-" ************************* Begin of 'ip6 nexthdr ah' *************************
-" ip6 nexthdr ah: spi, sequence
-hi link   nft_payload_expr_ip6_nexthdr_keyword_ah nftHL_Action
-syn match nft_payload_expr_ip6_nexthdr_keyword_ah '\vah\ze[ \t]' skipwhite contained
+" ************************* Begin of ' ah' *************************
+"  ah: spi, sequence
+hi link   nft_payload_expr_keyword_ah nftHL_Statement
+syn match nft_payload_expr_keyword_ah '\vah\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_esp_keyword_sequence,
-\    nft_payload_expr_ip6_nexthdr_esp_keyword_spi,
+\    nft_payload_expr_esp_keyword_sequence,
+\    nft_payload_expr_esp_keyword_spi,
 \    nft_chainError
-" ************************* End of 'ip6 nexthdr ah' *************************
+" ************************* End of ' ah' *************************
 
 " ************************* Begin of 'ip6 nexthdr' *************************
 " WOW, duplicate this, rename w/o 'nexthdr',
@@ -3103,7 +3103,6 @@ syn match nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_ip6_hd
 \    nft_payload_expr_ip6_nexthdr_keyword_no_next,
 \    nft_payload_expr_ip6_nexthdr_keyword_routing,
 \    nft_payload_expr_ip6_nexthdr_keyword_dest,
-\    nft_payload_expr_ip6_nexthdr_keyword_esp,
 \    nft_payload_expr_ip6_nexthdr_keyword_tcp,
 \    nft_payload_expr_ip6_nexthdr_keyword_udp,
 \    nft_payload_expr_ip6_nexthdr_keyword_ah,
@@ -3112,57 +3111,71 @@ syn match nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_ip6_hd
 " ************************* End of 'ip6 nexthdr' *************************
 
 " ************************* Begin of 'ip6 version' *************************
-" ip6 nexthdr version
+" formerly nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_ip6_hdr_expr_ip6_hdr_field_keyword_version
 hi link   nft_payload_expr_ip6_version nftHL_Integer
-syn match nft_payload_expr_ip6_version '\v((0x[0-9a-fA-F]{1,1})|([0-9]{1,1}))\ze[ \t;$]' skipwhite contained
+syn match nft_payload_expr_ip6_version '\v((0x[0-9a-fA-F]{1,2})|([0-9]{1,3}))\ze[ \t;$]' skipwhite contained
 
-" ip6 nexthdr udp sport in { 1,127,255 }
-hi link   nft_payload_expr_ip6_nexthdr_udp_set_block_sport nftHL_Integer
-syn match nft_payload_expr_ip6_nexthdr_udp_set_block_sport '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t,;$\}]' skipwhite contained
-
-" ip6 nexthdr udp sport in {  }
-hi link    nft_payload_expr_ip6_nexthdr_udp_sport_set_block nftHL_BlockDelimitersSet
-syn region nft_payload_expr_ip6_nexthdr_udp_sport_set_block start=+{+ end=+}+ skipwhite contained
-\ contains=
-\    nft_payload_expr_ip6_nexthdr_udp_set_block_sport
-
-" ip6 nexthdr udp sport in
-hi link   nft_payload_expr_ip6_nexthdr_udp_sport_keyword_in nftHL_Action
-syn match nft_payload_expr_ip6_nexthdr_udp_sport_keyword_in '\vin' skipwhite contained
+hi link   nft_payload_expr_ip6_keyword_version nftHL_Action
+syn match nft_payload_expr_ip6_keyword_version '\vversion\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_udp_sport_set_block
-
-" ip6 nexthdr udp sport >
-hi link   nft_payload_expr_ip6_nexthdr_udp_sport_operator_1char nftHL_Expression
-syn match nft_payload_expr_ip6_nexthdr_udp_sport_operator_1char '\v([\>\<\!])' skipwhite contained
-\ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_udp_sport,
-\    nft_chainError
-
-" ip6 nexthdr udp sport >=
-hi link   nft_payload_expr_ip6_nexthdr_udp_sport_operator_2char nftHL_Expression
-syn match nft_payload_expr_ip6_nexthdr_udp_sport_operator_2char '\v([\>\<\!])\=' skipwhite contained
-\ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_udp_sport,
-\    nft_chainError
-
-" ip6 nexthdr udp sport
-hi link   nft_payload_expr_ip6_nexthdr_udp_keyword_sport nftHL_Action
-syn match nft_payload_expr_ip6_nexthdr_udp_keyword_sport '\vsport\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_udp_sport_operator_2char,
-\    nft_payload_expr_ip6_nexthdr_udp_sport_keyword_in,
-\    nft_payload_expr_ip6_nexthdr_udp_sport_operator_1char,
-\    nft_payload_expr_ip6_nexthdr_udp_sport,
-\    nft_payload_expr_ip6_nexthdr_named_set,
-\    nft_chainError
+\    nft_payload_expr_ip6_version,
+\    nft_Error
 " ************************* End of 'ip6 version' *************************
 
 " ************************* Begin of 'ip6 length' *************************
+hi link   nft_payload_expr_ip6_length nftHL_Integer
+syn match nft_payload_expr_ip6_length '\v((0x[0-9a-fA-F]{1,1})|([0-9]{1,1}))\ze[ \t;$]' skipwhite contained
+
+hi link   nft_payload_expr_ip6_keyword_length nftHL_Action
+syn match nft_payload_expr_ip6_keyword_length '\vlength\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_payload_expr_ip6_length,
+\    nft_Error
 " ************************* End of 'ip6 length' *************************
 
 " ************************* Begin of 'ip6 daddr' *************************
+hi link   nft_payload_expr_ip6_daddr nftHL_Integer
+syn match nft_payload_expr_ip6_daddr '\v([0-9a-fA-F]{1,4}::{0,7}){1,7}[0-9a-fA-F]{1,4}' skipwhite contained
+
+hi link   nft_payload_expr_ip6_keyword_daddr nftHL_Action
+syn match nft_payload_expr_ip6_keyword_daddr '\vdaddr\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_payload_expr_ip6_daddr,
+\    nft_Error
+" ************************* End of 'ip6 daddr' *************************
+
+" ************************* Begin of 'ip6 saddr' *************************
+hi link   nft_payload_expr_ip6_saddr nftHL_Integer
+syn match nft_payload_expr_ip6_saddr '\v([0-9a-fA-F]{1,4}::{0,7}){1,7}[0-9a-fA-F]{1,4}' skipwhite contained
+
+hi link   nft_payload_expr_ip6_keyword_saddr nftHL_Action
+syn match nft_payload_expr_ip6_keyword_saddr '\vsaddr\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_payload_expr_ip6_saddr,
+\    nft_Error
 " ************************* End of 'ip6 saddr' *************************
+
+" ************************* Begin of 'ip6 dscp' *************************
+hi link   nft_payload_expr_ip6_dscp nftHL_Integer
+syn match nft_payload_expr_ip6_dscp '\v((0x[0-9a-fA-F]{1,2})|([0-9]{1,3}))\ze[ \t;$]' skipwhite contained
+
+hi link   nft_payload_expr_ip6_keyword_dscp nftHL_Action
+syn match nft_payload_expr_ip6_keyword_dscp '\vdscp\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_payload_expr_ip6_dscp,
+\    nft_Error
+" ************************* End of 'ip6 dscp' *************************
+
+" ************************* Begin of 'ip6 ecn' *************************
+hi link   nft_payload_expr_ip6_ecn nftHL_Integer
+syn match nft_payload_expr_ip6_ecn '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,10}))\ze[ \t;$]' skipwhite contained
+
+hi link   nft_payload_expr_ip6_keyword_ecn nftHL_Action
+syn match nft_payload_expr_ip6_keyword_ecn '\vecn\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_payload_expr_ip6_ecn,
+\    nft_Error
+" ************************* End of 'ip6 ecn' *************************
 
 hi link   nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_keyword_ip6 nftHL_Statement
 syn match nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_keyword_ip6 '\vip6\ze[ \t]' skipwhite contained
@@ -3170,16 +3183,16 @@ syn match nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_keywor
 \    nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_ip6_hdr_expr_ip6_hdr_field_keyword_flowlabel,
 \    nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_ip6_hdr_expr_ip6_hdr_field_keyword_hoplimit,
 \    nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_ip6_hdr_expr_ip6_hdr_field_keyword_nexthdr,
-\    nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_ip6_hdr_expr_ip6_hdr_field_keyword_version,
-\    nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_ip6_hdr_expr_ip6_hdr_field_keyword_length,
-\    nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_ip6_hdr_expr_ip6_hdr_field_keyword_daddr,
-\    nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_ip6_hdr_expr_ip6_hdr_field_keyword_saddr,
-\    nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_ip6_hdr_expr_ip6_hdr_field_keyword_dscp,
-\    nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_ip6_hdr_expr_ip6_hdr_field_keyword_ecn,
+\    nft_payload_expr_ip6_keyword_version,
+\    nft_payload_expr_ip6_keyword_length,
+\    nft_payload_expr_ip6_keyword_daddr,
+\    nft_payload_expr_ip6_keyword_saddr,
+\    nft_payload_expr_ip6_keyword_dscp,
+\    nft_payload_expr_ip6_keyword_ecn,
 \    nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_ip6_hdr_expr_ip6_hdr_field_keyword_ttl,
 \    nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_ip6_hdr_expr_ip6_hdr_field_keyword_id,
-\    nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_ip_hdr_expr_named_set,
 \    nft_chainError
+"\    nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_ip_hdr_expr_named_set,
 " ************************* End of 'ip6_hdr_expr' *************************
 " ************************* End of 'payload_expr' *************************
 
@@ -5338,9 +5351,13 @@ syn cluster nft_c_base_cmd_add_cmd_rule_alloc_stmt_cluster
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_time,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_cpu,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_day,
+\    nft_payload_expr_keyword_esp,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iif,
 \    nft_stmt_log_stmt_log_stmt_alloc_keyword_log,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oif,
+\    nft_payload_expr_keyword_tcp,
+\    nft_payload_expr_keyword_udp,
+\    nft_payload_expr_keyword_ah,
 \    nft_rule_cluster_Error
 "\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_keyword_meta,
 "\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_hash_expr_keyword_symhash,
@@ -10755,6 +10772,10 @@ syn region nft_add_cmd_keyword_table_table_block_chain_chain_block_delimiters st
 \    nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_keyword_ip6,
 \    nft_stmt_log_stmt_log_stmt_alloc_keyword_log,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oif,
+\    nft_payload_expr_keyword_esp,
+\    nft_payload_expr_keyword_tcp,
+\    nft_payload_expr_keyword_udp,
+\    nft_payload_expr_keyword_ah,
 \    nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_keyword_ip,
 \    nft_payload_raw_expr_payload_base_spec_keyword_at_string,
 \    nft_comment_inline,
