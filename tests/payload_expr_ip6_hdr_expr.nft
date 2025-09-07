@@ -75,7 +75,6 @@ table T {
         ip6 nexthdr routing addr @my_routing accept  # Named set
         ip6 nexthdr routing addr != fffe:::0001 accept  # Comparison
 
-        icmpv6 
         ip6 nexthdr icmpv6 icmpv6 checksum 1888888888 accept;
         ip6 nexthdr icmpv6 icmpv6 checksum 0x23123123 accept;
         ip6 nexthdr icmpv6 icmpv6 checksum in { 0x123123123, 4234234234, 5345345345 } accept;
@@ -130,6 +129,8 @@ table T {
         ip6 nexthdr icmpv6 icmpv6 code 15 id 1 accept;
         ip6 nexthdr icmpv6 icmpv6 id 15 code 15 accept;
 
+        # nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_keyword_ip6
+        # nft_payload_expr_keyword_dccp
         ip6 nexthdr dccp dccp checksum 32767 accept
         ip6 nexthdr dccp dccp checksum 0x3232 accept
         ip6 nexthdr dccp dccp checksum in { 0x1000, 0x2000, 0x3000 } accept

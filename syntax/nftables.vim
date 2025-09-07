@@ -1641,7 +1641,7 @@ syn match nft_payload_expr_dccp_keyword_checksum '\vchecksum\ze[ \t]' skipwhite 
 \    nft_payload_expr_dccp_checksum_keyword_in,
 \    nft_payload_expr_dccp_checksum_operator_1char,
 \    nft_payload_expr_dccp_checksum,
-\    nft_payload_expr_ip6_nexthdr_named_set,
+\    nft_payload_expr_named_set,
 \    nft_chainError
 " ************************* End of 'ip6 nexthdr dccp checksum' *************************
 
@@ -1692,7 +1692,7 @@ syn match nft_payload_expr_dccp_keyword_dport '\vdport\ze[ \t]' skipwhite contai
 \    nft_payload_expr_dccp_dport_keyword_in,
 \    nft_payload_expr_dccp_dport_operator_1char,
 \    nft_payload_expr_dccp_dport,
-\    nft_payload_expr_ip6_nexthdr_named_set,
+\    nft_payload_expr_named_set,
 \    nft_chainError
 " ************************* End of 'dccp dport' *************************
 
@@ -1743,7 +1743,7 @@ syn match nft_payload_expr_dccp_keyword_sport '\vsport\ze[ \t]' skipwhite contai
 \    nft_payload_expr_dccp_sport_keyword_in,
 \    nft_payload_expr_dccp_sport_operator_1char,
 \    nft_payload_expr_dccp_sport,
-\    nft_payload_expr_ip6_nexthdr_named_set,
+\    nft_payload_expr_named_set,
 \    nft_chainError
 " ************************* End of 'dccp sport' *************************
 
@@ -1805,7 +1805,7 @@ syn match nft_payload_expr_dccp_keyword_type '\vtype\ze[ \t]' skipwhite containe
 \    nft_payload_expr_dccp_type,
 \    nft_payload_expr_dccp_type_operator_2char,
 \    nft_payload_expr_dccp_type_keyword_in,
-\    nft_payload_expr_ip6_nexthdr_named_set,
+\    nft_payload_expr_named_set,
 \    nft_payload_expr_dccp_type_operator_1char,
 \    nft_payload_expr_dccp_type_int,
 \    nft_chainError
@@ -1814,10 +1814,10 @@ syn match nft_payload_expr_dccp_keyword_type '\vtype\ze[ \t]' skipwhite containe
 hi link   nft_payload_expr_keyword_dccp nftHL_Statement
 syn match nft_payload_expr_keyword_dccp '\vdccp' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_ip6_nexthdr_dccp_keyword_checksum,
-\    nft_payload_expr_ip6_nexthdr_dccp_keyword_dport,
-\    nft_payload_expr_ip6_nexthdr_dccp_keyword_sport,
-\    nft_payload_expr_ip6_nexthdr_dccp_keyword_type,
+\    nft_payload_expr_dccp_keyword_checksum,
+\    nft_payload_expr_dccp_keyword_dport,
+\    nft_payload_expr_dccp_keyword_sport,
+\    nft_payload_expr_dccp_keyword_type,
 \    nft_chainError
 " ************************* End of 'ip6 nexthdr dccp' *************************
 
@@ -3085,6 +3085,10 @@ syn match nft_payload_expr_ip6_nexthdr_keyword_ah '\vah\ze[ \t]' skipwhite conta
 " ip6 nexthdr icmpv6
 hi link   nft_payload_expr_ip6_nexthdr_keyword_icmpv6 nftHL_Action
 syn match nft_payload_expr_ip6_nexthdr_keyword_icmpv6 '\vicmpv6' skipwhite contained
+
+" 'ip6 nexthdr dccp'
+hi link   nft_payload_expr_ip6_nexthdr_keyword_dccp nftHL_Action
+syn match nft_payload_expr_ip6_nexthdr_keyword_dccp '\vdccp' skipwhite contained
 
 " 'ip6 nexthdr 47'
 hi link   nft_payload_expr_ip6_nexthdr_num nftHL_Integer
@@ -5323,6 +5327,7 @@ syn cluster nft_c_base_cmd_add_cmd_rule_alloc_stmt_cluster
 \    nft_add_cmd_rule_rule_alloc_stmt_meter_stmt_meter_stmt_alloc_keyword_meter,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_skgid,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_skuid,
+\    nft_payload_expr_keyword_dccp,
 \    nft_add_cmd_rule_rule_alloc_stmt_nat_stmt_nat_stmt_alloc_keyword_dnat,
 \    nft_add_cmd_rule_rule_alloc_stmt_verdict_stmt_verdict_expr_keyword_drop,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_keyword_flow,
@@ -10728,6 +10733,7 @@ syn region nft_add_cmd_keyword_table_table_block_chain_chain_block_delimiters st
 \    nft_add_cmd_rule_rule_alloc_stmt_meter_stmt_meter_stmt_alloc_keyword_meter,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_skgid,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_skuid,
+\    nft_payload_expr_keyword_dccp,
 \    nft_add_cmd_rule_rule_alloc_stmt_nat_stmt_nat_stmt_alloc_keyword_dnat,
 \    nft_add_cmd_rule_rule_alloc_stmt_verdict_stmt_verdict_expr_keyword_drop,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_keyword_flow,
