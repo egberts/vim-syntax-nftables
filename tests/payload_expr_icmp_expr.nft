@@ -1,0 +1,21 @@
+
+add table T
+add chain C
+table T {
+    chain C {
+        type filter hook input priority 0; policy drop;
+        icmp type 1 accept
+        icmp type echo-reply accept
+        icmp id 15 accept
+        icmp id 15 mtu 1500 accept
+        icmp id 1 mtu 1500 type echo-reply code 3 type echo-reply gateway 1 checksum 15 sequence 15 accept
+
+        # Cross-over demonstration of reusing ICMP expressions
+        icmp type echo-reply checksum 15 gateway 1 sequence 1 mtu 1500 accept
+        icmp checksum 1000 gateway 123 sequence 1 code 1 type echo-reply mtu 1500 id 100 accept
+        icmp checksum in { 1 } gateway in { 1 } sequence in { 1 } code in { 123 } type in { echo-reply } mtu in { 1500 } id in { 10 } accept;
+        icmp checksum { 1 } gateway { 1 } sequence { 1 } code { 123 } type { echo-reply } mtu { 1500 } id { 10 } accept;
+
+        icmp checksum in { 1 } gateway in { 1 } sequence in { 1 } code in { 123 } type in { echo-reply } mtu in { 1500 } id in { 1000 } accept
+    }
+}
