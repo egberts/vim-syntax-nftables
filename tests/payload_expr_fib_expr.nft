@@ -1,0 +1,116 @@
+
+add table T
+
+table T {
+    chain C {
+        fib oifname eth0 accept
+        fib oifname "br*" accept
+        fib oifname == eth0 accept
+        fib oifname == "br*" accept
+        fib oifname != eth0 accept
+        fib oifname @named_set_fib_oifname accept
+        fib oifname {eth0, wlan0, lo0} accept
+        fib oifname in {eth0, wlan0, lo0} accept
+        fib oifname not in {eth0, wlan0, lo0} accept
+        fib oifname in {
+             eth0,
+             wlan0,
+             lo0
+        } accept
+
+        fib daddr 127.0.0.1 accept
+        fib daddr == fffe:::0001 accept
+        fib daddr @named_set_fib_daddr accept
+        fib daddr { 127.0.0.1, 127.0.0.2, 127.0.0.3 } accept
+        fib daddr not in { 127.0.0.1, 127.0.0.2, 127.0.0.3 } accept
+        fib daddr in { 127.0.0.1, 127.0.0.2, 127.0.0.3 } accept
+        fib daddr in {
+             127.0.0.1,
+             127.0.0.2,
+             127.0.0.3
+        } accept;
+        fib flags dead accept
+        fib flags == dyn accept
+        fib flags == offload accept
+        fib flags != dead accept
+        fib flags @named_set_fib_flags accept
+        fib flags { dead, dyn, offload } accept
+        fib flags in { dead, dyn, offload } accept
+        fib flags not in { dyn, offload, dead } accept
+        fib flags in {
+             offload,
+             dead,
+             dyn,
+        } accept;
+        fib saddr fffe:::0001 accept
+        fib saddr == 127.0.0.1 accept
+        fib saddr @named_set_fib_saddr accept
+        fib saddr { 5.1.1.1, 10.1.1.2, 15.1.1.3 } accept
+        fib saddr in { 0eff:::0001, 0eff:::0010, 0eff:::0005 } accept
+        fib saddr in {
+             5.1.1.1,
+             10.0.0.2,
+             15.1.1.13
+        } accept;
+        fib scope 15 accept
+        fib scope > 15 accept
+        fib scope 15-2000 accept
+        fib scope @named_set_udp_urgptr accept
+        fib scope { 5, 10, 15 } accept
+        fib scope in { 5, 10, 15 } accept
+        fib scope in {
+             5,
+             10,
+             15
+        } accept;
+        fib mark 15 accept
+        fib mark > 15 accept
+        fib mark 15-2000 accept
+        fib mark @named_set_udp_urgptr accept
+        fib mark { 5, 10, 15 } accept
+        fib mark in { 5, 10, 15 } accept
+        fib mark in {
+             5,
+             10,
+             15
+        } accept;
+        fib type 15 accept
+        fib type > 15 accept
+        fib type 15-2000 accept
+        fib type @named_set_udp_urgptr accept
+        fib type { 5, 10, 15 } accept
+        fib type in { 5, 10, 15 } accept
+        fib type in {
+             5,
+             10,
+             15
+        } accept;
+        fib iif 15 accept
+        fib iif > 15 accept
+        fib iif 15-2000 accept
+        fib iif @named_set_udp_urgptr accept
+        fib iif { 5, 10, 15 } accept
+        fib iif in { 5, 10, 15 } accept
+        fib iif in {
+             5,
+             10,
+             15
+        } accept;
+        fib oif 15 accept
+        fib oif > 15 accept
+        fib oif 15-2000 accept
+        fib oif @named_set_udp_urgptr accept
+        fib oif { 5, 10, 15 } accept
+        fib oif in { 5, 10, 15 } accept
+        fib oif in {
+             5,
+             10,
+             15
+        } accept;
+        # mixed fib fields (they each and all require a 'fib ' precursor)
+        fib oifname 15 fib daddr 5 fib flags 5 fib saddr 5 fib scope 5 fib mark 5 fib type 5 fib iif 5 fib oif 5 accept
+        fib oif 5 fib iif 5 fib type 5 fib mark 5 fib scope 5 fib saddr 5 fib flags 5 fib daddr 5 fib oifname 15 accept
+    }
+}
+delete chain C
+delete table T

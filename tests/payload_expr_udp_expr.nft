@@ -18,6 +18,7 @@ table T {
         udp length > 15 accept
         udp length 15-2000 accept
         udp length @named_set_udp_sequence accept
+        udp length { 5, 10, 15 } accept
         udp length in { 5, 10, 15 } accept
         udp length in {
              5,
@@ -28,6 +29,7 @@ table T {
         udp dport > 15 accept
         udp dport 15-2000 accept
         udp dport @named_set_udp_ackseq accept
+        udp dport { 5, 10, 15 } accept
         udp dport in { 5, 10, 15 } accept
         udp dport in {
              5,
@@ -38,6 +40,7 @@ table T {
         udp sport > 15 accept
         udp sport 15-2000 accept
         udp sport @named_set_udp_urgptr accept
+        udp sport { 5, 10, 15 } accept
         udp sport in { 5, 10, 15 } accept
         udp sport in {
              5,

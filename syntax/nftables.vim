@@ -3532,8 +3532,6 @@ syn match nft_payload_expr_udp_keyword_sport '\vsport\ze[ \t]' skipwhite contain
 \    nft_chainError
 " ************************* End of ' udp sport' *************************
 
-
-
 hi link   nft_payload_expr_keyword_udp nftHL_Statement
 syn match nft_payload_expr_keyword_udp '\v[ \t]\zsudp' skipwhite contained
 \ nextgroup=
@@ -3675,6 +3673,312 @@ syn match nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_keywor
 "\    nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_ip_hdr_expr_named_set,
 " ************************* End of 'ip6_hdr_expr' *************************
 " ************************* End of 'payload_expr' *************************
+
+" ************************* Begin of 'fib' expression *************************
+" fib (Forward Information Base) is about routing decision.
+hi link   nft_primary_expr_fib_named_set nftHL_Set
+syn match nft_primary_expr_fib_named_set '\v\@[a-zA-Z][a-zA-Z0-9\-_]{0,63}\ze[ \t\n]' skipwhite contained
+\ nextgroup=
+\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_fib_expr_keyword_fib
+" fib expression can only handle one field per 'fib'
+" no expressions cluster needed if sharing the same 'fib' expression as multiple fibs on same line
+
+" ************************* Begin of 'fib oifname' expression *************************
+" oifname	Output interface name (string).
+"  'fib oifname in { 1,127,255 }'
+" no wildcard device name (asterisk) support within inline set; just regular device name
+hi link   nft_primary_expr_fib_oifname_inline_set_interface nftHL_Device
+syn match nft_primary_expr_fib_oifname_inline_set_interface '\v[a-zA-Z][a-zA-Z0-9\-_]{0,63}\ze[ \t,\}\n]' skipwhite contained
+
+"  'fib oifname in { }'
+hi link    nft_primary_expr_fib_oifname_inline_set nftHL_BlockDelimitersSet
+syn region nft_primary_expr_fib_oifname_inline_set start=+{+ end=+}+ skipwhite contained
+\ contains=
+\    nft_primary_expr_fib_oifname_inline_set_interface,
+\    nft_Error
+\ nextgroup=
+\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_fib_expr_keyword_fib
+
+"   fib oifname 'br*'
+hi link   nft_primary_expr_fib_oifname_device_interface_wildcard nftHL_String
+syn match nft_primary_expr_fib_oifname_device_interface_wildcard '\v\"[a-zA-Z][a-zA-Z0-9\-_\*]{0,63}\"\ze[ \t\-]' skipwhite contained
+\ nextgroup=
+\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_fib_expr_keyword_fib,
+
+"   'fib oifname eth0'
+hi link   nft_primary_expr_fib_oifname_device_interface_name nftHL_Device
+syn match nft_primary_expr_fib_oifname_device_interface_name '\v[a-zA-Z][a-zA-Z0-9\-_]{0,63}\ze[ \t\-]' skipwhite contained
+\ nextgroup=
+\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_fib_expr_keyword_fib,
+
+"  'fib oifname in'
+hi link   nft_primary_expr_fib_oifname_keyword_in nftHL_Action
+syn match nft_primary_expr_fib_oifname_keyword_in '\vin' skipwhite contained
+\ nextgroup=
+\    nft_primary_expr_fib_oifname_inline_set
+
+"  fib oifname >
+hi link   nft_primary_expr_fib_oifname_operator_1char nftHL_Expression
+syn match nft_primary_expr_fib_oifname_operator_1char '\v\!' skipwhite contained
+\ nextgroup=
+\    nft_primary_expr_fib_oifname_device_interface_wildcard,
+\    nft_primary_expr_fib_oifname_device_interface_name,
+\    nft_chainError
+
+"  fib oifname >=
+hi link   nft_primary_expr_fib_oifname_operator_2char nftHL_Expression
+syn match nft_primary_expr_fib_oifname_operator_2char '\v[\!\=]\=' skipwhite contained
+\ nextgroup=
+\    nft_primary_expr_fib_oifname_device_interface_wildcard,
+\    nft_primary_expr_fib_oifname_device_interface_name,
+\    nft_chainError
+
+"  'fib oifname not in'
+hi link   nft_primary_expr_fib_oifname_keyword_not nftHL_Operator
+syn match nft_primary_expr_fib_oifname_keyword_not '\vnot' skipwhite contained
+\ nextgroup=
+\    nft_primary_expr_fib_oifname_keyword_in
+
+"  fib oifname
+hi link   nft_primary_expr_fib_keyword_oifname nftHL_Action
+syn match nft_primary_expr_fib_keyword_oifname '\voifname\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_primary_expr_fib_oifname_keyword_not,
+\    nft_primary_expr_fib_named_set,
+\    nft_primary_expr_fib_oifname_operator_2char,
+\    nft_primary_expr_fib_oifname_keyword_in,
+\    nft_primary_expr_fib_oifname_operator_1char,
+\    nft_primary_expr_fib_oifname_inline_set,
+\    nft_primary_expr_fib_oifname_device_interface_wildcard,
+\    nft_primary_expr_fib_oifname_device_interface_name,
+\    nft_chainError
+" ************************* End of 'fib oifname' expression *************************
+
+" ************************* Begin of 'fib daddr' expression *************************
+" daddr	Destination address lookup (IPv4/IPv6). Returns the nexthop destination address.
+hi link   nft_primary_expr_fib_daddr_inline_set_ip6 nftHL_Integer
+syn match nft_primary_expr_fib_daddr_inline_set_ip6 '\v([0-9a-fA-F]{1,4}::{0,7}){1,7}[0-9a-fA-F]{1,4}' skipwhite contained
+
+hi link   nft_primary_expr_fib_daddr_inline_set_ip nftHL_Integer
+syn match nft_primary_expr_fib_daddr_inline_set_ip '\v([0-9]{1,3}\.){3}[0-9]{1,3}' skipwhite contained
+
+"  fib daddr in {  }
+hi link    nft_primary_expr_fib_daddr_inline_set nftHL_BlockDelimitersSet
+syn region nft_primary_expr_fib_daddr_inline_set start=+{+ end=+}+ skipwhite contained
+\ contains=
+\    nft_primary_expr_fib_daddr_inline_set_ip6,
+\    nft_primary_expr_fib_daddr_inline_set_ip
+\ nextgroup=
+\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_fib_expr_keyword_fib
+
+"  fib daddr in
+hi link   nft_primary_expr_fib_daddr_keyword_in nftHL_Action
+syn match nft_primary_expr_fib_daddr_keyword_in '\vin' skipwhite contained
+\ nextgroup=
+\    nft_primary_expr_fib_daddr_inline_set
+
+hi link   nft_primary_expr_fib_daddr_ip6 nftHL_Integer
+syn match nft_primary_expr_fib_daddr_ip6 '\v([0-9a-fA-F]{1,4}::{0,7}){1,7}[0-9a-fA-F]{1,4}' skipwhite contained
+\ nextgroup=
+\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_fib_expr_keyword_fib,
+
+hi link   nft_primary_expr_fib_daddr_ip nftHL_Integer
+syn match nft_primary_expr_fib_daddr_ip '\v([0-9]{1,3}\.){3}[0-9]{1,3}' skipwhite contained
+\ nextgroup=
+\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_fib_expr_keyword_fib,
+
+"  tcp doff >
+hi link   nft_primary_expr_fib_daddr_operator_1char nftHL_Expression
+syn match nft_primary_expr_fib_daddr_operator_1char '\v([\>\<\!])' skipwhite contained
+\ nextgroup=
+\    nft_primary_expr_fib_daddr_ip,
+\    nft_primary_expr_fib_daddr_ip6,
+\    nft_chainError
+
+"  tcp doff >=
+hi link   nft_primary_expr_fib_daddr_operator_2char nftHL_Expression
+syn match nft_primary_expr_fib_daddr_operator_2char '\v[\!\=]\=' skipwhite contained
+\ nextgroup=
+\    nft_primary_expr_fib_daddr_ip,
+\    nft_primary_expr_fib_daddr_ip6,
+\    nft_chainError
+
+hi link   nft_primary_expr_fib_daddr_keyword_not nftHL_Operator
+syn match nft_primary_expr_fib_daddr_keyword_not '\vnot' skipwhite contained
+\ nextgroup=
+\    nft_primary_expr_fib_daddr_keyword_in,
+
+"  tcp doff
+hi link   nft_primary_expr_fib_keyword_daddr nftHL_Action
+syn match nft_primary_expr_fib_keyword_daddr '\vdaddr\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_primary_expr_fib_daddr_keyword_not,
+\    nft_primary_expr_fib_daddr_operator_2char,
+\    nft_primary_expr_fib_daddr_keyword_in,
+\    nft_primary_expr_fib_daddr_operator_1char,
+\    nft_primary_expr_fib_named_set,
+\    nft_primary_expr_fib_daddr_inline_set,
+\    nft_primary_expr_fib_daddr_ip,
+\    nft_primary_expr_fib_daddr_ip6,
+\    nft_chainError
+" ************************* End of 'fib daddr' expression *************************
+
+" ************************* Begin of 'fib flags' expression *************************
+" flags	Route flags (dynamic, dead, onlink, etc. — bitmask from kernel fib flags).
+hi link   nft_primary_expr_fib_flags_inline_set_defines nftHL_Define
+syn match nft_primary_expr_fib_flags_inline_set_defines '\v(dead|dyn|offload)\ze[ ,\t\n\}]' skipwhite contained
+
+"  fib flags in {  }
+hi link    nft_primary_expr_fib_flags_inline_set nftHL_BlockDelimitersSet
+syn region nft_primary_expr_fib_flags_inline_set start=+{+ end=+}+ skipwhite contained
+\ contains=
+\    nft_primary_expr_fib_flags_inline_set_defines
+\ nextgroup=
+\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_fib_expr_keyword_fib
+
+"  fib flags in
+hi link   nft_primary_expr_fib_flags_keyword_in nftHL_Action
+syn match nft_primary_expr_fib_flags_keyword_in '\vin' skipwhite contained
+\ nextgroup=
+\    nft_primary_expr_fib_flags_inline_set
+
+hi link   nft_primary_expr_fib_flags_defines nftHL_Define
+syn match nft_primary_expr_fib_flags_defines '\v(dead|dyn|offload)' skipwhite contained
+\ nextgroup=
+\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_fib_expr_keyword_fib,
+
+"  'fib flags !'
+hi link   nft_primary_expr_fib_flags_operator_1char nftHL_Expression
+syn match nft_primary_expr_fib_flags_operator_1char '\v\!' skipwhite contained
+\ nextgroup=
+\    nft_primary_expr_fib_flags_defines,
+\    nft_chainError
+
+"  tcp doff >=
+hi link   nft_primary_expr_fib_flags_operator_2char nftHL_Expression
+syn match nft_primary_expr_fib_flags_operator_2char '\v[\!\=]\=' skipwhite contained
+\ nextgroup=
+\    nft_primary_expr_fib_flags_defines,
+\    nft_chainError
+
+hi link   nft_primary_expr_fib_flags_keyword_not nftHL_Operator
+syn match nft_primary_expr_fib_flags_keyword_not '\vnot' skipwhite contained
+\ nextgroup=
+\    nft_primary_expr_fib_flags_keyword_in,
+
+"  fib flags
+hi link   nft_primary_expr_fib_keyword_flags nftHL_Action
+syn match nft_primary_expr_fib_keyword_flags '\vflags\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_primary_expr_fib_flags_keyword_not,
+\    nft_primary_expr_fib_flags_operator_2char,
+\    nft_primary_expr_fib_flags_keyword_in,
+\    nft_primary_expr_fib_flags_operator_1char,
+\    nft_primary_expr_fib_named_set,
+\    nft_primary_expr_fib_flags_inline_set,
+\    nft_primary_expr_fib_flags_defines,
+\    nft_chainError
+" ************************* End of 'fib flags' expression *************************
+
+" ************************* Begin of 'fib saddr' expression *************************
+" saddr	Source address lookup (IPv4/IPv6). Returns the preferred source address the kernel would use to reach the packet’s destination.
+hi link   nft_primary_expr_fib_saddr_inline_set_ip6 nftHL_Integer
+syn match nft_primary_expr_fib_saddr_inline_set_ip6 '\v([0-9a-fA-F]{1,4}::{0,7}){1,7}[0-9a-fA-F]{1,4}' skipwhite contained
+
+hi link   nft_primary_expr_fib_saddr_inline_set_ip nftHL_Integer
+syn match nft_primary_expr_fib_saddr_inline_set_ip '\v([0-9]{1,3}\.){3}[0-9]{1,3}' skipwhite contained
+
+"  fib saddr in {  }
+hi link    nft_primary_expr_fib_saddr_inline_set nftHL_BlockDelimitersSet
+syn region nft_primary_expr_fib_saddr_inline_set start=+{+ end=+}+ skipwhite contained
+\ contains=
+\    nft_primary_expr_fib_saddr_inline_set_ip6,
+\    nft_primary_expr_fib_saddr_inline_set_ip
+\ nextgroup=
+\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_fib_expr_keyword_fib
+
+"  fib saddr in
+hi link   nft_primary_expr_fib_saddr_keyword_in nftHL_Action
+syn match nft_primary_expr_fib_saddr_keyword_in '\vin' skipwhite contained
+\ nextgroup=
+\    nft_primary_expr_fib_saddr_inline_set
+
+hi link   nft_primary_expr_fib_saddr_ip6 nftHL_Integer
+syn match nft_primary_expr_fib_saddr_ip6 '\v([0-9a-fA-F]{1,4}::{0,7}){1,7}[0-9a-fA-F]{1,4}' skipwhite contained
+\ nextgroup=
+\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_fib_expr_keyword_fib,
+
+hi link   nft_primary_expr_fib_saddr_ip nftHL_Integer
+syn match nft_primary_expr_fib_saddr_ip '\v([0-9]{1,3}\.){3}[0-9]{1,3}' skipwhite contained
+\ nextgroup=
+\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_fib_expr_keyword_fib,
+
+"  tcp doff >
+hi link   nft_primary_expr_fib_saddr_operator_1char nftHL_Expression
+syn match nft_primary_expr_fib_saddr_operator_1char '\v([\!\=])' skipwhite contained
+\ nextgroup=
+\    nft_primary_expr_fib_saddr_ip,
+\    nft_primary_expr_fib_saddr_ip6,
+\    nft_chainError
+
+"  tcp doff >=
+hi link   nft_primary_expr_fib_saddr_operator_2char nftHL_Expression
+syn match nft_primary_expr_fib_saddr_operator_2char '\v[\!\=]\=' skipwhite contained
+\ nextgroup=
+\    nft_primary_expr_fib_saddr_ip,
+\    nft_primary_expr_fib_saddr_ip6,
+\    nft_chainError
+
+hi link   nft_primary_expr_fib_saddr_keyword_not nftHL_Operator
+syn match nft_primary_expr_fib_saddr_keyword_not '\vnot' skipwhite contained
+\ nextgroup=
+\    nft_primary_expr_fib_saddr_keyword_in,
+
+"  tcp doff
+hi link   nft_primary_expr_fib_keyword_saddr nftHL_Action
+syn match nft_primary_expr_fib_keyword_saddr '\vsaddr\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_primary_expr_fib_saddr_keyword_not,
+\    nft_primary_expr_fib_saddr_operator_2char,
+\    nft_primary_expr_fib_saddr_keyword_in,
+\    nft_primary_expr_fib_saddr_operator_1char,
+\    nft_primary_expr_fib_named_set,
+\    nft_primary_expr_fib_saddr_inline_set,
+\    nft_primary_expr_fib_saddr_ip,
+\    nft_primary_expr_fib_saddr_ip6,
+\    nft_chainError
+" ************************* End of 'fib saddr' expression *************************
+
+" ************************* Begin of 'fib scope' expression *************************
+" scope	Route scope (host, link, site, universe).
+" ************************* End of 'fib scope' expression *************************
+" ************************* Begin of 'fib mark' expression *************************
+" mark	Routing mark lookup (uses fwmark, useful with policy routing).
+" ************************* End of 'fib mark' expression *************************
+" ************************* Begin of 'fib type' expression *************************
+" type	Route type (unicast, local, broadcast, unreachable, blackhole, prohibit, throw).
+" ************************* End of 'fib type' expression *************************
+" ************************* Begin of 'fib iif' expression *************************
+" iif	Input interface index.
+" ************************* End of 'fib iif' expression *************************
+" ************************* Begin of 'fib oif' expression *************************
+" oif	Output interface index.
+" ************************* End of 'fib oif' expression *************************
+
+hi link   nft_add_cmd_rule_rule_alloc_stmt_primary_expr_fib_expr_keyword_fib nftHL_Statement
+syn match nft_add_cmd_rule_rule_alloc_stmt_primary_expr_fib_expr_keyword_fib '\vfib\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_primary_expr_fib_keyword_oifname,
+\    nft_primary_expr_fib_keyword_daddr,
+\    nft_primary_expr_fib_keyword_flags,
+\    nft_primary_expr_fib_keyword_saddr,
+\    nft_primary_expr_fib_keyword_scope,
+\    nft_primary_expr_fib_keyword_mark,
+\    nft_primary_expr_fib_keyword_type,
+\    nft_primary_expr_fib_keyword_iif,
+\    nft_primary_expr_fib_keyword_oif
+
+" ************************* End of 'fib' expression *************************
 
 " ************************* Begin of 'stmt' *************************
 " ************************* Begin of 'log_stmt' *************************
@@ -3856,6 +4160,7 @@ syn cluster nft_c_stmt
 \    nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_keyword_type,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_cpu,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_day,
+\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_fib_expr_keyword_fib,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iif,
 \    nft_stmt_log_stmt_log_stmt_alloc_keyword_log,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oif,
@@ -5853,6 +6158,7 @@ syn cluster nft_c_base_cmd_add_cmd_rule_alloc_stmt_cluster
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_cpu,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_day,
 \    nft_payload_expr_keyword_esp,
+\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_fib_expr_keyword_fib,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iif,
 \    nft_stmt_log_stmt_log_stmt_alloc_keyword_log,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oif,
@@ -6932,6 +7238,10 @@ syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_
 \ nextgroup=
 \    @nft_c_protocol_type, nft_Error
 
+hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oifname nftHL_Statement
+syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oifname '\voifname\ze[ \t]' skipwhite contained
+\ nextgroup=@nft_c_interface_name, nft_Error
+
 hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iifgroup nftHL_Statement
 syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iifgroup '\viifgroup\ze[ \t]' skipwhite contained
 \ nextgroup= @nft_c_ifgroup_index, nft_Error
@@ -6995,10 +7305,6 @@ syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keywor
 hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_obrname nftHL_Statement
 syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_obrname '\vobrname\ze[ \t]' skipwhite contained
 \ nextgroup= @nft_c_interface_name, nft_Error
-
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oifname nftHL_Statement
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oifname '\voifname\ze[ \t]' skipwhite contained
-\ nextgroup=@nft_c_interface_name, nft_Error
 
 hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oiftype nftHL_Statement
 syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oiftype '\voiftype\ze[ \t]' skipwhite contained
@@ -11270,6 +11576,7 @@ syn region nft_add_cmd_keyword_table_table_block_chain_chain_block_delimiters st
 \    nft_payload_raw_expr_payload_base_spec_keyword_at_th,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_cpu,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_day,
+\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_fib_expr_keyword_fib,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iif,
 \    nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_keyword_ip6,
 \    nft_stmt_log_stmt_log_stmt_alloc_keyword_log,
