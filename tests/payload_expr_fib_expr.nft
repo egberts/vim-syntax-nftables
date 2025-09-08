@@ -29,18 +29,28 @@ table T {
              127.0.0.2,
              127.0.0.3
         } accept;
+        fib flags unreachable accept
+        fib flags blackhole accept
+        fib flags broadcast accept
+        fib flags multicast accept
+        fib flags prohibit accept
+        fib flags anycast accept
+        fib flags offload accept
+        fib flags unicast accept
+        fib flags unspec accept
+        fib flags local accept
         fib flags dead accept
         fib flags == dyn accept
         fib flags == offload accept
         fib flags != dead accept
         fib flags @named_set_fib_flags accept
-        fib flags { dead, dyn, offload } accept
+        fib flags { unreachable, blackhole, dead, dyn, offload } accept
         fib flags in { dead, dyn, offload } accept
         fib flags not in { dyn, offload, dead } accept
         fib flags in {
-             offload,
-             dead,
-             dyn,
+             unicast,
+             unspec,
+             local,
         } accept;
         fib saddr fffe:::0001 accept
         fib saddr == 127.0.0.1 accept
@@ -52,21 +62,23 @@ table T {
              10.0.0.2,
              15.1.1.13
         } accept;
-        fib scope 15 accept
-        fib scope > 15 accept
-        fib scope 15-2000 accept
-        fib scope @named_set_udp_urgptr accept
-        fib scope { 5, 10, 15 } accept
-        fib scope in { 5, 10, 15 } accept
+        fib scope global accept
+        fib scope != host accept
+        fib scope > host accept
+        fib scope >= host accept
+        fib scope @named_set_fib_scope accept
+        fib scope { link, host, site, nowhere, universe, global } accept
+        fib scope in { global } accept
+        fib scope not in { 200, host, site } accept
         fib scope in {
-             5,
-             10,
-             15
+             global,
+             nowhere,
+             universe
         } accept;
-        fib mark 15 accept
+        fib mark 0x80000001 accept
         fib mark > 15 accept
         fib mark 15-2000 accept
-        fib mark @named_set_udp_urgptr accept
+        fib mark @named_set_fib_mark accept
         fib mark { 5, 10, 15 } accept
         fib mark in { 5, 10, 15 } accept
         fib mark in {
@@ -74,21 +86,33 @@ table T {
              10,
              15
         } accept;
-        fib type 15 accept
-        fib type > 15 accept
-        fib type 15-2000 accept
-        fib type @named_set_udp_urgptr accept
-        fib type { 5, 10, 15 } accept
-        fib type in { 5, 10, 15 } accept
+        fib type unreachable accept
+        fib type blackhole accept
+        fib type broadcast accept
+        fib type multicast accept
+        fib type prohibit accept
+        fib type anycast accept
+        fib type offload accept
+        fib type unicast accept
+        fib type unspec accept
+        fib type local accept
+        fib type dead accept
+        fib type == dyn accept
+        fib type == offload accept
+        fib type != dead accept
+        fib type @named_set_fib_flags accept
+        fib type { unreachable, blackhole, dead, dyn, offload } accept
+        fib type in { dead, dyn, offload } accept
+        fib type not in { dyn, offload, dead } accept
         fib type in {
-             5,
-             10,
-             15
+             unicast,
+             unspec,
+             local,
         } accept;
         fib iif 15 accept
         fib iif > 15 accept
         fib iif 15-2000 accept
-        fib iif @named_set_udp_urgptr accept
+        fib iif @named_set_fib_iif accept
         fib iif { 5, 10, 15 } accept
         fib iif in { 5, 10, 15 } accept
         fib iif in {
@@ -108,8 +132,8 @@ table T {
              15
         } accept;
         # mixed fib fields (they each and all require a 'fib ' precursor)
-        fib oifname 15 fib daddr 5 fib flags 5 fib saddr 5 fib scope 5 fib mark 5 fib type 5 fib iif 5 fib oif 5 accept
-        fib oif 5 fib iif 5 fib type 5 fib mark 5 fib scope 5 fib saddr 5 fib flags 5 fib daddr 5 fib oifname 15 accept
+        fib oifname eth0 fib daddr 127.0.0.1 fib flags dead fib saddr 127.0.0.1 fib scope 5 fib mark 5 fib type dead fib iif 5 fib oif 5 accept
+        fib oif 5 fib iif 5 fib type broadcast fib mark 5 fib scope universe fib saddr fffe:::0001 fib flags dead fib daddr fffe:::0002 fib oifname "br*" accept
     }
 }
 delete chain C
