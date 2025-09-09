@@ -3,137 +3,163 @@ add table T
 
 table T {
     chain C {
-        fib oifname eth0 accept
-        fib oifname "br*" accept
-        fib oifname == eth0 accept
-        fib oifname == "br*" accept
-        fib oifname != eth0 accept
-        fib oifname @named_set_fib_oifname accept
-        fib oifname {eth0, wlan0, lo0} accept
-        fib oifname in {eth0, wlan0, lo0} accept
-        fib oifname not in {eth0, wlan0, lo0} accept
-        fib oifname in {
-             eth0,
-             wlan0,
-             lo0
-        } accept
+        fib daddr type unspec accept
+        fib daddr type unicast accept
+        fib daddr type local accept
+        fib daddr type broadcast accept
+        fib daddr type anycast accept
+        fib daddr type multicast accept
+        fib daddr type blackhole accept
+        fib daddr type unreachable accept
+        fib daddr type prohibit accept
+        fib daddr type dead accept
+        fib daddr type dyn accept
+        fib daddr type offload accept
+        fib daddr scope universe accept
+        fib daddr scope site accept
+        fib daddr scope link accept
+        fib daddr scope host accept
+        fib daddr scope nowhere accept
+        fib daddr mark 0x80000001 accept
+        fib daddr oif 1 accept
+        fib daddr oifname eth0 accept
+        fib daddr oifname "br*" accept
 
-        fib daddr 127.0.0.1 accept
-        fib daddr == fffe:::0001 accept
-        fib daddr @named_set_fib_daddr accept
-        fib daddr { 127.0.0.1, 127.0.0.2, 127.0.0.3 } accept
-        fib daddr not in { 127.0.0.1, 127.0.0.2, 127.0.0.3 } accept
-        fib daddr in { 127.0.0.1, 127.0.0.2, 127.0.0.3 } accept
-        fib daddr in {
-             127.0.0.1,
-             127.0.0.2,
-             127.0.0.3
-        } accept;
-        fib flags unreachable accept
-        fib flags blackhole accept
-        fib flags broadcast accept
-        fib flags multicast accept
-        fib flags prohibit accept
-        fib flags anycast accept
-        fib flags offload accept
-        fib flags unicast accept
-        fib flags unspec accept
-        fib flags local accept
-        fib flags dead accept
-        fib flags == dyn accept
-        fib flags == offload accept
-        fib flags != dead accept
-        fib flags @named_set_fib_flags accept
-        fib flags { unreachable, blackhole, dead, dyn, offload } accept
-        fib flags in { dead, dyn, offload } accept
-        fib flags not in { dyn, offload, dead } accept
-        fib flags in {
+        fib saddr type unspec accept
+        fib saddr type unicast accept
+        fib saddr type local accept
+        fib saddr type broadcast accept
+        fib saddr type anycast accept
+        fib saddr type multicast accept
+        fib saddr type blackhole accept
+        fib saddr type unreachable accept
+        fib saddr type prohibit accept
+        fib saddr type dead accept
+        fib saddr type dyn accept
+        fib saddr type offload accept
+        fib saddr scope universe accept
+        fib saddr scope site accept
+        fib saddr scope link accept
+        fib saddr scope host accept
+        fib saddr scope nowhere accept
+        fib saddr mark 0x80000001 accept
+        fib saddr oif 1 accept
+        fib saddr oifname eth0 accept
+        fib saddr oifname "br*" accept
+
+        fib mark type unspec accept
+        fib mark type unicast accept
+        fib mark type local accept
+        fib mark type broadcast accept
+        fib mark type anycast accept
+        fib mark type multicast accept
+        fib mark type blackhole accept
+        fib mark type unreachable accept
+        fib mark type prohibit accept
+        fib mark type dead accept
+        fib mark type dyn accept
+        fib mark type offload accept
+        fib mark scope universe accept
+        fib mark scope site accept
+        fib mark scope link accept
+        fib mark scope host accept
+        fib mark scope nowhere accept
+        fib mark mark 0x80000001 accept
+        fib mark oif 1 accept
+        fib mark oifname eth0 accept
+        fib mark oifname "br*" accept
+
+        fib iif type unreachable accept
+        fib iif type blackhole accept
+        fib iif type broadcast accept
+        fib iif type multicast accept
+        fib iif type prohibit accept
+        fib iif type anycast accept
+        fib iif type offload accept
+        fib iif type unicast accept
+        fib iif type unspec accept
+        fib iif type local accept
+        fib iif type dead accept
+        fib iif type == dyn accept
+        fib iif type == offload accept
+        fib iif type != dead accept
+        fib iif type @named_set_fib_iif accept
+        fib iif type { unreachable, blackhole, dead, dyn, offload } accept
+        fib iif type in { dead, dyn, offload } accept
+        fib iif type not in { dyn, offload, dead } accept
+        fib iif type in {
              unicast,
              unspec,
              local,
         } accept;
-        fib saddr fffe:::0001 accept
-        fib saddr == 127.0.0.1 accept
-        fib saddr @named_set_fib_saddr accept
-        fib saddr { 5.1.1.1, 10.1.1.2, 15.1.1.3 } accept
-        fib saddr in { 0eff:::0001, 0eff:::0010, 0eff:::0005 } accept
-        fib saddr in {
-             5.1.1.1,
-             10.0.0.2,
-             15.1.1.13
-        } accept;
-        fib scope global accept
-        fib scope != host accept
-        fib scope > host accept
-        fib scope >= host accept
-        fib scope @named_set_fib_scope accept
-        fib scope { link, host, site, nowhere, universe, global } accept
-        fib scope in { global } accept
-        fib scope not in { 200, host, site } accept
-        fib scope in {
-             global,
-             nowhere,
-             universe
-        } accept;
-        fib mark 0x80000001 accept
-        fib mark > 15 accept
-        fib mark 15-2000 accept
-        fib mark @named_set_fib_mark accept
-        fib mark { 5, 10, 15 } accept
-        fib mark in { 5, 10, 15 } accept
-        fib mark in {
-             5,
-             10,
-             15
-        } accept;
-        fib type unreachable accept
-        fib type blackhole accept
-        fib type broadcast accept
-        fib type multicast accept
-        fib type prohibit accept
-        fib type anycast accept
-        fib type offload accept
-        fib type unicast accept
-        fib type unspec accept
-        fib type local accept
-        fib type dead accept
-        fib type == dyn accept
-        fib type == offload accept
-        fib type != dead accept
-        fib type @named_set_fib_flags accept
-        fib type { unreachable, blackhole, dead, dyn, offload } accept
-        fib type in { dead, dyn, offload } accept
-        fib type not in { dyn, offload, dead } accept
-        fib type in {
+        fib iif scope universe accept
+        fib iif scope site accept
+        fib iif scope link accept
+        fib iif scope host accept
+        fib iif scope nowhere accept
+        fib iif mark 0x80000001 accept
+        fib iif oif 1 accept
+        fib iif oifname eth0 accept
+
+        fib oif type unreachable accept
+        fib oif type blackhole accept
+        fib oif type broadcast accept
+        fib oif type multicast accept
+        fib oif type prohibit accept
+        fib oif type anycast accept
+        fib oif type offload accept
+        fib oif type unicast accept
+        fib oif type unspec accept
+        fib oif type local accept
+        fib oif type dead accept
+        fib oif type == dyn accept
+        fib oif type == offload accept
+        fib oif type != dead accept
+        fib oif type @named_set_fib_oif accept
+        fib oif type { unreachable, blackhole, dead, dyn, offload } accept
+        fib oif type in { dead, dyn, offload } accept
+        fib oif type not in { dyn, offload, dead } accept
+        fib oif type in {
              unicast,
              unspec,
              local,
         } accept;
-        fib iif 15 accept
-        fib iif > 15 accept
-        fib iif 15-2000 accept
-        fib iif @named_set_fib_iif accept
-        fib iif { 5, 10, 15 } accept
-        fib iif in { 5, 10, 15 } accept
-        fib iif in {
-             5,
-             10,
-             15
-        } accept;
-        fib oif 15 accept
-        fib oif > 15 accept
-        fib oif 15-2000 accept
-        fib oif @named_set_udp_urgptr accept
-        fib oif { 5, 10, 15 } accept
-        fib oif in { 5, 10, 15 } accept
-        fib oif in {
-             5,
-             10,
-             15
-        } accept;
+        fib oif scope universe accept
+        fib oif scope site accept
+        fib oif scope link accept
+        fib oif scope host accept
+        fib oif scope nowhere accept
+        fib oif mark 0x80000001 accept
+        fib oif oif 1 accept
+        fib oif oifname eth0 accept
+
         # mixed fib fields (they each and all require a 'fib ' precursor)
-        fib oifname eth0 fib daddr 127.0.0.1 fib flags dead fib saddr 127.0.0.1 fib scope 5 fib mark 5 fib type dead fib iif 5 fib oif 5 accept
-        fib oif 5 fib iif 5 fib type broadcast fib mark 5 fib scope universe fib saddr fffe:::0001 fib flags dead fib daddr fffe:::0002 fib oifname "br*" accept
+        fib oifname eth0 fib daddr type unicast fib mark flags dead fib saddr oif 5 fib iif scope 5 fib oif mark 5 fib oif type dead fib iif oif 5 fib oif oif 5 accept
+        fib oif oif 5 fib iif oif 5 fib saddr type broadcast fib mark mark 5 fib iif scope universe fib saddr type unicast  fib flags dead fib daddr fffe:::0002 fib oifname "br*" accept
+
+        fib saddr flags unreachable accept
+        fib saddr flags blackhole accept
+        fib saddr flags broadcast accept
+        fib saddr flags multicast accept
+        fib saddr flags prohibit accept
+        fib saddr flags anycast accept
+        fib saddr flags offload accept
+        fib saddr flags unicast accept
+        fib saddr flags unspec accept
+        fib saddr flags local accept
+        fib saddr flags dead accept
+        fib saddr flags == dyn accept
+        fib saddr flags == offload accept
+        fib saddr flags != dead accept
+        fib saddr flags @named_set_fib_saddr accept
+        fib saddr flags { unreachable, blackhole, dead, dyn, offload } accept
+        fib saddr flags in { dead, dyn, offload } accept
+        fib saddr flags not in { dyn, offload, dead } accept
+        fib saddr flags in {
+             unicast,
+             unspec,
+             local,
+        } accept;
     }
 }
 delete chain C
