@@ -8,7 +8,7 @@
 ################################################################################
 
 # verdict_expr
-tableid chainid accept 
+tableid chainid accept;
 tableid chainid accept 
 tableid chainid drop 
 tableid chainid continue 

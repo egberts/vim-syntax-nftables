@@ -9,19 +9,19 @@
 # true positive test: properly hightlighted; has good content; perfect.
 ################################################################################
 
-table T { chain C { type filter hook output priority 0; policy drop } };
+table T { chain C { type filter hook output priority 0; policy drop; } };
 
 
 
 table T {
     chain C {$
         # common_block$
-        include "/directory/subdirectory/filename.filetype"$
-        define A = 1$
-        redefine A = 2$
-        undefine A$
-        flags offload$
-        comment "A comment line"$
+        include "/directory/subdirectory/filename.filetype"
+        define A = 1
+        redefine A = 2
+        undefine A
+        flags offload
+        comment "A comment line"
     };
 }
 table T {
@@ -43,10 +43,10 @@ table T {
         type filter hook input priority 0; policy drop;
     }
     chain C1 {
-        type filter hook input priority $MY_PRIORITY; policy DROP ;
+        type filter hook input priority $MY_PRIORITY; policy drop ;
     }
     chain C2 {
-        type filter hook input device $MYDEV priority -100; policy ACCEPT
+        type filter hook input device $MYDEV priority -100; policy accept
     }
     chain C3 {
         type filter hook input device eth0 priority $MY_PRIORITY; policy $MY_POLICY

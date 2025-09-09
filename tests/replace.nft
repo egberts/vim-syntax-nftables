@@ -93,10 +93,10 @@ replace rule ip table_id chain_id ether daddr
 replace rule ip table_id chain_id ether type
 
 # ruleid_spec payload_stmt payload_hdr_expr
-replace rule ip table_id chain_id at ll, 3, 7
-replace rule ip table_id chain_id at nh, 1, 2
-replace rule ip table_id chain_id at th, 1, 2
-replace rule ip table_id chain_id at string, 1, 2
+replace rule ip table_id chain_id @ll, 3, 7
+replace rule ip table_id chain_id @nh, 1, 2
+replace rule ip table_id chain_id @th, 1, 2
+replace rule ip table_id chain_id @string, 1, 2
 
 # ruleid_spec payload_stmt igmp_hdr_expr
 replace rule ip table_id chain_id igmp type

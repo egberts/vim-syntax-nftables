@@ -1,0 +1,53 @@
+
+add table T
+
+table T {
+    chain C {
+        ct l3proto accept
+        ct protocol accept
+        ct mark accept
+        ct state accept
+        ct direction accept
+        ct status accept
+        ct expiration accept
+        ct helper accept
+        ct saddr accept
+        ct daddr accept
+        ct proto-src accept
+        ct proto-dst accept
+        ct label accept
+        ct event accept
+        ct secmark accept
+        ct id accept
+        ct original saddr accept
+        ct original daddr accept
+        ct original l3proto accept
+        ct original protocol accept
+        ct original proto-src accept
+        ct original proto-dst accept
+        ct original bytes accept
+        ct original packets accept
+        ct original avgpkt accept
+        ct original zone accept
+        ct original ip6 saddr accept
+        ct original ip6 daddr accept
+        ct original ip saddr accept
+        ct original ip daddr accept
+        ct reply saddr accept
+        ct reply daddr accept
+        ct reply l3proto accept
+        ct reply protocol accept
+        ct reply proto-src accept
+        ct reply proto-dst accept
+        ct reply bytes accept
+        ct reply packets accept
+        ct reply avgpkt accept
+        ct reply zone accept
+        ct reply ip6 saddr accept
+        ct reply ip6 daddr accept
+        ct reply ip saddr accept
+        ct reply ip daddr accept
+    }
+}
+delete chain C
+delete table T

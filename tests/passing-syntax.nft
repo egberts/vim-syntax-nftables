@@ -380,7 +380,7 @@ table ip workstn_ip_nat {
 table inet raw {
     chain prerouting {
         type filter hook prerouting priority -300;
-        ct zone set iif map { $MY_DEVICE : 1, "virbr0" : 2 }
+        ct zone set iifname map { $MY_DEVICE : 1, "virbr0" : 2 }
     };
     chain output {
         type filter hook output priority -300;

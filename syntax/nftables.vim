@@ -8641,6 +8641,56 @@ syn match nft_base_cmd_keyword_list "list" skipwhite contained
 \    nft_Error
 "***************** END list_cmd *************************
 
+" **************** BEGIN set stmt_expr *******************
+" unused nft_add_cmd_keyword_map_map_spec_map_block_element_map_block_semicolon
+hi link   nft_chain_block_map_block_map_block_expr_elements_comma nftHL_Operator
+syn match nft_chain_block_map_block_map_block_expr_elements_comma /,/ skipwhite contained
+
+hi link    nft_chain_block_map_block_expr_map_expr nftHL_BlockDelimitersSet
+syn region nft_chain_block_map_block_expr_map_expr start="{" end="}" keepend skipwhite contained
+\ contains=
+\    nft_chain_block_map_block_map_block_expr_elements_comma
+
+hi link   nft_stmt_ct_stmt_set_map_stmt_expr_keyword_map nftHL_Action
+syn match nft_stmt_ct_stmt_set_map_stmt_expr_keyword_map '\vmap' skipwhite contained
+\ nextgroup=
+\    nft_chain_block_map_block_expr_map_expr
+
+hi link   nft_meta_stmt_unqualified_meta_keys nftHL_Action
+syn match nft_meta_stmt_unqualified_meta_keys '\vmark' skipwhite contained
+\ nextgroup=
+\    nft_stmt_ct_stmt_set_map_stmt_expr_keyword_map
+
+hi link   nft_stmt_meta_stmt_set_keyword_meta nftHL_Action
+syn match nft_stmt_meta_stmt_set_keyword_meta '\vmeta' skipwhite contained
+\ nextgroup=
+\    nft_meta_stmt_unqualified_meta_keys
+
+hi link   nft_payload_stmt_ip_keywords nftHL_Action
+syn match nft_payload_stmt_ip_keywords '\v(daddr|saddr|protocol)' skipwhite contained
+\ nextgroup=
+\    nft_stmt_ct_stmt_set_map_stmt_expr_keyword_map
+
+hi link   nft_stmt_payload_stmt_set_ip_keyword_ip nftHL_Action
+syn match nft_stmt_payload_stmt_set_ip_keyword_ip '\vip' skipwhite contained
+\ nextgroup=
+\    nft_payload_stmt_ip_keywords
+
+hi link   nft_stmt_ct_stmt_set_map_stmt_expr_keys nftHL_Action
+syn match nft_stmt_ct_stmt_set_map_stmt_expr_keys '\v(iifname|oifname|daddr|saddr|mark|iif|oif)' skipwhite contained
+\ nextgroup=
+\    nft_stmt_ct_stmt_set_map_stmt_expr_keyword_map,
+
+syn cluster nft_c_set_stmt_expr_keys
+\ contains=
+\    nft_stmt_ct_stmt_set_map_stmt_expr_keys,
+\    nft_stmt_meta_stmt_set_keyword_meta,
+\    nft_stmt_payload_stmt_set_ip6_keyword_ip6,
+\    nft_stmt_payload_stmt_set_ip_keyword_ip,
+
+
+"***************** END set stmt_expr *************************
+
 " **************** BEGIN ct_cmd *******************
 hi link   nft_add_cmd_keyword_ct_keyword_expectation_obj_spec_identifier nftHL_Table
 syn match nft_add_cmd_keyword_ct_keyword_expectation_obj_spec_identifier "\v[A-Za-z][A-Za-z0-9_\-]{0,63}" skipwhite contained
@@ -8827,8 +8877,19 @@ syn match nft_primary_expr_ct_expr_ct_key_keyword_state '\vstate' skipwhite cont
 " **************** END ct_expr ct_key 'state' *******************
 hi link   nft_primary_expr_ct_expr_ct_key_keyword_mark nftHL_Action
 syn match nft_primary_expr_ct_expr_ct_key_keyword_mark '\vmark' skipwhite contained
+
+
+hi link   nft_stmt_ct_stmt_keyword_set nftHL_Action
+syn match nft_stmt_ct_stmt_keyword_set '\vset' skipwhite contained
+\ nextgroup=
+\    @nft_c_set_stmt_expr_keys
+
+
 hi link   nft_primary_expr_ct_expr_ct_key_keyword_zone nftHL_Action
 syn match nft_primary_expr_ct_expr_ct_key_keyword_zone '\vzone' skipwhite contained
+\ nextgroup=
+\    nft_stmt_ct_stmt_keyword_set
+
 hi link   nft_primary_expr_ct_expr_ct_key_keyword_id nftHL_Action
 syn match nft_primary_expr_ct_expr_ct_key_keyword_id '\vid' skipwhite contained
 hi link   nft_primary_expr_ct_expr_ct_key_proto_field_keyword_ip nftHL_Action
@@ -10603,9 +10664,14 @@ syn match nft_add_cmd_map_map_spec_map_block_gc_interval "\vgc\-interval" skipwh
 \ nextgroup=
 \    nft_add_cmd_map_map_spec_map_block_time_spec
 
+hi link   nft_add_cmd_map_map_spec_map_block_elements_block_item_colon nftHL_Element
+syn match nft_add_cmd_map_map_spec_map_block_elements_block_item_colon '\v:' skipwhite contained
+
 " base_cmd add_cmd 'map' map_spec '{' map_block 'elements' '=' '{' map_block_item
-hi link    nft_add_cmd_map_map_spec_map_block_elements_block_items nftHL_BlockDelimitersMap
-syn match nft_add_cmd_map_map_spec_map_block_elements_block_items "\v\$[a-zA-Z][a-zA-Z0-9_\-]" skipwhite contained
+hi link    nft_add_cmd_map_map_spec_map_block_elements_block_items nftHL_Element
+syn match nft_add_cmd_map_map_spec_map_block_elements_block_items "\v\$[a-zA-Z][a-zA-Z0-9_\-]{0,63}" skipwhite contained
+\ nextgroup=
+\    nft_add_cmd_map_map_spec_map_block_elements_block_item_colon
 
 " base_cmd add_cmd 'map' map_spec '{' map_block 'elements' '=' '{' map_block_expr
 hi link    nft_add_cmd_map_map_spec_map_block_elements_map_block_expr nftHL_BlockDelimitersMap

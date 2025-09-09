@@ -188,7 +188,7 @@ rule T C meta cgroup 0x0123;
 rule T C meta cgroup 0x01234567;
 rule T C meta time 12;
 rule T C meta day Monday;
-rule T C meta day saturday;
+rule T C meta day Saturday;
 rule T C meta hour 23;
 rule T C meta hour 15;
 
