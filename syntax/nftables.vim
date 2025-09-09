@@ -3010,6 +3010,12 @@ syn match nft_payload_expr_tcp_dport_dash_symbol '\v\-\ze[0-9]' contained
 \    nft_payload_expr_tcp_dport_num2,
 \    nft_chainError
 
+hi link   nft_payload_expr_tcp_dport_enums nftHL_Define
+syn match nft_payload_expr_tcp_dport_enums '\v(clc\-build\-daemon|kerberos\-master|afs3\-fileserver|zabbix\-trapper|passwd\-server|ms\-wbt\-server|gsigatekeeper|f5\-globalsite|dhcpv6\-server|dhcpv6\-client|afs3\-vlserver|afs3\-prserver|afs3\-kaserver|afs3\-callback|zabbix\-agent|moira\-update|microsoft\-ds|kerberos\-adm|iscsi\-target|gnutella\-svc|gnutella\-rtr|font\-service|xmpp\-server|xmpp\-client|submissions|sge\-qmaster|sa\-msg\-port|rpc2portmap|rmiregistry|radmin\-port|radius\-acct|ptp\-general|netbios\-ssn|netbios\-dgm|mysql\-proxy|ipsec\-nat\-t|datametrics|afs3\-volser|afs3\-update|afs3\-rmtsys|zephyr\-srv|zephyr\-clt|syslog\-tls|supfilesrv|supfiledbg|submission|rtcm\-sc104|postgresql|netbios\-ns|moira\-ureg|ingreslock|cvspserver|codasrv\-se|cmip\-agent|cisco\-sccp|bacula\-dir|afpovertcp|zephyr\-hm|snmp\-trap|sge\-execd|sane\-port|ptp\-event|lotusnote|kerberos4|groupwise|ftps\-data|f5\-iquery|dircproxy|codaauth2|clearcase|bacula\-sd|bacula\-fd|amidxtape|amandaidx|zope\-ftp|zebrasrv|venus\-se|sgi\-crsd|sgi\-cmsd|poppassd|ms\-sql\-s|ms\-sql\-m|moira\-db|krb\-prop|kerberos|iso\-tsap|http\-alt|ftp\-data|domain\-s|cmip\-man|cfengine|asf\-rmcp|afs3\-bos|acr\-nema|telnets|skkserv|sip\-tls|sgi\-gcd|sgi\-cad|printer|predict|pawserv|ospfapi|openvpn|omniorb|netstat|kpasswd|kamanda|hylafax|gsidcap|freeciv|discard|daytime|codasrv|chargen|xinetd|webmin|tproxy|telnet|tcpmux|tacacs|systat|sysrqd|syslog|svrloc|sunrpc|rmtcfg|ripngd|remctl|radius|puppet|proofd|ospf6d|kshell|klogin|kermit|isakmp|ircs\-u|gsiftp|gopher|gnunet|gds\-db|gdomap|finger|domain|distcc|db\-lsp|csync2|bootps|bootpc|amanda|zserv|zebra|z3950|xtelw|xmms2|xdmcp|x11\-7|x11\-6|x11\-5|x11\-4|x11\-3|x11\-2|x11\-1|whois|venus|tfido|suucp|spamd|socks|sieve|shell|rsync|rplay|route|rootd|redis|pop3s|ospfd|ntske|ntalk|nntps|mysql|munin|mailq|login|ldaps|isisd|iprop|imaps|imap2|icpv2|https|epmap|dicom|coaps|canna|binkp|babel|amqps|zope|xtel|wnn6|uucp|tinc|time|tftp|talk|snpp|snmp|smux|smtp|silc|saft|rtsp|rtmp|ripd|qotd|qmtp|qmqp|pop3|nsca|nrpe|nntp|mdns|ldap|isns|ircd|http|gris|gpsd|ftps|fido|exec|epmd|echo|dict|dcap|daap|coap|biff|bgpd|auth|amqp|zip|x11|who|svn|ssh|sip|nut|ntp|nqs|nfs|nbp|nbd|mtn|mon|ldp|l2f|ipx|ipp|iax|hkp|git|ftp|fsp|fax|bgp|bbs|asp)' skipwhite contained
+\ nextgroup=
+\    @nft_c_payload_expr_tcp_expressions,
+\    nft_payload_expr_tcp_dport_dash_symbol
+
 "   tcp dport
 hi link   nft_payload_expr_tcp_dport_num_or_range nftHL_Integer
 syn match nft_payload_expr_tcp_dport_num_or_range '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t\-]' skipwhite contained
@@ -3035,6 +3041,7 @@ syn match nft_payload_expr_tcp_dport_operator_2char '\v([\>\<\!])\=' skipwhite c
 hi link   nft_payload_expr_tcp_keyword_dport nftHL_Action
 syn match nft_payload_expr_tcp_keyword_dport '\vdport\ze[ \t]' skipwhite contained
 \ nextgroup=
+\    nft_payload_expr_tcp_dport_enums,
 \    nft_payload_expr_tcp_dport_operator_2char,
 \    nft_payload_expr_tcp_dport_keyword_in,
 \    nft_payload_expr_tcp_dport_operator_1char,
@@ -8732,17 +8739,164 @@ syn match nft_base_cmd_add_ct_keyword_helper "helper" skipwhite contained
 \    nft_base_cmd_add_ct_helper_obj_spec_table_spec_family_spec,
 \    nft_add_cmd_keyword_ct_keyword_helper_obj_spec_table_spec_identifier_table
 
+" **************** BEGIN ct_expr *******************
+hi link  nft_primary_expr_ct_expr_keyword_ct nftHL_Statement
+syn match nft_primary_expr_ct_expr_keyword_ct '\vct' skipwhite contained
+\ nextgroup=
+\    nft_base_cmd_add_ct_keyword_expectation,
+\    nft_primary_expr_ct_expr_ct_key_keyword_expiration,
+\    nft_primary_expr_ct_expr_ct_key_keyword_direction,
+\    nft_primary_expr_ct_expr_ct_key_keyword_proto_dst,
+\    nft_primary_expr_ct_expr_ct_key_keyword_proto_src,
+\    nft_primary_expr_ct_expr_ct_dir_keyword_original,
+\    nft_primary_expr_ct_expr_ct_key_keyword_protocol,
+\    nft_primary_expr_ct_expr_ct_key_keyword_packets,
+\    nft_base_cmd_add_ct_keyword_timeout,
+\    nft_primary_expr_ct_expr_ct_key_keyword_l3proto,
+\    nft_primary_expr_ct_expr_ct_key_keyword_secmark,
+\    nft_primary_expr_ct_expr_ct_key_keyword_avgpkt,
+\    nft_base_cmd_add_ct_keyword_helper,
+\    nft_primary_expr_ct_expr_ct_key_keyword_status,
+\    nft_primary_expr_ct_expr_ct_key_keyword_bytes,
+\    nft_add_cmd_set_block_stateful_stmt_list_stateful_stmt_connlimit_stmt_keyword_count,
+\    nft_primary_expr_ct_expr_ct_key_keyword_daddr,
+\    nft_primary_expr_ct_expr_ct_key_keyword_event,
+\    nft_primary_expr_ct_expr_ct_key_keyword_label,
+\    nft_primary_expr_ct_expr_ct_dir_keyword_reply,
+\    nft_primary_expr_ct_expr_ct_key_keyword_saddr,
+\    nft_primary_expr_ct_expr_ct_key_keyword_state,
+\    nft_primary_expr_ct_expr_ct_key_keyword_mark,
+\    nft_primary_expr_ct_expr_ct_key_keyword_zone,
+\    nft_primary_expr_ct_expr_ct_key_keyword_id,
+\    nft_Error
+
+" **************** END of ct_expr *******************
 syn cluster nft_c_cmd_add_ct_keywords
 \ contains=
-\    nft_base_cmd_add_ct_keyword_helper,
+\    nft_base_cmd_add_ct_keyword_expectation,
 \    nft_base_cmd_add_ct_keyword_timeout,
-\    nft_base_cmd_add_ct_keyword_expectation
+\    nft_base_cmd_add_ct_keyword_helper,
+\    nft_add_cmd_set_block_stateful_stmt_list_stateful_stmt_connlimit_stmt_keyword_count,
 
+" **************** BEGIN ct_expr *******************
+hi link   nft_primary_expr_ct_expr_ct_key_keyword_expiration nftHL_Action
+syn match nft_primary_expr_ct_expr_ct_key_keyword_expiration '\vexpiration' skipwhite contained
+hi link   nft_primary_expr_ct_expr_ct_key_keyword_direction nftHL_Action
+syn match nft_primary_expr_ct_expr_ct_key_keyword_direction '\vdirection' skipwhite contained
+hi link   nft_primary_expr_ct_expr_ct_key_keyword_proto_src nftHL_Action
+syn match nft_primary_expr_ct_expr_ct_key_keyword_proto_src '\vproto\-src' skipwhite contained
+hi link   nft_primary_expr_ct_expr_ct_key_keyword_proto_dst nftHL_Action
+syn match nft_primary_expr_ct_expr_ct_key_keyword_proto_dst '\vproto\-dst' skipwhite contained
+hi link   nft_primary_expr_ct_expr_ct_key_keyword_protocol nftHL_Action
+syn match nft_primary_expr_ct_expr_ct_key_keyword_protocol '\vprotocol' skipwhite contained
+hi link   nft_primary_expr_ct_expr_ct_key_keyword_packets nftHL_Action
+syn match nft_primary_expr_ct_expr_ct_key_keyword_packets '\vpackets' skipwhite contained
+hi link   nft_primary_expr_ct_expr_ct_key_keyword_l3proto nftHL_Action
+syn match nft_primary_expr_ct_expr_ct_key_keyword_l3proto '\vl3proto' skipwhite contained
+hi link   nft_primary_expr_ct_expr_ct_key_keyword_secmark nftHL_Action
+syn match nft_primary_expr_ct_expr_ct_key_keyword_secmark '\vsecmark' skipwhite contained
+hi link   nft_primary_expr_ct_expr_ct_key_keyword_avgpkt nftHL_Action
+syn match nft_primary_expr_ct_expr_ct_key_keyword_avgpkt '\vavgpkt' skipwhite contained
+hi link   nft_primary_expr_ct_expr_ct_key_keyword_status nftHL_Action
+syn match nft_primary_expr_ct_expr_ct_key_keyword_status '\vstatus' skipwhite contained
+hi link   nft_primary_expr_ct_expr_ct_key_keyword_bytes nftHL_Action
+syn match nft_primary_expr_ct_expr_ct_key_keyword_bytes '\vbytes' skipwhite contained
+hi link   nft_primary_expr_ct_expr_ct_key_keyword_event nftHL_Action
+syn match nft_primary_expr_ct_expr_ct_key_keyword_event '\vevent' skipwhite contained
+hi link   nft_primary_expr_ct_expr_ct_key_keyword_label nftHL_Action
+syn match nft_primary_expr_ct_expr_ct_key_keyword_label '\vlabel' skipwhite contained
+hi link   nft_primary_expr_ct_expr_ct_key_keyword_daddr nftHL_Action
+syn match nft_primary_expr_ct_expr_ct_key_keyword_daddr '\vdaddr' skipwhite contained
+hi link   nft_primary_expr_ct_expr_ct_key_keyword_saddr nftHL_Action
+syn match nft_primary_expr_ct_expr_ct_key_keyword_saddr '\vsaddr' skipwhite contained
+" **************** BEGIN ct_expr ct_key 'state' *******************
+hi link   nft_primary_expr_ct_expr_ct_state_comma nftHL_Define
+syn match nft_primary_expr_ct_expr_ct_state_comma '\v,' skipwhite contained
+\ nextgroup=
+\   nft_primary_expr_ct_expr_ct_state_choices
+
+hi link   nft_primary_expr_ct_expr_ct_state_choices nftHL_Define
+syn match nft_primary_expr_ct_expr_ct_state_choices '\v((invalid|established|related|new|untracked)|([0-9]{1,10}))' skipwhite contained
+\ nextgroup=
+\   nft_primary_expr_ct_expr_ct_state_comma
+
+hi link   nft_primary_expr_ct_expr_ct_key_keyword_state nftHL_Action
+syn match nft_primary_expr_ct_expr_ct_key_keyword_state '\vstate' skipwhite contained
+\ nextgroup=
+\    nft_primary_expr_ct_expr_ct_state_choices
+" **************** END ct_expr ct_key 'state' *******************
+hi link   nft_primary_expr_ct_expr_ct_key_keyword_mark nftHL_Action
+syn match nft_primary_expr_ct_expr_ct_key_keyword_mark '\vmark' skipwhite contained
+hi link   nft_primary_expr_ct_expr_ct_key_keyword_zone nftHL_Action
+syn match nft_primary_expr_ct_expr_ct_key_keyword_zone '\vzone' skipwhite contained
+hi link   nft_primary_expr_ct_expr_ct_key_keyword_id nftHL_Action
+syn match nft_primary_expr_ct_expr_ct_key_keyword_id '\vid' skipwhite contained
+hi link   nft_primary_expr_ct_expr_ct_key_proto_field_keyword_ip nftHL_Action
+syn match nft_primary_expr_ct_expr_ct_key_proto_field_keyword_ip '\vip' skipwhite contained
+\ nextgroup=
+\   nft_primary_expr_ct_expr_ct_key_keyword_daddr,
+\   nft_primary_expr_ct_expr_ct_key_keyword_saddr
+hi link   nft_primary_expr_ct_expr_ct_key_proto_field_keyword_ip6 nftHL_Action
+syn match nft_primary_expr_ct_expr_ct_key_proto_field_keyword_ip6 '\vip6' skipwhite contained
+\ nextgroup=
+\   nft_primary_expr_ct_expr_ct_key_keyword_daddr,
+\   nft_primary_expr_ct_expr_ct_key_keyword_saddr
+
+" **************** BEGIN ct_expr_keyword_original *******************
+syn cluster nft_c_primary_expr_ct_expr_ct_dir_ct_dir_key_keywords
+\ contains=
+\    nft_primary_expr_ct_expr_ct_key_keyword_proto_src,
+\    nft_primary_expr_ct_expr_ct_key_keyword_proto_dst,
+\    nft_primary_expr_ct_expr_ct_key_keyword_protocol,
+\    nft_primary_expr_ct_expr_ct_key_keyword_l3proto,
+\    nft_primary_expr_ct_expr_ct_key_keyword_packets,
+\    nft_primary_expr_ct_expr_ct_key_keyword_secmark,
+\    nft_primary_expr_ct_expr_ct_key_keyword_avgpkt,
+\    nft_primary_expr_ct_expr_ct_key_keyword_bytes,
+\    nft_primary_expr_ct_expr_ct_key_keyword_daddr,
+\    nft_primary_expr_ct_expr_ct_key_keyword_saddr,
+\    nft_primary_expr_ct_expr_ct_key_keyword_zone,
+\    nft_primary_expr_ct_expr_ct_key_proto_field_keyword_ip6,
+\    nft_primary_expr_ct_expr_ct_key_proto_field_keyword_ip,
+
+hi link   nft_primary_expr_ct_expr_ct_dir_keyword_original nfHL_Action
+syn match nft_primary_expr_ct_expr_ct_dir_keyword_original '\voriginal' skipwhite contained
+\ nextgroup=
+\    @nft_c_primary_expr_ct_expr_ct_dir_ct_dir_key_keywords
+
+hi link   nft_primary_expr_ct_expr_ct_dir_keyword_reply nfHL_Action
+syn match nft_primary_expr_ct_expr_ct_dir_keyword_reply '\vreply' skipwhite contained
+\ nextgroup=
+\    @nft_c_primary_expr_ct_expr_ct_dir_ct_dir_key_keywords
+" **************** END ct_expr *******************
 " base_cmd [ 'ct' ]
 hi link   nft_base_cmd_add_cmd_keyword_ct nftHL_Command
 syn match nft_base_cmd_add_cmd_keyword_ct "\vct\ze[ \t]" skipwhite contained
 \ nextgroup=
-\    @nft_c_cmd_add_ct_keywords,
+\    nft_primary_expr_ct_expr_ct_key_keyword_expiration,
+\    nft_primary_expr_ct_expr_ct_key_keyword_direction,
+\    nft_primary_expr_ct_expr_ct_key_keyword_proto_dst,
+\    nft_primary_expr_ct_expr_ct_key_keyword_proto_src,
+\    nft_primary_expr_ct_expr_ct_dir_keyword_original,
+\    nft_primary_expr_ct_expr_ct_key_keyword_protocol,
+\    nft_primary_expr_ct_expr_ct_key_keyword_packets,
+\    nft_primary_expr_ct_expr_ct_key_keyword_secmark,
+\    nft_base_cmd_add_ct_keyword_timeout,
+\    nft_base_cmd_add_ct_keyword_helper,
+\    nft_primary_expr_ct_expr_ct_key_keyword_l3proto,
+\    nft_primary_expr_ct_expr_ct_key_keyword_avgpkt,
+\    nft_primary_expr_ct_expr_ct_key_keyword_status,
+\    nft_primary_expr_ct_expr_ct_key_keyword_bytes,
+\    nft_add_cmd_set_block_stateful_stmt_list_stateful_stmt_connlimit_stmt_keyword_count,
+\    nft_primary_expr_ct_expr_ct_key_keyword_event,
+\    nft_primary_expr_ct_expr_ct_key_keyword_daddr,
+\    nft_primary_expr_ct_expr_ct_key_keyword_label,
+\    nft_primary_expr_ct_expr_ct_dir_keyword_reply,
+\    nft_primary_expr_ct_expr_ct_key_keyword_saddr,
+\    nft_primary_expr_ct_expr_ct_key_keyword_state,
+\    nft_primary_expr_ct_expr_ct_key_keyword_mark,
+\    nft_primary_expr_ct_expr_ct_key_keyword_zone,
+\    nft_primary_expr_ct_expr_ct_key_keyword_id,
 \    nft_Error
 " **************** BEGIN ct_cmd *******************
 
@@ -11717,6 +11871,7 @@ syn region nft_add_cmd_keyword_table_table_block_chain_chain_block_delimiters st
 \    nft_payload_expr_keyword_tcp,
 \    nft_payload_expr_keyword_udp,
 \    nft_payload_expr_keyword_ah,
+\    nft_primary_expr_ct_expr_keyword_ct,
 \    nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_keyword_ip,
 \    nft_payload_raw_expr_payload_base_spec_keyword_at_string,
 \    nft_comment_inline,
