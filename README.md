@@ -1,84 +1,85 @@
 # vim-syntax-nftables
 
-Highlight all the things!  
+A Vim/Neovim syntax highlighter for [nftables](https://wiki.nftables.org/) configuration and script files.  
 
-You got netfilter/nftables script files?  This here will highlight your NFT script files.
+It highlights `nft` keywords, catches typos and invalid combinations, and works out-of-the-box with both `.nft` files and `#!nft` shebang scripts.
 
+---
 
-For `nft` of nftables, Netfilter script files can now be highlighted in Vim/NeoVim.
+## Features
 
-`nft` errors are highlighted and bad combos/typos are caught.
+- Syntax highlighting for `nftables` configuration and script files
+- Proactive error highlighting:
+  - Invalid combinations and typos are shown in **red**
+- Supports both:
+  - Files with `.nft` extension
+  - Files starting with `#!nft` shebang
+- Works with Vim and Neovim
+- Tested with dark/light color schemes
 
+---
 
-# Background
-Default development starts in 'dark' background, using 'koehler' color scheme.  
+## Screenshots
 
-A vim script syntax
-![Nftables](doc/nftables.gif)
-![Nftables tokens](doc/nftables-tokens-first-level.png)
-![Live Session](doc/nftables.mkv.mpdecimate.mp4.gif)
+Default colorscheme (`:colorscheme default`, `set background=dark`):
 
+![Screenshot](doc/screenshot.png)
 
-# Nftables Vim Syntax Highlighter
+Token-level highlighting:
 
-Highlight your NFTABLES files!  In VIM/NeoVIM editors, I have got those here.
+![Tokens](doc/nftables-tokens-first-level.png)
 
-For Linux nftables configuration files, a syntax highlighter for Vim-class editors.
+Demo session:
 
-Here's a screenshot using vim `colorscheme default` and `set background=dark`:
+![Demo](doc/nftables.gif)
 
-![nftables vim syntax highlight](doc/screenshot.png)
+Example animation:
+
 ![Example](test/nftables.gif "Example")
 
+---
 
+## Installation
 
-Install
--------
-See [INSTALL](https://github.com/egberts/vim-syntax-nftables/blob/master/INSTALL.md)
-on how to install this Vim syntax to your local Vim settings.
+See [INSTALL.md](https://github.com/egberts/vim-syntax-nftables/blob/master/INSTALL.md) for instructions on installing this syntax file into your local Vim/Neovim setup.
 
-This VIM syntax proactively highlights typo errors in RED for:
+---
 
-* nftables configuration file and 
-* nftables script file
+## Usage
 
+Once installed, nftables syntax highlighting is automatically enabled for:
 
+- Files ending in `.nft`
+- Scripts with a `#!nft` shebang
 
+---
 
-Files having `nft` in 1st-line shebang will activate the `syntax nftables`.
-Files having `.nft` filetype also will active the `syntax nftables` as well.
+## Bug Reporting
 
+If you run into highlighting issues:
 
-Bug Reporting
--------------
-If you have any issues with this syntax file, see if you can:
+1. Narrow down the problem to the minimal offending line(s).
+   - You don’t need to share your entire `nftables.nft`.
+   - Please anonymize IP addresses if needed.
+2. Open an [issue](https://github.com/egberts/vim-syntax-nftables/issues) and include:
+   - The offending line(s)
+   - The incorrect highlight
+   - What you expect instead
+3. You can also use a Gist to share longer snippets or screenshots.
 
-* keep narrowing down the offending line until it stopped offending, hopefully
-  it is just to just one (or few) lines.  No need to expose your entire `nftables.nft`
-  Don't forget to change all IP addresses (unless that breaks too) for
-  your privacy sake.
+---
 
-* post/file the offending line over at my [Github issue](https://github.com/egberts/vim-syntax-nftables/issues). 
+## Debugging Vim Syntax
 
-* detail the wrong highlight and state what you think is to be its
-  correct highlight, if applicable.
+If you’d like to experiment with or debug the syntax file, see [DEBUG.md](https://github.com/egberts/vim-syntax-bind-named/blob/master/DEBUG.md).  
+(Although written for `bind-named`, the debugging techniques apply here as well.)
 
-* Use gist to hold snapshots
+---
 
+## Notes for Vim Developers
 
-Debugging Vim Syntax
---------------------
-If you are bold enough to try your hand on debugging Vim syntax file,
-see my [DEBUG.md](https://github.com/egberts/vim-syntax-bind-named/blob/master/DEBUG.md) on how to debug a Vim syntax file (for the Bind9 named.conf configuration file).
+While prototyping IPv6 address matching, I discovered a limitation in Vim 8.1:  
+- It only supports a maximum of 9 groups of parentheses in regex matches, even when using `\%( … \)` instead of `\( … \)`.  
+- To work around this, IPv6 patterns are duplicated in the syntax file. This workaround is faster in practice and avoids breaking matches.
 
-To Vim Developers
------------------
-Note to Vim developers:  During the prototyping of my IPv6 address
-syntax matching, I noticed that vim 8.1 can only support a maximum
-of 9 groupings of parenthesis, even if I used the "\%( ... \)"
-notation (instead of "\( ...\)").
-
-As a result of this Vim limitation, I've had to
-duplicate IPv6 match patterns through this syntax file to get around
-this vim 8.1 limitation.  But it works and faster so.
-
+---
