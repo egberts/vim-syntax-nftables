@@ -16,6 +16,7 @@ It highlights `nft` keywords, catches typos and invalid combinations, and works 
   - Files starting with `#!nft` shebang
 - Works with Vim and Neovim
 - Tested with dark/light color schemes
+- Strictly LL(1), explosive deterministic syntax pathways
 
 ---
 
