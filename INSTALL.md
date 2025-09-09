@@ -2,7 +2,28 @@
 
 Guide to get vim-nftables syntax highlighting up and running on a Linux platform.
 
-## Setup Vim Config
+## Fetch and Install
+
+Clone the repo from GitHub and copy files:
+
+```bash
+cd /tmp
+git clone https://github.com/egberts/vim-syntax-nftables.git
+cd vim-syntax-nftables
+```
+
+## Setup 
+
+### Setup via Makefile
+
+To have Makefile install the Vim script files throughout your `~/.vim` subdirectories using only the `nftables.*` files, execute:
+
+```bash
+cd /tmp/vim-syntax-nftables
+make install
+```
+
+### Setup via Manual Copying
 
 Ensure your `~/.vim` directory exists:
 
@@ -16,13 +37,12 @@ Create necessary subdirs:
 mkdir -p ~/.vim/{indent,ftdetect,ftplugin,syntax}
 ```
 
-## Fetch and Install
+## Copy the Files
 
-Clone the repo from GitHub and copy files:
+Copy files:
 
 ```bash
-cd ~/src
-git clone https://github.com/egberts/vim-syntax-nftables.git
+cd /tmp/vim-syntax-nftables
 cp -R vim-syntax-nftables/{indent,ftdetect,ftplugin,syntax}/* ~/.vim/{indent,ftdetect,ftplugin,syntax}/
 ```
 
@@ -31,5 +51,5 @@ cp -R vim-syntax-nftables/{indent,ftdetect,ftplugin,syntax}/* ~/.vim/{indent,ftd
 Test the syntax highlighting with the provided file:
 
 ```bash
-vim ~/src/vim-syntax-nftables/test/passing-syntax.nft
+vim /tmp/vim-syntax-nftables/test/passing-syntax.nft
 ```
