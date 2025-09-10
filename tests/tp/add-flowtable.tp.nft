@@ -21,6 +21,7 @@ add table arp table_id
 add flowtable ip table_id flowtable_id { hook ingress priority 0 ; devices = { eno2, wlo1 } ; }
 add flowtable ip6 table_id flowtable_id { hook ingress priority 0 ; devices = { eno2, wlo1 } ; }
 add flowtable inet table_id flowtable_id { hook ingress priority 0 ; devices = { eno2, wlo1 } ; }
+add flowtable ip T FT { hook ingress priority 0; devices = { "lo" }; };
 
 delete flowtable ip table_id flowtable_id
 delete flowtable ip6 table_id flowtable_id

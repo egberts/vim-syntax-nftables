@@ -1,0 +1,38 @@
+
+# Copied from nftables/tests/shell/testcases/packetpath/cgroupv2
+
+table inet testcgrpv2 {
+    counter nft-test1a {}
+    counter nft-test1a2a {}
+    counter nft-test1a2b {}
+    counter nft-test1b {}
+    counter nft-test1b2a {}
+
+    chain output {
+        type filter hook output priority 0;
+
+        meta mark set 0x000005
+        meta mark == 0x000005
+        # primary_expr socket_expr
+        socket transparent 0 accept
+        socket transparent 1 accept
+        socket mark 0x00000005 accept
+        socket wildcard 0 accept
+        socket wildcard 1 accept
+        socket cgroupv2 level 1 "nft-test1a" counter name "nft-test1a" accept
+        socket cgroupv2 level 2 "nft-test1a/nft-test2a" counter name "nft-test1a2a" accept
+        socket cgroupv2 level 2 "nft-test1a/nft-test2b" counter name "nft-test1a2b" accept
+        socket cgroupv2 level 1 "nft-test1b" counter name "nft-test1b" accept
+        socket cgroupv2 level 2 "nft-test1b/nft-test2a" counter name "nft-test1b2a" accept
+        socket cgroupv2 level 1 "user.slice" counter accept
+        socket cgroupv2 level 1 "user.slice" counter accept  # Valid: Dot in path
+        socket cgroupv2 level 2 "system.slice/sshd.service" counter accept  # Valid: Dot and slash
+        socket cgroupv2 level 1 "invalid@path" counter accept  # Syntactically valid but fails at runtime if path doesn’t exist
+    }
+}
+
+
+
+socket transparent 2;fail
+socket wildcard 2;fail
+

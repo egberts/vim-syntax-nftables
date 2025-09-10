@@ -94,8 +94,9 @@ rule T C nftrace;  # 'meta nftrace == 1' only in meta_expr
 rule T C meta nftrace;  # 'meta nftrace == 1' only in meta_expr
 
 # meta_stmt - INTERNALS; found in scanner.c (not in parser_bison.y)
+# meta_stmt requires the 'set' keyword
 # 'meta nfproto' is integer or string (as listed in /etc/protocol)
-rule inet T C meta nfproto 1;
+rule inet T C meta nfproto set 1;
 rule inet T C meta nfproto 1;
 rule inet T C meta nfproto inet;
 rule inet T C meta nfproto 2;

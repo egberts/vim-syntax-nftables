@@ -37,8 +37,7 @@
 #
 add table TEST
 add chain inet TEST chainy
-undefine ipset_table
-add set inet TEST ipset_table {
+add set inet TEST nameset_ipset {
         type ipv4_addr
         flags interval
         elements = { 192.168.1.0/24, 10.0.0.1 }
@@ -47,35 +46,182 @@ add set inet TEST ipset_table {
 # true positive test: properly hightlighted correctly; has good content; perfect
 ################################################################################
 
-add rule inet TEST chainy ipsec in reqid 10 accept;
-add rule inet TEST chainy ipsec in reqid == 10 accept;
-add rule inet TEST chainy ipsec in reqid != 10 accept;
-add rule inet TEST chainy ipsec in reqid < 10 accept;
-add rule inet TEST chainy ipsec in reqid <= 10 accept;
-add rule inet TEST chainy ipsec in reqid > 10 accept;
-add rule inet TEST chainy ipsec in reqid >= 10 accept;
-add rule inet TEST chainy ipsec out spi 0x1234 counter;
-add rule inet TEST chainy ipsec out spi == 0x1234 counter;
+add rule inet TEST chainy ipsec in @nameset 
+add rule inet TEST chainy ipsec in ip daddr 192.168.1.1 accept;
+add rule inet TEST chainy ipsec in ip daddr 127.0.0.1 accept;
+add rule inet TEST chainy ipsec in ip daddr == 127.0.0.1 accept;
+add rule inet TEST chainy ipsec in ip daddr != 127.0.0.1 accept;
+add rule inet TEST chainy ipsec in ip daddr < 127.0.0.1 accept;
+add rule inet TEST chainy ipsec in ip daddr <= 127.0.0.1 accept;
+add rule inet TEST chainy ipsec in ip daddr > 127.0.0.1 accept;
+add rule inet TEST chainy ipsec in ip daddr >= 127.0.0.1 accept;
+add rule inet TEST chainy ipsec in ip daddr @nameset_ipset accept;
+add rule inet TEST chainy ipsec in ip daddr in {192.168.1.1, 127.0.0.1 } accept;  # inline set
+add rule inet TEST chainy ipsec in ip daddr not in {1, 127.0.0.1 } accept;  # inline set, inverse
+add rule inet TEST chainy ipsec in ip daddr {192.168.1.1, 127.0.0.1 } accept;  # inline set (barely acceptable)
+
 add rule inet TEST chainy ipsec in ip saddr 192.168.1.1 accept;
-add rule inet TEST chainy meta ipsec exists accept;
+add rule inet TEST chainy ipsec in ip saddr 127.0.0.1 accept;
+add rule inet TEST chainy ipsec in ip saddr == 127.0.0.1 accept;
+add rule inet TEST chainy ipsec in ip saddr != 127.0.0.1 accept;
+add rule inet TEST chainy ipsec in ip saddr < 127.0.0.1 accept;
+add rule inet TEST chainy ipsec in ip saddr <= 127.0.0.1 accept;
+add rule inet TEST chainy ipsec in ip saddr > 127.0.0.1 accept;
+add rule inet TEST chainy ipsec in ip saddr >= 127.0.0.1 accept;
+add rule inet TEST chainy ipsec in ip saddr @nameset_ipset accept;
+add rule inet TEST chainy ipsec in ip saddr in {192.168.1.1, 127.0.0.1 } accept;  # inline set
+add rule inet TEST chainy ipsec in ip saddr not in {1, 127.0.0.1 } accept;  # inline set, inverse
+add rule inet TEST chainy ipsec in ip saddr {192.168.1.1, 127.0.0.1 } accept;  # inline set (barely acceptable)
+
+add rule inet TEST chainy ipsec in reqid 0 accept;
+add rule inet TEST chainy ipsec in reqid 10 accept;
+add rule inet TEST chainy ipsec in reqid 0xffffffff accept;  # should pass
+add rule inet TEST chainy ipsec in reqid 10000000000 accept; # too many digits
+add rule inet TEST chainy ipsec in reqid 0-16 accept;
+add rule inet TEST chainy ipsec in reqid == 0x80000001 accept;
+add rule inet TEST chainy ipsec in reqid != 0x80000001 accept;
+add rule inet TEST chainy ipsec in reqid < 0x80000001 accept;
+add rule inet TEST chainy ipsec in reqid <= 0x80000001 accept;
+add rule inet TEST chainy ipsec in reqid > 0x80000001 accept;
+add rule inet TEST chainy ipsec in reqid >= 0x80000001 accept;
+add rule inet TEST chainy ipsec in reqid @nameset_in_reqid accept;
+add rule inet TEST chainy ipsec in reqid in {1, 10 } accept;  # inline set
+add rule inet TEST chainy ipsec in reqid not in {1, 10 } accept;  # inline set, inverse
+add rule inet TEST chainy ipsec in reqid {1, 10 } accept;  # inline set (barely acceptable)
+
+add rule inet TEST chainy ipsec in spi 0 accept;
+add rule inet TEST chainy ipsec in spi 10 accept;
+add rule inet TEST chainy ipsec in spi 255 accept;
+add rule inet TEST chainy ipsec in spi 256 accept;  # fail
+add rule inet TEST chainy ipsec in spi 1000 accept;  # fail
+add rule inet TEST chainy ipsec in spi 0-25 accept;
+add rule inet TEST chainy ipsec in spi == 10 accept;
+add rule inet TEST chainy ipsec in spi != 10 accept;
+add rule inet TEST chainy ipsec in spi < 10 accept;
+add rule inet TEST chainy ipsec in spi <= 10 accept;
+add rule inet TEST chainy ipsec in spi > 10 accept;
+add rule inet TEST chainy ipsec in spi >= 10 accept;
+add rule inet TEST chainy ipsec in spi @nameset_in_spi accept;
+add rule inet TEST chainy ipsec in spi in {1, 10 } accept;  # inline set
+add rule inet TEST chainy ipsec in spi not in {1, 10 } accept;  # inline set, inverse
+add rule inet TEST chainy ipsec in spi {1, 10 } accept;  # inline set (barely acceptable)
+
+# Security Policy Number (spnum): valid 0-255
+add rule inet TEST chainy ipsec in spnum 10 accept;
+add rule inet TEST chainy ipsec in spnum 256 accept;  # fail
+add rule inet TEST chainy ipsec in spnum 1000 accept;  # fail
+add rule inet TEST chainy ipsec in spnum 1-8 accept;
+add rule inet TEST chainy ipsec in spnum == 10 accept;
+add rule inet TEST chainy ipsec in spnum != 10 accept;
+add rule inet TEST chainy ipsec in spnum < 10 accept;
+add rule inet TEST chainy ipsec in spnum <= 10 accept;
+add rule inet TEST chainy ipsec in spnum > 10 accept;
+add rule inet TEST chainy ipsec in spnum >= 10 accept;
+add rule inet TEST chainy ipsec in spnum @nameset_in_spnum accept;
+add rule inet TEST chainy ipsec in spnum in {1, 10 } accept;  # inline set
+add rule inet TEST chainy ipsec in spnum not in {1, 10 } accept;  # inline set, inverse
+add rule inet TEST chainy ipsec in spnum {1, 10 } accept;  # inline set (barely acceptable)
+
+add rule inet TEST chainy ipsec out ip daddr 192.168.1.1 accept;
+add rule inet TEST chainy ipsec out ip daddr 127.0.0.1 accept;
+add rule inet TEST chainy ipsec out ip daddr == 127.0.0.1 accept;
+add rule inet TEST chainy ipsec out ip daddr != 127.0.0.1 accept;
+add rule inet TEST chainy ipsec out ip daddr < 127.0.0.1 accept;
+add rule inet TEST chainy ipsec out ip daddr <= 127.0.0.1 accept;
+add rule inet TEST chainy ipsec out ip daddr > 127.0.0.1 accept;
+add rule inet TEST chainy ipsec out ip daddr >= 127.0.0.1 accept;
+add rule inet TEST chainy ipsec out ip daddr @nameset_ipset accept;
+add rule inet TEST chainy ipsec out ip daddr in {192.168.1.1, 127.0.0.1 } accept;  # inline set
+add rule inet TEST chainy ipsec out ip daddr not in {1, 127.0.0.1 } accept;  # inline set, inverse
+add rule inet TEST chainy ipsec out ip daddr {192.168.1.1, 127.0.0.1 } accept;  # inline set (barely acceptable)
+
+add rule inet TEST chainy ipsec out ip saddr 192.168.1.1 accept;
+add rule inet TEST chainy ipsec out ip saddr 127.0.0.1 accept;
+add rule inet TEST chainy ipsec out ip saddr == 127.0.0.1 accept;
+add rule inet TEST chainy ipsec out ip saddr != 127.0.0.1 accept;
+add rule inet TEST chainy ipsec out ip saddr < 127.0.0.1 accept;
+add rule inet TEST chainy ipsec out ip saddr <= 127.0.0.1 accept;
+add rule inet TEST chainy ipsec out ip saddr > 127.0.0.1 accept;
+add rule inet TEST chainy ipsec out ip saddr >= 127.0.0.1 accept;
+add rule inet TEST chainy ipsec out ip saddr @nameset_ipset accept;
+add rule inet TEST chainy ipsec out ip saddr in {192.168.1.1, 127.0.0.1 } accept;  # inline set
+add rule inet TEST chainy ipsec out ip saddr not in {1, 127.0.0.1 } accept;  # inline set, inverse
+add rule inet TEST chainy ipsec out ip saddr {192.168.1.1, 127.0.0.1 } accept;  # inline set (barely acceptable)
+
+add rule inet TEST chainy ipsec out reqid 0 accept;
+add rule inet TEST chainy ipsec out reqid 10 accept;
+add rule inet TEST chainy ipsec out reqid 256 accept;
+add rule inet TEST chainy ipsec out reqid 1000 accept;
+add rule inet TEST chainy ipsec out reqid 1000-1001 accept;
+add rule inet TEST chainy ipsec out reqid == 10 accept;
+add rule inet TEST chainy ipsec out reqid != 10 accept;
+add rule inet TEST chainy ipsec out reqid < 10 accept;
+add rule inet TEST chainy ipsec out reqid <= 10 accept;
+add rule inet TEST chainy ipsec out reqid > 10 accept;
+add rule inet TEST chainy ipsec out reqid >= 10 accept;
+add rule inet TEST chainy ipsec out reqid @nameset_in_reqid accept;
+add rule inet TEST chainy ipsec out reqid in {1, 10 } accept;  # inline set
+add rule inet TEST chainy ipsec out reqid not in {1, 10 } accept;  # inline set, inverse
+add rule inet TEST chainy ipsec out reqid {1, 10 } accept;  # inline set (barely acceptable)
+
+add rule inet TEST chainy ipsec out spi 0 accept;
+add rule inet TEST chainy ipsec out spi 10 accept;
+add rule inet TEST chainy ipsec out spi 255 accept;
+add rule inet TEST chainy ipsec out spi 256 accept;  # fail
+add rule inet TEST chainy ipsec out spi 1000 accept;  # fail
+add rule inet TEST chainy ipsec out spi 1-22 accept;
+add rule inet TEST chainy ipsec out spi @nameset_in_spi accept;
+add rule inet TEST chainy ipsec out spi in {1, 10 } accept;  # inline set
+add rule inet TEST chainy ipsec out spi not in {1, 10 } accept;  # inline set, inverse
+add rule inet TEST chainy ipsec out spi {1, 10 } accept;  # inline set (barely acceptable)
+
+# Security Policy Number (spnum): valid 0-255
+add rule inet TEST chainy ipsec out spnum 10 accept;
+add rule inet TEST chainy ipsec out spnum 10-255 accept;
+add rule inet TEST chainy ipsec out spnum == 10 accept;
+add rule inet TEST chainy ipsec out spnum != 10 accept;
+add rule inet TEST chainy ipsec out spnum < 10 accept;
+add rule inet TEST chainy ipsec out spnum <= 10 accept;
+add rule inet TEST chainy ipsec out spnum > 10 accept;
+add rule inet TEST chainy ipsec out spnum >= 10 accept;
+add rule inet TEST chainy ipsec out spnum @nameset_in_spnum accept;
+add rule inet TEST chainy ipsec out spnum in {1, 10 } accept;  # inline set
+add rule inet TEST chainy ipsec out spnum not in {1, 10 } accept;  # inline set, inverse
+add rule inet TEST chainy ipsec out spnum {1, 10 } accept;  # inline set (barely acceptable)
+
+# extraneous specs
+add rule inet TEST chainy meta ipsec exists accept;  # not valid
+add rule inet TEST chainy iifname . ip saddr . meta ipsec missing drop;  # valid
+
+# mixed expressions
 add rule inet TEST chainy meta ipsec exists ip saddr 192.168.1.0/24 accept;
-add rule inet TEST chainy meta ipsec missing drop;
-add rule inet TEST chainy ipsec out reqid 10 ip daddr @ipset_table accept;
+add rule inet TEST chainy ipsec out reqid 10 ip daddr @nameset_ipset accept;
 add rule inet TEST chainy ip saddr 192.168.1.0/24 ipsec in reqid != 10 tcp dport 80 accept;
 
 define myreqid = 10
 add rule inet TEST chainy ipsec in reqid $myreqid accept;
 
-rule inet TEST chainy ipsec in reqid 10 accept;
-rule inet TEST chainy ipsec out spi 0x1234 counter;
 rule inet TEST chainy ipsec in ip saddr 192.168.1.1 accept;
+rule inet TEST chainy ipsec in ip6 saddr 192.168.1.1 accept;
+rule inet TEST chainy ipsec in reqid 0 accept;
+rule inet TEST chainy ipsec in reqid 10 accept;
+rule inet TEST chainy ipsec in reqid 255 accept;
+rule inet TEST chainy ipsec in reqid 1000 accept;  # fail
+rule inet TEST chainy ipsec in reqid @nameset_ipsec accept;  # fail
+rule inet TEST chainy ipsec in spnum 0 accept;
+rule inet TEST chainy ipsec in spnum 10 accept;
+rule inet TEST chainy ipsec in spnum 255 accept;
+rule inet TEST chainy ipsec in spnum 256 accept; # fail
+rule inet TEST chainy ipsec in spnum 1000 accept; # fail
+rule inet TEST chainy ipsec in spnum @nameset_ipsec accept; # fail
+rule inet TEST chainy ipsec out reqid 10 ip daddr @nameset_ipset accept;
+rule inet TEST chainy ipsec out spi 0x1234 counter;
 rule inet TEST chainy meta ipsec exists accept;
 rule inet TEST chainy meta ipsec exists ip saddr 192.168.1.0/24 accept;
 rule inet TEST chainy meta ipsec missing drop;
-rule inet TEST chainy ipsec out reqid 10 ip daddr @ipset_table accept;
 
 redefine myreqid = 10
-rule inet TEST chainy ipsec in reqid $myreqid accept;
+rule inet TEST chainy ipsec in reqid $myreqid accept; ; ; ;
 
 add table inet TEST {
     chain chainy {
@@ -85,7 +231,7 @@ add table inet TEST {
         meta ipsec exists accept;
         meta ipsec exists ip saddr 192.168.1.0/24 accept;
         meta ipsec missing drop;
-        ipsec out reqid 10 ip daddr @ipset_table accept;
+        ipsec out reqid 10 ip daddr @nameset_ipset accept;
     }
 }
 table inet TEST {
@@ -96,7 +242,7 @@ table inet TEST {
         meta ipsec exists accept;
         meta ipsec exists ip saddr 192.168.1.0/24 accept;
         meta ipsec missing drop;
-        ipsec out reqid 10 ip daddr @ipset_table accept;
+        ipsec out reqid 10 ip daddr @nameset_ipset accept;
     }
 }
 

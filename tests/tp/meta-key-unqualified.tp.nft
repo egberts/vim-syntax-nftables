@@ -118,16 +118,16 @@ add chain arp Tarp Carp {type filter hook input priority 0; policy drop; }
 #
 # meta_stmt - flags only (support expression only in meta_expr)
 
-rule Tip CipNatPrerouting numgen random mod 2 vmap { 0 : accept, 1: drop } counter drop;
-rule Tip CipNatPostrouting numgen random mod 2 vmap { 0 : accept, 1: drop } counter drop;
-rule Tip CipFilterInput numgen random mod 2 vmap { 0 : accept, 1: drop } counter drop;
+rule Tip CipNatPrerouting ip daddr numgen random mod 2 vmap { 0 : accept, 1: drop } counter drop;
+rule Tip CipNatPostrouting ip saddr numgen random mod 2 vmap { 0 : accept, 1: drop } counter drop;
+rule Tip CipFilterInput ip saddr numgen random mod 2 vmap { 0 : accept, 1: drop } counter drop;
 
 rule Tip CipNatPrerouting meta random vmap { 0 : accept, 1: drop } counter accept;
 rule Tip CipNatPostrouting meta random vmap { 0 : accept, 1: drop } counter accept;
 rule Tip CipFilterInput meta random vmap { 0 : accept, 1: drop } counter accept;
 
-# rule T C nftrace 0;  # 'meta nftrace == 1' only in meta_expr
-# rule T C meta nftrace == 1;  # 'meta nftrace == 1' only in meta_expr
+rule T C nftrace 0;  # 'meta nftrace == 1' only in meta_expr
+rule T C meta nftrace == 1;  # 'meta nftrace == 1' only in meta_expr
 
 # meta_stmt - INTERNALS; found in scanner.c (not in parser_bison.y)
 # 'meta nfproto' is integer or string (as listed in /etc/protocol)

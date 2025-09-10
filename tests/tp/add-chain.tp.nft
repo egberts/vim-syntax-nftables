@@ -43,7 +43,7 @@ add chain T C {
     type filter hook input priority 0; policy drop;
     # tcp flags syn tcp dport ssh meter flood size 128000 { ip saddr timeout 10s limit rate over 10/second} add @Sip { ip saddr timeout 1m } drop;
  
-    meta rtclassid 14 
+    rtclassid 14 
     continue  # verdict_expr
     define A = 1
     redefine A = 2
@@ -61,7 +61,8 @@ add chain T C {
     pkttype unicast;
     accept  # verdict_expr
     cgroup 123;
-    ipsec 1 ;
+    ipsec in reqid 1 accept
+    ipsec in spnum 0x10000000 accept
     skgid 0x0000;
     skuid 0x0000;
     dnat to 127.0.0.1;  # 'dnat' can only be used with 'type nat' chains.

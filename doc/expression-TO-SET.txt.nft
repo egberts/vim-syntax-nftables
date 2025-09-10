@@ -1,0 +1,217 @@
+add element inet x y { $from-$to }
+add rule x y snat to ip saddr map @z
+dnat ip6 to ip6 daddr map @x6
+dnat ip6 to ip6 saddr . tcp dport map @z
+dnat ip6 to ip6 saddr . tcp dport map @z6
+dnat ip6 to numgen inc mod 2 map @t1
+dnat ip6 to numgen inc mod 2 map @t1v6
+dnat ip to ct mark . ip daddr map { 0x00000014 . 1.1.1.1 : 1.2.3.4}
+dnat ip to ct mark map { 0x00000014 : 1.2.3.4}
+dnat ip to iifname . ip saddr map { "enp2s0" . 10.1.1.136 : 1.1.2.69/32, "enp2s0" . 10.1.1.1-10.1.1.135 : 1.1.2.66-1.84.236.78 }
+dnat ip to iifname . ip saddr map @ipportmap4
+dnat ip to ip daddr map @x4
+dnat ip to ip saddr . tcp dport map { 192.168.1.2 . 80 : 10.141.10.0/24  . 80 }
+dnat ip to ip saddr . tcp dport map { 192.168.1.2 . 80 : 10.141.10.0/24  . 8888 - 8999 }
+dnat ip to ip saddr . tcp dport map { 192.168.1.2 . 80 : 10.141.10.2 . 8888 - 8999 }
+dnat ip to ip saddr . tcp dport map @m
+dnat ip to ip saddr . tcp dport map @z
+dnat ip to ip saddr . tcp dport map @z4
+dnat ip to numgen inc mod 2 map @t1
+dnat ip to numgen inc mod 2 map @t1v4
+dnat to 192.168.0.0/24 persistent
+dnat to 2001:838:35f:1::-2001:838:35f:1:ffff:ffff:ffff:ffff
+dnat to 2001:838:35f:1::-2001:838:35f:1:ffff:ffff:ffff:ffff;ok;dnat to 2001:838:35f:1::/64
+dnat to [2001:838:35f:1::]/64
+dnat to [2001:838:35f:1::]/64;ok;dnat to 2001:838:35f:1::/64
+dnat to ct mark . ip daddr map { 0x00000014 . 1.1.1.1 : 1.2.3.4}
+dnat to ct mark map { 0x00000014 : 1.2.3.4}
+dnat to iifname . ip saddr map @ipportmap4
+dnat to ip6 daddr map @x
+dnat to ip daddr map @x
+dnat to jhash ip saddr mod 2 seed 0xdeadbeef map { 0 : 192.168.20.100, 1 : 192.168.30.100 }
+dnat to jhash ip saddr mod 2 seed 0xdeadbeef map { 0 : 192.168.20.100, 1 : 192.168.30.100 };ok
+:dnat to numgen inc mod 10 map { 0-5 : 192.168.10.100, 6-9 : 192.168.20.200}
+dnat to numgen inc mod 10 map { 0-5 : 192.168.10.100, 6-9 : 192.168.20.200}
+dnat to numgen inc mod 255 offset 167772161
+dnat to numgen inc mod 2 map { 0 : 192.168.10.100, 1 : 192.168.20.200 }
+dnat to numgen inc mod 2 map @t1
+dnat to numgen inc mod 7 offset 167772161
+dup to 1-2
+dup to 1-2 device $dev
+dup to 192.168.2.1
+dup to 192.168.2.1 device "lo"
+dup to abcd::1
+dup to abcd::1 device "lo"
+dup to abcd::1 device "lo";ok
+dup to abcd::1;ok
+dup to ip6 saddr map { abcd::1 : cafe::cafe } device "lo"
+dup to ip6 saddr map { abcd::1 : cafe::cafe } device "lo";ok
+dup to ip saddr map { 192.168.2.120 : 192.168.2.1 } device "lo"
+dup to "lo"
+dup to meta mark map { 0x00000001 : "lo", 0x00000002 : "lo"}
+fwd ip to 192.168.2.200 device "lo"
+fwd to 1-2
+fwd to "lo"
+fwd to meta mark map { 0x00000001 : "lo", 0x00000002 : "lo"}
+get element inet x y { $from-$to } 1>/dev/null
+get element inet x y { $to } 1>/dev/null
+iifname $wan tcp dport 10000 dnat to $server:10000;
+iifname enp2s0 ip daddr 72.2.3.66 tcp dport 443 dnat to 10.1.1.52:443
+iifname enp2s0 ip daddr 72.2.3.66 tcp dport 53122 dnat to 10.1.1.10:22
+iifname enp2s0 ip daddr 72.2.3.70 tcp dport 80 dnat to 10.1.1.52:80
+iifname "eth0" tcp dport != 23-34 dnat to 192.168.3.2
+iifname "eth0" tcp dport != 23-34 snat to 192.168.3.2
+iifname "eth0" tcp dport 443 dnat ip6 to [dead::beef]:4443
+iifname "eth0" tcp dport 443 dnat ip to 192.168.3.2
+iifname "eth0" tcp dport != {80, 90, 23} dnat to 192.168.3.2
+iifname "eth0" tcp dport {80, 90, 23} dnat to 192.168.3.2
+iifname "eth0" tcp dport != {80, 90, 23} snat to 192.168.3.2
+iifname "eth0" tcp dport {80, 90, 23} snat to 192.168.3.2
+iifname "eth0" tcp dport != 80-90 dnat to 192.168.3.2
+iifname "eth0" tcp dport 80-90 dnat to 192.168.3.2
+iifname "eth0" tcp dport 80-90 snat to 192.168.3.0-192.168.3.255
+iifname "eth0" tcp dport 80-90 snat to 192.168.3.0-192.168.3.255;iifname "eth0" tcp dport 80-90 snat to 192.168.3.0/24
+iifname "eth0" tcp dport 80-90 snat to 192.168.3.15-192.168.3.240
+iifname "eth0" tcp dport != 80-90 snat to 192.168.3.2
+iifname "eth0" tcp dport 80-90 snat to 192.168.3.2
+iifname "eth0" tcp dport 81 dnat to 192.168.3.2-192.168.3.4:8080
+iifname "eth0" tcp dport 81 dnat to 192.168.3.2-192.168.3.4:8080-8999
+iifname "eth0" tcp dport 81 dnat to 192.168.3.2:8080
+iifname "eth0" tcp dport 81 dnat to 192.168.3.2:8080-8999
+iifname "eth0" tcp dport 81 ip saddr 10.1.1.1 snat to 192.168.3.2
+iifname "eth0" tcp dport 81 snat ip6 to dead::beef
+iifname "eth0" tcp dport 81 snat ip to 192.168.3.2
+iifname "foo" tcp dport 80 redirect to :8080
+ip6 daddr ${ip_rc} counter ip6 nexthdr tcp tcp dport 2121 counter dnat ip6 to [${ip_sr}]:21
+ip6 daddr ${ip_sr} ip6 nexthdr tcp tcp dport 21 counter snat ip6 to [${ip_rs}]:16500
+ip6 daddr fe00::cafe udp dport 9998 redirect to :6515
+ip6 daddr fe00::cafe udp dport 9998 redirect to :6515;ok
+ip6 nexthdr tcp redirect to :100-200
+ip6 nexthdr tcp redirect to :100-200;ok;ip6 nexthdr 6 redirect to :100-200
+ip6 saddr dead::1 dnat ip6 to feed::1
+ip6 saddr dead::1 dnat to feed::1
+ip6 saddr dead::2 tcp dport 42 dnat ip6 to [c0::1a]:4242
+ip6 saddr dead::2 tcp dport 42 dnat to [c0::1a]:4242
+ip daddr 1.1.1.1 tcp dport 80 dnat to 4.4.4.4:8000
+ip daddr 172.16.0.1 udp dport 9998 redirect to :6515
+ip daddr 172.16.0.1 udp dport 9998 redirect to :6515;ok
+ip daddr 192.168.0.1 dnat ip to tcp dport map { 443 : 10.141.10.4 . 8443, 80 : 10.141.10.4 . 8080 }
+ip daddr 192.168.0.1 dnat to tcp dport map { 443 : 10.141.10.4 . 8443, 80 : 10.141.10.4 . 8080 }
+ip daddr 2.2.2.2 tcp dport 81 dnat to 3.3.3.3:9000
+ip daddr 72.2.3.66 snat to 10.2.2.2
+ip daddr 72.2.3.67 snat to 10.2.3.3
+ip daddr set numgen inc mod 16 map { 0-7 : 10.0.1.1, 8-15 : 10.0.1.2 }
+ip saddr 10.1.1.1 dnat ip to 10.2.3.4
+ip saddr 10.1.1.1 dnat to 10.2.3.4
+ip saddr 10.1.1.2 tcp dport 42 dnat ip to 10.2.3.4:4242
+ip saddr 10.1.1.2 tcp dport 42 dnat to 10.2.3.4:4242
+ip saddr 1.1.1.1 tcp sport 1024-65535 snat to 3.3.3.3
+ip saddr 2.2.2.2 tcp sport 1024-65535 snat to 4.4.4.4
+ip saddr 4.4.4.4 dnat to 1.1.1.1
+ip saddr 5.5.5.5 dnat to 2.2.2.2
+jump noexist
+limit impact to lo
+maps to inet_service . inet_service, not addr . service
+meta l4proto tcp dnat ip6 to numgen inc mod 2 map @t2
+meta l4proto tcp dnat ip6 to numgen inc mod 2 map @t2v6
+meta l4proto tcp dnat ip to numgen inc mod 2 map @t2
+meta l4proto tcp dnat ip to numgen inc mod 2 map @t2v4
+output:# ip6 nexthdr tcp redirect to :100-200
+queue flags bypass,fanout to 1-10
+queue flags bypass,fanout to 1-65535
+queue flags bypass,fanout to 1-65535;ok
+queue flags bypass to 1-10
+queue flags bypass to 1-65535
+queue flags bypass to 1-65535;ok
+queue flags bypass to 65535
+queue flags bypass to 65535;ok
+queue flags bypass to ip saddr . ip daddr . tcp dport map @get_queue_id
+queue flags bypass to numgen inc mod 65536
+queue flags bypass to numgen inc mod 65536;ok
+queue flags bypass to oifname map { "eth0" : 0, "ppp0" : 2, "eth1" : 2 }
+queue flags bypass to oifname map { "eth0" : 0, "ppp0" : 2, "eth1" : 2 };ok
+queue num 1-65535;ok;queue to 1-65535
+queue num 2-3;ok;queue to 2-3
+queue num 2;ok;queue to 2
+queue num 4-5 bypass;ok;queue flags bypass to 4-5
+queue num 4-5 fanout bypass;ok;queue flags bypass,fanout to 4-5
+queue num 4-5 fanout;ok;queue flags fanout to 4-5
+queue num 65535;ok;queue to 65535
+queue;ok;queue to 0
+queue to 1-65535
+queue to 1-65535;ok
+queue to 2
+queue to 2;ok
+queue to 65535
+queue to 65535;ok
+queue to jhash oif . meta mark mod 32
+queue to jhash oif . meta mark mod 32;ok
+queue to symhash mod 65536
+queue to symhash mod 65536;ok
+redirect to :tcp dport map { 22 : 8000, 80 : 8080}
+redirect to :tcp dport map { 22 : 8000, 80 : 8080};ok
+shell/testcases/bogons/nft-f/range_expression_corruption:aal    tht@nh,32,3 set ctag| oi to ip
+shell/testcases/maps/0005interval_map_add_many_elements_0:# test adding many elements to an interval map
+shell/testcases/maps/map_catchall_double_free_2:# second attempt to delete the catchall element
+shell/testcases/maps/nat_addr_port:$NFT add rule 'inet inetfoo c dnat to ip6 daddr map @x4' && exit 1
+shell/testcases/maps/nat_addr_port:$NFT add rule 'inet inetfoo c dnat to ip daddr map @x6' && exit 1
+shell/testcases/maps/nat_addr_port:$NFT add rule 'inet inetfoo c dnat to ip daddr map @y4' && exit 1
+shell/testcases/maps/nat_addr_port:$NFT add rule 'inet inetfoo c ip6 saddr f0:0b::a3 dnat to [1c::3]:42' && exit 1
+shell/testcases/maps/nat_addr_port:$NFT add rule 'ip6 ip6foo c dnat to ip daddr map @y' && exit 1
+shell/testcases/maps/nat_addr_port:$NFT add rule 'ip6 ip6foo c ip6 saddr f0:0b::a3 dnat to [1c::3]:42' && exit 1
+shell/testcases/maps/nat_addr_port:$NFT add rule 'ip ipfoo c dnat to ip daddr map @y' && exit 1
+shell/testcases/maps/nat_addr_port:$NFT add rule 'ip ipfoo c ip saddr 10.1.1.2 dnat to 10.2.3.4:4242' && exit 1
+shell/testcases/maps/vmap_timeout:# wait for elements to time out
+snat ip interval to ip saddr map { 10.141.11.4 : 192.168.2.2-192.168.2.4 }
+snat ip prefix to ip saddr map { 10.141.11.0/24 : 192.168.2.0/24 }
+snat ip to ip saddr map { 10.141.11.4 : 192.168.2.2-192.168.2.4 }
+snat ip to ip saddr map { 10.141.11.4 : 192.168.2.3 . 80 }
+snat ip to ip saddr map { 10.141.12.14 : 192.168.2.0/24 }
+snat ip to ip saddr map @y
+snat to ip saddr map @m
+snat to ip saddr map @z
+tcp dport 1 tcp sport 1 meta oifname "foobar" queue flags bypass to jhash tcp dport . tcp sport mod 4
+tcp dport 1 tcp sport 1 meta oifname "foobar" queue to symhash mod 2
+tcp dport 22 redirect to :22
+tcp dport 22 redirect to :22;ok
+tcp dport 39128 redirect to :993
+tcp dport 39128 redirect to :993;ok
+tcp dport 42 tproxy to 192.168.0.0/16
+tcp dport 42 tproxy to 192.168.0.1:$range
+tcp dport 53 redirect to :25302
+tcp dport 80-90 dnat to [2001:838:35f:1::]-[2001:838:35f:2::]:100
+tcp dport 80-90 dnat to [2001:838:35f:1::]-[2001:838:35f:2::]:100;ok
+tcp dport 80-90 dnat to [2001:838:35f:1::]-[2001:838:35f:2::]:80-100
+tcp dport 80-90 dnat to [2001:838:35f:1::]-[2001:838:35f:2::]:80-100;ok
+tcp dport 80-90 dnat to [2001:838:35f:1::]:80
+tcp dport 80-90 dnat to [2001:838:35f:1::]:80;ok
+tcp dport 80-90 snat to [2001:838:35f:1::]-[2001:838:35f:2::]:100
+tcp dport 80-90 snat to [2001:838:35f:1::]-[2001:838:35f:2::]:100;ok
+tcp dport 80-90 snat to [2001:838:35f:1::]-[2001:838:35f:2::]:80-100
+tcp dport 80-90 snat to [2001:838:35f:1::]-[2001:838:35f:2::]:80-100;ok
+tcp dport 80 dnat to 1.1.1.1:8001
+tcp dport 80 tproxy to :20000 meta mark set 0x00000001 accept
+tcp dport 81 dnat to 2.2.2.2:9001
+tcp dport 83 redirect to :8083
+tcp dport 84 redirect to :8084
+tcp dport 9128 redirect to :123 persistent
+tcp dport 9128 redirect to :123 persistent;ok
+tcp dport 9128 redirect to :123 random,persistent
+tcp dport 9128 redirect to :123 random,persistent;ok
+tcp dport 9128 redirect to :993 fully-random
+tcp dport 9128 redirect to :993 fully-random;ok
+tcp dport 9128 redirect to :993 fully-random,persistent
+tcp dport 9128 redirect to :993 fully-random,persistent;ok
+tcp dport 9128 redirect to :993 random
+tcp dport 9128 redirect to :993 random;ok
+tcp sport 1 tcp dport 1 oifname "foobar" queue flags bypass,fanout to 1-42
+tcp sport 1 tcp dport 1 oifname "foobar" queue flags bypass to 0
+tcp sport 1 tcp dport 1 oifname "foobar" queue flags bypass to jhash tcp dport . tcp sport mod 4
+tcp sport 1 tcp dport 1 oifname "foobar" queue to 1-42
+tcp sport 1 tcp dport 1 oifname "foobar" queue to symhash mod 2
+udp dport 1234 redirect to :1234
+udp dport 1234 redirect to :1234;ok
+udp dport 1234 redirect to :4321
+udp dport 1234 redirect to :4321;ok
+udp dport 53 redirect to :13
+udp dport 53 redirect to :25302

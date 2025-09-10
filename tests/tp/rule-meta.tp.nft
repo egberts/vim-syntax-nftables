@@ -28,7 +28,7 @@
 #     length       integer       Packet length
 #     protocol     integer/symbolic    Layer 4 protocol (e.g., tcp)
 #     pkttype      symbolic      unicast, broadcast, multicast
-#     nfproto      symbolic      ip, ip6, inet, etc.
+#     nftrace      symbolic      ip, ip6, inet, etc.
 #     rtclassid    integer       Routing class ID
 #     skuid        integer       Socket UID
 #     skgid        integer       Socket GID
@@ -84,30 +84,29 @@
 # true positive test: properly hightlighted correctly; has good content; perfect
 ################################################################################
 
-# meta_stmt
-#
-# meta_stmt - flags only (support expression only in meta_expr)
-rule T C meta random;  # qualified META (requires 'meta' before it)
-rule T C ipsec;  # 'meta ipsec 0' only in meta_expr
-rule T C meta ipsec;  # 'meta ipsec 0' only in meta_expr
-rule T C nftrace;  # 'meta nftrace == 1' only in meta_expr
-rule T C meta nftrace;  # 'meta nftrace == 1' only in meta_expr
+# rule rule_alloc stmt ... 'meta'
 
-# meta_stmt - INTERNALS; found in scanner.c (not in parser_bison.y)
-# 'meta nfproto' is integer or string (as listed in /etc/protocol)
-rule inet T C meta nfproto 1;
-rule inet T C meta nfproto 1;
-rule inet T C meta nfproto inet;
-rule inet T C meta nfproto 2;
-rule inet T C meta nfproto ip;
-rule inet T C meta nfproto 3;
-rule inet T C meta nfproto arp;
-rule inet T C meta nfproto 7;
-rule inet T C meta nfproto bridge;
-rule inet T C meta nfproto 10;
-rule inet T C meta nfproto ip6;
-rule inet T C meta nfproto 12;
-rule inet T C meta nfproto netdev;
+rule inet T C meta 
+
+# meta_expr (no 'set' keyword)
+
+# meta_expr - INTERNALS; found in scanner.c (not in parser_bison.y)
+# 'meta nftrace' is integer or string (as listed in /etc/protocol)
+rule inet T C meta nftrace 1
+rule inet T C meta nftrace set 1
+rule inet T C meta nftrace 1;
+rule inet T C meta nftrace 1;
+rule inet T C meta nftrace inet;
+rule inet T C meta nftrace 2;
+rule inet T C meta nftrace ip;
+rule inet T C meta nftrace 3;
+rule inet T C meta nftrace arp;
+rule inet T C meta nftrace 7;
+rule inet T C meta nftrace bridge;
+rule inet T C meta nftrace 10;
+rule inet T C meta nftrace ip6;
+rule inet T C meta nftrace 12;
+rule inet T C meta nftrace netdev;
 # 'meta l4proto' is integer or string (as listed in Linux kernel include/uapi/linux/netfilter.h)
 rule inet T C meta l4proto 1;
 rule inet T C meta l4proto icmp;
@@ -118,11 +117,16 @@ rule inet T C meta l4proto udp;
 
 # meta_stmt - unqualified META, with a value (no 'meta' needed)
 rule T C mark 64;  # length
+rule T C mark set 64;  # length
 rule T C iif 2;
+rule T C iif set 2;
 rule T C iifname "eth0";  # L3 layer, by interface name
+rule T C iifname set "eth0";  # L3 layer, by interface name
 rule T C iiftype 1;
 rule T C oif 4;
+rule T C oif set 4;  # (writeable)
 rule T C oifname "wlan0";  # L3 layer, by interface name
+rule T C oifname set "wlan0";  # (writeable)
 rule T C oiftype 1;
 rule T C skgid 14;
 rule T C skuid 14;
@@ -155,12 +159,15 @@ rule T C meta mark 64;  # length
 rule T C meta mark 0x4;
 rule T C meta mark 0x1234;
 rule T C meta mark 0x00000032;
+rule T C meta mark set 0x00000032;
 rule T C meta iif 2;
 rule T C meta iifname "eth0";
 # iiftype/oiftype are listed in Linux kernel linux/if_arp.h file.
 rule T C meta iiftype 1;
 rule T C meta oif 4;
+rule T C meta oif set 4;  # writeable
 rule T C meta oifname "wlan0";
+rule T C meta oifname set "wlan0";  # writeable
 rule T C meta oiftype 1;
 rule T C meta skgid 14;
 rule T C meta skuid 14;
@@ -219,8 +226,154 @@ rule T C meta protocol lldp;
 rule T C meta protocol qinq;
 
 rule T C meta priority none;
+rule T C meta priority set none;
 
 rule T C meta secmark set 14;
 rule T C meta secmark set 42;
 
 
+table T {
+    chain C {
+        # 'meta rtclassid' is used with 'realm' keyword, mnemonics are in /etc/iproute2/rt_realms
+        meta rtclassid 14;
+
+        meta ibriport "br0";
+        meta iifgroup 0;
+        meta priority none;
+        meta priority set none;  # write-only
+
+        meta obriport "br1";
+        meta oifgroup 0;
+        meta protocol ip;
+        meta protocol ip6;
+        meta protocol arp;
+        meta protocol vlan;
+        meta protocol 8021q;
+        meta protocol 8021ad;
+        meta protocol any;
+        meta protocol 0x0806;
+        meta protocol 0x806;
+        meta protocol 0x800;
+        meta protocol 0x1;
+        meta protocol 0x80600;
+        meta protocol 0x00806;
+        meta protocol from_etc_services_file;
+        meta protocol loopback;
+        meta protocol mpls_uc;
+        meta protocol mpls_mc;
+        meta protocol 802.1q;
+        meta protocol 802_1q;
+        meta protocol pppoe;
+        meta protocol lldp;
+        meta protocol qinq;
+
+        meta ibrname "under-bridge";
+        meta ibrname "br0";
+        meta iifname "eth0";
+        meta iiftype 1;
+        # 'meta l4proto' is integer or string (as listed in Linux kernel include/uapi/linux/netfilter.h)
+        meta l4proto 1;
+        meta l4proto icmp;
+        meta l4proto 6;
+        meta l4proto tcp;
+        meta l4proto 17;
+        meta l4proto udp;
+        # 'meta nftrace' is integer or string (as listed in /etc/protocol)
+        meta nftrace 1;
+        meta nftrace 1;
+        meta nftrace inet;
+        meta nftrace 2;
+        meta nftrace ip;
+        meta nftrace 3;
+        meta nftrace arp;
+        meta nftrace 7;
+        meta nftrace bridge;
+        meta nftrace 10;
+        meta nftrace ip6;
+        meta nftrace 12;
+        meta nftrace netdev;
+        meta obrname "under-bridge";
+        meta oifname "wlan0";
+        meta oifname set "wlan0"; # writeable
+        meta oiftype 1;
+        meta pkttype broadcast;
+        meta pkttype unicast;
+        meta pkttype multicast;
+        meta pkttype loopback;
+        meta pkttype otherhost;
+        meta pkttype outgoing;
+        meta secmark set 14;
+        meta secmark set 42;
+
+        meta cgroup 1048577;
+        meta cgroup 0x1;
+        meta cgroup 0x01;
+        meta cgroup 0x0123;
+        meta cgroup 0x01234567;
+        meta length 1512;
+
+        meta skgid 14;
+        meta skuid 14;
+
+        meta hour 23;
+        meta hour 15;
+        meta mark 0x01;
+        meta mark 1234;
+        meta mark 64;  # length
+        meta mark 0x4;
+        meta mark 0x1234;
+        meta mark 0x00000032;
+        meta mark set 5  # (write-only)
+        meta time 12;
+
+        meta cpu 1;
+        meta day Monday;
+        meta day Saturday;
+        meta iif 2;
+        # iiftype/oiftype are listed in Linux kernel linux/if_arp.h file.
+        meta oif 4;
+        meta oif set 4;  # writeable
+
+
+        # Older format (exclusion of 'meta')
+        rtclassid 14;
+
+        ibriport "br0";  # L2 layer, by interface name
+        iifgroup 0;
+        obriport "br1";  # L2 layer, by interface name
+        oifgroup 0;
+
+        ibrname "under-bridge";
+        iifname "eth0";  # L3 layer, by interface name
+        iiftype 1;
+        obrname "over-bridge";
+        oifname "wlan0";  # L3 layer, by interface name
+        oifname set "wlan0";  # writeable
+        oiftype 1;
+        pkttype broadcast;
+
+        cgroup 1048577;
+
+        skgid 14;
+        skuid 14;
+
+        hour 0;
+        hour 00;
+        hour 9;
+        hour 09;
+        hour 10;
+        hour 19;
+        hour 20;
+        hour 23;
+        mark 64;  # length
+        mark set 64;  # length
+        time 12;
+
+        cpu 1;
+        day Sunday;
+        iif 2;
+        oif 4;
+        oif set 4;  # writeable
+
+    }
+}

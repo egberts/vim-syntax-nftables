@@ -4877,7 +4877,7 @@ syn cluster nft_c_flowtable_expr_member
 \    nft_flowtable_expr_unquoted_identifier
 
 hi link    nft_flowtable_expr_block nftHL_BlockDelimitersFlowtable
-syn region nft_flowtable_expr_block start=/{/ end=/}/ skipwhite contained
+syn region nft_flowtable_expr_block start=/{/ end=/}/ keepend skipwhite contained
 \ contains =
 \    @nft_c_flowtable_expr_member
 
@@ -4924,7 +4924,7 @@ syn cluster nft_c_flowtable_block
 " flowtable_block->'{'->'flowtable'->add_cmd->base_cmd->line
 hi link    nft_add_cmd_keyword_flowtable_flowtable_block nftHL_BlockDelimitersFlowTable
 " Can use 'keepend' if and only if there are no further nesting of blocks (what about 'elements'?)
-syn region nft_add_cmd_keyword_flowtable_flowtable_block start=/{/ end=/}/ keepend skipwhite contained
+syn region nft_add_cmd_keyword_flowtable_flowtable_block start=/{/ end=/}/ skipwhite contained
 \ contains=
 \    nft_common_block_keyword_redefine,
 \    nft_common_block_keyword_undefine,
@@ -7545,28 +7545,45 @@ syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_
 \ nextgroup=
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_reqid_num
 
+" ***************** Begin 'ipsec spi num' ***************
 hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_spi_num nftHL_Integer
 syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_spi_num '\v(([0-9]{1,10})|(0[xX][0-9a-fA-F]{1,8}))\ze[ \t]' skipwhite contained
 
+" ipsec [in|out] spi"
 hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_keyword_spi nftHL_Action
 syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_keyword_spi '\vspi\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_spi_num
+" ***************** End 'ipsec spi num' ***************
 
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_set_keyword_in nftHL_Action
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_set_keyword_in '\vin\ze[ \t\{]' skipwhite contained
+" ***************** End 'ipsec spnum num' ***************
+" ipsec [in|out] spnum"
+hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_keyword_spnum nftHL_Action
+syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_keyword_spnum '\vspnum\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_spnum_num_or_range
+
+hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_named_set_identifier nftHL_Set
+syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_named_set_identifier '\v\@[a-zA-Z]a-zA-Z0-9]{0,63}' skipwhite contained
+" ***************** End 'ipsec spnum num' ***************
+
+hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_directional_keyword_in nftHL_Action
+syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_directional_keyword_in '\vin\ze[ \t\{]' skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_named_set_identifier,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_keyword_reqid,
+\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_keyword_spnum,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_keyword_spi,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_set_block,
 \    nft_Error
 
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_set_keyword_out nftHL_Action
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_set_keyword_out '\vout\ze[ \t\{]' skipwhite contained
+hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_directional_keyword_out nftHL_Action
+syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_directional_keyword_out '\vout\ze[ \t\{]' skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_named_set_identifier,
+\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_keyword_spnum,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_keyword_reqid,
+\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_keyword_spi,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_set_block,
 \    nft_Error
 
@@ -11466,7 +11483,7 @@ syn match nft_add_cmd_keyword_table_table_block_chain_chain_block_separator /;/ 
 \    nft_comment_inline
 
 " cmd_add 'table' table_block chain_block hook_spec 'type' prio_spec number
-hi link   nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_prio_spec_number_valid nftHL_Number
+hi link   nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_prio_spec_number_valid nftHL_Integer
 syn match nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_prio_spec_number_valid "\v[\-]{0,1}[0-9]{1,5}" skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_keyword_table_table_block_chain_chain_block_separator,
@@ -11481,11 +11498,15 @@ syn match nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_prio_spec_
 hi link   nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_prio_spec_variable nftHL_Variable
 syn match nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_prio_spec_variable "\v\$[a-zA-Z][a-zA-Z0-9_\-]{0,63}" skipwhite contained
 
+hi link   nft_add_cmd_keyword_table_table_block_chain_chain_hook_spec_prio_spec_signs nftHL_Operator
+syn match nft_add_cmd_keyword_table_table_block_chain_chain_hook_spec_prio_spec_signs "\v[\-\+]" skipwhite contained
+\ nextgroup =
+\    nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_prio_spec_number_valid
+
 hi link   nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_prio_spec_valid_defines nftHL_Define
-" syn match nft_add_cmd_keyword_table_family_spec_explicit_bridge_table_block_chain_block_hook_spec_prio_spec_valid_defines '\v(dstnat|filter|srcnat|out)' skipwhite contained
-" syn match nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_prio_spec_valid_defines '\v(security|dstnat|filter|mangle|srcnat|raw|out)' skipwhite contained  # 'bridge' family_spec
 syn match nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_prio_spec_valid_defines '\v(security|dstnat|filter|mangle|srcnat|raw|out)' skipwhite contained
 \ nextgroup=
+\    nft_add_cmd_keyword_table_table_block_chain_chain_hook_spec_prio_spec_signs,
 \    nft_add_cmd_keyword_table_table_block_chain_chain_block_separator
 
 " cmd_add 'table' table_block chain_block hook_spec 'type' prio_spec 'priority'
