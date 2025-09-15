@@ -1,0 +1,678 @@
+#!/usr/sbin/nft
+table T {
+    chain C {
+		accept
+		accept comment "first"
+		add @dynmark { 10.2.3.4 timeout 2s : 0x00000002 } comment "also check timeout-gc"
+		add @ssh_meter { ip saddr timeout 30d }
+		add @y { ip saddr }
+		auto-merge
+		counter
+		counter name ip saddr map { 1.1.1.1 : "user123", 2.2.2.2 : "user123", 192.168.2.2 : "user123" }
+		counter name meta mark >> 8 & 0xf map @sctm_o1
+		counter packets 0 bytes 0
+		counter packets 0 bytes 0 accept
+		counter packets 0 bytes 0 drop
+		counter packets 0 bytes 0 jump t1
+		counter packets 0 bytes 0 jump t2
+		counter packets 0 bytes 0 update @s { ip saddr } accept
+		counter quota 500 bytes
+		ct count over 2
+		ct count over 20
+#		ct expectation set "ctexpect"
+#		ct expectation set ip6 daddr map { dead::beef : "exp2", feed::17 : "exp2" }
+#		ct expectation set ip6 daddr . tcp dport map { feed::17 . 512 : "exp2", dead::beef . 123 : "exp2" }
+#		ct expectation set ip6 saddr map { dead::beef : "exp2" }
+#		ct expectation set ip saddr map @exp
+#		ct helper @helpname accept
+#		ct helper set ip6 saddr map { 1c3::c01d : "myftp", dead::beef : "myftp" }
+#		ct helper set ip6 saddr map @helpobj
+#		ct helper set ip protocol . th dport map { udp . 10000-20000 : "sip-5060u", tcp . 10000-20000 : "sip-5060t" }
+#		ct mark set ct mark & 0xffff0000 | meta mark & 0x0000ffff
+#		ct mark set ct mark | ip6 dscp | 0x00000200 counter packets 0 bytes 0
+#		ct mark set ct mark | ip dscp | 0x00000200 counter packets 0 bytes 0
+#		ct mark set ct mark | meta mark
+#		ct mark set ip6 dscp << 2 | 0x10
+#		ct mark set ip6 dscp << 26 | 0x10
+#		ct mark set ip dscp << 2 | 0x10
+#		ct mark set ip dscp << 26 | 0x10
+#		ct mark set osf name map @m1
+#		ct state { established, related } accept
+#		ct state established,related accept
+#		ct state established,related meta secmark set ct secmark
+#		ct state != established | related | new
+#		ct state established,related,new
+#		ct state invalid drop
+#		ct state invalid log prefix "invalid state match, logging:"
+#		ct state new
+#		ct state new ct secmark set meta secmark
+#		ct state new ip daddr . ip protocol . th dport @myset accept
+#		ct state new meta nfproto vmap { ipv4 : jump blacklist_output_ipv4, ipv6 : jump blacklist_output_ipv6 }
+#		ct state vmap { invalid counter packets 0 bytes 0 : drop, established counter packets 0 bytes 0 : accept, related counter packets 0 bytes 0 : accept }
+#		ct state vmap { invalid : drop, established : accept, related : accept }
+#		ct state vmap { invalid : jump ct_invalid_out, established : accept, related : accept, untracked : jump ct_untracked_out }
+#		ct state vmap { invalid : jump ct_invalid_pre, related : jump rpfilter, new : jump ct_new_pre, untracked : jump ct_untracked_pre }
+#		ct status dnat accept
+#		ct timeout set "cttime"
+#		ct timeout set ip6 daddr map { 1ce::/64 : "dns", dead::beef : "dns" }
+#		ct timeout set ip daddr map { 1.2.3.4-1.2.3.8 : "dns" }
+#		ct timeout set ip daddr map { 1.2.3.4 : "dns", 5.6.7.8 : "dns", 192.168.8.0/24 : "dns" }
+		ct timeout set ip daddr map @timeoutmap
+		dnat ip6 to ip6 daddr map @x6
+		dnat ip6 to ip6 saddr . tcp dport map @z
+		dnat ip6 to ip6 saddr . tcp dport map @z6
+		dnat ip6 to numgen inc mod 2 map @t1v6
+		dnat ip to iifname . ip daddr . tcp dport map { "enp2s0" . 72.2.3.70 . 80 : 10.1.1.52 . 80, "enp2s0" . 72.2.3.66 . 53122 : 10.1.1.10 . 22, "enp2s0" . 72.2.3.66 . 443 : 10.1.1.52 . 443 }
+		dnat ip to iifname . ip saddr map { "enp2s0" . 10.1.1.136 : 1.1.2.69/32, "enp2s0" . 10.1.1.1-10.1.1.135 : 1.1.2.66-1.84.236.78 }
+		dnat ip to iifname . ip saddr map @ipportmap4
+		dnat ip to ip daddr map @x4
+		dnat ip to ip daddr . tcp dport map { 10.141.10.1 . 22 : 192.168.2.2, 10.141.11.2 . 2222 : 192.168.4.2 }
+		dnat ip to ip daddr . tcp dport map { 1.1.1.1 . 80 : 4.4.4.4 . 8000, 2.2.2.2 . 81 : 3.3.3.3 . 9000 }
+		dnat ip to ip saddr . ip protocol . tcp dport map @z
+		dnat ip to ip saddr . tcp dport map @z
+		dnat ip to ip saddr . tcp dport map @z4
+		dnat ip to numgen inc mod 2 map @t1v4
+		dnat ip to tcp dport map { 80 : 1.1.1.1 . 8001, 81 : 2.2.2.2 . 9001 }
+		dnat to ip6 daddr map @x
+		dnat to ip daddr map @x
+		dnat to ip saddr map { 4.4.4.4 : 1.1.1.1, 5.5.5.5 : 2.2.2.2 }
+		dnat to numgen inc mod 2 map @t1
+		dport 5432
+		dport 9876
+		drop
+		ether daddr @set1 add @set2 { ether daddr counter }
+		ether saddr 0a:0b:0c:0d:0e:0f vlan id 42
+		ether saddr . vlan id @macset
+		ether type != 8021q add @s { ether saddr . 0 timeout 5s } counter packets 0 bytes 0 return
+		ether type != 8021q update @m { ether daddr . 123 timeout 1m : 0x0000002a } counter packets 0 bytes 0 return
+		ether type != 8021q update @s { ether daddr . 123 timeout 1m } counter packets 0 bytes 0 return
+		ether type ip6 udp dport 67
+		ether type ip udp dport 67
+		fib daddr type { broadcast, anycast, multicast } counter packets 0 bytes 0 drop
+		fib saddr . iif oif 0 counter packets 0 bytes 0 drop
+		fib saddr oifname @s accept
+		flags constant
+		flags constant,interval
+		flags dynamic
+		flags dynamic;
+		flags dynamic,timeout
+		flags interval
+		flags interval,timeout
+		flags timeout
+		flow add @f
+		flow add @f counter packets 0 bytes 0
+		flow add @y
+		frag frag-off @s4 accept
+		goto client_to_any
+		goto { counter; snat ; }
+		goto filter_FWDI_public
+		goto filter_FWDO_public
+		goto filter_IN_public
+		goto log_and_drop
+		goto mangle_PRE_public
+		goto nat_POST_public
+		goto nat_PRE_public
+		goto raw_PRE_public
+		goto underflow
+		hook ingress priority filter
+		hook ingress priority filter - 1
+		hook ingress priority filter + 10
+		icmp type { 1, 2 } accept
+		icmp type { destination-unreachable, echo-request, time-exceeded, parameter-problem } accept
+		icmp type echo-reply accept
+		icmp type { echo-reply, echo-request } icmp id 42
+		icmp type echo-request accep
+		icmp type echo-request accept
+		icmp type echo-request iif @s3 counter packets 1 bytes 84
+		icmp type echo-request iif @s4 counter packets 1 bytes 84
+		icmp type echo-request ip daddr . "lo" @s2 counter packets 1 bytes 84
+		icmp type echo-request ip daddr . "lo" @s counter packets 1 bytes 84
+		icmp type echo-request ip saddr . iif @s2 counter packets 1 bytes 84
+		icmp type echo-request ip saddr . iif @s counter packets 1 bytes 84
+		icmp type echo-request ip saddr . "lo" @s2 counter packets 1 bytes 84
+		icmp type echo-request ip saddr . "lo" @s counter packets 1 bytes 84
+		icmpv6 type { destination-unreachable, packet-too-big } accept
+		icmpv6 type { destination-unreachable, packet-too-big, time-exceeded, parameter-problem, echo-request } accept
+		icmpv6 type { destination-unreachable, packet-too-big, time-exceeded, parameter-problem, echo-request } oifname "eth0" accept
+		icmpv6 type echo-request accept
+		icmpv6 type . ip6 daddr { nd-router-solicit . ff02::2, nd-neighbor-solicit . ff02::1:ff00:0/104, nd-neighbor-advert . fe80::/64, nd-neighbor-advert . ff02::1, nd-neighbor-advert . ff02::1:ff00:0/104, mld2-listener-report . ff02::16 } return
+		icmpv6 type { mld-listener-query, mld2-listener-report } ip6 hoplimit 1 accept
+		icmpv6 type { mld-listener-query, nd-router-solicit, nd-router-advert, nd-neighbor-solicit, nd-neighbor-advert, mld2-listener-report } return
+		icmpv6 type { nd-router-advert, nd-neighbor-solicit } accept
+		icmpv6 type { nd-router-solicit, nd-router-advert, nd-neighbor-solicit, nd-neighbor-advert } ip6 hoplimit 255 accept
+		icmpv6 type { nd-router-solicit, nd-router-advert, nd-neighbor-solicit, nd-neighbor-advert } ip6 saddr fe80::/64 ip6 hoplimit 255 accept
+		icmpv6 type { nd-router-solicit, nd-router-advert, nd-neighbor-solicit, nd-neighbor-advert } ip6 saddr fe80::/64 return
+		iif "lo" accept
+		iif "lo" ct mark & 0x000000ff == 0x00000010 meta mark set ct mark >> 8
+		iifname { "abcdef*", "eth0" } counter packets 0 bytes 0
+		iifname "enp0s25" goto filter_FWDI_home
+		iifname "enp0s25" goto filter_IN_home
+		iifname "enp0s25" goto mangle_PRE_home
+		iifname "enp0s25" goto nat_PRE_home
+		iifname "enp0s25" goto raw_PRE_home
+		iifname "enp0s8" ip daddr . ip protocol . th dport vmap @forwport counter packets 0 bytes 0
+		iifname { "eth0", "abcdef0" } counter packets 0 bytes 0
+		iifname "eth0" meta nfproto vmap { ipv4 : jump blacklist_input_ipv4, ipv6 : jump blacklist_input_ipv6 }
+		iifname "eth0" oifname != "eth0" counter packets 0 bytes 0 accept
+		iifname "eth0" oifname "eth0" counter packets 0 bytes 0 accept
+		iifname != "foobar" accept
+		iifname "foobar" add @s1 { ip protocol }
+		iifname "foobar" add @s2 { ip daddr }
+		iifname "foobar" add @s3 { ip daddr }
+		iifname . ip protocol . th dport vmap { "eth0" . tcp . 22 : accept, "eth1" . udp . 67 : drop }
+		iifname . ip protocol . th dport vmap @m4
+		iifname . ip saddr . ip daddr { "eth1" . 1.1.1.1 . 2.2.2.3, "eth1" . 1.1.1.2 . 2.2.2.4, "eth1" . 1.1.1.2 . 2.2.3.0/24, "eth1" . 1.1.1.2 . 2.2.4.0-2.2.4.10, "eth2" . 1.1.1.3 . 2.2.2.5 } accept
+		iifname . ip saddr . ipsec in reqid @s10 accept
+		iifname . ip saddr . meta ipsec @s12 accept
+		iifname "lo" accept
+		iifname "lo" ip saddr 10.0.0.0/8 ip daddr 192.168.100.62 tcp dport 2001 counter packets 0 bytes 0 accept
+		iifname . meta mark @nv accept
+		iifname "perm_dummy2" goto filter_FWDI_trusted
+		iifname "perm_dummy2" goto filter_IN_trusted
+		iifname "perm_dummy2" goto mangle_PRE_trusted
+		iifname "perm_dummy2" goto nat_PRE_trusted
+		iifname "perm_dummy2" goto raw_PRE_trusted
+		iifname "perm_dummy" goto filter_FWDI_work
+		iifname "perm_dummy" goto filter_IN_work
+		iifname "perm_dummy" goto mangle_PRE_work
+		iifname "perm_dummy" goto nat_PRE_work
+		iifname "perm_dummy" goto raw_PRE_work
+		iifname @s accept
+		iifname @simple counter packets 0 bytes 0
+		iifname @simple_wild counter packets 0 bytes 0
+		iifname vmap @if_forward
+		iifname vmap @if_input
+		iifname vmap { "lo" : accept, "eth0" : drop, "eth1" : drop }
+		iifname vmap @map_wild
+		iifname { "whatever" } iif { "lo" } meta mark 0x0000007b
+		iifname "whatever" oifname "whatever" iif "lo" oif "lo"
+		iif vmap { "lo" counter packets 0 bytes 0 : jump wan_input }
+		iif vmap { "lo" : jump wan_input }
+		ip6 daddr ::1 tcp dport 5555 reject with tcp reset
+		ip6 daddr { 2001:db8::1-2001:db8::2 } jump {
+		ip6 daddr { ::/3, 2001::/32, 2001:2::/48, 2001:3::/32, 2001:10::-2001:2f:ffff:ffff:ffff:ffff:ffff:ffff, 2001:db8::/32, 2002::/16, 3000::-ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff } goto log_blacklist
+		ip6 daddr { ::/96, ::ffff:0.0.0.0/96, 2002::/24, 2002:a00::/24, 2002:7f00::/24, 2002:a9fe::/32, 2002:ac10::/28, 2002:c0a8::/32, 2002:e000::/19 } reject with icmpv6 addr-unreachable
+		ip6 daddr aaaa::5 tcp dport 3306 counter packets 0 bytes 0 reject with tcp reset
+		ip6 daddr fe0::1 ip6 saddr fe0::2
+		ip6 daddr fe80::/64 udp dport 546 ct state { new, untracked } accept
+		ip6 daddr fe80::/64 udp dport 546 ct state new,untracked accept
+		ip6 daddr ff02::fb udp dport 5353 ct state new,untracked accept
+		ip6 daddr @ipv6_blacklist goto log_blacklist
+		ip6 daddr @s2 accept
+		ip6 daddr vmap { fe0::1 : drop, fe0::2 : accept }
+		ip6 nexthdr @s3 accept
+			ip6 saddr { 2001:db8::1-2001:db8::2 } accept
+		ip6 saddr { ::/3, 2001::/32, 2001:2::/48, 2001:3::/32, 2001:10::-2001:2f:ffff:ffff:ffff:ffff:ffff:ffff, 2001:db8::/32, 2002::/16, 3000::-ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff } counter packets 0 bytes 0 drop
+		ip6 saddr dead::1 dnat ip6 to feed::1
+		ip6 saddr dead::1 dnat to feed::1
+		ip6 saddr dead::2 tcp dport 42 dnat ip6 to [c0::1a]:4242
+		ip6 saddr dead::2 tcp dport 42 dnat to [c0::1a]:4242
+			ip6 saddr != { fd00::/8, fe80::/64 } counter packets 0 bytes 0 reject with icmpv6 port-unreachable
+		ip6 saddr :: ip6 daddr . icmpv6 type { ff02::1:ff00:0/104 . nd-neighbor-solicit, ff02::16 . mld2-listener-report } return
+		ip6 saddr . ip6 nexthdr { fe0::2 . tcp, fe0::1 . udp }
+		ip6 saddr @ipv6_blacklist counter packets 0 bytes 0 drop
+		ip daddr { 0.0.0.0/8, 10.0.0.0/8, 100.64.0.0/10, 127.0.0.0/8, 169.254.0.0/16, 172.16.0.0/12, 192.0.0.0/24, 192.0.2.0/24, 192.168.0.0/16, 198.18.0.0/15, 198.51.100.0/24, 203.0.113.0/24, 224.0.0.0/3 } goto log_blacklist
+		ip daddr { 1.1.1.1, 2.2.2.2 }
+		ip daddr 1.2.3.4 tcp dport { 22, 123, 443 } drop
+		ip daddr 127.0.0.1 tcp dport 5555 reject with tcp reset
+		ip daddr 127.0.0.42 counter packets 0 bytes 0
+		ip daddr 172.30.254.252 tcp dport 3306 counter packets 0 bytes 0 reject with tcp reset
+		ip daddr 172.30.33.70 tcp dport 3306 counter packets 0 bytes 0 drop
+		ip daddr { 192.168.0.1, 192.168.0.2, 192.168.0.3 }
+		ip daddr { 192.168.0.1, 192.168.0.2, 192.168.0.3 } counter packets 0 bytes 0 accept
+		ip daddr 192.168.2.20 jump {
+		ip daddr { 192.168.3.30, 192.168.4.40 } tcp dport vmap { 22 : accept, 80 : drop, 443 : accept }
+		ip daddr { 192.168.7.1, 192.168.7.5 } accept
+		ip daddr { 2.2.2.2, 4.4.4.4 } counter packets 0 bytes 0 accept
+		ip daddr 224.0.0.251 udp dport 5353 ct state new,untracked accept
+		ip daddr . iif @nomatch2 counter packets 0 bytes 0 drop
+		ip daddr . iif vmap { 10.0.0.0 . "lo" : accept }
+		ip daddr @ipv4_blacklist goto log_blacklist
+		ip daddr . "lo" @nomatch counter packets 0 bytes 0 drop
+		ip daddr . @nh,32,32 @y
+		ip daddr @s
+		ip daddr set iifname map @m1
+		ip daddr set numgen inc mod 16 map { 0-7 : 10.0.1.1, 8-15 : 10.0.1.2 }
+		ip daddr set oifname map @m1
+		ip daddr . tcp dport { 192.168.0.1 . 22 } accept
+		ip daddr . tcp dport vmap @portaddrmap
+		ip daddr @whitelist_v4
+		ip daddr @y
+		ip daddr @y0
+		ip daddr @y1
+		ip daddr @y2
+		ip daddr @y3
+		ip daddr @y4
+		ip hdrlength @s9 accept
+		ip option ra value 255
+		ip option ra value @s5 accept
+		ip protocol icmp goto v4icmpc
+		ip protocol icmp jump v4icmp
+		ip protocol @s3 accept
+		ip protocol tcp dnat ip to ip saddr . ip daddr map @ipportmap2
+		ip protocol tcp dnat ip to ip saddr map @ipportmap
+		ip protocol . th dport { tcp . 22, udp . 67 }
+		ip saddr { 0.0.0.0/8, 10.0.0.0/8, 100.64.0.0/10, 127.0.0.0/8, 169.254.0.0/16, 172.16.0.0/12, 192.0.0.0/24, 192.0.2.0/24, 192.168.0.0/16, 198.18.0.0/15, 198.51.100.0/24, 203.0.113.0/24, 224.0.0.0/3 } counter packets 0 bytes 0 drop
+		ip saddr 0.0.0.0 ip daddr 255.255.255.255 udp sport 68 udp dport 67 return
+		ip saddr 10.0.0.0 ip daddr 10.0.0.2 ip saddr 10.0.0.0
+		ip saddr != { 10.10.10.100, 10.10.10.111 } ip saddr @example drop
+		ip saddr 10.1.1.1 dnat ip to 10.2.3.4
+		ip saddr 10.1.1.1 dnat to 10.2.3.4
+		ip saddr 10.1.1.2 tcp dport 42 dnat ip to 10.2.3.4:4242
+		ip saddr 10.1.1.2 tcp dport 42 dnat to 10.2.3.4:4242
+		ip saddr { 10.141.11.0/24, 10.141.13.0/24 } masquerade
+		ip saddr { 1.1.1.0/24, 2.2.2.0/24, 3.3.3.0/24 }
+		ip saddr 1.1.1.1
+		ip saddr { 1.1.1.1-1.1.1.2 }
+		ip saddr { 1.1.1.1, 2.2.2.2 }
+		ip saddr . 1.2.3.4 . 80 @s1 goto c1
+		ip saddr 1.2.3.4 tcp dport { 22, 123, 443 } drop
+		ip saddr 1.2.3.4 tcp dport 80 meta mark set 0x0000000a accept
+		ip saddr 1.2.3.4 tcp dport 81 meta mark set 0x0000000b accept
+		ip saddr 127.0.0.0/8 accept
+		ip saddr 127.0.0.1-192.168.7.3 accept
+		ip saddr 127.0.0.1 accept
+		ip saddr 127.0.0.1 ip daddr 127.0.0.2 counter packets 3 bytes 252 accept
+		ip saddr { 192.168.1.0-192.168.4.255 } oifname "eth0" masquerade
+		ip saddr 192.168.1.1 ct timeout set "dns"
+		ip saddr 2.2.2.2 counter packets 0 bytes 0
+		ip saddr { 3.3.3.3, 4.4.4.4 }
+		ip saddr != @dynmark add @dynmark { ip saddr : 0x00000001 } counter packets 1 bytes 84
+		ip saddr @dynmark counter packets 0 bytes 0 comment "delete should be instant but might fail under memory pressure"
+		ip saddr @dynmark counter packets 0 bytes 0 comment "should not increment"
+		ip saddr @dynmark counter packets 1 bytes 84 comment "should increment"
+		ip saddr @dynmark delete @dynmark { ip saddr : 0x00000001 }
+		ip saddr . iifname { 10.1.2.2 . "abcdef0" } counter packets 0 bytes 0
+		ip saddr . iifname { 10.1.2.2 . "abcdef*" } counter packets 0 bytes 0
+		ip saddr . iifname @concat counter packets 0 bytes 0
+		ip saddr . iifname @concat_wild counter packets 0 bytes 0
+		ip saddr . ip daddr vmap { 1.1.1.1 . 2.2.2.2 : accept, 2.2.2.2 . 3.3.3.3 : drop, 4.4.4.4 . 5.5.5.5 : accept }
+		ip saddr . ip daddr vmap { 1.1.1.1 . 2.2.2.2 counter packets 0 bytes 0 : accept, 1.1.1.2 . 3.3.3.3 counter packets 0 bytes 0 : drop }
+		ip saddr @ipv4_blacklist counter packets 0 bytes 0 drop
+                ip saddr @m
+		ip saddr . meta mark vmap @w
+		ip saddr . @nh,32,32 { 1.1.1.1 . 0x14, 2.2.2.2 . 0x1e }
+		ip saddr . @nh,32,32 vmap { 4.4.4.4 . 0x34 : accept, 5.5.5.5 . 0x45 : drop }
+		ip saddr . @nh,32,32 vmap @y
+		ip saddr @s1 accept
+		ip saddr @s2 ip daddr { 3.3.3.3, 4.4.4.4 }
+		ip saddr . tcp dport { 1.2.3.5 . 81, 1.2.3.5 . 82 } accept
+		ip saddr @t drop
+		ip saddr @test counter packets 0 bytes 0 accept
+		ip saddr vmap { 10.0.0.0 : drop, 10.0.0.2 : accept }
+		ip saddr vmap { 1.1.1.1 counter packets 0 bytes 0 : accept, 1.1.1.2 counter packets 0 bytes 0 : drop }
+		ip saddr vmap { 1.1.1.1 : jump c1 }
+		ip saddr vmap @client_to_any
+		ip saddr vmap @m
+		ip saddr vmap @sourcemap accept
+		ip saddr @y
+		ipsec in reqid 23
+		ipsec in reqid . iifname vmap @m5
+		ipsec in reqid . iif vmap @ipsec_in
+		ipsec in reqid . "lo" @s
+		ip version @s8 accept
+		ip version vmap { 4 : jump t3, 6 : jump t4 }
+		jump { }
+		jump { counter; }
+		jump filter_IN_work_pre
+		l3proto ip
+		last
+		limit name ip6 saddr map @saddr6limit
+		limit name meta l4proto . ip saddr . th sport map @addr4limit
+		limit name tcp dport map { 80 : "http-traffic", 443 : "http-traffic" }
+		limit rate 1/second burst 5 packets
+		limit rate 1/second burst 5 packets counter
+		limit rate over 1 mbytes/second
+		log
+		log prefix "NFT BLACKLIST " flags ip options flags ether limit rate 5/minute burst 10 packets drop
+		log prefix "NFT REJECT FWD " flags ip options flags ether limit rate 5/second burst 10 packets reject
+		log prefix "NFT REJECT IN " flags ip options flags ether limit rate 5/second burst 10 packets reject
+		log prefix "NFT REJECT OUT " flags ip options flags ether limit rate 5/second burst 10 packets reject
+		masquerade
+		meta l4proto icmp accept
+		meta l4proto icmp ip daddr 127.0.0.42 jump test_ping
+		meta l4proto { icmp, ipv6-icmp } accept
+		meta l4proto != { icmp, tcp, udp, ipv6-icmp } counter packets 0 bytes 0 drop
+		meta l4proto igmp accept
+		meta l4proto . ip6 daddr . tcp dport { tcp . aaaa::3 . 8080, tcp . aaaa::2 . 3306, tcp . aaaa::4 . 3306 } counter packets 0 bytes 0 reject
+		meta l4proto . ip daddr . tcp dport { tcp . 172.30.238.117 . 8080, tcp . 172.30.33.71 . 3306, tcp . 172.30.254.251 . 3306 } counter packets 0 bytes 0 reject
+		meta l4proto ipv6-icmp jump {
+		meta l4proto @protos tproxy to :1088
+		meta l4proto tcp dnat ip6 to ip6 saddr map @y
+		meta l4proto tcp dnat ip6 to ip6 saddr map @y6
+		meta l4proto tcp dnat ip6 to numgen inc mod 2 map @t2
+		meta l4proto tcp dnat ip6 to numgen inc mod 2 map @t2v6
+		meta l4proto tcp dnat ip to iifname . ip saddr map { "enp2s0" . 10.1.1.136 : 1.1.2.69 . 22, "enp2s0" . 10.1.1.1-10.1.1.135 : 1.1.2.66-1.84.236.78 . 22 }
+		meta l4proto tcp dnat ip to iifname . ip saddr map @ipportmap5
+		meta l4proto tcp dnat ip to ip saddr map @y
+		meta l4proto tcp dnat ip to ip saddr map @y4
+		meta l4proto tcp dnat ip to numgen inc mod 2 map @t2
+		meta l4proto tcp dnat ip to numgen inc mod 2 map @t2v4
+		meta l4proto { tcp, udp } dnat ip to ip daddr . th dport map @fwdtoip_th
+		meta l4proto { tcp, udp } th dport 443 dnat to 10.0.0.1
+		meta l4proto { tcp, udp } th dport 53 jump {
+		meta l4proto udp redirect to :5300
+		meta l4proto udp redirect to :5301
+		meta l4proto vmap { tcp : goto filter_in_tcp, udp : goto filter_in_udp }
+		meta mark 0x00000002 counter packets 0 bytes 0 accept
+		meta mark 0x00000003 counter packets 0 bytes 0 accept
+		meta mark { 0x0000000a counter packets 0 bytes 0 }
+		meta mark { 0x0000007b, 0x00000141 }
+		meta mark >> 8 & 0xf vmap @sctm_o0
+		meta mark set 0x00123434
+		meta mark set ct mark & 0xffff0000 | meta mark & 0x0000ffff
+		meta mark set ip6 dscp << 2 | 0x10
+		meta mark set ip6 dscp << 26 | 0x10
+		meta mark set ip daddr map { 192.168.0.1 : 0x00000001 }
+		meta mark set ip daddr map @m
+		meta mark set ip dscp << 2 | 0x10
+		meta mark set ip dscp << 26 | 0x10
+		meta mark set ip saddr . ip daddr map @m3
+		meta mark set ip saddr map { 1.1.1.1 : 0x00000002 }
+		meta mark set meta mark << 2
+		meta mark set meta mark . tcp dport . meta l4proto map @test counter packets 0 bytes 0
+		meta mark set vlan id map @m2
+		meta nfproto ipv4 meta l4proto udp dnat ip to 240.0.1.2:5301
+		meta nfproto ipv4 meta l4proto udp dnat ip to 240.0.1.2:5302
+		meta nfproto ipv4 meta l4proto udp dnat ip to 240.0.1.2:5303
+		meta nfproto ipv4 udp dport 67
+		meta nfproto ipv6 fib saddr . iif check missing drop
+		meta nfproto ipv6 udp dport 67
+		meta nftrace set 1
+		meta pkttype . udp dport vmap { broadcast . 547 : accept, broadcast . 67 : accept, multicast . 1900 : drop }
+		meta priority set ct bytes map @m
+		meta protocol ip6 udp dport 67
+		meta protocol ip udp dport 67
+		meta time "1970-05-23 21:07:14"
+		mss 1460
+               mss 1460
+		oif "lo" accept
+		oif "lo" ct mark set (meta mark | 0x00000010) << 8
+		oifname "doesntexist" tcp dport { 22, 23 } counter packets 0 bytes 0
+		oifname "enp0s25" goto filter_FWDO_home
+		oifname "enp0s25" goto nat_POST_home
+		oifname "enp2s0" snat ip to ip saddr map { 10.1.1.0/24 : 72.2.3.66-72.2.3.78 }
+		oifname "eth0" accept
+		oifname "eth0" jump {
+		oifname "lo" accept
+		oifname "perm_dummy2" goto filter_FWDO_trusted
+		oifname "perm_dummy2" goto nat_POST_trusted
+		oifname "perm_dummy" goto filter_FWDO_work
+		oifname "perm_dummy" goto nat_POST_work
+		oifname @s accept
+		oifname vmap @if_output
+		osf name "Linux"
+		osf name @s1 accept
+		packets 0 bytes 0
+		policy = {established: 120 }
+		policy = { established : 2m3s, close : 12s }
+		policy = { unreplied : 15s, replied : 12s }
+		protocol tcp
+		protocol tcp;
+		protocol udp
+		queue flags bypass,fanout to 1-10
+		queue flags bypass to ip saddr . ip daddr . tcp dport map @get_queue_id
+		quota name ip saddr map { 192.168.2.2 : "user124", 192.168.2.3 : "user124" } drop
+		quota name ip saddr map @test drop
+		quota over 1000 bytes
+		rate 1/second
+		redirect to :tcp dport map { 83 : 8083, 84 : 8084 }
+		reject with icmpx admin-prohibited
+		reject with icmpx type host-unreachable
+		reset tcp option fastopen
+		sctp chunk init 0
+		sctp chunk init num-inbound-streams @s7 accept
+		snat ip6 prefix to ip6 saddr map { 2001:db8:1111::/64 : 2001:db8:2222::/64 }
+		snat ip prefix to ip saddr map { 10.141.11.0/24 : 192.168.2.0/24, 10.141.12.0/24 : 192.168.3.0/24, 10.141.13.0/24 : 192.168.4.0/24 }
+		snat ip to ip daddr map { 72.2.3.66 : 10.2.2.2, 72.2.3.67 : 10.2.3.3 }
+		snat ip to ip saddr map { 10.141.10.0/24 : 192.168.2.2-192.168.2.4, 10.141.11.0/24 : 192.168.4.2/31 }
+		snat ip to ip saddr map @y
+		snat to ip saddr . ip daddr map { 10.141.0.0/24 . 10.0.0.0/8 : 192.168.0.2, 192.168.9.0/24 . 192.168.10.0/24 : 192.168.0.4, * : 192.168.0.3 }
+		snat to ip saddr map { 10.141.0.0/24 : 192.168.0.2, * : 192.168.0.3 }
+		snat to ip saddr map { 1.1.1.1 : 2.2.2.2 }
+		snat to ip saddr map @m
+		snat to ip saddr map @z
+		snat to ip saddr . tcp sport map { 1.1.1.1 . 1024-65535 : 3.3.3.3, 2.2.2.2 . 1024-65535 : 4.4.4.4 }
+		socket cgroupv2 level 1 "user.slice" counter
+		synproxy name ip saddr map { 192.168.1.0/24 : "https-synproxy", 192.168.2.0/24 : "other-synproxy" }
+		"system_u:object_r:ssh_server_packet_t:s0"
+		tcp dport 10001 add @candidates_ipv4 { ip saddr . 10002 timeout 1s }
+		tcp dport 10002 ip saddr . tcp dport @candidates_ipv4 add @candidates_ipv4 { ip saddr . 10003 timeout 1s }
+		tcp dport 10003 ip saddr . tcp dport @candidates_ipv4 add @candidates_ipv4 { ip saddr . 10004 timeout 1s }
+		tcp dport 10004 ip saddr . tcp dport @candidates_ipv4 add @candidates_ipv4 { ip saddr . 10005 timeout 1s }
+		tcp dport 10005 ip saddr . tcp dport @candidates_ipv4 add @clients_ipv4 { ip saddr timeout 10m } log prefix "Successful portknock: "
+		tcp dport 100-222
+		tcp dport 1024-65535 accept
+		tcp dport { 1-128, 8888-9999 } accept
+		tcp dport { 123, 321 }
+		tcp dport 1234 accept
+		tcp dport { 1, 2 } accept
+		tcp dport 139 ct state new,untracked accept
+		tcp dport 1714-1764 ct state new,untracked accept
+		tcp dport { 21, 2121 } counter packets 0 bytes 0 accept
+		tcp dport 21 add @s { ip saddr . 22 timeout 1m }
+		tcp dport { 22222, 33333 }
+		tcp dport 2222 ct state new meta secmark set "ssh_server"
+		tcp dport { 22, 80, 443 } ct state new counter packets 0 bytes 0 accept
+		tcp dport 22 accept
+		tcp dport 22 counter packets 0 bytes 0 accept
+		tcp dport 22 counter packets 0 bytes 0 accept comment "test_comment"
+		tcp dport 22 ct state established,related counter packets 0 bytes 0 accept
+		tcp dport 22 ct state new add @ssh_meter { ip saddr limit rate 10/second burst 5 packets } accept
+		tcp dport 22 ct state { new, untracked } accept
+		tcp dport 22 ct state new,untracked accept
+		tcp dport != 22 drop
+		tcp dport 22 iifname "eth1" accept
+		tcp dport 22 ip daddr 192.168.1.10 accept
+		tcp dport 22 ip saddr @clients_ipv4 counter packets 0 bytes 0 accept
+		tcp dport 22 reject with tcp reset
+		tcp dport 25 accept
+		tcp dport { 443, 587, 853 } accept
+		tcp dport 445 ct state new,untracked accept
+		tcp dport 5555 counter packets 0 bytes 0
+		tcp dport 587 ip daddr 10.0.0.1 accept
+		tcp dport { 80, 123 } counter packets 0 bytes 0 accept
+		tcp dport { 80, 443 }
+		tcp dport { 80, 443 } accept
+		tcp dport 80 add @f { ip saddr limit rate 10/second burst 5 packets }
+		tcp dport 80 add @http1 { tcp dport . ip saddr limit rate over 200/second burst 5 packets } counter packets 0 bytes 0 drop
+		tcp dport 80 add @m { ip saddr limit rate 10/second burst 5 packets }
+		tcp dport 80 oifname "eth0" counter packets 0 bytes 0 reject
+		tcp dport 80 tproxy to :20000 meta mark set 0x00000001 accept
+		tcp dport 8443 accept
+		tcp dport 85 redirect
+		tcp dport { 8888, 9999 } redirect
+		tcp dport . iifname @sc accept
+		tcp dport @s4 accept
+		tcp dport @tcp_accepted accept
+		tcp dport vmap { 1 : accept, 2-3 : drop, 4 : accept }
+		tcp dport vmap { 1 : jump c2 }
+		tcp dport vmap { 22 : jump ssh_input }
+		tcp dport vmap { 80 : accept, 81 : accept, 443 : accept, 8000-8100 : accept, 24000-25000 : accept }
+		tcp dport vmap @m
+		tcp dport vmap @portmap
+		tcp flags & (ack | urg) vmap { ack : jump ack_chain, urg : jump urg_chain }
+		tcp flags & (fin | syn | rst | ack) != syn counter packets 0 bytes 0 drop
+		tcp flags & (fin | syn | rst | ack | urg) == { fin | ack | urg, fin | ack, fin, syn | ack, syn, rst | ack, rst, ack | urg, ack }
+		tcp flags & (rst | ack | urg) == rst | ack
+		tcp flags syn jump {
+		tcp flags & (syn | rst | ack | urg) == ack | urg
+		tcp option maxseg size @s6 accept
+		tcp option mptcp subtype . ip saddr @s14 accept
+		tcp option mptcp subtype @s13 accept
+		tcp sport 1-1023 drop
+		tcp sport 1 tcp dport 1 oifname "foobar" queue flags bypass,fanout to 1-42
+		tcp sport 1 tcp dport 1 oifname "foobar" queue flags bypass to 0
+		tcp sport 1 tcp dport 1 oifname "foobar" queue flags bypass to jhash tcp dport . tcp sport mod 4
+		tcp sport 1 tcp dport 1 oifname "foobar" queue to 1-42
+		tcp sport 1 tcp dport 1 oifname "foobar" queue to symhash mod 2
+		tcp sport { 3478-3497, 16384-16387 }
+		@th,160,112 0x870697a7a6173656f03636f6d00 drop comment "pizzaseo.com"
+		@th,160,32 0x2736c00 drop comment "sl"
+		timeout 1h
+		timeout 1m
+		timeout 30d
+		timeout 3h
+		timeout 3h45s
+		timeout 6m
+		timestamp sack-perm
+		type ether_addr
+		type filter hook egress devices = { lo } priority 0; policy accept;
+		type filter hook forward priority filter + 10; policy accept;
+		type filter hook forward priority filter; policy accept;
+		type filter hook forward priority filter; policy drop;
+		type filter hook ingress priority 0; policy accept;
+		type filter hook input priority -225; policy accept;
+		type filter hook input priority filter + 10; policy accept;
+		type filter hook input priority filter + 1; policy accept;
+		type filter hook input priority filter + 4; policy accept;
+		type filter hook input priority filter; policy accept;
+		type filter hook input priority filter; policy drop;
+		type filter hook output priority 225; policy accept;
+		type filter hook output priority filter + 10; policy accept;
+		type filter hook output priority filter; policy accept;
+		type filter hook output priority filter; policy drop;
+		type filter hook postrouting priority srcnat; policy accept;
+		type filter hook prerouting priority 0; policy accept;
+		type filter hook prerouting priority dstnat; policy accept;
+		type filter hook prerouting priority filter; policy accept;
+		type filter hook prerouting priority mangle + 10; policy accept;
+		type filter hook prerouting priority mangle; policy accept;
+		type filter hook prerouting priority raw + 10; policy accept;
+		type filter hook prerouting priority raw; policy accept;
+		type icmpv6_type
+		type iface_index
+		type iface_index . ether_addr . ipv4_addr
+		type iface_index . ipv6_addr
+		type ifname
+		type ifname . mark
+		type ifname : verdict
+		type inet_proto
+		type inet_service
+		type inet_service;
+		type inet_service . ifname
+		type inet_service : inet_service
+		type inet_service . ipv4_addr
+		type inet_service : verdict
+		type ipv4_addr
+		type ipv4_addr : classid
+		type ipv4_addr : counter
+		type ipv4_addr . iface_index
+		type ipv4_addr . ifname
+		type ipv4_addr . inet_proto . inet_service
+		type ipv4_addr . inet_service
+		type ipv4_addr : inet_service
+		type ipv4_addr . inet_service . ifname . ipv4_addr . inet_service
+		type ipv4_addr . inet_service : interval ipv4_addr . inet_service
+		type ipv4_addr . inet_service . ipv4_addr
+		type ipv4_addr . inet_service . ipv4_addr . inet_service . inet_proto
+		type ipv4_addr : interval ipv4_addr
+		type ipv4_addr : interval ipv4_addr . inet_service
+		type ipv4_addr . ipv4_addr
+		type ipv4_addr : ipv4_addr
+		type ipv4_addr . ipv4_addr . inet_service
+		type ipv4_addr . ipv4_addr : interval ipv4_addr . inet_service
+		type ipv4_addr . mark
+		type ipv4_addr : mark
+		type ipv4_addr : synproxy
+		type ipv4_addr : verdict
+		type ipv6_addr
+		type ipv6_addr . iface_index
+		type ipv6_addr . inet_service . ifname . ipv6_addr . inet_service
+		type ipv6_addr . ipv6_addr
+		type mark
+		type mark . inet_service . inet_proto : mark
+		type nat hook postrouting priority filter; policy accept;
+		type nat hook postrouting priority srcnat + 10; policy accept;
+		type nat hook postrouting priority srcnat; policy accept;
+		type nat hook prerouting priority dstnat + 10; policy accept;
+		type nat hook prerouting priority dstnat; policy accept;
+		type nat hook prerouting priority filter; policy accept;
+		typeof ct zone
+		typeof ether saddr . vlan id
+		typeof frag frag-off
+		typeof iifname : ct mark
+		typeof iifname : ct zone
+		typeof iifname . ip saddr : interval ip daddr
+		typeof iifname . ip saddr : interval ip daddr . tcp dport
+		typeof iifname . ip saddr . ipsec in reqid
+		typeof iifname . ip saddr . meta ipsec
+		typeof ip daddr . @ih,32,32
+		typeof ip hdrlength
+		typeof ip option ra value
+		typeof ip saddr
+		typeof ip saddr . ct original proto-dst : ip daddr . tcp dport
+		typeof ip saddr . iif
+		typeof ipsec in reqid . iif
+		typeof ip version
+		typeof meta ibrpvid
+		typeof meta l4proto
+		typeof meta mark
+		typeof osf name
+		typeof sctp chunk init num-inbound-streams
+		typeof tcp option maxseg size
+		typeof tcp option mptcp subtype
+		typeof tcp option mptcp subtype . ip daddr
+		typeof vlan id
+		typeof vlan id . ip saddr
+		typeof vxlan ip saddr
+		typeof vxlan ip saddr . vxlan ip daddr
+		type "sip" protocol tcp
+		type tcp_flag
+		udp dport 1234 update @dlist { ip daddr } counter packets 0 bytes 0
+		udp dport 123 accept
+		udp dport 137 ct helper "netbios-ns"
+		udp dport 137 ct state new,untracked accept
+		udp dport 138 ct state new,untracked accept
+		udp dport 1714-1764 ct state new,untracked accept
+			udp dport { 3478, 5060 } accept
+		udp dport 4321 accept
+		udp dport 4789 update @y { vxlan ip saddr }
+		udp dport 4789 vxlan ip saddr . vxlan ip daddr { 1.1.1.1 . 2.2.2.2 } counter packets 0 bytes 0
+		udp dport 4789 vxlan ip saddr . vxlan ip daddr @x counter packets 0 bytes 0
+		udp dport { 5060, 7078-7097 } oifname "eth2.10" jump {
+		udp dport { 53, 123 } accept
+		udp dport 53 accept
+		udp dport 547 ip6 daddr ff02::1:2 return
+		udp dport 547 ip6 saddr fe80::/64 ip6 daddr ff02::1:2 accept
+		udp dport 67
+		udp dport . ct state { 137 . new, 138 . new, 137 . untracked, 138 . untracked } accept
+		udp dport . iifname { 100 . "foo", 51820 . "foo", 514 . "bar", 67 . "bar", 100 . "test", 51820 . "test" } accept
+		udp dport . iifname { 100 . "foo", 51820 . "foo", 514 . "bar", 67 . "bar" } accept
+		udp dport . iifname { 51820 . "foo", 514 . "bar", 67 . "bar" } accept
+		udp dport @udp_accepted accept
+		udp dport vmap { 100-222 : accept }
+		udp length . @nh,32,32 vmap @m1
+		udp length . @nh,32,32 vmap @m2
+		udp length . @th,160,128 vmap { 47-63 . 0xe373135363130333131303735353203 : accept }
+		udp length . @th,160,128 vmap { 47-63 . 0xe373135363130333131303735353203 : goto nat_dns_dnstc, 62-78 . 0xe31393032383939353831343037320e : goto nat_dns_this_5301, 62-78 . 0xe31363436323733373931323934300e : goto nat_dns_saturn_5301, 62-78 . 0xe32393535373539353636383732310e : goto nat_dns_saturn_5302, 62-78 . 0xe38353439353637323038363633390e : goto nat_dns_saturn_5303 }
+		udp sport { 123, 321 }
+		udp sport 546 udp dport 547 iifname { "eth1", "eth2.10", "eth2.20" } accept
+		udp sport 547 ip6 saddr fe80::/64 return
+		udp sport 547 udp dport 546 ip6 saddr fe80::/64 accept
+		udp sport 547 udp dport 546 ip6 saddr fe80::/64 oifname { "eth1", "eth2.10", "eth2.20" } accept
+		udp sport 67 udp dport 68 ip saddr { 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16 } accept
+		udp sport 68 udp dport 67 accept
+		update @acct_out2 { ip6 saddr . iif timeout 10m counter }
+		update @acct_out { iif . ip6 saddr timeout 10m counter }
+		update @ipset { vlan id . ip saddr timeout 5s } counter packets 0 bytes 0
+		update @macset { ether saddr . vlan id timeout 5s } counter packets 0 bytes 0
+		update @mapping { ip saddr : tcp sport }
+		update @pinned { ip saddr . ct original proto-dst timeout 1m30s : ip daddr . tcp dport }
+		update @s1 { ip saddr . 10.180.0.4 . 80 }
+		update @s { ip saddr limit rate 12/minute burst 30 packets } accept
+		update @sticky-set-svc-153CN2XYVUHRQ7UB { ip saddr : 0x00000003 }
+		update @sticky-set-svc-M53CN2XYVUHRQ7UB { ip saddr : 0x00000002 }
+		update @vlanidset { vlan id timeout 5s } counter packets 0 bytes 0
+		update @xyz { ip saddr timeout 30s counter }
+		update @y { ip daddr }
+		update @y { ip daddr limit rate 1/second burst 5 packets counter }
+		update @y { ip saddr timeout 30s }
+		vlan id != { 1, 2 } vlan type ip6 counter packets 0 bytes 0 jump c2
+		vlan id . ip saddr @s11 accept
+		vlan id != @nodhcpvlan vlan type arp counter packets 0 bytes 0 jump c2
+		vlan id != @nodhcpvlan vlan type ip counter packets 0 bytes 0 jump c2
+		vlan id @s2 accept
+		vlan pcp 1
+		wscale 5
+		wscale 7
