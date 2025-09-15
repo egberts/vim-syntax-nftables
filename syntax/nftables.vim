@@ -7,107 +7,100 @@
 " Filenames:    nftables.conf, *.nft
 " Location:     https://github.com/egberts/vim-nftables
 " License:      MIT license
-" Remarks:
 " Bug Report:   https://github.com/egberts/vim-nftables/issues
 "
-"  WARNING:  Do not use double-quote to start an inline comment
-"  WARNING:  Do not use 'containedin=', computationally expensive.
-"  WARNING:  Do not add online comments using a double-quote, it ALTERS patterns
-"  WARNING:  Do not use 'keepend' except for only the most innermost region blocks
+" Description:
+"     nftables.vim is a nftables v1.1.4 Vimscript syntax file.
 "
-"  ~/.vimrc flags used:
+"     Its naming convention mirrors nftables/src/parser_bison.y as closely as
+"     possible.  Due to the LL(1) requirement of Vimscript syntax, translations
+"     are required — most notably the intensive use of pull-ups.
 "
-"  In nftables/src/parser_bison.y, a couple more notes:
-"    - map_stmt_expr is the #1 nexus of all statements/expression and is in chain_block
-"    - chain_block is top-level container of all statements in a chain
-"    - rule_stmt is specific for write statements that modify rulesets: add, delete, inesrt, flush
-"    - verdict_expr handles 'goto', 'continue', 'return', 'drop', 'accept'
-"    - expr_stmt converts expressions to a statement (often evoked by map_stmt_expr)
-"    - counter_stmt/limit_stmt/log_stmt/queue_stmt are specialized semantic actions for their respective keywords
-"    - map_stmt/vmap_stmt - Handles the actual 'map'/'vmap', and not the #1 nexus
-"                  ┌─────────────┐
-"                  │ chain_block │
-"                  └─────┬───────┘
-"                        │
-"        ┌───────────────┴───────────────┐
-"        │                               │
-" ┌──────▼───────┐                 ┌─────▼───────┐
-" │ Write Stmts  │                 │ Non-Write    │
-" │ (modifying)  │                 │ Stmts        │
-" │ add/delete/  │                 │ counter/log/ │
-" │ insert/flush │                 │ reject/limit │
-" └──────┬───────┘                 │ queue/verdict│
-"        │                         │ map/vmap     │
-"        │                         └─────┬───────┘
-"        │                               │
-"  ┌─────▼────────┐             ┌────────▼────────┐
-"  │ rule_stmt    │             │ map_stmt_expr    │
-"  │ (dedicated)  │             │ (expr → stmt)    │
-"  └──────────────┘             └────────┬────────┘
-"                                         │
-"             ┌───────────────────────────┼───────────────────────────┐
-"             │                           │                           │
-"        verdict_expr               specialized_stmt           map_stmt / vmap_stmt
-"      (accept/drop/etc)        (counter/log/limit/queue)       (actual map keywords)
+"     Pull-ups are acts of navigating into deep expressions to note all
+"     first-encountered TOKENs/keywords for that current semantic action.
 "
-" How to read this for syntax highlighting
-"    1. Top node: chain_block — all statements inside a chain.
-"    2. Left branch: “write statements” → directly go to rule_stmt.
-"    3. Right branch: “non-write statements” → funneled into map_stmt_expr.
-"    4. Inside map_stmt_expr:
-"        ◦ Verdicts, counters, logs, limits, queues → all expression-based statements.
-"        ◦ map/vmap → also eventually hit this, but have their own leaf nodes.
+"     This file is:
+"       • A truly deterministic LL(1) syntax tree.
+"       • Organized hierarchically in a two-tier structure (second-order and
+"         first-order tokens).
+"       • Anchored by the 'line' semantic action, which is the top-level root
+"         node and the only one not using the 'contained' option.
 "
-" Key tip for Vim LL(1 highlighter:
-"    • Treat map_stmt_expr as the catch-all for non-write statements.
-"    • Don’t be misled by the map_ prefix; it’s about the expression-to-statement conversion, not the map keyword itself.
+"     Other major nexus semantic actions are 'map_stmt_expr' and 'stmt'.
+"     Minor semantic nexus include: table_block, chain_block, set_block, etc.
 "
+"     Write statements are folded with read statements due to embedded 'set'
+"     keywords, '@' map names, and 'update' commands.
 "
-"      g:nftables_syntax_disabled, if exist then entirety of this file gets skipped
-"      g:nftables_debug, extra outputs
-"      g:nftables_colorscheme, if exist, then 'nftables.vim' colorscheme is used
-""
-"  This syntax supports both ANSI 256color and ANSI TrueColor (16M colors)
+" Organization (in order):
 "
-"  For ANSI 16M TrueColor:
-"  - ensure that `$COLORTERM=truecolor` (or `=24bit`) at command prompt
-"  - ensure that `$TERM=xterm-256color` (or `xterm+256color` in macos) at command prompt
-"  - ensure that `$TERM=screen-256color` (or `screen+256color` in macos) at command prompt
-"  For ANSI 256-color, before starting terminal emulated app (vim/gvim):
-"  - ensure that `$TERM=xterm-256color` (or `xterm+256color` in macos) at command prompt
-"  - ensure that `$COLORTERM` is set to `color`, empty or undefined
+"   Second-order tokens:
+"     - map_stmt_list : converts list of statements into a node on parse tree
+"     - expr_stmt     : expression to a statement (evoked by map_stmt_expr)
 "
-" Vimscript Limitation:
-" - background setting does not change here, but if left undefined ... it's unchanged.
-" - colorscheme setting does not change here, but if left undefined ... it's unchanged.
-" - Vim 7+ attempts to guess the `background` based on term-emulation of ANSI OSC52 behavior
-" - If background remains indeterminate, we guess 'light' here, unless pre-declared in ~/.vimrc
-" - nftables variable name can go to 256 characters,
-"       but in vim-nftables here, the variable name however is 64 chars maximum.
-" - nftables time_spec have no limit to its string length,
-"       but in vim-nftables here, time_spec limit is 11 (should be at least 23)
-"       because '365d52w24h60m60s1000ms'.  Might shoot for 32.
-
-" TIPS:
-" - always add '\v' to any OR-combo list like '\v(opt1|opt2|opt3)' in `syntax match`
-" - always add '\v' to any OR-combo list like '\v[a-zA-Z0-9_]' in `syntax match`
-" - place any 'contained' keyword at end of line (EOL)
-" - never use '?' in `match` statements
-" - 'contains=' ordering MATTERS in `cluster` statements
-" - 'region' seems to enjoy the 'keepend' option
-" - ordering between 'contains=' and 'nextgroup=' statements, first one wins (but not in region)
-" - ordering between 'contains=' statements amongst themselves, first one wins
-" - ordering within 'contains=' statements, last one wins
-" - ordering within 'nextgroup=' statements, last one wins
-" - last comma must not exist on statement between 'contains='/'nextgroup' and vice versa
+"   First-order tokens:
+"     - map_stmt_expr : main nexus (inside chain_block)
+"     - chain_block   : container for all chain statements
+"     - rule_stmt     : write-type statements only (add/delete/insert/flush)
+"     - verdict_expr  : 'accept', 'drop', 'goto', 'jump', 'continue', 'return'
+"     - counter_stmt, log_stmt, limit_stmt, queue_stmt
+"     - map_stmt, vmap_stmt (actual 'map'/'vmap', not nexus)
+"     - functional commands: element, table, chain, ct, rule, limit, map, set
+"     - family starters: ip, ip6, netdev, inet, bridge, arp
+"     - management commands: delete, list, counter, create, reset, destroy,
+"                            get, insert, flush, monitor, rename, replace
+"     - table_block, set_block, common_block
+"     - table_identifier
+"     - base_cmd (add, describe, synproxy, counter, element, monitor, destroy)
+"     - comments: '#' full-line, double-quote inline
+"     - line (top-level semantic action, no 'contained')
+"
+" Warnings:
+"   - Do not use 'containedin=', computationally expensive.
+"   - Do not add inline comments using a double-quote, it alters patterns.
+"   - Do not use 'keepend' except in the most innermost region blocks.
+"
+" Color Support:
+"   This syntax supports both ANSI 256-color and ANSI TrueColor (16M colors).
+"
+"   For ANSI 16M TrueColor:
+"     - ensure `$COLORTERM=truecolor` (or `=24bit`) at the command prompt
+"     - ensure `$TERM=xterm-256color` (or `xterm+256color` in macOS)
+"     - ensure `$TERM=screen-256color` (or `screen+256color` in macOS)
+"
+"   For ANSI 256-color:
+"     - ensure `$TERM=xterm-256color` (or `xterm+256color` in macOS)
+"     - ensure `$COLORTERM` is set to `color`, empty, or undefined
+"
+" Vimscript Limitations:
+"   - background setting does not change here, but if left undefined it remains unchanged
+"   - colorscheme setting does not change here, but if left undefined it remains unchanged
+"   - Vim 7+ attempts to guess the `background` based on term-emulation (ANSI OSC52)
+"   - If background remains indeterminate, default is 'light' unless overridden in ~/.vimrc
+"   - nftables variable name limit: upstream allows 256 chars; here capped at 64 chars
+"   - nftables time_spec has no limit upstream; here capped at 11 chars
+"     (should be at least 23 to handle '365d52w24h60m60s1000ms'; goal is 32)
+"
+" Tips:
+"   - always add '\v' to any OR-combo list in `syntax match`
+"   - place 'contained' keywords at EOL
+"   - never use '?' in `match` statements
+"   - 'contains=' ordering MATTERS in `cluster` statements
+"   - 'region' benefits from 'keepend'
+"   - ordering: between 'contains=' and 'nextgroup=', first one wins
+"   - ordering: within 'contains=' and 'nextgroup=', last one wins
+"   - no trailing commas allowed in 'contains=' / 'nextgroup=' lists
 "
 " Developer Notes:
-"  - relocate inner_inet_expr to after th_hdr_expr?
+"   - consider relocating inner_inet_expr to after th_hdr_expr
 "
-" syntax/nftables.vim is called before colors/nftables.vim
-" syntax/nftables.vim is called before ftdetect/nftables.vim
-" syntax/nftables.vim is called before ftplugin/nftables.vim
-" syntax/nftables.vim is called before indent/nftables.vim
+" File load order:
+"   - syntax/nftables.vim is called before:
+"       colors/nftables.vim
+"       ftdetect/nftables.vim
+"       ftplugin/nftables.vim
+"       indent/nftables.vim
+
 
 if exists('nft_debug') && nft_debug == 1
   echomsg 'syntax/nftables-new.vim: called.'
@@ -8758,6 +8751,7 @@ syn match nft_base_cmd_keyword_list "list" skipwhite contained
 \    nft_Error
 "***************** END list_cmd *************************
 
+
 " **************** BEGIN set stmt_expr *******************
 " unused nft_add_cmd_keyword_map_map_spec_map_block_element_map_block_semicolon
 hi link   nft_chain_block_map_block_map_block_expr_elements_comma nftHL_Operator
@@ -8808,6 +8802,9 @@ syn cluster nft_c_set_stmt_expr_keys
 
 
 "***************** END set stmt_expr *************************
+
+"***************** BEGIN map_stmt **********************************
+"***************** END map_stmt **********************************
 
 " **************** BEGIN ct_cmd *******************
 hi link   nft_add_cmd_keyword_ct_keyword_expectation_obj_spec_identifier nftHL_Table
@@ -10681,7 +10678,10 @@ hi link   nft_add_cmd_table_block_set_block_stateful_stmt_list_stmt_stateful_stm
 syn match nft_add_cmd_table_block_set_block_stateful_stmt_list_stmt_stateful_stmt_connlimit_stmt_keyword_ct 'ct\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_set_block_stateful_stmt_list_stateful_stmt_connlimit_stmt_keyword_count
-" ******************** END stateful_stmt
+" ******************** END stateful_stmt ****************************
+
+" ******************** BEGIN map-related **************************
+" ******************** BEGIN map_block ****************************
 
 hi link   nft_add_cmd_map_map_spec_map_block_separator nftHL_Separator
 syn match nft_add_cmd_map_map_spec_map_block_separator /;/ skipwhite contained
@@ -10952,7 +10952,7 @@ syn match nft_base_cmd_keyword_map "\vmap\ze " skipwhite contained
 \ nextgroup=
 \    @nft_c_add_cmd_map_map_spec
 " do not add ^ regex to nft_base_cmd_map, already done by nft_line
-" *********************  END 'map' ***********************
+" ******************** END map_block ******************************
 
 " ******************** BEGIN set_cmd ************************
 hi link   nft_add_cmd_set_block_separator nftHL_Normal

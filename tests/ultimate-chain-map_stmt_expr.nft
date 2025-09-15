@@ -1,4 +1,7 @@
 #!/usr/sbin/nft
+
+ T C
+
 table T {
     chain C {
 		accept
