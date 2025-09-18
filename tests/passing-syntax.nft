@@ -148,7 +148,7 @@ table xxxx { chain last {
     include "../include/rule-counter.nft";
     define a = 123;
 }; };
-table arp A0b_._/RP_TABLE {
+table arp A0b__RP_TABLE {
     chain ARP_INPUT_FILTER {
         define a = 123;
         type filter hook input priority 100;
@@ -413,7 +413,7 @@ table ip my_filter_table {
 
     chain my_output_chain {
         type filter hook output priority filter; policy accept;
-        ct state new add @my_connlimit { ip daddr ct count over 20 } counter packets 0 bytes 0 drop
+        ct state new,established add @my_connlimit { ip daddr ct count over 20 } counter packets 0 bytes 0 drop
    }
 }
 
@@ -8368,6 +8368,7 @@ table ip my_filter_table {
     }
 
     chain my_output_chain {
+        add  @my_connlimit
         type filter hook output priority filter; policy accept;
         ct state new add @my_connlimit { ip daddr ct count over 20 } counter packets 0 bytes 0 drop
    }

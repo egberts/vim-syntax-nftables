@@ -260,7 +260,7 @@ set cpoptions-=C
 
 syn sync clear
 syn sync maxlines=1000
-syn sync match nftablesSync grouphere NONE '^(rule|add {1,15}rule|table|chain|set)'
+syn sync match nftablesSync grouphere NONE '^(table|rule|add {1,15}rule|table|chain|set)'
 " syn sync fromstart '^(monitor|table|set)'
 " syn sync fromstart
 
@@ -948,6 +948,7 @@ syn match nft_primary_stmt_expr_payload_expr_keyword_ip_ip_hdr_expr_ip_hdr_field
 hi link   nft_primary_stmt_expr_payload_expr_keyword_ip_ip_hdr_expr_ip_hdr_field_protocol nftHL_Action
 syn match nft_primary_stmt_expr_payload_expr_keyword_ip_ip_hdr_expr_ip_hdr_field_protocol '\vprotocol' skipwhite contained
 \ nextgroup=
+\    nft_datatype_ip_protocol,
 \    nft_close_scope_ip_primary_expr_constant_expr_int_hex_8b
 
 hi link   nft_primary_stmt_expr_payload_expr_keyword_ip_ip_hdr_expr_ip_hdr_field_frag_off nftHL_Action
