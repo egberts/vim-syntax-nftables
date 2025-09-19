@@ -32,6 +32,26 @@
 "     Write statements are folded with read statements due to embedded 'set'
 "     keywords, '@' map names, and 'update' commands.
 "
+" Vimrc Global Settings:
+"    g:nftables_syntax_disabled
+"    g:nft_colorscheme
+"    g:nft_debug
+"    g:loaded_syntax_nftables
+"    g:syntax_on
+"    b:current_syntax
+"
+" Color Support:
+"   This syntax supports both ANSI 256-color and ANSI TrueColor (16M colors).
+"
+"   For ANSI 16M TrueColor:
+"     - ensure `$COLORTERM=truecolor` (or `=24bit`) at the command prompt
+"     - ensure `$TERM=xterm-256color` (or `xterm+256color` in macOS)
+"     - ensure `$TERM=screen-256color` (or `screen+256color` in macOS)
+"
+"   For ANSI 256-color:
+"     - ensure `$TERM=xterm-256color` (or `xterm+256color` in macOS)
+"     - ensure `$COLORTERM` is set to `color`, empty, or undefined
+"
 " Organization (in order):
 "
 "   Second-order tokens:
@@ -61,19 +81,8 @@
 "   - Do not use 'containedin=', computationally expensive.
 "   - Do not add inline comments using a double-quote, it alters patterns.
 "   - Do not use 'keepend' except in the most innermost region blocks.
+"   - 'to', 'set', 'name' keywords ALL GOES thru `stmt_expr`
 "   - map_stmt_expr is semantic, not the TOKEN/keyword 'map'
-"
-" Color Support:
-"   This syntax supports both ANSI 256-color and ANSI TrueColor (16M colors).
-"
-"   For ANSI 16M TrueColor:
-"     - ensure `$COLORTERM=truecolor` (or `=24bit`) at the command prompt
-"     - ensure `$TERM=xterm-256color` (or `xterm+256color` in macOS)
-"     - ensure `$TERM=screen-256color` (or `screen+256color` in macOS)
-"
-"   For ANSI 256-color:
-"     - ensure `$TERM=xterm-256color` (or `xterm+256color` in macOS)
-"     - ensure `$COLORTERM` is set to `color`, empty, or undefined
 "
 " Vimscript Limitations:
 "   - background setting does not change here, but if left undefined it remains unchanged
@@ -82,19 +91,17 @@
 "   - If background remains indeterminate, default is 'light' unless overridden in ~/.vimrc
 "   - nftables variable name limit: upstream allows 256 chars; here capped at 64 chars
 "   - nftables time_spec has no limit upstream; here capped at 11 chars
-"     (should be at least 23 to handle '365d52w24h60m60s1000ms'; goal is 32)
+"         (should be at least 23 to handle '365d52w24h60m60s1000ms'; goal is 32)
 "
-" Tips:
+" Vim Developer Notes:
 "   - always add '\v' to any OR-combo list in `syntax match`
 "   - place 'contained' keywords at EOL
-"   - never use '?' in `match` statements
+"   - strongly discourage use '?' in `match` statements, make multiple match statements
 "   - 'contains=' ordering MATTERS in `cluster` statements
-"   - 'region' benefits from 'keepend'
+"   - inner-'region' benefits from 'keepend', not outer-regions.
 "   - ordering: between 'contains=' and 'nextgroup=', first one wins
 "   - ordering: within 'contains=' and 'nextgroup=', last one wins
 "   - no trailing commas allowed in 'contains=' / 'nextgroup=' lists
-"
-" Developer Notes:
 "   - consider relocating inner_inet_expr to after th_hdr_expr
 "
 " File load order:
@@ -1136,6 +1143,7 @@ syn match nft_primary_stmt_expr_payload_expr_keyword_ip_ip_hdr_expr_ip_hdr_field
 hi link   nft_primary_stmt_expr_payload_expr_keyword_ip_ip_hdr_expr_ip_hdr_field_length nftHL_Action
 syn match nft_primary_stmt_expr_payload_expr_keyword_ip_ip_hdr_expr_ip_hdr_field_length '\vlength' skipwhite contained
 \ nextgroup=
+\    nft_close_scope_ip_primary_expr_map_expr_keyword_map,
 \    nft_close_scope_ip_primary_expr_constant_expr_int_hex_16b
 
 hi link   nft_primary_stmt_expr_payload_expr_keyword_ip_ip_hdr_expr_ip_hdr_field_daddr nftHL_Action
@@ -4791,7 +4799,7 @@ syn cluster nft_c_stmt
 \    nft_common_block_keyword_include,
 \    nft_add_cmd_rule_rule_alloc_stmt_redir_stmt_redir_stmt_alloc_keyword_redirect,
 \    nft_add_cmd_keyword_table_table_block_chain_chain_block_comment_spec,
-\    nft_stmt_objref_stmt_objref_stmt_counter_keyword_counter,
+\    nft_stmt_keyword_counter,
 \    nft_add_cmd_keyword_table_table_block_chain_chain_block_keyword_devices,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_ibrname,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iifname,
@@ -4980,10 +4988,6 @@ syn cluster nft_c_add_cmd_keyword_counter_obj_spec
 \ contains=
 \    nft_add_cmd_keyword_counter_obj_spec_table_spec_family_spec_explicit,
 \    nft_add_cmd_keyword_counter_obj_spec_table_spec_table_id,
-
-" Match the 'counter' keyword
-syn match nft_add_cmd_rule_rule_alloc_stmt_keyword_counter '\vcounter\>' contained
-    \ nextgroup=nft_add_cmd_rule_rule_alloc_stmt_counter_objref_identifier
 
 " 'counter'->objref_stmt_counter->stmt->rule_alloc->rule->add_cmd->base_cmd->line
 syn match nft_add_cmd_rule_rule_alloc_stmt_counter_objref_identifier '\v[a-zA-Z_][a-zA-Z0-9_]*' contained
@@ -6806,7 +6810,7 @@ syn cluster nft_c_base_cmd_add_cmd_rule_alloc_stmt_cluster
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oifgroup,
 \    nft_add_cmd_rule_rule_alloc_stmt_redir_stmt_redir_stmt_alloc_keyword_redirect,
 \    nft_add_cmd_rule_rule_alloc_stmt_synproxy_stmt_keyword_synproxy,
-\    nft_stmt_objref_stmt_objref_stmt_counter_keyword_counter,
+\    nft_stmt_keyword_counter,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_ibrname,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iifname,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iiftype,
@@ -10729,9 +10733,7 @@ syn match nft_stmt_objref_stmt_objref_stmt_counter_stmt_expr_symbol_expr_string_
 hi link   nft_stmt_objref_stmt_objref_stmt_counter_keyword_name nftHL_Action
 syn match nft_stmt_objref_stmt_objref_stmt_counter_keyword_name '\vname\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_stmt_objref_stmt_objref_stmt_counter_stmt_expr_symbol_expr_variable,
-\    nft_stmt_objref_stmt_objref_stmt_counter_stmt_expr_symbol_expr_string_quoted,
-\    nft_stmt_objref_stmt_objref_stmt_counter_stmt_expr_symbol_expr_string_raw,
+\    @nft_c_stmt_expr
 
 " 'objref_stmt'->add_cmd->base_cmd->line
 hi link   nft_stateful_stmt_counter_stmt_counter_arg_keyword_bytes nftHL_Action
@@ -10747,6 +10749,15 @@ syn match nft_stmt_objref_stmt_objref_stmt_counter_keyword_counter '\vcounter\ze
 \ nextgroup=
 \    nft_stmt_objref_stmt_objref_stmt_counter_keyword_name,
 \    nft_stateful_stmt_counter_stmt_counter_arg_keyword_packets,
+
+" Match the 'counter' keyword
+hi link   nft_stmt_keyword_counter nftHL_Statement
+syn match nft_stmt_keyword_counter '\vcounter\ze[ \t\n;]' skipwhite contained
+\ nextgroup=
+\    nft_stateful_stmt_counter_stmt_counter_arg_keyword_packets,
+\    nft_stmt_objref_stmt_objref_stmt_counter_keyword_name,
+\    nft_add_cmd_rule_rule_alloc_stmt_counter_objref_identifier
+
 " *********************  END 'objref_stmt' ***********************
 
 " *********************  BEGIN 'map' ***********************
@@ -12412,7 +12423,7 @@ syn region nft_add_cmd_keyword_table_table_block_chain_chain_block_delimiters st
 \    nft_common_block_keyword_include,
 \    nft_add_cmd_rule_rule_alloc_stmt_redir_stmt_redir_stmt_alloc_keyword_redirect,
 \    nft_add_cmd_keyword_table_table_block_chain_chain_block_comment_spec,
-\    nft_stmt_objref_stmt_objref_stmt_counter_keyword_counter,
+\    nft_stmt_keyword_counter,
 \    nft_add_cmd_keyword_table_table_block_chain_chain_block_keyword_devices,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_ibrname,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iifname,
