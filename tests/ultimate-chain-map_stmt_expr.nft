@@ -21,7 +21,7 @@ table T {
 		counter quota 500 bytes
 		ct count over 2
 		ct count over 20
-#		ct expectation set "ctexpect"
+		ct expectation set "ctexpect"
 #		ct expectation set ip6 daddr map { dead::beef : "exp2", feed::17 : "exp2" }
 #		ct expectation set ip6 daddr . tcp dport map { feed::17 . 512 : "exp2", dead::beef . 123 : "exp2" }
 #		ct expectation set ip6 saddr map { dead::beef : "exp2" }

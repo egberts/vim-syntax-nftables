@@ -267,7 +267,7 @@ set cpoptions-=C
 
 syn sync clear
 syn sync maxlines=1000
-syn sync match nftablesSync grouphere NONE '^(table|rule|add {1,15}rule|table|chain|set)'
+syn sync match nftablesSync grouphere NONE '^\s*(counter|table|rule|add {1,15}rule|table|chain|set)'
 " syn sync fromstart '^(monitor|table|set)'
 " syn sync fromstart
 
@@ -4815,6 +4815,7 @@ syn cluster nft_c_stmt
 \    nft_common_block_keyword_define,
 \    nft_stmt_set_stmt_set_stmt_op_keyword_delete,
 \    nft_add_cmd_keyword_table_table_block_chain_chain_block_policy_spec_keyword_policy,
+\    nft_stmt_keyword_quota,
 \    nft_verdict_expr_keyword_return,
 \    nft_stmt_set_stmt_set_stmt_op_keyword_update,
 \    nft_common_block_keyword_error,
@@ -6826,6 +6827,7 @@ syn cluster nft_c_base_cmd_add_cmd_rule_alloc_stmt_cluster
 \    nft_verdict_expr_keyword_return,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_expr_keyword_ipsec,
 \    nft_add_cmd_rule_rule_alloc_stmt_meter_stmt_meter_stmt_alloc_keyword_meter,
+\    nft_stmt_keyword_quota,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_skgid,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_skuid,
 \    nft_payload_expr_dccp_hdr_expr_keyword_dccp,
@@ -10713,9 +10715,14 @@ syn match nft_base_cmd_keyword_quota "\vquota\ze[ \t]" skipwhite contained
 \    nft_quota_cmd_obj_spec_table_spec_identifier_string,
 \    nft_UnexpectedSemicolon,
 \    nft_UnexpectedEOS,
-" *********************  END 'quota' ***********************
+" ********************* END 'quota' ************************
 
-" *********************  BEGIN 'objref_stmt' ***********************
+" ********************* BEGIN 'objref_stmt' **************************
+" ********************* BEGIN 'objref_stmt_quota' ********************
+"    nft_stmt_objref_stmt_objref_stmt_quota_keyword_name,
+" ********************* END 'objref_stmt_quota' **********************
+
+" ********************* BEGIN 'objref_stmt_counter' ******************
 " stmt_expr->'name'->'counter'->objref_stmt_counter->objref_stmt->stmt->rule_alloc->rule->add_cmd->base_cmd->line
 hi link   nft_stmt_objref_stmt_objref_stmt_counter_stmt_expr_keyword_expr_keyword_last nftHL_Action
 syn match nft_stmt_objref_stmt_objref_stmt_counter_stmt_expr_keyword_expr_keyword_last '\vlast\ze[ \t]' skipwhite contained
@@ -10733,7 +10740,9 @@ syn match nft_stmt_objref_stmt_objref_stmt_counter_stmt_expr_symbol_expr_string_
 hi link   nft_stmt_objref_stmt_objref_stmt_counter_keyword_name nftHL_Action
 syn match nft_stmt_objref_stmt_objref_stmt_counter_keyword_name '\vname\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    @nft_c_stmt_expr
+\    nft_stmt_objref_stmt_objref_stmt_counter_stmt_expr_symbol_expr_variable,
+\    nft_stmt_objref_stmt_objref_stmt_counter_stmt_expr_symbol_expr_string_quoted,
+\    nft_stmt_objref_stmt_objref_stmt_counter_stmt_expr_symbol_expr_string_raw,
 
 " 'objref_stmt'->add_cmd->base_cmd->line
 hi link   nft_stateful_stmt_counter_stmt_counter_arg_keyword_bytes nftHL_Action
@@ -10743,22 +10752,49 @@ hi link   nft_stateful_stmt_counter_stmt_counter_arg_keyword_packets nftHL_Actio
 syn match nft_stateful_stmt_counter_stmt_counter_arg_keyword_packets '\vpackets' skipwhite contained
 \ nextgroup=
 \    nft_stateful_stmt_counter_stmt_counter_arg_keyword_bytes
+" *********************  END 'objref_stmt' ***************************
 
-hi link   nft_stmt_objref_stmt_objref_stmt_counter_keyword_counter nftHL_Command
-syn match nft_stmt_objref_stmt_objref_stmt_counter_keyword_counter '\vcounter\ze[ \t\n;]' skipwhite contained
+
+" *********************  BEGIN 'quota_stmt' **************************
+hi link   nft_quota_stmt_keyword_packets nftHL_Action
+syn match nft_quota_stmt_keyword_packets '\vpackets' skipwhite contained
+hi link   nft_quota_stmt_keyword_bytes nftHL_Action
+syn match nft_quota_stmt_keyword_bytes '\vbytes' skipwhite contained
+hi link   nft_quota_stmt_num nftHL_Integer
+syn match nft_quota_stmt_num '\v(0[xX][0-9a-fA-F]{1,8})|([0-9]{1,10})' skipwhite contained
 \ nextgroup=
-\    nft_stmt_objref_stmt_objref_stmt_counter_keyword_name,
-\    nft_stateful_stmt_counter_stmt_counter_arg_keyword_packets,
+\    nft_quota_stmt_keyword_packets,
+\    nft_quota_stmt_keyword_bytes
 
+hi link   nft_quota_stmt_quota_mode_keyword_until nftHL_Action
+syn match nft_quota_stmt_quota_mode_keyword_until '\vuntil' skipwhite contained
+\ nextgroup=nft_quota_stmt_num,nft_Error
+
+hi link   nft_quota_stmt_quota_mode_keyword_over nftHL_Action
+syn match nft_quota_stmt_quota_mode_keyword_over '\vover' skipwhite contained
+\ nextgroup=nft_quota_stmt_num,nft_Error
+
+" Match the 'quota' statement
+" nft_stmt_objref_stmt_objref_stmt_quota_keyword_quota
+hi link   nft_stmt_keyword_quota nftHL_Statement
+syn match nft_stmt_keyword_quota '\vquota\ze[ \t\n;]' skipwhite contained
+\ nextgroup=
+\    nft_quota_stmt_quota_mode_keyword_until,
+\    nft_stmt_objref_stmt_objref_stmt_quota_keyword_name,
+\    nft_quota_stmt_quota_mode_keyword_over,
+\    nft_quota_stmt_num,
+" *********************  END 'quota_stmt' ****************************
+
+" ********************* BEGIN 'counter_stmt' *************************
 " Match the 'counter' keyword
 hi link   nft_stmt_keyword_counter nftHL_Statement
 syn match nft_stmt_keyword_counter '\vcounter\ze[ \t\n;]' skipwhite contained
 \ nextgroup=
 \    nft_stateful_stmt_counter_stmt_counter_arg_keyword_packets,
+\    nft_stmt_keyword_quota,
 \    nft_stmt_objref_stmt_objref_stmt_counter_keyword_name,
 \    nft_add_cmd_rule_rule_alloc_stmt_counter_objref_identifier
-
-" *********************  END 'objref_stmt' ***********************
+" *********************  END 'counter_stmt' **************************
 
 " *********************  BEGIN 'map' ***********************
 " set_spec 'map' ('add'|'clean')
@@ -10814,7 +10850,6 @@ hi link   nft_add_cmd_table_block_set_block_stateful_stmt_list_stmt_stateful_stm
 syn match nft_add_cmd_table_block_set_block_stateful_stmt_list_stmt_stateful_stmt_counter_stmt_keyword_counter '\vcounter\ze[ \t\n\};]' skipwhite contained
 \ nextgroup=
 \    nft_stateful_stmt_counter_stmt_counter_arg_keyword_packets,
-\    nft_stateful_stmt_counter_stmt_counter_arg_keyword_bytes,
 
 " limit_burst_bytes
 " 'limit' [ 'over'|'until' ] <NUM> '/' ('second'|'minute'|'hour'|'day'|'week') 'burst' <NUM> ('bytes'|'string')
@@ -12448,6 +12483,7 @@ syn region nft_add_cmd_keyword_table_table_block_chain_chain_block_delimiters st
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_expr_keyword_ipsec,
 \    nft_stmt_keyword_limit,
 \    nft_add_cmd_rule_rule_alloc_stmt_meter_stmt_meter_stmt_alloc_keyword_meter,
+\    nft_stmt_keyword_quota,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_skgid,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_skuid,
 \    nft_payload_expr_dccp_hdr_expr_keyword_dccp,
@@ -13614,7 +13650,7 @@ syn region nft_add_cmd_keyword_chain_chain_block_delimiters start='\v\s*\zs\{' e
 \    nft_common_block_keyword_include,
 \    nft_add_cmd_rule_rule_alloc_stmt_redir_stmt_redir_stmt_alloc_keyword_redirect,
 \    nft_add_cmd_keyword_table_table_block_chain_chain_block_comment_spec,
-\    nft_stmt_objref_stmt_objref_stmt_counter_keyword_counter,
+\    nft_stmt_keyword_counter,
 \    nft_add_cmd_keyword_table_table_block_chain_chain_block_keyword_devices,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_ibrname,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iifname,
