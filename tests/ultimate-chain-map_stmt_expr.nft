@@ -9,9 +9,8 @@ table T {
 		add @dynmark { 10.2.3.4 timeout 2s : 0x00000002 } comment "also check timeout-gc"
 		add @ssh_meter { ip saddr timeout 30d }
 		add @y { ip saddr }
-		auto-merge
 		counter
-		counter name ip saddr map { 1.1.1.1 : "user123", 2.2.2.2 : "user123", 192.168.2.2 : "user123" }
+#		counter name ip saddr map { 1.1.1.1 : "user123", 2.2.2.2 : "user123", 192.168.2.2 : "user123" }
 		counter name meta mark >> 8 & 0xf map @sctm_o1
 		counter packets 0 bytes 0
 		counter packets 0 bytes 0 accept
