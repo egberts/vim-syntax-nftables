@@ -2,8 +2,11 @@
 Lexical ordering of merged `ct_expr/ct_stmt` and 'ct expectation'/'ct_timeout'
 within the chain_block/stmt semantic action.
 
+In grammar productions (nonterminal reductions).
+
 
   ct expectation set (ftp|tftp)  # objref_stmt (SET always)
+  ct expectation set <stmt_expr>  # objref_stmt (SET always)
   ct expiration set <close_scope_ct>  # objref_stmt (SET)
   ct expiration [==|!=|<=|>=] <32-bit_integer_seconds>  # common
   ct expiration [<|>] <seconds>  # common

@@ -315,6 +315,7 @@ hi def link nftHL_Hook        Type
 hi def link nftHL_Action      Special
 hi def link nftHL_Delimiters  Normal
 hi def link nftHL_BlockDelimiters  Normal
+hi def link nftHL_Write        NonText
 
 "hi link nftHL_BlockDelimitersTable  Delimiter
 "hi link nftHL_BlockDelimitersChain  Delimiter
@@ -2787,7 +2788,7 @@ hi link   nft_ether_hdr_expr_types nftHL_Number
 syn match nft_ether_hdr_expr_types '\v((0[xX][0-9a-fA-F]{1,4})|([0-9]{1,5}))' skipwhite contained
 
 " this 'set' is not a Command/Statement, it is an 'Action'/expression/write-only
-hi link   nft_payload_expr_ether_hdr_expr_keyword_set nftHL_Action
+hi link   nft_payload_expr_ether_hdr_expr_keyword_set nftHL_Write
 syn match nft_payload_expr_ether_hdr_expr_keyword_set '\vset' skipwhite contained
 \ nextgroup=
 \    @nft_c_stmt_expr,
@@ -3346,11 +3347,18 @@ syn match nft_payload_expr_tcp_dport_operator_2char '\v([\>\<\!])\=' skipwhite c
 \    nft_payload_expr_tcp_dport_num_or_range,
 \    nft_chainError
 
+" tcp dport map ...
+hi link   nft_stmt_expr_map_stmt_expr_keyword_map nftHL_Action
+syn match nft_stmt_expr_map_stmt_expr_keyword_map '\vmap' skipwhite contained
+\ nextgroup=
+\    @nft_c_map_expr_rhs_expr
+
 "  tcp dport
 hi link   nft_payload_expr_tcp_keyword_dport nftHL_Action
 syn match nft_payload_expr_tcp_keyword_dport '\vdport\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    nft_payload_expr_tcp_dport_enums,
+\    nft_stmt_expr_map_stmt_expr_keyword_map,
 \    nft_payload_expr_tcp_dport_operator_2char,
 \    nft_payload_expr_tcp_dport_keyword_in,
 \    nft_payload_expr_tcp_dport_operator_1char,
@@ -4556,14 +4564,38 @@ syn cluster nft_c_stmt_expr
 \ contains=
 \    nft_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_boolean_expr_keyword_missing,
 \    nft_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_boolean_expr_keyword_exists,
-\    @nft_c_map_stmt_expr,
 \    @nft_c_multion_stmt_expr,
 \    @nft_c_symbol_stmt_expr,
 \    nft_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_symbol_expr_variable_expr,
 \    nft_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_symbol_expr_string,
 \    nft_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_integer_expr_num,
-
+\    nft_stmt_expr_map_stmt_expr_set_expr_set_ref_expr_set_symbol_ref_expr_keyword_at_identifier,
+\    nft_stmt_expr_map_stmt_expr_set_expr,
+\    nft_stmt_expr_map_stmt_expr_set_expr_set_ref_expr_set_symbol_ref_expr_variable
 "***************** END stmt_expr *************************************
+
+"***************** BEGIN 'map' rhs_expr ************************************
+hi link   nft_map_expr_rhs_expr_concat_rhs_expr nftHL_Action
+syn match nft_map_expr_rhs_expr_concat_rhs_expr 'x' skipwhite contained
+
+hi link    nft_map_expr_rhs_expr_set_expr nftHL_BlockDelimitersSet
+syn region nft_map_expr_rhs_expr_set_expr start=+{+ end=+}+ skipwhite contained
+\ nextgroup=
+\    nft_stmt_separator,
+\    nft_EOL,
+\    nft_Error
+
+hi link   nft_map_expr_rhs_expr_set_ref_symbol_expr nftHL_Action
+syn match nft_map_expr_rhs_expr_set_ref_symbol_expr 'y' skipwhite contained
+
+syn cluster nft_c_map_expr_rhs_expr
+\ contains=
+\    nft_map_expr_rhs_expr_concat_rhs_expr,
+\    nft_map_expr_rhs_expr_set_expr,
+\    nft_map_expr_rhs_expr_set_ref_symbol_expr_keyword_at_identifier,
+\    nft_map_expr_rhs_expr_primary_expr,
+\    nft_map_expr_rhs_expr_range_rhs_expr_basic_rhs_expr_exclusive_or_rhs_expr_and_rhs_expr_shift_rhs_expr_primary_rhs_expr_integer_expr,
+"***************** END 'map' rhs_expr **************************************
 
 " ************************* BEGIN stmt' *************************
 " ************************* BEGIN log_stmt' *************************
@@ -4880,7 +4912,7 @@ syn cluster nft_c_stmt
 \    nft_add_cmd_rule_rule_alloc_stmt_meter_stmt_meter_stmt_alloc_keyword_meter,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_skgid,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_skuid,
-\    nft_add_cmd_rule_rule_alloc_stmt_nat_stmt_nat_stmt_alloc_keyword_dnat,
+\    nft_stmt_nat_stmt_nat_stmt_alloc_keyword_dnat,
 \    nft_verdict_expr_keyword_drop,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_keyword_flow,
 \    nft_verdict_expr_keyword_goto,
@@ -4888,7 +4920,7 @@ syn cluster nft_c_stmt
 \    nft_chain_stmt_verdict_expr_keyword_jump,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_mark,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_keyword_meta,
-\    nft_add_cmd_rule_rule_alloc_stmt_nat_stmt_nat_stmt_alloc_keyword_snat,
+\    nft_stmt_nat_stmt_nat_stmt_alloc_keyword_snat,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_time,
 \    nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_keyword_type,
 \    nft_stmt_set_stmt_set_stmt_op_keyword_add,
@@ -6749,7 +6781,7 @@ syn match nft_add_cmd_rule_rule_alloc_stmt_masq_stmt_masq_stmt_arg_symbol_colon 
 \    nft_add_cmd_rule_rule_alloc_stmt_masq_stmt_masq_stmt_arg_stmt_expr,
 \    nft_Error
 
-hi link   nft_add_cmd_rule_rule_alloc_stmt_masq_stmt_masq_stmt_arg_keyword_to nftHL_Action
+hi link   nft_add_cmd_rule_rule_alloc_stmt_masq_stmt_masq_stmt_arg_keyword_to nftHL_Write
 syn match nft_add_cmd_rule_rule_alloc_stmt_masq_stmt_masq_stmt_arg_keyword_to '\vto\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_rule_rule_alloc_stmt_masq_stmt_masq_stmt_arg_symbol_colon
@@ -6777,7 +6809,7 @@ syn match nft_add_cmd_rule_rule_alloc_stmt_redir_stmt_redir_stmt_arg_symbol_colo
 \ nextgroup=
 \    nft_add_cmd_rule_rule_alloc_stmt_redir_stmt_redir_stmt_arg_stmt_expr
 
-hi link   nft_add_cmd_rule_rule_alloc_stmt_redir_stmt_redir_stmt_arg_keyword_to nftHL_Action
+hi link   nft_add_cmd_rule_rule_alloc_stmt_redir_stmt_redir_stmt_arg_keyword_to nftHL_Write
 syn match nft_add_cmd_rule_rule_alloc_stmt_redir_stmt_redir_stmt_arg_keyword_to '\vto\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_rule_rule_alloc_stmt_redir_stmt_redir_stmt_arg_symbol_colon,
@@ -6849,10 +6881,43 @@ syn match nft_chain_stmt_verdict_expr_keyword_jump '\vjump\ze[ \t]' keepend skip
 "******************** BEGIN verdict_stmt ******************************
 
 "******************** BEGIN nat_stmt ******************************
-hi link   nft_add_cmd_rule_rule_alloc_stmt_nat_stmt_nat_stmt_alloc_keyword_dnat nftHL_Statement
-syn match nft_add_cmd_rule_rule_alloc_stmt_nat_stmt_nat_stmt_alloc_keyword_dnat '\vdnat\ze[ \t]' skipwhite contained
-hi link   nft_add_cmd_rule_rule_alloc_stmt_nat_stmt_nat_stmt_alloc_keyword_snat nftHL_Statement
-syn match nft_add_cmd_rule_rule_alloc_stmt_nat_stmt_nat_stmt_alloc_keyword_snat '\vsnat\ze[ \t]' skipwhite contained
+hi link   nft_stmt_nat_stmt_keyword_to nftHL_Write
+syn match nft_stmt_nat_stmt_keyword_to '\vto' skipwhite contained
+\ nextgroup=
+\    @nft_c_stmt_expr
+
+hi link   nft_stmt_nat_stmt_nf_key_proto_keyword_ip nftHL_Define
+syn match nft_stmt_nat_stmt_nf_key_proto_keyword_ip '\vip' skipwhite contained
+\ nextgroup=
+\    nft_stmt_nat_stmt_keyword_to
+hi link   nft_stmt_nat_stmt_nf_key_proto_keyword_ip6 nftHL_Define
+syn match nft_stmt_nat_stmt_nf_key_proto_keyword_ip6 '\vip6' skipwhite contained
+\ nextgroup=
+\    nft_stmt_nat_stmt_keyword_to
+hi link   nft_stmt_nat_stmt_keyword_prefix nftHL_Action
+syn match nft_stmt_nat_stmt_keyword_prefix '\vprefix' skipwhite contained
+hi link   nft_stmt_nat_stmt_keyword_interval nftHL_Action
+syn match nft_stmt_nat_stmt_keyword_interval '\vinterval' skipwhite contained
+
+hi link   nft_stmt_nat_stmt_nat_stmt_alloc_keyword_dnat nftHL_Statement
+syn match nft_stmt_nat_stmt_nat_stmt_alloc_keyword_dnat '\vdnat\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_stmt_nat_stmt_keyword_interval,
+\    nft_stmt_nat_stmt_keyword_prefix,
+\    nft_stmt_nat_stmt_nf_key_proto_keyword_ip6,
+\    nft_stmt_nat_stmt_nf_key_proto_keyword_ip,
+\    nft_stmt_nat_stmt_keyword_to,
+\    nft_Error
+
+hi link   nft_stmt_nat_stmt_nat_stmt_alloc_keyword_snat nftHL_Statement
+syn match nft_stmt_nat_stmt_nat_stmt_alloc_keyword_snat '\vsnat\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_stmt_nat_stmt_keyword_interval,
+\    nft_stmt_nat_stmt_keyword_prefix,
+\    nft_stmt_nat_stmt_nf_key_proto_keyword_ip6,
+\    nft_stmt_nat_stmt_nf_key_proto_keyword_ip,
+\    nft_stmt_nat_stmt_keyword_to,
+\    nft_Error
 "******************** END nat_stmt ******************************
 
 " ***************** BEGIN 'add' 'rule' ***************
@@ -6887,14 +6952,14 @@ syn cluster nft_c_base_cmd_add_cmd_rule_alloc_stmt_cluster
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_skgid,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_skuid,
 \    nft_payload_expr_dccp_hdr_expr_keyword_dccp,
-\    nft_add_cmd_rule_rule_alloc_stmt_nat_stmt_nat_stmt_alloc_keyword_dnat,
+\    nft_stmt_nat_stmt_nat_stmt_alloc_keyword_dnat,
 \    nft_verdict_expr_keyword_drop,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_keyword_flow,
 \    nft_verdict_expr_keyword_goto,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_hour,
 \    nft_chain_stmt_verdict_expr_keyword_jump,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_mark,
-\    nft_add_cmd_rule_rule_alloc_stmt_nat_stmt_nat_stmt_alloc_keyword_snat,
+\    nft_stmt_nat_stmt_nat_stmt_alloc_keyword_snat,
 \    nft_payload_expr_sctp_hdr_expr_keyword_sctp,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_time,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_cpu,
@@ -6974,7 +7039,7 @@ syn match nft_add_cmd_rule_rule_alloc_stmt_primary_expr_meta_expr_meta_key_unqua
 " 'meta' keyword is almost always followed by a value (except for 'random', 'nftrace', 'ipsec')
 hi link   nft_route_class_id Define
 syn match nft_route_class_id '\v[0-9]{1,10}\ze[ \t;]' skipwhite contained
-hi link   nft_route_class_keyword_set nftHL_Action
+hi link   nft_route_class_keyword_set nftHL_Write
 syn match nft_route_class_keyword_set '\vset\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    nft_route_class_id
@@ -7073,7 +7138,7 @@ syn cluster nft_c_socket_t
 hi link   nft_packet_type Define
 syn match nft_packet_type '\v(broadcast|multicast|unicast|other|host)\ze[ \t\n;]' skipnl skipwhite contained
 
-hi link   nft_packet_type_keyword_set nftHL_Action
+hi link   nft_packet_type_keyword_set nftHL_Write
 syn match nft_packet_type_keyword_set '\vset\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    nft_packet_type,
@@ -7690,7 +7755,7 @@ syn cluster nft_c_cgroup_index
 \    nft_cgroup_index_integer,
 "******"
 
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_internal_qualified_keyword_nfproto_set nftHL_Action
+hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_internal_qualified_keyword_nfproto_set nftHL_Write
 syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_internal_qualified_keyword_nfproto_set '\vset\ze[ \t]' skipwhite contained
 \ nextgroup= nft_nf_protocol, nft_Error
 
@@ -7729,7 +7794,7 @@ syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keywor
 hi link   nft_meta_stmt_priority_keyword_none Define
 syn match nft_meta_stmt_priority_keyword_none '\vnone\ze[ \t;]' skipwhite contained
 
-hi link   nft_meta_stmt_priority_keyword_set nftHL_Action
+hi link   nft_meta_stmt_priority_keyword_set nftHL_Write
 syn match nft_meta_stmt_priority_keyword_set '\vset\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    nft_meta_stmt_priority_keyword_none,
@@ -7872,7 +7937,7 @@ hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keywor
 syn region nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_nftrace_set_elements start=+{+ end=+}+ skipwhite contained
 \ contains=
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_nftrace_value
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_nftrace_set nftHL_Action
+hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_nftrace_set nftHL_Write
 syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_nftrace_set '\vset\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_nftrace_value,
@@ -7924,7 +7989,7 @@ syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_
 \ nextgroup=
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_random_mod_divisor
 
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_set nftHL_Action
+hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_set nftHL_Write
 syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_set '\vset\ze[ \t;]' skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_random_mod,
@@ -8181,7 +8246,7 @@ syn region nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_mark_
 hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_mark_named_set nftHL_Set
 syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_mark_named_set '\v\@[a-zA-Z][a-zA-Z0-9_\-]{0,63}' skipwhite contained
 
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_mark_keyword_set nftHL_Action
+hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_mark_keyword_set nftHL_Write
 syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_mark_keyword_set '\vset\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_mark_named_set,
@@ -9310,7 +9375,7 @@ syn match nft_stmt_ct_common_ct_key_keyword_proto_dst '\vproto\-dst' skipwhite c
 
 "\    ct 'protocol' - anything in /etc/services
 " ct protocol set
-hi link   nft_primary_expr_ct_expr_keyword_set nftHL_Action
+hi link   nft_primary_expr_ct_expr_keyword_set nftHL_Write
 syn match nft_primary_expr_ct_expr_keyword_set '\vset' skipwhite contained
 \ nextgroup=
 \    nft_l4_protocol
@@ -9381,7 +9446,7 @@ syn match nft_stmt_ct_common_ct_key_keyword_mark '\vmark' skipwhite contained
 \ nextgroup=@nft_c_stmt_expr
 
 
-hi link   nft_stmt_ct_stmt_keyword_set nftHL_Statement
+hi link   nft_stmt_ct_stmt_keyword_set nftHL_Write
 syn match nft_stmt_ct_stmt_keyword_set '\vset' skipwhite contained
 \ nextgroup=
 \    @nft_c_set_stmt_expr_keys
@@ -10843,26 +10908,63 @@ syn region nft_stmt_expr_map_stmt_expr_map_stmt_expr_set_set_expr_delimiters sta
 hi link   nft_stmt_expr_map_stmt_expr_map_stmt_expr_set_set_expr_set_ref_symbol_expr_at_setname nftHL_Variable
 syn match nft_stmt_expr_map_stmt_expr_map_stmt_expr_set_set_expr_set_ref_symbol_expr_at_setname '\v\@[a-zA-Z][a-zA-Z0-9\-_]{0,63}' skipwhite contained
 
-hi link   nft_stmt_ct_stmt_stmt_expr_map_stmt_expr_keyword_map nftHL_Action
+hi link   nft_stmt_ct_stmt_stmt_expr_map_stmt_expr_keyword_map nftHL_Write
 syn match nft_stmt_ct_stmt_stmt_expr_map_stmt_expr_keyword_map '\vmap' skipwhite contained
 \ nextgroup=
 \    nft_stmt_expr_map_stmt_expr_map_stmt_expr_set_set_expr_set_ref_symbol_expr_at_setname,
 \    nft_stmt_expr_map_stmt_expr_map_stmt_expr_set_set_expr_delimiters
 
+hi link   nft_stmt_stmt_expr_concat_stmt_expr_keyword_dot nftHL_Operator
+syn match nft_stmt_stmt_expr_concat_stmt_expr_keyword_dot '\.' skipwhite contained
+\ nextgroup=
+\    nft_stmt_stmt_expr_map_stmt_expr_symbol_expr_string_quoted_string_conntrack_types,
+\    nft_stmt_ct_stmt_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_payload_tcp_hdr_expr_keyword_tcp,
+\    nft_stmt_ct_stmt_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_payload_ip6_hdr_expr_keyword_ip6,
+\    nft_stmt_ct_stmt_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_payload_ip_hdr_expr_keyword_ip,
+\    nft_stmt_ct_stmt_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_payload_th_hdr_expr_keyword_th,
+\    nft_stmt_objref_stmt_objref_stmt_ct_stmt_expr_symbol_stmt_expr_symbol_expr_string_quoted_string,
+\    nft_ct_stmt_verdict_stmt_verdict_map_stmt_set_ref_expr_set_ref_symbol_expr_keyword_at_identifier,
+\    nft_Error
+
 hi link   nft_stmt_ct_stmt_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_payload_ip6_hdr_expr_ip6_hdr_field_keyword_daddr nftHL_Action
 syn match nft_stmt_ct_stmt_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_payload_ip6_hdr_expr_ip6_hdr_field_keyword_daddr '\v(saddr|daddr)' skipwhite contained
 \ nextgroup=
 \    nft_stmt_ct_stmt_stmt_expr_map_stmt_expr_keyword_map,
-\    nft_stmt_stmt_expr_concat_stmt_expr_keyword_dot  " SLE
+\    nft_stmt_stmt_expr_concat_stmt_expr_keyword_dot
 
-hi link   nft_stmt_ct_stmt_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_payload_ip_hdr_expr_keyword_ip nftHL_Define
+hi link   nft_stmt_ct_stmt_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_payload_ip6_hdr_expr_ip6_hdr_field_keyword_protocol nftHL_Action
+syn match nft_stmt_ct_stmt_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_payload_ip6_hdr_expr_ip6_hdr_field_keyword_protocol '\vprotocol' skipwhite contained
+\ nextgroup=
+\    nft_stmt_ct_stmt_stmt_expr_map_stmt_expr_keyword_map,
+\    nft_stmt_stmt_expr_concat_stmt_expr_keyword_dot
+
+hi link   nft_stmt_ct_stmt_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_payload_th_hdr_expr_keyword_th nftHL_Statement
+syn match nft_stmt_ct_stmt_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_payload_th_hdr_expr_keyword_th '\vth' skipwhite contained
+\ nextgroup=
+\    nft_stmt_ct_stmt_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_payload_tcp_hdr_expr_tcp_hdr_field_keyword_dport,
+\    nftHL_Normal
+
+hi link   nft_stmt_ct_stmt_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_payload_ip_hdr_expr_keyword_ip nftHL_Statement
 syn match nft_stmt_ct_stmt_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_payload_ip_hdr_expr_keyword_ip '\vip' skipwhite contained
 \ nextgroup=
+\    nft_stmt_ct_stmt_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_payload_ip6_hdr_expr_ip6_hdr_field_keyword_protocol,
 \    nft_stmt_ct_stmt_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_payload_ip6_hdr_expr_ip6_hdr_field_keyword_daddr
 
-hi link   nft_stmt_ct_stmt_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_payload_ip6_hdr_expr_keyword_ip6 nftHL_Define
+hi link   nft_stmt_ct_stmt_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_payload_tcp_hdr_expr_tcp_hdr_field_keyword_dport nftHL_Action
+syn match nft_stmt_ct_stmt_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_payload_tcp_hdr_expr_tcp_hdr_field_keyword_dport '\v(sport|dport)' skipwhite contained
+\ nextgroup=
+\    nft_stmt_ct_stmt_stmt_expr_map_stmt_expr_keyword_map,
+\    nft_stmt_stmt_expr_concat_stmt_expr_keyword_dot
+
+hi link   nft_stmt_ct_stmt_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_payload_tcp_hdr_expr_keyword_tcp nftHL_Statement
+syn match nft_stmt_ct_stmt_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_payload_tcp_hdr_expr_keyword_tcp '\vtcp' skipwhite contained
+\ nextgroup=
+\    nft_stmt_ct_stmt_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_payload_tcp_hdr_expr_tcp_hdr_field_keyword_dport,
+
+hi link   nft_stmt_ct_stmt_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_payload_ip6_hdr_expr_keyword_ip6 nftHL_Statement
 syn match nft_stmt_ct_stmt_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_payload_ip6_hdr_expr_keyword_ip6 '\vip6' skipwhite contained
 \ nextgroup=
+\    nft_stmt_ct_stmt_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_payload_ip6_hdr_expr_ip6_hdr_field_keyword_protocol,
 \    nft_stmt_ct_stmt_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_payload_ip6_hdr_expr_ip6_hdr_field_keyword_daddr
 
 hi link    nft_stmt_objref_stmt_objref_stmt_ct_stmt_expr_symbol_stmt_expr_symbol_expr_string_quoted_string nftHL_String
@@ -10871,10 +10973,15 @@ syn region nft_stmt_objref_stmt_objref_stmt_ct_stmt_expr_symbol_stmt_expr_symbol
 hi link   nft_ct_stmt_verdict_stmt_verdict_map_stmt_set_ref_expr_set_ref_symbol_expr_keyword_at_identifier nftHL_Variable
 syn match nft_ct_stmt_verdict_stmt_verdict_map_stmt_set_ref_expr_set_ref_symbol_expr_keyword_at_identifier '\v\@[a-zA-Z][a-zA-Z0-9\-_]{0,63}' skipwhite contained
 
-hi link   nft_stmt_objref_stmt_objref_stmt_ct_keyword_set nftHL_Action
+hi link   nft_stmt_objref_stmt_objref_stmt_ct_keyword_set nftHL_Write
 syn match nft_stmt_objref_stmt_objref_stmt_ct_keyword_set '\vset[ \t]' skipwhite contained
 \ nextgroup=
+\    @nft_c_ct_expectation_stmt_expr
+
+syn cluster nft_c_ct_expectation_stmt_expr
+\ contains=
 \    nft_stmt_stmt_expr_map_stmt_expr_symbol_expr_string_quoted_string_conntrack_types,
+\    nft_stmt_ct_stmt_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_payload_tcp_hdr_expr_keyword_tcp,
 \    nft_stmt_ct_stmt_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_payload_ip6_hdr_expr_keyword_ip6,
 \    nft_stmt_ct_stmt_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_payload_ip_hdr_expr_keyword_ip,
 \    nft_stmt_objref_stmt_objref_stmt_ct_stmt_expr_symbol_stmt_expr_symbol_expr_string_quoted_string,
@@ -12653,7 +12760,7 @@ syn region nft_add_cmd_keyword_table_table_block_chain_chain_block_delimiters st
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_skgid,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_skuid,
 \    nft_payload_expr_dccp_hdr_expr_keyword_dccp,
-\    nft_add_cmd_rule_rule_alloc_stmt_nat_stmt_nat_stmt_alloc_keyword_dnat,
+\    nft_stmt_nat_stmt_nat_stmt_alloc_keyword_dnat,
 \    nft_verdict_expr_keyword_drop,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_keyword_flow,
 \    nft_verdict_expr_keyword_goto,
@@ -12663,7 +12770,7 @@ syn region nft_add_cmd_keyword_table_table_block_chain_chain_block_delimiters st
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_mark,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_keyword_meta,
 \    nft_payload_expr_sctp_hdr_expr_keyword_sctp,
-\    nft_add_cmd_rule_rule_alloc_stmt_nat_stmt_nat_stmt_alloc_keyword_snat,
+\    nft_stmt_nat_stmt_nat_stmt_alloc_keyword_snat,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_time,
 \    nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_keyword_type,
 \    nft_payload_raw_expr_payload_base_spec_keyword_at_ih,
@@ -13841,14 +13948,14 @@ syn region nft_add_cmd_keyword_chain_chain_block_delimiters start='\v\s*\zs\{' e
 \    nft_add_cmd_rule_rule_alloc_stmt_meter_stmt_meter_stmt_alloc_keyword_meter,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_skgid,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_skuid,
-\    nft_add_cmd_rule_rule_alloc_stmt_nat_stmt_nat_stmt_alloc_keyword_dnat,
+\    nft_stmt_nat_stmt_nat_stmt_alloc_keyword_dnat,
 \    nft_verdict_expr_keyword_drop,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_keyword_flow,
 \    nft_verdict_expr_keyword_goto,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_hour,
 \    nft_chain_stmt_verdict_expr_keyword_jump,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_mark,
-\    nft_add_cmd_rule_rule_alloc_stmt_nat_stmt_nat_stmt_alloc_keyword_snat,
+\    nft_stmt_nat_stmt_nat_stmt_alloc_keyword_snat,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_time,
 \    nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_keyword_type,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_cpu,
