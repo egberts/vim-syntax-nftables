@@ -1,0 +1,310 @@
+
+Lexical ordering of merged `ct_expr/ct_stmt` and 'ct expectation'/'ct_timeout'
+within the chain_block/stmt semantic action.
+
+
+  ct expectation set (ftp|tftp)  # objref_stmt (SET always)
+  ct expiration set <close_scope_ct>  # objref_stmt (SET)
+  ct expiration [==|!=|<=|>=] <32-bit_integer_seconds>  # common
+  ct expiration [<|>] <seconds>  # common
+  ct expiration <seconds>  # common
+  ct direction [original|reply]
+  ct direction [==|!=] [original|reply]
+  ct proto-dst not in @setname
+  ct proto-dst [==|!=] <ip_port_name>
+  ct proto-dst [==|!=] <16-bit-integer>
+  ct proto-dst <ip_port_name>
+  ct proto-dst in @setname
+  ct proto-dst set <ip_port_name> <stmt_expr> ########################
+  ct proto-dst <16-bit-integer>
+  ct proto-src not in @setname
+  ct proto-src [==|!=] <ip_port_name>
+  ct proto-src [==|!=] <16-bit-integer>
+  ct proto-src <ip_port_name>
+  ct proto-src set <ip_port_name> <stmt_expr> ########################
+  ct proto-src in @setname
+  ct proto-src <16-bit-integer>
+  ct original proto-dst not in @setname
+  ct original proto-dst [==|!=] <ip_port_name>
+  ct original proto-dst [==|!=] <16-bit-integer>
+  ct original proto-dst <ip_port_name>
+  ct original proto-dst in @setname
+  ct original proto-dst <16-bit-integer>
+  ct original proto-src not in @setname
+  ct original proto-src [==|!=] <ip_port_name>
+  ct original proto-src [==|!=] <16-bit-integer>
+  ct original proto-src <ip_port_name>
+  ct original proto-src in @setname
+  ct original proto-src <16-bit-integer>
+  ct original protocol (icmp|tcp|sctp|dccp|...) #################################
+  ct original protocol [==|!=] (tcp|udp|dccp|sctp|...)
+  ct original packets <64-bit-integer>[KMG]
+  ct original packets over <64-bit-integer>[KMG]
+  ct original packets [==|!=|<=|>=] <64-bit-integer>
+  ct original packets [<|>] <64-bit-integer>
+  ct original packets <64-bit-integer>
+  ct original l3proto (ip|ip6|arp) #################################
+  ct original l3proto [==|!=] (ip|ip6|arp)
+  ct original bytes <32-bit-integer>
+  ct original bytes over <32-bit-integer>[KMG]
+  ct original bytes [==|!=|<=|>=] <32-bit-integer>
+  ct original bytes [<|>] <32-bit-integer>
+  ct original bytes <32-bit-integer>
+  ct original daddr [==|!=] <ip_address>
+  ct original daddr in @setname
+  ct original daddr not in @setname
+  ct original saddr [==|!=] <ip_address>
+  ct original saddr in @setname
+  ct original saddr not in @setname
+  ct original zone [==|!=|<=|>=] <16-bit-integer>
+  ct original zone [<|>] <16-bit-integer>
+  ct original zone <16-bit-integer>
+  ct protocol (tcp|udp|icmp|...)
+  ct protocol [==|!=] (tcp|udp|icmp|...)
+  ct l3proto (ip|ip6|arp)
+  ct l3proto [==|!=] (ip|ip6|arp)
+  ct packets over <32-bit-integer>[KMG]
+  ct packets [==|!=|<=|>=] <32-bit-integer>
+  ct packets [<|>] <32-bit-integer>
+  ct packets <32-bit-integer>[KMG]
+  ct secmark [32-bit-hex-integer] <close_scope_ct>
+  ct secmark <close_scope_secmark> set <stmt_expr> <close_scope_ct> ##############
+  ct timeout [expectation|generic|icmp|tcp|udp] #####################
+  ct timeout set (expectation|generic|icmp|tcp|udp) 120  # objref_stmt
+  ct timeout set 120  # objref_stmt
+  ct timeout [!=|==|<=|>=] [expectation|generic|icmp|tcp|udp]
+  ct timeout [<|>] [expectation|generic|icmp|tcp|udp]
+  ct helper (h323|ftp|sip)
+  ct helper "(h323|ftp|sip)"
+  ct helper set (h323|pptp|tftp|ftp|irc|sip)   # common
+  ct helper set "(h323|pptp|tftp|ftp|irc|sip)"   # common
+  ct status [expected|seen-reply|assured|confirmed]
+  ct bytes over <64-bit-integer>[KMG]
+  ct bytes [==|!=|<=|>=] <64-bit-integer>
+  ct bytes [<|>] <64-bit-integer>
+  ct bytes <64-bit-integer>[KMG]
+  ct count over <64-bit-integer>
+  ct count not in @setname
+  ct count in @setname
+  ct count <64-bit-integer>
+  ct daddr set 192.168.1.1
+  ct daddr set @setname
+  ct daddr not in @setname
+  ct daddr in @setname
+  ct daddr 192.168.1.1
+  ct event [new|destroy]
+  ct label set @setname     ##########################
+  ct label set <string|bitmask|bitset>
+  ct label @setname
+  ct label <string|bitmask|bitset>
+  ct reply proto-dst <16-bit-integer>
+  ct reply proto-dst <ip_port_name>
+  ct reply proto-dst @setname
+  ct reply proto-src <16-bit-integer>
+  ct reply proto-src <ip_port_name>
+  ct reply proto-src @setname
+  ct reply protocol (tcp|udp|dccp|sctp|...)
+  ct reply protocol [==|!=] (tcp|udp|dccp|sctp|...)
+  ct reply packets <64-bit-integer>
+  ct reply packets over <64-bit-integer>[KMG]
+  ct reply packets [==|!=|<=|>=] <64-bit-integer>
+  ct reply packets [<|>] <64-bit-integer>
+  ct reply packets <64-bit-integer>
+  ct reply l3proto (ip|ip6|arp)
+  ct reply l3proto [==|!=] (ip|ip6|arp)
+  ct reply bytes <32-bit-integer>
+  ct reply bytes over <32-bit-integer>[KMG]
+  ct reply bytes [==|!=|<=|>=] <32-bit-integer>
+  ct reply bytes [<|>] <32-bit-integer>
+  ct reply bytes <32-bit-integer>
+  ct reply daddr <ip_address>
+  ct reply daddr @setname
+  ct reply saddr <ip_address>
+  ct reply saddr @setname
+  ct saddr set 192.168.1.1
+  ct saddr set @setname
+  ct saddr not in @setname
+  ct saddr in @setname
+  ct saddr 192.168.1.1
+  ct state (established|related|invalid|new)
+  ct mark <32-bit-integer>
+  ct mark set <32-bit-integer>
+  ct zone <16-bit-integer> ####
+  ct zone set <16-bit-integer>
+  ct id <32-bit-integer>
+
+
+ChatGPT generated the following Vimscript:
+
+" nft_ct.vim
+" Fully-deterministic LL(1) Vim syntax for nftables 'ct' stmt/expr subtree
+" - Only: syntax match / region / cluster
+" - All contained: suitable to include into larger nft syntax.
+" - Covers read-only ct_expr and write ct_stmt (set) forms, ct original/reply.
+
+" Avoid double-sourcing
+if exists("b:current_syntax") && b:current_syntax ==# 'nft_ct'
+  finish
+endif
+
+" -------------------------
+" Utility patterns (contained)
+" -------------------------
+syntax match nft_ip_v4    contained "\v(\d{1,3}\.){3}\d{1,3}"
+syntax match nft_ip_v6    contained "\v([0-9A-Fa-f]{1,4}:){1,7}[0-9A-Fa-f]{1,4}"
+syntax cluster nft_c_ip   contains=nft_ip_v4,nft_ip_v6
+
+syntax match nft_set_name contained "@[A-Za-z_][A-Za-z0-9_:-]*"
+syntax match nft_string   contained '"[^"]*"'
+syntax match nft_number   contained "\v\d+(\.\d+)?(K|M|G)?(s)?"
+syntax match nft_integer  contained "\v\d+"
+
+syntax match nft_ct       contained "\<ct\>"
+
+" -------------------------
+" Operators (contained)
+" -------------------------
+syntax match nft_op_set     contained "\<set\>"
+syntax match nft_op_eq      contained "=="
+syntax match nft_op_ne      contained "!="
+syntax match nft_op_in      contained "\<in\>"
+syntax match nft_op_not_in  contained "\<notin\>"
+syntax match nft_op_over    contained "\<over\>"
+syntax match nft_op_lt      contained "<"
+syntax match nft_op_gt      contained ">"
+syntax match nft_op_le      contained "<="
+syntax match nft_op_ge      contained ">="
+syntax match nft_op_plus_eq contained "\+="
+syntax match nft_op_minus_eq contained "-="
+
+syntax cluster nft_c_ops    contains=nft_op_set,nft_op_eq,nft_op_ne,nft_op_in,nft_op_not_in,nft_op_over,nft_op_lt,nft_op_gt,nft_op_le,nft_op_ge,nft_op_plus_eq,nft_op_minus_eq
+syntax cluster nft_c_values contains=nft_set_name,@nft_c_ip,nft_number,nft_integer,nft_string
+
+" -------------------------
+" All ct fields (contained matches)
+" -------------------------
+" Read-only fields
+syntax match nft_ct_direction contained "\<direction\>"
+syntax match nft_ct_protocol  contained "\<protocol\>"
+syntax match nft_ct_l3proto   contained "\<l3proto\>"
+syntax match nft_ct_state     contained "\<state\>"
+syntax match nft_ct_status    contained "\<status\>"
+syntax match nft_ct_event     contained "\<event\>"
+syntax match nft_ct_packets   contained "\<packets\>"
+syntax match nft_ct_bytes     contained "\<bytes\>"
+syntax match nft_ct_count     contained "\<count\>"
+syntax match nft_ct_avgpkt    contained "\<avgpkt\>"
+syntax match nft_ct_id        contained "\<id\>"
+syntax match nft_ct_helper    contained "\<helper\>"   " read form
+
+" Writable fields
+syntax match nft_ct_secmark   contained "\<secmark\>"
+syntax match nft_ct_mark      contained "\<mark\>"
+syntax match nft_ct_zone      contained "\<zone\>"
+syntax match nft_ct_timeout   contained "\<timeout\>"
+syntax match nft_ct_saddr     contained "\<saddr\>"
+syntax match nft_ct_daddr     contained "\<daddr\>"
+syntax match nft_ct_proto_src contained "\<proto-src\>"
+syntax match nft_ct_proto_dst contained "\<proto-dst\>"
+syntax match nft_ct_label     contained "\<label\>"
+
+syntax cluster nft_c_fields_ro contains=nft_ct_direction,nft_ct_protocol,nft_ct_l3proto,nft_ct_state,nft_ct_status,nft_ct_event,nft_ct_packets,nft_ct_bytes,nft_ct_count,nft_ct_avgpkt,nft_ct_id,nft_ct_helper
+syntax cluster nft_c_fields_rw contains=nft_ct_secmark,nft_ct_mark,nft_ct_zone,nft_ct_timeout,nft_ct_saddr,nft_ct_daddr,nft_ct_proto_src,nft_ct_proto_dst,nft_ct_label
+
+" -------------------------
+" Context keywords
+" -------------------------
+syntax match nft_ct_original contained "\<original\>"
+syntax match nft_ct_reply    contained "\<reply\>"
+
+" -------------------------
+" Helper names / constants
+" -------------------------
+syntax match nft_ct_helper_name contained '"[^"]*"\|\<ftp\>\|\<sip\>\|\<h323\>\|\<irc\>\|\<pptp\>\|\<tftp\>'
+syntax match nft_ct_proto_name  contained '\<tcp\>\|\<udp\>\|\<icmp\>\|\<icmpv6\>\|\<sctp\>\|\<dccp\>'
+syntax match nft_ct_l3_name     contained '\<ip\>\|\<ip6\>\|\<arp\>\|\<inet\>'
+syntax match nft_ct_state_name  contained '\<new\>\|\<established\>\|\<related\>\|\<invalid\>'
+syntax match nft_ct_status_name contained '\<assured\>\|\<confirmed\>\|\<src_nat\>\|\<dst_nat\>\|\<expected\>'
+
+syntax cluster nft_c_constants contains=nft_ct_helper_name,nft_ct_proto_name,nft_ct_l3_name,nft_ct_state_name,nft_ct_status_name
+
+" -------------------------
+" Dynamic regex for reuse
+" -------------------------
+let s:fields_assign = '\(saddr\|daddr\|proto-src\|proto-dst\|mark\|zone\|timeout\|secmark\|label\)'
+let s:fields_match  = '\(saddr\|daddr\|proto-src\|proto-dst\|mark\|zone\|timeout\|secmark\|label\|packets\|bytes\|count\|avgpkt\|protocol\|l3proto\|state\|status\|event\|id\|direction\)'
+
+" -------------------------
+" Generic ct forms
+" -------------------------
+syntax region nft_ct_generic_match start="\<ct\s\+\(" . s:fields_match . "\)\>" end="$" \
+    contains=nft_ct,@nft_c_fields_ro,nft_ct_saddr,nft_ct_daddr,nft_ct_proto_src,nft_ct_proto_dst,nft_ct_mark,nft_ct_zone,nft_ct_timeout,nft_ct_secmark,nft_ct_label,@nft_c_ops,@nft_c_values \
+    keepend contained
+
+syntax region nft_ct_generic_assign start="\<ct\s\+\(" . s:fields_assign . "\)\s\+set\>" end="$" \
+    contains=nft_ct,@nft_c_fields_rw,nft_op_set,@nft_c_values \
+    keepend contained
+
+" -------------------------
+" ct original / reply
+" -------------------------
+syntax region nft_ct_original_match start="\<ct\s\+original\s\+\(" . s:fields_match . "\)\>" end="$" \
+    contains=nft_ct,nft_ct_original,@nft_c_fields_ro,nft_ct_saddr,nft_ct_daddr,nft_ct_proto_src,nft_ct_proto_dst,nft_ct_mark,nft_ct_zone,nft_ct_timeout,nft_ct_secmark,nft_ct_label,@nft_c_ops,@nft_c_values \
+    keepend contained
+
+syntax region nft_ct_original_assign start="\<ct\s\+original\s\+\(" . s:fields_assign . "\)\s\+set\>" end="$" \
+    contains=nft_ct,nft_ct_original,@nft_c_fields_rw,nft_op_set,@nft_c_values \
+    keepend contained
+
+syntax region nft_ct_reply_match start="\<ct\s\+reply\s\+\(" . s:fields_match . "\)\>" end="$" \
+    contains=nft_ct,nft_ct_reply,@nft_c_fields_ro,nft_ct_saddr,nft_ct_daddr,nft_ct_proto_src,nft_ct_proto_dst,nft_ct_mark,nft_ct_zone,nft_ct_timeout,nft_ct_secmark,nft_ct_label,@nft_c_ops,@nft_c_values \
+    keepend contained
+
+syntax region nft_ct_reply_assign start="\<ct\s\+reply\s\+\(" . s:fields_assign . "\)\s\+set\>" end="$" \
+    contains=nft_ct,nft_ct_reply,@nft_c_fields_rw,nft_op_set,@nft_c_values \
+    keepend contained
+
+" -------------------------
+" Specific assign regions
+" -------------------------
+syntax region nft_ct_mark_set    start="\<ct\s\+mark\s\+set\>" end="$" contains=nft_ct,nft_ct_mark,nft_op_set,@nft_c_values keepend contained
+syntax region nft_ct_secmark_set start="\<ct\s\+secmark\s\+set\>" end="$" contains=nft_ct,nft_ct_secmark,nft_op_set,@nft_c_values keepend contained
+syntax region nft_ct_zone_set    start="\<ct\s\+zone\s\+set\>" end="$" contains=nft_ct,nft_ct_zone,nft_op_set,@nft_c_values keepend contained
+syntax region nft_ct_timeout_set start="\<ct\s\+timeout\s\+set\>" end="$" contains=nft_ct,nft_ct_timeout,nft_op_set,@nft_c_values keepend contained
+syntax region nft_ct_label_set   start="\<ct\s\+label\s\+set\>" end="$" contains=nft_ct,nft_ct_label,nft_op_set,@nft_c_values keepend contained
+syntax region nft_ct_helper_set  start="\<ct\s\+helper\s\+set\>" end="$" contains=nft_ct,nft_ct_helper,nft_op_set,nft_ct_helper_name keepend contained
+syntax region nft_ct_saddr_set   start="\<ct\s\+saddr\s\+set\>" end="$" contains=nft_ct,nft_ct_saddr,nft_op_set,@nft_c_values keepend contained
+syntax region nft_ct_daddr_set   start="\<ct\s\+daddr\s\+set\>" end="$" contains=nft_ct,nft_ct_daddr,nft_op_set,@nft_c_values keepend contained
+syntax region nft_ct_proto_src_set start="\<ct\s\+proto-src\s\+set\>" end="$" contains=nft_ct,nft_ct_proto_src,nft_op_set,@nft_c_values keepend contained
+syntax region nft_ct_proto_dst_set start="\<ct\s\+proto-dst\s\+set\>" end="$" contains=nft_ct,nft_ct_proto_dst,nft_op_set,@nft_c_values keepend contained
+
+" -------------------------
+" Read-only match regions
+" -------------------------
+syntax region nft_ct_packets_match start="\<ct\s\+packets\>" end="$" contains=nft_ct,nft_ct_packets,@nft_c_ops,@nft_c_values keepend contained
+syntax region nft_ct_bytes_match   start="\<ct\s\+bytes\>"   end="$" contains=nft_ct,nft_ct_bytes,@nft_c_ops,@nft_c_values keepend contained
+syntax region nft_ct_count_match   start="\<ct\s\+count\>"   end="$" contains=nft_ct,nft_ct_count,@nft_c_ops,@nft_c_values keepend contained
+syntax region nft_ct_avgpkt_match  start="\<ct\s\+avgpkt\>"  end="$" contains=nft_ct,nft_ct_avgpkt,@nft_c_ops,@nft_c_values keepend contained
+
+syntax region nft_ct_protocol_match start="\<ct\s\+protocol\>" end="$" contains=nft_ct,nft_ct_protocol,@nft_c_constants keepend contained
+syntax region nft_ct_l3proto_match start="\<ct\s\+l3proto\>"  end="$" contains=nft_ct,nft_ct_l3proto,@nft_c_constants keepend contained
+syntax region nft_ct_state_match   start="\<ct\s\+state\>"    end="$" contains=nft_ct,nft_ct_state,@nft_c_constants keepend contained
+syntax region nft_ct_status_match  start="\<ct\s\+status\>"   end="$" contains=nft_ct,nft_ct_status,@nft_c_constants keepend contained
+syntax region nft_ct_event_match   start="\<ct\s\+event\>"    end="$" contains=nft_ct,nft_ct_event,@nft_c_constants keepend contained
+syntax region nft_ct_id_match      start="\<ct\s\+id\>"       end="$" contains=nft_ct,nft_ct_id,@nft_c_values keepend contained
+
+" -------------------------
+" Cluster includes
+" -------------------------
+syntax cluster nft_c_match_regions  contains=nft_ct_generic_match,nft_ct_original_match,nft_ct_reply_match,nft_ct_protocol_match,nft_ct_l3proto_match,nft_ct_state_match,nft_ct_status_match,nft_ct_event_match,nft_ct_id_match,nft_ct_packets_match,nft_ct_bytes_match,nft_ct_count_match,nft_ct_avgpkt_match
+syntax cluster nft_c_assign_regions contains=nft_ct_generic_assign,nft_ct_original_assign,nft_ct_reply_assign,nft_ct_mark_set,nft_ct_secmark_set,nft_ct_zone_set,nft_ct_timeout_set,nft_ct_label_set,nft_ct_helper_set,nft_ct_saddr_set,nft_ct_daddr_set,nft_ct_proto_src_set,nft_ct_proto_dst_set
+
+" -------------------------
+" Top-level
+" -------------------------
+syntax region nft_ct_stmt start="\<ct\>" end="$" \
+    contains=nft_ct,@nft_c_match_regions,@nft_c_assign_regions \
+    keepend contained
+
+let b:current_syntax = 'nft_ct'
+

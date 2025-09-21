@@ -1,0 +1,29 @@
+
+
+Benchmark with :syntime on / :syntime report — 
+
+Vim gives you exact cost per syntax item.
+
+Performance tips for your testing phase:
+
+Prefer start="\<ct\>" end="$" regions with keepend, but scope the RHS tokens tightly so Vim stops scanning early.
+
+Use nextgroup= where possible → it avoids the need for big alternations in a single regex, because Vim steps into the next expected syntax item deterministically. That way you don’t need huge contains= clusters.
+
+Mark rules as contained whenever possible (which you’re already doing). This limits search.
+
+Benchmark with :syntime on / :syntime report — Vim gives you exact cost per syntax item.
+
+Minimize “always-on” matches like IPv6 patterns. Maybe only enable them if you’re really highlighting IP literals, since they’re regex-heavy.
+
+For @setname (@[a-z_]…), keep it as a very cheap pattern, since sets are frequent.
+
+👉 A hybrid approach is often fastest:
+
+Use syntax region … nextgroup= for LL(1) progression (deterministic).
+
+Use lightweight syntax match only for terminal values (numbers, strings, @setnames).
+
+To capture syntime report output in Vim:
+
+    :redir @a | syntime report | redir END | new | put a

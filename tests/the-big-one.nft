@@ -1,0 +1,8862 @@
+table ip t {
+	chain input {
+		type filter hook input priority filter + 4; policy accept;
+		jump c1
+	}
+
+	chain c1 {
+	}
+}
+table ip t {
+}
+table ip t {
+	chain c1 {
+		jump c2
+	}
+
+	chain c2 {
+		jump c3
+	}
+
+	chain c3 {
+		jump c4
+	}
+
+	chain c4 {
+		jump c5
+	}
+
+	chain c5 {
+		jump c6
+	}
+
+	chain c6 {
+		jump c7
+	}
+
+	chain c7 {
+		jump c8
+	}
+
+	chain c8 {
+		jump c9
+	}
+
+	chain c9 {
+		jump c10
+	}
+
+	chain c10 {
+		jump c11
+	}
+
+	chain c11 {
+		jump c12
+	}
+
+	chain c12 {
+		jump c13
+	}
+
+	chain c13 {
+		jump c14
+	}
+
+	chain c14 {
+		jump c15
+	}
+
+	chain c15 {
+		jump c16
+	}
+
+	chain c16 {
+	}
+}
+table ip x {
+}
+table ip6 x {
+}
+table inet x {
+}
+table netdev x {
+}
+table ip t {
+	chain c2 {
+	}
+}
+table ip t {
+	chain c1 {
+		jump c2
+	}
+
+	chain c2 {
+	}
+}
+table ip x {
+	chain y {
+	}
+}
+table ip t {
+	chain c1 {
+		type filter hook input priority filter; policy accept;
+		jump c2
+	}
+
+	chain c2 {
+		jump c3
+	}
+
+	chain c3 {
+		jump c4
+	}
+
+	chain c4 {
+		jump c5
+	}
+
+	chain c5 {
+		jump c6
+	}
+
+	chain c6 {
+		jump c7
+	}
+
+	chain c7 {
+		jump c8
+	}
+
+	chain c8 {
+		jump c9
+	}
+
+	chain c9 {
+		jump c10
+	}
+
+	chain c10 {
+		jump c11
+	}
+
+	chain c11 {
+		jump c12
+	}
+
+	chain c12 {
+		jump c13
+	}
+
+	chain c13 {
+		jump c14
+	}
+
+	chain c14 {
+		jump c15
+	}
+
+	chain c15 {
+		jump c16
+	}
+
+	chain c16 {
+	}
+
+	chain c17 {
+	}
+}
+table netdev x {
+}
+table bridge x {
+}
+table ip t {
+	chain c1 {
+		type filter hook output priority filter; policy accept;
+	}
+}
+table inet global {
+	chain prerouting {
+		type filter hook prerouting priority filter; policy drop;
+	}
+}
+table inet global {
+	chain prerouting {
+		type filter hook prerouting priority filter; policy accept;
+	}
+}
+table inet x {
+	chain y {
+		type filter hook input priority filter; policy accept;
+		meta l4proto { tcp, udp } th dport 53 jump {
+			ip saddr { 127.0.0.0/8, 172.23.0.0/16, 192.168.13.0/24 } counter packets 0 bytes 0 accept
+			ip6 saddr ::1 counter packets 0 bytes 0 accept
+		}
+		meta l4proto ipv6-icmp jump {
+			counter packets 0 bytes 0 accept
+		}
+	}
+}
+table ip t {
+	chain c1 {
+		jump c2
+	}
+
+	chain c2 {
+	}
+}
+table ip filter {
+	chain ap1 {
+		type filter hook input priority filter; policy accept;
+		jump ap2
+	}
+
+	chain ap2 {
+	}
+}
+table ip x {
+}
+table ip6 x {
+}
+table inet x {
+}
+table ip t {
+	map m {
+		type inet_service : verdict
+		elements = { 2 : jump c2 }
+	}
+
+	chain c1 {
+		type filter hook forward priority filter; policy accept;
+		tcp dport vmap @m
+	}
+
+	chain c2 {
+	}
+}
+table bridge x {
+}
+table ip t {
+	chain c {
+		type filter hook input priority -30; policy accept;
+	}
+}
+table ip test-ip {
+	chain x {
+	}
+
+	chain z {
+	}
+}
+table ip6 test-ip6 {
+	chain x {
+	}
+
+	chain y {
+	}
+}
+table ip x {
+	chain preroutingrawm11 {
+		type filter hook prerouting priority -311; policy accept;
+	}
+
+	chain preroutingrawm10 {
+		type filter hook prerouting priority raw - 10; policy accept;
+	}
+
+	chain preroutingraw {
+		type filter hook prerouting priority raw; policy accept;
+	}
+
+	chain preroutingrawp10 {
+		type filter hook prerouting priority raw + 10; policy accept;
+	}
+
+	chain preroutingrawp11 {
+		type filter hook prerouting priority -289; policy accept;
+	}
+
+	chain preroutingmanglem11 {
+		type filter hook prerouting priority -161; policy accept;
+	}
+
+	chain preroutingmanglem10 {
+		type filter hook prerouting priority mangle - 10; policy accept;
+	}
+
+	chain preroutingmangle {
+		type filter hook prerouting priority mangle; policy accept;
+	}
+
+	chain preroutingmanglep10 {
+		type filter hook prerouting priority mangle + 10; policy accept;
+	}
+
+	chain preroutingmanglep11 {
+		type filter hook prerouting priority -139; policy accept;
+	}
+
+	chain preroutingfilterm11 {
+		type filter hook prerouting priority -11; policy accept;
+	}
+
+	chain preroutingfilterm10 {
+		type filter hook prerouting priority filter - 10; policy accept;
+	}
+
+	chain preroutingfilter {
+		type filter hook prerouting priority filter; policy accept;
+	}
+
+	chain preroutingfilterp10 {
+		type filter hook prerouting priority filter + 10; policy accept;
+	}
+
+	chain preroutingfilterp11 {
+		type filter hook prerouting priority 11; policy accept;
+	}
+
+	chain preroutingsecuritym11 {
+		type filter hook prerouting priority 39; policy accept;
+	}
+
+	chain preroutingsecuritym10 {
+		type filter hook prerouting priority security - 10; policy accept;
+	}
+
+	chain preroutingsecurity {
+		type filter hook prerouting priority security; policy accept;
+	}
+
+	chain preroutingsecurityp10 {
+		type filter hook prerouting priority security + 10; policy accept;
+	}
+
+	chain preroutingsecurityp11 {
+		type filter hook prerouting priority 61; policy accept;
+	}
+
+	chain inputrawm11 {
+		type filter hook input priority -311; policy accept;
+	}
+
+	chain inputrawm10 {
+		type filter hook input priority raw - 10; policy accept;
+	}
+
+	chain inputraw {
+		type filter hook input priority raw; policy accept;
+	}
+
+	chain inputrawp10 {
+		type filter hook input priority raw + 10; policy accept;
+	}
+
+	chain inputrawp11 {
+		type filter hook input priority -289; policy accept;
+	}
+
+	chain inputmanglem11 {
+		type filter hook input priority -161; policy accept;
+	}
+
+	chain inputmanglem10 {
+		type filter hook input priority mangle - 10; policy accept;
+	}
+
+	chain inputmangle {
+		type filter hook input priority mangle; policy accept;
+	}
+
+	chain inputmanglep10 {
+		type filter hook input priority mangle + 10; policy accept;
+	}
+
+	chain inputmanglep11 {
+		type filter hook input priority -139; policy accept;
+	}
+
+	chain inputfilterm11 {
+		type filter hook input priority -11; policy accept;
+	}
+
+	chain inputfilterm10 {
+		type filter hook input priority filter - 10; policy accept;
+	}
+
+	chain inputfilter {
+		type filter hook input priority filter; policy accept;
+	}
+
+	chain inputfilterp10 {
+		type filter hook input priority filter + 10; policy accept;
+	}
+
+	chain inputfilterp11 {
+		type filter hook input priority 11; policy accept;
+	}
+
+	chain inputsecuritym11 {
+		type filter hook input priority 39; policy accept;
+	}
+
+	chain inputsecuritym10 {
+		type filter hook input priority security - 10; policy accept;
+	}
+
+	chain inputsecurity {
+		type filter hook input priority security; policy accept;
+	}
+
+	chain inputsecurityp10 {
+		type filter hook input priority security + 10; policy accept;
+	}
+
+	chain inputsecurityp11 {
+		type filter hook input priority 61; policy accept;
+	}
+
+	chain forwardrawm11 {
+		type filter hook forward priority -311; policy accept;
+	}
+
+	chain forwardrawm10 {
+		type filter hook forward priority raw - 10; policy accept;
+	}
+
+	chain forwardraw {
+		type filter hook forward priority raw; policy accept;
+	}
+
+	chain forwardrawp10 {
+		type filter hook forward priority raw + 10; policy accept;
+	}
+
+	chain forwardrawp11 {
+		type filter hook forward priority -289; policy accept;
+	}
+
+	chain forwardmanglem11 {
+		type filter hook forward priority -161; policy accept;
+	}
+
+	chain forwardmanglem10 {
+		type filter hook forward priority mangle - 10; policy accept;
+	}
+
+	chain forwardmangle {
+		type filter hook forward priority mangle; policy accept;
+	}
+
+	chain forwardmanglep10 {
+		type filter hook forward priority mangle + 10; policy accept;
+	}
+
+	chain forwardmanglep11 {
+		type filter hook forward priority -139; policy accept;
+	}
+
+	chain forwardfilterm11 {
+		type filter hook forward priority -11; policy accept;
+	}
+
+	chain forwardfilterm10 {
+		type filter hook forward priority filter - 10; policy accept;
+	}
+
+	chain forwardfilter {
+		type filter hook forward priority filter; policy accept;
+	}
+
+	chain forwardfilterp10 {
+		type filter hook forward priority filter + 10; policy accept;
+	}
+
+	chain forwardfilterp11 {
+		type filter hook forward priority 11; policy accept;
+	}
+
+	chain forwardsecuritym11 {
+		type filter hook forward priority 39; policy accept;
+	}
+
+	chain forwardsecuritym10 {
+		type filter hook forward priority security - 10; policy accept;
+	}
+
+	chain forwardsecurity {
+		type filter hook forward priority security; policy accept;
+	}
+
+	chain forwardsecurityp10 {
+		type filter hook forward priority security + 10; policy accept;
+	}
+
+	chain forwardsecurityp11 {
+		type filter hook forward priority 61; policy accept;
+	}
+
+	chain outputrawm11 {
+		type filter hook output priority -311; policy accept;
+	}
+
+	chain outputrawm10 {
+		type filter hook output priority raw - 10; policy accept;
+	}
+
+	chain outputraw {
+		type filter hook output priority raw; policy accept;
+	}
+
+	chain outputrawp10 {
+		type filter hook output priority raw + 10; policy accept;
+	}
+
+	chain outputrawp11 {
+		type filter hook output priority -289; policy accept;
+	}
+
+	chain outputmanglem11 {
+		type filter hook output priority -161; policy accept;
+	}
+
+	chain outputmanglem10 {
+		type filter hook output priority mangle - 10; policy accept;
+	}
+
+	chain outputmangle {
+		type filter hook output priority mangle; policy accept;
+	}
+
+	chain outputmanglep10 {
+		type filter hook output priority mangle + 10; policy accept;
+	}
+
+	chain outputmanglep11 {
+		type filter hook output priority -139; policy accept;
+	}
+
+	chain outputfilterm11 {
+		type filter hook output priority -11; policy accept;
+	}
+
+	chain outputfilterm10 {
+		type filter hook output priority filter - 10; policy accept;
+	}
+
+	chain outputfilter {
+		type filter hook output priority filter; policy accept;
+	}
+
+	chain outputfilterp10 {
+		type filter hook output priority filter + 10; policy accept;
+	}
+
+	chain outputfilterp11 {
+		type filter hook output priority 11; policy accept;
+	}
+
+	chain outputsecuritym11 {
+		type filter hook output priority 39; policy accept;
+	}
+
+	chain outputsecuritym10 {
+		type filter hook output priority security - 10; policy accept;
+	}
+
+	chain outputsecurity {
+		type filter hook output priority security; policy accept;
+	}
+
+	chain outputsecurityp10 {
+		type filter hook output priority security + 10; policy accept;
+	}
+
+	chain outputsecurityp11 {
+		type filter hook output priority 61; policy accept;
+	}
+
+	chain postroutingrawm11 {
+		type filter hook postrouting priority -311; policy accept;
+	}
+
+	chain postroutingrawm10 {
+		type filter hook postrouting priority raw - 10; policy accept;
+	}
+
+	chain postroutingraw {
+		type filter hook postrouting priority raw; policy accept;
+	}
+
+	chain postroutingrawp10 {
+		type filter hook postrouting priority raw + 10; policy accept;
+	}
+
+	chain postroutingrawp11 {
+		type filter hook postrouting priority -289; policy accept;
+	}
+
+	chain postroutingmanglem11 {
+		type filter hook postrouting priority -161; policy accept;
+	}
+
+	chain postroutingmanglem10 {
+		type filter hook postrouting priority mangle - 10; policy accept;
+	}
+
+	chain postroutingmangle {
+		type filter hook postrouting priority mangle; policy accept;
+	}
+
+	chain postroutingmanglep10 {
+		type filter hook postrouting priority mangle + 10; policy accept;
+	}
+
+	chain postroutingmanglep11 {
+		type filter hook postrouting priority -139; policy accept;
+	}
+
+	chain postroutingfilterm11 {
+		type filter hook postrouting priority -11; policy accept;
+	}
+
+	chain postroutingfilterm10 {
+		type filter hook postrouting priority filter - 10; policy accept;
+	}
+
+	chain postroutingfilter {
+		type filter hook postrouting priority filter; policy accept;
+	}
+
+	chain postroutingfilterp10 {
+		type filter hook postrouting priority filter + 10; policy accept;
+	}
+
+	chain postroutingfilterp11 {
+		type filter hook postrouting priority 11; policy accept;
+	}
+
+	chain postroutingsecuritym11 {
+		type filter hook postrouting priority 39; policy accept;
+	}
+
+	chain postroutingsecuritym10 {
+		type filter hook postrouting priority security - 10; policy accept;
+	}
+
+	chain postroutingsecurity {
+		type filter hook postrouting priority security; policy accept;
+	}
+
+	chain postroutingsecurityp10 {
+		type filter hook postrouting priority security + 10; policy accept;
+	}
+
+	chain postroutingsecurityp11 {
+		type filter hook postrouting priority 61; policy accept;
+	}
+
+	chain preroutingdstnatm11 {
+		type filter hook prerouting priority -111; policy accept;
+	}
+
+	chain preroutingdstnatm10 {
+		type filter hook prerouting priority dstnat - 10; policy accept;
+	}
+
+	chain preroutingdstnat {
+		type filter hook prerouting priority dstnat; policy accept;
+	}
+
+	chain preroutingdstnatp10 {
+		type filter hook prerouting priority dstnat + 10; policy accept;
+	}
+
+	chain preroutingdstnatp11 {
+		type filter hook prerouting priority -89; policy accept;
+	}
+
+	chain postroutingsrcnatm11 {
+		type filter hook postrouting priority 89; policy accept;
+	}
+
+	chain postroutingsrcnatm10 {
+		type filter hook postrouting priority srcnat - 10; policy accept;
+	}
+
+	chain postroutingsrcnat {
+		type filter hook postrouting priority srcnat; policy accept;
+	}
+
+	chain postroutingsrcnatp10 {
+		type filter hook postrouting priority srcnat + 10; policy accept;
+	}
+
+	chain postroutingsrcnatp11 {
+		type filter hook postrouting priority 111; policy accept;
+	}
+}
+table ip6 x {
+	chain preroutingrawm11 {
+		type filter hook prerouting priority -311; policy accept;
+	}
+
+	chain preroutingrawm10 {
+		type filter hook prerouting priority raw - 10; policy accept;
+	}
+
+	chain preroutingraw {
+		type filter hook prerouting priority raw; policy accept;
+	}
+
+	chain preroutingrawp10 {
+		type filter hook prerouting priority raw + 10; policy accept;
+	}
+
+	chain preroutingrawp11 {
+		type filter hook prerouting priority -289; policy accept;
+	}
+
+	chain preroutingmanglem11 {
+		type filter hook prerouting priority -161; policy accept;
+	}
+
+	chain preroutingmanglem10 {
+		type filter hook prerouting priority mangle - 10; policy accept;
+	}
+
+	chain preroutingmangle {
+		type filter hook prerouting priority mangle; policy accept;
+	}
+
+	chain preroutingmanglep10 {
+		type filter hook prerouting priority mangle + 10; policy accept;
+	}
+
+	chain preroutingmanglep11 {
+		type filter hook prerouting priority -139; policy accept;
+	}
+
+	chain preroutingfilterm11 {
+		type filter hook prerouting priority -11; policy accept;
+	}
+
+	chain preroutingfilterm10 {
+		type filter hook prerouting priority filter - 10; policy accept;
+	}
+
+	chain preroutingfilter {
+		type filter hook prerouting priority filter; policy accept;
+	}
+
+	chain preroutingfilterp10 {
+		type filter hook prerouting priority filter + 10; policy accept;
+	}
+
+	chain preroutingfilterp11 {
+		type filter hook prerouting priority 11; policy accept;
+	}
+
+	chain preroutingsecuritym11 {
+		type filter hook prerouting priority 39; policy accept;
+	}
+
+	chain preroutingsecuritym10 {
+		type filter hook prerouting priority security - 10; policy accept;
+	}
+
+	chain preroutingsecurity {
+		type filter hook prerouting priority security; policy accept;
+	}
+
+	chain preroutingsecurityp10 {
+		type filter hook prerouting priority security + 10; policy accept;
+	}
+
+	chain preroutingsecurityp11 {
+		type filter hook prerouting priority 61; policy accept;
+	}
+
+	chain inputrawm11 {
+		type filter hook input priority -311; policy accept;
+	}
+
+	chain inputrawm10 {
+		type filter hook input priority raw - 10; policy accept;
+	}
+
+	chain inputraw {
+		type filter hook input priority raw; policy accept;
+	}
+
+	chain inputrawp10 {
+		type filter hook input priority raw + 10; policy accept;
+	}
+
+	chain inputrawp11 {
+		type filter hook input priority -289; policy accept;
+	}
+
+	chain inputmanglem11 {
+		type filter hook input priority -161; policy accept;
+	}
+
+	chain inputmanglem10 {
+		type filter hook input priority mangle - 10; policy accept;
+	}
+
+	chain inputmangle {
+		type filter hook input priority mangle; policy accept;
+	}
+
+	chain inputmanglep10 {
+		type filter hook input priority mangle + 10; policy accept;
+	}
+
+	chain inputmanglep11 {
+		type filter hook input priority -139; policy accept;
+	}
+
+	chain inputfilterm11 {
+		type filter hook input priority -11; policy accept;
+	}
+
+	chain inputfilterm10 {
+		type filter hook input priority filter - 10; policy accept;
+	}
+
+	chain inputfilter {
+		type filter hook input priority filter; policy accept;
+	}
+
+	chain inputfilterp10 {
+		type filter hook input priority filter + 10; policy accept;
+	}
+
+	chain inputfilterp11 {
+		type filter hook input priority 11; policy accept;
+	}
+
+	chain inputsecuritym11 {
+		type filter hook input priority 39; policy accept;
+	}
+
+	chain inputsecuritym10 {
+		type filter hook input priority security - 10; policy accept;
+	}
+
+	chain inputsecurity {
+		type filter hook input priority security; policy accept;
+	}
+
+	chain inputsecurityp10 {
+		type filter hook input priority security + 10; policy accept;
+	}
+
+	chain inputsecurityp11 {
+		type filter hook input priority 61; policy accept;
+	}
+
+	chain forwardrawm11 {
+		type filter hook forward priority -311; policy accept;
+	}
+
+	chain forwardrawm10 {
+		type filter hook forward priority raw - 10; policy accept;
+	}
+
+	chain forwardraw {
+		type filter hook forward priority raw; policy accept;
+	}
+
+	chain forwardrawp10 {
+		type filter hook forward priority raw + 10; policy accept;
+	}
+
+	chain forwardrawp11 {
+		type filter hook forward priority -289; policy accept;
+	}
+
+	chain forwardmanglem11 {
+		type filter hook forward priority -161; policy accept;
+	}
+
+	chain forwardmanglem10 {
+		type filter hook forward priority mangle - 10; policy accept;
+	}
+
+	chain forwardmangle {
+		type filter hook forward priority mangle; policy accept;
+	}
+
+	chain forwardmanglep10 {
+		type filter hook forward priority mangle + 10; policy accept;
+	}
+
+	chain forwardmanglep11 {
+		type filter hook forward priority -139; policy accept;
+	}
+
+	chain forwardfilterm11 {
+		type filter hook forward priority -11; policy accept;
+	}
+
+	chain forwardfilterm10 {
+		type filter hook forward priority filter - 10; policy accept;
+	}
+
+	chain forwardfilter {
+		type filter hook forward priority filter; policy accept;
+	}
+
+	chain forwardfilterp10 {
+		type filter hook forward priority filter + 10; policy accept;
+	}
+
+	chain forwardfilterp11 {
+		type filter hook forward priority 11; policy accept;
+	}
+
+	chain forwardsecuritym11 {
+		type filter hook forward priority 39; policy accept;
+	}
+
+	chain forwardsecuritym10 {
+		type filter hook forward priority security - 10; policy accept;
+	}
+
+	chain forwardsecurity {
+		type filter hook forward priority security; policy accept;
+	}
+
+	chain forwardsecurityp10 {
+		type filter hook forward priority security + 10; policy accept;
+	}
+
+	chain forwardsecurityp11 {
+		type filter hook forward priority 61; policy accept;
+	}
+
+	chain outputrawm11 {
+		type filter hook output priority -311; policy accept;
+	}
+
+	chain outputrawm10 {
+		type filter hook output priority raw - 10; policy accept;
+	}
+
+	chain outputraw {
+		type filter hook output priority raw; policy accept;
+	}
+
+	chain outputrawp10 {
+		type filter hook output priority raw + 10; policy accept;
+	}
+
+	chain outputrawp11 {
+		type filter hook output priority -289; policy accept;
+	}
+
+	chain outputmanglem11 {
+		type filter hook output priority -161; policy accept;
+	}
+
+	chain outputmanglem10 {
+		type filter hook output priority mangle - 10; policy accept;
+	}
+
+	chain outputmangle {
+		type filter hook output priority mangle; policy accept;
+	}
+
+	chain outputmanglep10 {
+		type filter hook output priority mangle + 10; policy accept;
+	}
+
+	chain outputmanglep11 {
+		type filter hook output priority -139; policy accept;
+	}
+
+	chain outputfilterm11 {
+		type filter hook output priority -11; policy accept;
+	}
+
+	chain outputfilterm10 {
+		type filter hook output priority filter - 10; policy accept;
+	}
+
+	chain outputfilter {
+		type filter hook output priority filter; policy accept;
+	}
+
+	chain outputfilterp10 {
+		type filter hook output priority filter + 10; policy accept;
+	}
+
+	chain outputfilterp11 {
+		type filter hook output priority 11; policy accept;
+	}
+
+	chain outputsecuritym11 {
+		type filter hook output priority 39; policy accept;
+	}
+
+	chain outputsecuritym10 {
+		type filter hook output priority security - 10; policy accept;
+	}
+
+	chain outputsecurity {
+		type filter hook output priority security; policy accept;
+	}
+
+	chain outputsecurityp10 {
+		type filter hook output priority security + 10; policy accept;
+	}
+
+	chain outputsecurityp11 {
+		type filter hook output priority 61; policy accept;
+	}
+
+	chain postroutingrawm11 {
+		type filter hook postrouting priority -311; policy accept;
+	}
+
+	chain postroutingrawm10 {
+		type filter hook postrouting priority raw - 10; policy accept;
+	}
+
+	chain postroutingraw {
+		type filter hook postrouting priority raw; policy accept;
+	}
+
+	chain postroutingrawp10 {
+		type filter hook postrouting priority raw + 10; policy accept;
+	}
+
+	chain postroutingrawp11 {
+		type filter hook postrouting priority -289; policy accept;
+	}
+
+	chain postroutingmanglem11 {
+		type filter hook postrouting priority -161; policy accept;
+	}
+
+	chain postroutingmanglem10 {
+		type filter hook postrouting priority mangle - 10; policy accept;
+	}
+
+	chain postroutingmangle {
+		type filter hook postrouting priority mangle; policy accept;
+	}
+
+	chain postroutingmanglep10 {
+		type filter hook postrouting priority mangle + 10; policy accept;
+	}
+
+	chain postroutingmanglep11 {
+		type filter hook postrouting priority -139; policy accept;
+	}
+
+	chain postroutingfilterm11 {
+		type filter hook postrouting priority -11; policy accept;
+	}
+
+	chain postroutingfilterm10 {
+		type filter hook postrouting priority filter - 10; policy accept;
+	}
+
+	chain postroutingfilter {
+		type filter hook postrouting priority filter; policy accept;
+	}
+
+	chain postroutingfilterp10 {
+		type filter hook postrouting priority filter + 10; policy accept;
+	}
+
+	chain postroutingfilterp11 {
+		type filter hook postrouting priority 11; policy accept;
+	}
+
+	chain postroutingsecuritym11 {
+		type filter hook postrouting priority 39; policy accept;
+	}
+
+	chain postroutingsecuritym10 {
+		type filter hook postrouting priority security - 10; policy accept;
+	}
+
+	chain postroutingsecurity {
+		type filter hook postrouting priority security; policy accept;
+	}
+
+	chain postroutingsecurityp10 {
+		type filter hook postrouting priority security + 10; policy accept;
+	}
+
+	chain postroutingsecurityp11 {
+		type filter hook postrouting priority 61; policy accept;
+	}
+
+	chain preroutingdstnatm11 {
+		type filter hook prerouting priority -111; policy accept;
+	}
+
+	chain preroutingdstnatm10 {
+		type filter hook prerouting priority dstnat - 10; policy accept;
+	}
+
+	chain preroutingdstnat {
+		type filter hook prerouting priority dstnat; policy accept;
+	}
+
+	chain preroutingdstnatp10 {
+		type filter hook prerouting priority dstnat + 10; policy accept;
+	}
+
+	chain preroutingdstnatp11 {
+		type filter hook prerouting priority -89; policy accept;
+	}
+
+	chain postroutingsrcnatm11 {
+		type filter hook postrouting priority 89; policy accept;
+	}
+
+	chain postroutingsrcnatm10 {
+		type filter hook postrouting priority srcnat - 10; policy accept;
+	}
+
+	chain postroutingsrcnat {
+		type filter hook postrouting priority srcnat; policy accept;
+	}
+
+	chain postroutingsrcnatp10 {
+		type filter hook postrouting priority srcnat + 10; policy accept;
+	}
+
+	chain postroutingsrcnatp11 {
+		type filter hook postrouting priority 111; policy accept;
+	}
+}
+table inet x {
+	chain preroutingrawm11 {
+		type filter hook prerouting priority -311; policy accept;
+	}
+
+	chain preroutingrawm10 {
+		type filter hook prerouting priority raw - 10; policy accept;
+	}
+
+	chain preroutingraw {
+		type filter hook prerouting priority raw; policy accept;
+	}
+
+	chain preroutingrawp10 {
+		type filter hook prerouting priority raw + 10; policy accept;
+	}
+
+	chain preroutingrawp11 {
+		type filter hook prerouting priority -289; policy accept;
+	}
+
+	chain preroutingmanglem11 {
+		type filter hook prerouting priority -161; policy accept;
+	}
+
+	chain preroutingmanglem10 {
+		type filter hook prerouting priority mangle - 10; policy accept;
+	}
+
+	chain preroutingmangle {
+		type filter hook prerouting priority mangle; policy accept;
+	}
+
+	chain preroutingmanglep10 {
+		type filter hook prerouting priority mangle + 10; policy accept;
+	}
+
+	chain preroutingmanglep11 {
+		type filter hook prerouting priority -139; policy accept;
+	}
+
+	chain preroutingfilterm11 {
+		type filter hook prerouting priority -11; policy accept;
+	}
+
+	chain preroutingfilterm10 {
+		type filter hook prerouting priority filter - 10; policy accept;
+	}
+
+	chain preroutingfilter {
+		type filter hook prerouting priority filter; policy accept;
+	}
+
+	chain preroutingfilterp10 {
+		type filter hook prerouting priority filter + 10; policy accept;
+	}
+
+	chain preroutingfilterp11 {
+		type filter hook prerouting priority 11; policy accept;
+	}
+
+	chain preroutingsecuritym11 {
+		type filter hook prerouting priority 39; policy accept;
+	}
+
+	chain preroutingsecuritym10 {
+		type filter hook prerouting priority security - 10; policy accept;
+	}
+
+	chain preroutingsecurity {
+		type filter hook prerouting priority security; policy accept;
+	}
+
+	chain preroutingsecurityp10 {
+		type filter hook prerouting priority security + 10; policy accept;
+	}
+
+	chain preroutingsecurityp11 {
+		type filter hook prerouting priority 61; policy accept;
+	}
+
+	chain inputrawm11 {
+		type filter hook input priority -311; policy accept;
+	}
+
+	chain inputrawm10 {
+		type filter hook input priority raw - 10; policy accept;
+	}
+
+	chain inputraw {
+		type filter hook input priority raw; policy accept;
+	}
+
+	chain inputrawp10 {
+		type filter hook input priority raw + 10; policy accept;
+	}
+
+	chain inputrawp11 {
+		type filter hook input priority -289; policy accept;
+	}
+
+	chain inputmanglem11 {
+		type filter hook input priority -161; policy accept;
+	}
+
+	chain inputmanglem10 {
+		type filter hook input priority mangle - 10; policy accept;
+	}
+
+	chain inputmangle {
+		type filter hook input priority mangle; policy accept;
+	}
+
+	chain inputmanglep10 {
+		type filter hook input priority mangle + 10; policy accept;
+	}
+
+	chain inputmanglep11 {
+		type filter hook input priority -139; policy accept;
+	}
+
+	chain inputfilterm11 {
+		type filter hook input priority -11; policy accept;
+	}
+
+	chain inputfilterm10 {
+		type filter hook input priority filter - 10; policy accept;
+	}
+
+	chain inputfilter {
+		type filter hook input priority filter; policy accept;
+	}
+
+	chain inputfilterp10 {
+		type filter hook input priority filter + 10; policy accept;
+	}
+
+	chain inputfilterp11 {
+		type filter hook input priority 11; policy accept;
+	}
+
+	chain inputsecuritym11 {
+		type filter hook input priority 39; policy accept;
+	}
+
+	chain inputsecuritym10 {
+		type filter hook input priority security - 10; policy accept;
+	}
+
+	chain inputsecurity {
+		type filter hook input priority security; policy accept;
+	}
+
+	chain inputsecurityp10 {
+		type filter hook input priority security + 10; policy accept;
+	}
+
+	chain inputsecurityp11 {
+		type filter hook input priority 61; policy accept;
+	}
+
+	chain forwardrawm11 {
+		type filter hook forward priority -311; policy accept;
+	}
+
+	chain forwardrawm10 {
+		type filter hook forward priority raw - 10; policy accept;
+	}
+
+	chain forwardraw {
+		type filter hook forward priority raw; policy accept;
+	}
+
+	chain forwardrawp10 {
+		type filter hook forward priority raw + 10; policy accept;
+	}
+
+	chain forwardrawp11 {
+		type filter hook forward priority -289; policy accept;
+	}
+
+	chain forwardmanglem11 {
+		type filter hook forward priority -161; policy accept;
+	}
+
+	chain forwardmanglem10 {
+		type filter hook forward priority mangle - 10; policy accept;
+	}
+
+	chain forwardmangle {
+		type filter hook forward priority mangle; policy accept;
+	}
+
+	chain forwardmanglep10 {
+		type filter hook forward priority mangle + 10; policy accept;
+	}
+
+	chain forwardmanglep11 {
+		type filter hook forward priority -139; policy accept;
+	}
+
+	chain forwardfilterm11 {
+		type filter hook forward priority -11; policy accept;
+	}
+
+	chain forwardfilterm10 {
+		type filter hook forward priority filter - 10; policy accept;
+	}
+
+	chain forwardfilter {
+		type filter hook forward priority filter; policy accept;
+	}
+
+	chain forwardfilterp10 {
+		type filter hook forward priority filter + 10; policy accept;
+	}
+
+	chain forwardfilterp11 {
+		type filter hook forward priority 11; policy accept;
+	}
+
+	chain forwardsecuritym11 {
+		type filter hook forward priority 39; policy accept;
+	}
+
+	chain forwardsecuritym10 {
+		type filter hook forward priority security - 10; policy accept;
+	}
+
+	chain forwardsecurity {
+		type filter hook forward priority security; policy accept;
+	}
+
+	chain forwardsecurityp10 {
+		type filter hook forward priority security + 10; policy accept;
+	}
+
+	chain forwardsecurityp11 {
+		type filter hook forward priority 61; policy accept;
+	}
+
+	chain outputrawm11 {
+		type filter hook output priority -311; policy accept;
+	}
+
+	chain outputrawm10 {
+		type filter hook output priority raw - 10; policy accept;
+	}
+
+	chain outputraw {
+		type filter hook output priority raw; policy accept;
+	}
+
+	chain outputrawp10 {
+		type filter hook output priority raw + 10; policy accept;
+	}
+
+	chain outputrawp11 {
+		type filter hook output priority -289; policy accept;
+	}
+
+	chain outputmanglem11 {
+		type filter hook output priority -161; policy accept;
+	}
+
+	chain outputmanglem10 {
+		type filter hook output priority mangle - 10; policy accept;
+	}
+
+	chain outputmangle {
+		type filter hook output priority mangle; policy accept;
+	}
+
+	chain outputmanglep10 {
+		type filter hook output priority mangle + 10; policy accept;
+	}
+
+	chain outputmanglep11 {
+		type filter hook output priority -139; policy accept;
+	}
+
+	chain outputfilterm11 {
+		type filter hook output priority -11; policy accept;
+	}
+
+	chain outputfilterm10 {
+		type filter hook output priority filter - 10; policy accept;
+	}
+
+	chain outputfilter {
+		type filter hook output priority filter; policy accept;
+	}
+
+	chain outputfilterp10 {
+		type filter hook output priority filter + 10; policy accept;
+	}
+
+	chain outputfilterp11 {
+		type filter hook output priority 11; policy accept;
+	}
+
+	chain outputsecuritym11 {
+		type filter hook output priority 39; policy accept;
+	}
+
+	chain outputsecuritym10 {
+		type filter hook output priority security - 10; policy accept;
+	}
+
+	chain outputsecurity {
+		type filter hook output priority security; policy accept;
+	}
+
+	chain outputsecurityp10 {
+		type filter hook output priority security + 10; policy accept;
+	}
+
+	chain outputsecurityp11 {
+		type filter hook output priority 61; policy accept;
+	}
+
+	chain postroutingrawm11 {
+		type filter hook postrouting priority -311; policy accept;
+	}
+
+	chain postroutingrawm10 {
+		type filter hook postrouting priority raw - 10; policy accept;
+	}
+
+	chain postroutingraw {
+		type filter hook postrouting priority raw; policy accept;
+	}
+
+	chain postroutingrawp10 {
+		type filter hook postrouting priority raw + 10; policy accept;
+	}
+
+	chain postroutingrawp11 {
+		type filter hook postrouting priority -289; policy accept;
+	}
+
+	chain postroutingmanglem11 {
+		type filter hook postrouting priority -161; policy accept;
+	}
+
+	chain postroutingmanglem10 {
+		type filter hook postrouting priority mangle - 10; policy accept;
+	}
+
+	chain postroutingmangle {
+		type filter hook postrouting priority mangle; policy accept;
+	}
+
+	chain postroutingmanglep10 {
+		type filter hook postrouting priority mangle + 10; policy accept;
+	}
+
+	chain postroutingmanglep11 {
+		type filter hook postrouting priority -139; policy accept;
+	}
+
+	chain postroutingfilterm11 {
+		type filter hook postrouting priority -11; policy accept;
+	}
+
+	chain postroutingfilterm10 {
+		type filter hook postrouting priority filter - 10; policy accept;
+	}
+
+	chain postroutingfilter {
+		type filter hook postrouting priority filter; policy accept;
+	}
+
+	chain postroutingfilterp10 {
+		type filter hook postrouting priority filter + 10; policy accept;
+	}
+
+	chain postroutingfilterp11 {
+		type filter hook postrouting priority 11; policy accept;
+	}
+
+	chain postroutingsecuritym11 {
+		type filter hook postrouting priority 39; policy accept;
+	}
+
+	chain postroutingsecuritym10 {
+		type filter hook postrouting priority security - 10; policy accept;
+	}
+
+	chain postroutingsecurity {
+		type filter hook postrouting priority security; policy accept;
+	}
+
+	chain postroutingsecurityp10 {
+		type filter hook postrouting priority security + 10; policy accept;
+	}
+
+	chain postroutingsecurityp11 {
+		type filter hook postrouting priority 61; policy accept;
+	}
+
+	chain preroutingdstnatm11 {
+		type filter hook prerouting priority -111; policy accept;
+	}
+
+	chain preroutingdstnatm10 {
+		type filter hook prerouting priority dstnat - 10; policy accept;
+	}
+
+	chain preroutingdstnat {
+		type filter hook prerouting priority dstnat; policy accept;
+	}
+
+	chain preroutingdstnatp10 {
+		type filter hook prerouting priority dstnat + 10; policy accept;
+	}
+
+	chain preroutingdstnatp11 {
+		type filter hook prerouting priority -89; policy accept;
+	}
+
+	chain postroutingsrcnatm11 {
+		type filter hook postrouting priority 89; policy accept;
+	}
+
+	chain postroutingsrcnatm10 {
+		type filter hook postrouting priority srcnat - 10; policy accept;
+	}
+
+	chain postroutingsrcnat {
+		type filter hook postrouting priority srcnat; policy accept;
+	}
+
+	chain postroutingsrcnatp10 {
+		type filter hook postrouting priority srcnat + 10; policy accept;
+	}
+
+	chain postroutingsrcnatp11 {
+		type filter hook postrouting priority 111; policy accept;
+	}
+}
+table arp x {
+	chain inputfilterm11 {
+		type filter hook input priority -11; policy accept;
+	}
+
+	chain inputfilterm10 {
+		type filter hook input priority filter - 10; policy accept;
+	}
+
+	chain inputfilter {
+		type filter hook input priority filter; policy accept;
+	}
+
+	chain inputfilterp10 {
+		type filter hook input priority filter + 10; policy accept;
+	}
+
+	chain inputfilterp11 {
+		type filter hook input priority 11; policy accept;
+	}
+
+	chain outputfilterm11 {
+		type filter hook output priority -11; policy accept;
+	}
+
+	chain outputfilterm10 {
+		type filter hook output priority filter - 10; policy accept;
+	}
+
+	chain outputfilter {
+		type filter hook output priority filter; policy accept;
+	}
+
+	chain outputfilterp10 {
+		type filter hook output priority filter + 10; policy accept;
+	}
+
+	chain outputfilterp11 {
+		type filter hook output priority 11; policy accept;
+	}
+}
+table netdev x {
+	chain ingressfilterm11 {
+		type filter hook ingress device "lo" priority -11; policy accept;
+	}
+
+	chain ingressfilterm10 {
+		type filter hook ingress device "lo" priority filter - 10; policy accept;
+	}
+
+	chain ingressfilter {
+		type filter hook ingress device "lo" priority filter; policy accept;
+	}
+
+	chain ingressfilterp10 {
+		type filter hook ingress device "lo" priority filter + 10; policy accept;
+	}
+
+	chain ingressfilterp11 {
+		type filter hook ingress device "lo" priority 11; policy accept;
+	}
+
+	chain egressfilterm11 {
+		type filter hook egress device "lo" priority -11; policy accept;
+	}
+
+	chain egressfilterm10 {
+		type filter hook egress device "lo" priority filter - 10; policy accept;
+	}
+
+	chain egressfilter {
+		type filter hook egress device "lo" priority filter; policy accept;
+	}
+
+	chain egressfilterp10 {
+		type filter hook egress device "lo" priority filter + 10; policy accept;
+	}
+
+	chain egressfilterp11 {
+		type filter hook egress device "lo" priority 11; policy accept;
+	}
+}
+table bridge x {
+	chain preroutingfilterm11 {
+		type filter hook prerouting priority -211; policy accept;
+	}
+
+	chain preroutingfilterm10 {
+		type filter hook prerouting priority filter - 10; policy accept;
+	}
+
+	chain preroutingfilter {
+		type filter hook prerouting priority filter; policy accept;
+	}
+
+	chain preroutingfilterp10 {
+		type filter hook prerouting priority filter + 10; policy accept;
+	}
+
+	chain preroutingfilterp11 {
+		type filter hook prerouting priority -189; policy accept;
+	}
+
+	chain inputfilterm11 {
+		type filter hook input priority -211; policy accept;
+	}
+
+	chain inputfilterm10 {
+		type filter hook input priority filter - 10; policy accept;
+	}
+
+	chain inputfilter {
+		type filter hook input priority filter; policy accept;
+	}
+
+	chain inputfilterp10 {
+		type filter hook input priority filter + 10; policy accept;
+	}
+
+	chain inputfilterp11 {
+		type filter hook input priority -189; policy accept;
+	}
+
+	chain forwardfilterm11 {
+		type filter hook forward priority -211; policy accept;
+	}
+
+	chain forwardfilterm10 {
+		type filter hook forward priority filter - 10; policy accept;
+	}
+
+	chain forwardfilter {
+		type filter hook forward priority filter; policy accept;
+	}
+
+	chain forwardfilterp10 {
+		type filter hook forward priority filter + 10; policy accept;
+	}
+
+	chain forwardfilterp11 {
+		type filter hook forward priority -189; policy accept;
+	}
+
+	chain outputfilterm11 {
+		type filter hook output priority -211; policy accept;
+	}
+
+	chain outputfilterm10 {
+		type filter hook output priority filter - 10; policy accept;
+	}
+
+	chain outputfilter {
+		type filter hook output priority filter; policy accept;
+	}
+
+	chain outputfilterp10 {
+		type filter hook output priority filter + 10; policy accept;
+	}
+
+	chain outputfilterp11 {
+		type filter hook output priority -189; policy accept;
+	}
+
+	chain postroutingfilterm11 {
+		type filter hook postrouting priority -211; policy accept;
+	}
+
+	chain postroutingfilterm10 {
+		type filter hook postrouting priority filter - 10; policy accept;
+	}
+
+	chain postroutingfilter {
+		type filter hook postrouting priority filter; policy accept;
+	}
+
+	chain postroutingfilterp10 {
+		type filter hook postrouting priority filter + 10; policy accept;
+	}
+
+	chain postroutingfilterp11 {
+		type filter hook postrouting priority -189; policy accept;
+	}
+
+	chain preroutingdstnatm11 {
+		type filter hook prerouting priority -311; policy accept;
+	}
+
+	chain preroutingdstnatm10 {
+		type filter hook prerouting priority dstnat - 10; policy accept;
+	}
+
+	chain preroutingdstnat {
+		type filter hook prerouting priority dstnat; policy accept;
+	}
+
+	chain preroutingdstnatp10 {
+		type filter hook prerouting priority dstnat + 10; policy accept;
+	}
+
+	chain preroutingdstnatp11 {
+		type filter hook prerouting priority -289; policy accept;
+	}
+
+	chain outputoutm11 {
+		type filter hook output priority 89; policy accept;
+	}
+
+	chain outputoutm10 {
+		type filter hook output priority out - 10; policy accept;
+	}
+
+	chain outputout {
+		type filter hook output priority out; policy accept;
+	}
+
+	chain outputoutp10 {
+		type filter hook output priority out + 10; policy accept;
+	}
+
+	chain outputoutp11 {
+		type filter hook output priority 111; policy accept;
+	}
+
+	chain postroutingsrcnatm11 {
+		type filter hook postrouting priority 289; policy accept;
+	}
+
+	chain postroutingsrcnatm10 {
+		type filter hook postrouting priority srcnat - 10; policy accept;
+	}
+
+	chain postroutingsrcnat {
+		type filter hook postrouting priority srcnat; policy accept;
+	}
+
+	chain postroutingsrcnatp10 {
+		type filter hook postrouting priority srcnat + 10; policy accept;
+	}
+
+	chain postroutingsrcnatp11 {
+		type filter hook postrouting priority 311; policy accept;
+	}
+}
+table ip x {
+}
+table inet global {
+	chain prerouting {
+		type filter hook prerouting priority filter; policy accept;
+	}
+}
+table inet global {
+	chain prerouting {
+		type filter hook prerouting priority filter + 10; policy accept;
+	}
+
+	chain forward {
+		type filter hook prerouting priority dstnat; policy accept;
+	}
+
+	chain postrouting {
+		type filter hook postrouting priority filter - 10; policy accept;
+	}
+}
+table inet filter {
+	chain ingress {
+		type filter hook ingress device "lo" priority filter; policy accept;
+	}
+
+	chain input {
+		type filter hook input priority filter; policy accept;
+	}
+
+	chain forward {
+		type filter hook forward priority filter; policy accept;
+	}
+}
+table ip t {
+	chain c1 {
+		type nat hook postrouting priority filter; policy accept;
+		masquerade
+	}
+}
+table ip t {
+	chain c {
+		type filter hook input priority filter; policy accept;
+	}
+}
+table ip t {
+	chain input {
+		type filter hook input priority filter + 4; policy accept;
+		ip saddr vmap { 1.1.1.1 : jump c1 }
+	}
+
+	chain c1 {
+	}
+}
+table netdev filter1 {
+	chain Main_Ingress1 {
+		type filter hook ingress device "lo" priority -500; policy accept;
+	}
+}
+table netdev filter2 {
+	chain Main_Ingress2 {
+		type filter hook ingress devices = { "d23456789012345", "lo" } priority -500; policy accept;
+	}
+}
+table netdev filter3 {
+	chain Main_Ingress3 {
+		type filter hook ingress devices = { "d23456789012345", "lo" } priority -500; policy accept;
+	}
+
+	chain Main_Egress3 {
+		type filter hook egress device "lo" priority -500; policy accept;
+	}
+}
+table ip filter {
+	chain input {
+		type filter hook input priority filter; policy accept;
+		jump a1
+	}
+
+	chain a0 {
+		jump a1
+	}
+
+	chain a1 {
+		jump a2
+	}
+
+	chain a2 {
+		jump a3
+	}
+
+	chain a3 {
+		jump a4
+	}
+
+	chain a4 {
+		jump a5
+	}
+
+	chain a5 {
+		jump a6
+	}
+
+	chain a6 {
+		jump a7
+	}
+
+	chain a7 {
+		jump a8
+	}
+
+	chain a8 {
+		jump a9
+	}
+
+	chain a9 {
+		jump a10
+	}
+
+	chain a10 {
+	}
+
+	chain a11 {
+		jump a12
+	}
+
+	chain a12 {
+		jump a13
+	}
+
+	chain a13 {
+		jump a14
+	}
+
+	chain a14 {
+		jump a15
+	}
+
+	chain a15 {
+		jump a16
+	}
+
+	chain a16 {
+		jump a17
+	}
+
+	chain a17 {
+		jump a18
+	}
+
+	chain a18 {
+		jump a19
+	}
+
+	chain a19 {
+	}
+}
+table netdev test {
+	flags dormant
+
+	chain ingress {
+		type filter hook ingress device "dummy1" priority filter; policy drop;
+	}
+}
+table ip t {
+	chain output {
+		type nat hook output priority filter; policy accept;
+	}
+
+	chain c1 {
+		masquerade
+	}
+}
+table bridge x {
+}
+table ip t {
+	chain c1 {
+		tcp dport vmap { 1 : jump c2 }
+	}
+
+	chain c2 {
+	}
+}
+table ip t {
+	chain output {
+		type nat hook output priority filter; policy accept;
+	}
+
+	chain c1 {
+		masquerade
+	}
+}
+table arp x {
+}
+table ip t {
+	chain c1 {
+	}
+
+	chain c2 {
+	}
+}
+table ip t {
+	chain c1 {
+		type filter hook prerouting priority filter; policy accept;
+		jump c2
+	}
+
+	chain c2 {
+		jump c3
+	}
+
+	chain c3 {
+		jump c4
+	}
+
+	chain c4 {
+		jump c5
+	}
+
+	chain c5 {
+		jump c6
+	}
+
+	chain c6 {
+		jump c7
+	}
+
+	chain c7 {
+		jump c8
+	}
+
+	chain c8 {
+		jump c9
+	}
+
+	chain c9 {
+		jump c10
+	}
+
+	chain c10 {
+		jump c11
+	}
+
+	chain c11 {
+		jump c12
+	}
+
+	chain c12 {
+		jump c13
+	}
+
+	chain c13 {
+		jump c14
+	}
+
+	chain c14 {
+		jump c15
+	}
+
+	chain c15 {
+		jump c16
+	}
+
+	chain c16 {
+	}
+}
+table inet filter {
+	chain input2 {
+		type filter hook input priority filter; policy accept;
+		ip saddr 1.2.3.4 tcp dport { 22, 123, 443 } drop
+	}
+
+	chain output2 {
+		type filter hook output priority filter; policy accept;
+		ip daddr 1.2.3.4 tcp dport { 22, 123, 443 } drop
+	}
+}
+table ip x {
+}
+table ip x {
+	chain y {
+	}
+}
+table ip x {
+}
+table ip y {
+}
+table ip x {
+	chain y {
+	}
+}
+table ip x {
+}
+table inet test {
+	chain test {
+		tcp dport 22 accept
+		tcp dport 25 accept
+	}
+}
+table ip x {
+}
+table ip x {
+}
+table ip x {
+}
+table ip nat {
+	chain postrouting {
+		snat to ip saddr map { 1.1.1.1 : 2.2.2.2 }
+	}
+}
+table ip nat {
+	map m {
+		type ipv4_addr : ipv4_addr
+		elements = { 1.1.1.1 : 2.2.2.2 }
+	}
+
+	chain postrouting {
+		snat to ip saddr map @m
+	}
+}
+table inet filter {
+	limit tarpit-pps {
+		rate 1/second
+	}
+
+	limit tarpit-bps {
+		rate 1 kbytes/second
+	}
+
+	limit http-bulk-rl-1m {
+		rate 1 mbytes/second
+	}
+
+	limit http-bulk-rl-10m {
+		rate 10 mbytes/second
+	}
+
+	set tarpit4 {
+		typeof ip saddr
+		size 10000
+		flags dynamic,timeout
+		timeout 1m
+	}
+
+	set tarpit6 {
+		typeof ip6 saddr
+		size 10000
+		flags dynamic,timeout
+		timeout 1m
+	}
+
+	map addr4limit {
+		typeof meta l4proto . ip saddr . tcp sport : limit
+		flags interval
+		elements = { tcp . 192.168.0.0/16 . 1-65535 : "tarpit-bps",
+			     udp . 192.168.0.0/16 . 1-65535 : "tarpit-pps",
+			     tcp . 127.0.0.1-127.1.2.3 . 1-1024 : "tarpit-pps",
+			     tcp . 10.0.0.1-10.0.0.255 . 80 : "http-bulk-rl-1m",
+			     tcp . 10.0.0.1-10.0.0.255 . 443 : "http-bulk-rl-1m",
+			     tcp . 10.0.1.0/24 . 1024-65535 : "http-bulk-rl-10m",
+			     tcp . 10.0.2.1 . 22 : "http-bulk-rl-10m" }
+	}
+
+	map saddr6limit {
+		typeof ip6 saddr : limit
+		flags interval
+		elements = { dead::beef-dead::1:aced : "tarpit-pps" }
+	}
+
+	chain input {
+		type filter hook input priority filter; policy accept;
+		limit name meta l4proto . ip saddr . th sport map @addr4limit
+		limit name ip6 saddr map @saddr6limit
+	}
+}
+table ip foo {
+	map pinned {
+		typeof ip saddr . ct original proto-dst : ip daddr . tcp dport
+		size 65535
+		flags dynamic,timeout
+		timeout 6m
+	}
+
+	chain pr {
+		update @pinned { ip saddr . ct original proto-dst timeout 1m30s : ip daddr . tcp dport }
+		update @pinned { ip saddr . ct original proto-dst timeout 1m30s : ip daddr . tcp dport }
+	}
+}
+table inet t {
+	ct expectation exp1 {
+		protocol tcp
+		dport 9876
+		timeout 1m
+		size 12
+		l3proto ip
+	}
+
+	ct expectation exp2 {
+		protocol tcp
+		dport 9876
+		timeout 3s
+		size 13
+		l3proto ip6
+	}
+
+	ct helper myftp {
+		type "ftp" protocol tcp
+		l3proto inet
+	}
+
+	ct timeout dns {
+		protocol tcp
+		l3proto ip
+		policy = { established : 3s, close : 1s }
+	}
+
+	map exp {
+		typeof ip saddr : ct expectation
+		elements = { 192.168.2.2 : "exp1" }
+	}
+
+	map exp6 {
+		typeof ip6 saddr : ct expectation
+		flags interval
+		elements = { dead:beef::/64 : "exp2" }
+	}
+
+	map helpobj {
+		typeof ip6 saddr : ct helper
+		flags interval
+		elements = { dead:beef::/64 : "myftp" }
+	}
+
+	map timeoutmap {
+		typeof ip daddr : ct timeout
+		elements = { 192.168.0.1 : "dns" }
+	}
+
+	set helpname {
+		typeof ct helper
+		elements = { "sip",
+			     "ftp" }
+	}
+
+	chain y {
+		ct expectation set ip saddr map @exp
+		ct expectation set ip6 saddr map { dead::beef : "exp2" }
+		ct expectation set ip6 daddr map { dead::beef : "exp2", feed::17 : "exp2" }
+		ct expectation set ip6 daddr . tcp dport map { feed::17 . 512 : "exp2", dead::beef . 123 : "exp2" }
+		ct helper set ip6 saddr map { 1c3::c01d : "myftp", dead::beef : "myftp" }
+		ct helper set ip6 saddr map @helpobj
+		ct timeout set ip daddr map @timeoutmap
+		ct timeout set ip daddr map { 1.2.3.4 : "dns", 5.6.7.8 : "dns", 192.168.8.0/24 : "dns" }
+		ct timeout set ip daddr map { 1.2.3.4-1.2.3.8 : "dns" }
+		ct timeout set ip6 daddr map { 1ce::/64 : "dns", dead::beef : "dns" }
+		ct helper @helpname accept
+		ip saddr 192.168.1.1 ct timeout set "dns"
+	}
+}
+table ip filter {
+	map m {
+		type ipv4_addr : mark
+		flags interval
+		elements = { 127.0.0.2 : 0x00000002,
+			     127.0.0.3 : 0x00000003 }
+	}
+
+	chain input {
+		type filter hook input priority filter; policy accept;
+		meta mark set ip daddr map @m
+		meta mark 0x00000002 counter packets 0 bytes 0 accept
+		meta mark 0x00000003 counter packets 0 bytes 0 accept
+		counter packets 0 bytes 0
+	}
+}
+table inet t {
+	map m1 {
+		typeof osf name : ct mark
+		elements = { "Linux" : 0x00000001 }
+	}
+
+	map m2 {
+		typeof vlan id : meta mark
+		elements = { 1 : 0x00000001,
+			     4095 : 0x00004095 }
+	}
+
+	map m3 {
+		typeof ip saddr . ip daddr : meta mark
+		elements = { 1.2.3.4 . 5.6.7.8 : 0x00000001,
+			     2.3.4.5 . 6.7.8.9 : 0x00000002 }
+	}
+
+	map m4 {
+		typeof iifname . ip protocol . th dport : verdict
+		elements = { "eth0" . tcp . 22 : accept }
+	}
+
+	map m5 {
+		typeof ipsec in reqid . iifname : verdict
+		elements = { 23 . "eth0" : accept }
+	}
+
+	chain c {
+		ct mark set osf name map @m1
+		meta mark set vlan id map @m2
+		meta mark set ip saddr . ip daddr map @m3
+		iifname . ip protocol . th dport vmap @m4
+		iifname . ip protocol . th dport vmap { "eth0" . tcp . 22 : accept, "eth1" . udp . 67 : drop }
+		ipsec in reqid . iifname vmap @m5
+	}
+}
+table inet t {
+	map m1 {
+		type ifname : ipv4_addr
+		elements = { "eth0" : 1.1.1.1 }
+	}
+
+	chain c {
+		ip daddr set iifname map @m1
+		ip daddr set oifname map @m1
+	}
+}
+table ip filter {
+	map ipsec_in {
+		typeof ipsec in reqid . iif : verdict
+		flags interval
+	}
+
+	chain INPUT {
+		type filter hook input priority filter; policy drop;
+		ipsec in reqid . iif vmap @ipsec_in
+	}
+}
+table inet t {
+	map m {
+		type ipv4_addr . ipv4_addr : verdict
+		flags interval
+	}
+
+	chain c {
+	}
+}
+table ip dynset {
+	map dynmark {
+		typeof ip daddr : meta mark
+		size 64
+		counter
+		timeout 5m
+	}
+
+	chain test_ping {
+		ip saddr @dynmark counter packets 0 bytes 0 comment "should not increment"
+		ip saddr != @dynmark add @dynmark { ip saddr : 0x00000001 } counter packets 1 bytes 84
+		ip saddr @dynmark counter packets 1 bytes 84 comment "should increment"
+		ip saddr @dynmark delete @dynmark { ip saddr : 0x00000001 }
+		ip saddr @dynmark counter packets 0 bytes 0 comment "delete should be instant but might fail under memory pressure"
+	}
+
+	chain input {
+		type filter hook input priority filter; policy accept;
+		add @dynmark { 10.2.3.4 timeout 2s : 0x00000002 } comment "also check timeout-gc"
+		meta l4proto icmp ip daddr 127.0.0.42 jump test_ping
+	}
+}
+table ip test {
+	chain testchain {
+	}
+}
+table ip x {
+	map y {
+		type ipv4_addr : ipv4_addr
+		flags timeout
+	}
+}
+table inet x {
+	counter user123 {
+		packets 12 bytes 1433
+	}
+
+	counter user321 {
+		packets 12 bytes 1433
+	}
+
+	quota user123 {
+		over 2000 bytes
+	}
+
+	quota user124 {
+		over 2000 bytes
+	}
+
+	chain y {
+		type filter hook input priority filter; policy accept;
+		counter name ip saddr map { 1.1.1.1 : "user123", 2.2.2.2 : "user123", 192.168.2.2 : "user123" }
+		quota name ip saddr map { 192.168.2.2 : "user124", 192.168.2.3 : "user124" } drop
+	}
+}
+table ip x {
+	map y {
+		type ipv4_addr : ipv4_addr
+		flags interval
+		elements = { 10.0.1.0/24 : 10.0.0.1,
+			     10.0.2.0/24 : 10.0.0.2 }
+	}
+}
+table ip x {
+	counter c_o0_0 {
+		packets 0 bytes 0
+	}
+
+	map sctm_o0 {
+		type mark : verdict
+		elements = { 0x00000000 : jump sctm_o0_0,
+			     0x00000001 : jump sctm_o0_1 }
+	}
+
+	map sctm_o1 {
+		type mark : counter
+		elements = { 0x00000000 : "c_o0_0" }
+	}
+
+	chain sctm_o0_0 {
+	}
+
+	chain sctm_o0_1 {
+	}
+
+	chain SET_ctmark_RPLYroute {
+		meta mark >> 8 & 0xf vmap @sctm_o0
+		counter name meta mark >> 8 & 0xf map @sctm_o1
+	}
+}
+table ip test {
+	map testmap {
+		type ipv4_addr : verdict
+		elements = { * : jump testchain }
+	}
+
+	chain testchain {
+	}
+}
+table ip filter {
+	map forwport {
+		type ipv4_addr . inet_proto . inet_service : verdict
+		flags interval
+		counter
+		elements = { 10.133.89.138 . tcp . 8081 counter packets 0 bytes 0 : accept }
+	}
+
+	chain FORWARD {
+		type filter hook forward priority filter; policy drop;
+		iifname "enp0s8" ip daddr . ip protocol . th dport vmap @forwport counter packets 0 bytes 0
+	}
+}
+table inet filter {
+	ct helper sip-5060u {
+		type "sip" protocol udp
+		l3proto ip
+	}
+
+	ct helper sip-5060t {
+		type "sip" protocol tcp
+		l3proto ip
+	}
+
+	chain input {
+		type filter hook input priority filter; policy accept;
+		ct helper set ip protocol . th dport map { udp . 10000-20000 : "sip-5060u", tcp . 10000-20000 : "sip-5060t" }
+	}
+}
+table ip nat {
+	chain postrouting {
+		snat to ip saddr map { 1.1.1.1 : 2.2.2.2 }
+	}
+}
+table ip x {
+	map y {
+		type ipv4_addr : ipv4_addr
+		flags interval
+		elements = { 10.1.1.0/24 : 10.0.1.1,
+			     10.1.2.0/24 : 10.0.1.2,
+			     10.2.1.0/24 : 10.0.2.1,
+			     10.2.2.0/24 : 10.0.2.2 }
+	}
+}
+table inet filter {
+	map portmap {
+		type inet_service : verdict
+		flags timeout
+		gc-interval 10s
+		elements = { 22 : jump ssh_input }
+	}
+
+	map portaddrmap {
+		typeof ip daddr . th dport : verdict
+		flags timeout
+		gc-interval 10s
+		elements = { 1.2.3.4 . 22 : jump ssh_input }
+	}
+
+	chain ssh_input {
+	}
+
+	chain log_and_drop {
+		drop
+	}
+
+	chain other_input {
+		goto log_and_drop
+	}
+
+	chain wan_input {
+		ip daddr . tcp dport vmap @portaddrmap
+		tcp dport vmap @portmap
+	}
+
+	chain prerouting {
+		type filter hook prerouting priority raw; policy accept;
+		iif vmap { "lo" : jump wan_input }
+	}
+}
+table ip x {
+	map m {
+		typeof ct bytes : meta priority
+		flags interval
+		elements = { 2048001-4000000 : 1:2 }
+	}
+
+	chain y {
+		type filter hook output priority filter; policy accept;
+		meta priority set ct bytes map @m
+	}
+}
+table ip x {
+}
+table inet x {
+	counter user123 {
+		packets 12 bytes 1433
+	}
+
+	counter user321 {
+		packets 0 bytes 0
+	}
+
+	quota user123 {
+		over 2000 bytes
+	}
+
+	quota user124 {
+		over 2000 bytes
+	}
+
+	set y {
+		type ipv4_addr
+	}
+
+	map test {
+		type ipv4_addr : quota
+		elements = { 192.168.2.2 : "user124",
+			     192.168.2.3 : "user124" }
+	}
+
+	chain y {
+		type filter hook input priority filter; policy accept;
+		counter name ip saddr map { 1.1.1.1 : "user123", 2.2.2.2 : "user123", 192.168.2.2 : "user123" }
+		quota name ip saddr map @test drop
+	}
+}
+table inet t {
+	map m1 {
+		typeof udp length . @ih,32,32 : verdict
+		flags interval
+		elements = { 20-80 . 0x14 : accept,
+			     1-10 . 0xa : drop }
+	}
+
+	map m2 {
+		typeof udp length . @ih,32,32 : verdict
+		elements = { 30 . 0x1e : drop,
+			     20 . 0x24 : accept }
+	}
+
+	chain c {
+		udp length . @nh,32,32 vmap @m1
+		udp length . @nh,32,32 vmap @m2
+		udp length . @th,160,128 vmap { 47-63 . 0xe373135363130333131303735353203 : accept }
+	}
+}
+table ip x {
+	map w {
+		typeof ip saddr . meta mark : verdict
+		flags interval
+		counter
+		elements = { 127.0.0.1-127.0.0.4 . 0x00123434-0x00b00122 counter packets 0 bytes 0 : accept }
+	}
+
+	chain k {
+		type filter hook input priority filter + 1; policy accept;
+		meta mark set 0x00123434
+		ip saddr . meta mark vmap @w
+	}
+}
+table ip x {
+	map y {
+		typeof ip saddr : meta mark
+		elements = { 1.1.1.1 : 0x00000002,
+			     * : 0x00000003 }
+	}
+
+	map z {
+		typeof ip saddr : meta mark
+		elements = { 1.1.1.1 : 0x00000002,
+			     * : 0x00000003 }
+	}
+}
+table inet x {
+	map z {
+		type ipv4_addr . inet_proto . inet_service : ipv4_addr . inet_service
+		elements = { 1.1.1.1 . tcp . 20 : 2.2.2.2 . 30 }
+	}
+
+	chain y {
+		type nat hook prerouting priority dstnat; policy accept;
+		dnat ip to ip saddr . ip protocol . tcp dport map @z
+	}
+}
+table inet filter {
+	chain ssh_input {
+	}
+
+	chain wan_input {
+		tcp dport vmap { 22 : jump ssh_input }
+	}
+
+	chain prerouting {
+		type filter hook prerouting priority raw; policy accept;
+		iif vmap { "lo" counter packets 0 bytes 0 : jump wan_input }
+	}
+}
+table ip x {
+	map z {
+		type ifname : verdict
+		elements = { "lo" : accept,
+			     "eth0" : drop,
+			     "eth1" : drop }
+	}
+
+	chain y {
+		iifname vmap { "lo" : accept, "eth0" : drop, "eth1" : drop }
+	}
+}
+table ip kube-nfproxy-v4 {
+	map sticky-set-svc-M53CN2XYVUHRQ7UB {
+		type ipv4_addr : mark
+		size 65535
+		timeout 6m
+	}
+
+	map sticky-set-svc-153CN2XYVUHRQ7UB {
+		typeof ip daddr : meta mark
+		size 65535
+		timeout 1m
+	}
+
+	chain k8s-nfproxy-sep-TMVEFT7EX55F4T62 {
+		update @sticky-set-svc-M53CN2XYVUHRQ7UB { ip saddr : 0x00000002 }
+	}
+
+	chain k8s-nfproxy-sep-GMVEFT7EX55F4T62 {
+		update @sticky-set-svc-153CN2XYVUHRQ7UB { ip saddr : 0x00000003 }
+	}
+}
+table ip x {
+	map y {
+		type ipv4_addr : ipv4_addr
+		elements = { 10.0.1.1 : 10.0.1.1,
+			     10.0.1.2 : 10.0.1.2,
+			     10.0.1.3 : 10.0.1.3,
+			     10.0.1.4 : 10.0.1.4,
+			     10.0.1.5 : 10.0.1.5,
+			     10.0.1.6 : 10.0.1.6,
+			     10.0.1.7 : 10.0.1.7,
+			     10.0.1.8 : 10.0.1.8,
+			     10.0.1.9 : 10.0.1.9,
+			     10.0.1.10 : 10.0.1.10,
+			     10.0.1.11 : 10.0.1.11,
+			     10.0.1.12 : 10.0.1.12,
+			     10.0.1.13 : 10.0.1.13,
+			     10.0.1.14 : 10.0.1.14,
+			     10.0.1.15 : 10.0.1.15,
+			     10.0.1.16 : 10.0.1.16,
+			     10.0.1.17 : 10.0.1.17,
+			     10.0.1.18 : 10.0.1.18,
+			     10.0.1.19 : 10.0.1.19,
+			     10.0.1.20 : 10.0.1.20,
+			     10.0.1.21 : 10.0.1.21,
+			     10.0.1.22 : 10.0.1.22,
+			     10.0.1.23 : 10.0.1.23,
+			     10.0.1.24 : 10.0.1.24,
+			     10.0.1.25 : 10.0.1.25,
+			     10.0.1.26 : 10.0.1.26,
+			     10.0.1.27 : 10.0.1.27,
+			     10.0.1.28 : 10.0.1.28,
+			     10.0.1.29 : 10.0.1.29,
+			     10.0.1.30 : 10.0.1.30,
+			     10.0.1.31 : 10.0.1.31,
+			     10.0.2.1 : 10.0.2.1,
+			     10.0.2.2 : 10.0.2.2,
+			     10.0.2.3 : 10.0.2.3,
+			     10.0.2.4 : 10.0.2.4,
+			     10.0.2.5 : 10.0.2.5,
+			     10.0.2.6 : 10.0.2.6,
+			     10.0.2.7 : 10.0.2.7,
+			     10.0.2.8 : 10.0.2.8,
+			     10.0.2.9 : 10.0.2.9,
+			     10.0.2.10 : 10.0.2.10,
+			     10.0.2.11 : 10.0.2.11,
+			     10.0.2.12 : 10.0.2.12,
+			     10.0.2.13 : 10.0.2.13,
+			     10.0.2.14 : 10.0.2.14,
+			     10.0.2.15 : 10.0.2.15,
+			     10.0.2.16 : 10.0.2.16,
+			     10.0.2.17 : 10.0.2.17,
+			     10.0.2.18 : 10.0.2.18,
+			     10.0.2.19 : 10.0.2.19,
+			     10.0.2.20 : 10.0.2.20,
+			     10.0.2.21 : 10.0.2.21,
+			     10.0.2.22 : 10.0.2.22,
+			     10.0.2.23 : 10.0.2.23,
+			     10.0.2.24 : 10.0.2.24,
+			     10.0.2.25 : 10.0.2.25,
+			     10.0.2.26 : 10.0.2.26,
+			     10.0.2.27 : 10.0.2.27,
+			     10.0.2.28 : 10.0.2.28,
+			     10.0.2.29 : 10.0.2.29,
+			     10.0.2.30 : 10.0.2.30,
+			     10.0.2.31 : 10.0.2.31,
+			     10.0.3.1 : 10.0.3.1,
+			     10.0.3.2 : 10.0.3.2,
+			     10.0.3.3 : 10.0.3.3,
+			     10.0.3.4 : 10.0.3.4,
+			     10.0.3.5 : 10.0.3.5,
+			     10.0.3.6 : 10.0.3.6,
+			     10.0.3.7 : 10.0.3.7,
+			     10.0.3.8 : 10.0.3.8,
+			     10.0.3.9 : 10.0.3.9,
+			     10.0.3.10 : 10.0.3.10,
+			     10.0.3.11 : 10.0.3.11,
+			     10.0.3.12 : 10.0.3.12,
+			     10.0.3.13 : 10.0.3.13,
+			     10.0.3.14 : 10.0.3.14,
+			     10.0.3.15 : 10.0.3.15,
+			     10.0.3.16 : 10.0.3.16,
+			     10.0.3.17 : 10.0.3.17,
+			     10.0.3.18 : 10.0.3.18,
+			     10.0.3.19 : 10.0.3.19,
+			     10.0.3.20 : 10.0.3.20,
+			     10.0.3.21 : 10.0.3.21,
+			     10.0.3.22 : 10.0.3.22,
+			     10.0.3.23 : 10.0.3.23,
+			     10.0.3.24 : 10.0.3.24,
+			     10.0.3.25 : 10.0.3.25,
+			     10.0.3.26 : 10.0.3.26,
+			     10.0.3.27 : 10.0.3.27,
+			     10.0.3.28 : 10.0.3.28,
+			     10.0.3.29 : 10.0.3.29,
+			     10.0.3.30 : 10.0.3.30,
+			     10.0.3.31 : 10.0.3.31,
+			     10.0.4.1 : 10.0.4.1,
+			     10.0.4.2 : 10.0.4.2,
+			     10.0.4.3 : 10.0.4.3,
+			     10.0.4.4 : 10.0.4.4,
+			     10.0.4.5 : 10.0.4.5,
+			     10.0.4.6 : 10.0.4.6,
+			     10.0.4.7 : 10.0.4.7,
+			     10.0.4.8 : 10.0.4.8,
+			     10.0.4.9 : 10.0.4.9,
+			     10.0.4.10 : 10.0.4.10,
+			     10.0.4.11 : 10.0.4.11,
+			     10.0.4.12 : 10.0.4.12,
+			     10.0.4.13 : 10.0.4.13,
+			     10.0.4.14 : 10.0.4.14,
+			     10.0.4.15 : 10.0.4.15,
+			     10.0.4.16 : 10.0.4.16,
+			     10.0.4.17 : 10.0.4.17,
+			     10.0.4.18 : 10.0.4.18,
+			     10.0.4.19 : 10.0.4.19,
+			     10.0.4.20 : 10.0.4.20,
+			     10.0.4.21 : 10.0.4.21,
+			     10.0.4.22 : 10.0.4.22,
+			     10.0.4.23 : 10.0.4.23,
+			     10.0.4.24 : 10.0.4.24,
+			     10.0.4.25 : 10.0.4.25,
+			     10.0.4.26 : 10.0.4.26,
+			     10.0.4.27 : 10.0.4.27,
+			     10.0.4.28 : 10.0.4.28,
+			     10.0.4.29 : 10.0.4.29,
+			     10.0.4.30 : 10.0.4.30,
+			     10.0.4.31 : 10.0.4.31,
+			     10.0.5.1 : 10.0.5.1,
+			     10.0.5.2 : 10.0.5.2,
+			     10.0.5.3 : 10.0.5.3,
+			     10.0.5.4 : 10.0.5.4,
+			     10.0.5.5 : 10.0.5.5,
+			     10.0.5.6 : 10.0.5.6,
+			     10.0.5.7 : 10.0.5.7,
+			     10.0.5.8 : 10.0.5.8,
+			     10.0.5.9 : 10.0.5.9,
+			     10.0.5.10 : 10.0.5.10,
+			     10.0.5.11 : 10.0.5.11,
+			     10.0.5.12 : 10.0.5.12,
+			     10.0.5.13 : 10.0.5.13,
+			     10.0.5.14 : 10.0.5.14,
+			     10.0.5.15 : 10.0.5.15,
+			     10.0.5.16 : 10.0.5.16,
+			     10.0.5.17 : 10.0.5.17,
+			     10.0.5.18 : 10.0.5.18,
+			     10.0.5.19 : 10.0.5.19,
+			     10.0.5.20 : 10.0.5.20,
+			     10.0.5.21 : 10.0.5.21,
+			     10.0.5.22 : 10.0.5.22,
+			     10.0.5.23 : 10.0.5.23,
+			     10.0.5.24 : 10.0.5.24,
+			     10.0.5.25 : 10.0.5.25,
+			     10.0.5.26 : 10.0.5.26,
+			     10.0.5.27 : 10.0.5.27,
+			     10.0.5.28 : 10.0.5.28,
+			     10.0.5.29 : 10.0.5.29,
+			     10.0.5.30 : 10.0.5.30,
+			     10.0.5.31 : 10.0.5.31,
+			     10.0.6.1 : 10.0.6.1,
+			     10.0.6.2 : 10.0.6.2,
+			     10.0.6.3 : 10.0.6.3,
+			     10.0.6.4 : 10.0.6.4,
+			     10.0.6.5 : 10.0.6.5,
+			     10.0.6.6 : 10.0.6.6,
+			     10.0.6.7 : 10.0.6.7,
+			     10.0.6.8 : 10.0.6.8,
+			     10.0.6.9 : 10.0.6.9,
+			     10.0.6.10 : 10.0.6.10,
+			     10.0.6.11 : 10.0.6.11,
+			     10.0.6.12 : 10.0.6.12,
+			     10.0.6.13 : 10.0.6.13,
+			     10.0.6.14 : 10.0.6.14,
+			     10.0.6.15 : 10.0.6.15,
+			     10.0.6.16 : 10.0.6.16,
+			     10.0.6.17 : 10.0.6.17,
+			     10.0.6.18 : 10.0.6.18,
+			     10.0.6.19 : 10.0.6.19,
+			     10.0.6.20 : 10.0.6.20,
+			     10.0.6.21 : 10.0.6.21,
+			     10.0.6.22 : 10.0.6.22,
+			     10.0.6.23 : 10.0.6.23,
+			     10.0.6.24 : 10.0.6.24,
+			     10.0.6.25 : 10.0.6.25,
+			     10.0.6.26 : 10.0.6.26,
+			     10.0.6.27 : 10.0.6.27,
+			     10.0.6.28 : 10.0.6.28,
+			     10.0.6.29 : 10.0.6.29,
+			     10.0.6.30 : 10.0.6.30,
+			     10.0.6.31 : 10.0.6.31,
+			     10.0.7.1 : 10.0.7.1,
+			     10.0.7.2 : 10.0.7.2,
+			     10.0.7.3 : 10.0.7.3,
+			     10.0.7.4 : 10.0.7.4,
+			     10.0.7.5 : 10.0.7.5,
+			     10.0.7.6 : 10.0.7.6,
+			     10.0.7.7 : 10.0.7.7,
+			     10.0.7.8 : 10.0.7.8,
+			     10.0.7.9 : 10.0.7.9,
+			     10.0.7.10 : 10.0.7.10,
+			     10.0.7.11 : 10.0.7.11,
+			     10.0.7.12 : 10.0.7.12,
+			     10.0.7.13 : 10.0.7.13,
+			     10.0.7.14 : 10.0.7.14,
+			     10.0.7.15 : 10.0.7.15,
+			     10.0.7.16 : 10.0.7.16,
+			     10.0.7.17 : 10.0.7.17,
+			     10.0.7.18 : 10.0.7.18,
+			     10.0.7.19 : 10.0.7.19,
+			     10.0.7.20 : 10.0.7.20,
+			     10.0.7.21 : 10.0.7.21,
+			     10.0.7.22 : 10.0.7.22,
+			     10.0.7.23 : 10.0.7.23,
+			     10.0.7.24 : 10.0.7.24,
+			     10.0.7.25 : 10.0.7.25,
+			     10.0.7.26 : 10.0.7.26,
+			     10.0.7.27 : 10.0.7.27,
+			     10.0.7.28 : 10.0.7.28,
+			     10.0.7.29 : 10.0.7.29,
+			     10.0.7.30 : 10.0.7.30,
+			     10.0.7.31 : 10.0.7.31,
+			     10.0.8.1 : 10.0.8.1,
+			     10.0.8.2 : 10.0.8.2,
+			     10.0.8.3 : 10.0.8.3,
+			     10.0.8.4 : 10.0.8.4,
+			     10.0.8.5 : 10.0.8.5,
+			     10.0.8.6 : 10.0.8.6,
+			     10.0.8.7 : 10.0.8.7,
+			     10.0.8.8 : 10.0.8.8,
+			     10.0.8.9 : 10.0.8.9,
+			     10.0.8.10 : 10.0.8.10,
+			     10.0.8.11 : 10.0.8.11,
+			     10.0.8.12 : 10.0.8.12,
+			     10.0.8.13 : 10.0.8.13,
+			     10.0.8.14 : 10.0.8.14,
+			     10.0.8.15 : 10.0.8.15,
+			     10.0.8.16 : 10.0.8.16,
+			     10.0.8.17 : 10.0.8.17,
+			     10.0.8.18 : 10.0.8.18,
+			     10.0.8.19 : 10.0.8.19,
+			     10.0.8.20 : 10.0.8.20,
+			     10.0.8.21 : 10.0.8.21,
+			     10.0.8.22 : 10.0.8.22,
+			     10.0.8.23 : 10.0.8.23,
+			     10.0.8.24 : 10.0.8.24,
+			     10.0.8.25 : 10.0.8.25,
+			     10.0.8.26 : 10.0.8.26,
+			     10.0.8.27 : 10.0.8.27,
+			     10.0.8.28 : 10.0.8.28,
+			     10.0.8.29 : 10.0.8.29,
+			     10.0.8.30 : 10.0.8.30,
+			     10.0.8.31 : 10.0.8.31,
+			     10.0.9.1 : 10.0.9.1,
+			     10.0.9.2 : 10.0.9.2,
+			     10.0.9.3 : 10.0.9.3,
+			     10.0.9.4 : 10.0.9.4,
+			     10.0.9.5 : 10.0.9.5,
+			     10.0.9.6 : 10.0.9.6,
+			     10.0.9.7 : 10.0.9.7,
+			     10.0.9.8 : 10.0.9.8,
+			     10.0.9.9 : 10.0.9.9,
+			     10.0.9.10 : 10.0.9.10,
+			     10.0.9.11 : 10.0.9.11,
+			     10.0.9.12 : 10.0.9.12,
+			     10.0.9.13 : 10.0.9.13,
+			     10.0.9.14 : 10.0.9.14,
+			     10.0.9.15 : 10.0.9.15,
+			     10.0.9.16 : 10.0.9.16,
+			     10.0.9.17 : 10.0.9.17,
+			     10.0.9.18 : 10.0.9.18,
+			     10.0.9.19 : 10.0.9.19,
+			     10.0.9.20 : 10.0.9.20,
+			     10.0.9.21 : 10.0.9.21,
+			     10.0.9.22 : 10.0.9.22,
+			     10.0.9.23 : 10.0.9.23,
+			     10.0.9.24 : 10.0.9.24,
+			     10.0.9.25 : 10.0.9.25,
+			     10.0.9.26 : 10.0.9.26,
+			     10.0.9.27 : 10.0.9.27,
+			     10.0.9.28 : 10.0.9.28,
+			     10.0.9.29 : 10.0.9.29,
+			     10.0.9.30 : 10.0.9.30,
+			     10.0.9.31 : 10.0.9.31,
+			     10.0.10.1 : 10.0.10.1,
+			     10.0.10.2 : 10.0.10.2,
+			     10.0.10.3 : 10.0.10.3,
+			     10.0.10.4 : 10.0.10.4,
+			     10.0.10.5 : 10.0.10.5,
+			     10.0.10.6 : 10.0.10.6,
+			     10.0.10.7 : 10.0.10.7,
+			     10.0.10.8 : 10.0.10.8,
+			     10.0.10.9 : 10.0.10.9,
+			     10.0.10.10 : 10.0.10.10,
+			     10.0.10.11 : 10.0.10.11,
+			     10.0.10.12 : 10.0.10.12,
+			     10.0.10.13 : 10.0.10.13,
+			     10.0.10.14 : 10.0.10.14,
+			     10.0.10.15 : 10.0.10.15,
+			     10.0.10.16 : 10.0.10.16,
+			     10.0.10.17 : 10.0.10.17,
+			     10.0.10.18 : 10.0.10.18,
+			     10.0.10.19 : 10.0.10.19,
+			     10.0.10.20 : 10.0.10.20,
+			     10.0.10.21 : 10.0.10.21,
+			     10.0.10.22 : 10.0.10.22,
+			     10.0.10.23 : 10.0.10.23,
+			     10.0.10.24 : 10.0.10.24,
+			     10.0.10.25 : 10.0.10.25,
+			     10.0.10.26 : 10.0.10.26,
+			     10.0.10.27 : 10.0.10.27,
+			     10.0.10.28 : 10.0.10.28,
+			     10.0.10.29 : 10.0.10.29,
+			     10.0.10.30 : 10.0.10.30,
+			     10.0.10.31 : 10.0.10.31,
+			     10.0.11.1 : 10.0.11.1,
+			     10.0.11.2 : 10.0.11.2,
+			     10.0.11.3 : 10.0.11.3,
+			     10.0.11.4 : 10.0.11.4,
+			     10.0.11.5 : 10.0.11.5,
+			     10.0.11.6 : 10.0.11.6,
+			     10.0.11.7 : 10.0.11.7,
+			     10.0.11.8 : 10.0.11.8,
+			     10.0.11.9 : 10.0.11.9,
+			     10.0.11.10 : 10.0.11.10,
+			     10.0.11.11 : 10.0.11.11,
+			     10.0.11.12 : 10.0.11.12,
+			     10.0.11.13 : 10.0.11.13,
+			     10.0.11.14 : 10.0.11.14,
+			     10.0.11.15 : 10.0.11.15,
+			     10.0.11.16 : 10.0.11.16,
+			     10.0.11.17 : 10.0.11.17,
+			     10.0.11.18 : 10.0.11.18,
+			     10.0.11.19 : 10.0.11.19,
+			     10.0.11.20 : 10.0.11.20,
+			     10.0.11.21 : 10.0.11.21,
+			     10.0.11.22 : 10.0.11.22,
+			     10.0.11.23 : 10.0.11.23,
+			     10.0.11.24 : 10.0.11.24,
+			     10.0.11.25 : 10.0.11.25,
+			     10.0.11.26 : 10.0.11.26,
+			     10.0.11.27 : 10.0.11.27,
+			     10.0.11.28 : 10.0.11.28,
+			     10.0.11.29 : 10.0.11.29,
+			     10.0.11.30 : 10.0.11.30,
+			     10.0.11.31 : 10.0.11.31,
+			     10.0.12.1 : 10.0.12.1,
+			     10.0.12.2 : 10.0.12.2,
+			     10.0.12.3 : 10.0.12.3,
+			     10.0.12.4 : 10.0.12.4,
+			     10.0.12.5 : 10.0.12.5,
+			     10.0.12.6 : 10.0.12.6,
+			     10.0.12.7 : 10.0.12.7,
+			     10.0.12.8 : 10.0.12.8,
+			     10.0.12.9 : 10.0.12.9,
+			     10.0.12.10 : 10.0.12.10,
+			     10.0.12.11 : 10.0.12.11,
+			     10.0.12.12 : 10.0.12.12,
+			     10.0.12.13 : 10.0.12.13,
+			     10.0.12.14 : 10.0.12.14,
+			     10.0.12.15 : 10.0.12.15,
+			     10.0.12.16 : 10.0.12.16,
+			     10.0.12.17 : 10.0.12.17,
+			     10.0.12.18 : 10.0.12.18,
+			     10.0.12.19 : 10.0.12.19,
+			     10.0.12.20 : 10.0.12.20,
+			     10.0.12.21 : 10.0.12.21,
+			     10.0.12.22 : 10.0.12.22,
+			     10.0.12.23 : 10.0.12.23,
+			     10.0.12.24 : 10.0.12.24,
+			     10.0.12.25 : 10.0.12.25,
+			     10.0.12.26 : 10.0.12.26,
+			     10.0.12.27 : 10.0.12.27,
+			     10.0.12.28 : 10.0.12.28,
+			     10.0.12.29 : 10.0.12.29,
+			     10.0.12.30 : 10.0.12.30,
+			     10.0.12.31 : 10.0.12.31,
+			     10.0.13.1 : 10.0.13.1,
+			     10.0.13.2 : 10.0.13.2,
+			     10.0.13.3 : 10.0.13.3,
+			     10.0.13.4 : 10.0.13.4,
+			     10.0.13.5 : 10.0.13.5,
+			     10.0.13.6 : 10.0.13.6,
+			     10.0.13.7 : 10.0.13.7,
+			     10.0.13.8 : 10.0.13.8,
+			     10.0.13.9 : 10.0.13.9,
+			     10.0.13.10 : 10.0.13.10,
+			     10.0.13.11 : 10.0.13.11,
+			     10.0.13.12 : 10.0.13.12,
+			     10.0.13.13 : 10.0.13.13,
+			     10.0.13.14 : 10.0.13.14,
+			     10.0.13.15 : 10.0.13.15,
+			     10.0.13.16 : 10.0.13.16,
+			     10.0.13.17 : 10.0.13.17,
+			     10.0.13.18 : 10.0.13.18,
+			     10.0.13.19 : 10.0.13.19,
+			     10.0.13.20 : 10.0.13.20,
+			     10.0.13.21 : 10.0.13.21,
+			     10.0.13.22 : 10.0.13.22,
+			     10.0.13.23 : 10.0.13.23,
+			     10.0.13.24 : 10.0.13.24,
+			     10.0.13.25 : 10.0.13.25,
+			     10.0.13.26 : 10.0.13.26,
+			     10.0.13.27 : 10.0.13.27,
+			     10.0.13.28 : 10.0.13.28,
+			     10.0.13.29 : 10.0.13.29,
+			     10.0.13.30 : 10.0.13.30,
+			     10.0.13.31 : 10.0.13.31,
+			     10.0.14.1 : 10.0.14.1,
+			     10.0.14.2 : 10.0.14.2,
+			     10.0.14.3 : 10.0.14.3,
+			     10.0.14.4 : 10.0.14.4,
+			     10.0.14.5 : 10.0.14.5,
+			     10.0.14.6 : 10.0.14.6,
+			     10.0.14.7 : 10.0.14.7,
+			     10.0.14.8 : 10.0.14.8,
+			     10.0.14.9 : 10.0.14.9,
+			     10.0.14.10 : 10.0.14.10,
+			     10.0.14.11 : 10.0.14.11,
+			     10.0.14.12 : 10.0.14.12,
+			     10.0.14.13 : 10.0.14.13,
+			     10.0.14.14 : 10.0.14.14,
+			     10.0.14.15 : 10.0.14.15,
+			     10.0.14.16 : 10.0.14.16,
+			     10.0.14.17 : 10.0.14.17,
+			     10.0.14.18 : 10.0.14.18,
+			     10.0.14.19 : 10.0.14.19,
+			     10.0.14.20 : 10.0.14.20,
+			     10.0.14.21 : 10.0.14.21,
+			     10.0.14.22 : 10.0.14.22,
+			     10.0.14.23 : 10.0.14.23,
+			     10.0.14.24 : 10.0.14.24,
+			     10.0.14.25 : 10.0.14.25,
+			     10.0.14.26 : 10.0.14.26,
+			     10.0.14.27 : 10.0.14.27,
+			     10.0.14.28 : 10.0.14.28,
+			     10.0.14.29 : 10.0.14.29,
+			     10.0.14.30 : 10.0.14.30,
+			     10.0.14.31 : 10.0.14.31,
+			     10.0.15.1 : 10.0.15.1,
+			     10.0.15.2 : 10.0.15.2,
+			     10.0.15.3 : 10.0.15.3,
+			     10.0.15.4 : 10.0.15.4,
+			     10.0.15.5 : 10.0.15.5,
+			     10.0.15.6 : 10.0.15.6,
+			     10.0.15.7 : 10.0.15.7,
+			     10.0.15.8 : 10.0.15.8,
+			     10.0.15.9 : 10.0.15.9,
+			     10.0.15.10 : 10.0.15.10,
+			     10.0.15.11 : 10.0.15.11,
+			     10.0.15.12 : 10.0.15.12,
+			     10.0.15.13 : 10.0.15.13,
+			     10.0.15.14 : 10.0.15.14,
+			     10.0.15.15 : 10.0.15.15,
+			     10.0.15.16 : 10.0.15.16,
+			     10.0.15.17 : 10.0.15.17,
+			     10.0.15.18 : 10.0.15.18,
+			     10.0.15.19 : 10.0.15.19,
+			     10.0.15.20 : 10.0.15.20,
+			     10.0.15.21 : 10.0.15.21,
+			     10.0.15.22 : 10.0.15.22,
+			     10.0.15.23 : 10.0.15.23,
+			     10.0.15.24 : 10.0.15.24,
+			     10.0.15.25 : 10.0.15.25,
+			     10.0.15.26 : 10.0.15.26,
+			     10.0.15.27 : 10.0.15.27,
+			     10.0.15.28 : 10.0.15.28,
+			     10.0.15.29 : 10.0.15.29,
+			     10.0.15.30 : 10.0.15.30,
+			     10.0.15.31 : 10.0.15.31,
+			     10.0.16.1 : 10.0.16.1,
+			     10.0.16.2 : 10.0.16.2,
+			     10.0.16.3 : 10.0.16.3,
+			     10.0.16.4 : 10.0.16.4,
+			     10.0.16.5 : 10.0.16.5,
+			     10.0.16.6 : 10.0.16.6,
+			     10.0.16.7 : 10.0.16.7,
+			     10.0.16.8 : 10.0.16.8,
+			     10.0.16.9 : 10.0.16.9,
+			     10.0.16.10 : 10.0.16.10,
+			     10.0.16.11 : 10.0.16.11,
+			     10.0.16.12 : 10.0.16.12,
+			     10.0.16.13 : 10.0.16.13,
+			     10.0.16.14 : 10.0.16.14,
+			     10.0.16.15 : 10.0.16.15,
+			     10.0.16.16 : 10.0.16.16,
+			     10.0.16.17 : 10.0.16.17,
+			     10.0.16.18 : 10.0.16.18,
+			     10.0.16.19 : 10.0.16.19,
+			     10.0.16.20 : 10.0.16.20,
+			     10.0.16.21 : 10.0.16.21,
+			     10.0.16.22 : 10.0.16.22,
+			     10.0.16.23 : 10.0.16.23,
+			     10.0.16.24 : 10.0.16.24,
+			     10.0.16.25 : 10.0.16.25,
+			     10.0.16.26 : 10.0.16.26,
+			     10.0.16.27 : 10.0.16.27,
+			     10.0.16.28 : 10.0.16.28,
+			     10.0.16.29 : 10.0.16.29,
+			     10.0.16.30 : 10.0.16.30,
+			     10.0.16.31 : 10.0.16.31,
+			     10.0.17.1 : 10.0.17.1,
+			     10.0.17.2 : 10.0.17.2,
+			     10.0.17.3 : 10.0.17.3,
+			     10.0.17.4 : 10.0.17.4,
+			     10.0.17.5 : 10.0.17.5,
+			     10.0.17.6 : 10.0.17.6,
+			     10.0.17.7 : 10.0.17.7,
+			     10.0.17.8 : 10.0.17.8,
+			     10.0.17.9 : 10.0.17.9,
+			     10.0.17.10 : 10.0.17.10,
+			     10.0.17.11 : 10.0.17.11,
+			     10.0.17.12 : 10.0.17.12,
+			     10.0.17.13 : 10.0.17.13,
+			     10.0.17.14 : 10.0.17.14,
+			     10.0.17.15 : 10.0.17.15,
+			     10.0.17.16 : 10.0.17.16,
+			     10.0.17.17 : 10.0.17.17,
+			     10.0.17.18 : 10.0.17.18,
+			     10.0.17.19 : 10.0.17.19,
+			     10.0.17.20 : 10.0.17.20,
+			     10.0.17.21 : 10.0.17.21,
+			     10.0.17.22 : 10.0.17.22,
+			     10.0.17.23 : 10.0.17.23,
+			     10.0.17.24 : 10.0.17.24,
+			     10.0.17.25 : 10.0.17.25,
+			     10.0.17.26 : 10.0.17.26,
+			     10.0.17.27 : 10.0.17.27,
+			     10.0.17.28 : 10.0.17.28,
+			     10.0.17.29 : 10.0.17.29,
+			     10.0.17.30 : 10.0.17.30,
+			     10.0.17.31 : 10.0.17.31,
+			     10.0.18.1 : 10.0.18.1,
+			     10.0.18.2 : 10.0.18.2,
+			     10.0.18.3 : 10.0.18.3,
+			     10.0.18.4 : 10.0.18.4,
+			     10.0.18.5 : 10.0.18.5,
+			     10.0.18.6 : 10.0.18.6,
+			     10.0.18.7 : 10.0.18.7,
+			     10.0.18.8 : 10.0.18.8,
+			     10.0.18.9 : 10.0.18.9,
+			     10.0.18.10 : 10.0.18.10,
+			     10.0.18.11 : 10.0.18.11,
+			     10.0.18.12 : 10.0.18.12,
+			     10.0.18.13 : 10.0.18.13,
+			     10.0.18.14 : 10.0.18.14,
+			     10.0.18.15 : 10.0.18.15,
+			     10.0.18.16 : 10.0.18.16,
+			     10.0.18.17 : 10.0.18.17,
+			     10.0.18.18 : 10.0.18.18,
+			     10.0.18.19 : 10.0.18.19,
+			     10.0.18.20 : 10.0.18.20,
+			     10.0.18.21 : 10.0.18.21,
+			     10.0.18.22 : 10.0.18.22,
+			     10.0.18.23 : 10.0.18.23,
+			     10.0.18.24 : 10.0.18.24,
+			     10.0.18.25 : 10.0.18.25,
+			     10.0.18.26 : 10.0.18.26,
+			     10.0.18.27 : 10.0.18.27,
+			     10.0.18.28 : 10.0.18.28,
+			     10.0.18.29 : 10.0.18.29,
+			     10.0.18.30 : 10.0.18.30,
+			     10.0.18.31 : 10.0.18.31,
+			     10.0.19.1 : 10.0.19.1,
+			     10.0.19.2 : 10.0.19.2,
+			     10.0.19.3 : 10.0.19.3,
+			     10.0.19.4 : 10.0.19.4,
+			     10.0.19.5 : 10.0.19.5,
+			     10.0.19.6 : 10.0.19.6,
+			     10.0.19.7 : 10.0.19.7,
+			     10.0.19.8 : 10.0.19.8,
+			     10.0.19.9 : 10.0.19.9,
+			     10.0.19.10 : 10.0.19.10,
+			     10.0.19.11 : 10.0.19.11,
+			     10.0.19.12 : 10.0.19.12,
+			     10.0.19.13 : 10.0.19.13,
+			     10.0.19.14 : 10.0.19.14,
+			     10.0.19.15 : 10.0.19.15,
+			     10.0.19.16 : 10.0.19.16,
+			     10.0.19.17 : 10.0.19.17,
+			     10.0.19.18 : 10.0.19.18,
+			     10.0.19.19 : 10.0.19.19,
+			     10.0.19.20 : 10.0.19.20,
+			     10.0.19.21 : 10.0.19.21,
+			     10.0.19.22 : 10.0.19.22,
+			     10.0.19.23 : 10.0.19.23,
+			     10.0.19.24 : 10.0.19.24,
+			     10.0.19.25 : 10.0.19.25,
+			     10.0.19.26 : 10.0.19.26,
+			     10.0.19.27 : 10.0.19.27,
+			     10.0.19.28 : 10.0.19.28,
+			     10.0.19.29 : 10.0.19.29,
+			     10.0.19.30 : 10.0.19.30,
+			     10.0.19.31 : 10.0.19.31,
+			     10.0.20.1 : 10.0.20.1,
+			     10.0.20.2 : 10.0.20.2,
+			     10.0.20.3 : 10.0.20.3,
+			     10.0.20.4 : 10.0.20.4,
+			     10.0.20.5 : 10.0.20.5,
+			     10.0.20.6 : 10.0.20.6,
+			     10.0.20.7 : 10.0.20.7,
+			     10.0.20.8 : 10.0.20.8,
+			     10.0.20.9 : 10.0.20.9,
+			     10.0.20.10 : 10.0.20.10,
+			     10.0.20.11 : 10.0.20.11,
+			     10.0.20.12 : 10.0.20.12,
+			     10.0.20.13 : 10.0.20.13,
+			     10.0.20.14 : 10.0.20.14,
+			     10.0.20.15 : 10.0.20.15,
+			     10.0.20.16 : 10.0.20.16,
+			     10.0.20.17 : 10.0.20.17,
+			     10.0.20.18 : 10.0.20.18,
+			     10.0.20.19 : 10.0.20.19,
+			     10.0.20.20 : 10.0.20.20,
+			     10.0.20.21 : 10.0.20.21,
+			     10.0.20.22 : 10.0.20.22,
+			     10.0.20.23 : 10.0.20.23,
+			     10.0.20.24 : 10.0.20.24,
+			     10.0.20.25 : 10.0.20.25,
+			     10.0.20.26 : 10.0.20.26,
+			     10.0.20.27 : 10.0.20.27,
+			     10.0.20.28 : 10.0.20.28,
+			     10.0.20.29 : 10.0.20.29,
+			     10.0.20.30 : 10.0.20.30,
+			     10.0.20.31 : 10.0.20.31,
+			     10.0.21.1 : 10.0.21.1,
+			     10.0.21.2 : 10.0.21.2,
+			     10.0.21.3 : 10.0.21.3,
+			     10.0.21.4 : 10.0.21.4,
+			     10.0.21.5 : 10.0.21.5,
+			     10.0.21.6 : 10.0.21.6,
+			     10.0.21.7 : 10.0.21.7,
+			     10.0.21.8 : 10.0.21.8,
+			     10.0.21.9 : 10.0.21.9,
+			     10.0.21.10 : 10.0.21.10,
+			     10.0.21.11 : 10.0.21.11,
+			     10.0.21.12 : 10.0.21.12,
+			     10.0.21.13 : 10.0.21.13,
+			     10.0.21.14 : 10.0.21.14,
+			     10.0.21.15 : 10.0.21.15,
+			     10.0.21.16 : 10.0.21.16,
+			     10.0.21.17 : 10.0.21.17,
+			     10.0.21.18 : 10.0.21.18,
+			     10.0.21.19 : 10.0.21.19,
+			     10.0.21.20 : 10.0.21.20,
+			     10.0.21.21 : 10.0.21.21,
+			     10.0.21.22 : 10.0.21.22,
+			     10.0.21.23 : 10.0.21.23,
+			     10.0.21.24 : 10.0.21.24,
+			     10.0.21.25 : 10.0.21.25,
+			     10.0.21.26 : 10.0.21.26,
+			     10.0.21.27 : 10.0.21.27,
+			     10.0.21.28 : 10.0.21.28,
+			     10.0.21.29 : 10.0.21.29,
+			     10.0.21.30 : 10.0.21.30,
+			     10.0.21.31 : 10.0.21.31,
+			     10.0.22.1 : 10.0.22.1,
+			     10.0.22.2 : 10.0.22.2,
+			     10.0.22.3 : 10.0.22.3,
+			     10.0.22.4 : 10.0.22.4,
+			     10.0.22.5 : 10.0.22.5,
+			     10.0.22.6 : 10.0.22.6,
+			     10.0.22.7 : 10.0.22.7,
+			     10.0.22.8 : 10.0.22.8,
+			     10.0.22.9 : 10.0.22.9,
+			     10.0.22.10 : 10.0.22.10,
+			     10.0.22.11 : 10.0.22.11,
+			     10.0.22.12 : 10.0.22.12,
+			     10.0.22.13 : 10.0.22.13,
+			     10.0.22.14 : 10.0.22.14,
+			     10.0.22.15 : 10.0.22.15,
+			     10.0.22.16 : 10.0.22.16,
+			     10.0.22.17 : 10.0.22.17,
+			     10.0.22.18 : 10.0.22.18,
+			     10.0.22.19 : 10.0.22.19,
+			     10.0.22.20 : 10.0.22.20,
+			     10.0.22.21 : 10.0.22.21,
+			     10.0.22.22 : 10.0.22.22,
+			     10.0.22.23 : 10.0.22.23,
+			     10.0.22.24 : 10.0.22.24,
+			     10.0.22.25 : 10.0.22.25,
+			     10.0.22.26 : 10.0.22.26,
+			     10.0.22.27 : 10.0.22.27,
+			     10.0.22.28 : 10.0.22.28,
+			     10.0.22.29 : 10.0.22.29,
+			     10.0.22.30 : 10.0.22.30,
+			     10.0.22.31 : 10.0.22.31,
+			     10.0.23.1 : 10.0.23.1,
+			     10.0.23.2 : 10.0.23.2,
+			     10.0.23.3 : 10.0.23.3,
+			     10.0.23.4 : 10.0.23.4,
+			     10.0.23.5 : 10.0.23.5,
+			     10.0.23.6 : 10.0.23.6,
+			     10.0.23.7 : 10.0.23.7,
+			     10.0.23.8 : 10.0.23.8,
+			     10.0.23.9 : 10.0.23.9,
+			     10.0.23.10 : 10.0.23.10,
+			     10.0.23.11 : 10.0.23.11,
+			     10.0.23.12 : 10.0.23.12,
+			     10.0.23.13 : 10.0.23.13,
+			     10.0.23.14 : 10.0.23.14,
+			     10.0.23.15 : 10.0.23.15,
+			     10.0.23.16 : 10.0.23.16,
+			     10.0.23.17 : 10.0.23.17,
+			     10.0.23.18 : 10.0.23.18,
+			     10.0.23.19 : 10.0.23.19,
+			     10.0.23.20 : 10.0.23.20,
+			     10.0.23.21 : 10.0.23.21,
+			     10.0.23.22 : 10.0.23.22,
+			     10.0.23.23 : 10.0.23.23,
+			     10.0.23.24 : 10.0.23.24,
+			     10.0.23.25 : 10.0.23.25,
+			     10.0.23.26 : 10.0.23.26,
+			     10.0.23.27 : 10.0.23.27,
+			     10.0.23.28 : 10.0.23.28,
+			     10.0.23.29 : 10.0.23.29,
+			     10.0.23.30 : 10.0.23.30,
+			     10.0.23.31 : 10.0.23.31,
+			     10.0.24.1 : 10.0.24.1,
+			     10.0.24.2 : 10.0.24.2,
+			     10.0.24.3 : 10.0.24.3,
+			     10.0.24.4 : 10.0.24.4,
+			     10.0.24.5 : 10.0.24.5,
+			     10.0.24.6 : 10.0.24.6,
+			     10.0.24.7 : 10.0.24.7,
+			     10.0.24.8 : 10.0.24.8,
+			     10.0.24.9 : 10.0.24.9,
+			     10.0.24.10 : 10.0.24.10,
+			     10.0.24.11 : 10.0.24.11,
+			     10.0.24.12 : 10.0.24.12,
+			     10.0.24.13 : 10.0.24.13,
+			     10.0.24.14 : 10.0.24.14,
+			     10.0.24.15 : 10.0.24.15,
+			     10.0.24.16 : 10.0.24.16,
+			     10.0.24.17 : 10.0.24.17,
+			     10.0.24.18 : 10.0.24.18,
+			     10.0.24.19 : 10.0.24.19,
+			     10.0.24.20 : 10.0.24.20,
+			     10.0.24.21 : 10.0.24.21,
+			     10.0.24.22 : 10.0.24.22,
+			     10.0.24.23 : 10.0.24.23,
+			     10.0.24.24 : 10.0.24.24,
+			     10.0.24.25 : 10.0.24.25,
+			     10.0.24.26 : 10.0.24.26,
+			     10.0.24.27 : 10.0.24.27,
+			     10.0.24.28 : 10.0.24.28,
+			     10.0.24.29 : 10.0.24.29,
+			     10.0.24.30 : 10.0.24.30,
+			     10.0.24.31 : 10.0.24.31,
+			     10.0.25.1 : 10.0.25.1,
+			     10.0.25.2 : 10.0.25.2,
+			     10.0.25.3 : 10.0.25.3,
+			     10.0.25.4 : 10.0.25.4,
+			     10.0.25.5 : 10.0.25.5,
+			     10.0.25.6 : 10.0.25.6,
+			     10.0.25.7 : 10.0.25.7,
+			     10.0.25.8 : 10.0.25.8,
+			     10.0.25.9 : 10.0.25.9,
+			     10.0.25.10 : 10.0.25.10,
+			     10.0.25.11 : 10.0.25.11,
+			     10.0.25.12 : 10.0.25.12,
+			     10.0.25.13 : 10.0.25.13,
+			     10.0.25.14 : 10.0.25.14,
+			     10.0.25.15 : 10.0.25.15,
+			     10.0.25.16 : 10.0.25.16,
+			     10.0.25.17 : 10.0.25.17,
+			     10.0.25.18 : 10.0.25.18,
+			     10.0.25.19 : 10.0.25.19,
+			     10.0.25.20 : 10.0.25.20,
+			     10.0.25.21 : 10.0.25.21,
+			     10.0.25.22 : 10.0.25.22,
+			     10.0.25.23 : 10.0.25.23,
+			     10.0.25.24 : 10.0.25.24,
+			     10.0.25.25 : 10.0.25.25,
+			     10.0.25.26 : 10.0.25.26,
+			     10.0.25.27 : 10.0.25.27,
+			     10.0.25.28 : 10.0.25.28,
+			     10.0.25.29 : 10.0.25.29,
+			     10.0.25.30 : 10.0.25.30,
+			     10.0.25.31 : 10.0.25.31,
+			     10.0.26.1 : 10.0.26.1,
+			     10.0.26.2 : 10.0.26.2,
+			     10.0.26.3 : 10.0.26.3,
+			     10.0.26.4 : 10.0.26.4,
+			     10.0.26.5 : 10.0.26.5,
+			     10.0.26.6 : 10.0.26.6,
+			     10.0.26.7 : 10.0.26.7,
+			     10.0.26.8 : 10.0.26.8,
+			     10.0.26.9 : 10.0.26.9,
+			     10.0.26.10 : 10.0.26.10,
+			     10.0.26.11 : 10.0.26.11,
+			     10.0.26.12 : 10.0.26.12,
+			     10.0.26.13 : 10.0.26.13,
+			     10.0.26.14 : 10.0.26.14,
+			     10.0.26.15 : 10.0.26.15,
+			     10.0.26.16 : 10.0.26.16,
+			     10.0.26.17 : 10.0.26.17,
+			     10.0.26.18 : 10.0.26.18,
+			     10.0.26.19 : 10.0.26.19,
+			     10.0.26.20 : 10.0.26.20,
+			     10.0.26.21 : 10.0.26.21,
+			     10.0.26.22 : 10.0.26.22,
+			     10.0.26.23 : 10.0.26.23,
+			     10.0.26.24 : 10.0.26.24,
+			     10.0.26.25 : 10.0.26.25,
+			     10.0.26.26 : 10.0.26.26,
+			     10.0.26.27 : 10.0.26.27,
+			     10.0.26.28 : 10.0.26.28,
+			     10.0.26.29 : 10.0.26.29,
+			     10.0.26.30 : 10.0.26.30,
+			     10.0.26.31 : 10.0.26.31,
+			     10.0.27.1 : 10.0.27.1,
+			     10.0.27.2 : 10.0.27.2,
+			     10.0.27.3 : 10.0.27.3,
+			     10.0.27.4 : 10.0.27.4,
+			     10.0.27.5 : 10.0.27.5,
+			     10.0.27.6 : 10.0.27.6,
+			     10.0.27.7 : 10.0.27.7,
+			     10.0.27.8 : 10.0.27.8,
+			     10.0.27.9 : 10.0.27.9,
+			     10.0.27.10 : 10.0.27.10,
+			     10.0.27.11 : 10.0.27.11,
+			     10.0.27.12 : 10.0.27.12,
+			     10.0.27.13 : 10.0.27.13,
+			     10.0.27.14 : 10.0.27.14,
+			     10.0.27.15 : 10.0.27.15,
+			     10.0.27.16 : 10.0.27.16,
+			     10.0.27.17 : 10.0.27.17,
+			     10.0.27.18 : 10.0.27.18,
+			     10.0.27.19 : 10.0.27.19,
+			     10.0.27.20 : 10.0.27.20,
+			     10.0.27.21 : 10.0.27.21,
+			     10.0.27.22 : 10.0.27.22,
+			     10.0.27.23 : 10.0.27.23,
+			     10.0.27.24 : 10.0.27.24,
+			     10.0.27.25 : 10.0.27.25,
+			     10.0.27.26 : 10.0.27.26,
+			     10.0.27.27 : 10.0.27.27,
+			     10.0.27.28 : 10.0.27.28,
+			     10.0.27.29 : 10.0.27.29,
+			     10.0.27.30 : 10.0.27.30,
+			     10.0.27.31 : 10.0.27.31,
+			     10.0.28.1 : 10.0.28.1,
+			     10.0.28.2 : 10.0.28.2,
+			     10.0.28.3 : 10.0.28.3,
+			     10.0.28.4 : 10.0.28.4,
+			     10.0.28.5 : 10.0.28.5,
+			     10.0.28.6 : 10.0.28.6,
+			     10.0.28.7 : 10.0.28.7,
+			     10.0.28.8 : 10.0.28.8,
+			     10.0.28.9 : 10.0.28.9,
+			     10.0.28.10 : 10.0.28.10,
+			     10.0.28.11 : 10.0.28.11,
+			     10.0.28.12 : 10.0.28.12,
+			     10.0.28.13 : 10.0.28.13,
+			     10.0.28.14 : 10.0.28.14,
+			     10.0.28.15 : 10.0.28.15,
+			     10.0.28.16 : 10.0.28.16,
+			     10.0.28.17 : 10.0.28.17,
+			     10.0.28.18 : 10.0.28.18,
+			     10.0.28.19 : 10.0.28.19,
+			     10.0.28.20 : 10.0.28.20,
+			     10.0.28.21 : 10.0.28.21,
+			     10.0.28.22 : 10.0.28.22,
+			     10.0.28.23 : 10.0.28.23,
+			     10.0.28.24 : 10.0.28.24,
+			     10.0.28.25 : 10.0.28.25,
+			     10.0.28.26 : 10.0.28.26,
+			     10.0.28.27 : 10.0.28.27,
+			     10.0.28.28 : 10.0.28.28,
+			     10.0.28.29 : 10.0.28.29,
+			     10.0.28.30 : 10.0.28.30,
+			     10.0.28.31 : 10.0.28.31,
+			     10.0.29.1 : 10.0.29.1,
+			     10.0.29.2 : 10.0.29.2,
+			     10.0.29.3 : 10.0.29.3,
+			     10.0.29.4 : 10.0.29.4,
+			     10.0.29.5 : 10.0.29.5,
+			     10.0.29.6 : 10.0.29.6,
+			     10.0.29.7 : 10.0.29.7,
+			     10.0.29.8 : 10.0.29.8,
+			     10.0.29.9 : 10.0.29.9,
+			     10.0.29.10 : 10.0.29.10,
+			     10.0.29.11 : 10.0.29.11,
+			     10.0.29.12 : 10.0.29.12,
+			     10.0.29.13 : 10.0.29.13,
+			     10.0.29.14 : 10.0.29.14,
+			     10.0.29.15 : 10.0.29.15,
+			     10.0.29.16 : 10.0.29.16,
+			     10.0.29.17 : 10.0.29.17,
+			     10.0.29.18 : 10.0.29.18,
+			     10.0.29.19 : 10.0.29.19,
+			     10.0.29.20 : 10.0.29.20,
+			     10.0.29.21 : 10.0.29.21,
+			     10.0.29.22 : 10.0.29.22,
+			     10.0.29.23 : 10.0.29.23,
+			     10.0.29.24 : 10.0.29.24,
+			     10.0.29.25 : 10.0.29.25,
+			     10.0.29.26 : 10.0.29.26,
+			     10.0.29.27 : 10.0.29.27,
+			     10.0.29.28 : 10.0.29.28,
+			     10.0.29.29 : 10.0.29.29,
+			     10.0.29.30 : 10.0.29.30,
+			     10.0.29.31 : 10.0.29.31,
+			     10.0.30.1 : 10.0.30.1,
+			     10.0.30.2 : 10.0.30.2,
+			     10.0.30.3 : 10.0.30.3,
+			     10.0.30.4 : 10.0.30.4,
+			     10.0.30.5 : 10.0.30.5,
+			     10.0.30.6 : 10.0.30.6,
+			     10.0.30.7 : 10.0.30.7,
+			     10.0.30.8 : 10.0.30.8,
+			     10.0.30.9 : 10.0.30.9,
+			     10.0.30.10 : 10.0.30.10,
+			     10.0.30.11 : 10.0.30.11,
+			     10.0.30.12 : 10.0.30.12,
+			     10.0.30.13 : 10.0.30.13,
+			     10.0.30.14 : 10.0.30.14,
+			     10.0.30.15 : 10.0.30.15,
+			     10.0.30.16 : 10.0.30.16,
+			     10.0.30.17 : 10.0.30.17,
+			     10.0.30.18 : 10.0.30.18,
+			     10.0.30.19 : 10.0.30.19,
+			     10.0.30.20 : 10.0.30.20,
+			     10.0.30.21 : 10.0.30.21,
+			     10.0.30.22 : 10.0.30.22,
+			     10.0.30.23 : 10.0.30.23,
+			     10.0.30.24 : 10.0.30.24,
+			     10.0.30.25 : 10.0.30.25,
+			     10.0.30.26 : 10.0.30.26,
+			     10.0.30.27 : 10.0.30.27,
+			     10.0.30.28 : 10.0.30.28,
+			     10.0.30.29 : 10.0.30.29,
+			     10.0.30.30 : 10.0.30.30,
+			     10.0.30.31 : 10.0.30.31,
+			     10.0.31.1 : 10.0.31.1,
+			     10.0.31.2 : 10.0.31.2,
+			     10.0.31.3 : 10.0.31.3,
+			     10.0.31.4 : 10.0.31.4,
+			     10.0.31.5 : 10.0.31.5,
+			     10.0.31.6 : 10.0.31.6,
+			     10.0.31.7 : 10.0.31.7,
+			     10.0.31.8 : 10.0.31.8,
+			     10.0.31.9 : 10.0.31.9,
+			     10.0.31.10 : 10.0.31.10,
+			     10.0.31.11 : 10.0.31.11,
+			     10.0.31.12 : 10.0.31.12,
+			     10.0.31.13 : 10.0.31.13,
+			     10.0.31.14 : 10.0.31.14,
+			     10.0.31.15 : 10.0.31.15,
+			     10.0.31.16 : 10.0.31.16,
+			     10.0.31.17 : 10.0.31.17,
+			     10.0.31.18 : 10.0.31.18,
+			     10.0.31.19 : 10.0.31.19,
+			     10.0.31.20 : 10.0.31.20,
+			     10.0.31.21 : 10.0.31.21,
+			     10.0.31.22 : 10.0.31.22,
+			     10.0.31.23 : 10.0.31.23,
+			     10.0.31.24 : 10.0.31.24,
+			     10.0.31.25 : 10.0.31.25,
+			     10.0.31.26 : 10.0.31.26,
+			     10.0.31.27 : 10.0.31.27,
+			     10.0.31.28 : 10.0.31.28,
+			     10.0.31.29 : 10.0.31.29,
+			     10.0.31.30 : 10.0.31.30,
+			     10.0.31.31 : 10.0.31.31 }
+	}
+}
+table ip ipfoo {
+	map t1 {
+		typeof numgen inc mod 2 : ip daddr
+	}
+
+	map t2 {
+		typeof numgen inc mod 2 : ip daddr . tcp dport
+	}
+
+	map x {
+		type ipv4_addr : ipv4_addr
+	}
+
+	map y {
+		type ipv4_addr : ipv4_addr . inet_service
+		elements = { 192.168.7.2 : 10.1.1.1 . 4242 }
+	}
+
+	map z {
+		type ipv4_addr . inet_service : ipv4_addr . inet_service
+		elements = { 192.168.7.2 . 42 : 10.1.1.1 . 4242 }
+	}
+
+	chain c {
+		type nat hook prerouting priority dstnat; policy accept;
+		iifname != "foobar" accept
+		dnat to ip daddr map @x
+		ip saddr 10.1.1.1 dnat to 10.2.3.4
+		ip saddr 10.1.1.2 tcp dport 42 dnat to 10.2.3.4:4242
+		meta l4proto tcp dnat ip to ip saddr map @y
+		dnat ip to ip saddr . tcp dport map @z
+		dnat to numgen inc mod 2 map @t1
+		meta l4proto tcp dnat ip to numgen inc mod 2 map @t2
+	}
+}
+table ip6 ip6foo {
+	map t1 {
+		typeof numgen inc mod 2 : ip6 daddr
+	}
+
+	map t2 {
+		typeof numgen inc mod 2 : ip6 daddr . tcp dport
+	}
+
+	map x {
+		type ipv6_addr : ipv6_addr
+	}
+
+	map y {
+		type ipv6_addr : ipv6_addr . inet_service
+	}
+
+	map z {
+		type ipv6_addr . inet_service : ipv6_addr . inet_service
+	}
+
+	chain c {
+		type nat hook prerouting priority dstnat; policy accept;
+		iifname != "foobar" accept
+		dnat to ip6 daddr map @x
+		ip6 saddr dead::1 dnat to feed::1
+		ip6 saddr dead::2 tcp dport 42 dnat to [c0::1a]:4242
+		meta l4proto tcp dnat ip6 to ip6 saddr map @y
+		dnat ip6 to ip6 saddr . tcp dport map @z
+		dnat to numgen inc mod 2 map @t1
+		meta l4proto tcp dnat ip6 to numgen inc mod 2 map @t2
+	}
+}
+table inet inetfoo {
+	map t1v4 {
+		typeof numgen inc mod 2 : ip daddr
+	}
+
+	map t2v4 {
+		typeof numgen inc mod 2 : ip daddr . tcp dport
+	}
+
+	map t1v6 {
+		typeof numgen inc mod 2 : ip6 daddr
+	}
+
+	map t2v6 {
+		typeof numgen inc mod 2 : ip6 daddr . tcp dport
+	}
+
+	map x4 {
+		type ipv4_addr : ipv4_addr
+	}
+
+	map y4 {
+		type ipv4_addr : ipv4_addr . inet_service
+	}
+
+	map z4 {
+		type ipv4_addr . inet_service : ipv4_addr . inet_service
+		elements = { 192.168.7.2 . 42 : 10.1.1.1 . 4242 }
+	}
+
+	map x6 {
+		type ipv6_addr : ipv6_addr
+	}
+
+	map y6 {
+		type ipv6_addr : ipv6_addr . inet_service
+	}
+
+	map z6 {
+		type ipv6_addr . inet_service : ipv6_addr . inet_service
+	}
+
+	chain c {
+		type nat hook prerouting priority dstnat; policy accept;
+		iifname != "foobar" accept
+		dnat ip to ip daddr map @x4
+		ip saddr 10.1.1.1 dnat ip to 10.2.3.4
+		ip saddr 10.1.1.2 tcp dport 42 dnat ip to 10.2.3.4:4242
+		meta l4proto tcp dnat ip to ip saddr map @y4
+		dnat ip to ip saddr . tcp dport map @z4
+		dnat ip to numgen inc mod 2 map @t1v4
+		meta l4proto tcp dnat ip to numgen inc mod 2 map @t2v4
+		dnat ip6 to ip6 daddr map @x6
+		ip6 saddr dead::1 dnat ip6 to feed::1
+		ip6 saddr dead::2 tcp dport 42 dnat ip6 to [c0::1a]:4242
+		meta l4proto tcp dnat ip6 to ip6 saddr map @y6
+		dnat ip6 to ip6 saddr . tcp dport map @z6
+		dnat ip6 to numgen inc mod 2 map @t1v6
+		meta l4proto tcp dnat ip6 to numgen inc mod 2 map @t2v6
+	}
+}
+table ip filter {
+	chain output {
+		type filter hook output priority filter; policy accept;
+	}
+}
+table ip x {
+	map y {
+		typeof ip saddr . @ih,32,32 : verdict
+		elements = { 1.1.1.1 . 0x14 : accept,
+			     7.7.7.7 . 0x86 : accept,
+			     7.7.7.8 . 0x97 : drop }
+	}
+
+	chain y {
+		ip saddr . @nh,32,32 vmap @y
+		ip saddr . @nh,32,32 vmap { 4.4.4.4 . 0x34 : accept, 5.5.5.5 . 0x45 : drop }
+	}
+}
+table inet filter {
+	map portmap {
+		type inet_service : verdict
+		counter
+		elements = { 22 counter packets 0 bytes 0 : jump ssh_input,
+			     * counter packets 0 bytes 0 : drop }
+	}
+
+	chain ssh_input {
+	}
+
+	chain wan_input {
+		tcp dport vmap @portmap
+	}
+
+	chain prerouting {
+		type filter hook prerouting priority raw; policy accept;
+		iif vmap { "lo" : jump wan_input }
+	}
+}
+table netdev t {
+	map m {
+		typeof ether saddr . vlan id : meta mark
+		size 1234
+		flags dynamic,timeout
+	}
+
+	chain c {
+		ether type != 8021q update @m { ether daddr . 123 timeout 1m : 0x0000002a } counter packets 0 bytes 0 return
+	}
+}
+table ip x {
+	map m {
+		typeof ct bytes : meta priority
+		flags interval
+		elements = { * : 1:3 }
+	}
+
+	chain y {
+		type filter hook output priority filter; policy accept;
+		meta priority set ct bytes map @m
+	}
+}
+table ip filter {
+	quota foo1 {
+		comment "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678"
+		0 bytes
+	}
+
+	quota q {
+		comment "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678"
+		over 1200 bytes
+	}
+
+	counter c {
+		comment "test2"
+		packets 0 bytes 0
+	}
+
+	ct helper h {
+		comment "test3"
+		type "sip" protocol tcp
+		l3proto ip
+	}
+
+	ct expectation e {
+		comment "test4"
+		protocol tcp
+		dport 666
+		timeout 100ms
+		size 96
+		l3proto ip
+	}
+
+	limit l {
+		comment "test5"
+		rate 400/hour
+	}
+
+	synproxy s {
+		comment "test6"
+		mss 1460
+		wscale 2
+	}
+}
+table ip test-ip {
+	counter traffic-counter {
+		packets 0 bytes 0
+	}
+
+	quota traffic-quota {
+		50 mbytes
+	}
+}
+table ip test-ip {
+	quota https-quota {
+		25 mbytes
+	}
+
+	map ports {
+		type inet_service : quota
+	}
+}
+table ip6 test-ip6 {
+	quota http-quota {
+		over 25 mbytes
+	}
+
+	counter http-traffic {
+		packets 0 bytes 0
+	}
+}
+table ip test_table {
+	chain test_chain {
+		comment "test"
+	}
+}
+table ip test {
+	chain test {
+		tcp dport 22 counter packets 0 bytes 0 accept
+	}
+}
+table ip test {
+	chain test {
+		tcp dport 22 counter packets 0 bytes 0 accept comment "test_comment"
+	}
+}
+table ip test {
+	comment "test_comment"
+}
+table ip test {
+	chain test {
+		tcp dport 22 counter packets 0 bytes 0 accept comment "test_comment"
+	}
+}
+table ip test {
+	chain test {
+		tcp dport 22 counter packets 0 bytes 0 accept
+	}
+}
+table ip x {
+	chain y {
+		ct state invalid log prefix "invalid state match, logging:"
+	}
+}
+table inet foo {
+	chain bar {
+		type filter hook input priority filter; policy accept;
+		accept
+		accept
+		accept
+	}
+}
+table inet foo {
+	set bar {
+		type ipv4_addr
+		flags interval
+		elements = { 10.1.1.1, 10.1.1.2 }
+	}
+}
+table ip t {
+	chain c {
+		type filter hook output priority filter; policy accept;
+		ct mark set ip dscp << 26 | 0x10
+	}
+}
+table ip6 t {
+	chain c {
+		type filter hook output priority filter; policy accept;
+		ct mark set ip6 dscp << 2 | 0x10
+	}
+}
+table ip t {
+	chain c {
+		type filter hook input priority filter; policy accept;
+		iif "lo" ct mark & 0x000000ff == 0x00000010 meta mark set ct mark >> 8
+	}
+}
+table ip t {
+	chain c {
+		type filter hook output priority filter; policy accept;
+		ct mark set ct mark | ip dscp | 0x00000200 counter packets 0 bytes 0
+	}
+}
+table ip t {
+	chain c {
+		type filter hook output priority filter; policy accept;
+		oif "lo" ct mark set (meta mark | 0x00000010) << 8
+	}
+}
+table ip6 t {
+	chain c {
+		type filter hook output priority filter; policy accept;
+		ct mark set ip6 dscp << 26 | 0x10
+	}
+}
+table ip6 t {
+	chain c {
+		type filter hook input priority filter; policy accept;
+		meta mark set ip6 dscp << 2 | 0x10
+	}
+}
+table ip t {
+	chain c {
+		type filter hook input priority filter; policy accept;
+		meta mark set ip dscp << 26 | 0x10
+	}
+}
+table ip t {
+	chain c {
+		type filter hook input priority filter; policy accept;
+		meta mark set ct mark & 0xffff0000 | meta mark & 0x0000ffff
+	}
+}
+table ip6 t {
+	chain c {
+		type filter hook output priority filter; policy accept;
+		ct mark set ct mark | ip6 dscp | 0x00000200 counter packets 0 bytes 0
+	}
+}
+table ip6 t {
+	chain c {
+		type filter hook input priority filter; policy accept;
+		meta mark set ct mark & 0xffff0000 | meta mark & 0x0000ffff
+	}
+}
+table ip t {
+	chain c {
+		type filter hook output priority filter; policy accept;
+		ct mark set ip dscp << 2 | 0x10
+	}
+}
+table ip6 t {
+	chain c {
+		type filter hook output priority filter; policy accept;
+		ct mark set ct mark & 0xffff0000 | meta mark & 0x0000ffff
+	}
+}
+table ip t {
+	chain c {
+		type filter hook input priority filter; policy accept;
+		meta mark set ip dscp << 2 | 0x10
+	}
+}
+table ip6 t {
+	chain c {
+		type filter hook input priority filter; policy accept;
+		meta mark set ip6 dscp << 26 | 0x10
+	}
+}
+table ip t {
+	chain c {
+		type filter hook output priority filter; policy accept;
+		ct mark set ct mark & 0xffff0000 | meta mark & 0x0000ffff
+	}
+}
+table ip test {
+	chain test {
+		ip saddr 127.0.0.1 accept
+		iif "lo" accept
+		tcp dport != 22 drop
+		ip saddr 127.0.0.0/8 accept
+		ip saddr 127.0.0.1-192.168.7.3 accept
+		tcp sport 1-1023 drop
+		ip daddr { 192.168.7.1, 192.168.7.5 } accept
+		tcp dport { 80, 443 } accept
+		ip daddr . tcp dport { 192.168.0.1 . 22 } accept
+		meta mark set ip daddr map { 192.168.0.1 : 0x00000001 }
+		ct state { established, related } accept
+	}
+}
+table ip x {
+	chain y {
+		ip daddr 172.30.33.70 tcp dport 3306 counter packets 0 bytes 0 drop
+		meta l4proto . ip daddr . tcp dport { tcp . 172.30.238.117 . 8080, tcp . 172.30.33.71 . 3306, tcp . 172.30.254.251 . 3306 } counter packets 0 bytes 0 reject
+		ip daddr 172.30.254.252 tcp dport 3306 counter packets 0 bytes 0 reject with tcp reset
+	}
+}
+table ip6 x {
+	chain y {
+		meta l4proto . ip6 daddr . tcp dport { tcp . aaaa::3 . 8080, tcp . aaaa::2 . 3306, tcp . aaaa::4 . 3306 } counter packets 0 bytes 0 reject
+		ip6 daddr aaaa::5 tcp dport 3306 counter packets 0 bytes 0 reject with tcp reset
+	}
+}
+table inet x {
+	chain y {
+		iifname "eth0" oifname != "eth0" counter packets 0 bytes 0 accept
+		iifname "eth0" oifname "eth0" counter packets 0 bytes 0 accept
+	}
+}
+table bridge foo {
+	chain bar {
+		meta protocol ip udp dport 67
+		meta protocol ip6 udp dport 67
+		ether type ip udp dport 67
+		ether type ip6 udp dport 67
+	}
+}
+table ip foo {
+	chain bar {
+		udp dport 67
+		meta protocol ip6 udp dport 67
+		udp dport 67
+		ether type ip6 udp dport 67
+	}
+}
+table ip6 foo {
+	chain bar {
+		meta protocol ip udp dport 67
+		udp dport 67
+		ether type ip udp dport 67
+		udp dport 67
+	}
+}
+table netdev foo {
+	chain bar {
+		meta protocol ip udp dport 67
+		meta protocol ip6 udp dport 67
+		ether type ip udp dport 67
+		ether type ip6 udp dport 67
+	}
+}
+table inet foo {
+	chain bar {
+		meta protocol ip udp dport 67
+		meta protocol ip6 udp dport 67
+		ether type ip udp dport 67
+		ether type ip6 udp dport 67
+		meta nfproto ipv4 udp dport 67
+		meta nfproto ipv6 udp dport 67
+	}
+}
+table ip test1 {
+	chain y {
+		oif "lo" accept
+		dnat to ip saddr map { 4.4.4.4 : 1.1.1.1, 5.5.5.5 : 2.2.2.2 }
+	}
+}
+table ip test2 {
+	chain y {
+		oif "lo" accept
+		dnat ip to tcp dport map { 80 : 1.1.1.1 . 8001, 81 : 2.2.2.2 . 9001 }
+		ip saddr { 10.141.11.0/24, 10.141.13.0/24 } masquerade
+	}
+}
+table ip test4 {
+	chain y {
+		oif "lo" accept
+		dnat ip to ip daddr . tcp dport map { 1.1.1.1 . 80 : 4.4.4.4 . 8000, 2.2.2.2 . 81 : 3.3.3.3 . 9000 }
+		redirect to :tcp dport map { 83 : 8083, 84 : 8084 }
+		tcp dport 85 redirect
+	}
+}
+table ip x {
+	chain y {
+		ct state vmap { invalid : drop, established : accept, related : accept }
+	}
+
+	chain z {
+		tcp dport vmap { 1 : accept, 2-3 : drop, 4 : accept }
+	}
+
+	chain w {
+		ip saddr vmap { 1.1.1.1 counter packets 0 bytes 0 : accept, 1.1.1.2 counter packets 0 bytes 0 : drop }
+	}
+}
+table ip x {
+	chain x {
+		meta pkttype . udp dport vmap { broadcast . 547 : accept, broadcast . 67 : accept, multicast . 1900 : drop }
+	}
+
+	chain y {
+		ip saddr . ip daddr vmap { 1.1.1.1 . 2.2.2.2 : accept, 2.2.2.2 . 3.3.3.3 : drop, 4.4.4.4 . 5.5.5.5 : accept }
+	}
+}
+table ip x {
+	chain t1 {
+	}
+
+	chain t2 {
+	}
+
+	chain t3 {
+	}
+
+	chain t4 {
+	}
+
+	chain y {
+		counter packets 0 bytes 0 jump t1
+		counter packets 0 bytes 0 jump t2
+		ip version vmap { 4 : jump t3, 6 : jump t4 }
+	}
+}
+table ip x {
+	set s {
+		type ipv4_addr
+		size 65535
+		flags dynamic
+	}
+
+	chain filter_in_tcp {
+	}
+
+	chain filter_in_udp {
+	}
+
+	chain y {
+		update @s { ip saddr limit rate 12/minute burst 30 packets } accept
+		tcp dport vmap { 80 : accept, 81 : accept, 443 : accept, 8000-8100 : accept, 24000-25000 : accept }
+		meta l4proto vmap { tcp : goto filter_in_tcp, udp : goto filter_in_udp }
+		log
+	}
+}
+table inet filter {
+	set udp_accepted {
+		type inet_service
+		elements = { 500, 4500 }
+	}
+
+	set tcp_accepted {
+		type inet_service
+		elements = { 80, 443 }
+	}
+
+	chain udp_input {
+		udp dport 1-128 accept
+		udp dport @udp_accepted accept
+		udp dport 53 accept
+	}
+
+	chain tcp_input {
+		tcp dport { 1-128, 8888-9999 } accept
+		tcp dport @tcp_accepted accept
+		tcp dport 1024-65535 accept
+	}
+}
+table ip test {
+	chain test {
+		meta mark { 0x0000000a counter packets 0 bytes 0 }
+	}
+}
+table inet x {
+	set GEOIP_CC_wan-lan_120 {
+		type ipv4_addr
+		flags interval
+		elements = { 1.32.128.0/18, 1.32.200.0-1.32.204.128,
+			     1.32.207.0/24, 1.32.216.118-1.32.216.255,
+			     1.32.219.0-1.32.222.255, 1.32.226.0/23,
+			     1.32.231.0/24, 1.32.233.0/24,
+			     1.32.238.0/23, 1.32.240.0/24,
+			     223.223.220.0/22, 223.255.254.0/24 }
+	}
+
+	chain y {
+		ip saddr 1.2.3.4 tcp dport 80 meta mark set 0x0000000a accept
+		ip saddr 1.2.3.4 tcp dport 81 meta mark set 0x0000000b accept
+		ip saddr . tcp dport { 1.2.3.5 . 81, 1.2.3.5 . 82 } accept
+	}
+}
+table ip test3 {
+	chain y {
+		oif "lo" accept
+		snat to ip saddr . tcp sport map { 1.1.1.1 . 1024-65535 : 3.3.3.3, 2.2.2.2 . 1024-65535 : 4.4.4.4 }
+		oifname "enp2s0" snat ip to ip saddr map { 10.1.1.0/24 : 72.2.3.66-72.2.3.78 }
+		tcp dport { 8888, 9999 } redirect
+	}
+}
+table ip x {
+	chain y {
+		iifname . ip saddr . ip daddr { "eth1" . 1.1.1.1 . 2.2.2.3, "eth1" . 1.1.1.2 . 2.2.2.4, "eth1" . 1.1.1.2 . 2.2.3.0/24, "eth1" . 1.1.1.2 . 2.2.4.0-2.2.4.10, "eth2" . 1.1.1.3 . 2.2.2.5 } accept
+		ip protocol . th dport { tcp . 22, udp . 67 }
+		udp dport . ct state { 137 . new, 138 . new, 137 . untracked, 138 . untracked } accept
+	}
+
+	chain c1 {
+		udp dport . iifname { 51820 . "foo", 514 . "bar", 67 . "bar" } accept
+	}
+
+	chain c2 {
+		udp dport . iifname { 100 . "foo", 51820 . "foo", 514 . "bar", 67 . "bar" } accept
+	}
+
+	chain c3 {
+		udp dport . iifname { 100 . "foo", 51820 . "foo", 514 . "bar", 67 . "bar", 100 . "test", 51820 . "test" } accept
+	}
+}
+table ip x {
+	chain y {
+		type filter hook input priority filter; policy drop;
+		ct state vmap { invalid counter packets 0 bytes 0 : drop, established counter packets 0 bytes 0 : accept, related counter packets 0 bytes 0 : accept }
+		tcp dport { 80, 123 } counter packets 0 bytes 0 accept
+		ip saddr . ip daddr vmap { 1.1.1.1 . 2.2.2.2 counter packets 0 bytes 0 : accept, 1.1.1.2 . 3.3.3.3 counter packets 0 bytes 0 : drop }
+	}
+}
+table inet x {
+	chain nat_dns_dnstc {
+		meta l4proto udp redirect to :5300
+		drop
+	}
+
+	chain nat_dns_this_5301 {
+		meta l4proto udp redirect to :5301
+		drop
+	}
+
+	chain nat_dns_saturn_5301 {
+		meta nfproto ipv4 meta l4proto udp dnat ip to 240.0.1.2:5301
+		drop
+	}
+
+	chain nat_dns_saturn_5302 {
+		meta nfproto ipv4 meta l4proto udp dnat ip to 240.0.1.2:5302
+		drop
+	}
+
+	chain nat_dns_saturn_5303 {
+		meta nfproto ipv4 meta l4proto udp dnat ip to 240.0.1.2:5303
+		drop
+	}
+
+	chain nat_dns_acme {
+		udp length . @th,160,128 vmap { 47-63 . 0xe373135363130333131303735353203 : goto nat_dns_dnstc, 62-78 . 0xe31393032383939353831343037320e : goto nat_dns_this_5301, 62-78 . 0xe31363436323733373931323934300e : goto nat_dns_saturn_5301, 62-78 . 0xe32393535373539353636383732310e : goto nat_dns_saturn_5302, 62-78 . 0xe38353439353637323038363633390e : goto nat_dns_saturn_5303 }
+		drop
+	}
+}
+table ip x {
+	chain y {
+		type filter hook prerouting priority raw; policy accept;
+		@th,160,32 0x2736c00 drop comment "sl"
+		@th,160,112 0x870697a7a6173656f03636f6d00 drop comment "pizzaseo.com"
+	}
+}
+table ip x {
+	chain y {
+		ip daddr { 192.168.0.1, 192.168.0.2, 192.168.0.3 } counter packets 0 bytes 0 accept
+	}
+}
+table inet nat {
+	chain prerouting {
+		oif "lo" accept
+		dnat ip to iifname . ip daddr . tcp dport map { "enp2s0" . 72.2.3.70 . 80 : 10.1.1.52 . 80, "enp2s0" . 72.2.3.66 . 53122 : 10.1.1.10 . 22, "enp2s0" . 72.2.3.66 . 443 : 10.1.1.52 . 443 }
+	}
+
+	chain postrouting {
+		oif "lo" accept
+		snat ip to ip daddr map { 72.2.3.66 : 10.2.2.2, 72.2.3.67 : 10.2.3.3 }
+	}
+}
+table inet t {
+	chain ack_chain {
+	}
+
+	chain urg_chain {
+	}
+
+	chain c {
+		tcp flags & (syn | rst | ack | urg) == ack | urg
+		tcp flags & (fin | syn | rst | ack | urg) == { fin | ack | urg, fin | ack, fin, syn | ack, syn, rst | ack, rst, ack | urg, ack }
+		tcp flags & (rst | ack | urg) == rst | ack
+		tcp flags & (ack | urg) vmap { ack : jump ack_chain, urg : jump urg_chain }
+	}
+}
+table inet test {
+	set test {
+		type ipv4_addr
+		elements = { 1.1.1.1, 3.3.3.3 }
+	}
+
+	chain test {
+		ip daddr { 2.2.2.2, 4.4.4.4 } counter packets 0 bytes 0 accept
+		ip saddr @test counter packets 0 bytes 0 accept
+		ip daddr { 2.2.2.2, 4.4.4.4 } counter packets 0 bytes 0 accept
+	}
+}
+table ip x {
+	map mapping {
+		type ipv4_addr : inet_service
+		size 65535
+		flags dynamic,timeout
+	}
+
+	chain y {
+		update @mapping { ip saddr : tcp sport }
+	}
+
+	chain z {
+	}
+}
+table inet t {
+	chain c {
+		type filter hook input priority filter; policy accept;
+		tcp dport 1234 accept
+		udp dport 4321 accept
+		accept
+	}
+}
+table inet t {
+	set s {
+		type ipv4_addr
+		flags interval
+		elements = { 192.168.0.0/24 }
+	}
+}
+table ip f {
+	chain c {
+		jump {
+			accept
+		}
+	}
+}
+table inet t {
+	chain c {
+		accept comment "first"
+		accept comment "second"
+		accept comment "third"
+	}
+}
+table ip t {
+}
+table ip t {
+	chain c {
+	}
+}
+table ip t2 {
+	chain c {
+	}
+}
+table ip t3 {
+}
+table ip t4 {
+	chain c {
+		meta l4proto icmp accept
+		drop
+		meta l4proto igmp accept
+		drop
+	}
+}
+table inet testfilter {
+	chain test {
+		counter packets 0 bytes 0
+	}
+}
+table ip x {
+	map mapping {
+		type ipv4_addr : inet_service
+		size 65535
+		flags dynamic,timeout
+	}
+
+	chain y {
+		update @mapping { ip saddr : tcp sport }
+	}
+
+	chain z {
+	}
+}
+table ip t {
+	set t {
+		type ipv4_addr
+		elements = { 1.1.1.1 }
+	}
+
+	chain c {
+		ct state new
+		tcp dport { 22222, 33333 }
+		ip saddr @t drop
+		jump other
+	}
+
+	chain other {
+	}
+}
+table inet t {
+	chain c {
+		iifname "whatever" oifname "whatever" iif "lo" oif "lo"
+		iifname { "whatever" } iif { "lo" } meta mark 0x0000007b
+		ct state established,related,new
+		ct state != established | related | new
+		ip saddr 10.0.0.0 ip daddr 10.0.0.2 ip saddr 10.0.0.0
+		ip6 daddr fe0::1 ip6 saddr fe0::2
+		ip saddr vmap { 10.0.0.0 : drop, 10.0.0.2 : accept }
+		ip6 daddr vmap { fe0::1 : drop, fe0::2 : accept }
+		ip6 saddr . ip6 nexthdr { fe0::2 . tcp, fe0::1 . udp }
+		ip daddr . iif vmap { 10.0.0.0 . "lo" : accept }
+		tcp dport 100-222
+		udp dport vmap { 100-222 : accept }
+		tcp sport 1 tcp dport 1 oifname "foobar" queue flags bypass to 0
+		tcp sport 1 tcp dport 1 oifname "foobar" queue to 1-42
+		tcp sport 1 tcp dport 1 oifname "foobar" queue flags bypass,fanout to 1-42
+		tcp sport 1 tcp dport 1 oifname "foobar" queue to symhash mod 2
+		tcp sport 1 tcp dport 1 oifname "foobar" queue flags bypass to jhash tcp dport . tcp sport mod 4
+	}
+}
+table ip x {
+	chain y {
+		ip saddr { 1.1.1.1, 2.2.2.2 }
+		ip saddr { 3.3.3.3, 4.4.4.4 }
+	}
+}
+table inet filter {
+	set whitelist_v4 {
+		type ipv4_addr
+	}
+
+	chain prerouting {
+		type filter hook prerouting priority filter; policy accept;
+		ip daddr @whitelist_v4
+	}
+}
+table ip foo {
+	chain bar {
+		jump ber
+	}
+
+	chain ber {
+	}
+}
+table inet portknock {
+	set clients_ipv4 {
+		type ipv4_addr
+		size 65535
+		flags dynamic,timeout
+	}
+
+	set candidates_ipv4 {
+		type ipv4_addr . inet_service
+		size 65535
+		flags dynamic,timeout
+	}
+
+	chain input {
+		type filter hook input priority filter - 10; policy accept;
+		tcp dport 10001 add @candidates_ipv4 { ip saddr . 10002 timeout 1s }
+		tcp dport 10002 ip saddr . tcp dport @candidates_ipv4 add @candidates_ipv4 { ip saddr . 10003 timeout 1s }
+		tcp dport 10003 ip saddr . tcp dport @candidates_ipv4 add @candidates_ipv4 { ip saddr . 10004 timeout 1s }
+		tcp dport 10004 ip saddr . tcp dport @candidates_ipv4 add @candidates_ipv4 { ip saddr . 10005 timeout 1s }
+		tcp dport 10005 ip saddr . tcp dport @candidates_ipv4 add @clients_ipv4 { ip saddr timeout 10m } log prefix "Successful portknock: "
+		tcp dport 22 ip saddr @clients_ipv4 counter packets 0 bytes 0 accept
+		tcp dport 22 ct state established,related counter packets 0 bytes 0 accept
+		tcp dport 22 reject with tcp reset
+	}
+}
+table inet t {
+	map get_queue_id {
+		typeof ip saddr . ip daddr . tcp dport : queue
+		elements = { 127.0.0.1 . 127.0.0.1 . 22 : 1,
+			     127.0.0.1 . 127.0.0.2 . 22 : 2 }
+	}
+
+	chain test {
+		queue flags bypass to ip saddr . ip daddr . tcp dport map @get_queue_id
+	}
+}
+table inet forward {
+	set concat-set-variable {
+		type ipv4_addr . inet_service
+		elements = { 10.10.10.10 . 25,
+			     10.10.10.10 . 143 }
+	}
+}
+table ip filter {
+	ct expectation ctexpect {
+		protocol tcp
+		dport 9876
+		timeout 1m
+		size 12
+		l3proto ip
+	}
+
+	chain c {
+		ct expectation set "ctexpect"
+	}
+}
+table ip A {
+	chain B {
+		tcp dport { 1, 2 } accept
+	}
+}
+table ip x {
+	set y {
+		type ipv4_addr
+		size 65535
+		flags dynamic,timeout
+	}
+
+	chain z {
+		type filter hook input priority filter; policy accept;
+		add @y { ip saddr }
+		update @y { ip saddr timeout 30s }
+		ip saddr @y
+	}
+}
+table ip filter {
+	chain prerouting {
+		type filter hook prerouting priority -50; policy accept;
+	}
+}
+table inet filter {
+	chain x {
+	}
+
+	chain input {
+		type filter hook input priority filter; policy accept;
+		jump x
+	}
+}
+table inet filter {
+	set whitelist_v4 {
+		type ipv4_addr
+		elements = { 1.1.1.1, 2.2.2.2,
+			     3.3.3.3, 4.4.4.4,
+			     5.5.5.5 }
+	}
+}
+table ip foo {
+	chain bar {
+		type filter hook prerouting priority filter; policy accept;
+	}
+}
+table inet filter {
+	map if_input {
+		type ifname : verdict
+		elements = { "eth0" : jump public_input,
+			     "eth1" : jump home_input,
+			     "eth2.10" : jump home_input,
+			     "eth2.20" : jump home_input }
+	}
+
+	map if_forward {
+		type ifname : verdict
+		elements = { "eth0" : jump public_forward,
+			     "eth1" : jump trusted_forward,
+			     "eth2.10" : jump voip_forward,
+			     "eth2.20" : jump guest_forward }
+	}
+
+	map if_output {
+		type ifname : verdict
+		elements = { "eth0" : jump public_output,
+			     "eth1" : jump home_output,
+			     "eth2.10" : jump home_output,
+			     "eth2.20" : jump home_output }
+	}
+
+	set ipv4_blacklist {
+		type ipv4_addr
+		flags interval
+		auto-merge
+	}
+
+	set ipv6_blacklist {
+		type ipv6_addr
+		flags interval
+		auto-merge
+	}
+
+	set limit_src_ip {
+		type ipv4_addr
+		size 1024
+		flags dynamic,timeout
+	}
+
+	set limit_src_ip6 {
+		type ipv6_addr
+		size 1024
+		flags dynamic,timeout
+	}
+
+	chain PREROUTING_RAW {
+		type filter hook prerouting priority raw; policy accept;
+		meta l4proto != { icmp, tcp, udp, ipv6-icmp } counter packets 0 bytes 0 drop
+		tcp flags syn jump {
+			tcp option maxseg size 1-500 counter packets 0 bytes 0 drop
+			tcp sport 0 counter packets 0 bytes 0 drop
+		}
+		rt type 0 counter packets 0 bytes 0 drop
+	}
+
+	chain PREROUTING_MANGLE {
+		type filter hook prerouting priority mangle; policy accept;
+		ct state vmap { invalid : jump ct_invalid_pre, related : jump rpfilter, new : jump ct_new_pre, untracked : jump ct_untracked_pre }
+	}
+
+	chain ct_invalid_pre {
+		counter packets 0 bytes 0 drop
+	}
+
+	chain ct_untracked_pre {
+		icmpv6 type { mld-listener-query, nd-router-solicit, nd-router-advert, nd-neighbor-solicit, nd-neighbor-advert, mld2-listener-report } return
+		counter packets 0 bytes 0 drop
+	}
+
+	chain ct_new_pre {
+		jump rpfilter
+		tcp flags & (fin | syn | rst | ack) != syn counter packets 0 bytes 0 drop
+		iifname "eth0" meta nfproto vmap { ipv4 : jump blacklist_input_ipv4, ipv6 : jump blacklist_input_ipv6 }
+	}
+
+	chain rpfilter {
+		ip saddr 0.0.0.0 ip daddr 255.255.255.255 udp sport 68 udp dport 67 return
+		ip6 saddr :: ip6 daddr . icmpv6 type { ff02::1:ff00:0/104 . nd-neighbor-solicit, ff02::16 . mld2-listener-report } return
+		fib saddr . iif oif 0 counter packets 0 bytes 0 drop
+	}
+
+	chain blacklist_input_ipv4 {
+		ip saddr { 0.0.0.0/8, 10.0.0.0/8, 100.64.0.0/10, 127.0.0.0/8, 169.254.0.0/16, 172.16.0.0/12, 192.0.0.0/24, 192.0.2.0/24, 192.168.0.0/16, 198.18.0.0/15, 198.51.100.0/24, 203.0.113.0/24, 224.0.0.0/3 } counter packets 0 bytes 0 drop
+		ip saddr @ipv4_blacklist counter packets 0 bytes 0 drop
+	}
+
+	chain blacklist_input_ipv6 {
+		icmpv6 type { nd-router-solicit, nd-router-advert, nd-neighbor-solicit, nd-neighbor-advert } ip6 saddr fe80::/64 return
+		udp sport 547 ip6 saddr fe80::/64 return
+		ip6 saddr { ::/3, 2001::/32, 2001:2::/48, 2001:3::/32, 2001:10::-2001:2f:ffff:ffff:ffff:ffff:ffff:ffff, 2001:db8::/32, 2002::/16, 3000::-ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff } counter packets 0 bytes 0 drop
+		ip6 saddr @ipv6_blacklist counter packets 0 bytes 0 drop
+	}
+
+	chain INPUT {
+		type filter hook input priority filter; policy drop;
+		iif "lo" accept
+		ct state established,related accept
+		iifname vmap @if_input
+		log prefix "NFT REJECT IN " flags ip options flags ether limit rate 5/second burst 10 packets reject
+	}
+
+	chain public_input {
+		icmpv6 type { nd-router-solicit, nd-router-advert, nd-neighbor-solicit, nd-neighbor-advert } ip6 saddr fe80::/64 ip6 hoplimit 255 accept
+		udp sport 547 udp dport 546 ip6 saddr fe80::/64 accept
+		fib daddr type { broadcast, anycast, multicast } counter packets 0 bytes 0 drop
+		counter packets 0 bytes 0 drop
+	}
+
+	chain home_input {
+		icmpv6 type { nd-router-solicit, nd-router-advert, nd-neighbor-solicit, nd-neighbor-advert } ip6 hoplimit 255 accept
+		icmpv6 type { mld-listener-query, mld2-listener-report } ip6 hoplimit 1 accept
+		udp sport 68 udp dport 67 accept
+		udp sport 546 udp dport 547 iifname { "eth1", "eth2.10", "eth2.20" } accept
+		fib daddr type { broadcast, anycast, multicast } counter packets 0 bytes 0 drop
+		icmp type echo-request accept
+		icmpv6 type echo-request accept
+		tcp dport 22 iifname "eth1" accept
+		meta l4proto { tcp, udp } th dport 53 jump {
+			ip6 saddr != { fd00::/8, fe80::/64 } counter packets 0 bytes 0 reject with icmpv6 port-unreachable
+			accept
+		}
+		udp dport 123 accept
+		tcp dport 8443 accept
+	}
+
+	chain FORWARD_MANGLE {
+		type filter hook forward priority mangle; policy accept;
+		oifname "eth0" jump {
+			ct state new meta nfproto vmap { ipv4 : jump blacklist_output_ipv4, ipv6 : jump blacklist_output_ipv6 }
+			tcp flags & (syn | rst) == syn tcp option maxseg size set rt mtu
+		}
+	}
+
+	chain blacklist_output_ipv4 {
+		ip daddr { 0.0.0.0/8, 10.0.0.0/8, 100.64.0.0/10, 127.0.0.0/8, 169.254.0.0/16, 172.16.0.0/12, 192.0.0.0/24, 192.0.2.0/24, 192.168.0.0/16, 198.18.0.0/15, 198.51.100.0/24, 203.0.113.0/24, 224.0.0.0/3 } goto log_blacklist
+		ip daddr @ipv4_blacklist goto log_blacklist
+	}
+
+	chain blacklist_output_ipv6 {
+		icmpv6 type . ip6 daddr { nd-router-solicit . ff02::2, nd-neighbor-solicit . ff02::1:ff00:0/104, nd-neighbor-advert . fe80::/64, nd-neighbor-advert . ff02::1, nd-neighbor-advert . ff02::1:ff00:0/104, mld2-listener-report . ff02::16 } return
+		udp dport 547 ip6 daddr ff02::1:2 return
+		ip6 daddr { ::/3, 2001::/32, 2001:2::/48, 2001:3::/32, 2001:10::-2001:2f:ffff:ffff:ffff:ffff:ffff:ffff, 2001:db8::/32, 2002::/16, 3000::-ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff } goto log_blacklist
+		ip6 daddr @ipv6_blacklist goto log_blacklist
+	}
+
+	chain log_blacklist {
+		log prefix "NFT BLACKLIST " flags ip options flags ether limit rate 5/minute burst 10 packets drop
+		counter packets 0 bytes 0 drop
+	}
+
+	chain FORWARD {
+		type filter hook forward priority filter; policy drop;
+		ct state established,related accept
+		fib daddr type { broadcast, anycast, multicast } counter packets 0 bytes 0 drop
+		iifname vmap @if_forward
+		log prefix "NFT REJECT FWD " flags ip options flags ether limit rate 5/second burst 10 packets reject
+	}
+
+	chain public_forward {
+		udp dport { 5060, 7078-7097 } oifname "eth2.10" jump {
+			ip6 saddr { 2001:db8::1-2001:db8::2 } accept
+			meta nfproto ipv6 log prefix "NFT DROP SIP " flags ip options flags ether limit rate 5/second burst 10 packets drop
+		}
+		counter packets 0 bytes 0 drop
+	}
+
+	chain trusted_forward {
+		oifname "eth0" accept
+		icmp type echo-request accept
+		icmpv6 type echo-request accept
+		ip daddr { 192.168.3.30, 192.168.4.40 } tcp dport vmap { 22 : accept, 80 : drop, 443 : accept }
+		ip daddr 192.168.2.20 jump {
+			tcp dport { 80, 443, 515, 631, 9100 } accept
+			udp dport 161 accept
+		}
+	}
+
+	chain voip_forward {
+		icmpv6 type { destination-unreachable, packet-too-big, time-exceeded, parameter-problem, echo-request } oifname "eth0" accept
+		ip6 daddr { 2001:db8::1-2001:db8::2 } jump {
+			udp dport { 3478, 5060 } accept
+			udp sport 7078-7097 accept
+			tcp dport 5061 accept
+		}
+		tcp dport 587 ip daddr 10.0.0.1 accept
+		tcp dport 80 oifname "eth0" counter packets 0 bytes 0 reject
+	}
+
+	chain guest_forward {
+		oifname "eth0" accept
+	}
+
+	chain OUTPUT {
+		type filter hook output priority filter; policy drop;
+		oif "lo" accept
+		ct state vmap { invalid : jump ct_invalid_out, established : accept, related : accept, untracked : jump ct_untracked_out }
+		oifname vmap @if_output
+		log prefix "NFT REJECT OUT " flags ip options flags ether limit rate 5/second burst 10 packets reject
+	}
+
+	chain ct_invalid_out {
+		counter packets 0 bytes 0 drop
+	}
+
+	chain ct_untracked_out {
+		icmpv6 type { mld-listener-query, nd-router-solicit, nd-router-advert, nd-neighbor-solicit, nd-neighbor-advert, mld2-listener-report } return
+		counter packets 0 bytes 0 drop
+	}
+
+	chain public_output {
+		ct state new meta nfproto vmap { ipv4 : jump blacklist_output_ipv4, ipv6 : jump blacklist_output_ipv6 }
+		icmp type { destination-unreachable, echo-request, time-exceeded, parameter-problem } accept
+		icmpv6 type { destination-unreachable, packet-too-big, time-exceeded, parameter-problem, echo-request } accept
+		icmpv6 type { nd-router-solicit, nd-router-advert, nd-neighbor-solicit, nd-neighbor-advert } ip6 hoplimit 255 accept
+		icmpv6 type { mld-listener-query, mld2-listener-report } ip6 hoplimit 1 accept
+		udp dport 547 ip6 saddr fe80::/64 ip6 daddr ff02::1:2 accept
+		udp dport { 53, 123 } accept
+		tcp dport { 443, 587, 853 } accept
+	}
+
+	chain home_output {
+		icmp type { destination-unreachable, echo-request, time-exceeded, parameter-problem } accept
+		icmpv6 type { destination-unreachable, packet-too-big, time-exceeded, parameter-problem, echo-request } accept
+		icmpv6 type { nd-router-solicit, nd-router-advert, nd-neighbor-solicit, nd-neighbor-advert } ip6 hoplimit 255 accept
+		icmpv6 type { mld-listener-query, mld2-listener-report } ip6 hoplimit 1 accept
+		udp sport 547 udp dport 546 ip6 saddr fe80::/64 oifname { "eth1", "eth2.10", "eth2.20" } accept
+		udp sport 67 udp dport 68 ip saddr { 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16 } accept
+		tcp dport 22 ip daddr 192.168.1.10 accept
+	}
+
+	chain POSTROUTING_SRCNAT {
+		type nat hook postrouting priority srcnat; policy accept;
+		ip saddr { 192.168.1.0-192.168.4.255 } oifname "eth0" masquerade
+	}
+}
+table inet filter {
+	chain ssh {
+		type filter hook input priority filter; policy accept;
+		tcp dport 22 accept
+	}
+
+	chain input {
+		type filter hook input priority filter + 1; policy accept;
+	}
+}
+table ip filter {
+	ct timeout cttime {
+		protocol tcp
+		l3proto ip
+		policy = { established : 2m3s, close : 12s }
+	}
+
+	chain c {
+		ct timeout set "cttime"
+	}
+}
+table inet filter {
+	set whitelist_v4 {
+		type ipv4_addr
+		elements = { 1.1.1.1 }
+	}
+}
+table ip t {
+	set t {
+		type ipv4_addr
+		elements = { 1.1.1.1 }
+	}
+
+	chain c {
+		ct state new
+		tcp dport { 22222, 33333 }
+		ip saddr @t drop
+		jump other
+	}
+
+	chain other {
+	}
+}
+table ip t {
+	set t {
+		type ipv4_addr
+		elements = { 1.1.1.1 }
+	}
+
+	chain c {
+		ct state new
+		tcp dport { 22222, 33333 }
+		ip saddr @t drop
+		jump other
+	}
+
+	chain other {
+	}
+}
+table ip foo {
+	set inflows {
+		type ipv4_addr . inet_service . ifname . ipv4_addr . inet_service
+		flags dynamic
+		elements = { 10.1.0.3 . 39466 . "veth1" . 10.3.0.99 . 5201 counter packets 0 bytes 0 }
+	}
+
+	set inflows6 {
+		type ipv6_addr . inet_service . ifname . ipv6_addr . inet_service
+		flags dynamic
+	}
+
+	set inflows_ratelimit {
+		type ipv4_addr . inet_service . ifname . ipv4_addr . inet_service
+		flags dynamic
+		elements = { 10.1.0.3 . 39466 . "veth1" . 10.3.0.99 . 5201 limit rate 1/second burst 5 packets counter packets 0 bytes 0 }
+	}
+}
+table ip t {
+	set t {
+		type ipv4_addr
+		elements = { 1.1.1.1 }
+	}
+
+	chain c {
+		ct state new
+		tcp dport { 22222, 33333 }
+		ip saddr @t drop
+		jump other
+	}
+
+	chain other {
+	}
+}
+table ip x {
+	set y {
+		type ipv4_addr
+		elements = { 1.1.1.1, 2.2.2.2 }
+	}
+
+	set z {
+		type ipv4_addr
+		elements = { 1.1.1.1, 3.3.3.3 }
+	}
+}
+table inet test {
+	set protos {
+		typeof meta l4proto
+		elements = { tcp, udp }
+	}
+
+	chain prerouting {
+		type filter hook prerouting priority mangle; policy accept;
+		meta l4proto @protos tproxy to :1088
+	}
+}
+table inet statelessnat {
+	chain prerouting {
+		type filter hook prerouting priority dstnat; policy accept;
+		ip daddr set numgen inc mod 16 map { 0-7 : 10.0.1.1, 8-15 : 10.0.1.2 }
+	}
+
+	chain postrouting {
+		type filter hook postrouting priority srcnat; policy accept;
+	}
+}
+table inet x {
+	set y {
+		type ipv4_addr
+		elements = { 2.2.2.2, 3.3.3.3 }
+	}
+
+	chain y {
+		icmpv6 type { destination-unreachable, packet-too-big } accept
+		icmp type { 1, 2 } accept
+		tcp dport { 21, 2121 } counter packets 0 bytes 0 accept
+	}
+}
+table ip x {
+	flowtable y {
+		hook ingress priority filter
+		devices = { "lo" }
+	}
+}
+table inet filter {
+	flowtable f {
+		hook ingress priority filter - 1
+		devices = { "lo" }
+	}
+}
+table ip x {
+}
+table ip x {
+	flowtable y {
+		hook ingress priority filter
+		devices = { "lo" }
+	}
+
+	chain x {
+		flow add @y
+	}
+}
+table ip t {
+}
+table ip t {
+	flowtable f {
+		hook ingress priority filter + 10
+		devices = { "lo" }
+	}
+}
+table inet filter {
+	flowtable f {
+		hook ingress priority filter - 1
+		devices = { "lo" }
+		counter
+	}
+
+	chain y {
+		type filter hook forward priority filter; policy accept;
+		flow add @f counter packets 0 bytes 0
+	}
+}
+table ip x {
+	chain y {
+	}
+}
+table ip t {
+}
+table inet t {
+	flowtable f {
+		hook ingress priority filter + 10
+		devices = { "lo" }
+	}
+
+	chain c {
+		flow add @f
+	}
+}
+table ip filter1 {
+	flowtable Main_ft1 {
+		hook ingress priority filter
+		devices = { "lo" }
+		counter
+	}
+}
+table ip filter2 {
+	flowtable Main_ft2 {
+		hook ingress priority filter
+		devices = { "lo" }
+		counter
+	}
+}
+table inet t {
+}
+table ip x {
+	chain y {
+	}
+}
+table ip t {
+}
+table ip t {
+}
+table inet filter {
+	chain input {
+		type filter hook input priority filter; policy accept;
+		meta nftrace set 1
+		ip daddr 127.0.0.1 tcp dport 5555 reject with tcp reset
+		ip6 daddr ::1 tcp dport 5555 reject with tcp reset
+		tcp dport 5555 counter packets 0 bytes 0
+	}
+
+	chain output {
+		type filter hook output priority filter; policy accept;
+	}
+}
+table ip t {
+	set s {
+		type ipv4_addr . iface_index
+		flags interval
+		elements = { 127.0.0.1 . "lo",
+			     127.0.0.2 . "lo" }
+	}
+
+	set s2 {
+		typeof ip saddr . iif
+		elements = { 127.0.0.1 . "lo",
+			     127.0.0.2 . "lo" }
+	}
+
+	set s3 {
+		type iface_index
+		elements = { "lo" }
+	}
+
+	set s4 {
+		type iface_index
+		flags interval
+		elements = { "lo" }
+	}
+
+	set nomatch {
+		typeof ip saddr . iif
+		elements = { 127.0.0.3 . "lo" }
+	}
+
+	set nomatch2 {
+		type ipv4_addr . iface_index
+		elements = { 127.0.0.2 . 90000 }
+	}
+
+	chain c {
+		type filter hook input priority filter; policy accept;
+		icmp type echo-request ip saddr . iif @s counter packets 1 bytes 84
+		icmp type echo-request ip saddr . "lo" @s counter packets 1 bytes 84
+		icmp type echo-request ip saddr . "lo" @s counter packets 1 bytes 84
+		icmp type echo-request ip saddr . iif @s2 counter packets 1 bytes 84
+		icmp type echo-request ip saddr . "lo" @s2 counter packets 1 bytes 84
+		icmp type echo-request ip saddr . "lo" @s2 counter packets 1 bytes 84
+		icmp type echo-request ip daddr . "lo" @s counter packets 1 bytes 84
+		icmp type echo-request ip daddr . "lo" @s2 counter packets 1 bytes 84
+		icmp type echo-request iif @s3 counter packets 1 bytes 84
+		icmp type echo-request iif @s4 counter packets 1 bytes 84
+		ip daddr . "lo" @nomatch counter packets 0 bytes 0 drop
+		ip daddr . iif @nomatch2 counter packets 0 bytes 0 drop
+	}
+}
+table inet filter {
+	chain underflow {
+	}
+
+	chain input {
+		type filter hook input priority filter; policy drop;
+		icmp type echo-reply accept
+		ip saddr 127.0.0.1 ip daddr 127.0.0.2 counter packets 3 bytes 252 accept
+		goto underflow
+	}
+}
+table ip firewalld {
+	chain nat_PREROUTING {
+		type nat hook prerouting priority dstnat + 10; policy accept;
+		jump nat_PREROUTING_ZONES_SOURCE
+		jump nat_PREROUTING_ZONES
+	}
+
+	chain nat_PREROUTING_ZONES_SOURCE {
+	}
+
+	chain nat_PREROUTING_ZONES {
+		iifname "enp0s25" goto nat_PRE_home
+		goto nat_PRE_public
+	}
+
+	chain nat_POSTROUTING {
+		type nat hook postrouting priority srcnat + 10; policy accept;
+		jump nat_POSTROUTING_ZONES_SOURCE
+		jump nat_POSTROUTING_ZONES
+	}
+
+	chain nat_POSTROUTING_ZONES_SOURCE {
+	}
+
+	chain nat_POSTROUTING_ZONES {
+		oifname "enp0s25" goto nat_POST_home
+		goto nat_POST_public
+	}
+
+	chain nat_PRE_public {
+		jump nat_PRE_public_log
+		jump nat_PRE_public_deny
+		jump nat_PRE_public_allow
+	}
+
+	chain nat_PRE_public_log {
+	}
+
+	chain nat_PRE_public_deny {
+	}
+
+	chain nat_PRE_public_allow {
+	}
+
+	chain nat_POST_public {
+		jump nat_POST_public_log
+		jump nat_POST_public_deny
+		jump nat_POST_public_allow
+	}
+
+	chain nat_POST_public_log {
+	}
+
+	chain nat_POST_public_deny {
+	}
+
+	chain nat_POST_public_allow {
+	}
+
+	chain nat_PRE_home {
+		jump nat_PRE_home_log
+		jump nat_PRE_home_deny
+		jump nat_PRE_home_allow
+	}
+
+	chain nat_PRE_home_log {
+	}
+
+	chain nat_PRE_home_deny {
+	}
+
+	chain nat_PRE_home_allow {
+	}
+
+	chain nat_POST_home {
+		jump nat_POST_home_log
+		jump nat_POST_home_deny
+		jump nat_POST_home_allow
+	}
+
+	chain nat_POST_home_log {
+	}
+
+	chain nat_POST_home_deny {
+	}
+
+	chain nat_POST_home_allow {
+	}
+
+	chain nat_PRE_work {
+		jump nat_PRE_work_log
+		jump nat_PRE_work_deny
+		jump nat_PRE_work_allow
+	}
+
+	chain nat_PRE_work_log {
+	}
+
+	chain nat_PRE_work_deny {
+	}
+
+	chain nat_PRE_work_allow {
+	}
+
+	chain nat_POST_work {
+		jump nat_POST_work_log
+		jump nat_POST_work_deny
+		jump nat_POST_work_allow
+	}
+
+	chain nat_POST_work_log {
+	}
+
+	chain nat_POST_work_deny {
+	}
+
+	chain nat_POST_work_allow {
+	}
+}
+table ip6 firewalld {
+	chain nat_PREROUTING {
+		type nat hook prerouting priority dstnat + 10; policy accept;
+		jump nat_PREROUTING_ZONES_SOURCE
+		jump nat_PREROUTING_ZONES
+	}
+
+	chain nat_PREROUTING_ZONES_SOURCE {
+	}
+
+	chain nat_PREROUTING_ZONES {
+		iifname "enp0s25" goto nat_PRE_home
+		goto nat_PRE_public
+	}
+
+	chain nat_POSTROUTING {
+		type nat hook postrouting priority srcnat + 10; policy accept;
+		jump nat_POSTROUTING_ZONES_SOURCE
+		jump nat_POSTROUTING_ZONES
+	}
+
+	chain nat_POSTROUTING_ZONES_SOURCE {
+	}
+
+	chain nat_POSTROUTING_ZONES {
+		oifname "enp0s25" goto nat_POST_home
+		goto nat_POST_public
+	}
+
+	chain nat_PRE_public {
+		jump nat_PRE_public_log
+		jump nat_PRE_public_deny
+		jump nat_PRE_public_allow
+	}
+
+	chain nat_PRE_public_log {
+	}
+
+	chain nat_PRE_public_deny {
+	}
+
+	chain nat_PRE_public_allow {
+	}
+
+	chain nat_POST_public {
+		jump nat_POST_public_log
+		jump nat_POST_public_deny
+		jump nat_POST_public_allow
+	}
+
+	chain nat_POST_public_log {
+	}
+
+	chain nat_POST_public_deny {
+	}
+
+	chain nat_POST_public_allow {
+	}
+
+	chain nat_PRE_home {
+		jump nat_PRE_home_log
+		jump nat_PRE_home_deny
+		jump nat_PRE_home_allow
+	}
+
+	chain nat_PRE_home_log {
+	}
+
+	chain nat_PRE_home_deny {
+	}
+
+	chain nat_PRE_home_allow {
+	}
+
+	chain nat_POST_home {
+		jump nat_POST_home_log
+		jump nat_POST_home_deny
+		jump nat_POST_home_allow
+	}
+
+	chain nat_POST_home_log {
+	}
+
+	chain nat_POST_home_deny {
+	}
+
+	chain nat_POST_home_allow {
+	}
+
+	chain nat_PRE_work {
+		jump nat_PRE_work_log
+		jump nat_PRE_work_deny
+		jump nat_PRE_work_allow
+	}
+
+	chain nat_PRE_work_log {
+	}
+
+	chain nat_PRE_work_deny {
+	}
+
+	chain nat_PRE_work_allow {
+	}
+
+	chain nat_POST_work {
+		jump nat_POST_work_log
+		jump nat_POST_work_deny
+		jump nat_POST_work_allow
+	}
+
+	chain nat_POST_work_log {
+	}
+
+	chain nat_POST_work_deny {
+	}
+
+	chain nat_POST_work_allow {
+	}
+}
+table inet firewalld {
+	chain raw_PREROUTING {
+		type filter hook prerouting priority raw + 10; policy accept;
+		icmpv6 type { nd-router-advert, nd-neighbor-solicit } accept
+		meta nfproto ipv6 fib saddr . iif check missing drop
+		jump raw_PREROUTING_ZONES_SOURCE
+		jump raw_PREROUTING_ZONES
+	}
+
+	chain raw_PREROUTING_ZONES_SOURCE {
+	}
+
+	chain raw_PREROUTING_ZONES {
+		iifname "enp0s25" goto raw_PRE_home
+		goto raw_PRE_public
+	}
+
+	chain mangle_PREROUTING {
+		type filter hook prerouting priority mangle + 10; policy accept;
+		jump mangle_PREROUTING_ZONES_SOURCE
+		jump mangle_PREROUTING_ZONES
+	}
+
+	chain mangle_PREROUTING_ZONES_SOURCE {
+	}
+
+	chain mangle_PREROUTING_ZONES {
+		iifname "enp0s25" goto mangle_PRE_home
+		goto mangle_PRE_public
+	}
+
+	chain filter_INPUT {
+		type filter hook input priority filter + 10; policy accept;
+		ct state established,related accept
+		iifname "lo" accept
+		jump filter_INPUT_ZONES_SOURCE
+		jump filter_INPUT_ZONES
+		ct state invalid drop
+		reject with icmpx admin-prohibited
+	}
+
+	chain filter_FORWARD {
+		type filter hook forward priority filter + 10; policy accept;
+		ct state established,related accept
+		iifname "lo" accept
+		jump filter_FORWARD_IN_ZONES_SOURCE
+		jump filter_FORWARD_IN_ZONES
+		jump filter_FORWARD_OUT_ZONES_SOURCE
+		jump filter_FORWARD_OUT_ZONES
+		ct state invalid drop
+		reject with icmpx admin-prohibited
+	}
+
+	chain filter_INPUT_ZONES_SOURCE {
+	}
+
+	chain filter_INPUT_ZONES {
+		iifname "enp0s25" goto filter_IN_home
+		goto filter_IN_public
+	}
+
+	chain filter_FORWARD_IN_ZONES_SOURCE {
+	}
+
+	chain filter_FORWARD_IN_ZONES {
+		iifname "enp0s25" goto filter_FWDI_home
+		goto filter_FWDI_public
+	}
+
+	chain filter_FORWARD_OUT_ZONES_SOURCE {
+	}
+
+	chain filter_FORWARD_OUT_ZONES {
+		oifname "enp0s25" goto filter_FWDO_home
+		goto filter_FWDO_public
+	}
+
+	chain raw_PRE_public {
+		jump raw_PRE_public_log
+		jump raw_PRE_public_deny
+		jump raw_PRE_public_allow
+	}
+
+	chain raw_PRE_public_log {
+	}
+
+	chain raw_PRE_public_deny {
+	}
+
+	chain raw_PRE_public_allow {
+	}
+
+	chain filter_IN_public {
+		jump filter_IN_public_log
+		jump filter_IN_public_deny
+		jump filter_IN_public_allow
+		meta l4proto { icmp, ipv6-icmp } accept
+	}
+
+	chain filter_IN_public_log {
+	}
+
+	chain filter_IN_public_deny {
+	}
+
+	chain filter_IN_public_allow {
+		tcp dport 22 ct state new,untracked accept
+		ip6 daddr fe80::/64 udp dport 546 ct state new,untracked accept
+	}
+
+	chain filter_FWDI_public {
+		jump filter_FWDI_public_log
+		jump filter_FWDI_public_deny
+		jump filter_FWDI_public_allow
+		meta l4proto { icmp, ipv6-icmp } accept
+	}
+
+	chain filter_FWDI_public_log {
+	}
+
+	chain filter_FWDI_public_deny {
+	}
+
+	chain filter_FWDI_public_allow {
+	}
+
+	chain mangle_PRE_public {
+		jump mangle_PRE_public_log
+		jump mangle_PRE_public_deny
+		jump mangle_PRE_public_allow
+	}
+
+	chain mangle_PRE_public_log {
+	}
+
+	chain mangle_PRE_public_deny {
+	}
+
+	chain mangle_PRE_public_allow {
+	}
+
+	chain filter_FWDO_public {
+		jump filter_FWDO_public_log
+		jump filter_FWDO_public_deny
+		jump filter_FWDO_public_allow
+	}
+
+	chain filter_FWDO_public_log {
+	}
+
+	chain filter_FWDO_public_deny {
+	}
+
+	chain filter_FWDO_public_allow {
+	}
+
+	chain raw_PRE_home {
+		jump raw_PRE_home_log
+		jump raw_PRE_home_deny
+		jump raw_PRE_home_allow
+	}
+
+	chain raw_PRE_home_log {
+	}
+
+	chain raw_PRE_home_deny {
+	}
+
+	chain raw_PRE_home_allow {
+		udp dport 137 ct helper "netbios-ns"
+	}
+
+	chain filter_IN_home {
+		jump filter_IN_home_log
+		jump filter_IN_home_deny
+		jump filter_IN_home_allow
+		meta l4proto { icmp, ipv6-icmp } accept
+	}
+
+	chain filter_IN_home_log {
+	}
+
+	chain filter_IN_home_deny {
+	}
+
+	chain filter_IN_home_allow {
+		tcp dport 22 ct state new,untracked accept
+		ip daddr 224.0.0.251 udp dport 5353 ct state new,untracked accept
+		ip6 daddr ff02::fb udp dport 5353 ct state new,untracked accept
+		udp dport 1714-1764 ct state new,untracked accept
+		tcp dport 1714-1764 ct state new,untracked accept
+		ip6 daddr fe80::/64 udp dport 546 ct state new,untracked accept
+		udp dport 137 ct state new,untracked accept
+		udp dport 138 ct state new,untracked accept
+		tcp dport 139 ct state new,untracked accept
+		tcp dport 445 ct state new,untracked accept
+	}
+
+	chain filter_FWDI_home {
+		jump filter_FWDI_home_log
+		jump filter_FWDI_home_deny
+		jump filter_FWDI_home_allow
+		meta l4proto { icmp, ipv6-icmp } accept
+	}
+
+	chain filter_FWDI_home_log {
+	}
+
+	chain filter_FWDI_home_deny {
+	}
+
+	chain filter_FWDI_home_allow {
+	}
+
+	chain mangle_PRE_home {
+		jump mangle_PRE_home_log
+		jump mangle_PRE_home_deny
+		jump mangle_PRE_home_allow
+	}
+
+	chain mangle_PRE_home_log {
+	}
+
+	chain mangle_PRE_home_deny {
+	}
+
+	chain mangle_PRE_home_allow {
+	}
+
+	chain filter_FWDO_home {
+		jump filter_FWDO_home_log
+		jump filter_FWDO_home_deny
+		jump filter_FWDO_home_allow
+	}
+
+	chain filter_FWDO_home_log {
+	}
+
+	chain filter_FWDO_home_deny {
+	}
+
+	chain filter_FWDO_home_allow {
+	}
+
+	chain raw_PRE_work {
+		jump raw_PRE_work_log
+		jump raw_PRE_work_deny
+		jump raw_PRE_work_allow
+	}
+
+	chain raw_PRE_work_log {
+	}
+
+	chain raw_PRE_work_deny {
+	}
+
+	chain raw_PRE_work_allow {
+	}
+
+	chain filter_IN_work {
+		jump filter_IN_work_log
+		jump filter_IN_work_deny
+		jump filter_IN_work_allow
+		meta l4proto { icmp, ipv6-icmp } accept
+	}
+
+	chain filter_IN_work_log {
+	}
+
+	chain filter_IN_work_deny {
+	}
+
+	chain filter_IN_work_allow {
+		tcp dport 22 ct state new,untracked accept
+		ip6 daddr fe80::/64 udp dport 546 ct state new,untracked accept
+	}
+
+	chain filter_FWDI_work {
+		jump filter_FWDI_work_log
+		jump filter_FWDI_work_deny
+		jump filter_FWDI_work_allow
+		meta l4proto { icmp, ipv6-icmp } accept
+	}
+
+	chain filter_FWDI_work_log {
+	}
+
+	chain filter_FWDI_work_deny {
+	}
+
+	chain filter_FWDI_work_allow {
+	}
+
+	chain mangle_PRE_work {
+		jump mangle_PRE_work_log
+		jump mangle_PRE_work_deny
+		jump mangle_PRE_work_allow
+	}
+
+	chain mangle_PRE_work_log {
+	}
+
+	chain mangle_PRE_work_deny {
+	}
+
+	chain mangle_PRE_work_allow {
+	}
+
+	chain filter_FWDO_work {
+		jump filter_FWDO_work_log
+		jump filter_FWDO_work_deny
+		jump filter_FWDO_work_allow
+	}
+
+	chain filter_FWDO_work_log {
+	}
+
+	chain filter_FWDO_work_deny {
+	}
+
+	chain filter_FWDO_work_allow {
+	}
+}
+table ip nat {
+	set ssh {
+		type ipv4_addr
+	}
+}
+table ip6 test {
+	set testset {
+		type ipv6_addr
+	}
+}
+table arp test_arp {
+	set test_set_arp00 {
+		type inet_service
+	}
+
+	set test_set_arp01 {
+		type inet_service
+		flags constant
+	}
+}
+table bridge test_bridge {
+	set test_set_bridge {
+		type inet_service
+	}
+}
+table inet filter {
+	set set0 {
+		type inet_service
+	}
+
+	set set1 {
+		type inet_service
+		flags constant
+	}
+
+	set set2 {
+		type icmpv6_type
+	}
+}
+table ip test {
+}
+table ip test {
+}
+table ip6 test {
+}
+table inet test {
+}
+table arp test {
+}
+table bridge test {
+}
+table ip test {
+}
+table ip test2 {
+}
+table ip test {
+}
+table ip6 test {
+}
+table inet test {
+}
+table arp test {
+}
+table bridge test {
+}
+table ip nat {
+	set ssh {
+		type ipv4_addr
+	}
+}
+table ip6 test {
+	set testset {
+		type ipv6_addr
+	}
+}
+table arp test_arp {
+	set test_set_arp00 {
+		type inet_service
+	}
+
+	set test_set_arp01 {
+		type inet_service
+		flags constant
+	}
+}
+table bridge test_bridge {
+	set test_set_bridge {
+		type inet_service
+	}
+}
+table inet filter {
+	set set0 {
+		type inet_service
+	}
+
+	set set1 {
+		type inet_service
+		flags constant
+	}
+
+	set set2 {
+		type icmpv6_type
+	}
+}
+table ip test {
+	quota https-quota {
+		25 mbytes
+	}
+
+	ct helper cthelp {
+		type "sip" protocol tcp
+		l3proto ip
+	}
+}
+table ip test-ip {
+}
+table ip test {
+}
+table ip test {
+}
+table ip6 test {
+}
+table inet test {
+}
+table arp test {
+}
+table bridge test {
+}
+table inet filter {
+	set example {
+		type ipv4_addr
+		flags interval
+		elements = { 10.10.10.10, 10.10.11.11 }
+	}
+
+	chain input {
+		type filter hook prerouting priority filter; policy accept;
+		ip saddr != { 10.10.10.100, 10.10.10.111 } ip saddr @example drop
+	}
+}
+table ip test {
+}
+table ip6 test {
+}
+table inet test {
+}
+table arp test {
+}
+table bridge test {
+}
+table ip test {
+	set s {
+		type ipv4_addr
+		elements = { 192.168.3.4, 192.168.3.5 }
+	}
+
+	chain c {
+	}
+}
+table ip nat {
+	chain test {
+		tcp dport { 123, 321 }
+	}
+}
+table ip6 test {
+	chain test {
+		udp sport { 123, 321 }
+	}
+}
+table arp test_arp {
+	chain test {
+		meta mark { 0x0000007b, 0x00000141 }
+	}
+}
+table bridge test_bridge {
+	chain test {
+		ip daddr { 1.1.1.1, 2.2.2.2 }
+	}
+}
+table inet filter {
+	chain test {
+		tcp dport { 80, 443 }
+	}
+}
+table inet filter {
+	set ipset {
+		type ipv4_addr
+	}
+}
+table ip test {
+	quota https-quota {
+		25 mbytes
+	}
+
+	ct helper cthelp {
+		type "sip" protocol tcp
+		l3proto ip
+	}
+
+	ct timeout cttime {
+		protocol udp
+		l3proto ip
+		policy = { unreplied : 15s, replied : 12s }
+	}
+
+	ct expectation ctexpect {
+		protocol tcp
+		dport 5432
+		timeout 1h
+		size 12
+		l3proto ip
+	}
+
+	chain input {
+	}
+}
+table ip x {
+	chain y {
+		ip saddr 1.1.1.1
+		meta mark set ip saddr map { 1.1.1.1 : 0x00000002 }
+	}
+}
+table ip test {
+}
+table ip6 test {
+}
+table inet test {
+}
+table arp test {
+}
+table bridge test {
+}
+table inet filter {
+	flowtable f {
+		hook ingress priority filter
+		devices = { "lo" }
+	}
+
+	flowtable f2 {
+		hook ingress priority filter
+	}
+}
+table ip filter {
+	flowtable f {
+		hook ingress priority filter
+		devices = { "lo" }
+	}
+
+	flowtable f2 {
+		hook ingress priority filter
+	}
+}
+table ip filter {
+	set test_set {
+		type ipv4_addr . inet_service . ipv4_addr . inet_service . inet_proto
+		size 100000
+		flags dynamic,timeout
+	}
+}
+table inet filter {
+	map countermap {
+		type ipv4_addr : counter
+	}
+}
+table inet filter {
+	map ipmap {
+		type ipv4_addr : ipv4_addr
+	}
+}
+table ip t {
+	set s {
+		type ipv4_addr
+	}
+
+	map m {
+		type ipv4_addr : inet_service
+	}
+
+	set f {
+		type ipv4_addr
+		size 1024
+		flags dynamic
+	}
+
+	chain c {
+		tcp dport 80 add @f { ip saddr limit rate 10/second burst 5 packets }
+	}
+}
+table ip x {
+	set est-connlimit {
+		type ipv4_addr
+		size 65535
+		flags dynamic
+	}
+
+	set new-connlimit {
+		type ipv4_addr
+		size 65535
+		flags dynamic
+		ct count over 20
+	}
+}
+table ip t {
+	set s {
+		type ipv4_addr
+	}
+}
+table netdev x {
+	set x {
+		typeof vxlan ip saddr . vxlan ip daddr
+		elements = { 3.3.3.3 . 4.4.4.4 }
+	}
+
+	set y {
+		typeof vxlan ip saddr
+		size 65535
+		flags dynamic
+	}
+
+	chain y {
+		udp dport 4789 vxlan ip saddr . vxlan ip daddr { 1.1.1.1 . 2.2.2.2 } counter packets 0 bytes 0
+		udp dport 4789 vxlan ip saddr . vxlan ip daddr @x counter packets 0 bytes 0
+		udp dport 4789 update @y { vxlan ip saddr }
+	}
+}
+table ip t {
+	set s {
+		type ipv4_addr
+		flags interval
+		comment "test"
+	}
+
+	map m {
+		type ipv4_addr : ipv4_addr
+		flags interval
+		comment "another test"
+	}
+}
+table ip t {
+	set s {
+		type ipv4_addr
+		flags interval
+		elements = { 192.168.1.0-192.168.1.254, 192.168.1.255 }
+	}
+}
+table ip t {
+}
+table ip filter {
+	set http1 {
+		type inet_service . ipv4_addr
+		size 65535
+		flags dynamic
+	}
+
+	chain input {
+		tcp dport 80 add @http1 { tcp dport . ip saddr limit rate over 200/second burst 5 packets } counter packets 0 bytes 0 drop
+	}
+}
+table inet t {
+	set s {
+		type ipv6_addr
+		elements = { ::1 comment "test" }
+	}
+}
+table ip filter {
+	set w_all {
+		type ipv4_addr
+		flags interval
+		auto-merge
+		elements = { 10.10.10.10, 10.10.10.253 }
+	}
+}
+table netdev nt {
+	set vlanidset {
+		typeof vlan id
+		size 1024
+		flags dynamic,timeout
+	}
+
+	set macset {
+		typeof ether saddr . vlan id
+		size 1024
+		flags dynamic,timeout
+	}
+
+	set ipset {
+		typeof vlan id . ip saddr
+		size 1024
+		flags dynamic,timeout
+	}
+
+	chain nc {
+		update @macset { ether saddr . vlan id timeout 5s } counter packets 0 bytes 0
+		ether saddr . vlan id @macset
+		vlan pcp 1
+		ether saddr 0a:0b:0c:0d:0e:0f vlan id 42
+		update @vlanidset { vlan id timeout 5s } counter packets 0 bytes 0
+		update @ipset { vlan id . ip saddr timeout 5s } counter packets 0 bytes 0
+	}
+}
+table inet t {
+	set s1 {
+		type ipv4_addr
+		flags interval
+		elements = { 10.0.0.0-11.0.0.0, 172.16.0.0/16 }
+	}
+
+	set s2 {
+		type ipv6_addr
+		flags interval
+		elements = { fe00::/64,
+			     fe11::-fe22:: }
+	}
+
+	set s3 {
+		type inet_proto
+		flags interval
+		elements = { 10-20, 50-60 }
+	}
+
+	set s4 {
+		type inet_service
+		flags interval
+		elements = { 0-1024, 8080-8082, 10000-40000 }
+	}
+
+	chain c {
+		ip saddr @s1 accept
+		ip6 daddr @s2 accept
+		ip protocol @s3 accept
+		ip6 nexthdr @s3 accept
+		tcp dport @s4 accept
+	}
+}
+table inet t {
+	set s {
+		type ifname
+		elements = { "eth0",
+			     "eth1",
+			     "eth2",
+			     "eth3",
+			     "veth1" }
+	}
+
+	set sc {
+		type inet_service . ifname
+		elements = { 22 . "eth0",
+			     80 . "eth0",
+			     81 . "eth0",
+			     80 . "eth1" }
+	}
+
+	set nv {
+		type ifname . mark
+		elements = { "eth0" . 0x00000001,
+			     "eth0" . 0x00000002 }
+	}
+
+	set z {
+		typeof ct zone
+		elements = { 1, 2, 3, 4, 5,
+			     6 }
+	}
+
+	set m {
+		typeof meta mark
+		elements = { 0x00000001, 0x00000002, 0x00000003, 0x00000004, 0x00000005,
+			     0x00000006 }
+	}
+
+	map cz {
+		typeof iifname : ct zone
+		elements = { "eth0" : 1,
+			     "eth1" : 2,
+			     "veth4" : 1 }
+	}
+
+	map cm {
+		typeof iifname : ct mark
+		elements = { "eth0" : 0x00000001,
+			     "eth1" : 0x00000002,
+			     "veth4" : 0x00000001 }
+	}
+
+	chain c {
+		iifname @s accept
+		oifname @s accept
+		fib saddr oifname @s accept
+		tcp dport . iifname @sc accept
+		iifname . meta mark @nv accept
+	}
+}
+table netdev t {
+	set s {
+		typeof ether saddr . vlan id
+		size 2048
+		flags dynamic,timeout
+	}
+
+	chain c {
+		ether type != 8021q add @s { ether saddr . 0 timeout 5s } counter packets 0 bytes 0 return
+		ether type != 8021q update @s { ether daddr . 123 timeout 1m } counter packets 0 bytes 0 return
+	}
+}
+table ip t {
+	set s {
+		typeof ipsec in reqid . iif
+		size 16
+		flags interval
+	}
+
+	chain c2 {
+		ipsec in reqid . "lo" @s
+	}
+}
+table inet t {
+	set s {
+		type ipv6_addr
+		flags interval
+		elements = { fe00::/48 }
+	}
+}
+table inet filter {
+	set test {
+		type ipv4_addr
+		size 65535	# count 1
+		elements = { 1.1.1.1 }
+	}
+}
+table inet t {
+	set s {
+		type ipv4_addr . inet_service
+		size 65536	# count 1
+		flags dynamic,timeout
+		elements = { 192.168.7.1 . 22 }
+	}
+
+	chain c {
+		tcp dport 21 add @s { ip saddr . 22 timeout 1m }
+	}
+}
+table ip t {
+	map sourcemap {
+		type ipv4_addr : verdict
+		elements = { 100.123.10.2 : jump c }
+	}
+
+	chain postrouting {
+		ip saddr vmap @sourcemap accept
+	}
+
+	chain c {
+	}
+}
+table ip t {
+	set s {
+		type ipv4_addr
+		flags interval
+		elements = { 1.0.1.0/24, 1.0.2.0/23,
+			     1.0.8.0/21, 1.0.32.0/19,
+			     1.1.0.0/24, 1.1.2.0/23,
+			     1.1.4.0/22, 1.1.8.0/24,
+			     1.1.9.0/24, 1.1.10.0/23,
+			     1.1.12.0/22, 1.1.16.0/20,
+			     1.1.32.0/19 }
+	}
+}
+table ip t {
+	set s {
+		type ipv4_addr
+		flags timeout
+		elements = { 1.1.1.1 comment "test" }
+	}
+}
+table ip x {
+	set s {
+		type ipv4_addr
+		size 2	# count 2
+		elements = { 1.1.1.1, 1.1.1.2 }
+	}
+}
+table ip x {
+	set y0 {
+		type ipv4_addr
+		counter
+		elements = { 2.2.2.0 counter packets 3 bytes 4,
+			     3.3.3.0 counter packets 1 bytes 2,
+			     5.5.5.0 counter packets 1 bytes 2,
+			     6.6.6.0 counter packets 3 bytes 4 }
+	}
+
+	set y1 {
+		type ipv4_addr
+		limit rate 1/second burst 5 packets
+		elements = { 2.2.2.1 limit rate 5/second burst 5 packets,
+			     3.3.3.1 limit rate 1/second burst 5 packets,
+			     5.5.5.1 limit rate 1/second burst 5 packets,
+			     6.6.6.1 limit rate 5/second burst 5 packets }
+	}
+
+	set y2 {
+		type ipv4_addr
+		ct count over 2
+		elements = { 2.2.2.2 ct count over 5,
+			     3.3.3.2 ct count over 2,
+			     5.5.5.2 ct count over 2,
+			     6.6.6.2 ct count over 5 }
+	}
+
+	set y3 {
+		type ipv4_addr
+		last
+		elements = { 2.2.2.3 last used never,
+			     3.3.3.3 last used never,
+			     5.5.5.3 last used never,
+			     6.6.6.3 last used never }
+	}
+
+	set y4 {
+		type ipv4_addr
+		quota over 1000 bytes
+		elements = { 2.2.2.4 quota over 30000 bytes used 1000 bytes,
+			     3.3.3.4 quota over 1000 bytes,
+			     5.5.5.4 quota over 1000 bytes,
+			     6.6.6.4 quota over 30000 bytes used 1000 bytes }
+	}
+
+	chain y0 {
+		ip daddr @y0
+	}
+
+	chain y1 {
+		ip daddr @y1
+	}
+
+	chain y2 {
+		ip daddr @y2
+	}
+
+	chain y3 {
+		ip daddr @y3
+	}
+
+	chain y4 {
+		ip daddr @y4
+	}
+}
+table ip x {
+	set y {
+		type ipv4_addr
+		limit rate 1/second burst 5 packets counter
+		elements = { 1.1.1.1 limit rate 1/second burst 5 packets counter packets 0 bytes 0,
+			     4.4.4.4 limit rate 1/second burst 5 packets counter packets 0 bytes 0,
+			     5.5.5.5 limit rate 1/second burst 5 packets counter packets 0 bytes 0 }
+	}
+
+	chain y {
+		type filter hook output priority filter; policy accept;
+		ip daddr @y
+	}
+}
+table ip t {
+	chain c {
+	}
+}
+table inet filter {
+	set blacklist_v4 {
+		type ipv4_addr
+		flags interval
+		elements = { 192.168.0.0/24 }
+	}
+}
+table ip x {
+	set setA {
+		type ipv4_addr . inet_service . ipv4_addr
+		flags timeout
+	}
+
+	set setB {
+		type ipv4_addr . inet_service
+		flags timeout
+	}
+}
+table inet testifsets {
+	set simple {
+		type ifname
+		elements = { "abcdef0",
+			     "abcdef1",
+			     "othername" }
+	}
+
+	set simple_wild {
+		type ifname
+		flags interval
+		elements = { "abcdef*",
+			     "othername",
+			     "ppp0" }
+	}
+
+	set concat {
+		type ipv4_addr . ifname
+		elements = { 10.1.2.2 . "abcdef0",
+			     10.1.2.2 . "abcdef1" }
+	}
+
+	set concat_wild {
+		type ipv4_addr . ifname
+		flags interval
+		elements = { 10.1.2.2 . "abcdef*",
+			     10.1.2.1 . "bar",
+			     1.1.2.0/24 . "abcdef0",
+			     12.2.2.0/24 . "abcdef*" }
+	}
+
+	map map_wild {
+		type ifname : verdict
+		flags interval
+		elements = { "abcdef*" : jump do_nothing,
+			     "eth0" : jump do_nothing }
+	}
+
+	chain v4icmp {
+		iifname @simple counter packets 0 bytes 0
+		iifname @simple_wild counter packets 0 bytes 0
+		iifname { "eth0", "abcdef0" } counter packets 0 bytes 0
+		iifname { "abcdef*", "eth0" } counter packets 0 bytes 0
+		iifname vmap @map_wild
+	}
+
+	chain v4icmpc {
+		ip saddr . iifname @concat counter packets 0 bytes 0
+		ip saddr . iifname @concat_wild counter packets 0 bytes 0
+		ip saddr . iifname { 10.1.2.2 . "abcdef0" } counter packets 0 bytes 0
+		ip saddr . iifname { 10.1.2.2 . "abcdef*" } counter packets 0 bytes 0
+	}
+
+	chain input {
+		type filter hook input priority filter; policy accept;
+		ip protocol icmp jump v4icmp
+		ip protocol icmp goto v4icmpc
+	}
+
+	chain do_nothing {
+	}
+}
+table inet filter {
+	set ssh_meter {
+		type ipv4_addr
+		size 65535
+		flags dynamic,timeout
+		timeout 30d
+	}
+
+	chain test {
+		add @ssh_meter { ip saddr timeout 30d }
+	}
+}
+table ip x {
+	set y {
+		typeof ip saddr
+		counter
+		elements = { 192.168.10.35 counter packets 0 bytes 0,
+			     192.168.10.101 counter packets 0 bytes 0,
+			     192.168.10.135 counter packets 0 bytes 0 }
+	}
+
+	chain z {
+		type filter hook output priority filter; policy accept;
+		ip daddr @y
+	}
+}
+table ip a {
+	set x {
+		type inet_service
+		elements = { 1, 2, 3, 4, 5 }
+	}
+}
+table ip6 a {
+	set x {
+		type inet_service
+		elements = { 2 }
+	}
+}
+table ip x {
+	set y {
+		type ipv4_addr
+	}
+}
+table bridge t {
+	set nodhcpvlan {
+		typeof vlan id
+		elements = { 1 }
+	}
+
+	chain c1 {
+		vlan id != @nodhcpvlan vlan type arp counter packets 0 bytes 0 jump c2
+		vlan id != @nodhcpvlan vlan type ip counter packets 0 bytes 0 jump c2
+		vlan id != { 1, 2 } vlan type ip6 counter packets 0 bytes 0 jump c2
+	}
+
+	chain c2 {
+	}
+}
+table ip t {
+	set s1 {
+		type ipv4_addr . ipv4_addr . inet_service
+		size 65535
+		flags dynamic,timeout
+		timeout 3h
+	}
+
+	chain c1 {
+		update @s1 { ip saddr . 10.180.0.4 . 80 }
+	}
+
+	chain c2 {
+		ip saddr . 1.2.3.4 . 80 @s1 goto c1
+	}
+}
+table ip x {
+	map y {
+		type ipv4_addr : interval ipv4_addr
+		flags interval
+		elements = { 10.141.10.0/24 : 192.168.2.2-192.168.2.4,
+			     10.141.11.0/24 : 192.168.4.2/31,
+			     10.141.12.0/24 : 192.168.5.10-192.168.5.20 }
+	}
+
+	chain x {
+		type nat hook prerouting priority dstnat; policy accept;
+		meta l4proto tcp dnat ip to iifname . ip saddr map { "enp2s0" . 10.1.1.136 : 1.1.2.69 . 22, "enp2s0" . 10.1.1.1-10.1.1.135 : 1.1.2.66-1.84.236.78 . 22 }
+		dnat ip to iifname . ip saddr map { "enp2s0" . 10.1.1.136 : 1.1.2.69/32, "enp2s0" . 10.1.1.1-10.1.1.135 : 1.1.2.66-1.84.236.78 }
+	}
+
+	chain y {
+		type nat hook postrouting priority srcnat; policy accept;
+		snat ip to ip saddr map @y
+	}
+}
+table inet x {
+	chain x {
+		type nat hook prerouting priority dstnat; policy accept;
+		dnat ip to ip daddr . tcp dport map { 10.141.10.1 . 22 : 192.168.2.2, 10.141.11.2 . 2222 : 192.168.4.2 }
+	}
+
+	chain y {
+		type nat hook postrouting priority srcnat; policy accept;
+		snat ip to ip saddr map { 10.141.10.0/24 : 192.168.2.2-192.168.2.4, 10.141.11.0/24 : 192.168.4.2/31 }
+	}
+}
+table ip t {
+	set s1 {
+		type inet_proto
+		size 65535
+		flags dynamic
+	}
+
+	set s2 {
+		type ipv4_addr
+		size 65535
+		flags dynamic
+	}
+
+	set s3 {
+		type ipv4_addr
+		size 1024
+		flags dynamic
+	}
+
+	chain c {
+		type filter hook input priority filter; policy accept;
+		iifname "foobar" add @s1 { ip protocol }
+		iifname "foobar" add @s2 { ip daddr }
+		iifname "foobar" add @s3 { ip daddr }
+	}
+}
+table ip x {
+	set s {
+		type ipv4_addr
+		size 2	# count 2
+		elements = { 1.1.1.1, 1.1.1.2 }
+	}
+}
+table ip x {
+	set y {
+		type ipv4_addr
+		flags interval
+	}
+}
+table ip filter {
+	limit http-traffic {
+		rate 1/second
+	}
+
+	chain input {
+		type filter hook input priority filter; policy accept;
+		limit name tcp dport map { 80 : "http-traffic", 443 : "http-traffic" }
+	}
+}
+table ip x {
+	map y {
+		type ipv4_addr : ipv4_addr
+		elements = { 10.141.0.1 : 192.168.0.2,
+			     * : 192.168.0.4 }
+	}
+
+	map z {
+		type ipv4_addr : ipv4_addr
+		flags interval
+		elements = { 10.141.0.0/24 : 192.168.0.2,
+			     * : 192.168.0.3 }
+	}
+
+	chain y {
+		snat to ip saddr map @z
+		snat to ip saddr map { 10.141.0.0/24 : 192.168.0.2, * : 192.168.0.3 }
+		snat to ip saddr . ip daddr map { 10.141.0.0/24 . 10.0.0.0/8 : 192.168.0.2, 192.168.9.0/24 . 192.168.10.0/24 : 192.168.0.4, * : 192.168.0.3 }
+	}
+}
+table ip filter {
+	set setA {
+		type ipv4_addr . inet_service . ipv4_addr
+		flags timeout
+	}
+
+	set setB {
+		type ipv4_addr . inet_service
+		flags timeout
+	}
+}
+table ip t {
+	set s {
+		type ipv4_addr
+	}
+}
+table netdev filter {
+	set test123 {
+		typeof ip saddr
+		limit rate over 1 mbytes/second
+		elements = { 1.2.3.4 limit rate over 1 mbytes/second }
+	}
+}
+table inet filter {
+	map test {
+		type mark . inet_service . inet_proto : mark
+		flags interval,timeout
+	}
+
+	chain output {
+		type filter hook output priority filter; policy accept;
+		meta mark set meta mark . tcp dport . meta l4proto map @test counter packets 0 bytes 0
+	}
+}
+table ip t {
+	set set1 {
+		type ether_addr
+	}
+
+	set set2 {
+		type ether_addr
+		size 65535
+		flags dynamic
+	}
+
+	chain c {
+		ether daddr @set1 add @set2 { ether daddr counter }
+	}
+}
+table ip test {
+	set tcp_good_flags {
+		type tcp_flag
+		flags constant
+		elements = { fin | ack, fin | ack | urg, fin | psh | ack, fin | psh | ack | urg, syn,
+			     syn | ack, syn | ack | urg, syn | psh | ack, syn | psh | ack | urg, rst,
+			     rst | ack, rst | ack | urg, rst | psh | ack, rst | psh | ack | urg, psh | ack,
+			     psh | ack | urg, ack, ack | urg }
+	}
+}
+table inet filter {
+	counter TEST {
+		packets 0 bytes 0
+	}
+
+	map testmap {
+		type ipv4_addr : counter
+		flags interval
+		elements = { 192.168.0.0/24 : "TEST" }
+	}
+}
+table ip t {
+	set s {
+		type ipv4_addr
+		size 256
+		flags dynamic,timeout
+	}
+
+	set m {
+		type ipv4_addr
+		size 128
+		flags dynamic
+	}
+
+	chain c {
+		tcp dport 80 add @m { ip saddr limit rate 10/second burst 5 packets }
+	}
+}
+table ip t {
+	set X {
+		type inet_service
+		flags interval
+		elements = { 10, 30, 35 }
+	}
+}
+table inet t {
+	set s1 {
+		typeof osf name
+		elements = { "Linux" }
+	}
+
+	set s2 {
+		typeof vlan id
+		elements = { 2, 3, 103 }
+	}
+
+	set s3 {
+		typeof meta ibrpvid
+		elements = { 2, 3, 103 }
+	}
+
+	set s4 {
+		typeof frag frag-off
+		elements = { 1, 1024 }
+	}
+
+	set s5 {
+		typeof ip option ra value
+		elements = { 1, 1024 }
+	}
+
+	set s6 {
+		typeof tcp option maxseg size
+		elements = { 1, 1024 }
+	}
+
+	set s7 {
+		typeof sctp chunk init num-inbound-streams
+		elements = { 1, 4 }
+	}
+
+	set s8 {
+		typeof ip version
+		elements = { 4, 6 }
+	}
+
+	set s9 {
+		typeof ip hdrlength
+		elements = { 0, 1, 2, 3, 4,
+			     15 }
+	}
+
+	set s10 {
+		typeof iifname . ip saddr . ipsec in reqid
+		elements = { "eth0" . 10.1.1.2 . 42 }
+	}
+
+	set s11 {
+		typeof vlan id . ip saddr
+		elements = { 3567 . 1.2.3.4 }
+	}
+
+	set s12 {
+		typeof iifname . ip saddr . meta ipsec
+		elements = { "eth0" . 10.1.1.2 . exists }
+	}
+
+	set s13 {
+		typeof tcp option mptcp subtype
+		elements = { mp-join, dss }
+	}
+
+	set s14 {
+		typeof tcp option mptcp subtype . ip daddr
+		elements = { remove-addr . 10.1.1.1,
+			     mp-join . 10.1.1.2 }
+	}
+
+	chain c1 {
+		osf name @s1 accept
+	}
+
+	chain c2 {
+		vlan id @s2 accept
+	}
+
+	chain c4 {
+		frag frag-off @s4 accept
+	}
+
+	chain c5 {
+		ip option ra value @s5 accept
+	}
+
+	chain c6 {
+		tcp option maxseg size @s6 accept
+	}
+
+	chain c7 {
+		sctp chunk init num-inbound-streams @s7 accept
+	}
+
+	chain c8 {
+		ip version @s8 accept
+	}
+
+	chain c9 {
+		ip hdrlength @s9 accept
+	}
+
+	chain c10 {
+		iifname . ip saddr . ipsec in reqid @s10 accept
+	}
+
+	chain c11 {
+		vlan id . ip saddr @s11 accept
+	}
+
+	chain c12 {
+		iifname . ip saddr . meta ipsec @s12 accept
+	}
+
+	chain c13 {
+		tcp option mptcp subtype @s13 accept
+	}
+
+	chain c14 {
+		tcp option mptcp subtype . ip saddr @s14 accept
+	}
+}
+table ip nat {
+	map ipportmap2 {
+		type ipv4_addr . ipv4_addr : interval ipv4_addr . inet_service
+		flags interval
+		elements = { 192.168.1.2 . 192.168.2.2 : 127.0.0.0/8 . 42-43 }
+	}
+
+	map fwdtoip_th {
+		type ipv4_addr . inet_service : interval ipv4_addr . inet_service
+		flags interval
+		elements = { 1.2.3.4 . 10000-20000 : 192.168.3.4 . 30000-40000 }
+	}
+
+	map ipportmap4 {
+		typeof iifname . ip saddr : interval ip daddr
+		flags interval
+		elements = { "enp2s0" . 10.1.1.136 : 1.1.2.69/32,
+			     "enp2s0" . 10.1.1.1-10.1.1.135 : 1.1.2.66-1.84.236.78 }
+	}
+
+	map ipportmap5 {
+		typeof iifname . ip saddr : interval ip daddr . tcp dport
+		flags interval
+		elements = { "enp2s0" . 10.1.1.136 : 1.1.2.69 . 22,
+			     "enp2s0" . 10.1.1.1-10.1.1.135 : 1.1.2.66-1.84.236.78 . 22 }
+	}
+
+	chain prerouting {
+		type nat hook prerouting priority dstnat; policy accept;
+		ip protocol tcp dnat ip to ip saddr . ip daddr map @ipportmap2
+		meta l4proto { tcp, udp } dnat ip to ip daddr . th dport map @fwdtoip_th
+		dnat ip to iifname . ip saddr map @ipportmap4
+		meta l4proto tcp dnat ip to iifname . ip saddr map @ipportmap5
+	}
+}
+table inet t {
+	set s {
+		type ipv6_addr
+		flags interval
+		elements = { ::ffff:0.0.0.0/96 }
+	}
+}
+table ip t {
+	set s {
+		type ipv4_addr . inet_proto . inet_service
+		flags interval
+		counter
+	}
+
+	set s2 {
+		type ipv4_addr . mark
+		flags interval
+		elements = { 10.10.10.10 . 0x00000100,
+			     20.20.20.20 . 0x00000200 }
+	}
+}
+table ip test-ip {
+	set x {
+		type ipv4_addr
+	}
+
+	set y {
+		type inet_service
+		timeout 3h45s
+	}
+
+	set z {
+		type ipv4_addr
+		flags constant,interval
+	}
+}
+table ip x {
+	set y {
+		type ipv4_addr
+	}
+}
+table inet t {
+	set s {
+		type inet_service
+		elements = { 22 comment "test" }
+	}
+}
+table ip t {
+	set s {
+		type ipv4_addr
+		elements = { 1.1.1.1 }
+	}
+}
+table ip6 t {
+	set s {
+		type ipv6_addr . ipv6_addr
+		flags interval
+		elements = { 2001:db8::/32 . 2001:db8:20::-2001:db8:20::20:1,
+			     2001:db8::/33 . 2001:db8:21::-2001:db8:21::21:1,
+			     2001:db8::/34 . 2001:db8:22::-2001:db8:22::22:1,
+			     2001:db8::/35 . 2001:db8:23::-2001:db8:23::23:1,
+			     2001:db8::/36 . 2001:db8:24::-2001:db8:24::24:1,
+			     2001:db8::/37 . 2001:db8:25::-2001:db8:25::25:1,
+			     2001:db8::/38 . 2001:db8:26::-2001:db8:26::26:1,
+			     2001:db8::/39 . 2001:db8:27::-2001:db8:27::27:1,
+			     2001:db8::/40 . 2001:db8:28::-2001:db8:28::28:1,
+			     2001:db8::/41 . 2001:db8:29::-2001:db8:29::29:1,
+			     2001:db8::/42 . 2001:db8:2a::-2001:db8:2a::2a:1,
+			     2001:db8::/43 . 2001:db8:2b::-2001:db8:2b::2b:1,
+			     2001:db8::/44 . 2001:db8:2c::-2001:db8:2c::2c:1,
+			     2001:db8::/45 . 2001:db8:2d::-2001:db8:2d::2d:1,
+			     2001:db8::/46 . 2001:db8:2e::-2001:db8:2e::2e:1,
+			     2001:db8::/47 . 2001:db8:2f::-2001:db8:2f::2f:1,
+			     2001:db8::/48 . 2001:db8:30::-2001:db8:30::30:1,
+			     2001:db8::/49 . 2001:db8:31::-2001:db8:31::31:1,
+			     2001:db8::/50 . 2001:db8:32::-2001:db8:32::32:1,
+			     2001:db8::/51 . 2001:db8:33::-2001:db8:33::33:1,
+			     2001:db8::/52 . 2001:db8:34::-2001:db8:34::34:1,
+			     2001:db8::/53 . 2001:db8:35::-2001:db8:35::35:1,
+			     2001:db8::/54 . 2001:db8:36::-2001:db8:36::36:1,
+			     2001:db8::/55 . 2001:db8:37::-2001:db8:37::37:1,
+			     2001:db8::/56 . 2001:db8:38::-2001:db8:38::38:1,
+			     2001:db8::/57 . 2001:db8:39::-2001:db8:39::39:1,
+			     2001:db8::/58 . 2001:db8:3a::-2001:db8:3a::3a:1,
+			     2001:db8::/59 . 2001:db8:3b::-2001:db8:3b::3b:1,
+			     2001:db8::/60 . 2001:db8:3c::-2001:db8:3c::3c:1,
+			     2001:db8::/61 . 2001:db8:3d::-2001:db8:3d::3d:1,
+			     2001:db8::/62 . 2001:db8:3e::-2001:db8:3e::3e:1,
+			     2001:db8::/63 . 2001:db8:3f::-2001:db8:3f::3f:1,
+			     2001:db8::/64 . 2001:db8:40::-2001:db8:40::40:1,
+			     2001:db8::/65 . 2001:db8:41::-2001:db8:41::41:1,
+			     2001:db8::/66 . 2001:db8:42::-2001:db8:42::42:1,
+			     2001:db8::/67 . 2001:db8:43::-2001:db8:43::43:1,
+			     2001:db8::/68 . 2001:db8:44::-2001:db8:44::44:1,
+			     2001:db8::/69 . 2001:db8:45::-2001:db8:45::45:1,
+			     2001:db8::/70 . 2001:db8:46::-2001:db8:46::46:1,
+			     2001:db8::/71 . 2001:db8:47::-2001:db8:47::47:1,
+			     2001:db8::/72 . 2001:db8:48::-2001:db8:48::48:1,
+			     2001:db8::/73 . 2001:db8:49::-2001:db8:49::49:1,
+			     2001:db8::/74 . 2001:db8:4a::-2001:db8:4a::4a:1,
+			     2001:db8::/75 . 2001:db8:4b::-2001:db8:4b::4b:1,
+			     2001:db8::/76 . 2001:db8:4c::-2001:db8:4c::4c:1,
+			     2001:db8::/77 . 2001:db8:4d::-2001:db8:4d::4d:1,
+			     2001:db8::/78 . 2001:db8:4e::-2001:db8:4e::4e:1,
+			     2001:db8::/79 . 2001:db8:4f::-2001:db8:4f::4f:1,
+			     2001:db8::/80 . 2001:db8:50::-2001:db8:50::50:1,
+			     2001:db8::/81 . 2001:db8:51::-2001:db8:51::51:1,
+			     2001:db8::/82 . 2001:db8:52::-2001:db8:52::52:1,
+			     2001:db8::/83 . 2001:db8:53::-2001:db8:53::53:1,
+			     2001:db8::/84 . 2001:db8:54::-2001:db8:54::54:1,
+			     2001:db8::/85 . 2001:db8:55::-2001:db8:55::55:1,
+			     2001:db8::/86 . 2001:db8:56::-2001:db8:56::56:1,
+			     2001:db8::/87 . 2001:db8:57::-2001:db8:57::57:1,
+			     2001:db8::/88 . 2001:db8:58::-2001:db8:58::58:1,
+			     2001:db8::/89 . 2001:db8:59::-2001:db8:59::59:1,
+			     2001:db8::/90 . 2001:db8:5a::-2001:db8:5a::5a:1,
+			     2001:db8::/91 . 2001:db8:5b::-2001:db8:5b::5b:1,
+			     2001:db8::/92 . 2001:db8:5c::-2001:db8:5c::5c:1,
+			     2001:db8::/93 . 2001:db8:5d::-2001:db8:5d::5d:1,
+			     2001:db8::/94 . 2001:db8:5e::-2001:db8:5e::5e:1,
+			     2001:db8::/95 . 2001:db8:5f::-2001:db8:5f::5f:1,
+			     2001:db8::/96 . 2001:db8:60::-2001:db8:60::60:1,
+			     2001:db8::/97 . 2001:db8:61::-2001:db8:61::61:1,
+			     2001:db8::/98 . 2001:db8:62::-2001:db8:62::62:1,
+			     2001:db8::/99 . 2001:db8:63::-2001:db8:63::63:1,
+			     2001:db8::/100 . 2001:db8:64::-2001:db8:64::64:1,
+			     2001:db8::/101 . 2001:db8:65::-2001:db8:65::65:1,
+			     2001:db8::/102 . 2001:db8:66::-2001:db8:66::66:1,
+			     2001:db8::/103 . 2001:db8:67::-2001:db8:67::67:1,
+			     2001:db8::/104 . 2001:db8:68::-2001:db8:68::68:1,
+			     2001:db8::/105 . 2001:db8:69::-2001:db8:69::69:1,
+			     2001:db8::/106 . 2001:db8:6a::-2001:db8:6a::6a:1,
+			     2001:db8::/107 . 2001:db8:6b::-2001:db8:6b::6b:1,
+			     2001:db8::/108 . 2001:db8:6c::-2001:db8:6c::6c:1,
+			     2001:db8::/109 . 2001:db8:6d::-2001:db8:6d::6d:1,
+			     2001:db8::/110 . 2001:db8:6e::-2001:db8:6e::6e:1,
+			     2001:db8::/111 . 2001:db8:6f::-2001:db8:6f::6f:1,
+			     2001:db8::/112 . 2001:db8:70::-2001:db8:70::70:1,
+			     2001:db8::/113 . 2001:db8:71::-2001:db8:71::71:1,
+			     2001:db8::/114 . 2001:db8:72::-2001:db8:72::72:1,
+			     2001:db8::/115 . 2001:db8:73::-2001:db8:73::73:1,
+			     2001:db8::/116 . 2001:db8:74::-2001:db8:74::74:1,
+			     2001:db8::/117 . 2001:db8:75::-2001:db8:75::75:1,
+			     2001:db8::/118 . 2001:db8:76::-2001:db8:76::76:1,
+			     2001:db8::/119 . 2001:db8:77::-2001:db8:77::77:1,
+			     2001:db8::/120 . 2001:db8:78::-2001:db8:78::78:1,
+			     2001:db8::/121 . 2001:db8:79::-2001:db8:79::79:1,
+			     2001:db8::/122 . 2001:db8:7a::-2001:db8:7a::7a:1,
+			     2001:db8::/123 . 2001:db8:7b::-2001:db8:7b::7b:1,
+			     2001:db8::/124 . 2001:db8:7c::-2001:db8:7c::7c:1,
+			     2001:db8::/125 . 2001:db8:7d::-2001:db8:7d::7d:1,
+			     2001:db8::/126 . 2001:db8:7e::-2001:db8:7e::7e:1,
+			     2001:db8::/127 . 2001:db8:7f::-2001:db8:7f::7f:1 }
+	}
+}
+table ip t {
+	set s {
+		type ipv4_addr . ipv4_addr
+		flags interval
+		elements = { 192.0.2.0/24 . 192.0.2.72-192.0.2.74,
+			     192.0.2.0/25 . 192.0.2.75-192.0.2.77,
+			     192.0.2.0/26 . 192.0.2.78-192.0.2.80,
+			     192.0.2.0/27 . 192.0.2.81-192.0.2.83,
+			     192.0.2.0/28 . 192.0.2.84-192.0.2.86,
+			     192.0.2.0/29 . 192.0.2.87-192.0.2.89,
+			     192.0.2.0/30 . 192.0.2.90-192.0.2.92,
+			     192.0.2.0/31 . 192.0.2.93-192.0.2.95 }
+	}
+}
+table ip t {
+	set s {
+		type ipv4_addr
+		flags interval
+		elements = { 192.168.2.196 }
+	}
+}
+table ip x {
+}
+table ip x {
+	chain foo {
+		accept
+		icmp type { echo-reply, echo-request } icmp id 42
+	}
+}
+table inet filter {
+	set ip-block-4-test {
+		type ipv4_addr
+		flags interval
+		auto-merge
+		elements = { 1.1.1.1 }
+	}
+
+	chain input {
+		type filter hook input priority filter; policy drop;
+		tcp dport { 22, 80, 443 } ct state new counter packets 0 bytes 0 accept
+	}
+}
+table ip x {
+	set y {
+		type ipv4_addr
+		size 65535
+		flags dynamic,timeout
+		timeout 1h
+	}
+
+	chain z {
+		type filter hook output priority filter; policy accept;
+		update @y { ip daddr limit rate 1/second burst 5 packets counter }
+	}
+}
+table ip x {
+	set s {
+		type ipv4_addr
+		size 2	# count 1
+		elements = { 1.1.1.1 }
+	}
+}
+table inet filter {
+	counter TEST {
+		packets 0 bytes 0
+	}
+
+	map testmap {
+		type ipv4_addr : counter
+		flags interval
+		elements = { 192.168.0.0/24 : "TEST" }
+	}
+}
+table ip x {
+	set s {
+		type ipv4_addr
+		flags interval
+		counter
+		elements = { 192.168.2.0/24 counter packets 0 bytes 0 }
+	}
+
+	chain y {
+		type filter hook output priority filter; policy accept;
+		ip daddr @s
+	}
+}
+table inet x {
+	synproxy https-synproxy {
+		mss 1460
+		wscale 7
+		timestamp sack-perm
+	}
+
+	synproxy other-synproxy {
+		mss 1460
+		wscale 5
+	}
+
+	map test2 {
+		type ipv4_addr : synproxy
+		flags interval
+		elements = { 192.168.1.0/24 : "https-synproxy",
+			     192.168.2.0/24 : "other-synproxy" }
+	}
+
+	chain y {
+		type filter hook input priority filter; policy accept;
+		synproxy name ip saddr map { 192.168.1.0/24 : "https-synproxy", 192.168.2.0/24 : "other-synproxy" }
+	}
+}
+table ip t {
+	set s {
+		typeof ip saddr
+		timeout 1m
+	}
+
+	chain base {
+		type filter hook input priority filter; policy accept;
+	}
+}
+table ip x {
+	set y {
+		type ipv4_addr
+		counter
+		elements = { 1.1.1.1 counter packets 0 bytes 0,
+			     * counter packets 0 bytes 0 }
+	}
+
+	set z {
+		type ipv4_addr
+		flags interval
+		counter
+		elements = { 1.1.1.0/24 counter packets 0 bytes 0,
+			     * counter packets 0 bytes 0 }
+	}
+}
+table inet filter {
+	chain input {
+		type filter hook input priority filter; policy drop;
+		iifname "lo" ip saddr 10.0.0.0/8 ip daddr 192.168.100.62 tcp dport 2001 counter packets 0 bytes 0 accept
+	}
+}
+table ip x {
+	chain y {
+		ip saddr { 1.1.1.0/24, 2.2.2.0/24, 3.3.3.0/24 }
+	}
+}
+table ip6 test {
+	set acct_out {
+		type iface_index . ipv6_addr
+		size 4096
+		flags dynamic,timeout
+	}
+
+	set acct_out2 {
+		type ipv6_addr . iface_index
+		size 12345
+		flags dynamic,timeout
+	}
+
+	chain test {
+		update @acct_out { iif . ip6 saddr timeout 10m counter }
+		update @acct_out2 { ip6 saddr . iif timeout 10m counter }
+	}
+}
+table ip test {
+	set xyz {
+		type ipv4_addr
+		size 8192
+		flags dynamic,timeout
+	}
+
+	chain test {
+		update @xyz { ip saddr timeout 30s counter }
+	}
+}
+table ip t {
+	set s {
+		type ipv4_addr
+		flags interval
+		elements = { 192.168.0.0/24, 192.168.1.0/24 }
+	}
+}
+table ip nat {
+	set set_with_interval {
+		type ipv4_addr
+		flags interval
+	}
+
+	chain prerouting {
+		type nat hook prerouting priority dstnat; policy accept;
+		meta l4proto { tcp, udp } th dport 443 dnat to 10.0.0.1
+	}
+}
+table ip filter {
+	set test_set {
+		type iface_index . ether_addr . ipv4_addr
+		flags interval
+		elements = { "lo" . 00:11:22:33:44:55 . 10.1.2.3 comment "123456789012345678901234567890" }
+	}
+}
+table inet filter {
+	set myset {
+		type ipv4_addr . inet_proto . inet_service
+		elements = { 192.168.0.113 . tcp . 22,
+			     192.168.0.12 . tcp . 53,
+			     192.168.0.12 . udp . 53,
+			     192.168.0.12 . tcp . 80,
+			     192.168.0.13 . tcp . 80 }
+	}
+
+	chain forward {
+		type filter hook forward priority filter; policy drop;
+		ct state established,related accept
+		ct state new ip daddr . ip protocol . th dport @myset accept
+	}
+}
+table ip x {
+	chain y {
+		ip saddr { 1.1.1.1-1.1.1.2 }
+	}
+}
+table ip t {
+	set s {
+		type ipv4_addr
+		flags interval
+		elements = { 1.1.1.1 comment "test" }
+	}
+}
+table ip t {
+	set s {
+		type inet_service
+		flags interval
+		elements = { 10, 20-30, 40, 50-60 }
+	}
+
+	set ips {
+		type ipv4_addr
+		flags interval
+		elements = { 10.0.0.1, 10.0.0.5-10.0.0.8,
+			     10.0.0.128/25, 10.0.1.0/24,
+			     10.0.2.3-10.0.2.12 }
+	}
+
+	set cs {
+		type ipv4_addr . inet_service
+		flags interval
+		elements = { 10.0.0.1 . 22,
+			     10.1.0.0/16 . 1-1024,
+			     10.2.0.1-10.2.0.8 . 1024-65535 }
+	}
+}
+table ip test {
+	set dlist {
+		type ipv4_addr
+		size 65535
+		flags dynamic
+	}
+
+	chain output {
+		type filter hook output priority filter; policy accept;
+		udp dport 1234 update @dlist { ip daddr } counter packets 0 bytes 0
+	}
+}
+table ip t {
+	chain c {
+		type filter hook output priority filter; policy accept;
+		ip daddr { 192.168.0.1, 192.168.0.2, 192.168.0.3 }
+		oifname "doesntexist" tcp dport { 22, 23 } counter packets 0 bytes 0
+	}
+}
+table ip nat {
+	map ipportmap {
+		type ipv4_addr : interval ipv4_addr . inet_service
+		flags interval
+		elements = { 192.168.1.2 : 10.141.10.1-10.141.10.3 . 8888-8999,
+			     192.168.2.0/24 : 10.141.11.5-10.141.11.20 . 8888-8999 }
+	}
+
+	chain prerouting {
+		type nat hook prerouting priority dstnat; policy accept;
+		ip protocol tcp dnat ip to ip saddr map @ipportmap
+	}
+}
+table inet t {
+	set s1 {
+		type ipv4_addr
+		flags interval
+		elements = { 10.0.0.0/8, 192.0.0.0/2 }
+	}
+
+	set s2 {
+		type ipv6_addr
+		flags interval
+		elements = { fe80::/10,
+			     ff00::/8 }
+	}
+
+	chain c {
+		ip saddr @s1 accept
+		ip6 daddr @s2 accept
+	}
+}
+table inet t {
+	set y {
+		typeof ip daddr . @ih,32,32
+		elements = { 1.1.1.1 . 0x14,
+			     2.2.2.2 . 0x20 }
+	}
+
+	chain y {
+		ip saddr . @nh,32,32 { 1.1.1.1 . 0x14, 2.2.2.2 . 0x1e }
+		ip daddr . @nh,32,32 @y
+	}
+}
+table ip x {
+	set s {
+		type ipv4_addr
+		size 2	# count 1
+		elements = { 1.1.1.1 }
+	}
+}
+table ip t {
+	set s {
+		type inet_service
+		flags interval
+		elements = { 25, 30, 82, 119, 349,
+			     745, 748, 1165, 1233, 1476,
+			     1550, 1562, 1743, 1745, 1882,
+			     2070, 2194, 2238, 2450, 2455,
+			     2642, 2671, 2906, 3093, 3203,
+			     3287, 3348, 3411, 3540, 3892,
+			     3943, 4133, 4205, 4317, 4733,
+			     5095, 5156, 5223, 5230, 5432,
+			     5826, 5828, 6044, 6377, 6388,
+			     6491, 6952, 6986, 7012, 7187,
+			     7300, 7305, 7549, 7664, 8111,
+			     8206, 8396, 8782, 8920, 8981,
+			     9067, 9216, 9245, 9315, 9432,
+			     9587, 9689, 9844, 9991, 10045,
+			     10252, 10328, 10670, 10907, 11021,
+			     11337, 11427, 11497, 11502, 11523,
+			     11552, 11577, 11721, 11943, 12474,
+			     12718, 12764, 12794, 12922, 13186,
+			     13232, 13383, 13431, 13551, 13676,
+			     13685, 13747, 13925, 13935, 14015,
+			     14090, 14320, 14392, 14515, 14647,
+			     14911, 15096, 15105, 15154, 15440,
+			     15583, 15623, 15677, 15710, 15926,
+			     15934, 15960, 16068, 16166, 16486,
+			     16489, 16528, 16646, 16650, 16770,
+			     16882, 17052, 17237, 17387, 17431,
+			     17886, 17939, 17999, 18092, 18123,
+			     18238, 18562, 18698, 19004, 19229,
+			     19237, 19585, 19879, 19938, 19950,
+			     19958, 20031, 20138, 20157, 20205,
+			     20368, 20682, 20687, 20873, 20910,
+			     20919, 21019, 21068, 21115, 21188,
+			     21236, 21319, 21563, 21734, 21806,
+			     21810, 21959, 21982, 22078, 22181,
+			     22308, 22480, 22643, 22854, 22879,
+			     22961, 23397, 23534, 23845, 23893,
+			     24130, 24406, 24794, 24997, 25019,
+			     25143, 25179, 25439, 25603, 25718,
+			     25859, 25949, 26006, 26022, 26047,
+			     26170, 26193, 26725, 26747, 26924,
+			     27023, 27040, 27233, 27344, 27478,
+			     27593, 27600, 27664, 27678, 27818,
+			     27822, 28003, 28038, 28709, 28808,
+			     29010, 29057, 29228, 29485, 30132,
+			     30160, 30415, 30469, 30673, 30736,
+			     30776, 30780, 31450, 31537, 31669,
+			     31839, 31873, 32019, 32229, 32685,
+			     32879, 33318, 33337, 33404, 33517,
+			     33906, 34214, 34346, 34416, 34727,
+			     34848, 35325, 35400, 35451, 35501,
+			     35637, 35653, 35710, 35761, 35767,
+			     36238, 36258, 36279, 36464, 36586,
+			     36603, 36770, 36774, 36805, 36851,
+			     37079, 37189, 37209, 37565, 37570,
+			     37585, 37832, 37931, 37954, 38006,
+			     38015, 38045, 38109, 38114, 38200,
+			     38209, 38214, 38277, 38306, 38402,
+			     38606, 38697, 38960, 39004, 39006,
+			     39197, 39217, 39265, 39319, 39460,
+			     39550, 39615, 39871, 39886, 40088,
+			     40135, 40244, 40323, 40339, 40355,
+			     40385, 40428, 40538, 40791, 40848,
+			     40959, 41003, 41131, 41349, 41643,
+			     41710, 41826, 41904, 42027, 42148,
+			     42235, 42255, 42498, 42680, 42973,
+			     43118, 43135, 43233, 43349, 43411,
+			     43487, 43840, 43843, 43870, 44040,
+			     44204, 44817, 44883, 44894, 44958,
+			     45201, 45259, 45283, 45357, 45423,
+			     45473, 45498, 45519, 45561, 45611,
+			     45627, 45831, 46043, 46105, 46116,
+			     46147, 46169, 46349, 47147, 47252,
+			     47314, 47335, 47360, 47546, 47617,
+			     47648, 47772, 47793, 47846, 47913,
+			     47952, 48095, 48325, 48334, 48412,
+			     48419, 48540, 48569, 48628, 48751,
+			     48944, 48971, 49008, 49025, 49503,
+			     49505, 49613, 49767, 49839, 49925,
+			     50022, 50028, 50238, 51057, 51477,
+			     51617, 51910, 52044, 52482, 52550,
+			     52643, 52832, 53382, 53690, 53809,
+			     53858, 54001, 54198, 54280, 54327,
+			     54376, 54609, 54776, 54983, 54984,
+			     55019, 55038, 55094, 55368, 55737,
+			     55793, 55904, 55941, 55960, 55978,
+			     56063, 56121, 56314, 56505, 56548,
+			     56568, 56696, 56798, 56855, 57102,
+			     57236, 57333, 57334, 57441, 57574,
+			     57659, 57987, 58325, 58404, 58509,
+			     58782, 58876, 59116, 59544, 59685,
+			     59700, 59750, 59799, 59866, 59870,
+			     59894, 59984, 60343, 60481, 60564,
+			     60731, 61075, 61087, 61148, 61174,
+			     61655, 61679, 61691, 61723, 61730,
+			     61758, 61824, 62035, 62056, 62661,
+			     62768, 62946, 63059, 63116, 63338,
+			     63387, 63672, 63719, 63881, 63995,
+			     64197, 64374, 64377, 64472, 64606,
+			     64662, 64777, 64795, 64906, 65049,
+			     65122, 65318 }
+	}
+}
+table inet t {
+	set s {
+		type ipv6_addr
+		flags interval
+		elements = { fe00::/64 }
+	}
+}
+table ip t {
+	set s {
+		type mark
+		flags interval
+		elements = { 0x00000023-0x00000042, 0x00001337 }
+	}
+}
+table inet x {
+	set x {
+		typeof ip saddr
+		size 1	# count 1
+		flags interval
+		auto-merge
+		elements = { 255.255.255.0/24 }
+	}
+
+	set y {
+		typeof ip saddr
+		size 1	# count 1
+		flags interval
+		elements = { 0.0.0.0 }
+	}
+}
+table ip x {
+	chain y {
+		type nat hook postrouting priority srcnat; policy accept;
+		snat ip prefix to ip saddr map { 10.141.11.0/24 : 192.168.2.0/24, 10.141.12.0/24 : 192.168.3.0/24, 10.141.13.0/24 : 192.168.4.0/24 }
+	}
+}
+table ip6 x {
+	chain y {
+		type nat hook postrouting priority srcnat; policy accept;
+		snat ip6 prefix to ip6 saddr map { 2001:db8:1111::/64 : 2001:db8:2222::/64 }
+	}
+}
+table ip x {
+	set y {
+		type ipv4_addr
+		size 65535	# count 3
+		flags dynamic
+		counter quota 500 bytes
+		elements = { 1.1.1.1 counter packets 0 bytes 0 quota 500 bytes,
+			     1.2.3.4 counter packets 9 bytes 756 quota 500 bytes used 500 bytes,
+			     2.2.2.2 counter packets 0 bytes 0 quota 1000 bytes }
+	}
+
+	chain y {
+		type filter hook output priority filter; policy accept;
+		update @y { ip daddr }
+	}
+}
+table ip x {
+	set y {
+		type ipv4_addr
+		flags interval
+		auto-merge
+		elements = { 1.2.3.0-1.2.4.255, 3.3.3.3-3.3.3.6,
+			     4.4.4.0-4.4.5.0 }
+	}
+}
+table ip t {
+	chain c {
+		queue flags bypass,fanout to 1-10
+	}
+}
+table ip testt {
+	set ssh_meter {
+		type ipv4_addr
+		size 65535
+		flags dynamic
+	}
+
+	chain testc {
+		type filter hook input priority filter; policy accept;
+		tcp dport 22 ct state new add @ssh_meter { ip saddr limit rate 10/second burst 5 packets } accept
+	}
+}
+table inet x {
+	secmark ssh_server {
+		"system_u:object_r:ssh_server_packet_t:s0"
+	}
+
+	chain y {
+		type filter hook input priority -225; policy accept;
+		tcp dport 2222 ct state new meta secmark set "ssh_server"
+		ct state new ct secmark set meta secmark
+		ct state established,related meta secmark set ct secmark
+	}
+
+	chain z {
+		type filter hook output priority 225; policy accept;
+		ct state new ct secmark set meta secmark
+		ct state established,related meta secmark set ct secmark
+	}
+}
+table inet t {
+	counter mycounter {
+		comment "my comment in counter"
+		packets 0 bytes 0
+	}
+}
+table netdev test_table {
+}
+table ip t {
+	map m {
+		type ipv4_addr : mark
+		counter
+	}
+}
+table ip t {
+	chain c {
+	}
+}
+table ip t {
+	chain c {
+		tcp sport { 3478-3497, 16384-16387 }
+		masquerade
+		drop
+		accept
+	}
+}
+table ip t {
+	chain c {
+	}
+}
+table ip t {
+	chain c {
+		accept
+		accept
+	}
+}
+table ip t {
+	chain c {
+	}
+}
+table ip t {
+	set s {
+		type ipv4_addr
+		size 65535	# count 1
+		flags dynamic
+		counter
+		elements = { 1.1.1.1 counter packets 1 bytes 11 }
+	}
+
+	chain c {
+		counter packets 0 bytes 0 update @s { ip saddr } accept
+		counter packets 0 bytes 0 drop
+	}
+
+	chain c2 {
+		counter packets 0 bytes 0 accept
+		counter packets 0 bytes 0 drop
+	}
+}
+table inet t {
+	chain c {
+		counter packets 0 bytes 0 accept
+		counter packets 0 bytes 0 drop
+	}
+}
+table ip t2 {
+	chain c2 {
+		counter packets 0 bytes 0 accept
+		counter packets 0 bytes 0 drop
+	}
+}
+table ip t {
+	chain c {
+		drop
+	}
+}
+table ip t {
+	chain c {
+	}
+}
+table ip t {
+	chain c {
+	}
+}
+table ip t {
+	set s1 {
+		type ipv4_addr
+	}
+
+	set s2 {
+		type ipv4_addr
+		flags interval
+	}
+
+	chain c {
+		ip saddr @s2 ip daddr { 3.3.3.3, 4.4.4.4 }
+	}
+}
+table ip t {
+	chain c {
+		drop
+		accept
+		accept
+	}
+}
+table ip t {
+	flags dormant
+
+	chain c {
+		type filter hook input priority filter; policy accept;
+		ip daddr 127.0.0.42 counter packets 0 bytes 0
+	}
+}
+table ip x {
+	set y {
+		type ipv4_addr
+		flags interval
+		elements = { 192.168.4.0/24 }
+	}
+}
+table ip x {
+}
+table ip x {
+	set y {
+		type ipv4_addr
+		elements = { 3.3.3.3 }
+	}
+}
+table ip filter {
+}
+table ip x {
+	chain y {
+		type filter hook input priority filter; policy drop;
+	}
+}
+table ip w {
+	set y {
+		type ipv4_addr
+	}
+}
+table ip x {
+	chain y {
+		accept comment "rule1"
+		accept comment "rule2"
+		accept comment "rule3"
+		accept comment "rule4"
+	}
+}
+table ip t {
+	set s {
+		type ipv4_addr . ifname
+		flags interval
+		elements = { 1.2.3.4 . "foo" }
+	}
+}
+table ip t {
+	chain c {
+		type nat hook postrouting priority filter; policy accept;
+	}
+}
+table ip x {
+}
+table ip y {
+}
+table ip filter {
+}
+table inet firewalld {
+	chain raw_PREROUTING {
+		type filter hook prerouting priority raw + 10; policy accept;
+		icmpv6 type { nd-router-advert, nd-neighbor-solicit } accept
+		meta nfproto ipv6 fib saddr . iif check missing drop
+		jump raw_PREROUTING_ZONES
+	}
+
+	chain raw_PREROUTING_ZONES {
+		iifname "perm_dummy" goto raw_PRE_work
+		iifname "perm_dummy2" goto raw_PRE_trusted
+		goto raw_PRE_public
+	}
+
+	chain mangle_PREROUTING {
+		type filter hook prerouting priority mangle + 10; policy accept;
+		jump mangle_PREROUTING_ZONES
+	}
+
+	chain mangle_PREROUTING_ZONES {
+		iifname "perm_dummy" goto mangle_PRE_work
+		iifname "perm_dummy2" goto mangle_PRE_trusted
+		goto mangle_PRE_public
+	}
+
+	chain filter_INPUT {
+		type filter hook input priority filter + 10; policy accept;
+		ct state { established, related } accept
+		ct status dnat accept
+		iifname "lo" accept
+		jump filter_INPUT_ZONES
+		ct state invalid drop
+		reject with icmpx admin-prohibited
+	}
+
+	chain filter_FORWARD {
+		type filter hook forward priority filter + 10; policy accept;
+		ct state { established, related } accept
+		ct status dnat accept
+		iifname "lo" accept
+		ip6 daddr { ::/96, ::ffff:0.0.0.0/96, 2002::/24, 2002:a00::/24, 2002:7f00::/24, 2002:a9fe::/32, 2002:ac10::/28, 2002:c0a8::/32, 2002:e000::/19 } reject with icmpv6 addr-unreachable
+		jump filter_FORWARD_IN_ZONES
+		jump filter_FORWARD_OUT_ZONES
+		ct state invalid drop
+		reject with icmpx admin-prohibited
+	}
+
+	chain filter_OUTPUT {
+		type filter hook output priority filter + 10; policy accept;
+		oifname "lo" accept
+		ip6 daddr { ::/96, ::ffff:0.0.0.0/96, 2002::/24, 2002:a00::/24, 2002:7f00::/24, 2002:a9fe::/32, 2002:ac10::/28, 2002:c0a8::/32, 2002:e000::/19 } reject with icmpv6 addr-unreachable
+	}
+
+	chain filter_INPUT_ZONES {
+		iifname "perm_dummy" goto filter_IN_work
+		iifname "perm_dummy2" goto filter_IN_trusted
+		goto filter_IN_public
+	}
+
+	chain filter_FORWARD_IN_ZONES {
+		iifname "perm_dummy" goto filter_FWDI_work
+		iifname "perm_dummy2" goto filter_FWDI_trusted
+		goto filter_FWDI_public
+	}
+
+	chain filter_FORWARD_OUT_ZONES {
+		oifname "perm_dummy" goto filter_FWDO_work
+		oifname "perm_dummy2" goto filter_FWDO_trusted
+		goto filter_FWDO_public
+	}
+
+	chain raw_PRE_public {
+		jump raw_PRE_public_pre
+		jump raw_PRE_public_log
+		jump raw_PRE_public_deny
+		jump raw_PRE_public_allow
+		jump raw_PRE_public_post
+	}
+
+	chain raw_PRE_public_pre {
+	}
+
+	chain raw_PRE_public_log {
+	}
+
+	chain raw_PRE_public_deny {
+	}
+
+	chain raw_PRE_public_allow {
+	}
+
+	chain raw_PRE_public_post {
+	}
+
+	chain filter_IN_public {
+		jump filter_IN_public_pre
+		jump filter_IN_public_log
+		jump filter_IN_public_deny
+		jump filter_IN_public_allow
+		jump filter_IN_public_post
+		meta l4proto { icmp, ipv6-icmp } accept
+	}
+
+	chain filter_IN_public_pre {
+	}
+
+	chain filter_IN_public_log {
+	}
+
+	chain filter_IN_public_deny {
+	}
+
+	chain filter_IN_public_allow {
+		tcp dport 22 ct state { new, untracked } accept
+		ip6 daddr fe80::/64 udp dport 546 ct state { new, untracked } accept
+	}
+
+	chain filter_IN_public_post {
+	}
+
+	chain filter_FWDI_public {
+		jump filter_FWDI_public_pre
+		jump filter_FWDI_public_log
+		jump filter_FWDI_public_deny
+		jump filter_FWDI_public_allow
+		jump filter_FWDI_public_post
+		meta l4proto { icmp, ipv6-icmp } accept
+	}
+
+	chain filter_FWDI_public_pre {
+	}
+
+	chain filter_FWDI_public_log {
+	}
+
+	chain filter_FWDI_public_deny {
+	}
+
+	chain filter_FWDI_public_allow {
+	}
+
+	chain filter_FWDI_public_post {
+	}
+
+	chain mangle_PRE_public {
+		jump mangle_PRE_public_pre
+		jump mangle_PRE_public_log
+		jump mangle_PRE_public_deny
+		jump mangle_PRE_public_allow
+		jump mangle_PRE_public_post
+	}
+
+	chain mangle_PRE_public_pre {
+	}
+
+	chain mangle_PRE_public_log {
+	}
+
+	chain mangle_PRE_public_deny {
+	}
+
+	chain mangle_PRE_public_allow {
+	}
+
+	chain mangle_PRE_public_post {
+	}
+
+	chain filter_FWDO_public {
+		jump filter_FWDO_public_pre
+		jump filter_FWDO_public_log
+		jump filter_FWDO_public_deny
+		jump filter_FWDO_public_allow
+		jump filter_FWDO_public_post
+	}
+
+	chain filter_FWDO_public_pre {
+	}
+
+	chain filter_FWDO_public_log {
+	}
+
+	chain filter_FWDO_public_deny {
+	}
+
+	chain filter_FWDO_public_allow {
+	}
+
+	chain filter_FWDO_public_post {
+	}
+
+	chain raw_PRE_trusted {
+		jump raw_PRE_trusted_pre
+		jump raw_PRE_trusted_log
+		jump raw_PRE_trusted_deny
+		jump raw_PRE_trusted_allow
+		jump raw_PRE_trusted_post
+	}
+
+	chain raw_PRE_trusted_pre {
+	}
+
+	chain raw_PRE_trusted_log {
+	}
+
+	chain raw_PRE_trusted_deny {
+	}
+
+	chain raw_PRE_trusted_allow {
+	}
+
+	chain raw_PRE_trusted_post {
+	}
+
+	chain mangle_PRE_trusted {
+		jump mangle_PRE_trusted_pre
+		jump mangle_PRE_trusted_log
+		jump mangle_PRE_trusted_deny
+		jump mangle_PRE_trusted_allow
+		jump mangle_PRE_trusted_post
+	}
+
+	chain mangle_PRE_trusted_pre {
+	}
+
+	chain mangle_PRE_trusted_log {
+	}
+
+	chain mangle_PRE_trusted_deny {
+	}
+
+	chain mangle_PRE_trusted_allow {
+	}
+
+	chain mangle_PRE_trusted_post {
+	}
+
+	chain filter_IN_trusted {
+		jump filter_IN_trusted_pre
+		jump filter_IN_trusted_log
+		jump filter_IN_trusted_deny
+		jump filter_IN_trusted_allow
+		jump filter_IN_trusted_post
+		accept
+	}
+
+	chain filter_IN_trusted_pre {
+	}
+
+	chain filter_IN_trusted_log {
+	}
+
+	chain filter_IN_trusted_deny {
+	}
+
+	chain filter_IN_trusted_allow {
+	}
+
+	chain filter_IN_trusted_post {
+	}
+
+	chain filter_FWDI_trusted {
+		jump filter_FWDI_trusted_pre
+		jump filter_FWDI_trusted_log
+		jump filter_FWDI_trusted_deny
+		jump filter_FWDI_trusted_allow
+		jump filter_FWDI_trusted_post
+		accept
+	}
+
+	chain filter_FWDI_trusted_pre {
+	}
+
+	chain filter_FWDI_trusted_log {
+	}
+
+	chain filter_FWDI_trusted_deny {
+	}
+
+	chain filter_FWDI_trusted_allow {
+	}
+
+	chain filter_FWDI_trusted_post {
+	}
+
+	chain filter_FWDO_trusted {
+		jump filter_FWDO_trusted_pre
+		jump filter_FWDO_trusted_log
+		jump filter_FWDO_trusted_deny
+		jump filter_FWDO_trusted_allow
+		jump filter_FWDO_trusted_post
+		accept
+	}
+
+	chain filter_FWDO_trusted_pre {
+	}
+
+	chain filter_FWDO_trusted_log {
+	}
+
+	chain filter_FWDO_trusted_deny {
+	}
+
+	chain filter_FWDO_trusted_allow {
+	}
+
+	chain filter_FWDO_trusted_post {
+	}
+
+	chain raw_PRE_work {
+		jump raw_PRE_work_pre
+		jump raw_PRE_work_log
+		jump raw_PRE_work_deny
+		jump raw_PRE_work_allow
+		jump raw_PRE_work_post
+	}
+
+	chain raw_PRE_work_pre {
+	}
+
+	chain raw_PRE_work_log {
+	}
+
+	chain raw_PRE_work_deny {
+	}
+
+	chain raw_PRE_work_allow {
+	}
+
+	chain raw_PRE_work_post {
+	}
+
+	chain filter_IN_work {
+		jump filter_IN_work_pre
+		jump filter_IN_work_log
+		jump filter_IN_work_deny
+		jump filter_IN_work_allow
+		jump filter_IN_work_post
+		meta l4proto { icmp, ipv6-icmp } accept
+	}
+
+	chain filter_IN_work_pre {
+	}
+
+	chain filter_IN_work_log {
+	}
+
+	chain filter_IN_work_deny {
+	}
+
+	chain filter_IN_work_allow {
+		tcp dport 22 ct state { new, untracked } accept
+		ip6 daddr fe80::/64 udp dport 546 ct state { new, untracked } accept
+	}
+
+	chain filter_IN_work_post {
+	}
+
+	chain mangle_PRE_work {
+		jump mangle_PRE_work_pre
+		jump mangle_PRE_work_log
+		jump mangle_PRE_work_deny
+		jump mangle_PRE_work_allow
+		jump mangle_PRE_work_post
+	}
+
+	chain mangle_PRE_work_pre {
+	}
+
+	chain mangle_PRE_work_log {
+	}
+
+	chain mangle_PRE_work_deny {
+	}
+
+	chain mangle_PRE_work_allow {
+	}
+
+	chain mangle_PRE_work_post {
+	}
+
+	chain filter_FWDI_work {
+		jump filter_FWDI_work_pre
+		jump filter_FWDI_work_log
+		jump filter_FWDI_work_deny
+		jump filter_FWDI_work_allow
+		jump filter_FWDI_work_post
+		meta l4proto { icmp, ipv6-icmp } accept
+	}
+
+	chain filter_FWDI_work_pre {
+	}
+
+	chain filter_FWDI_work_log {
+	}
+
+	chain filter_FWDI_work_deny {
+	}
+
+	chain filter_FWDI_work_allow {
+	}
+
+	chain filter_FWDI_work_post {
+	}
+
+	chain filter_FWDO_work {
+		jump filter_FWDO_work_pre
+		jump filter_FWDO_work_log
+		jump filter_FWDO_work_deny
+		jump filter_FWDO_work_allow
+		jump filter_FWDO_work_post
+	}
+
+	chain filter_FWDO_work_pre {
+	}
+
+	chain filter_FWDO_work_log {
+	}
+
+	chain filter_FWDO_work_deny {
+	}
+
+	chain filter_FWDO_work_allow {
+	}
+
+	chain filter_FWDO_work_post {
+	}
+}
+table ip firewalld {
+	chain nat_PREROUTING {
+		type nat hook prerouting priority dstnat + 10; policy accept;
+		jump nat_PREROUTING_ZONES
+	}
+
+	chain nat_PREROUTING_ZONES {
+		iifname "perm_dummy" goto nat_PRE_work
+		iifname "perm_dummy2" goto nat_PRE_trusted
+		goto nat_PRE_public
+	}
+
+	chain nat_POSTROUTING {
+		type nat hook postrouting priority srcnat + 10; policy accept;
+		jump nat_POSTROUTING_ZONES
+	}
+
+	chain nat_POSTROUTING_ZONES {
+		oifname "perm_dummy" goto nat_POST_work
+		oifname "perm_dummy2" goto nat_POST_trusted
+		goto nat_POST_public
+	}
+
+	chain nat_PRE_public {
+		jump nat_PRE_public_pre
+		jump nat_PRE_public_log
+		jump nat_PRE_public_deny
+		jump nat_PRE_public_allow
+		jump nat_PRE_public_post
+	}
+
+	chain nat_PRE_public_pre {
+	}
+
+	chain nat_PRE_public_log {
+	}
+
+	chain nat_PRE_public_deny {
+	}
+
+	chain nat_PRE_public_allow {
+	}
+
+	chain nat_PRE_public_post {
+	}
+
+	chain nat_POST_public {
+		jump nat_POST_public_pre
+		jump nat_POST_public_log
+		jump nat_POST_public_deny
+		jump nat_POST_public_allow
+		jump nat_POST_public_post
+	}
+
+	chain nat_POST_public_pre {
+	}
+
+	chain nat_POST_public_log {
+	}
+
+	chain nat_POST_public_deny {
+	}
+
+	chain nat_POST_public_allow {
+	}
+
+	chain nat_POST_public_post {
+	}
+
+	chain nat_PRE_trusted {
+		jump nat_PRE_trusted_pre
+		jump nat_PRE_trusted_log
+		jump nat_PRE_trusted_deny
+		jump nat_PRE_trusted_allow
+		jump nat_PRE_trusted_post
+	}
+
+	chain nat_PRE_trusted_pre {
+	}
+
+	chain nat_PRE_trusted_log {
+	}
+
+	chain nat_PRE_trusted_deny {
+	}
+
+	chain nat_PRE_trusted_allow {
+	}
+
+	chain nat_PRE_trusted_post {
+	}
+
+	chain nat_POST_trusted {
+		jump nat_POST_trusted_pre
+		jump nat_POST_trusted_log
+		jump nat_POST_trusted_deny
+		jump nat_POST_trusted_allow
+		jump nat_POST_trusted_post
+	}
+
+	chain nat_POST_trusted_pre {
+	}
+
+	chain nat_POST_trusted_log {
+	}
+
+	chain nat_POST_trusted_deny {
+	}
+
+	chain nat_POST_trusted_allow {
+	}
+
+	chain nat_POST_trusted_post {
+	}
+
+	chain nat_PRE_work {
+		jump nat_PRE_work_pre
+		jump nat_PRE_work_log
+		jump nat_PRE_work_deny
+		jump nat_PRE_work_allow
+		jump nat_PRE_work_post
+	}
+
+	chain nat_PRE_work_pre {
+	}
+
+	chain nat_PRE_work_log {
+	}
+
+	chain nat_PRE_work_deny {
+	}
+
+	chain nat_PRE_work_allow {
+	}
+
+	chain nat_PRE_work_post {
+	}
+
+	chain nat_POST_work {
+		jump nat_POST_work_pre
+		jump nat_POST_work_log
+		jump nat_POST_work_deny
+		jump nat_POST_work_allow
+		jump nat_POST_work_post
+	}
+
+	chain nat_POST_work_pre {
+	}
+
+	chain nat_POST_work_log {
+	}
+
+	chain nat_POST_work_deny {
+	}
+
+	chain nat_POST_work_allow {
+	}
+
+	chain nat_POST_work_post {
+	}
+}
+table ip6 firewalld {
+	chain nat_PREROUTING {
+		type nat hook prerouting priority dstnat + 10; policy accept;
+		jump nat_PREROUTING_ZONES
+	}
+
+	chain nat_PREROUTING_ZONES {
+		iifname "perm_dummy" goto nat_PRE_work
+		iifname "perm_dummy2" goto nat_PRE_trusted
+		goto nat_PRE_public
+	}
+
+	chain nat_POSTROUTING {
+		type nat hook postrouting priority srcnat + 10; policy accept;
+		jump nat_POSTROUTING_ZONES
+	}
+
+	chain nat_POSTROUTING_ZONES {
+		oifname "perm_dummy" goto nat_POST_work
+		oifname "perm_dummy2" goto nat_POST_trusted
+		goto nat_POST_public
+	}
+
+	chain nat_PRE_public {
+		jump nat_PRE_public_pre
+		jump nat_PRE_public_log
+		jump nat_PRE_public_deny
+		jump nat_PRE_public_allow
+		jump nat_PRE_public_post
+	}
+
+	chain nat_PRE_public_pre {
+	}
+
+	chain nat_PRE_public_log {
+	}
+
+	chain nat_PRE_public_deny {
+	}
+
+	chain nat_PRE_public_allow {
+	}
+
+	chain nat_PRE_public_post {
+	}
+
+	chain nat_POST_public {
+		jump nat_POST_public_pre
+		jump nat_POST_public_log
+		jump nat_POST_public_deny
+		jump nat_POST_public_allow
+		jump nat_POST_public_post
+	}
+
+	chain nat_POST_public_pre {
+	}
+
+	chain nat_POST_public_log {
+	}
+
+	chain nat_POST_public_deny {
+	}
+
+	chain nat_POST_public_allow {
+	}
+
+	chain nat_POST_public_post {
+	}
+
+	chain nat_PRE_trusted {
+		jump nat_PRE_trusted_pre
+		jump nat_PRE_trusted_log
+		jump nat_PRE_trusted_deny
+		jump nat_PRE_trusted_allow
+		jump nat_PRE_trusted_post
+	}
+
+	chain nat_PRE_trusted_pre {
+	}
+
+	chain nat_PRE_trusted_log {
+	}
+
+	chain nat_PRE_trusted_deny {
+	}
+
+	chain nat_PRE_trusted_allow {
+	}
+
+	chain nat_PRE_trusted_post {
+	}
+
+	chain nat_POST_trusted {
+		jump nat_POST_trusted_pre
+		jump nat_POST_trusted_log
+		jump nat_POST_trusted_deny
+		jump nat_POST_trusted_allow
+		jump nat_POST_trusted_post
+	}
+
+	chain nat_POST_trusted_pre {
+	}
+
+	chain nat_POST_trusted_log {
+	}
+
+	chain nat_POST_trusted_deny {
+	}
+
+	chain nat_POST_trusted_allow {
+	}
+
+	chain nat_POST_trusted_post {
+	}
+
+	chain nat_PRE_work {
+		jump nat_PRE_work_pre
+		jump nat_PRE_work_log
+		jump nat_PRE_work_deny
+		jump nat_PRE_work_allow
+		jump nat_PRE_work_post
+	}
+
+	chain nat_PRE_work_pre {
+	}
+
+	chain nat_PRE_work_log {
+	}
+
+	chain nat_PRE_work_deny {
+	}
+
+	chain nat_PRE_work_allow {
+	}
+
+	chain nat_PRE_work_post {
+	}
+
+	chain nat_POST_work {
+		jump nat_POST_work_pre
+		jump nat_POST_work_log
+		jump nat_POST_work_deny
+		jump nat_POST_work_allow
+		jump nat_POST_work_post
+	}
+
+	chain nat_POST_work_pre {
+	}
+
+	chain nat_POST_work_log {
+	}
+
+	chain nat_POST_work_deny {
+	}
+
+	chain nat_POST_work_allow {
+	}
+
+	chain nat_POST_work_post {
+	}
+}
+table ip x {
+	chain y {
+		ip saddr 2.2.2.2 counter packets 0 bytes 0
+	}
+}
+table ip t {
+	map m {
+		type ipv4_addr : verdict
+	}
+
+	chain c10 {
+	}
+
+	chain c9 {
+		jump c10
+		tcp dport 80 tproxy to :20000 meta mark set 0x00000001 accept
+	}
+
+	chain c8 {
+		jump c9
+	}
+
+	chain c2 {
+	}
+
+	chain c1 {
+		jump c2
+		ip saddr vmap @m
+	}
+
+	chain c0 {
+		type filter hook input priority filter; policy accept;
+		jump c1
+	}
+}
+table ip x {
+}
+table ip y {
+}
+table ip x {
+	set y {
+		type ipv4_addr
+	}
+}
+table ip filter {
+	map group_10060 {
+		type ipv4_addr : classid
+		flags interval
+		elements = { 10.1.26.2 : 1:bbf8,
+			     10.1.26.3 : 1:c1ad,
+			     10.1.26.4 : 1:b2d7,
+			     10.1.26.5 : 1:f705,
+			     10.1.26.6 : 1:b895,
+			     10.1.26.7 : 1:ec4c,
+			     10.1.26.8 : 1:de78,
+			     10.1.26.9 : 1:b4f3,
+			     10.1.26.10 : 1:dec6,
+			     10.1.26.11 : 1:b4c0 }
+	}
+}
+table ip filter {
+	map client_to_any {
+		type ipv4_addr : verdict
+	}
+
+	chain FORWARD {
+		type filter hook forward priority filter; policy accept;
+		goto client_to_any
+	}
+
+	chain client_to_any {
+		ip saddr vmap @client_to_any
+	}
+}
+table ip x {
+}
+table ip w {
+	chain y {
+	}
+}
+table ip x {
+}
+table ip x {
+	flags dormant
+
+	chain y {
+		type nat hook prerouting priority filter; policy accept;
+	}
+}
+table ip x {
+	set y {
+		type ipv4_addr
+		flags interval
+	}
+}
+table ip w {
+	chain y {
+		type filter hook output priority filter; policy accept;
+	}
+}
+table ip x {
+	chain foo {
+		accept
+	}
+
+	chain bar {
+	}
+}
+table ip w {
+	chain y {
+		type filter hook output priority filter; policy accept;
+	}
+}
+table ip x {
+	chain y {
+		log
+		drop
+	}
+}
+table ip x {
+	set y {
+		type ipv4_addr
+		flags interval
+		elements = { 192.168.4.0/24 }
+	}
+}
+table ip x {
+	set y {
+		type ipv4_addr
+	}
+}
+table ip filter {
+	map m1 {
+		type ipv4_addr : counter
+	}
+}
+table inet test {
+	chain y {
+		ct mark set ct mark | meta mark
+	}
+}
+# 6001a930ce03 ("netfilter: nftables: introduce table ownership")
+# v5.12-rc1~200^2~6^2
+table t {
+	flags owner;
+}
+# fb961945457f ("netfilter: nf_tables: add SECMARK support")
+# v4.20-rc1~14^2~125^2~5
+table inet x {
+	secmark ssh_server {
+		"system_u:object_r:ssh_server_packet_t:s0"
+	}
+}
+# 48b0ae046ee9 ("netfilter: nftables: netlink support for several set element expressions")
+# v5.11-rc1~169^2~25^2
+table x {
+        set y {
+                type ipv4_addr
+                size 65535
+                counter quota 500 bytes
+        }
+}
+# v5.2-rc1~133^2~174^2~15
+# d164385ec572 ("netfilter: nat: add inet family nat support")
+table inet x {
+        chain y {
+                type nat hook prerouting priority dstnat;
+	}
+}
+# 8d738c1869f6 ("netfilter: nf_tables: fix set size with rbtree backend")
+# v6.14-rc1~162^2~7^2~13
+table inet x {
+        set y {
+                typeof ip saddr
+                flags interval
+                size 1
+                elements = { 10.1.1.0/24 }
+        }
+}
+# f80a612dd77c ("netfilter: nf_tables: add support to destroy operation")
+# v6.3-rc1~162^2~264^2
+destroy table t
+# 3ff7ddb1353d ("netfilter: nft_nat: add netmap support")
+# v5.8-rc1~165^2~393^2
+table ip x {
+        chain y {
+              type nat hook postrouting priority srcnat; policy accept;
+              snat ip prefix to ip saddr map { 10.141.11.0/24 : 192.168.2.0/24 }
+        }
+}
+# 567d746b55bc ("netfilter: bitwise: add support for shifts.")
+# v5.6-rc1~151^2~73^2
+table ip t {
+	chain c {
+		meta mark set meta mark << 2
+	}
+}
+# 3a07327d10a0 ("netfilter: nft_inner: support for inner tunnel header matching")
+# v6.2-rc1~99^2~350^2~4
+table ip t {
+        chain c {
+                udp dport 4789 vxlan ip saddr 1.2.3.4
+        }
+}
+# 133dc203d77d ("netfilter: nft_exthdr: Support SCTP chunks")
+# v5.14-rc1~119^2~373^2~15
+table ip t {
+	chain c {
+		sctp chunk init 0
+	}
+}
+# b96af92d6eaf ("netfilter: nf_tables: implement Passive OS fingerprint module in nft_osf")
+# v4.19-rc1~140^2~135^2~15
+table t {
+	chain c {
+		osf name "Linux"
+	}
+}
+# 6c47260250fc ("netfilter: nf_tables: add xfrm expression")
+# v4.20-rc1~14^2~125^2~25
+table ip x {
+	chain y {
+		ipsec in reqid 23
+	}
+}
+# d0e2c7de92c7 ("netfilter: nf_tables: add NFT_CHAIN_BINDING")
+# v5.9-rc1~133^2~302^2~1
+table ip t {
+	chain c {
+		jump { counter; }
+	}
+}
+# d0a8d877da97 ("netfilter: nft_dynset: support for element deletion")
+# v5.4-rc1~131^2~59^2~4
+table ip x {
+	set s {
+		flags dynamic;
+		type inet_service;
+	}
+
+	chain y {
+		delete @s { tcp dport }
+	}
+}
+# 857b46027d6f ("netfilter: nft_ct: add ct expectations support")
+# v5.3-rc1~140^2~153^2~19
+table t {
+	ct expectation ctexpect {
+		protocol tcp
+		dport 5432
+		timeout 1h
+		size 12;
+	}
+}
+# 207296f1a03b ("netfilter: nf_tables: allow to create netdev chain without device")
+# v6.4-rc1~132^2~14^2
+table netdev t {
+	chain c {
+		type filter hook ingress priority 0; policy accept;
+        }
+}
+table t {
+	flags persist;
+}
+# 7e0b2b57f01d ("netfilter: nft_ct: add ct timeout support")
+# v4.19-rc1~140^2~64^2~3
+table t {
+	ct timeout cttime {
+		protocol tcp;
+		policy = {established: 120 }
+	}
+}
+# a4878eeae390 ("netfilter: nf_tables: relax set/map validation checks")
+# v6.5-rc1~163^2~256^2~8
+table ip t {
+        map m {
+                typeof ip daddr : meta mark
+        }
+
+        chain c {
+                ip saddr @m
+        }
+}
+# 63d10e12b00d ("netfilter: nft_meta: support for time matching")
+# v5.4-rc1~131^2~59^2~6
+table ip t {
+	chain c {
+		meta time "1970-05-23 21:07:14"
+	}
+}
+# f53b9b0bdc59 netfilter: introduce support for reject at prerouting stage
+# v5.9-rc1~133^2~302^2~11
+table inet t {
+	chain nat_filter {
+		type filter hook prerouting priority 0; policy accept;
+		reject with icmpx type host-unreachable
+	}
+}
+table inet t {
+        chain c {
+		reset tcp option fastopen
+	}
+}
+# e0bb96db96f8 ("netfilter: nft_socket: add support for cgroupsv2")
+# v5.13-rc1~94^2~35^2~20
+table ip t {
+	chain c {
+		socket cgroupv2 level 1 "user.slice" counter
+	}
+}
+# aaa31047a6d2 ("netfilter: nftables: add catch-all set element support")
+# v5.13-rc1~94^2~10^2~2
+table t {
+	map m {
+		type inet_service : inet_service
+		elements = { * : 42 }
+	}
+}
+# dbb5281a1f84 ("netfilter: nf_tables: add support for matching IPv4 options")
+# v5.3-rc1~140^2~153^2~1
+
+table ip x {
+	chain y {
+		ip option ra value 255
+	}
+}
+# d3519cb89f6d ("netfilter: nf_tables: add inet ingress support")
+# v5.10-rc1~107^2~17^2~1
+table inet t {
+        chain c {
+                type filter hook ingress device "lo" priority filter; policy accept;
+        }
+}
+# v5.3-rc1~140^2~44^2~10
+# ad49d86e07a4 ("netfilter: nf_tables: Add synproxy support")
+table inet x {
+       synproxy https-synproxy {
+               mss 1460
+               wscale 7
+               timestamp sack-perm
+       }
+}
+# 42df6e1d221d ("netfilter: Introduce egress hook")
+# v5.16-rc1~159^2~167^2~10
+table netdev t {
+	chain c {
+		type filter hook egress devices = { lo } priority 0; policy accept;
+	}
+}
+# 3c4287f62044 ("nf_tables: Add set type for arbitrary concatenation of ranges")
+# v5.6-rc1~151^2~28^2~1
+table t {
+	set s {
+		type ipv4_addr . inet_service
+		flags interval
+		elements = { 1.1.1.1-2.2.2.2 . 80-90 }
+	}
+}
+# 05abe4456fa3 ("netfilter: nf_tables: allow to register flowtable with no devices")
+# v5.8-rc1~165^2~27^2~1
+table ip filter2 {
+	flowtable main_ft2 {
+		hook ingress priority filter
+		counter
+	}
+}
