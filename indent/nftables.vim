@@ -1,4 +1,8 @@
 " Only load this indent file when no other was loaded.
+if exists('g:nft_debug') && g:nft_debug >= 2
+  call nftables#syntax#log('OK', 'Begin')
+endif
+
 if exists('b:did_indent')
   finish
 endif
@@ -15,3 +19,7 @@ setlocal nolisp         " Make sure lisp indenting doesn't supersede us
 setlocal autoindent     " indentexpr isn't much help otherwise
 " Also do indentkeys, otherwise # gets shoved to column 0 :-/
 setlocal indentkeys=0{,0},!^F,o,O,0[,0]
+if exists('g:nft_debug') && g:nft_debug >= 2
+  call nftables#syntax#log('OK', 'End')
+endif
+

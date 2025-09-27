@@ -5,7 +5,7 @@
 " Initial Date: 2020-04-24
 " Last Change:  2025-01-19
 " Filenames:    nftables.conf, *.nft
-" Location:     https://github.com/egberts/vim-syntax-nftables
+" Location:     https://github.com/egberts/vim-syntax-nftables/syntax/nftables
 " License:      MIT license
 " Bug Report:   https://github.com/egberts/vim-syntax-nftables/issues
 " Syntime:      ~x.xxs (tested 2025-0x-xx)
@@ -34,7 +34,6 @@
 if exists('g:nft_did_common_block')
   finish
 endif
-let g:nft_did_common_block = v:true
 
 if exists('b:current_syntax') && b:current_syntax ==# 'nftables'
   finish
@@ -43,6 +42,8 @@ let s:script_dir = expand('<sfile>:p:h')
 if exists('nft_debug') && nft_debug == 1
   call nftables#syntax#log('INFO', 'common_block.vim: Loading common_block.vim ...' )
 endif
+
+try
 
 " Region that spans from after 'last' to terminator ';' or newline
 hi link    nft_common_block_undefine_extra_text nftHL_Error
@@ -511,5 +512,8 @@ syn cluster nft_c_common_block
 \    nft_common_block_stmt_separator
 
 
-call nftables#syntax#debug('common_block.vim: Loaded syntax/nftables/common_block.vim' )
-
+  call nftables#syntax#debug('common_block.vim: Loaded syntax/nftables/common_block.vim' )
+  let g:nft_did_common_block = v:true
+catch
+  echomsg 'syntax/nftables/common_block.vim: ERROR: ' . v:exception . ' at ' . v:throwpoint
+endtry
