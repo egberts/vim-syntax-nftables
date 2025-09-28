@@ -118,14 +118,20 @@
 "       indent/nftables.vim
 
 " Enable debug mode (0 = off, >=1 = on for logging).
-let g:nft_debug = 1
+let g:nft_debug = 0
 
 " Store the current script’s filename for stack-based logging.
 " Used in LL(1) parsing to track script context for error reporting.
-let g:nft_current_script_file_name = fnamemodify(expand('<sfile>:p'), ':p:t')
+" let b:nft_current_dirname = fnamemodify(expand('<sfile>:p'), ':h:t')
+" let b:nft_current_filename = fnamemodify(expand('<sfile>:p'), ':t')
+" let g:nft_current_script_file_name = b:nft_current_dirname . '/' . b:nft_current_filename
+call nftables#syntax#push(expand('<sfile>'))
+" echom 'main: g:nft_current_script_file_name: ' . g:nft_current_script_file_name
 
 " Debug log to mark the start of script execution.
-call nftables#syntax#debug('Begin')
+if exists('g:nft_debug') && g:nft_debug >=1
+  echom '*[syntax/nftables][OK] Begin'
+endif
 
 " Double-check for syntax loading to prevent conflicts.
 " Early exit if syntax is already loaded to prevent redefinition.
@@ -142,11 +148,13 @@ set cpo&vim
 
 " List of companion syntax files to load.
 " These files define specific syntax groups, forming the LL(1) syntax tree.
-let s:files = ['common_block_early.vim', 'common_block.vim']
+let s:files_early = ['common_block_early.vim']
+let s:files_later = ['common_block.vim']
 
 " Define the directory for custom syntax files.
 " Used to source additional files that extend the LL(1) grammar.
-let s:dir = fnamemodify(expand('<sfile>'), ':p:h') . '/../custom/nftables/'
+let s:this_current_dir = fnamemodify(expand('<sfile>:p'), ':h') . '/../custom/nftables/'
+echom 's:this_current_dir: ' . s:this_current_dir
 
 " Notify user to check logs if debug mode is enabled.
 if exists('g:nft_debug') && g:nft_debug >= 1
@@ -306,12 +314,12 @@ try
   " Define basic syntax groups for nftables commands and literals.
 
   " Load companion syntax files to extend the LL(1) syntax tree.
-  call nftables#syntax#log('INFO', 'syntax/nftables.vim: files: ' . string(s:files))
-  for file in s:files
+  call nftables#syntax#log('INFO', 'files_early: ' . string(s:files_early))
+  for file in s:files_early
     try
-      call nftables#syntax#log('OK', 'syntax/nftables.vim Loading ' . file)
-      execute 'source ' . s:dir . file
-      call nftables#syntax#debug('syntax/nftables.vim ' . file . ' loaded.')
+      call nftables#syntax#log('OK', 'Loading ' . file)
+      execute 'source ' . s:this_current_dir . file
+      call nftables#syntax#debug(' ' . file . ' loaded.')
     catch
       echohl ErrorMsg
       call nftables#syntax#log('ERROR', 'Error loading: ' . v:exception . ' at line ' . line('.') . ' in ' . expand('<sfile>:t') . ' at ' . v:throwpoint)
@@ -334,9 +342,6 @@ try
 "hi link nftHL_BlockDelimitersDevices Delimiter
 
 if exists('g:nft_colorscheme')
-  if exists('g:nft_debug') && g:nft_debug == v:true
-    echom 'nft_colorscheme detected'
-  endif
   hi def nftHL_BlockDelimitersTable  guifg=LightBlue ctermfg=LightRed ctermbg=Black cterm=NONE
   hi def nftHL_BlockDelimitersChain  guifg=LightGreen ctermfg=LightGreen ctermbg=Black cterm=NONE
   hi def nftHL_BlockDelimitersSet  ctermfg=17 guifg=#0087af ctermbg=Black cterm=NONE
@@ -14559,6 +14564,21 @@ hi link   nft_comment_inline nftHL_Comment
 syntax region nft_comment_inline start='\#' end='$' skip="#.*$" oneline skipwhite keepend contained
 
 "*************** END OF TOP-LEVEL SYNTAXES *****************************
+
+  " Load companion syntax files to extend the LL(1) syntax tree.
+  call nftables#syntax#log('INFO', 'files_later: ' . string(s:files_later))
+  for file in s:files_later
+    try
+      call nftables#syntax#log('OK', 'Loading ' . file)
+      execute 'source ' . s:this_current_dir . file
+      call nftables#syntax#debug(' ' . file . ' loaded.')
+    catch
+      echohl ErrorMsg
+      call nftables#syntax#log('ERROR', 'Error loading: ' . v:exception . ' at line ' . line('.') . ' in ' . expand('<sfile>:t') . ' at ' . v:throwpoint)
+      echohl None
+    endtry
+  endfor
+
 
 "********************* END OF SYNTAX ****************************
 
