@@ -43,7 +43,7 @@ add chain T C {
     type filter hook input priority 0; policy drop;
     # tcp flags syn tcp dport ssh meter flood size 128000 { ip saddr timeout 10s limit rate over 10/second} add @Sip { ip saddr timeout 1m } drop;
  
-    rtclassid 14 
+    rtclassid 14 ;
     continue  # verdict_expr
     define A = 1
     redefine A = 2
@@ -84,9 +84,12 @@ add chain T C {
     ;
 }
 
+# tcp flags syn tcp dport ssh meter flood size 128000 { ip saddr timeout 10s limit rate over 
+# 10/second} add @Sip { ip saddr timeout 1m } drop;
 add chain ip Tip Cip {
     type filter hook input priority 0; policy drop;
-    # tcp flags syn tcp dport ssh meter flood size 128000 { ip saddr timeout 10s limit rate over 10/second} add @Sip { ip saddr timeout 1m } drop;
+    # tcp flags syn tcp dport ssh meter flood size 128000 { ip saddr timeout 10s limit rate over 
+    # 10/second} add @Sip { ip saddr timeout 1m } drop;
  
     meta rtclassid 14 
     continue  # verdict_expr

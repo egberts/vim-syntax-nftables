@@ -12,6 +12,12 @@
 ;
  ;
 
+# line
+
+table tableId {
+
+# comment with braces } and rest should still } be highlighted as comment
+
 # line/common_block/INCLUDE
 include "../include/add-table-a.nft"
 

@@ -1,0 +1,15 @@
+#!/usr/sbin/nft
+define A = 1
+add table next 
+add { }
+table T {
+    chain C {
+        accept
+        accept comment "first"
+        add @dynmark { 10.2.3.4 timeout 2s : 0x00000002 } comment "also check timeout-gc"
+        add @ssh_meter { ip saddr timeout 30d }
+        add @y { ip saddr }
+        counter
+        # ... (other lines)
+    }
+ }

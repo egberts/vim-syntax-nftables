@@ -23,10 +23,7 @@ table a
 table z
 table a0
 table z0
-table A/
-table A\
 table A_
-table A.
 table A
 
 # base_cmd add_cmd 'table' table_spec family_spec family_spec_explicit
@@ -46,22 +43,12 @@ table bridge xxxx { };
 table netdev xxxx { };
 table arp xxxx { };
 
-table my.IpTable
-table my/IpTable
-add table my/IpTable
-add table my\IpTable    # defaults to 'ip' family
-table my./_IpTable
-add table my./_IpTable
-table my.IpTable
-add table my.IpTable
-add table my_./\IpTable    # defaults to 'ip' family
-
 # base_cmd add_cmd 'table' table_spec table_block common_block 'include'
 table T {
     include "file"
 }
 # base_cmd add_cmd 'table' table_spec table_block common_block 'define'
-table T { define A = 1 }
+table T { define A = 1; }  # very interesting, ';' is required inside one-liner chain_block
 table T { 
     define A = 1 
     define A = 1 ;
@@ -70,7 +57,6 @@ table T {
     define A = {} ;
 }
 # base_cmd add_cmd 'table' table_spec table_block common_block 'redefine'
-table T { redefine A = 1 }
 table T { redefine A = 1; }
 table T { 
     redefine A = 1
@@ -94,36 +80,31 @@ table T {
 } 
 table bridge T { comment 'Hello world!' }
 table T { comment "Hello world!" }
-table T { comment *Hello world!* }
 table netdev xxxx { comment "test" } ;
 table xxxx { comment 'test' };
-table T { comment *Hello world!* ;  }
 table arp xxxx { comment test;  };
 
 # base_cmd add_cmd 'table' table_spec table_block 'policy' 'offload'
 # base_cmd add_cmd 'table' table_spec table_block hook_spec 'type' 
 # base_cmd add_cmd 'table' table_spec table_block 'flags' flag_spec
-table T {flags member_1}
-table T {flags member_1;}
-table T {flags member_1;};
-table T {flags member_1 ;}
-table T {flags member_1; }
-table T {flags member_1 ; }
-table T {flags member_1 ;};
-table T {flags member_1; };
-table T {flags member_1 ; };
-table T { flags member_1 }
-table T { flags member_1; }
-table T {flags member_2,member_3}
-table T { flags member_2, member_3 }
-table T { flags member_1; } ;
-table T { flags member_2,member_3} ; 
-table T { flags member_2, member_3 } ; 
+table T {flags dormant}
+table T {flags owner;}
+table T {flags persist;};
+table T {flags dormant,owner ;}
+table T {flags dormant,persist; }
+table T {flags dormant,owner,persist ; }
+table T {flags owner,dormant ;};
+table T {flags owner,persist; };
+table T {flags owner,dormant,persist ; };
+table T { flags owner,persist,dormant }
+table T { flags persist,dormant; }
+table T {flags persist,owner}
+table T { flags persist, dormant, owner }
+table T { flags persist,owner,dormant; } ;
 # base_cmd add_cmd 'table' table_spec table_block { table_options ';' }
-table T { flags member_1 } ;
-table ip xxxx { flags a, b, c};
-table xxxx { ; flags a, b, c; comment "new stuff"; };
-table T { flags a, b, c; chain C { type ; }; };
+table ip xxxx { flags dormant, owner, persist};
+table xxxx { ; flags persist, owner, dormant; comment "new stuff"; };
+table T { flags owner, persist, owner; chain C { type filter hook input priority -15; }; };
 
 table T {
     # common_block
@@ -132,7 +113,7 @@ table T {
     redefine A = 2
     undefine A
     # table_option
-    flags a, b, c
+    flags dormant, persist, owner
     comment Hello
 }
 
@@ -149,9 +130,7 @@ table T {
 }
 
 # base_cmd add_cmd 'table' table_spec table_block 'rule' rule
-
-######################
-table T { comment "unique, uh?"; flags a, b, c; chain C { type ; }; };
+table T { comment "unique, uh?"; flags dormant; chain C { type filter hook input priority -1; }; };
 table xxxx {
     comment test;
     include "add-more-table-xxxx.nft";
@@ -171,40 +150,26 @@ table T { chain C ; } ;
 table T { chain C ; } ;
 table T { chain C { }; };
 table T { chain C { }; chain D { }; };
-add table T { 
-    chain C {
-        comment asdf 
-    }; 
-    chain D { }; 
-};
-
 
 # nft_line/nft_c_base_cmd/nft_base_cmd_add/nft_add_table_spec
-add table ip T { ip chain C { type ; }; } # comment ;   # supposed to be highlighted (incomplete type)
-add table ip T { ip chain C { type ; }; } ;   # supposed to be highlighted (incomplete type)
 table T { chain C { type filter hook ingress device $MY_DEVICE ; }; };
 table T { chain C { type filter hook ingress device $MY_DEVICE ; }; };
 table T { chain C { type filter hook ingress devices = $MY_DEVICE ; }; };
 table T { chain C { type filter hook ingress devices = $MY_DEVICE }; };
 table T { chain C { type filter hook ingress devices = { a }; }; };
 table T { chain C { type filter hook ingress devices = { $a }; }; };
-table ip MyTable { chain C { type filter hook ingress devices = { a }; };
 table T { chain C { type filter hook ingress device eth0 priority 256 }; };
 table T { chain C { type filter hook ingress device eth0 priority 1; } };
 table T { chain C { type filter hook ingress device eth0 priority 1; } };
-add table T { chain C { type filter hook ingress device eth0 priority 1; }; };
 
 table T { chain C { policy $MYPOLICY; };};
 table T { chain C { policy drop; };};
 table T { chain C { policy accept; };};
 table T { chain C { flags offload; }; };
 table T { chain C { comment "asdf" ;  }; };
-table T { chain C { rule define = 1; comment "asdf" ;  }; };
 table T { chain C { devices=$MYDEVICE;  }; };
 table T { chain C { devices =$MYDEVICE;  }; };
 table T { chain C { devices= $MYDEVICE;  }; };
-table T { chain C { xxx devices = $MYDEVICE;  }; };
-table T { chain C { xxx devices = { $MYDEVICE,$SECONDDEVICE,"br0" }  }; };
 
 table myIpTable { flags dormant; }
 table netdev myNetdev { flags dormant; }
@@ -213,7 +178,6 @@ table arp myArpTable { flags dormant; }
 table ip myIpTable { flags dormant; }
 table ip6 myIp6Table { flags dormant; }
 table inet myInetTable { flags dormant; }
-# END OF WORK
 
 table xxxx { undefine abc; chain last { undefine abc; }; };
 
@@ -226,7 +190,7 @@ table inet MyIpNet {
         policy drop;
         policy accept;
     }
-    flags a, b, c
+    flags persist, dormant, owner
     comment "unique"
 };
 
@@ -238,33 +202,24 @@ table xxxx { chain last {
     include "file";
     define a = 123;
 }; };
-table arp A0b_._/RP_TABLE {
-    chain ARP_INPUT_FILTER {
-        define a = 123;
-        type filter hook input priority table_id;
-        policy drop;
-        counter log drop
-    }
-    chain ARP_INPUT_FILTER {
-        type filter hook prerouting priority 0;
-        policy drop;
-        counter log return
-    }
-    chain workstation_arp_filter_output {
-        type filter hook output priority 0;
-        policy drop;
-        counter log drop
-    }
-}
-table netdev A {
-    chain a { 
-        type filter hook ingress device lo priority -100; policy accept
-        chain a { type };
-        udp dport 53 ether type 0x8006 ether saddr set aa:bb:cc:dd:ff:ee ether daddr set numgen inc mod 2 map {  0 : ca:fe:ba:be:00:00, 1: de:ad:be:ef:00:00 } fwd to eth0;
-    };
 
-
-    chain b { }
+table arp A0b__RP_TABLE {
+     chain ARP_INPUT_FILTER {
+         define a = 123;
+         type filter hook input priority srcnat;  # mmmmmm, started to see some pre-defined defines for 'priority'
+         policy drop;
+         counter log drop
+     }
+     chain ARP_INPUT_FILTER {
+         type filter hook prerouting priority mangle;
+         policy drop;
+         counter log return
+     }
+     chain workstation_arp_filter_output {
+         type filter hook output priority raw;
+         policy drop;
+         counter log drop
+     }
 }
 table netdev A {
     chain a { };
@@ -934,13 +889,25 @@ table xxxx { undefine abc; chain last { chain last; undefine abc; }; };  # oopsi
 # so far, so good.
 ################################################################################
 
+table A.
+table A/
+table A\
 table "*weirdname"  # allowable '*' but only inside double quote???
 table "$weirdname"  # allowable '$' but only inside double quote???
 table "#weirdname"  # allowable '#' but only inside double quote???
+table my.IpTable
+table my/IpTable
+table my./_IpTable
+table my.IpTable
+
+add table my/IpTable
+add table my.IpTable
+add table my\IpTable    # defaults to 'inet' family
+add table my./_IpTable
+add table my_./\IpTable    # defaults to 'inet' family
 
 table ip 
 table ip6   
-
 
 table inet  #
 
@@ -956,7 +923,12 @@ table \abc   # invalid identifier (started with non-letter)
 table _abc   # invalid identifier (started with non-letter)
 table .abc   # invalid identifier (started with non-letter)
 
+table T { redefine A = 1 }; }
+
 table T { devices = eth0 }
+
+table T { comment *Hello world!* }
+table T { comment *Hello world!* ;  }
 
 table T { chain C { type filter hook ingress ; }; };  # incomplete
 table T { chain C { type filter hook ingress devices ; }; };  # incomplete
@@ -972,6 +944,33 @@ table T { chain C { devices = $MYVARIABLE } }
 
 table A!error
 
+table ip MyTable { chain C { type filter hook ingress devices = { a }; };
+} # imbalanced recovery for resumption of error-checking
+
+table T { chain C { rule define = 1; comment "asdf" ;  }; };
+table T { chain C { xxx devices = $MYDEVICE;  }; };
+table T { chain C { xxx devices = { $MYDEVICE,$SECONDDEVICE,"br0" }  }; };
+
+table netdev A {
+    chain a {
+        type filter hook ingress device lo priority -100; policy accept;
+        chain a { type };  # nested chains are not supported
+        udp dport 53 ether type 0x8006 ether saddr set aa:bb:cc:dd:ff:ee ether daddr set numgen inc mod 2 map {  0 : ca:fe:ba:be:00:00, 1: de:ad:be:ef:00:00 } fwd to eth0;
+    };
+
+
+    chain b { }
+}
+add table T { 
+    chain C {
+        comment asdf 
+    }; 
+    chain D { }; 
+};
+
+add table ip T { ip chain C { type ; }; }  # 'add' has no table_block
+add table ip T { ip chain C { type ; }; } ;  # 'add' has no table_block
+add table T { chain C { type filter hook ingress device eth0 priority 1; }; };  # 'add' has no table_block
 
 ################################################################################
 # false negative test: highlighted wrongly; still has good content; oops.
