@@ -118,7 +118,7 @@
 "       indent/nftables.vim
 
 " Enable debug mode (0 = off, >=1 = on for logging).
-let g:nft_debug = 0
+let g:nft_debug = 3
 
 " Store the current script’s filename for stack-based logging.
 " Used in LL(1) parsing to track script context for error reporting.
@@ -129,8 +129,8 @@ call nftables#syntax#push(expand('<sfile>'))
 " echom 'main: g:nft_current_script_file_name: ' . g:nft_current_script_file_name
 
 " Debug log to mark the start of script execution.
-if exists('g:nft_debug') && g:nft_debug >=1
-  echom '*[syntax/nftables][OK] Begin'
+if exists('g:nft_debug') && g:nft_debug ==1
+  echom '[syntax/nftables][OK] Begin'
 endif
 
 " Double-check for syntax loading to prevent conflicts.
@@ -154,10 +154,12 @@ let s:files_later = ['common_block.vim']
 " Define the directory for custom syntax files.
 " Used to source additional files that extend the LL(1) grammar.
 let s:this_current_dir = fnamemodify(expand('<sfile>:p'), ':h') . '/../custom/nftables/'
-echom 's:this_current_dir: ' . s:this_current_dir
+" echom 's:this_current_dir: ' . s:this_current_dir
+
+call nftables#syntax#log('ERROR', 'test error message')
 
 " Notify user to check logs if debug mode is enabled.
-if exists('g:nft_debug') && g:nft_debug >= 1
+if exists('g:nft_debug') && g:nft_debug == 1
   echo 'Use `:messages`, `syntax list <group_name>` for details'
   echo 'Use `:verbose highlight <group_name>` for details'
 endif
@@ -166,7 +168,7 @@ endif
 " Colorscheme enhances visual distinction of LL(1) syntax groups.
 if exists('g:nft_colorscheme') && g:nft_colorscheme == 1
   try
-    if exists('g:nft_debug') && g:nft_debug >= 1
+    if exists('g:nft_debug') && g:nft_debug == 1
       call nftables#syntax#log('INFO', 'Loaded \'nftables\' colorscheme.')
     endif
     colorscheme nftables
@@ -209,7 +211,7 @@ if !empty($TERM)
     call nftables#syntax#debug('$TERM is not xterm-256color')
   endif
 else
-  call nftables#syntax#debug('$TERM is empty/undefined.')
+  call nftables#syntax#log('ERROR', '$TERM is empty/undefined.')
 endif
 
 " Log terminal and color settings for debugging.
