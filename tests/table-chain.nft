@@ -9,6 +9,14 @@
 # true positive test: properly hightlighted; has good content; perfect.
 ################################################################################
 
+add table ip table
+table ip table {
+    flags dormant,persist,owner
+    chain chain_name {
+        flags offload
+    }
+}
+
 table T { chain C { 
 type filter hook output priority 0; policy drop; } };
 

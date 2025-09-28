@@ -52,7 +52,7 @@ function! nftables#syntax#extract_until_last_periods(str) abort
   return strpart(a:str, 0, l:end + 1)
 endfunction
 
-function! s:ExtractAfterLastFunction(str) abort
+function! nftables#syntax#extract_after_last_function(str) abort
   let l:last_function = strridx(a:str, 'function')
   if l:last_function == -1
     return a:str
