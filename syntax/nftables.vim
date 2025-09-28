@@ -156,8 +156,6 @@ let s:files_later = ['common_block.vim']
 let s:this_current_dir = fnamemodify(expand('<sfile>:p'), ':h') . '/../custom/nftables/'
 " echom 's:this_current_dir: ' . s:this_current_dir
 
-call nftables#syntax#log('ERROR', 'test error message')
-
 " Notify user to check logs if debug mode is enabled.
 if exists('g:nft_debug') && g:nft_debug == 1
   echo 'Use `:messages`, `syntax list <group_name>` for details'
@@ -173,7 +171,9 @@ if exists('g:nft_colorscheme') && g:nft_colorscheme == 1
     endif
     colorscheme nftables
   catch /^Vim\%((\a\+)\)\=:E185/
+    echohl Command
     call nftables#syntax#log('WARN', 'WARNING: nftables colorscheme is missing')
+    echohl None
   endtry
 else
   call nftables#syntax#debug('No nftables colorscheme loaded.')
@@ -200,7 +200,7 @@ if !empty($TERM)
     if !empty($COLORTERM)
       if $COLORTERM ==# 'truecolor' || $COLORTERM ==# '24bit'
         let nft_truecolor = 'yes'
-        call nftables#syntax#log('INFO', '$COLORTERM is truecolor')
+        call nftables#syntax#log('OK', '$COLORTERM is truecolor')
       else
         call nftables#syntax#log('WARN', '$COLORTERM is not \'truecolor\'')
       endif
@@ -319,13 +319,11 @@ try
   call nftables#syntax#log('INFO', 'files_early: ' . string(s:files_early))
   for file in s:files_early
     try
-      call nftables#syntax#log('OK', 'Loading ' . file)
+      call nftables#syntax#log('INFO', 'Loading ' . file)
       execute 'source ' . s:this_current_dir . file
       call nftables#syntax#debug(' ' . file . ' loaded.')
     catch
-      echohl ErrorMsg
       call nftables#syntax#log('ERROR', 'Error loading: ' . v:exception . ' at line ' . line('.') . ' in ' . expand('<sfile>:t') . ' at ' . v:throwpoint)
-      echohl None
     endtry
   endfor
 
@@ -14568,16 +14566,14 @@ syntax region nft_comment_inline start='\#' end='$' skip="#.*$" oneline skipwhit
 "*************** END OF TOP-LEVEL SYNTAXES *****************************
 
   " Load companion syntax files to extend the LL(1) syntax tree.
-  call nftables#syntax#log('INFO', 'files_later: ' . string(s:files_later))
+  call nftables#syntax#log('OK', 'files_later: ' . string(s:files_later))
   for file in s:files_later
     try
-      call nftables#syntax#log('OK', 'Loading ' . file)
+      call nftables#syntax#log('INFO', 'Loading ' . file)
       execute 'source ' . s:this_current_dir . file
       call nftables#syntax#debug(' ' . file . ' loaded.')
     catch
-      echohl ErrorMsg
       call nftables#syntax#log('ERROR', 'Error loading: ' . v:exception . ' at line ' . line('.') . ' in ' . expand('<sfile>:t') . ' at ' . v:throwpoint)
-      echohl None
     endtry
   endfor
 
@@ -14590,14 +14586,6 @@ syntax region nft_comment_inline start='\#' end='$' skip="#.*$" oneline skipwhit
 catch
   call nftables#syntax#log('ERROR', 'Failed to define main syntax: ' . v:exception . ' at line ' . line('.') . ' in ' . expand('<sfile>:t') . ' at ' . v:throwpoint)
 endtry
-
-" Verify if a specific syntax group is defined for debugging.
-" Uses nftables#syntax#check_syntax_group to validate LL(1) group definitions.
-if nftables#syntax#check_syntax_group('nft_identifier')
-  call nftables#syntax#log('OK', 'last pass: nft_identifier defined outside.')
-else
-  call nftables#syntax#log('ERROR', 'last pass: nft_identifier NOT DEFINED OUTSIDE!')
-endif
 
 " Restore script stack after loading.
 let g:nft_current_script_file_name = empty(g:nft_script_name_stack) ? '' : remove(g:nft_script_name_stack, -1)

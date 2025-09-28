@@ -1,5 +1,5 @@
 " ~/.vim/autoload/nftables/syntax.vim
-if exists('g:nft_debug') && g:nft_debug >= 2
+if exists('g:nft_debug') && g:nft_debug == 1
   echomsg '[~/.vim/autoload/nftables/syntax.vim] Begin'
 endif
 
@@ -13,7 +13,7 @@ endif
 "let s:script_name = substitute(expand('<sfile>:t:r'), '-', '_', 'g')
 " Store parent directory name
 let s:this_script_filename = fnamemodify(expand('<sfile>:p'), ':r')
-echom 'autoload/nftables/syntax.cim: s:this_script_filename: ' . s:this_script_filename
+" echom 'autoload/nftables/syntax.cim: s:this_script_filename: ' . s:this_script_filename
 
 "let s:script_file_name = s:script_dir . '/' . s:script_name
 """""""""""""let g:nft_current_script_file_name = s:script_file_name
@@ -135,10 +135,19 @@ endfunction
 function! nftables#syntax#log(level, msg) abort
   let l:caller_info = nftables#syntax#get_caller_info()
   if a:level ==# 'OK'
+    if g:nft_debug >= 3
+      return
+    endif
     echohl Directory
   elseif a:level ==# 'INFO'
+    if g:nft_debug >= 4
+      return
+    endif
     echohl Comment
   elseif a:level ==# 'ERROR'
+    if g:nft_debug >= 5
+      return
+    endif
     echohl ErrorMsg
   else
     echohl None
@@ -148,7 +157,7 @@ function! nftables#syntax#log(level, msg) abort
 endfunction
 
 function! nftables#syntax#debug(msg) abort
-  if exists('g:nft_debug') && g:nft_debug >= 1
+  if exists('g:nft_debug') && g:nft_debug == 1
     let l:caller_info = nftables#syntax#get_caller_info()
     """"" echom 'l:caller_info: ' . string(l:caller_info)
     let l:msg_throwpoint = s:FormatThrowpoint(v:throwpoint)
@@ -190,14 +199,14 @@ endfunction
 function! nftables#syntax#define_match(group_name, contains_list, nextgroup_list, pattern, highlight_link, ...) abort
   let l:opts = get(a:000, 0, {})
   " echomsg 'a:group_name ' . a:group_name
-  echomsg 'g:nft_script_name_stack ' . string(g:nft_script_name_stack)
+  " echomsg 'g:nft_script_name_stack ' . string(g:nft_script_name_stack)
   " echomsg 'a:contains_list ' . string(a:contains_list)
   " echomsg 'a:nextgroup_list ' . string(a:nextgroup_list)
   " echomsg 'a:pattern ' . a:pattern
   " echomsg 'a:highlight_link ' . a:highlight_link
   " echomsg 'l:options ' . string(opts)
   call nftables#syntax#push(s:this_script_filename)
-  echom 'Peek: ' . nftables#syntax#peek()
+  "echom 'Peek: ' . nftables#syntax#peek()
   let l:child_group_name = a:group_name
   " echomsg 'l:child_group_name ' . l:child_group_name
   let l:escaped_pattern = substitute(a:pattern, '"', '\\"', 'g')
@@ -234,11 +243,11 @@ function! nftables#syntax#define_match(group_name, contains_list, nextgroup_list
     execute l:cmd
     call nftables#syntax#debug('autoload/syntax.vim: done "syntax match"')
     if !empty(a:highlight_link)
-      call nftables#syntax#log('INFO', 'requesting a highlight link')
+      call nftables#syntax#log('OK', 'requesting a highlight link')
       execute 'hi def link ' . l:child_group_name . ' ' . a:highlight_link
-      call nftables#syntax#log('INFO', 'Finished highlighting: hi def link ' . l:child_group_name . ' ' . a:highlight_link)
+      call nftables#syntax#debug('Finished highlighting: hi def link ' . l:child_group_name . ' ' . a:highlight_link)
     endif
-    call nftables#syntax#log('INFO', 'Done with ' . l:child_group_name)
+    call nftables#syntax#log('OK', 'Done with ' . l:child_group_name)
   catch
     let l:func_name = nftables#syntax#extract_until_last_periods(v:throwpoint)
     call nftables#syntax#log('ERROR', 'Failed match for ' . l:child_group_name . ': ' . v:exception . ' in ' . l:func_name)
@@ -271,7 +280,7 @@ function! nftables#syntax#reload() abort
   call nftables#syntax#pop()
 endfunction
 
-if exists('g:nft_debug') && g:nft_debug >= 2
+if exists('g:nft_debug') && g:nft_debug == 1
   echomsg '[~/.vim/autoload/nftables/syntax.vim] End'
 endif
 

@@ -31,17 +31,21 @@
 "   - consider relocating inner_inet_expr to after th_hdr_expr
 "   - pair the 'highlight link'/'syntax match' together, in that order for minimal CPU burn and maximum maintainability
 "
-if exists('g:nft_did_common_block')
+
+let s:sub_files = []
+
+if exists('b:did_nftables_common_block')
+  call nftables#syntax#log('INFO', 'Skipped common_block_early.vim (already loaded for buffer: ' . bufname('%') . ')')
   finish
 endif
 
-if exists('b:current_syntax') && b:current_syntax ==# 'nftables'
-  finish
-endif
-let s:script_dir = expand('<sfile>:p:h')
-if exists('nft_debug') && nft_debug == 1
-  call nftables#syntax#log('INFO', 'common_block.vim: Loading common_block.vim ...' )
-endif
+" save the filespec of this script into a stack for logging purpose
+" echom '<sfile>:p: ' . expand('<sfile>:p')
+let s:script_filename = fnamemodify(expand('<sfile>:p'), ':r')
+" echom 's:script_filename: ' . s:script_filename
+call nftables#syntax#push(s:script_filename)
+
+call nftables#syntax#log('OK', 'Begin')
 
 try
 
@@ -511,9 +515,17 @@ syn cluster nft_c_common_block
 \    nft_common_block_keyword_error,
 \    nft_common_block_stmt_separator
 
+  call nftables#syntax#debug('Loaded syntax/nftables/common_block.vim' )
 
-  call nftables#syntax#debug('common_block.vim: Loaded syntax/nftables/common_block.vim' )
-  let g:nft_did_common_block = v:true
 catch
-  echomsg 'syntax/nftables/common_block.vim: ERROR: ' . v:exception . ' at ' . v:throwpoint
+  call nftables#syntax#log('ERROR', 'syntax/nftables/common_block.vim: ERROR: ' . v:exception . ' at ' . v:throwpoint)
 endtry
+
+call nftables#syntax#log('OK', 'End')
+
+
+" pop off the filespec of this script from its stack for logging purpose
+call nftables#syntax#pop()
+
+" Common ending
+let b:did_nftables_common_block_early = 1
