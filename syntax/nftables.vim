@@ -541,6 +541,12 @@ syn match nft_UnexpectedCurlyBrace '\v\s{0,7}[\{\}]' skipwhite contained " do no
 hi link   nft_UnexpectedEmptyCurlyBraces nftHL_Error
 syn match nft_UnexpectedEmptyCurlyBraces '\v\{\s*\}' skipwhite contained " do not use 'keepend' here
 
+hi link   nft_UnexpectedCurrencySign nftHL_Error
+syn match nft_UnexpectedCurrencySign '\v\$\s{0,5}' skipwhite contained " do not use 'keepend' here
+
+hi link   nft_UnexpectedCaret nftHL_Error
+syn match nft_UnexpectedCaret '\v\^\s{0,5}' skipwhite contained " do not use 'keepend' here
+
 hi link   nft_UnexpectedEmptyBrackets nftHL_Error
 syn match nft_UnexpectedEmptyBrackets '\v\[\s*\]' skipwhite contained " do not use 'keepend' here
 

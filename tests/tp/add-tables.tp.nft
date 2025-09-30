@@ -2,16 +2,18 @@
 # File: all-tables.nft
 # Description: A test NFT file to exercise 'add table' Vim syntax highlightings.
 #
+# The imperative part of 'add table', not the declarative 'table' command.
+#
 # Identifiers begin with an alphabetic character (a-z,A-Z),
 # followed by zero or more alphanumeric characters (a-z,A-Z,0-9)
-# and the characters slash (/), backslash (\), underscore (_)
-# and dot (.).
 #
-# Identifiers using different characters or clashing with a
-# keyword need to be enclosed in double quotes (").
+# underscore (_) and dot (.) are supported.
+#
+# Wierdly so, the characters slash (/), backslash (\) seems
+# supported but are ignored throughout by this nftables highligher
 #
 # Syntax Pathway:
-#   base_cmd add_cmd 'table'
+#   base_cmd 'add' add_cmd 'table'
 #
 # Semantic Actions (reverse parser_bison.y):
 #   nft_line/nft_base_cmd/nft_base_cmd_add/nft_base_cmd_add_table/nft_add_table_chain_block policy_spec
@@ -23,180 +25,21 @@
 add table filter
 add table last
 
-add table my/IpTable
-add table my/IpTable 
-add table my/IpTable; 
-add table my/IpTable ;
-add table my/IpTable ; 
+add table my
+add table my 
+add table my; 
+add table my ;
+add table my ; 
 
 add table my./_IpTable { };
 add table my.IpTable
 
 add table A#;   # not so invalid character, it's an inline comment
 
-table A
-table Z
-table a
-table z
-table a0
-table z0
-table A/
-table A\
-
-table A
-table A   # comment
-table T { ; };
-
-
-
-
-
-##########################################################################
-# All-in-One
-##########################################################################
-flush ruleset
-
-define ETHERNAME = eno2
-define CHAINPOLICY = "drop"
-define BRIDGE_INTERFACE = "virbr2"
-destroy table ip Tip
 add table ip Tip
-#table ip Tip {
-#    chain Cip {
-#        type filter hook input priority 100; policy drop;
-#        oifname eno2 ip saddr 127.0.0.1 counter drop;
-#    }
-#}
-table ip Tip {  # nft_add_cmd_keyword_table_table_block_delimiters
-    # common_block
-    include "../include/comment-just-a-comment.nft";
-    define A = 1
-    redefine A = 2
-    undefine A
-    # table_option
-    ###flags dormant,persist;  # dormant=undefined chain Cip; persist=Operation not supported
-    # chain_block
-    chain Cip {  # nft_add_cmd_keyword_table_table_block_chain_chain_block_delimiters
-        ip saddr 127.0.0.1 counter drop;
-        # common_block
-        include "../include/comment-just-a-comment.nft"
-        type filter hook input priority 100; policy drop;
-        define A = 1
-        redefine A = 2
-        undefine A
-        # hook_spec
-        # set_flags
-        ##### flags offload (only useful if Ethernet NIC supports MAC filtering)
-        # rule/rule_alloc/stmt/stateful_stmt/counter_stmt
-        # counter CounterA SomethingB
-        # devices
-        # devices = { "eth0", $BRIDGE_INTERFACE };
-    };
-    chain C1 { };
-    chain C2 { };
-    chain C3 { comment "wow";};
-    # set_block
-#    set S {  # nft_add_cmd_table_block_set_block_delimiters
-#        # common_block
-#        # comment_spec
-#        include "../include/comment-just-a-comment.nft";
-#        define A = 1
-#        redefine A = 2
-#        undefine A
-#        # set_flags
-#        flags interval;
-#        timeout 14h;
-#        gc-interval 30s;
-#        # rule/rule_alloc/stmt/stateful_stmt/counter_stmt
-#        counter;
-#        # rule/rule_alloc/stmt/stateful_stmt/limit_stmt
-#        limit rate 15 / second;
-#        limit rate over 15 / second;
-#
-#        limit rate 15 mbytes / second;
-#        limit rate over 15 kbytes / second burst 15 kbytes;
-#        # rule/rule_alloc/stmt/stateful_stmt/quota_stmt
-#        quota over 15 bytes
-#        quota over 15 bytes used 15 mbytes
-#        # rule/rule_alloc/stmt/stateful_stmt/connlimit_stmt
-#        ct count over 20
-#        # rule/rule_alloc/stmt/stateful_stmt/last_stmt
-#        last
-#        last used never
-#        last used 15m
-#        # set_mechanism
-#        policy performance;
-#        policy memory;
-#        # 'elements'/set_block_expr
-#        elements = $ETHERNAME;
-#        # elements = { "tesdf",2,3,4 };
-#        auto-merge;
-#    };
-    # map_block
-#    map M {  # (nft_add_cmd_table_block_map_block_delimiters)
-#        # common_block
-#        # comment_spec
-#        include "../include/comment-just-a-comment.nft";
-#        define A = 1
-#        redefine A = 2
-#        undefine A
-#        # 'timeout'
-#        timeout 14h;
-#        # 'gc-interval'
-#        gc-interval 30s;
-#        # set_flags
-#        flags interval;
-#        # stateful_stmt/counter_stmt
-#        counter;
-#        # stateful_stmt/limit_stmt
-#        limit rate 15 / second;
-#        limit rate over 15 / second;
-#        # limit rate until 15 / second burst 15 packets;  # 'until' not quite working
-#        limit rate 15 mbytes / second;
-#        limit rate over 15 bytes / second burst 15 bytes;
-#        # stateful_stmt/quota_stmt
-#        quota over 15 bytes
-#        quota over 15 bytes used 15 mbytes
-#        # stateful_stmt/connlimit_stmt
-#        ct count over 20
-#        # stateful_stmt/last_stmt
-#        last
-#        last used never
-#        last used 15m
-#        # set_mechanism
-#        policy performance;
-#        policy memory;
-#        size 1230;
-#        # typeof_data_expr
-#        # typeof ether : ip interval ip;
-#        # type classid : limit;
-#        # 'elements'/set_block_expr
-#        elements = $ETHERNAME;
-#        #elements = { "tesdf",2,3,4 };
-#        # auto-merge
-#    };
-
-
-#    flowtable FT {  # nft_add_cmd_table_block_flowtable_block_delimiters
-#        hook ingress priority -150
-#        devices = { eno2 }
-#        flags offload
-#        counter
-#    } ;
-
-    # counter_block
-    counter CT { };
-    # quota_block
-    quota Q { };
-    # ct_helper_block
-    # ct helper CT_H { };
-    # ct_timeout_block
-    # ct timeout CT_T { };
-    # ct_expect_block
-    # ct expectation CT_E { protocol tcp; dport 22; size 15; l3proto ip; };
-    # secmark_block
-    # secmark SM { "selinux context settings"; };
-    # synproxy_block
-    synproxy SP { };
-};
+add table ip6 Tip
+add table inet Tip
+add table netdev Tip
+add table bridge Tip
+add table arp Tip
 

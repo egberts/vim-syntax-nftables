@@ -33,19 +33,30 @@ try
   " INSERT 'syntax region' here
   " INSERT 'syntax cluster' here
 try
-  hi link   nft_add_cmd_table_spec_identifier nftHL_Identifier
-  syn match nft_add_cmd_table_spec_identifier '\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}' skipwhite contained
-
-  hi link   nft_add_cmd_table_spec_family_spec_family_spec_explicit_identifier nftHL_Family
-  syn match nft_add_cmd_table_spec_family_spec_family_spec_explicit_identifier '\v(bridge|netdev|inet|arp|ip6|ip)\ze\s' skipwhite contained
+  hi link   nft_add_cmd_table_imperative_table_spec_identifier nftHL_Identifier
+  syn match nft_add_cmd_table_imperative_table_spec_identifier '\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}' skipwhite contained
   \ nextgroup=
-  \    nft_add_cmd_table_spec_identifier
+  \    nft_line_separator,
+  \    nft_line_nonidentifier_error,
+  \    nft_line_nonvariable_error,
+  \    nft_UnexpectedCurrencySign,
+  \    nft_UnexpectedCaret,
+  \    nft_ExpectedEOL,
+  \    nft_UnexpectedCurlyBrace,
+  \    nft_Error
 
-  hi link   nft_base_cmd_add_cmd_keyword_table_declarative nftHL_Keyword
-  syn match nft_base_cmd_add_cmd_keyword_table_declarative '\vtable\ze\s' skipwhite contained
+  hi link   nft_add_cmd_table_imperative_table_spec_family_spec_family_spec_explicit_identifier nftHL_Family
+  syn match nft_add_cmd_table_imperative_table_spec_family_spec_family_spec_explicit_identifier '\v(bridge|netdev|inet|arp|ip6|ip)\ze\s' skipwhite contained
+  \ nextgroup=
+  \    nft_add_cmd_table_imperative_table_spec_identifier,
+  \    nft_Error
+
+  hi link   nft_base_cmd_add_cmd_keyword_table_imperative nftHL_Keyword
+  syn match nft_base_cmd_add_cmd_keyword_table_imperative '\vtable\ze\s' skipwhite contained
 \ nextgroup=
-\    nft_add_cmd_table_spec_family_spec_family_spec_explicit_identifier,
-\    nft_add_cmd_table_spec_identifier
+\    nft_add_cmd_table_imperative_table_spec_family_spec_family_spec_explicit_identifier,
+\    nft_add_cmd_table_imperative_table_spec_identifier,
+\    nft_Error
 
   "syntax match nft_base_cmd_add_cmd_keyword_table '\vtable\ze\s' contained nextgroup=nft_add_cmd_table_spec_identifier
   call nftables#syntax#debug('Loading add_table_cmd.vim ...')
