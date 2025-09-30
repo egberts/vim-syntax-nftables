@@ -151,6 +151,7 @@ set cpo&vim
 let s:list_filepaths_semantic_early = ['common_block_early.vim']
 let s:list_filepaths_semantic_later = [
 \     'table.vim',
+\     'add_table_cmd.vim',
 \     'add_cmd.vim',
 \     'create_cmd.vim',
 \     'common_block.vim'
@@ -5968,8 +5969,8 @@ syn cluster nft_c_add_cmd_keyword_counter_obj_spec
 \    nft_add_cmd_keyword_counter_obj_spec_table_spec_table_id,
 
 " 'counter'->add_cmd->base_cmd->line
-hi link   nft_add_cmd_keyword_table nftHL_Command
-syn match nft_add_cmd_keyword_table '\vtable\ze[ \t]' skipwhite contained
+hi link   nft_add_cmd_counter_keyword_table nftHL_Command
+syn match nft_add_cmd_counter_keyword_table '\vtable\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    @nft_c_add_cmd_keyword_counter_obj_spec,
 \    nft_UnexpectedSemicolon,
@@ -13841,6 +13842,7 @@ syn match nft_add_cmd_table_block_keyword_synproxy '\vsynproxy' skipwhite contai
 
 
 
+" ------------- BEGIN 'table' -------------
 " base_cmd add_cmd 'table' table_spec family_spec identifier
 hi link   nft_table_spec_variable_expr nftHL_Variable
 syn match nft_table_spec_variable_expr "\v\$[a-zA-Z][A-Za-z0-9_\-]{0,63}" skipwhite contained

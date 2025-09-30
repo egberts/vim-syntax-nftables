@@ -4,8 +4,9 @@
 #
 # Section: base_cmd/ADD/CREATE
 # CREATE (create_cmd)
-#  create is similar to the add command, but returns
+#  create is similar to the 'add' command, but returns
 #  an error if the chain already exists.
+#
 #
 # base_cmd 'create'
 # nft_line/nft_base_cmd/nft_base_cmd_create
@@ -14,7 +15,7 @@
 # true positive test: properly hightlighted correctly; has good content; perfect
 ################################################################################
 
-# TODO : Finish nft_base_cmd_create_cmd_table_keyword
+# 'create' is imperative, so no 'table_block'
 
 create table myIpTable 
 create table my_IpTable
@@ -24,15 +25,6 @@ create table arp myArpTableTable
 create table ip myIpTable_Again
 create table ip6 myIp6Table 
 create table inet myInetTable 
-
-create table myIpTable2 { flags dormant; }
-create table netdev myNetdevTable2 { flags dormant; }
-create table bridge myBridgeTable2 { flags dormant; }
-create table arp myArpTable2 { flags dormant; }
-create table ip myIpTable2_duplicate { flags dormant; }
-create table ip6 myIp6Table2 { flags dormant; }
-create table inet myInetTable2 { flags dormant; }
-
 
 # Two kinds of a base chain for syntax handling:
 #  1. Unidentified family chain
@@ -54,6 +46,7 @@ create chain ip6 myIp6Table3 myIp6Chain2
 create chain inet myInetTable3 myInetChain2
 
 # create chain <chain_spec> { <chain_block> }
+# 'create chain' expects a chain_block, but only ONE chain-block statement supported ; 'type' statement.
 add table ip myIpTable4
 create chain myIpTable4 myIpChain10 { type filter hook prerouting priority 0; policy drop; } ;
 

@@ -1,4 +1,6 @@
-" ~/.vim/syntax/nftables/add_table_cmd.vim
+" File: ~/.vim/custom/nftables/add_table_cmd.vim
+" The imperative part of 'add table'
+" Not the declarative part of 'table <table_id> { ... }'
 "
 let s:list_filepaths_semantic_early = []
 let s:list_filepaths_semantic_later = []
@@ -30,18 +32,26 @@ try
   " INSERT 'syntax match' here
   " INSERT 'syntax region' here
   " INSERT 'syntax cluster' here
-  "
-
-" Sub-file specific syntax
 try
-  syntax match nft_base_cmd_add_cmd_keyword_table '\vtable\ze\s' contained nextgroup=nft_add_cmd_table_spec_identifier
-  syntax match nft_add_cmd_table_spec_identifier '\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}' contained
+  hi link   nft_add_cmd_table_spec_identifier nftHL_Identifier
+  syn match nft_add_cmd_table_spec_identifier '\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}' skipwhite contained
+
+  hi link   nft_add_cmd_table_spec_family_spec_family_spec_explicit_identifier nftHL_Family
+  syn match nft_add_cmd_table_spec_family_spec_family_spec_explicit_identifier '\v(bridge|netdev|inet|arp|ip6|ip)\ze\s' skipwhite contained
+  \ nextgroup=
+  \    nft_add_cmd_table_spec_identifier
+
+  hi link   nft_base_cmd_add_cmd_keyword_table_declarative nftHL_Keyword
+  syn match nft_base_cmd_add_cmd_keyword_table_declarative '\vtable\ze\s' skipwhite contained
+\ nextgroup=
+\    nft_add_cmd_table_spec_family_spec_family_spec_explicit_identifier,
+\    nft_add_cmd_table_spec_identifier
+
+  "syntax match nft_base_cmd_add_cmd_keyword_table '\vtable\ze\s' contained nextgroup=nft_add_cmd_table_spec_identifier
   call nftables#syntax#debug('Loading add_table_cmd.vim ...')
-  echomsg 'syntax/nftables/add_table_cmd.vim: Loaded for buffer: ' . bufname('%')
 catch
   call nftables#syntax#log('ERROR', 'Failed to load sub-syntax in ' . expand('<sfile>:t') . ': ' . v:exception)
 endtry
-
 
   for s:this_semantic_file in s:list_filepaths_semantic_later
     call nftables#syntax#log('OK', 'Loading ' . s:this_semantic_file)
@@ -64,4 +74,3 @@ call nftables#syntax#pop()
 
 " Then mark this script file as not-to-be-run-again
 let b:nft_did_nftables_add_table_cmd = v:true
-
