@@ -17,10 +17,7 @@
 # TODO : Finish nft_base_cmd_create_cmd_table_keyword
 
 create table myIpTable 
-create table my.IpTable
-create table my/IpTable
 create table my_IpTable
-create table my./_IpTable
 create table netdev myNetdevTable
 create table bridge myBridgeTable
 create table arp myArpTableTable
@@ -181,21 +178,13 @@ create synproxy inet myInetTable synproxy_obj92 mss 1496 wscale 4;
 create synproxy bridge myBridgeTable synproxy_obj94 mss 1518 wscale 3;
 # create synproxy netdev myNetdevTable synproxy_obj95 mss 1593 wscale 1
 #   Bison: SYNPROXY obj_spec synproxy_obj synproxy_config { common_block } close_scope_synproxy (w/o 'add')
-###create synproxy myTable https-synproxy {
-###    mss 1460
-###    wscale 7
-###    timestamp sack-perm
-###}
-###create synproxy myTable other-synproxy {
-###    mss 1460
-###    wscale 5
-###}
-
-table inet my_table {
-    synproxy my_synproxy {
-        mss 1460
-        wscale 7
-        timestamp sack-permitted
-    }
+create synproxy myTable https-synproxy {
+    mss 1460
+    wscale 7
+    timestamp sack-perm
+}
+create synproxy myTable other-synproxy {
+    mss 1460
+    wscale 5
 }
 

@@ -4,9 +4,9 @@ if exists('g:nft_debug') && g:nft_debug == 1
 endif
 
 " Initialize stack if not exists
-if !exists('g:nft_script_name_stack')
+if !exists('g:nft_stack_filepath_scripts')
   " stack only holds parent directory name, '/', and filename (without filetype)
-  let g:nft_script_name_stack = []
+  let g:nft_stack_filepath_scripts = []
 endif
 
 " Store script filename (without extension) in snake_case
@@ -14,6 +14,7 @@ endif
 " Store parent directory name
 let s:this_script_filename = fnamemodify(expand('<sfile>:p'), ':r')
 " echom 'autoload/nftables/syntax.cim: s:this_script_filename: ' . s:this_script_filename
+
 
 "let s:script_file_name = s:script_dir . '/' . s:script_name
 """""""""""""let g:nft_current_script_file_name = s:script_file_name
@@ -25,26 +26,26 @@ function! nftables#syntax#push(filespec) abort
   " echom 'a:filespec: ' . a:filespec
   let l:current_dirname = fnamemodify(a:filespec, ':p:h:t')
   " echom 'l:current_dirname: ' . l:current_dirname
-  let l:current_filename = fnamemodify(a:filespec, ':p:t:r')
+  let l:current_filename = fnamemodify(a:filespec, ':p:t')
   " echom 'l:current_filename: ' . l:current_filename
   let g:nft_current_script_file_name = l:current_dirname . '/' . l:current_filename
   " echom 'nftables#syntax#push: g:nft_current_script_file_name: ' . g:nft_current_script_file_name
-  call add(g:nft_script_name_stack, g:nft_current_script_file_name)
+  call add(g:nft_stack_filepath_scripts, g:nft_current_script_file_name)
 endfunction
 
 function! nftables#syntax#pop() abort
   let l:popped_file_name = ''
-  if !empty(g:nft_script_name_stack)
-    let l:popped_file_name = remove(g:nft_script_name_stack, -1)
+  if !empty(g:nft_stack_filepath_scripts)
+    let l:popped_file_name = remove(g:nft_stack_filepath_scripts, -1)
   endif
-  let g:nft_current_script_file_name = g:nft_script_name_stack[-1]
+  let g:nft_current_script_file_name = g:nft_stack_filepath_scripts[-1]
 endfunction
 
 function! nftables#syntax#peek() abort
-  if empty(g:nft_script_name_stack)
+  if empty(g:nft_stack_filepath_scripts)
     return v:null
   endif
-  return g:nft_script_name_stack[-1]
+  return g:nft_stack_filepath_scripts[-1]
 endfunction
 
 function! s:FormatThrowpoint(throwpoint) abort
@@ -169,25 +170,33 @@ function! nftables#syntax#debug(msg) abort
 endfunction
 
 function! nftables#syntax#load(file) abort
+  call nftables#syntax#debug('nftables#syntax#LOAD(' . a:file . ')')
   call nftables#syntax#push(s:this_script_filename)
-  let l:syntax_dir = expand('~/.vim/custom/nftables/')
-  let l:filepath = l:syntax_dir . a:file
-  if !filereadable(l:filepath)
-    call nftables#syntax#log('ERROR', 'File not found: ' . l:filepath . ' at ' . s:FormatThrowpoint(v:throwpoint))
+  if !exists('g:nft_dirpath_custom_nftables_syntax')
+    call nftables#syntax#log('ERROR', 'g:nft_dirpath_custom_nftables_syntax is not defined.')
     call nftables#syntax#pop()
     return
   endif
-  if exists('b:did_nftables_' . substitute(a:file, '\.vim$', '', ''))
+  let l:filepath = g:nft_dirpath_custom_nftables_syntax . '/' . a:file
+  if !filereadable(l:filepath)
+    call nftables#syntax#log('ERROR', 'File is not readable or not found: ' . l:filepath . ' at ' . s:FormatThrowpoint(v:throwpoint))
+    call nftables#syntax#pop()
+    return
+  endif
+  let s:nft_did_name_constructed = substitute(a:file, '\.vim$', '', '')
+  let s:nft_did_name_normalized = 'b:did_nftables_' . substitute(s:nft_did_name_constructed, '\/', '_', '@')
+  if exists(s:nft_did_name_normalized)
     call nftables#syntax#log('INFO', 'Skipped ' . a:file . ' (already loaded for buffer: ' . bufname('%') . ')')
     call nftables#syntax#pop()
     return
   endif
+  call nftables#syntax#debug('g:nft_dirpath_custom_nftables_syntax: ' . g:nft_dirpath_custom_nftables_syntax)
   try
     let l:current_buf = bufnr('%')
     execute 'buffer ' . l:current_buf
     execute 'source ' . fnameescape(l:filepath)
-    let b:did_nftables_{substitute(a:file, '\.vim$', '', '')} = 1
-    call nftables#syntax#log('INFO', 'Loaded ' . a:file . ' for buffer: ' . bufname('%'))
+    let {s:nft_did_name_normalized} = v:true
+    call nftables#syntax#debug('Loaded ' . a:file . ' for buffer: ' . bufname('%'))
   catch
     let l:throwpoint_stack = matchstr(v:throwpoint, '.*\ze: Vim(let):E461')  " Extract stack before error
     let l:func_name = nftables#syntax#extract_until_last_periods(l:throwpoint_stack)
@@ -199,7 +208,7 @@ endfunction
 function! nftables#syntax#define_match(group_name, contains_list, nextgroup_list, pattern, highlight_link, ...) abort
   let l:opts = get(a:000, 0, {})
   " echomsg 'a:group_name ' . a:group_name
-  " echomsg 'g:nft_script_name_stack ' . string(g:nft_script_name_stack)
+  " echomsg 'g:nft_stack_filepath_scripts ' . string(g:nft_stack_filepath_scripts)
   " echomsg 'a:contains_list ' . string(a:contains_list)
   " echomsg 'a:nextgroup_list ' . string(a:nextgroup_list)
   " echomsg 'a:pattern ' . a:pattern

@@ -7,6 +7,8 @@ let g:nft_did_elements_early = v:true
 if exists('b:current_syntax') && b:current_syntax ==# 'nftables'
   finish
 endif
+
+let s:filepath_this_script = resolve(expand('<sfile>:p'))
 let s:script_dir = expand('<sfile>:p:h')
 call nftables#syntax#debug('element_early.vim: Loading element_early.vim ...' )
 

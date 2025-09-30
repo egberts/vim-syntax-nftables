@@ -1,10 +1,11 @@
-" ~/.vim/syntax/nftables/add_table_cmd.vim
+" File: ~/.vim/custom/nftables/template_name.vim
+" TODO: Replace 'template_name' with filename of this script
 "
 let s:list_filepaths_semantic_early = []
 let s:list_filepaths_semantic_later = []
 
-if exists('b:did_nftables_add_table_cmd')
-  call nftables#syntax#log('INFO', 'Skipped add_table_cmd (already loaded for buffer: ' . bufname('%') . ')')
+if exists('b:did_nftables_template_name')
+  call nftables#syntax#log('INFO', 'Skipped template_name (already loaded for buffer: ' . bufname('%') . ')')
   finish
 endif
 
@@ -24,7 +25,7 @@ try
     call nftables#syntax#load(s:this_semantic_file)
     call nftables#syntax#log('OK', 'Loaded ' . s:this_semantic_file)
   endfor
-  call nftables#syntax#debug('Loading add_table_cmd syntax ...' )
+  call nftables#syntax#debug('Loading template_name syntax ...' )
 
 
   " INSERT 'syntax match' here
@@ -32,23 +33,12 @@ try
   " INSERT 'syntax cluster' here
   "
 
-" Sub-file specific syntax
-try
-  syntax match nft_base_cmd_add_cmd_keyword_table '\vtable\ze\s' contained nextgroup=nft_add_cmd_table_spec_identifier
-  syntax match nft_add_cmd_table_spec_identifier '\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}' contained
-  call nftables#syntax#debug('Loading add_table_cmd.vim ...')
-  echomsg 'syntax/nftables/add_table_cmd.vim: Loaded for buffer: ' . bufname('%')
-catch
-  call nftables#syntax#log('ERROR', 'Failed to load sub-syntax in ' . expand('<sfile>:t') . ': ' . v:exception)
-endtry
-
-
   for s:this_semantic_file in s:list_filepaths_semantic_later
     call nftables#syntax#log('OK', 'Loading ' . s:this_semantic_file)
     call nftables#syntax#load(s:this_semantic_file)
     call nftables#syntax#log('OK', 'Loaded ' . s:this_semantic_file)
   endfor
-  call nftables#syntax#log('INFO', 'Loaded add_table_cmd for buffer: ' . bufname('%'))
+  call nftables#syntax#log('INFO', 'Loaded template_name for buffer: ' . bufname('%'))
 catch
   call nftables#syntax#log('ERROR', 'Failed to define table.vim: ' . v:exception . ' at line ' . line('.') . ' in ' . expand('<sfile>:t') . ' at ' . v:throwpoint)
 endtry
@@ -63,5 +53,4 @@ call nftables#syntax#log('OK', 'End.')
 call nftables#syntax#pop()
 
 " Then mark this script file as not-to-be-run-again
-let b:nft_did_nftables_add_table_cmd = v:true
-
+let b:nft_did_nftables_template_name = v:true

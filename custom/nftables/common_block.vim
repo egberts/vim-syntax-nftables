@@ -41,9 +41,9 @@ endif
 
 " save the filespec of this script into a stack for logging purpose
 " echom '<sfile>:p: ' . expand('<sfile>:p')
-let s:script_filename = fnamemodify(expand('<sfile>:p'), ':r')
-" echom 's:script_filename: ' . s:script_filename
-call nftables#syntax#push(s:script_filename)
+let s:filepath_this_script = resolve(expand('<sfile>:p'))
+" echom 's:filepath_this_script: ' . s:filepath_this_script
+call nftables#syntax#push(s:filepath_this_script)
 
 call nftables#syntax#log('OK', 'Begin')
 

@@ -1,6 +1,9 @@
-" File: ~/.vim/custom/nftables/common_block_early.vim
+" File: common_block_early.vim
+" Directory: custom/nftables
+" Title: common_block semantic action, early
 
-let s:sub_files = []
+let s:list_filepaths_semantic_early = []
+let s:list_filepaths_semantic_later = []
 
 if exists('b:did_nftables_common_block_early')
   call nftables#syntax#log('INFO', 'Skipped common_block_early.vim (already loaded for buffer: ' . bufname('%') . ')')
@@ -8,30 +11,44 @@ if exists('b:did_nftables_common_block_early')
 endif
 
 " save the filespec of this script into a stack for logging purpose
-" echom '<sfile>:p: ' . expand('<sfile>:p')
-let s:script_filename = fnamemodify(expand('<sfile>:p'), ':r')
-" echom 's:script_filename: ' . s:script_filename
-call nftables#syntax#push(s:script_filename)
+let s:filepath_this_script = resolve(expand('<sfile>:p'))
+call nftables#syntax#push(s:filepath_this_script)
+" now we can use nftables#syntax#log()
 
 call nftables#syntax#log('OK', 'Begin.')
 
-let s:sub_dir = fnamemodify(s:script_filename, ':p:h') . '/sub_dir/'
-for sub in s:sub_files
-  call nftables#syntax#load(sub)
-endfor
+" BEGIN OF 'syntax' statements
+"
 
-call nftables#syntax#debug('Loading common_block_early ...')
+" non-terminal semantic action processing
+for s:this_semantic_file in s:list_filepaths_semantic_early
+  call nftables#syntax#log('OK', 'Loading ' . s:this_semantic_file)
+  call nftables#syntax#load(s:this_semantic_file)
+  call nftables#syntax#log('OK', 'Loaded ' . s:this_semantic_file)
+endfor
+call nftables#syntax#debug('Loading common_block_early syntax ...' )
+
+
+" INSERT 'syntax match' here
+" INSERT 'syntax region' here
+" INSERT 'syntax cluster' here
+"
+
+for s:this_semantic_file in s:list_filepaths_semantic_later
+  call nftables#syntax#log('OK', 'Loading ' . s:this_semantic_file)
+  call nftables#syntax#load(s:this_semantic_file)
+  call nftables#syntax#log('OK', 'Loaded ' . s:this_semantic_file)
+endfor
 call nftables#syntax#log('INFO', 'Loaded common_block_early for buffer: ' . bufname('%'))
 
-call nftables#syntax#define_match('nft_identifier', ['nft_comment'], ['nft_my_keyword', 'oopsie_missing_comma'], '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}', 'Error')
 
-" syntax match mismatch 'oopsie" skipwhite contained
+" END OF 'syntax' statements
+"
 
 call nftables#syntax#log('OK', 'End.')
 
 " pop off the filespec of this script from its stack for logging purpose
 call nftables#syntax#pop()
 
-" Common ending
-let b:did_nftables_common_block_early = 1
-
+" Then mark this script file as not-to-be-run-again
+let b:nft_did_nftables_terminal = v:true
