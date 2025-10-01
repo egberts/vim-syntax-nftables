@@ -1,5 +1,4 @@
 " File: ~/.vim/custom/nftables/table_block_synproxy.vim
-" TODO: Replace 'table_block_synproxy' with filename of this script
 "
 let s:table_block_synproxy_list_filepaths_semantic_early = []
 let s:table_block_synproxy_list_filepaths_semantic_later = []
@@ -145,7 +144,7 @@ syn match nft_add_cmd_table_block_keyword_synproxy '\vsynproxy' skipwhite contai
   endfor
   call nftables#syntax#log('INFO', 'Loaded table_block_synproxy for buffer: ' . bufname('%'))
 catch
-  call nftables#syntax#log('ERROR', 'Failed to define table.vim: ' . v:exception . ' at line ' . line('.') . ' in ' . expand('<sfile>:t') . ' at ' . v:throwpoint)
+  call nftables#syntax#log('ERROR', 'Failed to define table_block_synproxy.vim: ' . v:exception . ' at line ' . line('.') . ' in ' . expand('<sfile>:t') . ' at ' . v:throwpoint)
 endtry
 
 

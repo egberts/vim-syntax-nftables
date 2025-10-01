@@ -258,7 +258,7 @@ syn match nft_add_cmd_table_block_keyword_map "map" skipwhite contained
   endfor
   call nftables#syntax#log('INFO', 'Loaded table_block_map for buffer: ' . bufname('%'))
 catch
-  call nftables#syntax#log('ERROR', 'Failed to define table.vim: ' . v:exception . ' at line ' . line('.') . ' in ' . expand('<sfile>:t') . ' at ' . v:throwpoint)
+  call nftables#syntax#log('ERROR', 'Failed to define table_block_map.vim: ' . v:exception . ' at line ' . line('.') . ' in ' . expand('<sfile>:t') . ' at ' . v:throwpoint)
 endtry
 
 

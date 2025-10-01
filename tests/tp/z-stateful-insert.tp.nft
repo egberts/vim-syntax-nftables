@@ -49,6 +49,8 @@ table ip test_table {
     }
 }
 
+insert rule ip test_table test_chain position 2 ip saddr 192.168.1.4 counter
+
 # Add a rule at index 0 (top of the chain)
 add rule ip test_table test_chain index 0 ip saddr 192.168.1.1 drop
 

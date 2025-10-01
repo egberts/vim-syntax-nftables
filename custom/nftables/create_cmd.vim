@@ -1,27 +1,38 @@
-" File: ~/.vim/custom/nftables/create_cmd.vim
-
-let s:sub_files = []
+" File:  create_cmd.vim
+" Directory: custom/nftables/
+"
+let s:create_cmd_list_filepaths_semantic_early = []
+let s:create_cmd_list_filepaths_semantic_later = []
 
 if exists('b:did_nftables_create_cmd')
-  call nftables#syntax#log('INFO', 'Skipped create_cmd.vim (already loaded for buffer: ' . bufname('%') . ')')
+  call nftables#syntax#log('INFO', 'Skipped create_cmd (already loaded for buffer: ' . bufname('%') . ')')
   finish
 endif
 
 " save the filespec of this script into a stack for logging purpose
-" echom '<sfile>:p: ' . expand('<sfile>:p')
 let s:filepath_this_script = resolve(expand('<sfile>:p'))
-" echom 's:filepath_this_script: ' . s:filepath_this_script
 call nftables#syntax#push(s:filepath_this_script)
+" now we can use nftables#syntax#log()
 
 call nftables#syntax#log('OK', 'Begin.')
 
-let s:sub_dir = fnamemodify(s:filepath_this_script, ':p:h') . '/sub_dir/'
-for sub in s:sub_files
-  call nftables#syntax#load(sub)
-endfor
+" BEGIN OF 'syntax' statements
+"
+try
+  " non-terminal semantic action processing
+  for s:this_semantic_file in s:create_cmd_list_filepaths_semantic_early
+    call nftables#syntax#log('OK', 'Loading ' . s:this_semantic_file)
+    call nftables#syntax#load(s:this_semantic_file)
+    call nftables#syntax#log('OK', 'Loaded ' . s:this_semantic_file)
+  endfor
+  call nftables#syntax#debug('Loading create_cmd syntax ...' )
 
-call nftables#syntax#debug('Loading create_cmd ...')
-call nftables#syntax#log('INFO', 'Loaded create_cmd for buffer: ' . bufname('%'))
+
+  " INSERT 'syntax match' here
+  " INSERT 'syntax region' here
+  " INSERT 'syntax cluster' here
+  "
+
 
 " **************** BEGIN 'create synproxy' ***************************
 hi link   nft_create_cmd_keyword_synproxy nftHL_Command
@@ -130,11 +141,25 @@ syn match nft_base_cmd_keyword_create 'create' skipwhite contained
 \    nft_Error
 " **************** END 'create' *****************************
 
+
+  for s:this_semantic_file in s:create_cmd_list_filepaths_semantic_later
+    call nftables#syntax#log('OK', 'Loading ' . s:this_semantic_file)
+    call nftables#syntax#load(s:this_semantic_file)
+    call nftables#syntax#log('OK', 'Loaded ' . s:this_semantic_file)
+  endfor
+  call nftables#syntax#log('INFO', 'Loaded create_cmd for buffer: ' . bufname('%'))
+catch
+  call nftables#syntax#log('ERROR', 'Failed to define create_cmd.vim: ' . v:exception . ' at line ' . line('.') . ' in ' . expand('<sfile>:t') . ' at ' . v:throwpoint)
+endtry
+
+
+" END OF 'syntax' statements
+"
+
 call nftables#syntax#log('OK', 'End.')
 
 " pop off the filespec of this script from its stack for logging purpose
 call nftables#syntax#pop()
 
-" Common ending
-let b:did_nftables_create_cmd = 1
-
+" Then mark this script file as not-to-be-run-again
+let b:nft_did_nftables_create_cmd = v:true

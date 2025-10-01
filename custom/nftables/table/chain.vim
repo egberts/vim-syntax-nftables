@@ -2,7 +2,15 @@
 " Directory: custom/nftables/
 " Description:
 "   Declarative 'chain' (not imperative 'add chain')
-let s:list_filepaths_semantic_early = []
+let s:list_filepaths_semantic_early = [
+\    'table/chain/stmt/stmt_comment.vim',
+\    'table/chain/stmt/stmt_counter.vim',
+\    'table/chain/stmt/stmt_devices.vim',
+\    'table/chain/stmt_policy.vim',
+\    'table/chain/stmt/stmt_quota.vim',
+\    'table/chain/stmt_type.vim',
+\    'table/chain/stmt/stmt_ct.vim'
+\    ]
 let s:list_filepaths_semantic_later = []
 
 if exists('b:did_nftables_chain')
@@ -33,6 +41,29 @@ try
   " INSERT 'syntax region' here
   " INSERT 'syntax cluster' here
   "
+
+
+" add_cmd 'table' table_block 'chain' chain_block flags_spec ';'
+hi link   nft_add_cmd_keyword_table_table_block_chain_chain_flags_spec_separator nftHL_BlockDelimitersChain
+syn match nft_add_cmd_keyword_table_table_block_chain_chain_flags_spec_separator /;/ skipwhite contained
+
+" TODO: 'offload' is only valid with chain hook 'ingress' and 'netdev' family
+" add_cmd 'table' table_block 'chain' chain_block flags_spec 'offload'
+hi link   nft_add_cmd_keyword_table_table_block_chain_chain_block_flags_spec_keyword_offload nftHL_Define
+syn match nft_add_cmd_keyword_table_table_block_chain_chain_block_flags_spec_keyword_offload '\voffload\ze[ \t\n;\}]' skipwhite contained
+\ nextgroup=
+\    nft_add_cmd_keyword_table_table_block_chain_chain_flags_spec_separator,
+\    nft_Error
+
+" add_cmd 'table' table_block 'chain' chain_block flags_spec 'flags'
+hi link   nft_add_cmd_keyword_table_table_block_chain_chain_block_flags_spec_keyword_flags nftHL_Statement
+syn match nft_add_cmd_keyword_table_table_block_chain_chain_block_flags_spec_keyword_flags "\vflags\ze[ \t]" skipwhite contained
+\ nextgroup=
+\    nft_add_cmd_keyword_table_table_block_chain_chain_block_flags_spec_keyword_offload,
+\    nft_Error
+" TODO: Add negatation of 'tcp' in 'tcp flags' or add to nextgroup=BUT in chain_block
+
+
 
 " **** BEGIN 'add chain' command **** BEGIN 'chain' command ****
 hi link    nft_add_cmd_keyword_chain_chain_block_delimiters nftHL_BlockDelimitersChain
@@ -155,7 +186,7 @@ syn match nft_base_cmd_add_cmd_keyword_chain_declarative "\vchain\ze\s" skipwhit
   endfor
   call nftables#syntax#log('INFO', 'Loaded chain for buffer: ' . bufname('%'))
 catch
-  call nftables#syntax#log('ERROR', 'Failed to define table.vim: ' . v:exception . ' at line ' . line('.') . ' in ' . expand('<sfile>:t') . ' at ' . v:throwpoint)
+  call nftables#syntax#log('ERROR', 'Failed to define chain.vim: ' . v:exception . ' at line ' . line('.') . ' in ' . expand('<sfile>:t') . ' at ' . v:throwpoint)
 endtry
 
 " END OF 'syntax' statements

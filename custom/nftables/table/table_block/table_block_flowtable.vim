@@ -216,7 +216,7 @@ syn match nft_add_cmd_table_block_keyword_flowtable "flowtable" skipwhite contai
   endfor
   call nftables#syntax#log('INFO', 'Loaded table_block_flowtable for buffer: ' . bufname('%'))
 catch
-  call nftables#syntax#log('ERROR', 'Failed to define table.vim: ' . v:exception . ' at line ' . line('.') . ' in ' . expand('<sfile>:t') . ' at ' . v:throwpoint)
+  call nftables#syntax#log('ERROR', 'Failed to define table_block_flowtable.vim: ' . v:exception . ' at line ' . line('.') . ' in ' . expand('<sfile>:t') . ' at ' . v:throwpoint)
 endtry
 
 

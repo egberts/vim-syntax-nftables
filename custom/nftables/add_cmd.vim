@@ -1,8 +1,11 @@
 " File: ~/.vim/custom/nftables/add_cmd.vim
 "
 let s:add_cmd_list_filepaths_semantic_early = [
+\    'add/add_secmark_cmd.vim',
 \    'add/add_chain_cmd.vim',
 \    'add/add_table_cmd.vim',
+\    'add/add_map_cmd.vim',
+\    'add/add_set_cmd.vim',
 \  ]
 let s:add_cmd_list_filepaths_semantic_later = []
 
@@ -84,7 +87,7 @@ syn cluster nft_c_base_cmd_add_cmd_unused_placeholder
   endfor
   call nftables#syntax#log('INFO', 'Loaded add_cmd for buffer: ' . bufname('%'))
 catch
-  call nftables#syntax#log('ERROR', 'Failed to define table.vim: ' . v:exception . ' at line ' . line('.') . ' in ' . expand('<sfile>:t') . ' at ' . v:throwpoint)
+  call nftables#syntax#log('ERROR', 'Failed to define add_cmd.vim: ' . v:exception . ' at line ' . line('.') . ' in ' . expand('<sfile>:t') . ' at ' . v:throwpoint)
 endtry
 
 

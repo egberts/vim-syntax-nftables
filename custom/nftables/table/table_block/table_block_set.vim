@@ -3,11 +3,11 @@
 "  this IS the 'set' found inside the table_block
 "  this is NOT the 'set' found inside the chain_block
 "
-let s:template_name_list_filepaths_semantic_early = []
-let s:template_name_list_filepaths_semantic_later = []
+let s:table_block_set_list_filepaths_semantic_early = []
+let s:table_block_set_list_filepaths_semantic_later = []
 
-if exists('b:did_nftables_template_name')
-  call nftables#syntax#log('INFO', 'Skipped template_name (already loaded for buffer: ' . bufname('%') . ')')
+if exists('b:did_nftables_table_block_set')
+  call nftables#syntax#log('INFO', 'Skipped table_block_set (already loaded for buffer: ' . bufname('%') . ')')
   finish
 endif
 
@@ -22,12 +22,12 @@ call nftables#syntax#log('OK', 'Begin.')
 "
 try
   " non-terminal semantic action processing
-  for s:this_semantic_file in s:template_name_list_filepaths_semantic_early
+  for s:this_semantic_file in s:table_block_set_list_filepaths_semantic_early
     call nftables#syntax#log('OK', 'Loading ' . s:this_semantic_file)
     call nftables#syntax#load(s:this_semantic_file)
     call nftables#syntax#log('OK', 'Loaded ' . s:this_semantic_file)
   endfor
-  call nftables#syntax#debug('Loading template_name syntax ...' )
+  call nftables#syntax#debug('Loading table_block_set syntax ...' )
 
 
   " INSERT 'syntax match' here
@@ -508,14 +508,14 @@ syn match nft_add_cmd_table_block_keyword_map "map" skipwhite contained
 " ************* END table_block 'map' map_block ***************
 
 
-  for s:this_semantic_file in s:template_name_list_filepaths_semantic_later
+  for s:this_semantic_file in s:table_block_set_list_filepaths_semantic_later
     call nftables#syntax#log('OK', 'Loading ' . s:this_semantic_file)
     call nftables#syntax#load(s:this_semantic_file)
     call nftables#syntax#log('OK', 'Loaded ' . s:this_semantic_file)
   endfor
-  call nftables#syntax#log('INFO', 'Loaded template_name for buffer: ' . bufname('%'))
+  call nftables#syntax#log('INFO', 'Loaded table_block_set for buffer: ' . bufname('%'))
 catch
-  call nftables#syntax#log('ERROR', 'Failed to define table.vim: ' . v:exception . ' at line ' . line('.') . ' in ' . expand('<sfile>:t') . ' at ' . v:throwpoint)
+  call nftables#syntax#log('ERROR', 'Failed to define table_block_set.vim: ' . v:exception . ' at line ' . line('.') . ' in ' . expand('<sfile>:t') . ' at ' . v:throwpoint)
 endtry
 
 
@@ -528,4 +528,4 @@ call nftables#syntax#log('OK', 'End.')
 call nftables#syntax#pop()
 
 " Then mark this script file as not-to-be-run-again
-let b:nft_did_nftables_template_name = v:true
+let b:nft_did_nftables_table_block_set = v:true

@@ -124,7 +124,7 @@ syn match nft_add_cmd_keyword_table_table_block_keyword_quota '\vquota' skipwhit
   endfor
   call nftables#syntax#log('INFO', 'Loaded table_block_quota for buffer: ' . bufname('%'))
 catch
-  call nftables#syntax#log('ERROR', 'Failed to define table.vim: ' . v:exception . ' at line ' . line('.') . ' in ' . expand('<sfile>:t') . ' at ' . v:throwpoint)
+  call nftables#syntax#log('ERROR', 'Failed to define table_block_quota.vim: ' . v:exception . ' at line ' . line('.') . ' in ' . expand('<sfile>:t') . ' at ' . v:throwpoint)
 endtry
 
 

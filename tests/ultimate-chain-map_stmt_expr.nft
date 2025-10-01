@@ -416,7 +416,8 @@ table T {
 		protocol tcp;
 		protocol udp
 		queue flags bypass,fanout to 1-10
-		queue flags bypass to ip saddr . ip daddr . tcp dport map @get_queue_id
+		queue flags bypass to ip saddr . ip daddr . tcp dport map @get_queue_id };
+
 		quota name ip saddr map { 192.168.2.2 : "user124", 192.168.2.3 : "user124" } drop
 		quota name ip saddr map @test drop
 		quota over 1000 bytes

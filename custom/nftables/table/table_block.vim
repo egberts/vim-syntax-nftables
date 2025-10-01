@@ -7,8 +7,10 @@ let s:list_filepaths_semantic_early = [
 \    'table/table_block/table_block_counter.vim',
 \    'table/table_block/table_block_secmark.vim',
 \    'table/table_block/table_block_chain.vim',
+\    'table/table_block/table_block_limit.vim',
 \    'table/table_block/table_block_quota.vim',
 \    'table/table_block/table_block_map.vim',
+\    'table/table_block/table_block_set_block.vim',
 \    'table/table_block/table_block_set.vim'
 \    ]
 let s:list_filepaths_semantic_later = []
@@ -113,7 +115,7 @@ syn region nft_add_cmd_keyword_table_table_block_delimiters start='\v\s+\zs\{' e
   endfor
   call nftables#syntax#log('INFO', 'Loaded table_block for buffer: ' . bufname('%'))
 catch
-  call nftables#syntax#log('ERROR', 'Failed to define table.vim: ' . v:exception . ' at line ' . line('.') . ' in ' . expand('<sfile>:t') . ' at ' . v:throwpoint)
+  call nftables#syntax#log('ERROR', 'Failed to define table_block.vim: ' . v:exception . ' at line ' . line('.') . ' in ' . expand('<sfile>:t') . ' at ' . v:throwpoint)
 endtry
 
 

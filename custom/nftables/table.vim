@@ -1,5 +1,4 @@
 " File: ~/.vim/custom/nftables/table.vim
-" TODO: Replace 'table' with filename of this script
 "
 let s:list_filepaths_semantic_early = [
 \    'table/chain.vim',
@@ -38,6 +37,8 @@ catch
 endtry
 
 call nftables#syntax#log('INFO', 'Loaded table for buffer: ' . bufname('%'))
+
+
 
 " base_cmd add_cmd 'table' table_spec family_spec identifier
 hi link   nft_table_spec_identifier nftHL_Identifier

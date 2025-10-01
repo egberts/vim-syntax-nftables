@@ -24,7 +24,49 @@ try
   call nftables#syntax#debug('Loading add_table_cmd.vim ...')
 
   " ------------- BEGIN 'table' -------------
+" ******************* BEGIN 'table' *************
+" ************* BEGIN table_block table_options ***************
+" base_cmd add_cmd 'table' table_block table_options ';'
+hi link   nft_add_cmd_keyword_table_table_block_table_options_semicolon nftHL_Separator
+syn match nft_add_cmd_keyword_table_table_block_table_options_semicolon ";" skipwhite contained
 
+" table_block 'chain' (via table_block)
+" hi link   nft_chain_identifier_keyword nftHL_Command
+" syn match nft_chain_identifier_keyword ^\vchain skipnl skipwhite contained
+
+
+" [ [ 'add' ] 'table' ] table_id '{' ';'
+" ';'->stmt_separator->table_block->'table'->add_cmd->'add'->base_cmd->line
+hi link   nft_table_block_stmt_separator nftHL_Separator
+syn match nft_table_block_stmt_separator "\v(\n|;)" skipwhite contained
+
+hi link   nft_add_cmd_keyword_table_table_options_comment_spec_string_content nftHL_Comment
+syn match nft_add_cmd_keyword_table_table_options_comment_spec_string_content '\v[ \tA-Za-z0-9_!@#$%^\&*()\[\]\{\}\|:\<\>,./?`~\\\+\=\-]{1,65}' skipwhite contained
+
+hi link   nft_add_cmd_keyword_table_table_options_comment_spec_string_quoted nftHL_Comment
+syn region nft_add_cmd_keyword_table_table_options_comment_spec_string_quoted start='"' end='"' skip='\\\"' skipnl skipwhite contained
+\ contains=
+\    nft_add_cmd_keyword_table_table_options_comment_spec_string_content
+\ nextgroup=
+\    nft_add_cmd_keyword_table_table_block_table_options_semicolon
+
+syn region nft_add_cmd_keyword_table_table_options_comment_spec_string_quoted start="'" end="'" skip="\\\'" skipwhite contained
+\ contains=
+\    nft_add_cmd_keyword_table_table_options_comment_spec_string_content
+\ nextgroup=
+\    nft_add_cmd_keyword_table_table_block_table_options_semicolon
+
+hi link   nft_add_cmd_keyword_table_table_options_comment_spec_string_raw nftHL_Comment
+syn match nft_add_cmd_keyword_table_table_options_comment_spec_string_raw '\v[A-Za-z0-9_!@#$%^\&*()\[\]\{\}\|:\<\>,./?`~\\\+\=\-]{1,65}' skipwhite contained
+\ nextgroup= nft_add_cmd_keyword_table_table_block_table_options_semicolon, nft_Error
+
+hi link   nft_add_cmd_keyword_table_table_options_comment_spec_keyword_comment nftHL_Statement
+syn match nft_add_cmd_keyword_table_table_options_comment_spec_keyword_comment '\vcomment' skipwhite contained
+\ nextgroup=
+\     nft_add_cmd_keyword_table_table_options_comment_spec_string_quoted,
+\     nft_add_cmd_keyword_table_table_options_comment_spec_string_raw,
+\     nft_Error
+" ************* END table_block table_options ***************
 
   hi link   nft_add_cmd_table_imperative_table_spec_identifier nftHL_Identifier
   syn match nft_add_cmd_table_imperative_table_spec_identifier '\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}' skipwhite contained
