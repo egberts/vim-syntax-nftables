@@ -1,4 +1,5 @@
-" File: ~/.vim/custom/nftables/add_cmd.vim
+" File: add_cmd.vim
+" Directory: custom/nftables/
 "
 let s:add_cmd_list_filepaths_semantic_early = [
 \    'add/add_secmark_cmd.vim',
@@ -6,6 +7,7 @@ let s:add_cmd_list_filepaths_semantic_early = [
 \    'add/add_table_cmd.vim',
 \    'add/add_map_cmd.vim',
 \    'add/add_set_cmd.vim',
+\    'add/add_rule_cmd.vim',
 \  ]
 let s:add_cmd_list_filepaths_semantic_later = []
 

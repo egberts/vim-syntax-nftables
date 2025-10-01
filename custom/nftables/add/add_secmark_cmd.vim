@@ -1,5 +1,5 @@
 " File: add_secmark_cmd.vim
-" Directory: custom/nftables/
+" Directory: custom/nftables/add/
 "
 let s:add_secmark_cmd_list_filepaths_semantic_early = []
 let s:add_secmark_cmd_list_filepaths_semantic_later = []

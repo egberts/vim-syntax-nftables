@@ -1,4 +1,5 @@
-" File: ~/.vim/custom/nftables/add_chain_cmd.vim
+" File: add_chain_cmd.vim
+" Directory: custom/nftables/add/
 " The imperative part of 'add chain'
 " Not the declarative part of 'chain <chain_id> { ... }'
 "

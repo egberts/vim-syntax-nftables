@@ -41,359 +41,46 @@ add set ip Tip Sip { type ipv4_addr; flags interval; elements = { 127.0.0.1 }; }
 
 add chain T C {
     type filter hook input priority 0; policy drop;
-    # tcp flags syn tcp dport ssh meter flood size 128000 { ip saddr timeout 10s limit rate over 10/second} add @Sip { ip saddr timeout 1m } drop;
- 
-    rtclassid 14 ;
-    continue  # verdict_expr
-    define A = 1
-    redefine A = 2
-    undefine A
-    iifgroup 123 
-    oifgroup 123;
-    #######include "../include/chain-flags.nft";
-    redirect ;  # only in 'ip'
-    comment "asdf";
-    counter;
-    iifname "br*";
-    iiftype 1;
-    notrack;
-    oifname "adsf";
-    pkttype unicast;
-    accept  # verdict_expr
-    cgroup 123;
-    ipsec in reqid 1 accept
-    ipsec in spnum 0x10000000 accept
-    skgid 0x0000;
-    skuid 0x0000;
-    dnat to 127.0.0.1;  # 'dnat' can only be used with 'type nat' chains.
-    drop  # verdict_expr
-    # flow offload @flood;  # obviously can only be used with 'hook ingress' netdev family chains.
-    goto JumpPoint  # verdict_expr
-    hour 23 ;
-    jump JumpPoint  # verdict_expr
-    mark 0x0000;
-    meta l4proto tcp;
-    snat to 127.0.0.1;  # 'snat' can only be used with 'type nat' chains.
-    time 12 ;
-    cpu 1 ;
-    day 4 ;
-    iif "eno2";
-    oif "eno2";
-    # inline comment
-    return  # verdict_expr
-    ;
 }
 
 # tcp flags syn tcp dport ssh meter flood size 128000 { ip saddr timeout 10s limit rate over 
 # 10/second} add @Sip { ip saddr timeout 1m } drop;
 add chain ip Tip Cip {
     type filter hook input priority 0; policy drop;
-    # tcp flags syn tcp dport ssh meter flood size 128000 { ip saddr timeout 10s limit rate over 
-    # 10/second} add @Sip { ip saddr timeout 1m } drop;
- 
-    meta rtclassid 14 
-    continue  # verdict_expr
-    define A = 1
-    redefine A = 2
-    undefine A
-    iifgroup 123 
-    oifgroup 123;
-    #######include "../include/chain-flags.nft";
-    redirect ;  # only in 'ip'
-    comment "asdf";
-    counter;
-    iifname "br*";
-    iiftype 1;
-    notrack;
-    oifname "adsf";
-    pkttype unicast;
-    accept  # verdict_expr
-    cgroup 123;
-    ipsec 1 ;
-    skgid 0x0000;
-    skuid 0x0000;
-    dnat to 127.0.0.1;  # 'dnat' can only be used with 'type nat' chains.
-    drop  # verdict_expr
-    # flow offload @flood;  # obviously can only be used with 'hook ingress' netdev family chains.
-    goto JumpPointIp  # verdict_expr
-    hour 23 ;
-    jump JumpPointIp  # verdict_expr
-    mark 0x0000;
-    meta l4proto tcp;
-    snat to 127.0.0.1;  # 'snat' can only be used with 'type nat' chains.
-    time 12 ;
-    cpu 1 ;
-    day 4 ;
-    iif "eno2";
-    oif "eno2";
-    # inline comment
-    return  # verdict_expr
-    ;
 }
 delete chain ip Tip Cip
 
 # also ip family but NAT-specific; Covering remaining statements
 add chain ip Tip Cip {
     type nat hook prerouting priority 0; policy drop;
-    meta rtclassid 14 
-    continue  # verdict_expr
-    define A = 1
-    redefine A = 2
-    undefine A
-    iifgroup 123 
-    oifgroup 123;
-    redirect ;
-    comment "asdf";
-    counter;
-    iifname "br*";
-    iiftype 1;
-    notrack;
-    oifname "adsf";
-    pkttype unicast;
-    accept  # verdict_expr
-    cgroup 123;
-    ipsec 1 ;
-    skgid 0x0000;
-    skuid 0x0000;
-    dnat to 192.168.1.1 ;
-    drop  # verdict_expr
-    # flow offload @flood;  # obviously can only be used with 'hook ingress' netdev family chains.
-    goto JumpPointIp  # verdict_expr
-    hour 23 ;
-    jump JumpPointIp  # verdict_expr
-    mark 0x00001;
-    meta l4proto tcp;
-    snat to 192.168.1.1;
-    time 12 ;
-    cpu 1 ;
-    day 4 ;
-    iif "eno2";
-    oif "eno2";
-    # inline comment
-    return  # verdict_expr
-    ;
-
 
 }
 
 # ip6-specific; Covering remaining statements 
 add chain ip6 Tip6 Cip6 {
     type filter hook input priority 0; policy drop;
-    meta rtclassid 14 
-    continue  # verdict_expr
-    define A = 1
-    redefine A = 2
-    undefine A
-    iifgroup 123 
-    oifgroup 123;
-    redirect ;  # cannot use 'redirect' in netdev family (ip-only)
-    comment "asdf";
-    counter;
-    iifname "br*";
-    iiftype 1;
-    notrack;
-    oifname "adsf";
-    pkttype unicast;
-    accept  # verdict_expr
-    cgroup 123;
-    ipsec 1 ;
-    skgid 0x0000;
-    skuid 0x0000;
-    dnat to fffe::ffff;  # only available at 'type nat hook prerouting' chains
-    drop  # verdict_expr
-    # flow offload @flood;  # obviously can only be used with 'hook ingress' netdev family chains.
-    goto JumpPointIp6  # verdict_expr
-    hour 23 ;
-    jump JumpPointIp6  # verdict_expr
-    mark 0x00002;
-    meta l4proto tcp;
-    snat to fffe::ffff  # only available at 'type nat hook prerouting' chains
-    time 12 ;
-    cpu 1 ;
-    day 4 ;
-    # fwd to fffe::ffff;  # 'fwd to' only works within netdev family
-    iif "eno2";
-    oif "eno2";
-    # inline comment
-    return  # verdict_expr
-    ;
-
-
 }
 
 # inet-specific; Covering remaining statements 
 add chain inet Tinet Cinet {
     type filter hook input priority 0; policy drop;
-    meta rtclassid 14 
-    continue  # verdict_expr
-    define A = 1
-    redefine A = 2
-    undefine A
-    iifgroup 123 
-    oifgroup 123;
-    redirect ;  # cannot use 'redirect' in netdev family (ip-only)
-    comment "asdf";
-    counter;
-    iifname "br*";
-    iiftype 1;
-    notrack;
-    oifname "adsf";
-    pkttype unicast;
-    accept  # verdict_expr
-    cgroup 123;
-    ipsec 1 ;
-    skgid 0x0000;
-    skuid 0x0000;
-    dnat ip to 192.168.1.1 ;  # only available at 'type nat hook prerouting' chains
-    drop  # verdict_expr
-    # flow offload @flood;  # obviously can only be used with 'hook ingress' netdev family chains.
-    goto JumpPointInet  # verdict_expr
-    hour 23 ;
-    jump JumpPointInet  # verdict_expr
-    mark 0x00002;
-    meta l4proto tcp;
-    snat ip6 to fffe::ffff;  # only available at 'type nat hook prerouting' chains
-    time 12 ;
-    cpu 1 ;
-    day 4 ;
-    # fwd ip6 to fffe::ffff device eno2;  # 'fwd to' only works within 'netdev' family
-    iif "eno2";
-    oif "eno2";
-    # inline comment
-    return  # verdict_expr
-    ;
-
-
 }
 
 # netdev-specific; Covering remaining statements 
 add chain netdev Tnetdev Cnetdev {
     type filter hook ingress priority 0; policy drop;
-    meta rtclassid 14 
-    continue  # verdict_expr
-    define A = 1
-    redefine A = 2
-    undefine A
-    iifgroup 123 
-    oifgroup 123;
-    comment "asdf";
-    counter;
-    devices = { eno2 };  # cannot use 'devices' with ip family (netdev?)
-    iifname "br*";
-    iiftype 1;
-    notrack;
-    oifname "adsf";
-    pkttype unicast;
-    accept  # verdict_expr
-    cgroup 123;
-    ipsec 1 ;
-    skgid 0x0000;
-    skuid 0x0000;
-    drop  # verdict_expr
-    ######flow offload @flood;
-    goto JumpPointNetdev  # verdict_expr
-    hour 23 ;
-    jump JumpPointNetdev  # verdict_expr
-    mark 0x00000001
-    meta l4proto tcp;
-    time 12 ;
-    cpu 1 ;
-    day 4 ;
-    iif "eno2";
-    oif "eno2";
-    # inline comment
-    return  # verdict_expr
-    ;
-
 
 }
 
 # bridge-specific; Covering remaining statements 
 add chain bridge Tbridge Cbridge {
     type filter hook input priority 0; policy drop;
-    meta rtclassid 14 
-    continue  # verdict_expr
-    define A = 1
-    redefine A = 2
-    undefine A
-    meta ibriport "bro";
-    meta obriport "bro";
-    iifgroup 123 
-    ibriport "br0";
-    obriport "br0";
-    oifgroup 123;
-    ######include "../include/chain-flags.nft";
-    comment "asdf";
-    counter;
-    ibrname "br*";
-    iifname "br*";
-    iiftype 1;
-    notrack;
-    obrname "asdf";
-    oifname "adsf";
-    pkttype unicast;
-    accept  # verdict_expr
-    cgroup 123;
-    ipsec 1 ;
-    skgid 0x0000;
-    skuid 0x0000;
-    drop  # verdict_expr
-    ######flow offload @flood;
-    goto JumpPointBridge  # verdict_expr
-    hour 23 ;
-    jump JumpPointBridge  # verdict_expr
-    mark 0x00000001
-    meta l4proto tcp;
-    time 12 ;
-    cpu 1 ;
-    day 4 ;
-    iif "eno2";
-    oif "eno2";
-    # inline comment
-    return  # verdict_expr
     ;
 }
 
 # arp-specific; Covering remaining statements 
 add chain arp Tarp Carp {
     type filter hook input priority 0; policy drop;
-    meta rtclassid 14 
-    continue  # verdict_expr
-    define A = 1
-    redefine A = 2
-    undefine A
-    iifgroup 123 
-    oifgroup 123;
-    ######include "../include/chain-flags.nft";
-    comment "asdf";
-    counter;
-    iifname "br*";
-    iiftype 1;
-    ######nftrace 1;
-    notrack;
-    oifname "adsf";
-    pkttype unicast;
-    accept  # verdict_expr
-    cgroup 123;
-    ipsec 1 ;
-    skgid 0x0000;
-    skuid 0x0000;
-    drop  # verdict_expr
-    ######flow offload @flood;
-    goto JumpPointArp  # verdict_expr
-    hour 23 ;
-    jump JumpPointArp  # verdict_expr
-    mark 0x00000001
-    meta l4proto tcp;
-    # snat to 192.168.1.1;  # only for 'type nat hook prerouting' ip/ip6/inet family
-    time 12 ;
-    cpu 1 ;
-    day 4 ;
-    iif "eno2";
-    oif "eno2";
-    # inline comment
-    return  # verdict_expr
-    ;
 }
 
 # clean up

@@ -1,5 +1,5 @@
 " File: table_block_chain.vim
-" Directory: custom/nftables/table/table_block
+" Directory: custom/nftables/table/table_block/
 "
 let s:table_block_chain_list_filepaths_semantic_early = []
 let s:table_block_chain_list_filepaths_semantic_later = []

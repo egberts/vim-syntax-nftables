@@ -1,4 +1,5 @@
-" File: ~/.vim/custom/nftables/table_block_synproxy.vim
+" File: table_block_synproxy.vim
+" File: custom/nftables/table/table_block/
 "
 let s:table_block_synproxy_list_filepaths_semantic_early = []
 let s:table_block_synproxy_list_filepaths_semantic_later = []

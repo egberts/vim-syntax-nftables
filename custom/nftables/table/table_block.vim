@@ -1,5 +1,5 @@
 " File: table_block.vim
-" Directory: custom/nftables/table
+" Directory: custom/nftables/table/
 "
 let s:list_filepaths_semantic_early = [
 \    'table/table_block/table_block_flowtable.vim',

@@ -1,14 +1,19 @@
 " File: chain.vim
-" Directory: custom/nftables/
+" Directory: custom/nftables/table/
 " Description:
 "   Declarative 'chain' (not imperative 'add chain')
 let s:list_filepaths_semantic_early = [
 \    'table/chain/stmt/stmt_comment.vim',
 \    'table/chain/stmt/stmt_counter.vim',
 \    'table/chain/stmt/stmt_devices.vim',
+\    'table/chain/stmt/stmt_verdict.vim',
 \    'table/chain/stmt_policy.vim',
 \    'table/chain/stmt/stmt_quota.vim',
+\    'table/chain/stmt/stmt_redir.vim',
+\    'table/chain/stmt/stmt_masq.vim',
+\    'table/chain/stmt/stmt_meta.vim',
 \    'table/chain/stmt_type.vim',
+\    'table/chain/stmt/stmt_nat.vim',
 \    'table/chain/stmt/stmt_ct.vim'
 \    ]
 let s:list_filepaths_semantic_later = []

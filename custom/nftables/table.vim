@@ -1,4 +1,5 @@
-" File: ~/.vim/custom/nftables/table.vim
+" File: table.vim
+" Directory: custom/nftables/
 "
 let s:list_filepaths_semantic_early = [
 \    'table/chain.vim',

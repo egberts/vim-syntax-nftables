@@ -1,4 +1,5 @@
-" File: ~/.vim/custom/nftables/add_table_cmd.vim
+" File: add_table_cmd.vim
+" Directory: custom/nftables/add/
 " The imperative part of 'add table'
 " Not the declarative part of 'table <table_id> { ... }'
 "

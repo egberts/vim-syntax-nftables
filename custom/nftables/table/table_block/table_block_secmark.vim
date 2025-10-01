@@ -1,4 +1,5 @@
-" File: ~/.vim/custom/nftables/table_block_secmark.vim
+" File: table_block_secmark.vim
+" Directory: custom/nftables/table/table_block/
 "
 let s:table_block_secmark_list_filepaths_semantic_early = []
 let s:table_block_secmark_list_filepaths_semantic_later = []

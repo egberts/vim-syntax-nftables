@@ -1,5 +1,5 @@
 " File: table_block_set_block.vim
-" Directory: custom/nftables/
+" Directory: custom/nftables/table/table_block/
 "
 let s:table_block_set_block_list_filepaths_semantic_early = []
 let s:table_block_set_block_list_filepaths_semantic_later = []

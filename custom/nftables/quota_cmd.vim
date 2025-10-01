@@ -1,6 +1,6 @@
 " File: quota_cmd.vim
 " Directory: custom/nftables/
-" TODO:  Unfinished; is this 'quota' (declarative) or 'add quota' (imperative)?
+
 let s:quota_cmd_list_filepaths_semantic_early = []
 let s:quota_cmd_list_filepaths_semantic_later = []
 

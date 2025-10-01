@@ -1,5 +1,5 @@
 " File: table_block_counter.vim
-" File: custom/nftables/table/table_block/
+" Directory: custom/nftables/table/table_block/
 "
 let s:table_block_counter_list_filepaths_semantic_early = []
 let s:table_block_counter_list_filepaths_semantic_later = []

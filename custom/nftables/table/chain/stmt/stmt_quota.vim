@@ -1,5 +1,5 @@
 " File: stmt_quota.vim
-" Directory: custom/nftables/
+" Directory: custom/nftables/table/chain/stmt/
 "
 let s:stmt_quota_list_filepaths_semantic_early = []
 let s:stmt_quota_list_filepaths_semantic_later = []
