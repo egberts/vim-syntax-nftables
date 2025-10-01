@@ -2,6 +2,7 @@
 " Directory: custom/nftables/table/chain/
 "
 let s:stmt_list_filepaths_semantic_early = [
+\    'table/chain/stmt/expr.vim',
 \    'table/chain/stmt_policy.vim',
 \    'table/chain/stmt_type.vim',
 \    'table/chain/stmt/stmt_comment.vim',

@@ -1,6 +1,5 @@
 " File: stmt_meter.vim
-" Directory: custom/nftables/
-" TODO: Replace 'stmt_meter' with filename of this script
+" Directory: custom/nftables/table/chain/stmt/
 "
 let s:stmt_meter_list_filepaths_semantic_early = []
 let s:stmt_meter_list_filepaths_semantic_later = []

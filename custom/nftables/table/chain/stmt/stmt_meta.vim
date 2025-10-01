@@ -1,6 +1,5 @@
 " File: stmt_meta.vim
-" Directory: custom/nftables/
-" TODO: Replace 'stmt_meta' with filename of this script
+" Directory: custom/nftables/table/chain/stmt/
 "
 let s:stmt_meta_list_filepaths_semantic_early = []
 let s:stmt_meta_list_filepaths_semantic_later = []

@@ -3,7 +3,8 @@
 # Description: A test NFT file to exercise Vim syntax highlightings for 'line' syntax group.
 #
 
-################################################################################
+# a b $ #
+###############################################################################
 # true positive test: properly hightlighted correctly; has good content; perfect
 ################################################################################
 
@@ -13,8 +14,8 @@
 include "../include/add-table-a.nft"
 
 # line common_block 'define' identifier '=' initializer_expr
-define ABC = 1  # missing stmt_separator
-define A = $ABC  # missing stmt_separator
+define ABC = 1;   # has a stmt_separator
+define A = $ABC;  # has a stmt_separator
 #
 # line common_block 'redefine' identifier '=' initializer_expr
 redefine A = 123  # missing stmt_separator

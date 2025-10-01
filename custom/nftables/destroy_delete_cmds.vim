@@ -1,6 +1,5 @@
 " File: destroy_delete_cmds.vim
 " Directory: custom/nftables/
-" TODO: Replace 'destroy_delete_cmds' with filename of this script
 "
 let s:destroy_delete_cmds_list_filepaths_semantic_early = []
 let s:destroy_delete_cmds_list_filepaths_semantic_later = []

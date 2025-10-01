@@ -1,6 +1,5 @@
 " File: stmt_verdict.vim
 " Directory: custom/nftables/table/chain/stmt/
-" TODO: Replace 'stmt_verdict' with filename of this script
 "
 let s:stmt_verdict_list_filepaths_semantic_early = []
 let s:stmt_verdict_list_filepaths_semantic_later = []
@@ -34,6 +33,10 @@ try
   " INSERT 'syntax cluster' here
   "
 
+hi link    nft_chain_stmt_delimiters nftHL_Delimiters
+syn region nft_chain_stmt_delimiters start=+{+ end=+}+ skipwhite contained
+\ contains=
+\    @nft_c_rule
 
 
 "******************** BEGIN verdict_stmt ******************************

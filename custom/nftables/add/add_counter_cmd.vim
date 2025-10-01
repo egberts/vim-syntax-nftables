@@ -126,7 +126,7 @@ syn region nft_add_cmd_keyword_counter_counter_block start=/{/ end=/}/ skipwhite
 \    nft_common_block_keyword_include,
 \    nft_common_block_keyword_define,
 \    nft_common_block_keyword_error,
-\    nft_line_comment,
+\    nft_comment_inline,
 \    nft_add_cmd_keyword_counter_block_stmt_separator,
 \    nft_Error
 

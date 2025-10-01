@@ -1,6 +1,5 @@
 " File: add_element_cmd.vim
-" Directory: custom/nftables/
-" TODO: Replace 'add_element_cmd' with filename of this script
+" Directory: custom/nftables/table/add/
 "
 let s:add_element_cmd_list_filepaths_semantic_early = []
 let s:add_element_cmd_list_filepaths_semantic_later = []

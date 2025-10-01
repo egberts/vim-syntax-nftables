@@ -1,6 +1,5 @@
 " File: monitor_cmd.vim
 " Directory: custom/nftables/
-" TODO: Replace 'monitor_cmd' with filename of this script
 "
 let s:monitor_cmd_list_filepaths_semantic_early = []
 let s:monitor_cmd_list_filepaths_semantic_later = []

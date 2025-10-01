@@ -1,6 +1,5 @@
 " File: replace_cmd.vim
 " Directory: custom/nftables/
-" TODO: Replace 'replace_cmd' with filename of this script
 "
 let s:replace_cmd_list_filepaths_semantic_early = []
 let s:replace_cmd_list_filepaths_semantic_later = []

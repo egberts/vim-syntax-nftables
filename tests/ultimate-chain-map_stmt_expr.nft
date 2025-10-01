@@ -626,7 +626,7 @@ table T {
 		type "sip" protocol tcp
 		type tcp_flag
 		udp dport 1234 update @dlist { ip daddr } counter packets 0 bytes 0
-		udp dport 123 accept
+		udp dport 123 accept  # hello
 		udp dport 137 ct helper "netbios-ns"
 		udp dport 137 ct state new,untracked accept
 		udp dport 138 ct state new,untracked accept
