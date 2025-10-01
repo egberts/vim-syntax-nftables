@@ -2,11 +2,18 @@
 " Directory: custom/nftables/
 "
 let s:add_cmd_list_filepaths_semantic_early = [
+\    'add/add_flowtable_cmd.vim',
+\    'add/add_synproxy_cmd.vim',
+\    'add/add_counter_cmd.vim',
+\    'add/add_element_cmd.vim',
 \    'add/add_secmark_cmd.vim',
 \    'add/add_chain_cmd.vim',
+\    'add/add_limit_cmd.vim',
+\    'add/add_quota_cmd.vim',
 \    'add/add_table_cmd.vim',
 \    'add/add_map_cmd.vim',
 \    'add/add_set_cmd.vim',
+\    'add/add_ct_cmd.vim',
 \    'add/add_rule_cmd.vim',
 \  ]
 let s:add_cmd_list_filepaths_semantic_later = []

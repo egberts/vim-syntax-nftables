@@ -1,12 +1,12 @@
-" File: element_cmd.vim
+" File: add_element_cmd.vim
 " Directory: custom/nftables/
-" TODO: Replace 'element_cmd' with filename of this script
+" TODO: Replace 'add_element_cmd' with filename of this script
 "
-let s:element_cmd_list_filepaths_semantic_early = []
-let s:element_cmd_list_filepaths_semantic_later = []
+let s:add_element_cmd_list_filepaths_semantic_early = []
+let s:add_element_cmd_list_filepaths_semantic_later = []
 
-if exists('b:did_nftables_element_cmd')
-  call nftables#syntax#log('INFO', 'Skipped element_cmd (already loaded for buffer: ' . bufname('%') . ')')
+if exists('b:did_nftables_add_element_cmd')
+  call nftables#syntax#log('INFO', 'Skipped add_element_cmd (already loaded for buffer: ' . bufname('%') . ')')
   finish
 endif
 
@@ -21,12 +21,12 @@ call nftables#syntax#log('OK', 'Begin.')
 "
 try
   " non-terminal semantic action processing
-  for s:this_semantic_file in s:element_cmd_list_filepaths_semantic_early
+  for s:this_semantic_file in s:add_element_cmd_list_filepaths_semantic_early
     call nftables#syntax#log('OK', 'Loading ' . s:this_semantic_file)
     call nftables#syntax#load(s:this_semantic_file)
     call nftables#syntax#log('OK', 'Loaded ' . s:this_semantic_file)
   endfor
-  call nftables#syntax#debug('Loading element_cmd syntax ...' )
+  call nftables#syntax#debug('Loading add_element_cmd syntax ...' )
 
 
   " INSERT 'syntax match' here
@@ -36,7 +36,7 @@ try
 
 
 
-" **************** START element_cmd ***************
+" **************** START add_element_cmd ***************
 " base_cmd add_cmd 'element' set_block_expr '{' comment_spec 'comment' QUOTED_STRING
 hi link    nft_add_cmd_keyword_element_set_block_expr_set_expr_set_elem_expr_set_elem_expr_option_comment_spec nftHL_Comment
 syn region nft_add_cmd_keyword_element_set_block_expr_set_expr_set_elem_expr_set_elem_expr_option_comment_spec start='"' end='"' skip='\\\"' oneline skipwhite contained
@@ -179,16 +179,16 @@ syn match nft_base_cmd_add_cmd_keyword_element '\velement\ze[ \t]' skipwhite con
 \    nft_add_cmd_keyword_element_set_spec_table_spec_family_spec,
 \    nft_add_cmd_keyword_element_set_spec_table_spec_identifier_string_table,
 \    nft_Error
-" **************** END element_cmd ***************
+" **************** END add_element_cmd ***************
 
-  for s:this_semantic_file in s:element_cmd_list_filepaths_semantic_later
+  for s:this_semantic_file in s:add_element_cmd_list_filepaths_semantic_later
     call nftables#syntax#log('OK', 'Loading ' . s:this_semantic_file)
     call nftables#syntax#load(s:this_semantic_file)
     call nftables#syntax#log('OK', 'Loaded ' . s:this_semantic_file)
   endfor
-  call nftables#syntax#log('INFO', 'Loaded element_cmd for buffer: ' . bufname('%'))
+  call nftables#syntax#log('INFO', 'Loaded add_element_cmd for buffer: ' . bufname('%'))
 catch
-  call nftables#syntax#log('ERROR', 'Failed to define element_cmd.vim: ' . v:exception . ' at line ' . line('.') . ' in ' . expand('<sfile>:t') . ' at ' . v:throwpoint)
+  call nftables#syntax#log('ERROR', 'Failed to define add_element_cmd.vim: ' . v:exception . ' at line ' . line('.') . ' in ' . expand('<sfile>:t') . ' at ' . v:throwpoint)
 endtry
 
 
@@ -201,4 +201,4 @@ call nftables#syntax#log('OK', 'End.')
 call nftables#syntax#pop()
 
 " Then mark this script file as not-to-be-run-again
-let b:nft_did_nftables_element_cmd = v:true
+let b:nft_did_nftables_add_element_cmd = v:true

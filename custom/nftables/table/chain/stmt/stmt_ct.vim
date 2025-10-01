@@ -145,6 +145,41 @@ syn match nft_stmt_objref_stmt_objref_stmt_ct_keyword_timeout '\vtimeout[ \t]' s
 "    nft_conntrack_types is only done OUTSIDE chain_block
 " ********************* END 'objref_stmt_ct' **********************
 
+" ************************* BEGIN ct_stmt **************************** SLE
+hi link   nft_stmt_keyword_ct nftHL_Statement
+syn match nft_stmt_keyword_ct '\vct[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_stmt_objref_stmt_objref_stmt_ct_keyword_expectation,
+\    nft_stmt_objref_stmt_objref_stmt_ct_keyword_expiration,
+\    nft_stmt_ct_common_ct_key_keyword_direction,
+\    nft_stmt_ct_common_ct_key_keyword_proto_dst,
+\    nft_stmt_ct_common_ct_key_keyword_proto_src,
+\    nft_primary_expr_ct_expr_ct_dir_keyword_original,
+\    nft_stmt_ct_common_ct_key_keyword_protocol,
+\    nft_stmt_ct_common_ct_key_keyword_l3proto,
+\    nft_stmt_ct_common_ct_key_keyword_packets,
+\    nft_stmt_ct_common_ct_key_keyword_secmark,
+\    nft_stmt_objref_stmt_objref_stmt_ct_keyword_timeout,
+\    nft_stmt_ct_common_ct_key_keyword_avgpkt,
+\    nft_stmt_ct_common_ct_key_keyword_helper,
+\    nft_stmt_ct_common_ct_key_keyword_status,
+\    nft_stmt_ct_common_ct_key_keyword_bytes,
+\    nft_add_cmd_set_block_stateful_stmt_list_stateful_stmt_connlimit_stmt_keyword_count,
+\    nft_stmt_ct_common_ct_key_keyword_daddr,
+\    nft_stmt_ct_common_ct_key_keyword_event,
+\    nft_stmt_ct_common_ct_key_keyword_label,
+\    nft_primary_expr_ct_expr_ct_dir_keyword_reply,
+\    nft_stmt_ct_common_ct_key_keyword_saddr,
+\    nft_stmt_ct_common_ct_key_keyword_state,
+\    nft_stmt_ct_common_ct_key_keyword_mark,
+\    nft_stmt_ct_common_ct_key_keyword_zone,
+\    nft_stmt_ct_common_ct_key_keyword_id,
+\    nft_Error
+
+" ************************* END ct_stmt ******************************
+
+
+
 
   for s:this_semantic_file in s:stmt_ct_list_filepaths_semantic_later
     call nftables#syntax#log('OK', 'Loading ' . s:this_semantic_file)

@@ -1,11 +1,11 @@
-" File: ct_cmd.vim
+" File: add_ct_cmd.vim
 " Directory: custom/nftables/
 "
-let s:ct_cmd_list_filepaths_semantic_early = []
-let s:ct_cmd_list_filepaths_semantic_later = []
+let s:add_ct_cmd_list_filepaths_semantic_early = []
+let s:add_ct_cmd_list_filepaths_semantic_later = []
 
-if exists('b:did_nftables_ct_cmd')
-  call nftables#syntax#log('INFO', 'Skipped ct_cmd (already loaded for buffer: ' . bufname('%') . ')')
+if exists('b:did_nftables_add_ct_cmd')
+  call nftables#syntax#log('INFO', 'Skipped add_ct_cmd (already loaded for buffer: ' . bufname('%') . ')')
   finish
 endif
 
@@ -20,12 +20,12 @@ call nftables#syntax#log('OK', 'Begin.')
 "
 try
   " non-terminal semantic action processing
-  for s:this_semantic_file in s:ct_cmd_list_filepaths_semantic_early
+  for s:this_semantic_file in s:add_ct_cmd_list_filepaths_semantic_early
     call nftables#syntax#log('OK', 'Loading ' . s:this_semantic_file)
     call nftables#syntax#load(s:this_semantic_file)
     call nftables#syntax#log('OK', 'Loaded ' . s:this_semantic_file)
   endfor
-  call nftables#syntax#debug('Loading ct_cmd syntax ...' )
+  call nftables#syntax#debug('Loading add_ct_cmd syntax ...' )
 
 
   " INSERT 'syntax match' here
@@ -33,7 +33,7 @@ try
   " INSERT 'syntax cluster' here
   "
 
-" **************** BEGIN ct_cmd **************************************
+" **************** BEGIN add_ct_cmd **************************************
 hi link   nft_add_cmd_keyword_ct_keyword_expectation_obj_spec_identifier nftHL_Table
 syn match nft_add_cmd_keyword_ct_keyword_expectation_obj_spec_identifier "\v[A-Za-z][A-Za-z0-9_\-]{0,63}" skipwhite contained
 
@@ -351,16 +351,16 @@ syn match nft_base_cmd_add_cmd_keyword_ct "\vct\ze[ \t]" skipwhite contained
 \    nft_stmt_ct_common_ct_key_keyword_zone,
 \    nft_stmt_ct_common_ct_key_keyword_id,
 \    nft_Error
-" **************** BEGIN ct_cmd *******************
+" **************** BEGIN add_ct_cmd *******************
 
-  for s:this_semantic_file in s:ct_cmd_list_filepaths_semantic_later
+  for s:this_semantic_file in s:add_ct_cmd_list_filepaths_semantic_later
     call nftables#syntax#log('OK', 'Loading ' . s:this_semantic_file)
     call nftables#syntax#load(s:this_semantic_file)
     call nftables#syntax#log('OK', 'Loaded ' . s:this_semantic_file)
   endfor
-  call nftables#syntax#log('INFO', 'Loaded ct_cmd for buffer: ' . bufname('%'))
+  call nftables#syntax#log('INFO', 'Loaded add_ct_cmd for buffer: ' . bufname('%'))
 catch
-  call nftables#syntax#log('ERROR', 'Failed to define ct_cmd.vim: ' . v:exception . ' at line ' . line('.') . ' in ' . expand('<sfile>:t') . ' at ' . v:throwpoint)
+  call nftables#syntax#log('ERROR', 'Failed to define add_ct_cmd.vim: ' . v:exception . ' at line ' . line('.') . ' in ' . expand('<sfile>:t') . ' at ' . v:throwpoint)
 endtry
 
 
@@ -373,5 +373,5 @@ call nftables#syntax#log('OK', 'End.')
 call nftables#syntax#pop()
 
 " Then mark this script file as not-to-be-run-again
-let b:nft_did_nftables_ct_cmd = v:true
+let b:nft_did_nftables_add_ct_cmd = v:true
 

@@ -1,14 +1,29 @@
-" File: chain.vim
-" Directory: custom/nftables/table/
-" Description:
-"   Declarative 'chain' (not imperative 'add chain')
-let s:list_filepaths_semantic_early = [
-\    'table/chain/stmt.vim',
+" File: stmt.vim
+" Directory: custom/nftables/table/chain/
+"
+let s:stmt_list_filepaths_semantic_early = [
+\    'table/chain/stmt_policy.vim',
+\    'table/chain/stmt_type.vim',
+\    'table/chain/stmt/stmt_comment.vim',
+\    'table/chain/stmt/stmt_counter.vim',
+\    'table/chain/stmt/stmt_devices.vim',
+\    'table/chain/stmt/stmt_verdict.vim',
+\    'table/chain/stmt_policy.vim',
+\    'table/chain/stmt/stmt_reject.vim',
+\    'table/chain/stmt/stmt_quota.vim',
+\    'table/chain/stmt/stmt_redir.vim',
+\    'table/chain/stmt/stmt_masq.vim',
+\    'table/chain/stmt/stmt_meta.vim',
+\    'table/chain/stmt_type.vim',
+\    'table/chain/stmt/stmt_log.vim',
+\    'table/chain/stmt/stmt_nat.vim',
+\    'table/chain/stmt/stmt_set.vim',
+\    'table/chain/stmt/stmt_ct.vim'
 \    ]
-let s:list_filepaths_semantic_later = []
+let s:stmt_list_filepaths_semantic_later = []
 
-if exists('b:did_nftables_chain')
-  call nftables#syntax#log('INFO', 'Skipped chain (already loaded for buffer: ' . bufname('%') . ')')
+if exists('b:did_nftables_stmt')
+  call nftables#syntax#log('INFO', 'Skipped stmt (already loaded for buffer: ' . bufname('%') . ')')
   finish
 endif
 
@@ -23,12 +38,12 @@ call nftables#syntax#log('OK', 'Begin.')
 "
 try
   " non-terminal semantic action processing
-  for s:this_semantic_file in s:list_filepaths_semantic_early
+  for s:this_semantic_file in s:stmt_list_filepaths_semantic_early
     call nftables#syntax#log('OK', 'Loading ' . s:this_semantic_file)
     call nftables#syntax#load(s:this_semantic_file)
     call nftables#syntax#log('OK', 'Loaded ' . s:this_semantic_file)
   endfor
-  call nftables#syntax#debug('Loading chain syntax ...' )
+  call nftables#syntax#debug('Loading stmt syntax ...' )
 
 
   " INSERT 'syntax match' here
@@ -37,34 +52,8 @@ try
   "
 
 
-" add_cmd 'table' table_block 'chain' chain_block flags_spec ';'
-hi link   nft_add_cmd_keyword_table_table_block_chain_chain_flags_spec_separator nftHL_BlockDelimitersChain
-syn match nft_add_cmd_keyword_table_table_block_chain_chain_flags_spec_separator /;/ skipwhite contained
 
-" TODO: 'offload' is only valid with chain hook 'ingress' and 'netdev' family
-" add_cmd 'table' table_block 'chain' chain_block flags_spec 'offload'
-hi link   nft_add_cmd_keyword_table_table_block_chain_chain_block_flags_spec_keyword_offload nftHL_Define
-syn match nft_add_cmd_keyword_table_table_block_chain_chain_block_flags_spec_keyword_offload '\voffload\ze[ \t\n;\}]' skipwhite contained
-\ nextgroup=
-\    nft_add_cmd_keyword_table_table_block_chain_chain_flags_spec_separator,
-\    nft_Error
-
-" add_cmd 'table' table_block 'chain' chain_block flags_spec 'flags'
-hi link   nft_add_cmd_keyword_table_table_block_chain_chain_block_flags_spec_keyword_flags nftHL_Statement
-syn match nft_add_cmd_keyword_table_table_block_chain_chain_block_flags_spec_keyword_flags "\vflags\ze[ \t]" skipwhite contained
-\ nextgroup=
-\    nft_add_cmd_keyword_table_table_block_chain_chain_block_flags_spec_keyword_offload,
-\    nft_Error
-" TODO: Add negatation of 'tcp' in 'tcp flags' or add to nextgroup=BUT in chain_block
-
-
-
-" **** BEGIN 'add chain' command **** BEGIN 'chain' command ****
-hi link    nft_add_cmd_keyword_chain_chain_block_delimiters nftHL_BlockDelimitersChain
-syn region nft_add_cmd_keyword_chain_chain_block_delimiters start='\v\s*\zs\{' end='\v\}' skip="#.{0,45}$" keepend skipwhite skipempty contained
-\ nextgroup=
-\    nft_table_block_stmt_separator,
-\    nft_comment_inline
+syn cluster nft_c_stmt
 \ contains=
 \    nft_add_cmd_rule_rule_alloc_stmt_masq_keyword_masquerade,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_rtclassid,
@@ -94,12 +83,12 @@ syn region nft_add_cmd_keyword_chain_chain_block_delimiters start='\v\s*\zs\{' e
 \    nft_common_block_keyword_define,
 \    nft_stmt_set_stmt_set_stmt_op_keyword_delete,
 \    nft_add_cmd_keyword_table_table_block_chain_chain_block_policy_spec_keyword_policy,
+\    nft_stmt_keyword_quota,
 \    nft_verdict_expr_keyword_return,
 \    nft_stmt_set_stmt_set_stmt_op_keyword_update,
 \    nft_common_block_keyword_error,
 \    nft_add_cmd_keyword_table_table_block_chain_chain_block_flags_spec_keyword_flags,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_expr_keyword_ipsec,
-\    nft_add_cmd_table_block_set_block_stateful_stmt_list_stmt_stateful_stmt_limit_stmt_keyword_limit,
 \    nft_add_cmd_rule_rule_alloc_stmt_meter_stmt_meter_stmt_alloc_keyword_meter,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_skgid,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_skuid,
@@ -110,78 +99,31 @@ syn region nft_add_cmd_keyword_chain_chain_block_delimiters start='\v\s*\zs\{' e
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_hour,
 \    nft_chain_stmt_verdict_expr_keyword_jump,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_mark,
+\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_keyword_meta,
 \    nft_stmt_nat_stmt_nat_stmt_alloc_keyword_snat,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_time,
 \    nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_keyword_type,
+\    nft_stmt_set_stmt_set_stmt_op_keyword_add,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_cpu,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_day,
+\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_fib_expr_keyword_fib,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iif,
 \    nft_stmt_log_stmt_log_stmt_alloc_keyword_log,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oif,
 \    nft_comment_inline,
 \    nft_add_cmd_keyword_table_table_block_chain_chain_block_stmt_separator,
 \    nft_rule_cluster_Error
-"\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_keyword_meta,
 
-hi link   nft_add_cmd_chain_spec_identifier nftHL_Identifier
-syn match nft_add_cmd_chain_spec_identifier '\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}' skipwhite contained
-\ nextgroup=
-\    nft_add_cmd_keyword_chain_chain_block_delimiters,
-\    nft_EOS,
-\    nft_UnexpectedSemicolon,
-\    nfft_Error
-
-hi link   nft_add_cmd_chain_spec_table_spec_identifier nftHL_Identifier
-syn match nft_add_cmd_chain_spec_table_spec_identifier '\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}' skipwhite contained
-\ nextgroup=
-\    nft_add_cmd_chain_spec_identifier,
-\    nft_UnexpectedVariableName,
-\    nft_UnexpectedNonIdentifier,
-\    nft_UnexpectedAtSymbol,
-\    nft_UnexpectedCurlyBrace,
-\    nft_UnexpectedNewLine,
-\    nft_UnexpectedSymbol,
-\    nft_UnexpectedSemicolon,
-\    nft_Error
-
-hi link   nft_add_cmd_chain_spec_table_spec_family_spec_family_spec_explicit nftHL_Family
-syn match nft_add_cmd_chain_spec_table_spec_family_spec_family_spec_explicit '\v(bridge|netdev|inet|arp|ip6|ip)' skipwhite contained
-\ nextgroup=
-\    nft_add_cmd_chain_spec_table_spec_identifier,
-\    nft_UnexpectedVariableName,
-\    nft_UnexpectedNonIdentifier,
-\    nft_UnexpectedAtSymbol,
-\    nft_UnexpectedCurlyBrace,
-\    nft_UnexpectedNewLine,
-\    nft_UnexpectedSymbol,
-\    nft_UnexpectedSemicolon,
-\    nft_Error
-
-" 'chain'->add_cmd->'add'->base_cmd->line
-hi link   nft_base_cmd_add_cmd_keyword_chain_declarative nftHL_Command
-syn match nft_base_cmd_add_cmd_keyword_chain_declarative "\vchain\ze\s" skipwhite contained
-\ nextgroup=
-\    nft_add_cmd_chain_spec_table_spec_family_spec_family_spec_explicit,
-\    nft_add_cmd_chain_spec_table_spec_identifier,
-\    nft_UnexpectedVariableName,
-\    nft_UnexpectedNonIdentifier,
-\    nft_UnexpectedAtSymbol,
-\    nft_UnexpectedCurlyBrace,
-\    nft_UnexpectedNewLine,
-\    nft_UnexpectedSymbol,
-\    nft_UnexpectedSemicolon,
-\    nft_Error
-" **** END 'add chain' command **** END 'chain' command ****
-
-  for s:this_semantic_file in s:list_filepaths_semantic_later
+  for s:this_semantic_file in s:stmt_list_filepaths_semantic_later
     call nftables#syntax#log('OK', 'Loading ' . s:this_semantic_file)
     call nftables#syntax#load(s:this_semantic_file)
     call nftables#syntax#log('OK', 'Loaded ' . s:this_semantic_file)
   endfor
-  call nftables#syntax#log('INFO', 'Loaded chain for buffer: ' . bufname('%'))
+  call nftables#syntax#log('INFO', 'Loaded stmt for buffer: ' . bufname('%'))
 catch
-  call nftables#syntax#log('ERROR', 'Failed to define chain.vim: ' . v:exception . ' at line ' . line('.') . ' in ' . expand('<sfile>:t') . ' at ' . v:throwpoint)
+  call nftables#syntax#log('ERROR', 'Failed to define stmt.vim: ' . v:exception . ' at line ' . line('.') . ' in ' . expand('<sfile>:t') . ' at ' . v:throwpoint)
 endtry
+
 
 " END OF 'syntax' statements
 "
@@ -192,4 +134,4 @@ call nftables#syntax#log('OK', 'End.')
 call nftables#syntax#pop()
 
 " Then mark this script file as not-to-be-run-again
-let b:nft_did_nftables_chain = v:true
+let b:nft_did_nftables_stmt = v:true

@@ -34,6 +34,56 @@ try
   " INSERT 'syntax cluster' here
   "
 
+" **************** BEGIN destroy_cmd *********************************
+hi link   nft_destroy_cmd_keyword_chain_chainid_spec_num nftHL_Handle
+syn match nft_destroy_cmd_keyword_chain_chainid_spec_num '\v[0-9]{1,10}' skipwhite contained
+\ nextgroup=
+\    nft_EOS
+
+hi link   nft_destroy_cmd_keyword_chain_chain_spec_identifier_string_chain nftHL_Table
+syn match nft_destroy_cmd_keyword_chain_chain_spec_identifier_string_chain '\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}' skipwhite contained
+
+hi link   nft_destroy_cmd_keyword_chain_chainid_spec_keyword_handle nftHL_Keyword
+syn match nft_destroy_cmd_keyword_chain_chainid_spec_keyword_handle 'handle' skipwhite contained
+\ nextgroup=
+\    nft_destroy_cmd_keyword_chain_chainid_spec_num
+
+hi link   nft_destroy_cmd_keyword_chain_chain_spec_keyword_last nftHL_Keyword
+syn match nft_destroy_cmd_keyword_chain_chain_spec_keyword_last 'last' skipwhite contained
+
+hi link   nft_destroy_cmd_keyword_chain_table_spec_identifier_string_table nftHL_Table
+syn match nft_destroy_cmd_keyword_chain_table_spec_identifier_string_table '\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}' skipwhite contained
+\ nextgroup=
+\    nft_destroy_cmd_keyword_chain_chainid_spec_keyword_handle,
+\    nft_destroy_cmd_keyword_chain_chain_spec_keyword_last,
+\    nft_destroy_cmd_keyword_chain_chain_spec_identifier_string_chain
+
+hi link   nft_destroy_cmd_keyword_chain_table_spec_keyword_last nftHL_Keyword
+syn match nft_destroy_cmd_keyword_chain_table_spec_keyword_last 'last' skipwhite contained
+\ nextgroup=
+\    nft_destroy_cmd_keyword_chain_chainid_spec_keyword_handle,
+\    nft_destroy_cmd_keyword_chain_chain_spec_keyword_last,
+\    nft_destroy_cmd_keyword_chain_chain_spec_identifier_string_chain
+
+hi link   nft_destroy_cmd_keyword_chain_table_spec_family_spec nftHL_Family
+syn match nft_destroy_cmd_keyword_chain_table_spec_family_spec '\v(bridge|netdev|inet|arp|ip6|ip)' skipwhite contained
+\ nextgroup=
+\    nft_destroy_cmd_keyword_chain_table_spec_keyword_last,
+\    nft_destroy_cmd_keyword_chain_table_spec_identifier_string_table,
+\    nft_UnexpectedSemicolon,
+\    nft_UnexpectedEOS,
+\    nft_Error
+
+hi link   nft_destroy_cmd_keyword_chain nftHL_Statement
+syn match nft_destroy_cmd_keyword_chain 'chain' skipwhite contained
+\ nextgroup=
+\    nft_destroy_cmd_keyword_chain_table_spec_family_spec,
+\    nft_destroy_cmd_keyword_chain_table_spec_keyword_last,
+\    nft_destroy_cmd_keyword_chain_table_spec_identifier_string_table,
+\    nft_UnexpectedSemicolon,
+\    nft_UnexpectedEOS,
+\    nft_Error
+
 
 
 " ****************** BEGIN destroy_cmd/delete_cmd ***********************
