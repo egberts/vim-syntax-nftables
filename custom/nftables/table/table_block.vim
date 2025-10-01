@@ -1,6 +1,16 @@
-" File: ~/.vim/custom/nftables/table_block.vim
+" File: table_block.vim
+" Directory: custom/nftables/table
 "
-let s:list_filepaths_semantic_early = []
+let s:list_filepaths_semantic_early = [
+\    'table/table_block/table_block_flowtable.vim',
+\    'table/table_block/table_block_synproxy.vim',
+\    'table/table_block/table_block_counter.vim',
+\    'table/table_block/table_block_secmark.vim',
+\    'table/table_block/table_block_chain.vim',
+\    'table/table_block/table_block_quota.vim',
+\    'table/table_block/table_block_map.vim',
+\    'table/table_block/table_block_set.vim'
+\    ]
 let s:list_filepaths_semantic_later = []
 
 if exists('b:did_nftables_table_block')
@@ -31,7 +41,32 @@ try
   " INSERT 'syntax region' here
   " INSERT 'syntax cluster' here
   "
+"******** BEGIN OF INSIDE THE TABLE BLOCK **********************
+" table_flag (via table_options 'flags')
+hi link   nft_add_table_options_flags_element_separator nftHL_Separator
+syn match nft_add_table_options_flags_element_separator '\v,\ze[ \t\n;\}(dormant|persist|owner)]{1,5}' skipnl skipwhite contained
+\ nextgroup=
+\    @nft_c_add_cmd_keyword_table_table_block_table_options_keyword_flags_elements,
+\    nft_Error
 
+hi link   nft_add_table_options_flags_list_item nftHL_Define
+syn match nft_add_table_options_flags_list_item "\v(dormant|persist|owner)\ze\s{0,5}[\t\n,;\}]{1,5}" skipwhite contained
+\ nextgroup=
+\    nft_add_table_options_flags_element_separator,
+\    nft_add_cmd_keyword_table_table_block_table_options_semicolon,
+\    nft_Error
+
+" add_cmd 'table' table_block table_options 'flags' table_flag
+syn cluster nft_c_add_cmd_keyword_table_table_block_table_options_keyword_flags_elements
+\ contains=
+\    nft_add_table_options_flags_list_item
+
+" add_cmd 'table' table_block table_options 'flags'
+hi link   nft_add_cmd_keyword_table_table_options_keyword_flags nftHL_Statement
+syn match nft_add_cmd_keyword_table_table_options_keyword_flags "flags" skipwhite contained
+\ nextgroup=
+\    @nft_c_add_cmd_keyword_table_table_block_table_options_keyword_flags_elements,
+\    nft_Error
 
 
 

@@ -1,31 +1,11 @@
 #!/usr/sbin/nft -f
-# File: counter.nft
+# File: counter.tp.nft
 # Description: A test NFT file to exercise 'counter' keyword Vim syntax highlightings.
 #
 # bison symbol:   counter_stmt
 # syntax pathway: counter_stmt->stateful_stmt->(stmt|stateful_stmt_list)
 #
 #
-# First-Order, First-encountered keywords after 'counter' keyword
-# Keyword  Type of stmt    Description
-# log      log_stmt        Packet logging
-# accept   verdict_stmt    Verdict: accept
-# drop     verdict_stmt    Verdict: drop
-# continue verdict_stmt    Verdict: continue
-# jump     verdict_stmt    Control flow
-# return   verdict_stmt    Return from chain
-# meta     expr_stmt       Expression involving meta keys
-# ip       expr_stmt       Match IP headers
-# tcp      expr_stmt       Match TCP headers
-# ct       stateful_stmt   Conntrack match or assignment
-# limit    stateful_stmt   Rate limiting
-# mark     expr_stmt or match_stmt    Firewall mark matching or assignment
-# payload  expr_stmt       Match protocol payload
-# quota    stateful_stmt   Match on bytes used
-# set      set_stmt        Set element addition or update (in update-only rules)
-# reject   verdict_stmt    ICMP/TCP rejection
-# audit    log_stmt        Similar to log
-# synproxy stateful_stmt   TCP SYN proxy setup
 ################################################################################
 # true positive test: properly hightlighted correctly; has good content; perfect
 ################################################################################

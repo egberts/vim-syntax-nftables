@@ -172,25 +172,27 @@ endfunction
 function! nftables#syntax#load(file) abort
   call nftables#syntax#debug('nftables#syntax#LOAD(' . a:file . ')')
   call nftables#syntax#push(s:this_script_filename)
-  if !exists('g:nft_dirpath_custom_nftables_syntax')
-    call nftables#syntax#log('ERROR', 'g:nft_dirpath_custom_nftables_syntax is not defined.')
+  if !exists('g:nft_nftables_syntax_dirpath_custom_nftables')
+    call nftables#syntax#log('ERROR', 'g:nft_nftables_syntax_dirpath_custom_nftables is not defined.')
     call nftables#syntax#pop()
     return
   endif
-  let l:filepath = g:nft_dirpath_custom_nftables_syntax . '/' . a:file
+  let l:filepath = g:nft_nftables_syntax_dirpath_custom_nftables . '/' . a:file
   if !filereadable(l:filepath)
     call nftables#syntax#log('ERROR', 'File is not readable or not found: ' . l:filepath . ' at ' . s:FormatThrowpoint(v:throwpoint))
     call nftables#syntax#pop()
     return
   endif
   let s:nft_did_name_constructed = substitute(a:file, '\.vim$', '', '')
-  let s:nft_did_name_normalized = 'b:did_nftables_' . substitute(s:nft_did_name_constructed, '\/', '_', '@')
+  " echom 's:nft_did_name_constructed: ' . s:nft_did_name_constructed
+  let s:nft_did_name_normalized = 'b:did_nftables_' . substitute(s:nft_did_name_constructed, '/', '_', 'g')
+  " echom 's:nft_did_name_normalized: ' . s:nft_did_name_normalized
   if exists(s:nft_did_name_normalized)
     call nftables#syntax#log('INFO', 'Skipped ' . a:file . ' (already loaded for buffer: ' . bufname('%') . ')')
     call nftables#syntax#pop()
     return
   endif
-  call nftables#syntax#debug('g:nft_dirpath_custom_nftables_syntax: ' . g:nft_dirpath_custom_nftables_syntax)
+  call nftables#syntax#debug('g:nft_nftables_syntax_dirpath_custom_nftables: ' . g:nft_nftables_syntax_dirpath_custom_nftables)
   try
     let l:current_buf = bufnr('%')
     execute 'buffer ' . l:current_buf

@@ -2,8 +2,8 @@
 " Directory: custom/nftables
 " Title: common_block semantic action, early
 
-let s:list_filepaths_semantic_early = []
-let s:list_filepaths_semantic_later = []
+let s:common_block_early_list_filepaths_semantic_early = []
+let s:common_block_early_list_filepaths_semantic_later = []
 
 if exists('b:did_nftables_common_block_early')
   call nftables#syntax#log('INFO', 'Skipped common_block_early.vim (already loaded for buffer: ' . bufname('%') . ')')
@@ -21,7 +21,7 @@ call nftables#syntax#log('OK', 'Begin.')
 "
 
 " non-terminal semantic action processing
-for s:this_semantic_file in s:list_filepaths_semantic_early
+for s:this_semantic_file in s:common_block_early_list_filepaths_semantic_early
   call nftables#syntax#log('OK', 'Loading ' . s:this_semantic_file)
   call nftables#syntax#load(s:this_semantic_file)
   call nftables#syntax#log('OK', 'Loaded ' . s:this_semantic_file)
@@ -34,7 +34,7 @@ call nftables#syntax#debug('Loading common_block_early syntax ...' )
 " INSERT 'syntax cluster' here
 "
 
-for s:this_semantic_file in s:list_filepaths_semantic_later
+for s:this_semantic_file in s:common_block_early_list_filepaths_semantic_later
   call nftables#syntax#log('OK', 'Loading ' . s:this_semantic_file)
   call nftables#syntax#load(s:this_semantic_file)
   call nftables#syntax#log('OK', 'Loaded ' . s:this_semantic_file)

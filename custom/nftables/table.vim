@@ -1,7 +1,10 @@
 " File: ~/.vim/custom/nftables/table.vim
 " TODO: Replace 'table' with filename of this script
 "
-let s:list_filepaths_semantic_early = ['table/table_block.vim']
+let s:list_filepaths_semantic_early = [
+\    'table/chain.vim',
+\    'table/table_block.vim'
+\ ]
 let s:list_filepaths_semantic_later = []
 
 if exists('b:did_nftables_table')
@@ -58,6 +61,16 @@ syn match nft_table_spec_family_spec_valid '\v(bridge|netdev|inet|ip6|arp|ip)' s
 \    nft_UnexpectedHash,
 \    nft_UnexpectedEOS,
 \    nft_Error
+
+" base_cmd add_cmd 'table' table_spec family_spec identifier
+hi link   nft_table_spec_variable_expr nftHL_Variable
+syn match nft_table_spec_variable_expr "\v\$[a-zA-Z][A-Za-z0-9_\-]{0,63}" skipwhite contained
+\ nextgroup=
+\    nft_add_cmd_keyword_table_table_block_delimiters,
+\    nft_comment_inline,
+\    nft_EOS,
+\    nft_line_separator,
+\    nft_line_nonidentifier_error,
 
 " base_cmd add_cmd 'add' 'table' table_spec family_spec identifier
 hi link   nft_add_table_spec_identifier nftHL_Identifier

@@ -1,3 +1,4 @@
+# File: add-tables.tn.nft
 ################################################################################
 # true negative test: properly hightlighted wrongly to show an error;
 # so far, so good.

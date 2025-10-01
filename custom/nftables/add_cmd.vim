@@ -1,7 +1,10 @@
 " File: ~/.vim/custom/nftables/add_cmd.vim
 "
-let s:list_filepaths_semantic_early = []
-let s:list_filepaths_semantic_later = []
+let s:add_cmd_list_filepaths_semantic_early = [
+\    'add/add_chain_cmd.vim',
+\    'add/add_table_cmd.vim',
+\  ]
+let s:add_cmd_list_filepaths_semantic_later = []
 
 if exists('b:did_nftables_add_cmd')
   call nftables#syntax#log('INFO', 'Skipped add_cmd (already loaded for buffer: ' . bufname('%') . ')')
@@ -19,7 +22,7 @@ call nftables#syntax#log('OK', 'Begin.')
 "
 try
   " non-terminal semantic action processing
-  for s:this_semantic_file in s:list_filepaths_semantic_early
+  for s:this_semantic_file in s:add_cmd_list_filepaths_semantic_early
     call nftables#syntax#log('OK', 'Loading ' . s:this_semantic_file)
     call nftables#syntax#load(s:this_semantic_file)
     call nftables#syntax#log('OK', 'Loaded ' . s:this_semantic_file)
@@ -43,7 +46,7 @@ call nftables#syntax#define_match(
 \     'nft_base_cmd_add_cmd_keyword_element',
 \     'nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_netdev',
 \     'nft_base_cmd_add_cmd_keyword_secmark',
-\     'nft_base_cmd_add_cmd_keyword_chain',
+\     'nft_base_cmd_add_cmd_keyword_chain_imperative',
 \     'nft_base_cmd_add_cmd_keyword_quota',
 \     'nft_base_cmd_add_cmd_keyword_table_imperative',
 \     'nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_inet',
@@ -52,34 +55,11 @@ call nftables#syntax#define_match(
 \     'nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_ip6',
 \     'nft_base_cmd_add_cmd_keyword_map',
 \     'nft_base_cmd_add_cmd_keyword_set',
+\     'nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_ip',
 \     'nft_Error'],
 \    '\vadd\ze ',
- \    'nftHL_Commmand')
-
-hi link   nft_base_cmd_keyword_add nftHL_Command
-syn match nft_base_cmd_keyword_add '\vadd\ze ' skipwhite contained
-\ nextgroup=
-\    nft_base_cmd_add_cmd_keyword_flowtable,
-\    nft_base_cmd_add_cmd_keyword_synproxy,
-\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_bridge,
-\    nft_base_cmd_add_cmd_keyword_counter,
-\    nft_base_cmd_add_cmd_keyword_element,
-\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_netdev,
-\    nft_base_cmd_add_cmd_keyword_secmark,
-\    nft_base_cmd_add_cmd_keyword_chain,
-\    nft_base_cmd_add_cmd_keyword_quota,
-\    nft_base_cmd_add_cmd_keyword_table_imperative,
-\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_inet,
-\    nft_base_cmd_add_cmd_keyword_rule,
-\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_arp,
-\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_ip6,
-\    nft_base_cmd_add_cmd_keyword_map,
-\    nft_base_cmd_add_cmd_keyword_set,
-\    nft_Error
-"\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_ip,
-"\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier_declarative,
-" insert nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier_declarative in nft_base_cmd_keyword_add is CPU-intensive"
-"    nft_base_cmd_add_cmd_keyword_flowtable, ' invalid syntax
+ \    'nftHL_Command' )
+" \    { 'skipwhite' : 1, 'contained' : 1 })
 
 syn cluster nft_c_base_cmd_add_cmd_unused_placeholder
 \ contains=
@@ -97,7 +77,7 @@ syn cluster nft_c_base_cmd_add_cmd_unused_placeholder
 \    nft_base_cmd_add_cmd_keyword_set
 
 "********** base_cmd END *************************************************
-  for s:this_semantic_file in s:list_filepaths_semantic_later
+  for s:this_semantic_file in s:add_cmd_list_filepaths_semantic_later
     call nftables#syntax#log('OK', 'Loading ' . s:this_semantic_file)
     call nftables#syntax#load(s:this_semantic_file)
     call nftables#syntax#log('OK', 'Loaded ' . s:this_semantic_file)

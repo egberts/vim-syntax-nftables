@@ -23,14 +23,8 @@ table a
 table z
 table a0
 table z0
-table A/
-table A\
 table A_
-table A.
 table A
-
-# base_cmd add_cmd 'table' table_spec family_spec family_spec_explicit
-add table filter
 
 table T  # that one creates an empty table
 # base_cmd add_cmd 'table' table_spec identifier <STRING>
@@ -48,13 +42,8 @@ table arp xxxx { };
 
 table my.IpTable
 table my/IpTable
-add table my/IpTable
-add table my\IpTable    # defaults to 'ip' family
 table my./_IpTable
-add table my./_IpTable
 table my.IpTable
-add table my.IpTable
-add table my_./\IpTable    # defaults to 'ip' family
 
 # base_cmd add_cmd 'table' table_spec table_block common_block 'include'
 table T {
@@ -171,28 +160,18 @@ table T { chain C ; } ;
 table T { chain C ; } ;
 table T { chain C { }; };
 table T { chain C { }; chain D { }; };
-add table T { 
-    chain C {
-        comment asdf 
-    }; 
-    chain D { }; 
-};
-
 
 # nft_line/nft_c_base_cmd/nft_base_cmd_add/nft_add_table_spec
-add table ip T { ip chain C { type ; }; } # comment ;   # supposed to be highlighted (incomplete type)
-add table ip T { ip chain C { type ; }; } ;   # supposed to be highlighted (incomplete type)
 table T { chain C { type filter hook ingress device $MY_DEVICE ; }; };
 table T { chain C { type filter hook ingress device $MY_DEVICE ; }; };
 table T { chain C { type filter hook ingress devices = $MY_DEVICE ; }; };
 table T { chain C { type filter hook ingress devices = $MY_DEVICE }; };
 table T { chain C { type filter hook ingress devices = { a }; }; };
 table T { chain C { type filter hook ingress devices = { $a }; }; };
-table ip MyTable { chain C { type filter hook ingress devices = { a }; };
+table ip MyTable { chain C { type filter hook ingress devices = { a }; }; };
 table T { chain C { type filter hook ingress device eth0 priority 256 }; };
 table T { chain C { type filter hook ingress device eth0 priority 1; } };
 table T { chain C { type filter hook ingress device eth0 priority 1; } };
-add table T { chain C { type filter hook ingress device eth0 priority 1; }; };
 
 table T { chain C { policy $MYPOLICY; };};
 table T { chain C { policy drop; };};

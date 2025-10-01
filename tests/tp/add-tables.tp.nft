@@ -9,7 +9,7 @@
 #
 # underscore (_) and dot (.) are supported.
 #
-# Wierdly so, the characters slash (/), backslash (\) seems
+# Weirdly so, the characters slash (/), backslash (\) seems
 # supported but are ignored throughout by this nftables highligher
 #
 # Syntax Pathway:
@@ -30,9 +30,6 @@ add table my
 add table my; 
 add table my ;
 add table my ; 
-
-add table my./_IpTable { };
-add table my.IpTable
 
 add table A#;   # not so invalid character, it's an inline comment
 

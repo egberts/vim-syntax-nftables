@@ -19,6 +19,12 @@
 
 create table myIpTable 
 create table my_IpTable
+
+create chain myInetTable3 myInetChain2;
+create chain myInetTable3 myInetChain2 ;
+create chain myInetTable3 myInetChain2; 
+create chain myInetTable3 myInetChain2 ; 
+
 create table netdev myNetdevTable
 create table bridge myBridgeTable
 create table arp myArpTableTable
@@ -30,13 +36,6 @@ create table inet myInetTable
 #  1. Unidentified family chain
 #  2. Explictly-identified family chain
 
-# create chain <chain_spec>
-add table ip myIpTable3
-add table ip6 myIp6Table3
-add table inet myInetTable3
-add table netdev myNetdevTable3
-add table bridge myBridgeTable3
-add table arp myArpTable3
 create chain myIpTable3 myIpChain
 create chain netdev myNetdevTable3 myNetdevTable 
 create chain bridge myBridgeTable3 myBridgeChain 
@@ -44,6 +43,11 @@ create chain arp myArpTable3 myArpChain
 create chain ip myIpTable3 myIpChain2
 create chain ip6 myIp6Table3 myIp6Chain2
 create chain inet myInetTable3 myInetChain2
+
+create chain inet myInetTable3 myInetChain2;
+create chain inet myInetTable3 myInetChain2 ;
+create chain inet myInetTable3 myInetChain2; 
+create chain inet myInetTable3 myInetChain2 ; 
 
 # create chain <chain_spec> { <chain_block> }
 # 'create chain' expects a chain_block, but only ONE chain-block statement supported ; 'type' statement.
@@ -98,6 +102,7 @@ create chain inet myInetTable myInetChain36 { type nat hook input priority 0; po
 create chain inet myInetTable myInetChain37 { type nat hook output priority 0; policy accept; }
 create chain inet myInetTable myInetChain38 { type nat hook postrouting priority 0; policy accept; }
 create chain inet myInetTable myInetChain39 { type route hook output priority 0; policy accept; }
+create chain inet myInetTable myInetChain39 { type route hook output priority 0 ; policy accept; }
 
 create chain netdev myNetdevTable myIpChain40 { type filter hook ingress devices = { eno2, lo, wlo1 } priority 0; policy drop;}
 

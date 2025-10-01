@@ -1,8 +1,9 @@
-" File: ~/.vim/custom/nftables/template_name.vim
+" File: template_name.vim
+" Directory: custom/nftables/
 " TODO: Replace 'template_name' with filename of this script
 "
-let s:list_filepaths_semantic_early = []
-let s:list_filepaths_semantic_later = []
+let s:template_name_list_filepaths_semantic_early = []
+let s:template_name_list_filepaths_semantic_later = []
 
 if exists('b:did_nftables_template_name')
   call nftables#syntax#log('INFO', 'Skipped template_name (already loaded for buffer: ' . bufname('%') . ')')
@@ -20,7 +21,7 @@ call nftables#syntax#log('OK', 'Begin.')
 "
 try
   " non-terminal semantic action processing
-  for s:this_semantic_file in s:list_filepaths_semantic_early
+  for s:this_semantic_file in s:template_name_list_filepaths_semantic_early
     call nftables#syntax#log('OK', 'Loading ' . s:this_semantic_file)
     call nftables#syntax#load(s:this_semantic_file)
     call nftables#syntax#log('OK', 'Loaded ' . s:this_semantic_file)
@@ -33,7 +34,7 @@ try
   " INSERT 'syntax cluster' here
   "
 
-  for s:this_semantic_file in s:list_filepaths_semantic_later
+  for s:this_semantic_file in s:template_name_list_filepaths_semantic_later
     call nftables#syntax#log('OK', 'Loading ' . s:this_semantic_file)
     call nftables#syntax#load(s:this_semantic_file)
     call nftables#syntax#log('OK', 'Loaded ' . s:this_semantic_file)

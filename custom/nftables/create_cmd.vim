@@ -23,37 +23,18 @@ endfor
 call nftables#syntax#debug('Loading create_cmd ...')
 call nftables#syntax#log('INFO', 'Loaded create_cmd for buffer: ' . bufname('%'))
 
-" *************** BEGIN create_cmd *******************
-hi link   nft_create_cmd_keyword_table_identifier_chain nftHL_Table
-syn match nft_create_cmd_keyword_table_identifier_chain "\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}" skipwhite contained
+" **************** BEGIN 'create synproxy' ***************************
+hi link   nft_create_cmd_keyword_synproxy nftHL_Command
+syn match nft_create_cmd_keyword_synproxy "synproxy" skipwhite contained
 \ nextgroup=
-\    nft_c_add_table_spec,
-\    nft_EOS
-
-hi link   nft_create_cmd_keyword_table_identifier_table nftHL_Table
-syn match nft_create_cmd_keyword_table_identifier_table "\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}" skipwhite contained
-\ nextgroup=
-\    nft_create_cmd_keyword_table_identifier_chain,
+\    nft_create_cmd_keyword_secmark_obj_spec_table_spec_family_spec_explicit,
+\    nft_create_cmd_keyword_secmark_obj_spec_table_spec_identifier_table,
 \    nft_UnexpectedSemicolon,
-\    nft_UnexpectedEOS
+\    nft_UnexpectedEOS,
+\    nft_Error
+" **************** END 'create synproxy' ***************************
 
-hi link   nft_create_cmd_keyword_table_absolute_family_spec nftHL_Family
-syn match nft_create_cmd_keyword_table_absolute_family_spec "\v(bridge|netdev|inet|arp|ip6|ip)" skipwhite contained
-\ nextgroup=
-\    nft_create_cmd_keyword_table_identifier_table,
-\    nft_UnexpectedSemicolon,
-\    nft_UnexpectedEOS
-
-hi link   nft_create_cmd_keyword_table nftHL_Statement
-syn match nft_create_cmd_keyword_table "\vtable\ze[ \t]" skipwhite contained
-\ nextgroup=
-\    nft_create_cmd_keyword_table_absolute_family_spec,
-\    nft_create_cmd_keyword_table_identifier_table,
-\    nft_UnexpectedSemicolon,
-\    nft_UnexpectedEOS
-" **************** END 'create' 'table' *********************
-
-" **************** BEGIN 'create' 'secmark' *********************
+" **************** BEGIN 'create secmark' **************************
 hi link   nft_create_cmd_keyword_secmark_secmark_config_string_unquoted nftHL_String
 syn match nft_create_cmd_keyword_secmark_secmark_config_string_unquoted "\v[a-zA-Z0-9\\\/_\-\.\[\]\(\) ]{2,45}" skipwhite contained
 
@@ -95,19 +76,39 @@ syn match nft_create_cmd_keyword_secmark "secmark" skipwhite contained
 \    nft_UnexpectedSemicolon,
 \    nft_UnexpectedEOS,
 \    nft_Error
-" **************** END 'create' 'secmark' *********************
+" **************** END 'create secmark' ****************************
 
-" **************** BEGIN 'create' 'synproxy' *********************
-hi link   nft_create_cmd_keyword_synproxy nftHL_Command
-syn match nft_create_cmd_keyword_synproxy "synproxy" skipwhite contained
+" *************** BEGIN 'create table' ***************************
+hi link   nft_create_cmd_keyword_table_identifier_chain nftHL_Table
+syn match nft_create_cmd_keyword_table_identifier_chain "\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}" skipwhite contained
 \ nextgroup=
-\    nft_create_cmd_keyword_secmark_obj_spec_table_spec_family_spec_explicit,
-\    nft_create_cmd_keyword_secmark_obj_spec_table_spec_identifier_table,
-\    nft_UnexpectedSemicolon,
-\    nft_UnexpectedEOS,
-\    nft_Error
-" **************** END 'create' 'synproxy' *********************
+\    nft_c_add_table_spec,
+\    nft_EOS
 
+hi link   nft_create_cmd_keyword_table_identifier_table nftHL_Table
+syn match nft_create_cmd_keyword_table_identifier_table "\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}" skipwhite contained
+\ nextgroup=
+\    nft_create_cmd_keyword_table_identifier_chain,
+\    nft_UnexpectedSemicolon,
+\    nft_UnexpectedEOS
+
+hi link   nft_create_cmd_keyword_table_absolute_family_spec nftHL_Family
+syn match nft_create_cmd_keyword_table_absolute_family_spec "\v(bridge|netdev|inet|arp|ip6|ip)" skipwhite contained
+\ nextgroup=
+\    nft_create_cmd_keyword_table_identifier_table,
+\    nft_UnexpectedSemicolon,
+\    nft_UnexpectedEOS
+
+hi link   nft_create_cmd_keyword_table nftHL_Statement
+syn match nft_create_cmd_keyword_table "\vtable\ze[ \t]" skipwhite contained
+\ nextgroup=
+\    nft_create_cmd_keyword_table_absolute_family_spec,
+\    nft_create_cmd_keyword_table_identifier_table,
+\    nft_UnexpectedSemicolon,
+\    nft_UnexpectedEOS
+" **************** END 'create' 'table' *********************
+
+" **************** BEGIN 'create' ***************************
 " 'create'->base_cmd->line
 hi link   nft_base_cmd_keyword_create nftHL_Command
 syn match nft_base_cmd_keyword_create 'create' skipwhite contained
@@ -127,7 +128,7 @@ syn match nft_base_cmd_keyword_create 'create' skipwhite contained
 \    nft_UnexpectedSemicolon,
 \    nft_UnexpectedEOS,
 \    nft_Error
-" *************** END create_cmd *******************
+" **************** END 'create' *****************************
 
 call nftables#syntax#log('OK', 'End.')
 
