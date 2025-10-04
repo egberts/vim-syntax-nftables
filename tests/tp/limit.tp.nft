@@ -57,6 +57,7 @@ table T {
         define A = 1
         redefine A = 2
         undefine A
+        comment "Wow does this work?";
     }
 }
 table T { limit L { }; }

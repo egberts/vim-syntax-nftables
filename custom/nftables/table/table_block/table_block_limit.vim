@@ -35,6 +35,24 @@ try
 " *********************  BEGIN 'limit' ***********************
 
 
+hi link   nft_comment_spec_string_content nftHL_String
+syn match nft_comment_spec_string_content '\v\S{1,64}' skipwhite contained
+
+
+hi link    nft_comment_spec_string_quoted_double nftHL_Comment
+syn region nft_comment_spec_string_quoted_double start='\"' end='\"' skip='\\\"' keepend oneline skipwhite contained
+\ contains=
+\   nft_comment_spec_string_content,
+\   nft_Error
+
+" base_cmd add_cmd 'set' set_spec '{' set_block 'comment'
+" used only at top-level, never inside 'blocks'
+hi link   nft_comment_spec_keyword_comment nftHL_Statement
+syn match nft_comment_spec_keyword_comment '\vcomment' skipwhite contained
+\ nextgroup=
+\   nft_comment_spec_string_quoted_double,
+\   nft_Error
+
 " limit_burst_bytes
 " 'limit' [ 'over'|'until' ] <NUM> '/' ('second'|'minute'|'hour'|'day'|'week') 'burst' <NUM> ('bytes'|'string')
 " 'bytes'->limit_burst_bytes->limit_confi->'limit'->'{'->table_block->'table'->

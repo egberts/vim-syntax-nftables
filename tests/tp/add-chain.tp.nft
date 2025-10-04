@@ -1,6 +1,6 @@
 #!/usr/sbin/nft -f
 # File: all-chain.nft
-# Description: A false positive test NFT file to exercise 'chain' Vim syntax highlightings.
+# Description: A true positive test NFT file to exercise 'chain' Vim syntax highlightings.
 #
 # Identifiers begin with an standard practice of allowing
 # alphabetic character (a-z,A-Z) for first character followed

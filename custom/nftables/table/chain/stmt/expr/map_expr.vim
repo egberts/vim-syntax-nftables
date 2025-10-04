@@ -40,11 +40,10 @@ hi link   nft_map_expr_rhs_expr_concat_rhs_expr nftHL_Keyword
 syn match nft_map_expr_rhs_expr_concat_rhs_expr 'x' skipwhite contained
 
 hi link    nft_map_expr_rhs_expr_set_expr nftHL_BlockDelimitersSet
-syn region nft_map_expr_rhs_expr_set_expr start=+{+ end=+}+ skipwhite contained
+syn region nft_map_expr_rhs_expr_set_expr start=+{+ end=+}+ skipwhite skipnl contained
 \ nextgroup=
-\    nft_stmt_separator,
-\    nft_EOL,
-\    nft_Error
+\    nft_stmt_fwd_stmt_keyword_fwd,
+\    @nft_c_base_cmd_add_cmd_rule_alloc_stmt_cluster
 
 hi link   nft_map_expr_rhs_expr_set_ref_symbol_expr nftHL_Keyword
 syn match nft_map_expr_rhs_expr_set_ref_symbol_expr 'y' skipwhite contained
@@ -56,6 +55,13 @@ syn cluster nft_c_map_expr_rhs_expr
 \    nft_map_expr_rhs_expr_set_ref_symbol_expr_keyword_at_identifier,
 \    nft_map_expr_rhs_expr_primary_expr,
 \    nft_map_expr_rhs_expr_range_rhs_expr_basic_rhs_expr_exclusive_or_rhs_expr_and_rhs_expr_shift_rhs_expr_primary_rhs_expr_integer_expr,
+
+hi link   nft_map_expr_keyword_map nftHL_Keyword
+syn match nft_map_expr_keyword_map '\vmap' skipwhite contained
+\ nextgroup=
+\    @nft_c_map_expr_rhs_expr,
+\    nft_Error
+
 "***************** END 'map' rhs_expr **************************************
 
   for s:this_semantic_file in s:map_expr_list_filepaths_semantic_later

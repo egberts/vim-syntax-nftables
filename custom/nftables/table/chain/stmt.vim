@@ -2,7 +2,6 @@
 " Directory: custom/nftables/table/chain/
 "
 let s:stmt_list_filepaths_semantic_early = [
-\    'table/chain/stmt/expr.vim',
 \    'table/chain/stmt_policy.vim',
 \    'table/chain/stmt_type.vim',
 \    'table/chain/stmt/stmt_comment.vim',
@@ -11,15 +10,22 @@ let s:stmt_list_filepaths_semantic_early = [
 \    'table/chain/stmt/stmt_verdict.vim',
 \    'table/chain/stmt_policy.vim',
 \    'table/chain/stmt/stmt_reject.vim',
+\    'table/chain/stmt/stmt_meter.vim',
 \    'table/chain/stmt/stmt_quota.vim',
 \    'table/chain/stmt/stmt_redir.vim',
 \    'table/chain/stmt/stmt_masq.vim',
 \    'table/chain/stmt/stmt_meta.vim',
 \    'table/chain/stmt_type.vim',
+\    'table/chain/stmt/stmt_fwd.vim',
+\    'table/chain/stmt/stmt_ip6.vim',
 \    'table/chain/stmt/stmt_log.vim',
 \    'table/chain/stmt/stmt_nat.vim',
 \    'table/chain/stmt/stmt_set.vim',
-\    'table/chain/stmt/stmt_ct.vim'
+\    'table/chain/stmt/stmt_ct.vim',
+\    'table/chain/stmt/stmt_ip.vim',
+\    'table/chain/stmt/expr.vim',
+\    'table/chain/stmt/stmt_expr.vim',
+\    'table/chain/stmt/primary_stmt_expr.vim',
 \    ]
 let s:stmt_list_filepaths_semantic_later = []
 
@@ -104,13 +110,17 @@ syn cluster nft_c_stmt
 \    nft_stmt_nat_stmt_nat_stmt_alloc_keyword_snat,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_time,
 \    nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_keyword_type,
+\    nft_keyword_expr_keyword_vlan,
 \    nft_stmt_set_stmt_set_stmt_op_keyword_add,
+\    nft_keyword_expr_keyword_arp,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_cpu,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_day,
 \    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_fib_expr_keyword_fib,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iif,
+\    nft_stmt_keyword_ip6,
 \    nft_stmt_log_stmt_log_stmt_alloc_keyword_log,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oif,
+\    nft_keyword_expr_keyword_ip,
 \    nft_comment_inline,
 \    nft_add_cmd_keyword_table_table_block_chain_chain_block_stmt_separator,
 \    nft_rule_cluster_Error

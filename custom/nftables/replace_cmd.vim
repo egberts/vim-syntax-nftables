@@ -70,7 +70,7 @@ syn match nft_replace_cmd_keyword_rule_ruleid_spec_chain_spec_table_spec_chain_i
 \ nextgroup=
 \    nft_replace_cmd_keyword_rule_ruleid_spec_chain_spec_table_spec_keywords_handle_position_index,
 \    @nft_c_payload_stmt
-"\    nft_ip_hdr_expr via @nft_c_payload_stmt
+"\    nft_ip_hdr_expr_keyword_ip via @nft_c_payload_stmt
 "\    @nft_c_rule
 
 " base_cmd 'replace' [ family_spec ] table_identifier

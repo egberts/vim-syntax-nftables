@@ -67,11 +67,15 @@ syn match nft_primary_stmt_expr_payload_expr_keyword_ip_ip_hdr_expr_ip_hdr_field
 \ nextgroup=
 \    nft_close_scope_ip_primary_expr_constant_expr_int_hex_16b
 
+syn match nft_datatype_ip_protocol '\v((udplite|icmpv6|comp|dccp|icmp|sctp|esp|tcp|udp|ah)|(0x[0-9a-zA-F]{1,2})|([0-9]{1,3}))' skipwhite contained
+
+
 hi link   nft_primary_stmt_expr_payload_expr_keyword_ip_ip_hdr_expr_ip_hdr_field_protocol nftHL_Keyword
-syn match nft_primary_stmt_expr_payload_expr_keyword_ip_ip_hdr_expr_ip_hdr_field_protocol '\vprotocol' skipwhite contained
+syn match nft_primary_stmt_expr_payload_expr_keyword_ip_ip_hdr_expr_ip_hdr_field_protocol '\vprotocol\ze[ \t]{1,5}' keepend skipwhite contained
 \ nextgroup=
 \    nft_datatype_ip_protocol,
-\    nft_close_scope_ip_primary_expr_constant_expr_int_hex_8b
+\    nft_close_scope_ip_primary_expr_constant_expr_int_hex_8b,
+\    nft_Error
 
 hi link   nft_primary_stmt_expr_payload_expr_keyword_ip_ip_hdr_expr_ip_hdr_field_frag_off nftHL_Keyword
 syn match nft_primary_stmt_expr_payload_expr_keyword_ip_ip_hdr_expr_ip_hdr_field_frag_off '\vfrag\-off' skipwhite contained
@@ -1724,45 +1728,7 @@ syn match nft_payload_expr_sctp_hdr_expr_keyword_sctp '\vsctp' skipwhite contain
 \    nft_chainError
 " ************************* END  sctp' *************************
 
-" ************************* BEGIN ether_hdr_expr' *************************
-hi link   nft_ether_hdr_expr_types nftHL_Number
-syn match nft_ether_hdr_expr_types '\v((0[xX][0-9a-fA-F]{1,4})|([0-9]{1,5}))' skipwhite contained
 
-" this 'set' is not a Command/Statement, it is an 'Action'/expression/write-only
-hi link   nft_payload_expr_ether_hdr_expr_keyword_set nftHL_Write
-syn match nft_payload_expr_ether_hdr_expr_keyword_set '\vset' skipwhite contained
-\ nextgroup=
-\    @nft_c_stmt_expr,
-\    nft_ether_hdr_expr_macaddr
-
-hi link   nft_ether_hdr_expr_macaddr nftHL_Number
-syn match nft_ether_hdr_expr_macaddr '\v[0-9a-fA-F]{1,2}(:[0-9a-fA-F]{1,2}){5}' skipwhite contained
-
-hi link   nft_ether_hdr_expr_keyword_daddr nftHL_Keyword
-syn match nft_ether_hdr_expr_keyword_daddr '\vdaddr' skipwhite contained
-\ nextgroup=
-\    nft_payload_expr_ether_hdr_expr_keyword_set,
-\    nft_ether_hdr_expr_macaddr
-
-hi link   nft_ether_hdr_expr_keyword_saddr nftHL_Keyword
-syn match nft_ether_hdr_expr_keyword_saddr '\vsaddr' skipwhite contained
-\ nextgroup=
-\    nft_payload_expr_ether_hdr_expr_keyword_set,
-\    nft_ether_hdr_expr_macaddr
-
-hi link   nft_ether_hdr_expr_keyword_type nftHL_Keyword
-syn match nft_ether_hdr_expr_keyword_type '\vtype' skipwhite contained
-\ nextgroup=
-\    nft_ether_hdr_expr_types
-
-hi link   nft_payload_expr_ether_hdr_expr_keyword_ether nftHL_Statement
-syn match nft_payload_expr_ether_hdr_expr_keyword_ether '\vether' skipwhite contained
-\ nextgroup=
-\    nft_ether_hdr_expr_keyword_daddr,
-\    nft_ether_hdr_expr_keyword_saddr,
-\    nft_ether_hdr_expr_keyword_type,
-\    nft_chainError
-" ************************* END ether_hdr_expr' *****************
 
 " ************************* Begin payload_expr esp_hdr_expr *********
 "  esp: spi, sequence
@@ -2936,48 +2902,66 @@ syn match nft_payload_expr_th_hdr_expr_keyword_th '\vth' skipwhite contained
 \    nft_th_hdr_expr_th_hdr_field_keyword_sport
 "*************** BEGIN th_hdr_expr *******************************
 
+" payload_expr includes payload_raw_expr (done)
+" payload_expr includes eth_hdr_expr (done)
+" payload_expr includes vlan_hdr_expr (done)
+" payload_expr includes arp_hdr_expr
+" payload_expr includes ip_hdr_expr
+" payload_expr includes icmp_hdr_expr
+" payload_expr includes igmp_hdr_expr
+" payload_expr includes ip6_hdr_expr
+" payload_expr includes icmp6_hdr_expr
+" payload_expr includes auth_hdr_expr
+" payload_expr includes esp_hdr_expr
+" payload_expr includes comp_hdr_expr
+" payload_expr includes udp_hdr_expr
+" payload_expr includes udplite_hdr_expr
+" payload_expr includes tcp_hdr_expr
+" payload_expr includes close_scope_tcp
+" payload_expr includes dccp_hdr_expr
+" payload_expr includes sctp_hdr_expr
+" payload_expr includes th_hdr_expr
+" payload_expr includes vxlan_hdr_expr
+" payload_expr includes geneve_hdr_expr
+" payload_expr includes gre_hdr_expr
+" payload_expr includes gretap_hdr_expr
+"
+" All first-order, first-encountered keywords from all the semantic actions
+" above are then placed inside 'contains=' in decreasing order of length of
+" its lexical token then in least-to-most permissive regex order.
+
 "*************** BEGIN payload_expr *******************************
-hi link   nft_c_payload_expr nftHL_Expression
 syn cluster nft_c_payload_expr
 \ contains=
-\    nft_payload_expr_udplite_hdr_expr_keyword_udplite,
-\    nft_payload_expr_geneve_hdr_expr_keyword_geneve,
-\    nft_payload_expr_gretap_hdr_expr_keyword_gretap,
-\    nft_payload_expr_icmpv6_hdr_expr_keyword_icmpv6,
-\    nft_payload_expr_ether_hdr_expr_keyword_ether,
-\    nft_payload_expr_vxlan_hdr_expr_keyword_vxlan,
-\    nft_payload_expr_auth_hdr_expr_keyword_auth,
-\    nft_payload_expr_dccp_hdr_expr_keyword_dccp,
-\    nft_payload_expr_comp_hdr_expr_keyword_comp,
-\    nft_payload_expr_icmp_hdr_expr_keyword_icmp,
-\    nft_payload_expr_igmp_hdr_expr_keyword_igmp,
-\    nft_payload_expr_sctp_hdr_expr_keyword_sctp,
-\    nft_payload_expr_vlan_hdr_expr_keyword_vlan,
-\    nft_payload_expr_arp_hdr_expr_keyword_arp,
-\    nft_payload_expr_esp_hdr_expr_keyword_esp,
-\    nft_payload_expr_gre_hdr_expr_keyword_gre,
-\    nft_payload_expr_ip6_hdr_expr_keyword_ip6,
-\    nft_payload_expr_tcp_hdr_expr_keyword_tcp,
-\    nft_payload_expr_udp_hdr_expr_keyword_udp,
-\    nft_payload_expr_ip_hdr_expr_keyword_ip,
-\    nft_payload_expr_th_hdr_expr_keyword_th
+\    nft_keyword_expr_keyword_ether,
+\    nft_keyword_expr_keyword_vlan,
+\    nft_keyword_expr_keyword_arp,
+\    nft_payload_raw_expr_payload_base_spec_keyword_at_string,
+"\    nft_payload_expr_udplite_hdr_expr_keyword_udplite,
+"\    nft_payload_expr_geneve_hdr_expr_keyword_geneve,
+"\    nft_payload_expr_gretap_hdr_expr_keyword_gretap,
+"\    nft_payload_expr_icmpv6_hdr_expr_keyword_icmpv6,
+"\    nft_payload_expr_vxlan_hdr_expr_keyword_vxlan,
+"\    nft_payload_expr_auth_hdr_expr_keyword_auth,
+"\    nft_payload_expr_dccp_hdr_expr_keyword_dccp,
+"\    nft_payload_expr_comp_hdr_expr_keyword_comp,
+"\    nft_payload_expr_icmp_hdr_expr_keyword_icmp,
+"\    nft_payload_expr_igmp_hdr_expr_keyword_igmp,
+"\    nft_payload_expr_sctp_hdr_expr_keyword_sctp,
+"\    nft_payload_raw_expr_payload_base_spec_keyword_at_ih,
+"\    nft_payload_raw_expr_payload_base_spec_keyword_at_ll,
+"\    nft_payload_raw_expr_payload_base_spec_keyword_at_nh,
+"\    nft_payload_raw_expr_payload_base_spec_keyword_at_th,
+"\    nft_payload_expr_esp_hdr_expr_keyword_esp,
+"\    nft_payload_expr_gre_hdr_expr_keyword_gre,
+"\    nft_payload_expr_ip6_hdr_expr_keyword_ip6,
+"\    nft_payload_expr_tcp_hdr_expr_keyword_tcp,
+"\    nft_payload_expr_udp_hdr_expr_keyword_udp,
+"\    nft_payload_expr_ip_hdr_expr_keyword_ip,
+"\    nft_payload_expr_th_hdr_expr_keyword_th,
 "*************** END payload_expr *******************************
 
-hi link   nft_primary_stmt_expr_payload_expr_keyword_ip6 nftHL_Statement
-syn match nft_primary_stmt_expr_payload_expr_keyword_ip6 '\vip6\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_ip6_hdr_expr_ip6_hdr_field_keyword_flowlabel,
-\    nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_ip6_hdr_expr_ip6_hdr_field_keyword_hoplimit,
-\    nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_ip6_hdr_expr_ip6_hdr_field_keyword_nexthdr,
-\    nft_payload_expr_ip6_keyword_version,
-\    nft_payload_expr_ip6_keyword_length,
-\    nft_payload_expr_ip6_keyword_daddr,
-\    nft_payload_expr_ip6_keyword_saddr,
-\    nft_payload_expr_ip6_keyword_dscp,
-\    nft_payload_expr_ip6_keyword_ecn,
-\    nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_ip6_hdr_expr_ip6_hdr_field_keyword_ttl,
-\    nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_ip6_hdr_expr_ip6_hdr_field_keyword_id,
-\    nft_chainError
+
 "\    nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_ip_hdr_expr_named_set,
 " ************************* END ip6_hdr_expr' *************************
 

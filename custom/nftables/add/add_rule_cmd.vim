@@ -78,6 +78,7 @@ syn cluster nft_c_base_cmd_add_cmd_rule_alloc_stmt_cluster
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_day,
 \    nft_payload_expr_esp_hdr_expr_keyword_esp,
 \    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_fib_expr_keyword_fib,
+\    nft_stmt_fwd_stmt_keyword_fwd,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iif,
 \    nft_stmt_log_stmt_log_stmt_alloc_keyword_log,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oif,
@@ -241,10 +242,10 @@ syn match nft_add_cmd_rule_position_index_spec_keyword_index /\vindex\ze[ \t]/ s
 hi link   nft_base_cmd_add_cmd_rule_position_chain_spec_identifier nftHL_Table
 syn match nft_base_cmd_add_cmd_rule_position_chain_spec_identifier '\v\s\zs[a-zA-Z][a-zA-Z0-9_\.-]{0,63}\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_add_cmd_rule_rule_alloc_stmt,
 \    nft_add_cmd_rule_position_position_spec_keyword_position,
 \    nft_add_cmd_rule_position_handle_spec_keyword_handle,
 \    nft_add_cmd_rule_position_index_spec_keyword_index,
+\    @nft_c_stmt,
 \    nft_line_nonidentifier_error
 " TODO: We need a split-out of super-cluster nft_add_cmd_rule_rule_alloc_stmt to interperse position_spec's keywords
 

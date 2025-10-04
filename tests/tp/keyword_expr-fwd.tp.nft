@@ -1,6 +1,6 @@
 #!/usr/sbin/nft -f
 # File: fwd.tp.nft
-# Description: A false positive test NFT file to exercise 'fwd' keyword_expr Vim syntax highlightings.
+# Description: A true positive test NFT file to exercise 'fwd' keyword_expr Vim syntax highlightings.
 # Kernel State: Active
 # Libnftnl Access: FULL
 # Root required: Yes

@@ -309,7 +309,8 @@ if v:version >= 508 || !exists('did_nftables_syn_inits')
   hi def link nftHL_Constant    Constant
 
   hi def nftHL_Command      guifg=#ffff60 guibg=NONE ctermfg=227 ctermbg=NONE cterm=bold gui=bold
-  hi def nftHL_Statement    guifg=#ffe682 guibg=NONE ctermfg=214 ctermbg=NONE
+  hi def nftHL_Statement    guifg=#ffff60 guibg=NONE ctermfg=227 ctermbg=NONE cterm=bold gui=bold
+  hi def nftHL_Action       guifg=#ffe682 guibg=NONE ctermfg=214 ctermbg=NONE
   hi def nftHL_Keyword      guifg=#ffc986 guibg=NONE ctermfg=208 ctermbg=NONE
   hi def link nftHL_Expression  Conditional
   hi def link nftHL_Type        Type
@@ -644,7 +645,6 @@ syn match nft_datatype_ether_addr '\v((8021ad|8021q|arp|ip6|ip|vlan)|((0x)?[0-9a
 syn match nft_datatype_ether_type '\v[0-9]{1,10}' skipwhite contained
 syn match nft_datatype_gid '\v[0-9]{1,10}' skipwhite contained
 syn match nft_datatype_mark '\v[0-9]{1,10}' skipwhite contained
-syn match nft_datatype_ip_protocol '\v((tcp|udp|udplite|esp|ah|icmpv6|icmp|comp|dccp|sctp)|([0-9]{1,3}))' skipwhite contained
 syn match nft_datatype_ip_service_port '\v[0-9]{1,5}' skipwhite contained
 syn match nft_datatype_ipv4_addr '\v[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' skipwhite contained
 syn match nft_datatype_ipv6_addr /\v((([0-9a-fA-F]{1,4}:){1,7}:)|(::([0-9a-fA-F]{1,4}:){0,6}[0-9a-fA-F]{1,4})|(([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}))/ skipwhite contained
@@ -915,39 +915,8 @@ syn region nft_common_block_undefine_extra_text start=/\%#\s*/ end=/\ze[;\n]/ sk
 
 
 
-hi link   nft_comment_spec_string_content nftHL_Comment
-syn match nft_comment_spec_string_content '\v\S{1,64}' skipwhite contained
-
-
-hi link    nft_comment_spec_string_quoted_double nftHL_Comment
-syn region nft_comment_spec_string_quoted_double start='\"' end='\"' skip='\\\"' keepend oneline skipwhite contained
-\ contains=
-\   nft_comment_spec_string_content,
-\   nft_Error
-
-" base_cmd add_cmd 'set' set_spec '{' set_block 'comment'
-" used only at top-level, never inside 'blocks'
-hi link   nft_comment_spec_keyword_comment nftHL_Statement
-syn match nft_comment_spec_keyword_comment '\vcomment' skipwhite contained
-\ nextgroup=
-\   nft_comment_spec_string_quoted_double,
-\   nft_Error
 
 " **************** BEGIN expr ***************************************
-" **************** BEGIN socket_expr ********************************
-" socket_expr -> primary_expr
-" socket_expr -> primary_stmt_expr
-hi link   nft_socket_expr_keyword_socket nftHL_Command
-syn match nft_socket_expr_keyword_socket '\vsocket\ze[ \t]' skipwhite contained
-" ***************** END socket_expr **********************************
-
-" ***************** BEGIN numgen_expr ********************************
-" numgen_expr -> primary_expr
-" numgen_expr -> primary_stmt_expr
-hi link   nft_chain_block_primary_expr_numgen_expr_keyword_numgen nftHL_Command
-syn match nft_numgen_expr_keyword_numgen '\vnumgen\ze[ \t]' skipwhite contained
-" **************** END numgen_expr ***********************************
-
 
 
 
@@ -996,6 +965,9 @@ syn cluster nft_c_stmt_expr
 \    nft_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_boolean_expr_keyword_exists,
 \    @nft_c_multion_stmt_expr,
 \    @nft_c_symbol_stmt_expr,
+\    nft_payload_expr_ip_protocol_keyword_udp,
+\    nft_stmt_keyword_ip6,
+\    nft_stmt_keyword_ip,
 \    nft_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_symbol_expr_variable_expr,
 \    nft_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_symbol_expr_string,
 \    nft_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_integer_expr_num,

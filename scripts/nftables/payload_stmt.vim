@@ -14,7 +14,7 @@ syn cluster nft_c_payload_expr_via_payload_stmt
 \    nft_payload_raw_expr_via_payload_expr_set,
 \    nft_eth_hdr_expr_via_payload_expr_set,
 \    nft_vlan_hdr_expr_via_payload_expr_set,
-\    nft_arp_hdr_expr_via_payload_expr_set,
+\    nft_keyword_expr_keyword_arp_via_payload_expr_set,
 \    nft_ip_hdr_expr_via_payload_expr_set,
 \    nft_igmp_hdr_expr_via_payload_expr_set,
 \    nft_ip6_hdr_expr_via_payload_expr_set,
@@ -32,16 +32,16 @@ syn cluster nft_c_payload_expr_via_payload_stmt
 \    nft_geneve_hdr_expr_via_payload_expr_set,
 \    nft_gre_hdr_expr_via_payload_expr_set,
 \    nft_gretap_hdr_expr_via_payload_expr_set
-" TODO: undefined nft_arp_hdr_expr_via_payload_expr_set
+" TODO: undefined nft_keyword_expr_keyword_arp_via_payload_expr_set
 
 " payload_stmt <payload_expr> (via payload_stmt)
 syn cluster nft_c_payload_stmt
 \ contains=
 \    nft_icmp_hdr_expr,
 \    nft_payload_raw_expr,
-\    nft_eth_hdr_expr,
-\    nft_vlan_hdr_expr,
-\    nft_arp_hdr_expr,
+\    nft_keyword_expr_keyword_ether,
+\    nft_keyword_expr_keyword_vlan,
+\    nft_keyword_expr_keyword_arp,
 \    nft_ip_hdr_expr,
 \    nft_igmp_hdr_expr,
 \    nft_ip6_hdr_expr,

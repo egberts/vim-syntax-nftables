@@ -78,9 +78,9 @@ source ~/.vim/scripts/nftables/gretap_hdr_expr.vim
 syn cluster nft_c_payload_expr_via_primary_expr
 \ contains=
 \    nft_payload_raw_expr,
-\    nft_eth_hdr_expr,
-\    nft_vlan_hdr_expr,
-\    nft_arp_hdr_expr,
+\    nft_keyword_expr_keyword_ether,
+\    nft_keyword_expr_keyword_vlan,
+\    nft_keyword_expr_keyword_arp,
 \    nft_ip6_hdr_expr,
 \    nft_icmp6_hdr_expr,
 \    nft_ip_hdr_expr,
@@ -106,9 +106,9 @@ syn cluster nft_c_payload_expr_via_primary_expr
 syn cluster nft_c_payload_expr
 \ contains=
 \    nft_payload_raw_expr,
-\    nft_eth_hdr_expr,
-\    nft_vlan_hdr_expr,
-\    nft_arp_hdr_expr,
+\    nft_keyword_expr_keyword_ether,
+\    nft_keyword_expr_keyword_vlan,
+\    nft_keyword_expr_keyword_arp,
 \    nft_ip_hdr_expr,
 \    nft_icmp_hdr_expr,
 \    nft_igmp_hdr_expr,

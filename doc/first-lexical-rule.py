@@ -52,7 +52,7 @@ rule_alloc
       primary_expr / * 'vmap' verdict_map_expr '{' verdict_map_list_member_expr
     'masquerade' (masq_stmt/masq_stmt_alloc)
     'rtclassid' (meta_stmt)
-    'continue' (verdict_stmt)
+    'continue' (nft_payload)
     'ibriport' (meta_stmt)
     'iffgroup' (meta_stmt)
     'obriport' (meta_stmt)

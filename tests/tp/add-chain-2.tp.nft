@@ -1,6 +1,6 @@
 #!/usr/sbin/nft -f
 # File: all-chain.nft
-# Description: A false positive test NFT file to exercise 'chain' Vim syntax highlightings.
+# Description: A true positive test NFT file to exercise 'chain' Vim syntax highlightings.
 #
 # Identifiers begin with an standard practice of allowing
 # alphabetic character (a-z,A-Z) for first character followed
@@ -189,7 +189,14 @@ define MY_DEVICE = eno2
 table netdev A {
     chain a { 
         type filter hook ingress device lo priority -100; policy accept
-        udp dport 53 ether type 0x8006 ether saddr set aa:bb:cc:dd:ff:ee ether daddr set numgen inc mod 2 map {  0 : ca:fe:ba:be:00:00, 1: de:ad:be:ef:00:00 } fwd to $MY_DEVICE;
+        #udp dport set numgen random mod 2
+        udp dport 53 ether type 0x8006 ether saddr set aa:bb:cc:dd:ff:ee 
+            ether daddr set numgen inc mod 2 map {
+                0 : ca:fe:ba:be:00:00, 
+                1: de:ad:be:ef:00:00 } 
+        fwd to $MY_DEVICE;
+        # udp dport set numgen random mod 2 map { 0: 22, 1: 2222 }
+        ip6 
     };
 
 
@@ -208,6 +215,29 @@ table inet filter {
     chain input {
         type filter hook input priority 0; policy drop;
 
+        ip option ra exists drop
+        ip option ra length 15 set $VAR
+        ip option ra length 15 accept
+        ip option ra value 0x1015 accept
+        ip option ra type 1 accept
+        ip option rr length 15 accept
+        ip option rr type 5 accept
+        ip option rr ptr 0x15 accept
+        ip option rr addr 01 accept
+        ip option ssrr length 15 accept
+        ip option ssrr type 1 accept
+        ip option ssrr ptr 0x15 accept
+        ip option ssrr addr  5 accept
+        ip option lsrr length 15 accept
+        ip option lsrr type 1 accept
+        ip option lsrr ptr 0x15 accept
+        ip option lsrr addr  5 accept
+        ip option ra ptr 15  # invalid ra-ptr combo
+        ip option ra addr 5  # invalid ra-addr combo
+        ip option rr value  # invalid rr-value combo
+        ip option ssrr value 15  # invalid ssrr-value combo
+        ip option lsrr value 15  # invalid lsrr-value combo
+        ip protocol icmp icmp type echo-request limit rate over 1/minute burst 4 packets  drop
         ip protocol icmp icmp type echo-request limit rate over 1/minute burst 4 packets  drop
         ip6 nexthdr icmpv6 icmpv6 type echo-request limit rate over 1/minute burst 4 packets drop
 
