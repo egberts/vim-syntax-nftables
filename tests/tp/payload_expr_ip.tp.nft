@@ -1,0 +1,68 @@
+#!/usr/sbin/nft -f
+# File: payload_expr_ip.tp.nft
+# Description: A true positive test NFT file to exercise 'ip' stmt Vim syntax highlightings.
+#
+#
+# payload_expr ip_hdr_expr
+################################################################################
+# true positive test (properly hightlighted correctly; has good content; perfect
+################################################################################
+
+add rule ip T C ip hdrlength 15 drop;
+
+table inet filter {
+    chain input {
+        type filter hook input priority 0; policy drop;
+
+        ip hdrlength 15
+        ip hdrlength 0xf
+        ip checksum 32767
+        ip checksum 0x123f
+        ip frag-off 32767
+        ip frag-off 0x123f
+        ip protocol icmp accept
+        ip protocol icmp icmp type echo-request limit rate over 1/minute burst 4 packets  drop
+        ip protocol icmp icmp type echo-request limit rate over 1/minute burst 4 packets  drop
+
+        # ct state {established, related} accept
+        ip protocol tcp ct state invalid accept;
+
+        ip version 6
+        ip version 0x4
+        ip version drop
+
+        ip length 15 drop
+
+        ip option ra exists drop
+        ip option ra length 15 set $VAR
+        ip option ra length 15 accept
+        ip option ra value 0x1015 accept
+        ip option ra type 1 accept
+        ip option rr length 15 accept
+        ip option rr type 5 accept
+        ip option rr ptr 0x15 accept
+        ip option rr addr 01 accept
+        ip option ssrr length 15 accept
+        ip option ssrr type 1 accept
+        ip option ssrr ptr 0x15 accept
+        ip option ssrr addr  5 accept
+        ip option lsrr length 15 accept
+        ip option lsrr type 1 accept
+        ip option lsrr ptr 0x15 accept
+        ip option lsrr addr  5 accept
+        ip option ra ptr 15  # invalid ra-ptr combo
+        ip option ra addr 5  # invalid ra-addr combo
+        ip option rr value  # invalid rr-value combo
+        ip option ssrr value 15  # invalid ssrr-value combo
+        ip option lsrr value 15  # invalid lsrr-value combo
+
+        ip daddr 127.0.0.1
+        ip saddr 127.0.0.1
+        ip dscp  15
+        ip ecn  1
+        ip ttl 255
+        ip id 65535
+
+
+    }
+}

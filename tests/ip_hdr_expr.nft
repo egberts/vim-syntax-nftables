@@ -1,0 +1,51 @@
+# File: ip_hdr_expr.nft
+# Bison: ip_hdr_expr
+
+add rule T C ip protocol icmp ip protocol tcp
+add rule T C ip version 15 accept
+add rule T C ip hdrlength 15 accept
+add rule T C ip frag-off 15 accept
+add rule T C ip protocol 15 accept
+add rule T C ip checksum 15 accept
+add rule T C ip length 15 accept
+add rule T C ip daddr 15 accept
+add rule T C ip saddr 15 accept
+add rule T C ip ecn 1 accept
+add rule T C ip ttl 15 accept
+add rule T C ip id 15 accept
+
+
+add table ip T
+table T {
+    chain C {
+        type filter hook input priority 0; policy accept
+
+        ip version 15 accept
+        ip hdrlength 15 accept
+        ip frag-off 15 accept
+        ip protocol 15 accept
+        ip checksum 15 accept
+        ip length 15 accept
+        ip daddr 15 accept
+        ip saddr 15 accept
+        ip ecn 1 accept
+        ip ttl 15 accept
+        ip id 15 accept
+
+        ip protocol tcp ip version 15 accept
+        ip protocol tcp ip hdrlength 15 accept
+        ip protocol tcp ip frag-off 15 accept
+        ip protocol tcp ip protocol 15 accept
+        ip protocol tcp ip checksum 15 accept
+        ip protocol tcp ip length 15 accept
+        ip protocol tcp ip daddr 15 accept
+        ip protocol tcp ip saddr 15 accept
+        ip protocol tcp ip ecn 1 accept
+        ip protocol tcp ip ttl 15 accept
+        ip protocol tcp ip id 15 accept
+
+
+    }
+}
+delete chain C
+delete table T

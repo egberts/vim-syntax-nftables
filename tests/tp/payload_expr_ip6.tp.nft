@@ -1,0 +1,70 @@
+#!/usr/sbin/nft -f
+# File: payload_expr_ip6.tp.nft
+# Description: A true positive test NFT file to exercise 'ip6' stmt Vim syntax highlightings.
+#
+#
+# payload_expr ip_hdr_expr
+################################################################################
+# true positive test (properly hightlighted correctly; has good content; perfect
+################################################################################
+
+add rule ip6 T C ip6 hdrlength 15 drop;
+
+table inet filter {
+    chain input {
+        type filter hook input priority 0; policy drop;
+
+        ip6 hdrlength 15
+        ip6 hdrlength 0xf
+        ip6 checksum 32767
+        ip6 checksum 0x123f
+        ip6 frag-off 32767
+        ip6 frag-off 0x123f
+        ip6 protocol icmp ether 00:00:00:11:22:33 @ih wow accept
+        ip6 protocol icmp @ih wow accept
+        ip6 protocol icmp accept
+        ip6 protocol icmp icmp type echo-request limit rate over 1/minute burst 4 packets  drop
+        ip6 protocol icmp icmp type echo-request limit rate over 1/minute burst 4 packets  drop
+
+        # ct state {established, related} accept
+        ip6 protocol tcp ct state invalid accept;
+
+        ip6 version 6
+        ip6 version 0x4
+        ip6 version drop
+
+        ip6 length 15 drop
+
+        ip6 option ra exists drop
+        ip6 option ra length 15 set $VAR
+        ip6 option ra length 15 accept
+        ip6 option ra value 0x1015 accept
+        ip6 option ra type 1 accept
+        ip6 option rr length 15 accept
+        ip6 option rr type 5 accept
+        ip6 option rr ptr 0x15 accept
+        ip6 option rr addr 01 accept
+        ip6 option ssrr length 15 accept
+        ip6 option ssrr type 1 accept
+        ip6 option ssrr ptr 0x15 accept
+        ip6 option ssrr addr  5 accept
+        ip6 option lsrr length 15 accept
+        ip6 option lsrr type 1 accept
+        ip6 option lsrr ptr 0x15 accept
+        ip6 option lsrr addr  5 accept
+        ip6 option ra ptr 15  # invalid ra-ptr combo
+        ip6 option ra addr 5  # invalid ra-addr combo
+        ip6 option rr value  # invalid rr-value combo
+        ip6 option ssrr value 15  # invalid ssrr-value combo
+        ip6 option lsrr value 15  # invalid lsrr-value combo
+
+        ip6 daddr 127.0.0.1
+        ip6 saddr 127.0.0.1
+        ip6 dscp  15
+        ip6 ecn  1
+        ip6 ttl 255
+        ip6 id 65535
+
+
+    }
+}

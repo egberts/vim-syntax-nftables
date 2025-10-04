@@ -1,0 +1,36 @@
+#!/usr/sbin/nft -f
+# File: vlan_hdr_expr.tp.nft
+# Description: A true positive test NFT file to exercise 'vlan' expr Vim syntax highlightings.
+#
+#
+# payload_expr ip_hdr_expr
+################################################################################
+# true positive test (properly hightlighted correctly; has good content; perfect
+################################################################################
+
+rule ip T C vlan id 4095 accept
+rule ip T C vlan cfi 1 accept
+rule ip T C vlan dei 1 accept
+rule ip T C vlan pcp 7 accept
+rule ip T C vlan type 127 accept
+
+table inet filter {
+    chain input {
+        type filter hook input priority 0; policy drop;
+
+        ip protocol icmp  
+        ip protocol icmp  vlan id 5 drop
+        ip protocol icmp  vlan id 0x539 drop
+        ip protocol icmp  vlan cfi 1 drop
+        ip protocol icmp  vlan dei 0 drop
+        ip protocol icmp  vlan pcp 5 drop
+        ip protocol icmp  vlan type 633 accept
+
+        vlan drop;
+        vlan id 0 drop;
+        vlan cfi 0 drop;
+        vlan dei 0 drop;
+        vlan pcp 0 drop;
+        vlan type 0 drop;
+    }
+}

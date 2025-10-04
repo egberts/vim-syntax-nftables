@@ -1,0 +1,61 @@
+#!/usr/sbin/nft -f
+# File: arp_hdr_expr.tp.nft
+# Description: A true positive test NFT file to exercise 'arp' expr Vim syntax highlightings.
+#
+#
+# payload_expr arp_hdr_expr
+################################################################################
+# true positive test (properly hightlighted correctly; has good content; perfect
+################################################################################
+
+rule arp T C arp htype 5 drop
+rule arp T C arp ptype 0x539 drop
+rule arp T C arp ptype arp drop
+rule arp T C arp ptype ip drop
+rule arp T C arp ptype ipv6 drop
+rule arp T C arp hlen 1 drop
+rule arp T C arp plen 0 drop
+rule arp T C arp operation 5 drop
+rule arp T C arp operation request drop
+rule arp T C arp operation reply drop
+rule arp T C arp saddr ether 00:11:22:33:44:55 accept
+rule arp T C arp saddr ip 255.255.255.255 accept
+rule arp T C arp daddr ether 0:1:2:3:4:5 accept
+rule arp T C arp daddr ip 255.255.255.255 accept
+
+table arp filter {
+    chain input {
+        type filter hook input priority 0; policy drop;
+
+        ip protocol icmp  arp htype 5 drop
+        ip protocol icmp  arp ptype 0x539 drop
+        ip protocol icmp  arp ptype arp drop
+        ip protocol icmp  arp ptype ip drop
+        ip protocol icmp  arp ptype ipv6 drop
+        ip protocol icmp  arp hlen 1 drop
+        ip protocol icmp  arp plen 0 drop
+        ip protocol icmp  arp operation 5 drop
+        ip protocol icmp  arp operation reply drop
+        ip protocol icmp  arp operation request drop
+        ip protocol icmp  arp saddr ether 00:11:22:33:44:55 accept
+        ip protocol icmp  arp saddr ip 1.11.1.1 accept
+        ip protocol icmp  arp daddr ether 00:11:22:33:44:55 accept
+        ip protocol icmp  arp daddr ip 1.11.1.1 accept
+
+        arp htype 5 drop
+        arp ptype ipv6 drop
+        arp ptype ip drop
+        arp ptype arp drop
+        arp ptype 0x539 drop
+        arp hlen 1 drop
+        arp plen 0 drop
+        arp operation 5 drop
+        arp operation request drop
+        arp operation reply drop
+        arp saddr ether 00:11:22:33:44:55 accept
+        arp saddr ip 1.1.1.1 accept
+        arp daddr ether 00:11:22:33:44:55 accept
+        arp daddr ip 1.1.1.1 accept
+
+    }
+}

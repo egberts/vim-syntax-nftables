@@ -1,0 +1,29 @@
+#!/usr/sbin/nft -f
+# File: eth_hdr_expr.tp.nft
+# Description: A true positive test NFT file to exercise 'ether' expr Vim syntax highlightings.
+#
+#
+# payload_expr ip_hdr_expr
+################################################################################
+# true positive test (properly hightlighted correctly; has good content; perfect
+################################################################################
+
+add rule ip T C ip ether 0:1:2:3:4:5 drop
+
+table inet filter {
+    chain input {
+        type filter hook input priority 0; policy drop;
+
+        ether saddr 00:29:00:00:01:00 drop
+        ip ether 00:29:2a:00:00:01 drop
+
+        ip protocol icmp ether saddr 00:29:2a:00:00:01 drop
+        ip protocol icmp icmp type echo-request
+        ip protocol icmp @ih ether saddr 00:29:2a:00:00:01 drop
+        ip protocol icmp @nh ether daddr 00:29:2a:00:00:01 drop
+        ip protocol icmp @th ether type 0x8086 drop
+
+        vxlan ether saddr 00:11:22:33:44:55 drop
+
+    }
+}
