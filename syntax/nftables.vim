@@ -310,8 +310,9 @@ if v:version >= 508 || !exists('did_nftables_syn_inits')
 
   hi def nftHL_Command      guifg=#ffff60 guibg=NONE ctermfg=227 ctermbg=NONE cterm=bold gui=bold
   hi def nftHL_Statement    guifg=#ffff60 guibg=NONE ctermfg=227 ctermbg=NONE cterm=bold gui=bold
-  hi def nftHL_Action       guifg=#ffe682 guibg=NONE ctermfg=214 ctermbg=NONE
+  hi def nftHL_Substatement guifg=#fff070 guibg=NONE ctermfg=214 ctermbg=NONE
   hi def nftHL_Keyword      guifg=#ffc986 guibg=NONE ctermfg=208 ctermbg=NONE
+  hi def link nftHL_Write       SpecialKey
   hi def link nftHL_Expression  Conditional
   hi def link nftHL_Type        Type
 
@@ -334,7 +335,6 @@ if v:version >= 508 || !exists('did_nftables_syn_inits')
   hi def link nftHL_Hook        Type
   hi def link nftHL_Delimiters  Normal
   hi def link nftHL_BlockDelimiters Normal
-  hi def link nftHL_Write       NonText
 endif
 
 " Main syntax definitions for core nftables keywords and patterns.
@@ -564,6 +564,9 @@ syn match nft_UnexpectedIdentifierChar '\v(^[a-zA-Z0-9_\n]{1,3})' contained
 
 hi link   nft_UnexpectedNumber nftHL_Error
 syn match nft_UnexpectedNumber '\v[0-9\-\+]{1,4}' skipwhite contained
+
+hi link   nft_UnexpectedNonNumber nftHL_Error
+syn match nft_UnexpectedNonNumber '\v[^ \t0-9\-\+]{1,4}' skipwhite contained
 
 " We'll do error RED highlighting on all statement firstly, then later on
 " all the options, then all the clauses.

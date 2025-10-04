@@ -1,15 +1,27 @@
 # File: ip_hdr_expr.nft
 # Bison: ip_hdr_expr
 
-add rule T C ip protocol icmp ip protocol tcp
+add rule T C ip6 protocol icmp ip protocol tcp
 add rule T C ip version 15 accept
 add rule T C ip hdrlength 15 accept
 add rule T C ip frag-off 15 accept
-add rule T C ip protocol 15 accept
+add rule T C ip protocol tcp accept
 add rule T C ip checksum 15 accept
-add rule T C ip length 15 accept
+add rule T C ip length 21 accept
+add rule T C ip option ra accept
+add rule T C ip option rr accept
+add rule T C ip option lsrr  accept
+add rule T C ip option lsrr length 25666666 accept
+add rule T C ip option lsrr addr 15 accept
+add rule T C ip option lsrr type 15 accept
+add rule T C ip option lsrr ptr 15 accept
+add rule T C ip option ssrr accept
+add rule T C ip option ssrr length 15 accept
+add rule T C ip option ssrr addr 15 accept
+add rule T C ip option ssrr type 15 accept
+add rule T C ip option ssrr ptr 15 accept
 add rule T C ip daddr 15 accept
-add rule T C ip saddr 15 accept
+add rule T C ip saddr 127.0.0.1 accept
 add rule T C ip ecn 1 accept
 add rule T C ip ttl 15 accept
 add rule T C ip id 15 accept
@@ -20,29 +32,67 @@ table T {
     chain C {
         type filter hook input priority 0; policy accept
 
+        ip version 0 accept
         ip version 15 accept
+        ip hdrlength 5 accept
         ip hdrlength 15 accept
-        ip frag-off 15 accept
+        ip frag-off 8191 accept
         ip protocol 15 accept
         ip checksum 15 accept
-        ip length 15 accept
-        ip daddr 15 accept
-        ip saddr 15 accept
+        ip length 29 accept
+        ip daddr 127.0.0.1 accept
+        ip saddr 0xFffffffF accept
+        ip saddr 255.255.255.255 accept
         ip ecn 1 accept
         ip ttl 15 accept
         ip id 15 accept
+        ip option lsrr type 131 ip option lsrr length 4-40 ip option lsrr ptr 4-40 ip option lsrr addr 0.0.0.0-255.255.255.255 drop
+        ip option ssrr type 137 ip option ssrr length 4-40 ip option ssrr ptr 4-40 ip option ssrr addr 0.0.0.0-255.255.255.255 drop
+        ip option ra type 148 ip option ra length 4 ip option ra ptr 0 drop
+        ip option rr type 7 ip option rr length 4-40 ip option rr ptr 4-40 ip option rr addr 0.0.0.0-255.255.255.255 drop
+        ip option lsrr type 131 && ip option lsrr length 4-40 && ip option lsrr ptr 4-40 && ip option lsrr addr 0.0.0.0-255.255.255.255 drop
+        ip option ssrr type 137 && ip option ssrr length 4-40 && ip option ssrr ptr 4-40 && ip option ssrr addr 0.0.0.0-255.255.255.255 drop
+        ip option ra type 148 && ip option ra length 4 && ip option ra ptr 0 drop
+        ip option rr type 7 && ip option rr length 4-40 && ip option rr ptr 4-40 && ip option rr addr 0.0.0.0-255.255.255.255 drop
 
+
+        oopsie
+        ip protocol icmp ip version 0 accept
         ip protocol tcp ip version 15 accept
+        ip protocol tcp ip version 0x0 accept
+        ip protocol tcp ip version 0xf accept
+        ip protocol tcp ip hdrlength 5 accept
         ip protocol tcp ip hdrlength 15 accept
-        ip protocol tcp ip frag-off 15 accept
-        ip protocol tcp ip protocol 15 accept
-        ip protocol tcp ip checksum 15 accept
-        ip protocol tcp ip length 15 accept
-        ip protocol tcp ip daddr 15 accept
-        ip protocol tcp ip saddr 15 accept
-        ip protocol tcp ip ecn 1 accept
-        ip protocol tcp ip ttl 15 accept
-        ip protocol tcp ip id 15 accept
+        ip protocol tcp ip hdrlength 0x5 accept
+        ip protocol tcp ip hdrlength 0xf accept
+        ip protocol tcp ip frag-off 0 accept
+        ip protocol tcp ip frag-off 8191 accept
+        ip protocol tcp ip frag-off 0x000 accept
+        ip protocol tcp ip frag-off 0x1fff accept
+        ip protocol tcp ip protocol 0 accept
+        ip protocol tcp ip protocol 255 accept
+        ip protocol tcp ip protocol 0x00 accept
+        ip protocol tcp ip protocol 0xFF accept
+        ip protocol tcp ip checksum 0 accept
+        ip protocol tcp ip checksum 65535 accept
+        ip protocol tcp ip checksum 0x0000 accept
+        ip protocol tcp ip checksum 0xffff accept
+        ip protocol tcp ip length 20 accept
+        ip protocol tcp ip length 65535 accept
+        ip protocol tcp ip length 0x15 accept
+        ip protocol tcp ip length 0xffff accept
+        ip protocol tcp ip daddr 0.0.0.0 accept
+        ip protocol tcp ip daddr 127.0.0.1 accept
+        ip protocol tcp ip daddr 0xffffffff accept
+        ip protocol tcp ip saddr 192.168.1.1/32 accept
+        ip protocol tcp ip saddr 255.255.255.255/32 accept
+        ip protocol tcp ip ecn 0 accept
+        ip protocol tcp ip ecn 3 accept
+        ip protocol tcp ip ttl 0 accept
+        ip protocol tcp ip ttl 255 accept
+        ip protocol tcp ip id 0 accept
+        ip protocol tcp ip id 65535 accept
+        ip protocol tcp ip id 65536 accept
 
 
     }

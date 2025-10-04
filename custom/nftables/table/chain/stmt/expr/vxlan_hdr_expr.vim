@@ -1,5 +1,5 @@
 " vxlan_hdr_field (via vxlan_hdr_expr)
-hi link   nft_vxlan_hdr_field nftHL_Action
+hi link   nft_vxlan_hdr_field nftHL_Substatement
 syn match nft_vxlan_hdr_field "\v(vni|flags)" skipwhite contained
 
 " vxlan_hdr_expr 'vxlan' (via payload_expr)

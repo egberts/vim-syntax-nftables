@@ -120,7 +120,7 @@ syn cluster nft_c_stmt
 \    nft_stmt_keyword_ip6,
 \    nft_stmt_log_stmt_log_stmt_alloc_keyword_log,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oif,
-\    nft_keyword_expr_keyword_ip,
+\    nft_stmt_keyword_ip,
 \    nft_comment_inline,
 \    nft_add_cmd_keyword_table_table_block_chain_chain_block_stmt_separator,
 \    nft_rule_cluster_Error

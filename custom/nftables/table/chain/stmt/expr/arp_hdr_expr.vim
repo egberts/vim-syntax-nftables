@@ -39,21 +39,21 @@ syn match nft_arp_hdr_expr_close_scope_arp_constant_expr_int_hex_16b '\v((0x[0-9
 
 " arp_hdr_expr->inner_eth_expr->inner_expr->(vxlan_hdr_expr|gretap_hdr_expr|geneve_hdr_expr)
 " arp_hdr_field_addr_ether (via arp_hdr_field)
-hi link   nft_arp_hdr_expr_arp_hdr_field_addr_keyword_ether nftHL_Action
+hi link   nft_arp_hdr_expr_arp_hdr_field_addr_keyword_ether nftHL_Substatement
 syn match nft_arp_hdr_expr_arp_hdr_field_addr_keyword_ether '\vether' skipwhite contained
 \ nextgroup=
 \    nft_arp_hdr_expr_close_scope_arp_macaddr,
 \    nft_Error
 
 " arp_hdr_field_ip_ether (via arp_hdr_field)
-hi link   nft_arp_hdr_expr_arp_hdr_field_addr_keyword_ip nftHL_Action
+hi link   nft_arp_hdr_expr_arp_hdr_field_addr_keyword_ip nftHL_Substatement
 syn match nft_arp_hdr_expr_arp_hdr_field_addr_keyword_ip '\vip' skipwhite contained
 \ nextgroup=
 \    nft_arp_hdr_expr_close_scope_constant_expr_ip,
 \    nft_Error
 
 " arp_hdr_field_addrs 'saddr'/'daddr' (via arp_hdr_field)
-hi link   nft_arp_hdr_expr_arp_hdr_field_addrs nftHL_Action
+hi link   nft_arp_hdr_expr_arp_hdr_field_addrs nftHL_Substatement
 syn match nft_arp_hdr_expr_arp_hdr_field_addrs '\v(saddr|daddr)' skipwhite contained
 \ nextgroup=
 \    nft_arp_hdr_expr_arp_hdr_field_addr_keyword_ether,
@@ -66,14 +66,14 @@ hi link   nft_arp_hdr_expr_close_scope_arp_constant_expr_operation_code_keyword_
 syn match nft_arp_hdr_expr_close_scope_arp_constant_expr_operation_code_keyword_reply '\vreply' skipwhite contained
 
 " arp_hdr_field_keywords (via arp_hdr_field)
-hi link   nft_arp_hdr_expr_arp_hdr_field_keyword_operation nftHL_Action
+hi link   nft_arp_hdr_expr_arp_hdr_field_keyword_operation nftHL_Substatement
 syn match nft_arp_hdr_expr_arp_hdr_field_keyword_operation '\voperation' skipwhite contained
 \ nextgroup=
 \    nft_arp_hdr_expr_close_scope_arp_constant_expr_operation_code_keyword_request,
 \    nft_arp_hdr_expr_close_scope_arp_constant_expr_operation_code_keyword_reply,
 \    nft_arp_hdr_expr_close_scope_arp_constant_expr_int_hex_16b
 
-hi link   nft_arp_hdr_expr_arp_hdr_field_keyword_htype nftHL_Action
+hi link   nft_arp_hdr_expr_arp_hdr_field_keyword_htype nftHL_Substatement
 syn match nft_arp_hdr_expr_arp_hdr_field_keyword_htype '\vhtype' skipwhite contained
 \ nextgroup=
 \    nft_arp_hdr_expr_close_scope_arp_constant_expr_int_hex_16b
@@ -81,18 +81,18 @@ syn match nft_arp_hdr_expr_arp_hdr_field_keyword_htype '\vhtype' skipwhite conta
 hi link   nft_arp_hdr_expr_close_scope_arp_ptype_defines nftHL_Define
 sy match nft_arp_hdr_expr_close_scope_arp_ptype_defines '\v(ipv6|arp|ip)' skipwhite contained
 
-hi link   nft_arp_hdr_expr_arp_hdr_field_keyword_ptype nftHL_Action
+hi link   nft_arp_hdr_expr_arp_hdr_field_keyword_ptype nftHL_Substatement
 syn match nft_arp_hdr_expr_arp_hdr_field_keyword_ptype '\vptype' skipwhite contained
 \ nextgroup=
 \    nft_arp_hdr_expr_close_scope_arp_ptype_defines,
 \    nft_arp_hdr_expr_close_scope_arp_constant_expr_int_hex_16b
 
-hi link   nft_arp_hdr_expr_arp_hdr_field_keyword_hlen nftHL_Action
+hi link   nft_arp_hdr_expr_arp_hdr_field_keyword_hlen nftHL_Substatement
 syn match nft_arp_hdr_expr_arp_hdr_field_keyword_hlen '\vhlen' skipwhite contained
 \ nextgroup=
 \    nft_arp_hdr_expr_close_scope_arp_constant_expr_int_hex_8b
 
-hi link   nft_arp_hdr_expr_arp_hdr_field_keyword_plen nftHL_Action
+hi link   nft_arp_hdr_expr_arp_hdr_field_keyword_plen nftHL_Substatement
 syn match nft_arp_hdr_expr_arp_hdr_field_keyword_plen '\vplen' skipwhite contained
 \ nextgroup=
 \    nft_arp_hdr_expr_close_scope_arp_constant_expr_int_hex_8b
