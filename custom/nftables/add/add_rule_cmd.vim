@@ -1,5 +1,172 @@
 " File: add_rule_cmd.vim
 " Directory: custom/nftables/add/
+" In nftables v1.1.4, the **implied `rule` syntax** used at the top level of a script file (processed with `nft -f`) does not always require the `family_spec_explicit` (e.g., `ip`, `ip6`, `inet`) to avoid ambiguity, but its necessity depends on the context of the table and chain being referenced. I’ll analyze this based on `src/parser_bison.y` and clarify when `family_spec_explicit` is required, providing examples and referencing the grammar.
+"
+"### Implied `rule` Syntax
+"- **Definition**: The implied `rule` syntax omits `add rule` or `rule`, specifying `<family> <table> <chain> <expr>` or `<table> <chain> <expr>` at the top level of a script.
+"- **Example**: `ip filter input ip protocol icmp accept` or `filter input ip protocol icmp accept`.
+"- **Parsing Path**: Matches `base_cmd : table_spec base_hook_stmt_list` in `parser_bison.y`.
+"  ```
+"  base_cmd : table_spec base_hook_stmt_list
+"           {
+"               $$ = cmd_alloc_rule_list(CMD_ADD, &$1->location, $1, $2);
+"           }
+"  ```
+"
+"### Role of `family_spec_explicit`
+"- **Definition**: `family_spec_explicit` is a non-terminal parsing the protocol family (`ip`, `ip6`, `inet`, `arp`, `bridge`, `netdev`).
+"  ```
+"  family_spec_explicit : IP
+"                       | IP6
+"                       | INET
+"                       | ARP
+"                       | BRIDGE
+"                       | NETDEV
+"  ```
+"- **In `table_spec`**:
+"  ```
+"  table_spec : family_spec_explicit identifier
+"             {
+"                 $$ = table_spec_alloc(&@$, $1, $2);
+"             }
+"             | identifier
+"             {
+"                 $$ = table_spec_alloc(&@$, NFPROTO_UNSPEC, $1);
+"             }
+"  ```
+"  - `family_spec_explicit` is optional; if omitted, the family defaults to `NFPROTO_UNSPEC` (unspecified).
+"
+"- **In `base_hook_stmt_list`**:
+"  - The `identifier` (chain name) and `stmt_list` (rule expression) are parsed, and the rule is added to the chain in the specified table.
+"  ```
+"  base_hook_stmt_list : base_hook_stmt
+"                      | base_hook_stmt_list base_hook_stmt
+"                      ;
+"  base_hook_stmt : identifier stmt_list
+"                 {
+"                     $$ = rule_alloc(&@$, chain_spec_alloc(&@1, $1), $2);
+"                 }
+"  ```
+"
+"### Is `family_spec_explicit` Always Required?
+"- **Short Answer**: No, `family_spec_explicit` is not always required in the implied `rule` syntax at the top level of a script file. The parser allows `table_spec` to omit the family, defaulting to `NFPROTO_UNSPEC`, and the kernel resolves the family based on the table’s definition.
+"- **Conditions**:
+"  - **Required**: When multiple tables with the same name exist in different families (e.g., `ip filter` and `ip6 filter`), specifying `family_spec_explicit` avoids ambiguity.
+"  - **Not Required**: When the table name is unique across families or the context (e.g., chain or rule expression) implies the family, the parser and kernel can resolve it.
+"
+"### Analysis
+"- **Parser Behavior**:
+"  - If `family_spec_explicit` is omitted (e.g., `filter input ...`), `table_spec` sets `family = NFPROTO_UNSPEC`.
+"  - The kernel looks up the table by name (`identifier`) and uses its defined family.
+"  - If the table name is unique, no ambiguity arises.
+"  - If multiple tables share the name, the kernel may reject the rule or pick the first matching table unless the family is specified.
+"
+"- **Ambiguity**:
+"  - Ambiguity occurs only if the script defines multiple tables with the same name in different families (e.g., `table ip filter` and `table ip6 filter`).
+"  - In such cases, `family_spec_explicit` (e.g., `ip` or `ip6`) ensures the correct table is targeted.
+"
+"- **Rule Expression Context**: The rule’s expression (e.g., `ip protocol icmp`) can provide context. For example:
+"  - `ip protocol icmp` implies IPv4 (`ip` family).
+"  - The parser (`ip_expr : IP PROTOCOL expr`) and kernel validate the expression against the table’s family, reducing ambiguity.
+"
+"### Valid Examples
+"Below are examples showing when `family_spec_explicit` is required or optional, using your rule (`ip protocol vmap { tcp : jump tcp-chain, udp : jump udp-chain, icmp : jump icmp-chain }`).
+"
+"#### 1. `family_spec_explicit` Not Required (Unique Table Name)
+"**Script**:
+"```
+"table ip filter {
+"    chain input {
+"        type filter hook input priority 0; policy drop;
+"    }
+"    chain tcp-chain { }
+"    chain udp-chain { }
+"    chain icmp-chain { }
+"}
+"filter input ip protocol vmap { tcp : jump tcp-chain, udp : jump udp-chain, icmp : jump icmp-chain }
+"```
+"
+"- **Explanation**:
+"  - `table_spec`: `filter` (no `family_spec_explicit`, defaults to `NFPROTO_UNSPEC`).
+"  - The kernel finds the `filter` table in the `ip` family (only one `filter` table exists).
+"  - The `ip protocol` expression implies IPv4, aligning with the table’s family.
+"  - **Valid**: No ambiguity, as `filter` is unique.
+"
+"#### 2. `family_spec_explicit` Required (Ambiguous Table Name)
+"**Script**:
+"```
+"table ip filter {
+"    chain input {
+"        type filter hook input priority 0; policy drop;
+"    }
+"    chain tcp-chain { }
+"    chain udp-chain { }
+"    chain icmp-chain { }
+"}
+"table ip6 filter {
+"    chain input {
+"        type filter hook input priority 0; policy drop;
+"    }
+"}
+"ip filter input ip protocol vmap { tcp : jump tcp-chain, udp : jump udp-chain, icmp : jump icmp-chain }
+"```
+"
+"- **Explanation**:
+"  - `table_spec`: `ip filter`.
+"  - `family_spec_explicit`: `ip` is required to distinguish `ip filter` from `ip6 filter`.
+"  - Without `ip`, `filter input ...` would be ambiguous, as two `filter` tables exist.
+"  - **Valid**: `ip` ensures the rule targets the `ip filter` table.
+"
+"#### 3. `family_spec_explicit` Optional (Context Implies Family)
+"**Script**:
+"```
+"table inet filter {
+"    chain input {
+"        type filter hook input priority 0; policy drop;
+"    }
+"    chain tcp-chain { }
+"    chain udp-chain { }
+"    chain icmp-chain { }
+"}
+"filter input ip protocol vmap { tcp : jump tcp-chain, udp : jump udp-chain, icmp : jump icmp-chain }
+"```
+"
+"- **Explanation**:
+"  - `table_spec`: `filter` (no `family_spec_explicit`).
+"  - The `inet filter` table supports both IPv4 and IPv6, and `ip protocol` implies IPv4.
+"  - The kernel validates the rule against the `inet` family, and no ambiguity arises.
+"  - **Valid**: The expression `ip protocol` provides sufficient context.
+"
+"### When is `family_spec_explicit` Required?
+"- **Required**:
+"  - Multiple tables with the same name exist in different families (e.g., `ip filter` and `ip6 filter`).
+"  - The rule’s expression does not imply a specific family (e.g., generic expressions like `meta mark 42` could apply to any family).
+"- **Not Required**:
+"  - The table name is unique across all families in the script.
+"  - The rule’s expression (e.g., `ip protocol`, `ip6 nexthdr`) implies a specific family compatible with the table.
+"
+"### Parsing Details
+"- **Grammar** (`parser_bison.y`):
+"  - Implied syntax: `base_cmd : table_spec base_hook_stmt_list`.
+"  - `table_spec` allows optional `family_spec_explicit`:
+"    ```
+"    table_spec : family_spec_explicit identifier
+"               | identifier
+"    ```
+"  - `base_hook_stmt_list` parses the chain (`identifier`) and rule (`stmt_list`).
+"- **Semantic Action**:
+"  - `cmd_alloc_rule_list` creates a `struct cmd *` for adding the rule, using the table’s family (or `NFPROTO_UNSPEC` if unspecified).
+"- **Lines**: `table_spec` (~300–400), `base_hook_stmt_list` (~700–800).
+"
+"### Validation
+"- **Test**: Save examples as `rules.nft` and run `nft -f rules.nft --debug=parser`.
+"- **Error Case**: If two `filter` tables exist and `family_spec_explicit` is omitted, `nft` may fail with an error like `Could not process rule: Table 'filter' is ambiguous`.
+"
+"### Notes
+"- **Best Practice**: Include `family_spec_explicit` (e.g., `ip`, `inet`) for clarity and to avoid potential ambiguity, especially in scripts with multiple table families.
+"- **Output**: `nft -f -v` typically includes `family_spec_explicit` (e.g., `add rule ip filter ...`) for explicitness.
+"- **Source**: `parser_bison.y` (v1.1.4).
+"
 "
 let s:add_rule_cmd_list_filepaths_semantic_early = []
 let s:add_rule_cmd_list_filepaths_semantic_later = []
@@ -32,105 +199,7 @@ try
   " INSERT 'syntax region' here
   " INSERT 'syntax cluster' here
   "
-" ***************** BEGIN 'add' 'rule' ***************
-syn cluster nft_c_base_cmd_add_cmd_rule_alloc_stmt_cluster
-\ contains=
-\    nft_add_cmd_rule_rule_alloc_stmt_masq_keyword_masquerade,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_rtclassid,
-\    nft_verdict_expr_keyword_continue,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_ibriport,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iifgroup,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_obriport,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oifgroup,
-\    nft_add_cmd_rule_rule_alloc_stmt_redir_stmt_redir_stmt_alloc_keyword_redirect,
-\    nft_add_cmd_rule_rule_alloc_stmt_synproxy_stmt_keyword_synproxy,
-\    nft_stmt_keyword_counter,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_ibrname,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iifname,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iiftype,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_nftrace,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_keyword_notrack,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_obrname,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oifname,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oiftype,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_pkttype,
-\    nft_verdict_expr_keyword_accept,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_cgroup,
-\    nft_chain_block_primary_expr_numgen_expr_keyword_numgen,
-\    nft_verdict_expr_keyword_return,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_expr_keyword_ipsec,
-\    nft_add_cmd_rule_rule_alloc_stmt_meter_stmt_meter_stmt_alloc_keyword_meter,
-\    nft_stmt_keyword_quota,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_skgid,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_skuid,
-\    nft_payload_expr_dccp_hdr_expr_keyword_dccp,
-\    nft_stmt_nat_stmt_nat_stmt_alloc_keyword_dnat,
-\    nft_verdict_expr_keyword_drop,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_keyword_flow,
-\    nft_verdict_expr_keyword_goto,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_hour,
-\    nft_chain_stmt_verdict_expr_keyword_jump,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_mark,
-\    nft_stmt_nat_stmt_nat_stmt_alloc_keyword_snat,
-\    nft_payload_expr_sctp_hdr_expr_keyword_sctp,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_time,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_cpu,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_day,
-\    nft_payload_expr_esp_hdr_expr_keyword_esp,
-\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_fib_expr_keyword_fib,
-\    nft_stmt_fwd_stmt_keyword_fwd,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iif,
-\    nft_stmt_log_stmt_log_stmt_alloc_keyword_log,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oif,
-\    nft_payload_expr_tcp_hdr_expr_keyword_tcp,
-\    nft_payload_expr_udp_hdr_expr_keyword_udp,
-\    nft_payload_expr_ah_hdr_expr_keyword_ah,
-\    nft_objref_stmt_objref_stmt_ct_keyword_ct,
-\    nft_payload_expr_th_hdr_expr_keyword_th,
-\    nft_rule_cluster_Error
-"\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_keyword_meta,
-"\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_hash_expr_keyword_symhash,
-"\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_payload_expr_keyword_udplite,
-"\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_exthdr_exists_expr_keyword_exthdr,
-"\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_payload_expr_keyword_geneve,
-"\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_payload_expr_keyword_gretap,
-"\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_socket_expr_keyword_socket,
-"\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_payload_expr_keyword_ether,
-"\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_hash_expr_keyword_jhash,
-"\    nft_add_cmd_rule_rule_alloc_stmt_meter_stmt_meter_stmt_alloc_keyword_meter,
-"\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_payload_expr_keyword_vxlan,
-"\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_payload_expr_keyword_auth,
-"\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_payload_expr_keyword_comp,
-"\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_payload_expr_keyword_dccp,
-"\    nft_add_cmd_rule_rule_alloc_stmt_nat_stmt_keyword_dnat,
-"\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_exthdr_expr_frag_hdr_expr_keyword_frag,
-"\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_payload_expr_keyword_icmp,
-"\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_payload_expr_keyword_igmp,
-"\    nft_add_cmd_rule_rule_alloc_stmt_nat_stmt_keyword_snat,
-"\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_payload_expr_keyword_sctp,
-"\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_payload_expr_keyword_vlan,
-"\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_payload_expr_keyword_arp,
-"\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_exthdr_expr_dst_hdr_expr_keyword_dst,
-"\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_payload_expr_keyword_esp,
-"\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_fib_expr_keyword_fib,
-"\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_payload_expr_keyword_gre,
-"\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_exthdr_expr_hbh_hdr_expr_keyword_hbh,
-"\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_payload_expr_keyword_ip6,
-"\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_osf_expr_keyword_osf,
-"\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_exthdr_expr_rt0_hdr_expr_keyword_rt0,
-"\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_exthdr_expr_rt2_hdr_expr_keyword_rt2,
-"\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_exthdr_expr_rt4_hdr_expr_keyword_rt4,
-"\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_payload_expr_keyword_tcp,
-"\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_payload_expr_keyword_udp,
-"\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_payload_expr_payload_raw_expr_keyword_at,
-"\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_payload_expr_keyword_ip,
-"\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_exthdr_expr_mh_hdr_expr_keyword_mh,
-"\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_exthdr_expr_rt_hdr_expr_keyword_rt,
-"\    nft_payload_expr_th_hdr_expr_keyword_th,
-"\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_block,  \" '{'  basic_expr '}'
-"\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_integer_expr,
-"\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_symbol_expr_variable_expr,  \" $var_name
-"\    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_symbol_expr_string,         \" usually quoted, some pre-defined identifier/keywords
+"
 
 
 
@@ -215,7 +284,7 @@ syn region nft_add_cmd_rule_rule_alloc_stmt end=/\ze;/ keepend contained
 hi link   nft_add_cmd_rule_position_num nftHL_Number
 syn match nft_add_cmd_rule_position_num /\v[0-9]{1,10}/ skipwhite contained
 \ nextgroup=
-\    nft_add_cmd_rule_rule_alloc_stmt,
+\    @nft_c_stmt,
 \    nft_Error
 
 hi link   nft_add_cmd_rule_position_position_spec_keyword_position nftHL_Keyword
@@ -240,44 +309,11 @@ syn match nft_add_cmd_rule_position_index_spec_keyword_index /\vindex\ze[ \t]/ s
 
 " THE vector point to over 73 lexical tokens/keywords, this nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier_declarative
 hi link   nft_base_cmd_add_cmd_rule_position_chain_spec_identifier nftHL_Table
-syn match nft_base_cmd_add_cmd_rule_position_chain_spec_identifier '\v\s\zs[a-zA-Z][a-zA-Z0-9_\.-]{0,63}\ze[ \t]' skipwhite contained
+syn match nft_base_cmd_add_cmd_rule_position_chain_spec_identifier '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_add_cmd_rule_position_position_spec_keyword_position,
-\    nft_add_cmd_rule_position_handle_spec_keyword_handle,
-\    nft_add_cmd_rule_position_index_spec_keyword_index,
-\    @nft_c_stmt,
-\    nft_line_nonidentifier_error
+\    nft_stmt_declarative_keyword_ip,
+"\    @nft_c_stmt,
 " TODO: We need a split-out of super-cluster nft_add_cmd_rule_rule_alloc_stmt to interperse position_spec's keywords
-
-hi link   nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_ip nftHL_Family
-syn match nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_ip "\vip\ze " skipwhite contained
-\ nextgroup=
-\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier_declarative
-
-hi link   nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_arp nftHL_Family
-syn match nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_arp "arp" skipwhite contained
-\ nextgroup=
-\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier_declarative
-
-hi link   nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_ip6 nftHL_Family
-syn match nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_ip6 "ip6" skipwhite contained
-\ nextgroup=
-\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier_declarative
-
-hi link   nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_inet nftHL_Family
-syn match nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_inet "inet" skipwhite contained
-\ nextgroup=
-\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier_declarative
-
-hi link   nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_netdev nftHL_Family
-syn match nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_netdev "netdev" skipwhite contained
-\ nextgroup=
-\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier_declarative
-
-hi link   nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_bridge nftHL_Family
-syn match nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_bridge "bridge" skipwhite contained
-\ nextgroup=
-\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier_declarative
 
 syn cluster nft_c_add_cmd_rule_rule_alloc_again
 \ contains=@nft_c_add_cmd_rule_rule_alloc_alloc
@@ -305,19 +341,287 @@ syn cluster nft_c_add_cmd_rule_rule
 
 
 
+" ******************* BEGIN DECLARATIVE '^rule' **********************
+" Do the chain identifier
+hi link   nft_add_rule_declarative_rule_position_chain_spec_bridge_identifier nftHL_Table
+syn match nft_add_rule_declarative_rule_position_chain_spec_bridge_identifier '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    @nft_c_stmt_family_bridge
+
+hi link   nft_add_rule_declarative_rule_position_chain_spec_netdev_identifier nftHL_Table
+syn match nft_add_rule_declarative_rule_position_chain_spec_netdev_identifier '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    @nft_c_stmt_family_netdev
+
+hi link   nft_add_rule_declarative_rule_position_chain_spec_inet_identifier nftHL_Table
+syn match nft_add_rule_declarative_rule_position_chain_spec_inet_identifier '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    @nft_c_stmt_family_inet
+
+hi link   nft_add_rule_declarative_rule_position_chain_spec_arp_identifier nftHL_Table
+syn match nft_add_rule_declarative_rule_position_chain_spec_arp_identifier '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    @nft_c_stmt_family_arp
+
+hi link   nft_add_rule_declarative_rule_position_chain_spec_ip6_identifier nftHL_Table
+syn match nft_add_rule_declarative_rule_position_chain_spec_ip6_identifier '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    @nft_c_stmt_family_ip6
+
+hi link   nft_add_rule_declarative_rule_position_chain_spec_ip_identifier nftHL_Table
+syn match nft_add_rule_declarative_rule_position_chain_spec_ip_identifier '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    @nft_c_stmt_family_ip
+
+hi link   nft_add_rule_declarative_rule_position_chain_spec_unknown_family_identifier_chain nftHL_Table
+syn match nft_add_rule_declarative_rule_position_chain_spec_unknown_family_identifier_chain '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    @nft_c_stmt
+
+" Do the table identifier
+hi link   nft_add_rule_declarative_rule_position_chain_spec_table_spec_bridge_identifier nftHL_Table
+syn match nft_add_rule_declarative_rule_position_chain_spec_table_spec_bridge_identifier '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_add_rule_declarative_rule_position_chain_spec_bridge_identifier,
+\    nft_Error
+
+hi link   nft_add_rule_declarative_rule_position_chain_spec_table_spec_netdev_identifier nftHL_Table
+syn match nft_add_rule_declarative_rule_position_chain_spec_table_spec_netdev_identifier '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_add_rule_declarative_rule_position_chain_spec_netdev_identifier,
+\    nft_Error
+
+hi link   nft_add_rule_declarative_rule_position_chain_spec_table_spec_inet_identifier nftHL_Table
+syn match nft_add_rule_declarative_rule_position_chain_spec_table_spec_inet_identifier '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_add_rule_declarative_rule_position_chain_spec_inet_identifier,
+\    nft_Error
+
+hi link   nft_add_rule_declarative_rule_position_chain_spec_table_spec_arp_identifier nftHL_Table
+syn match nft_add_rule_declarative_rule_position_chain_spec_table_spec_arp_identifier '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_add_rule_declarative_rule_position_chain_spec_arp_identifier,
+\    nft_Error
+
+hi link   nft_add_rule_declarative_rule_position_chain_spec_table_spec_ip6_identifier nftHL_Table
+syn match nft_add_rule_declarative_rule_position_chain_spec_table_spec_ip6_identifier '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_add_rule_declarative_rule_position_chain_spec_ip6_identifier,
+\    nft_Error
+
+hi link   nft_add_rule_declarative_rule_position_chain_spec_table_spec_ip_identifier nftHL_Table
+syn match nft_add_rule_declarative_rule_position_chain_spec_table_spec_ip_identifier '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_add_rule_declarative_rule_position_chain_spec_ip_identifier,
+\    nft_Error
+
+
+hi link   nft_add_rule_declarative_rule_position_chain_spec_table_spec_unknown_family_identifier_table nftHL_Table
+syn match nft_add_rule_declarative_rule_position_chain_spec_table_spec_unknown_family_identifier_table '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_add_rule_declarative_rule_position_chain_spec_unknown_family_identifier_chain,
+\    nft_Error
+
+" Do the family_spec_explicit defines
+hi link   nft_add_rule_declarative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_bridge nftHL_Family
+syn match nft_add_rule_declarative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_bridge '\vbridge\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_add_rule_declarative_rule_position_chain_spec_table_spec_bridge_identifier,
+\    nft_Error
+
+hi link   nft_add_rule_declarative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_netdev nftHL_Family
+syn match nft_add_rule_declarative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_netdev '\vnetdev\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_add_rule_declarative_rule_position_chain_spec_table_spec_netdev_identifier,
+\    nft_Error
+
+hi link   nft_add_rule_declarative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_inet nftHL_Family
+syn match nft_add_rule_declarative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_inet '\vinet\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_add_rule_declarative_rule_position_chain_spec_table_spec_inet_identifier,
+\    nft_Error
+
+hi link   nft_add_rule_declarative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_arp nftHL_Family
+syn match nft_add_rule_declarative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_arp '\varp\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_add_rule_declarative_rule_position_chain_spec_table_spec_arp_identifier,
+\    nft_Error
+
+hi link   nft_add_rule_declarative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_ip6 nftHL_Family
+syn match nft_add_rule_declarative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_ip6  '\vip6\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_add_rule_declarative_rule_position_chain_spec_table_spec_ip6_identifier,
+\    nft_Error
+
+hi link   nft_add_rule_declarative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_ip nftHL_Family
+syn match nft_add_rule_declarative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_ip '\vip\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_add_rule_declarative_rule_position_chain_spec_table_spec_ip_identifier,
+\    nft_Error
+
+
+" Declarative 'nft> rule ...'
+" 'rule'->add_cmd->->base_cmd->line
+hi link   nft_base_cmd_no_add_keyword_rule nftHL_Command
+syn match nft_base_cmd_no_add_keyword_rule "\v^[ \t]{0,40}rule\ze[ \t]" skipnl skipwhite contained
+\ nextgroup=
+\    nft_add_rule_declarative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_bridge,
+\    nft_add_rule_declarative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_netdev,
+\    nft_add_rule_declarative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_inet,
+\    nft_add_rule_declarative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_arp,
+\    nft_add_rule_declarative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_ip6,
+\    nft_add_rule_declarative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_ip,
+\    nft_add_rule_declarative_rule_position_chain_spec_table_spec_unknown_family_identifier_table,
+\    nft_Error
+" ******************* END DECLARATIVE '^rule' ************************
+
+" ************** BEGIN DECLARATIVE implied 'rule' ********************
+" implied rule 'nft> [<family_spec_explicit>] <identifier> <identifier> ...'
+" 'rule'->add_cmd->'add'->base_cmd->line
+hi link    nft_c_base_cmd_implied_rule nftHL_Command
+syn cluster nft_c_base_cmd_implied_rule
+\ contains=
+\    nft_add_rule_declarative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_bridge,
+\    nft_add_rule_declarative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_netdev,
+\    nft_add_rule_declarative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_inet,
+\    nft_add_rule_declarative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_arp,
+\    nft_add_rule_declarative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_ip6,
+\    nft_add_rule_declarative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_ip,
+\    nft_add_rule_declarative_rule_position_chain_spec_table_spec_unknown_family_identifier_table,
+\    nft_Error
+" ************** END DECLARATIVE implied 'rule' **********************
+
+" ******************* BEGIN IMPERATIVE 'add rule' ********************
+" Do the chain identifier
+hi link   nft_add_rule_imperative_rule_position_chain_spec_bridge_identifier nftHL_Table
+syn match nft_add_rule_imperative_rule_position_chain_spec_bridge_identifier '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    @nft_c_stmt
+
+hi link   nft_add_rule_imperative_rule_position_chain_spec_netdev_identifier nftHL_Table
+syn match nft_add_rule_imperative_rule_position_chain_spec_netdev_identifier '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    @nft_c_stmt
+
+hi link   nft_add_rule_imperative_rule_position_chain_spec_inet_identifier nftHL_Table
+syn match nft_add_rule_imperative_rule_position_chain_spec_inet_identifier '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    @nft_c_stmt
+
+hi link   nft_add_rule_imperative_rule_position_chain_spec_arp_identifier nftHL_Table
+syn match nft_add_rule_imperative_rule_position_chain_spec_arp_identifier '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    @nft_c_stmt
+
+hi link   nft_add_rule_imperative_rule_position_chain_spec_ip6_identifier nftHL_Table
+syn match nft_add_rule_imperative_rule_position_chain_spec_ip6_identifier '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    @nft_c_stmt
+
+hi link   nft_add_rule_imperative_rule_position_chain_spec_ip_identifier nftHL_Table
+syn match nft_add_rule_imperative_rule_position_chain_spec_ip_identifier '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    @nft_c_stmt
+
+hi link   nft_add_rule_imperative_rule_position_chain_spec_unknown_identifier nftHL_Table
+syn match nft_add_rule_imperative_rule_position_chain_spec_unknown_identifier '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    @nft_c_stmt
+
+" Do the table identifier
+hi link   nft_add_rule_imperative_rule_position_chain_spec_table_spec_bridge_identifier nftHL_Table
+syn match nft_add_rule_imperative_rule_position_chain_spec_table_spec_bridge_identifier '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_add_rule_imperative_rule_position_chain_spec_bridge_identifier,
+\    nft_Error
+
+hi link   nft_add_rule_imperative_rule_position_chain_spec_table_spec_netdev_identifier nftHL_Table
+syn match nft_add_rule_imperative_rule_position_chain_spec_table_spec_netdev_identifier '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_add_rule_imperative_rule_position_chain_spec_netdev_identifier,
+\    nft_Error
+
+hi link   nft_add_rule_imperative_rule_position_chain_spec_table_spec_inet_identifier nftHL_Table
+syn match nft_add_rule_imperative_rule_position_chain_spec_table_spec_inet_identifier '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_add_rule_imperative_rule_position_chain_spec_inet_identifier,
+\    nft_Error
+
+hi link   nft_add_rule_imperative_rule_position_chain_spec_table_spec_arp_identifier nftHL_Table
+syn match nft_add_rule_imperative_rule_position_chain_spec_table_spec_arp_identifier '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_add_rule_imperative_rule_position_chain_spec_arp_identifier,
+\    nft_Error
+
+hi link   nft_add_rule_imperative_rule_position_chain_spec_table_spec_ip6_identifier nftHL_Table
+syn match nft_add_rule_imperative_rule_position_chain_spec_table_spec_ip6_identifier '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_add_rule_imperative_rule_position_chain_spec_ip6_identifier,
+\    nft_Error
+
+hi link   nft_add_rule_imperative_rule_position_chain_spec_table_spec_ip_identifier nftHL_Table
+syn match nft_add_rule_imperative_rule_position_chain_spec_table_spec_ip_identifier '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_add_rule_imperative_rule_position_chain_spec_ip_identifier,
+\    nft_Error
+
+hi link   nft_add_rule_imperative_rule_position_chain_spec_table_spec_unknown_family_identifier nftHL_Table
+syn match nft_add_rule_imperative_rule_position_chain_spec_table_spec_unknown_family_identifier '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_add_rule_imperative_rule_position_chain_spec_unknown_identifier,
+\    nft_Error
+
+" Do the family_spec_explicit defines
+hi link   nft_add_rule_imperative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_bridge nftHL_Family
+syn match nft_add_rule_imperative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_bridge '\vbridge\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_add_rule_imperative_rule_position_chain_spec_table_spec_bridge_identifier,
+\    nft_Error
+
+hi link   nft_add_rule_imperative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_netdev nftHL_Family
+syn match nft_add_rule_imperative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_netdev '\vnetdev\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_add_rule_imperative_rule_position_chain_spec_table_spec_netdev_identifier,
+\    nft_Error
+
+hi link   nft_add_rule_imperative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_inet nftHL_Family
+syn match nft_add_rule_imperative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_inet '\vinet\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_add_rule_imperative_rule_position_chain_spec_table_spec_inet_identifier,
+\    nft_Error
+
+hi link   nft_add_rule_imperative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_arp nftHL_Family
+syn match nft_add_rule_imperative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_arp '\varp\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_add_rule_imperative_rule_position_chain_spec_table_spec_arp_identifier,
+\    nft_Error
+
+hi link   nft_add_rule_imperative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_ip6 nftHL_Family
+syn match nft_add_rule_imperative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_ip6  '\vip6\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_add_rule_imperative_rule_position_chain_spec_table_spec_ip6_identifier,
+\    nft_Error
+
+hi link   nft_add_rule_imperative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_ip nftHL_Family
+syn match nft_add_rule_imperative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_ip '\vip\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_add_rule_imperative_rule_position_chain_spec_table_spec_ip_identifier,
+\    nft_Error
+
 " IMPERATIVE 'nft> add rule ...'
 " 'rule'->add_cmd->'add'->base_cmd->line
-hi link   nft_base_cmd_add_cmd_keyword_rule nftHL_Command
-syn match nft_base_cmd_add_cmd_keyword_rule "\vrule\ze[ \t]" skipnl skipwhite contained
+hi link   nft_add_rule_imperative_keyword_add_rule nftHL_Command
+syn match nft_add_rule_imperative_keyword_add_rule '\vrule' skipnl skipwhite contained
 \ nextgroup=
-\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_bridge,
-\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_netdev,
-\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_inet,
-\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_ip6,
-\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_arp,
-\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_ip,
-\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier_declarative,
+\    nft_add_rule_imperative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_bridge,
+\    nft_add_rule_imperative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_netdev,
+\    nft_add_rule_imperative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_inet,
+\    nft_add_rule_imperative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_ip6,
+\    nft_add_rule_imperative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_arp,
+\    nft_add_rule_imperative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_ip,
+\    nft_add_rule_imperative_rule_position_chain_spec_table_spec_unknown_family_identifier,
 \    nft_Error
+" ******************* END IMPERATIVE 'add rule' **********************
 
 syn cluster nft_c_rule_alloc
 \ contains=

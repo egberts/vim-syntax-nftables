@@ -58,7 +58,8 @@ syn cluster nft_c_primary_stmt_expr
 \    nft_keyword_expr_keyword_ether,
 \    nft_keyword_expr_keyword_vlan,
 \    nft_keyword_expr_keyword_arp,
-\    nft_keyword_expr_keyword_ip
+\    nft_keyword_expr_keyword_ip,
+\    nft_
 "\    nft_payload_expr_meta_expr_keyword_meta_key_unqualified_keyword_rtclassid,
 "\    nft_verdict_expr_keyword_continue,
 "\    nft_payload_expr_meta_expr_keyword_meta_key_unqualified_keyword_oifgroup,

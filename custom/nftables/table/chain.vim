@@ -109,6 +109,7 @@ syn region nft_add_cmd_keyword_chain_chain_block_delimiters start='\v\s*\zs\{' e
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_keyword_flow,
 \    nft_verdict_expr_keyword_goto,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_hour,
+\    nft_keyword_expr_keyword_icmp,
 \    nft_chain_stmt_verdict_expr_keyword_jump,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_mark,
 \    nft_stmt_nat_stmt_nat_stmt_alloc_keyword_snat,
@@ -121,6 +122,7 @@ syn region nft_add_cmd_keyword_chain_chain_block_delimiters start='\v\s*\zs\{' e
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iif,
 \    nft_stmt_log_stmt_log_stmt_alloc_keyword_log,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oif,
+\    nft_keyword_expr_keyword_ip,
 \    nft_comment_inline,
 \    nft_add_cmd_keyword_table_table_block_chain_chain_block_stmt_separator,
 \    nft_rule_cluster_Error

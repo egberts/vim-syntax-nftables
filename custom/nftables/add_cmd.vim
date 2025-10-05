@@ -48,6 +48,11 @@ try
   "
 
 
+hi link   nft_CommandError nftHL_Error
+syn match nft_CommandError /"v[a-zA-Z0-9\\\/_\.;:]{1,64}/ skipwhite contained
+
+
+
 call nftables#syntax#define_match(
 \    'nft_base_cmd_keyword_add',
 \    [],
@@ -62,31 +67,16 @@ call nftables#syntax#define_match(
 \     'nft_base_cmd_add_cmd_keyword_quota',
 \     'nft_base_cmd_add_cmd_keyword_table_imperative',
 \     'nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_inet',
-\     'nft_base_cmd_add_cmd_keyword_rule',
+\     'nft_add_rule_imperative_keyword_add_rule',
 \     'nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_arp',
 \     'nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_ip6',
 \     'nft_base_cmd_add_cmd_keyword_map',
 \     'nft_base_cmd_add_cmd_keyword_set',
 \     'nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_ip',
-\     'nft_Error'],
+\     'nft_CommandError'],
 \    '\vadd\ze ',
  \    'nftHL_Command' )
 " \    { 'skipwhite' : 1, 'contained' : 1 })
-
-syn cluster nft_c_base_cmd_add_cmd_unused_placeholder
-\ contains=
-\    nft_base_cmd_add_cmd_synproxy_keyword,
-\    nft_base_cmd_add_cmd_counter_keyword,
-\    nft_base_cmd_add_cmd_keyword_element,
-\    nft_base_cmd_add_cmd_keyword_secmark,
-\    nft_base_cmd_add_cmd_keyword_chain,
-\    nft_base_cmd_add_cmd_keyword_limit,
-\    nft_base_cmd_add_cmd_keyword_table_declarative,
-\    nft_base_cmd_add_cmd_keyword_table_imperative,
-\    nft_base_cmd_add_cmd_keyword_rule,
-\    nft_base_cmd_keyword_add,
-\    nft_base_cmd_add_cmd_keyword_map,
-\    nft_base_cmd_add_cmd_keyword_set
 
 "********** base_cmd END *************************************************
   for s:this_semantic_file in s:add_cmd_list_filepaths_semantic_later

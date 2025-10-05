@@ -27,3 +27,8 @@ hi link   nft_icmp_hdr_expr_via_payload_expr nftHL_Command
 syn match nft_icmp_hdr_expr_via_payload_expr "icmp" skipwhite contained
 \ nextgroup=
 \    nft_icmp_hdr_expr_icmp_hdr_field
+
+hi link   nft_ip_hdr_expr_keyword_ip nftHL_Command
+syn match nft_ip_hdr_expr_keyword_ip '\vicmp\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_icmp_hdr_expr_icmp_hdr_field

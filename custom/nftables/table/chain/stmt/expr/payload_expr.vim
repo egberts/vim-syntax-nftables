@@ -2905,8 +2905,8 @@ syn match nft_payload_expr_th_hdr_expr_keyword_th '\vth' skipwhite contained
 " payload_expr includes payload_raw_expr (done)
 " payload_expr includes eth_hdr_expr (done)
 " payload_expr includes vlan_hdr_expr (done)
-" payload_expr includes arp_hdr_expr
-" payload_expr includes ip_hdr_expr
+" payload_expr includes arp_hdr_expr (done)
+" payload_expr includes ip_hdr_expr (done)
 " payload_expr includes icmp_hdr_expr
 " payload_expr includes igmp_hdr_expr
 " payload_expr includes ip6_hdr_expr

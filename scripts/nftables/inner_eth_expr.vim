@@ -6,3 +6,5 @@ syn cluster nft_c_inner_eth_expr
 \    nft_keyword_expr_keyword_ether,
 \    nft_keyword_expr_keyword_vlan,
 \    nft_keyword_expr_keyword_arp,
+\    nft_keyword_expr_keyword_ip,
+\    nft_keyword_expr_keyword_icmp,

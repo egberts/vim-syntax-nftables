@@ -683,18 +683,7 @@ syn match nft_line_stmt_separator  '\v[;\n]{1,16}' skipwhite contained
 " (otherwise, you would have to figure a multi-char Regex of all top-level reserve commands
 " coupled with `^` begin of line.)
 
-"
-" identifier->table_spec->chain_spec->rule_position->add_cmd->'add'->base_cmd
-hi link   nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier_declarative_invalid_keywords nftHL_Error
-syn match nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier_declarative_invalid_keywords '\v(expectation|masquerade|flowtable|rtclassid|continue|ibriport|oifgroup|redirect|cfgroup|ibrname|iifname|iiftype|nftrace|notrack|obrname|oifname|oiftype|pkttype|timeout|udplite|accept|cgroup|geneve|handle|helper|import|reject|return|tproxy|update|export|icmpv6|ether|skgid|skuid|vxlan|auth|comp|dccp|dnat|drop|flow|frag|goto|icmp|igmp|jump|last|meta|mark|snat|cpu|day|dst|dup|esp|fwd|gre|hbh|iif|log|oif|src|tcp|udp|at|mh|rt|th|xt)' skipwhite contained
 
-hi link   nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier_declarative nftHL_Identifier
-syn match nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier_declarative '\v[A-Za-z][A-Za-z0-9_]{0,63}' skipwhite contained
-\ contains=
-\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier_declarative_invalid_keywords
-\ nextgroup=
-\    nft_base_cmd_add_cmd_rule_position_chain_spec_identifier,
-\    nft_line_nonidentifier_error
 
 
 hi link   nft_string_unquoted nftHL_String
@@ -968,6 +957,7 @@ syn cluster nft_c_stmt_expr
 \    nft_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_boolean_expr_keyword_exists,
 \    @nft_c_multion_stmt_expr,
 \    @nft_c_symbol_stmt_expr,
+\    nft_payload_expr_icmp_hdr_expr_keyword_icmp,
 \    nft_payload_expr_ip_protocol_keyword_udp,
 \    nft_stmt_keyword_ip6,
 \    nft_stmt_keyword_ip,
@@ -1098,12 +1088,12 @@ syn match nft_line '^\v\s{0,63}'
 \    nft_base_cmd_keyword_monitor,
 \    nft_base_cmd_keyword_replace,
 \    nft_base_cmd_add_cmd_keyword_secmark,
-\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_bridge,
+\    nft_add_rule_declarative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_bridge,
 \    nft_base_cmd_keyword_create,
 \    nft_common_block_keyword_define,
 \    nft_base_cmd_keyword_delete,
 \    nft_base_cmd_keyword_insert,
-\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_netdev,
+\    nft_add_rule_declarative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_netdev,
 \    nft_base_cmd_keyword_rename,
 \    nft_base_cmd_add_cmd_keyword_chain_declarative,
 \    nft_common_block_keyword_error,
@@ -1111,23 +1101,26 @@ syn match nft_line '^\v\s{0,63}'
 \    nft_base_cmd_add_cmd_keyword_limit,
 \    nft_base_cmd_keyword_reset,
 \    nft_base_cmd_keyword_table_declarative,
-\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_inet,
+\    nft_add_rule_declarative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_inet,
 \    nft_base_cmd_keyword_list,
-\    nft_base_cmd_add_cmd_keyword_rule,
+\    nft_base_cmd_no_add_keyword_rule,
 \    nft_base_cmd_keyword_add,
-\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_arp,
+\    nft_add_rule_declarative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_arp,
 \    nft_base_cmd_keyword_get,
-\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_ip6,
+\    nft_add_rule_declarative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_ip6,
 \    nft_base_cmd_add_cmd_keyword_map,
 \    nft_base_cmd_add_cmd_keyword_set,
-\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_ip,
-\    nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier_declarative,
+\    nft_add_rule_declarative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_ip,
+\    nft_add_rule_declarative_rule_position_chain_spec_table_spec_unknown_family_identifier_table,
 \    nft_line_separator,
 \    nft_comment_inline,
-\    nft_line_nonidentifier_error
+"\    nft_line_nonidentifier_error
 " practically no way to highlight an incorrect first alphanum token due
 " to unquoted_table_identifier as the first token
 " 'nft_Error_Always' is that catch-all for 1st token
+"
+" we removed nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_identifier_declarative
+"    as being untenable syntax contexting (at scanner.l level).
 
 " Match the comment region (containing the entire line)
 hi link   nft_comment_inline nftHL_Comment
