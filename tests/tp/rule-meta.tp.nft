@@ -107,13 +107,13 @@ rule inet T C meta nftrace 10;
 rule inet T C meta nftrace ip6;
 rule inet T C meta nftrace 12;
 rule inet T C meta nftrace netdev;
-# 'meta l4proto' is integer or string (as listed in Linux kernel include/uapi/linux/netfilter.h)
-rule inet T C meta l4proto 1;
-rule inet T C meta l4proto icmp;
-rule inet T C meta l4proto 6;
-rule inet T C meta l4proto tcp;
-rule inet T C meta l4proto 17;
-rule inet T C meta l4proto udp;
+# 'meta protocol' is integer or string (as listed in Linux kernel include/uapi/linux/netfilter.h)
+rule inet T C meta protocol 1;
+rule inet T C meta protocol icmp;
+rule inet T C meta protocol 6;
+rule inet T C meta protocol tcp;
+rule inet T C meta protocol 17;
+rule inet T C meta protocol udp;
 
 # meta_stmt - unqualified META, with a value (no 'meta' needed)
 rule T C mark 64;  # length
@@ -271,13 +271,13 @@ table T {
         meta ibrname "br0";
         meta iifname "eth0";
         meta iiftype 1;
-        # 'meta l4proto' is integer or string (as listed in Linux kernel include/uapi/linux/netfilter.h)
-        meta l4proto 1;
-        meta l4proto icmp;
-        meta l4proto 6;
-        meta l4proto tcp;
-        meta l4proto 17;
-        meta l4proto udp;
+        # 'meta protocol' is integer or string (as listed in Linux kernel include/uapi/linux/netfilter.h)
+        meta protocol 1;
+        meta protocol icmp;
+        meta protocol 6;
+        meta protocol tcp;
+        meta protocol 17;
+        meta protocol udp;
         # 'meta nftrace' is integer or string (as listed in /etc/protocol)
         meta nftrace 1;
         meta nftrace 1;

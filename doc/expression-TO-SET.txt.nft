@@ -112,10 +112,10 @@ ip saddr 5.5.5.5 dnat to 2.2.2.2
 jump noexist
 limit impact to lo
 maps to inet_service . inet_service, not addr . service
-meta l4proto tcp dnat ip6 to numgen inc mod 2 map @t2
-meta l4proto tcp dnat ip6 to numgen inc mod 2 map @t2v6
-meta l4proto tcp dnat ip to numgen inc mod 2 map @t2
-meta l4proto tcp dnat ip to numgen inc mod 2 map @t2v4
+meta protocol tcp dnat ip6 to numgen inc mod 2 map @t2
+meta protocol tcp dnat ip6 to numgen inc mod 2 map @t2v6
+meta protocol tcp dnat ip to numgen inc mod 2 map @t2
+meta protocol tcp dnat ip to numgen inc mod 2 map @t2v4
 output:# ip6 nexthdr tcp redirect to :100-200
 queue flags bypass,fanout to 1-10
 queue flags bypass,fanout to 1-65535

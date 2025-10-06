@@ -100,31 +100,4 @@ syn cluster nft_c_payload_expr_via_primary_expr
 \    nft_gre_hdr_expr,
 \    nft_gretap_hdr_expr
 
-" NEED TO DUPLICATE in primary_stmt but without nextgroup='set'
-" Add 'nextgroup=nft_payload_stmt_set' toward each here
-" payload_expr (via payload_stmt, primary_expr, *primary_stmt_expr*)
-syn cluster nft_c_payload_expr
-\ contains=
-\    nft_payload_raw_expr,
-\    nft_keyword_expr_keyword_ether,
-\    nft_keyword_expr_keyword_vlan,
-\    nft_keyword_expr_keyword_arp,
-\    nft_ip_hdr_expr,
-\    nft_icmp_hdr_expr,
-\    nft_igmp_hdr_expr,
-\    nft_ip6_hdr_expr,
-\    nft_icmp6_hdr_expr,
-\    nft_auth_hdr_expr,
-\    nft_esp_hdr_expr,
-\    nft_comp_hdr_expr,
-\    nft_udp_hdr_expr,
-\    nft_udplite_hdr_expr,
-\    nft_tcp_hdr_expr,
-\    nft_dccp_hdr_expr,
-\    nft_sctp_hdr_expr,
-\    nft_th_hdr_expr,
-\    nft_vxlan_hdr_expr,
-\    nft_geneve_hdr_expr,
-\    nft_gre_hdr_expr,
-\    nft_gretap_hdr_expr
 

@@ -109,13 +109,13 @@ rule inet T C meta nfproto 10;
 rule inet T C meta nfproto ip6;
 rule inet T C meta nfproto 12;
 rule inet T C meta nfproto netdev;
-# 'meta l4proto' is integer or string (as listed in Linux kernel include/uapi/linux/netfilter.h)
-rule inet T C meta l4proto 1;
-rule inet T C meta l4proto icmp;
-rule inet T C meta l4proto 6;
-rule inet T C meta l4proto tcp;
-rule inet T C meta l4proto 17;
-rule inet T C meta l4proto udp;
+# 'meta protocol' is integer or string (as listed in Linux kernel include/uapi/linux/netfilter.h)
+rule inet T C meta protocol 1;
+rule inet T C meta protocol icmp;
+rule inet T C meta protocol 6;
+rule inet T C meta protocol tcp;
+rule inet T C meta protocol 17;
+rule inet T C meta protocol udp;
 
 # meta_stmt - unqualified META, with a value (no 'meta' needed)
 rule T C mark 64;  # length
@@ -223,9 +223,9 @@ rule T C meta secmark set 42;
 # meta_stmt - INTERNALS; found in scanner.c (not in parser_bison.y)
 rule inet T C meta nfproto;
 rule inet T C meta nfproto abcde;
-rule inet T C meta l4proto;
-rule inet T C meta l4proto abc;
-rule inet T C meta l4proto { abc };
+rule inet T C meta protocol;
+rule inet T C meta protocol abc;
+rule inet T C meta protocol { abc };
 
 # meta_stmt - no value
 rule T C ipsec 1234;  # 'meta ipsec 0' only in meta_expr
@@ -361,11 +361,11 @@ rule inet T C meta nfproto ipv4;
 rule inet T C meta nfproto != ipv6;
 rule inet T C meta nfproto { inet,ipv4,ipv6 };
 
-rule inet T C meta l4proto { };
-rule inet T C meta l4proto != 233;
-rule inet T C meta l4proto 33-45;
-rule inet T C meta l4proto { 33, 55, 67, 88 };
-rule inet T C meta l4proto { 33-55 };
+rule inet T C meta protocol { };
+rule inet T C meta protocol != 233;
+rule inet T C meta protocol 33-45;
+rule inet T C meta protocol { 33, 55, 67, 88 };
+rule inet T C meta protocol { 33-55 };
 
 rule T C meta mark != abc;
 rule T C meta mark or 0x03 == tcp;

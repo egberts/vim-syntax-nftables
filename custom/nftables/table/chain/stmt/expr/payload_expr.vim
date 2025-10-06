@@ -2933,32 +2933,31 @@ syn match nft_payload_expr_th_hdr_expr_keyword_th '\vth' skipwhite contained
 "*************** BEGIN payload_expr *******************************
 syn cluster nft_c_payload_expr
 \ contains=
-\    nft_keyword_expr_keyword_ether,
+\    nft_payload_expr_udplite_hdr_expr_keyword_udplite,
+\    nft_payload_expr_geneve_hdr_expr_keyword_geneve,
+\    nft_payload_expr_gretap_hdr_expr_keyword_gretap,
+\    nft_payload_expr_icmpv6_hdr_expr_keyword_icmpv6,
+\    nft_stmt_declarative_keyword_ether,
+\    nft_payload_expr_vxlan_hdr_expr_keyword_vxlan,
+\    nft_payload_expr_auth_hdr_expr_keyword_auth,
+\    nft_payload_expr_dccp_hdr_expr_keyword_dccp,
+\    nft_payload_expr_comp_hdr_expr_keyword_comp,
+\    nft_payload_expr_icmp_hdr_expr_keyword_icmp,
+\    nft_payload_expr_igmp_hdr_expr_keyword_igmp,
+\    nft_payload_expr_sctp_hdr_expr_keyword_sctp,
 \    nft_keyword_expr_keyword_vlan,
+\    nft_payload_raw_expr_payload_base_spec_keyword_at_ih,
+\    nft_payload_raw_expr_payload_base_spec_keyword_at_ll,
+\    nft_payload_raw_expr_payload_base_spec_keyword_at_nh,
+\    nft_payload_raw_expr_payload_base_spec_keyword_at_th,
 \    nft_keyword_expr_keyword_arp,
-\    nft_payload_raw_expr_payload_base_spec_keyword_at_string,
-"\    nft_payload_expr_udplite_hdr_expr_keyword_udplite,
-"\    nft_payload_expr_geneve_hdr_expr_keyword_geneve,
-"\    nft_payload_expr_gretap_hdr_expr_keyword_gretap,
-"\    nft_payload_expr_icmpv6_hdr_expr_keyword_icmpv6,
-"\    nft_payload_expr_vxlan_hdr_expr_keyword_vxlan,
-"\    nft_payload_expr_auth_hdr_expr_keyword_auth,
-"\    nft_payload_expr_dccp_hdr_expr_keyword_dccp,
-"\    nft_payload_expr_comp_hdr_expr_keyword_comp,
-"\    nft_payload_expr_icmp_hdr_expr_keyword_icmp,
-"\    nft_payload_expr_igmp_hdr_expr_keyword_igmp,
-"\    nft_payload_expr_sctp_hdr_expr_keyword_sctp,
-"\    nft_payload_raw_expr_payload_base_spec_keyword_at_ih,
-"\    nft_payload_raw_expr_payload_base_spec_keyword_at_ll,
-"\    nft_payload_raw_expr_payload_base_spec_keyword_at_nh,
-"\    nft_payload_raw_expr_payload_base_spec_keyword_at_th,
-"\    nft_payload_expr_esp_hdr_expr_keyword_esp,
-"\    nft_payload_expr_gre_hdr_expr_keyword_gre,
-"\    nft_payload_expr_ip6_hdr_expr_keyword_ip6,
-"\    nft_payload_expr_tcp_hdr_expr_keyword_tcp,
-"\    nft_payload_expr_udp_hdr_expr_keyword_udp,
-"\    nft_payload_expr_ip_hdr_expr_keyword_ip,
-"\    nft_payload_expr_th_hdr_expr_keyword_th,
+\    nft_payload_expr_esp_hdr_expr_keyword_esp,
+\    nft_payload_expr_gre_hdr_expr_keyword_gre,
+\    nft_payload_expr_ip6_hdr_expr_keyword_ip6,
+\    nft_payload_expr_tcp_hdr_expr_keyword_tcp,
+\    nft_payload_expr_udp_hdr_expr_keyword_udp,
+\    nft_payload_expr_ip_hdr_expr_keyword_ip,
+\    nft_payload_expr_th_hdr_expr_keyword_th,
 "*************** END payload_expr *******************************
 
 
@@ -2990,6 +2989,34 @@ syn match nft_payload_expr_ip_protocol_keyword_ah '\vah' skipwhite contained
 
 hi link   nft_payload_expr_ip_protocol nftHL_Keyword
 syn match nft_payload_expr_ip_protocol '\v(dccp|icmp|igmp|ipip|ipv6|sctp|esp|gre|tcp|udp|ah)' skipwhite contained
+
+" NEED TO DUPLICATE in primary_stmt but without nextgroup='set'
+" Add 'nextgroup=nft_payload_stmt_set' toward each here
+" payload_expr (via payload_stmt, primary_expr, *primary_stmt_expr*)
+syn cluster nft_c_payload_expr
+\ contains=
+\    nft_payload_raw_expr,
+\    nft_eth_hdr_expr_keyword_ether,
+\    nft_keyword_expr_keyword_vlan,
+\    nft_keyword_expr_keyword_arp,
+\    nft_ip_hdr_expr,
+\    nft_icmp_hdr_expr,
+\    nft_igmp_hdr_expr,
+\    nft_ip6_hdr_expr,
+\    nft_icmp6_hdr_expr,
+\    nft_auth_hdr_expr,
+\    nft_esp_hdr_expr,
+\    nft_comp_hdr_expr,
+\    nft_udp_hdr_expr,
+\    nft_udplite_hdr_expr,
+\    nft_tcp_hdr_expr,
+\    nft_dccp_hdr_expr,
+\    nft_sctp_hdr_expr,
+\    nft_th_hdr_expr,
+\    nft_vxlan_hdr_expr,
+\    nft_geneve_hdr_expr,
+\    nft_gre_hdr_expr,
+\    nft_gretap_hdr_expr
 " ************************* END payload_expr' *************************
 
 

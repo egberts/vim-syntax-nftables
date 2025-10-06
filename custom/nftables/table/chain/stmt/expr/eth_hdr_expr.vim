@@ -48,3 +48,19 @@ syn match nft_eth_hdr_expr_eth_hdr_field_keyword_type '\vtype' skipwhite contain
 \    nft_chainError
 
 " ************************* END ether_hdr_expr' *****************
+
+" eth_hdr_expr (via inner_eth_expr, payload_expr)
+hi link   nft_eth_hdr_expr_keyword_ether nftHL_Statement
+syn match nft_eth_hdr_expr_keyword_ether '\vether' skipwhite contained
+\  nextgroup=
+\    nft_eth_hdr_expr_eth_hdr_field_keyword_daddr,
+\    nft_eth_hdr_expr_eth_hdr_field_keyword_saddr,
+\    nft_eth_hdr_expr_eth_hdr_field_keyword_type,
+\    nft_UnexpectedNumber,
+\    nft_chainError
+
+syn cluster nft_c_eth_hdr_expr
+\ contains=
+\    nft_eth_hdr_expr_eth_hdr_field_keyword_daddr,
+\    nft_eth_hdr_expr_eth_hdr_field_keyword_saddr,
+\    nft_eth_hdr_expr_eth_hdr_field_keyword_type

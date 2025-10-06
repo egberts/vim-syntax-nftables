@@ -231,10 +231,30 @@ hi link   nft_stmt_ct_common_ct_key_keyword_saddr nftHL_Keyword
 syn match nft_stmt_ct_common_ct_key_keyword_saddr '\vsaddr' skipwhite contained
 
 " **************** BEGIN ct_expr ct_key 'state' *******************
+hi link   nft_primary_expr_ct_expr_ct_state_inline_set_comma nftHL_Element
+syn match nft_primary_expr_ct_expr_ct_state_inline_set_comma '\v,' skipwhite contained
+\ nextgroup=
+\   nft_primary_expr_ct_expr_ct_state_inline_set_choices
+
+hi link   nft_primary_expr_ct_expr_ct_state_inline_set_choices nftHL_Define
+syn match nft_primary_expr_ct_expr_ct_state_inline_set_choices '\v((invalid|established|related|new|untracked)|([0-9]{1,10}))' skipwhite contained
+\ nextgroup=
+\   nft_primary_expr_ct_expr_ct_state_inline_set_comma
+
+hi link    nft_primary_expr_ct_expr_ct_state_inline_set nftHL_blockDelimitersSet
+syn region nft_primary_expr_ct_expr_ct_state_inline_set start=+{+ end=+}+ skipwhite contained
+\ contains=
+\    nft_primary_expr_ct_expr_ct_state_inline_set_choices
+
 hi link   nft_primary_expr_ct_expr_ct_state_comma nftHL_Element
 syn match nft_primary_expr_ct_expr_ct_state_comma '\v,' skipwhite contained
 \ nextgroup=
 \   nft_primary_expr_ct_expr_ct_state_choices
+
+hi link   nft_primary_expr_ct_expr_ct_state_setname nftHL_Variable
+syn match nft_primary_expr_ct_expr_ct_state_setname '\v\@[a-zA-Z0-9][a-zA-Z0-9\-_]{0,63}' skipwhite contained
+\ nextgroup=
+\   nft_primary_expr_ct_expr_ct_state_comma
 
 hi link   nft_primary_expr_ct_expr_ct_state_choices nftHL_Define
 syn match nft_primary_expr_ct_expr_ct_state_choices '\v((invalid|established|related|new|untracked)|([0-9]{1,10}))' skipwhite contained
@@ -244,7 +264,10 @@ syn match nft_primary_expr_ct_expr_ct_state_choices '\v((invalid|established|rel
 hi link   nft_stmt_ct_common_ct_key_keyword_state nftHL_Keyword
 syn match nft_stmt_ct_common_ct_key_keyword_state '\vstate' skipwhite contained
 \ nextgroup=
-\    nft_primary_expr_ct_expr_ct_state_choices
+\    nft_primary_expr_ct_expr_ct_state_setname,
+\    nft_primary_expr_ct_expr_ct_state_choices,
+\    nft_primary_expr_ct_expr_ct_state_inline_set,
+
 " **************** END ct_expr ct_key 'state' *******************
 hi link   nft_stmt_ct_common_ct_key_keyword_mark nftHL_Keyword
 syn match nft_stmt_ct_common_ct_key_keyword_mark '\vmark' skipwhite contained

@@ -4892,13 +4892,13 @@ rule inet T C meta nfproto 10;
 rule inet T C meta nfproto ip6;
 rule inet T C meta nfproto 12;
 rule inet T C meta nfproto netdev;
-# 'meta l4proto' is integer or string (as listed in Linux kernel include/uapi/linux/netfilter.h)
-rule inet T C meta l4proto 1;
-rule inet T C meta l4proto icmp;
-rule inet T C meta l4proto 6;
-rule inet T C meta l4proto tcp;
-rule inet T C meta l4proto 17;
-rule inet T C meta l4proto udp;
+# 'meta protocol' is integer or string (as listed in Linux kernel include/uapi/linux/netfilter.h)
+rule inet T C meta protocol 1;
+rule inet T C meta protocol icmp;
+rule inet T C meta protocol 6;
+rule inet T C meta protocol tcp;
+rule inet T C meta protocol 17;
+rule inet T C meta protocol udp;
 
 # meta_stmt - unqualified META, with a value (no 'meta' needed)
 rule T C mark 64;  # length
@@ -5152,14 +5152,14 @@ rule inet T C meta nfproto 12;
 rule inet T C meta nfproto netdev;
 rule inet T C meta nfproto netdev;
 
-# 'meta l4proto' is integer or string (as listed in Linux kernel include/uapi/linux/netfilter.h)
-rule inet T C meta l4proto 1;
-rule inet T C meta l4proto icmp;
-rule inet T C meta l4proto 6;
-rule inet T C meta l4proto tcp;
-rule inet T C meta l4proto 17;
-rule inet T C meta l4proto udp;
-rule inet T C meta l4proto udp;
+# 'meta protocol' is integer or string (as listed in Linux kernel include/uapi/linux/netfilter.h)
+rule inet T C meta protocol 1;
+rule inet T C meta protocol icmp;
+rule inet T C meta protocol 6;
+rule inet T C meta protocol tcp;
+rule inet T C meta protocol 17;
+rule inet T C meta protocol udp;
+rule inet T C meta protocol udp;
 
 # meta_stmt - unqualified META, with a value (no 'meta' needed)
 rule T C mark 64;  # length
@@ -6647,13 +6647,13 @@ rule inet T C meta nfproto 10;
 rule inet T C meta nfproto ip6;
 rule inet T C meta nfproto 12;
 rule inet T C meta nfproto netdev;
-# 'meta l4proto' is integer or string (as listed in Linux kernel include/uapi/linux/netfilter.h)
-rule inet T C meta l4proto 1;
-rule inet T C meta l4proto icmp;
-rule inet T C meta l4proto 6;
-rule inet T C meta l4proto tcp;
-rule inet T C meta l4proto 17;
-rule inet T C meta l4proto udp;
+# 'meta protocol' is integer or string (as listed in Linux kernel include/uapi/linux/netfilter.h)
+rule inet T C meta protocol 1;
+rule inet T C meta protocol icmp;
+rule inet T C meta protocol 6;
+rule inet T C meta protocol tcp;
+rule inet T C meta protocol 17;
+rule inet T C meta protocol udp;
 
 # meta_stmt - unqualified META, with a value (no 'meta' needed)
 rule T C mark 64;  # length

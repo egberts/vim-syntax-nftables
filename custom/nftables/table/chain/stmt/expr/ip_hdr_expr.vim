@@ -76,8 +76,9 @@ syn match nft_ip_hdr_expr_close_scope_ip_constant_expr_int_hex_4b_hdrlength '\v(
 \    @nft_c_primary_stmt_expr
 
 hi link   nft_ip_hdr_expr_close_scope_ip_constant_expr_int_hex_4b_hdrversion nftHL_Integer
-syn match nft_ip_hdr_expr_close_scope_ip_constant_expr_int_hex_4b_hdrversion '\v(0x[fF]|0x[0-9a-eA-E]|[1][0-5]|[0-9])\ze[ \t\n]' skipwhite contained
+syn match nft_ip_hdr_expr_close_scope_ip_constant_expr_int_hex_4b_hdrversion '\v(0x[fF]|0x[0-9a-eA-E]|[1][0-5]|[0-9])\ze[ \t\n;]' skipwhite contained
 \ nextgroup=
+\    nft_stmt_separator,
 \    @nft_c_primary_stmt_expr
 
 hi link   nft_ip_hdr_expr_close_scope_ip_constant_expr_int_hex_4b_field_length_second_num nftHL_Integer
@@ -221,7 +222,7 @@ syn match nft_ip_hdr_expr_ip_hdr_field_keyword_frag_off '\vfrag\-off\ze[ \t]' sk
 " 'protocol'->ip_hdr_field->'ip'->ip_hdr_expr (internal Bison/Lex)
 " 'ip protocol' begin
 hi link   nft_ip_hdr_expr_close_scope_ip_datatype_ip_protocol nftHL_Define
-syn match nft_ip_hdr_expr_close_scope_ip_datatype_ip_protocol '\v(udplite|icmpv6|comp|dccp|icmp|sctp|esp|tcp|udp|ah)\ze[ \t\n]' skipwhite contained
+syn match nft_ip_hdr_expr_close_scope_ip_datatype_ip_protocol '\v(udplite|gretap|icmpv6|comp|dccp|icmp|igmp|sctp|esp|gre|tcp|udp|ah)\ze[ \t\n]' skipwhite contained
 \ nextgroup=
 \    @nft_c_primary_stmt_expr,
 

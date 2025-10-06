@@ -43,7 +43,7 @@ syn cluster nft_c_stmt_expr
 \    nft_stmt_payload_expr_geneve_hdr_expr_keyword_geneve,
 \    nft_stmt_payload_expr_gretap_hdr_expr_keyword_gretap,
 \    nft_stmt_payload_expr_icmpv6_hdr_expr_keyword_icmpv6,
-\    nft_stmt_payload_expr_eth_hdr_expr_keyword_ether,
+\    nft_payload_expr_keyword_expr_keyword_ether,
 \    nft_stmt_payload_expr_vxlan_hdr_expr_keyword_vxlan,
 \    nft_stmt_payload_expr_comp_hdr_expr_keyword_comp,
 \    nft_stmt_payload_expr_dccp_hdr_expr_keyword_dccp,

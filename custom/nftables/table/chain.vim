@@ -97,7 +97,7 @@ syn region nft_add_cmd_keyword_chain_chain_block_delimiters start='\v\s*\zs\{' e
 \    nft_verdict_expr_keyword_return,
 \    nft_stmt_set_stmt_set_stmt_op_keyword_update,
 \    nft_common_block_keyword_error,
-\    nft_keyword_expr_keyword_ether,
+\    nft_stmt_keyword_ether,
 \    nft_add_cmd_keyword_table_table_block_chain_chain_block_flags_spec_keyword_flags,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_expr_keyword_ipsec,
 \    nft_add_cmd_table_block_set_block_stateful_stmt_list_stmt_stateful_stmt_limit_stmt_keyword_limit,
@@ -112,6 +112,7 @@ syn region nft_add_cmd_keyword_chain_chain_block_delimiters start='\v\s*\zs\{' e
 \    nft_keyword_expr_keyword_icmp,
 \    nft_chain_stmt_verdict_expr_keyword_jump,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_mark,
+\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_keyword_meta,
 \    nft_stmt_nat_stmt_nat_stmt_alloc_keyword_snat,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_time,
 \    nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_keyword_type,
@@ -126,7 +127,6 @@ syn region nft_add_cmd_keyword_chain_chain_block_delimiters start='\v\s*\zs\{' e
 \    nft_comment_inline,
 \    nft_add_cmd_keyword_table_table_block_chain_chain_block_stmt_separator,
 \    nft_rule_cluster_Error
-"\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_keyword_meta,
 
 hi link   nft_add_cmd_chain_spec_identifier nftHL_Identifier
 syn match nft_add_cmd_chain_spec_identifier '\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}' skipwhite contained

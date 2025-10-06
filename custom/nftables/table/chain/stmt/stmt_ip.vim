@@ -150,7 +150,8 @@ syn match nft_stmt_declarative_keyword_ip  '\vip\ze[ \t]' skipwhite contained
 \    nft_ip_hdr_expr_ip_hdr_field_keyword_ecn,
 \    nft_ip_hdr_expr_ip_hdr_field_keyword_ttl,
 \    nft_ip_hdr_expr_ip_hdr_field_keyword_id,
-\    nft_Error
+\    @nft_c_primary_stmt_expr
+" no error here, 'ip' can be a standalone statement
 
 hi link   nft_add_rule_imperative_keyword_ip  nftHL_Command
 syn match nft_add_rule_imperative_keyword_ip  '\vip\ze[ \t]' skipwhite contained

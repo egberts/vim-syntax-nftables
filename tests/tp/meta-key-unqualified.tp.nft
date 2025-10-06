@@ -147,13 +147,13 @@ rule inet Tinet Cinet meta nfproto 12;
 # 'nfproto' only used with 'inet' family.
 rule inet Tinet Cinet meta nfproto ipv4 counter accept;
 
-# 'meta l4proto' is integer or string (as listed in Linux kernel include/uapi/linux/netfilter.h)
-rule inet Tinet Cinet meta l4proto 1;
-rule inet Tinet Cinet meta l4proto icmp;
-rule inet Tinet Cinet meta l4proto 6;
-rule inet Tinet Cinet meta l4proto tcp;
-rule inet Tinet Cinet meta l4proto 17;
-rule inet Tinet Cinet meta l4proto udp;
+# 'meta protocol' is integer or string (as listed in Linux kernel include/uapi/linux/netfilter.h)
+rule inet Tinet Cinet meta protocol 1;
+rule inet Tinet Cinet meta protocol icmp;
+rule inet Tinet Cinet meta protocol 6;
+rule inet Tinet Cinet meta protocol tcp;
+rule inet Tinet Cinet meta protocol 17;
+rule inet Tinet Cinet meta protocol udp;
 
 # meta_stmt - unqualified META, with a value (no 'meta' needed)
 rule T C mark 64;  # length

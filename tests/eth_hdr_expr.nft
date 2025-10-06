@@ -15,7 +15,7 @@ table inet filter {
         type filter hook input priority 0; policy drop;
 
         ether saddr 00:29:00:00:01:00 drop
-        ip ether 00:29:2a:00:00:01 drop
+        ip ether saddr 00:29:2a:00:00:01 drop
 
         ip protocol icmp ether saddr 00:29:2a:00:00:01 drop
         ip protocol icmp icmp type echo-request

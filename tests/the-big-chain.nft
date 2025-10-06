@@ -8,14 +8,14 @@ table ip t {
 		jump { }
 		type filter hook input priority filter + 4; policy accept;
 		masquerade
-		limit name meta l4proto . ip saddr . th sport map @addr4limit
+		limit name meta protocol . ip saddr . th sport map @addr4limit
 		limit name ip6 saddr map @saddr6limit
 		icmp type echo-request accep
 		dport 9876
 		timeout 1m
 		size 12
 		l3proto ip
-		meta l4proto ipv6-icmp jump {
+		meta protocol ipv6-icmp jump {
 			counter packets 0 bytes 0 accept
 		}
 		tcp dport vmap @m
@@ -64,7 +64,7 @@ table ip t {
 		ip saddr @dynmark delete @dynmark { ip saddr : 0x00000001 }
 		ip saddr @dynmark counter packets 0 bytes 0 comment "delete should be instant but might fail under memory pressure"
 		add @dynmark { 10.2.3.4 timeout 2s : 0x00000002 } comment "also check timeout-gc"
-		meta l4proto icmp ip daddr 127.0.0.42 jump test_ping
+		meta protocol icmp ip daddr 127.0.0.42 jump test_ping
 		counter name ip saddr map { 1.1.1.1 : "user123", 2.2.2.2 : "user123", 192.168.2.2 : "user123" }
 		quota name ip saddr map { 192.168.2.2 : "user124", 192.168.2.3 : "user124" } drop
 		meta mark >> 8 & 0xf vmap @sctm_o0
@@ -96,33 +96,33 @@ table ip t {
 		dnat to ip daddr map @x
 		ip saddr 10.1.1.1 dnat to 10.2.3.4
 		ip saddr 10.1.1.2 tcp dport 42 dnat to 10.2.3.4:4242
-		meta l4proto tcp dnat ip to ip saddr map @y
+		meta protocol tcp dnat ip to ip saddr map @y
 		dnat ip to ip saddr . tcp dport map @z
 		dnat to numgen inc mod 2 map @t1
-		meta l4proto tcp dnat ip to numgen inc mod 2 map @t2
+		meta protocol tcp dnat ip to numgen inc mod 2 map @t2
 		iifname != "foobar" accept
 		dnat to ip6 daddr map @x
 		ip6 saddr dead::1 dnat to feed::1
 		ip6 saddr dead::2 tcp dport 42 dnat to [c0::1a]:4242
-		meta l4proto tcp dnat ip6 to ip6 saddr map @y
+		meta protocol tcp dnat ip6 to ip6 saddr map @y
 		dnat ip6 to ip6 saddr . tcp dport map @z
 		dnat to numgen inc mod 2 map @t1
-		meta l4proto tcp dnat ip6 to numgen inc mod 2 map @t2
+		meta protocol tcp dnat ip6 to numgen inc mod 2 map @t2
 		iifname != "foobar" accept
 		dnat ip to ip daddr map @x4
 		ip saddr 10.1.1.1 dnat ip to 10.2.3.4
 		ip saddr 10.1.1.2 tcp dport 42 dnat ip to 10.2.3.4:4242
-		meta l4proto tcp dnat ip to ip saddr map @y4
+		meta protocol tcp dnat ip to ip saddr map @y4
 		dnat ip to ip saddr . tcp dport map @z4
 		dnat ip to numgen inc mod 2 map @t1v4
-		meta l4proto tcp dnat ip to numgen inc mod 2 map @t2v4
+		meta protocol tcp dnat ip to numgen inc mod 2 map @t2v4
 		dnat ip6 to ip6 daddr map @x6
 		ip6 saddr dead::1 dnat ip6 to feed::1
 		ip6 saddr dead::2 tcp dport 42 dnat ip6 to [c0::1a]:4242
-		meta l4proto tcp dnat ip6 to ip6 saddr map @y6
+		meta protocol tcp dnat ip6 to ip6 saddr map @y6
 		dnat ip6 to ip6 saddr . tcp dport map @z6
 		dnat ip6 to numgen inc mod 2 map @t1v6
-		meta l4proto tcp dnat ip6 to numgen inc mod 2 map @t2v6
+		meta protocol tcp dnat ip6 to numgen inc mod 2 map @t2v6
 		ip saddr . @nh,32,32 vmap @y
 		ip saddr . @nh,32,32 vmap { 4.4.4.4 . 0x34 : accept, 5.5.5.5 . 0x45 : drop }
 		tcp dport vmap @portmap
@@ -168,9 +168,9 @@ table ip t {
 		meta mark set ip daddr map { 192.168.0.1 : 0x00000001 }
 		ct state { established, related } accept
 		ip daddr 172.30.33.70 tcp dport 3306 counter packets 0 bytes 0 drop
-		meta l4proto . ip daddr . tcp dport { tcp . 172.30.238.117 . 8080, tcp . 172.30.33.71 . 3306, tcp . 172.30.254.251 . 3306 } counter packets 0 bytes 0 reject
+		meta protocol . ip daddr . tcp dport { tcp . 172.30.238.117 . 8080, tcp . 172.30.33.71 . 3306, tcp . 172.30.254.251 . 3306 } counter packets 0 bytes 0 reject
 		ip daddr 172.30.254.252 tcp dport 3306 counter packets 0 bytes 0 reject with tcp reset
-		meta l4proto . ip6 daddr . tcp dport { tcp . aaaa::3 . 8080, tcp . aaaa::2 . 3306, tcp . aaaa::4 . 3306 } counter packets 0 bytes 0 reject
+		meta protocol . ip6 daddr . tcp dport { tcp . aaaa::3 . 8080, tcp . aaaa::2 . 3306, tcp . aaaa::4 . 3306 } counter packets 0 bytes 0 reject
 		ip6 daddr aaaa::5 tcp dport 3306 counter packets 0 bytes 0 reject with tcp reset
 		iifname "eth0" oifname != "eth0" counter packets 0 bytes 0 accept
 		iifname "eth0" oifname "eth0" counter packets 0 bytes 0 accept
@@ -215,7 +215,7 @@ table ip t {
 		ip version vmap { 4 : jump t3, 6 : jump t4 }
 		update @s { ip saddr limit rate 12/minute burst 30 packets } accept
 		tcp dport vmap { 80 : accept, 81 : accept, 443 : accept, 8000-8100 : accept, 24000-25000 : accept }
-		meta l4proto vmap { tcp : goto filter_in_tcp, udp : goto filter_in_udp }
+		meta protocol vmap { tcp : goto filter_in_tcp, udp : goto filter_in_udp }
 		log
 		udp dport @udp_accepted accept
 		udp dport 53 accept
@@ -239,15 +239,15 @@ table ip t {
 		ct state vmap { invalid counter packets 0 bytes 0 : drop, established counter packets 0 bytes 0 : accept, related counter packets 0 bytes 0 : accept }
 		tcp dport { 80, 123 } counter packets 0 bytes 0 accept
 		ip saddr . ip daddr vmap { 1.1.1.1 . 2.2.2.2 counter packets 0 bytes 0 : accept, 1.1.1.2 . 3.3.3.3 counter packets 0 bytes 0 : drop }
-		meta l4proto udp redirect to :5300
+		meta protocol udp redirect to :5300
 		drop
-		meta l4proto udp redirect to :5301
+		meta protocol udp redirect to :5301
 		drop
-		meta nfproto ipv4 meta l4proto udp dnat ip to 240.0.1.2:5301
+		meta nfproto ipv4 meta protocol udp dnat ip to 240.0.1.2:5301
 		drop
-		meta nfproto ipv4 meta l4proto udp dnat ip to 240.0.1.2:5302
+		meta nfproto ipv4 meta protocol udp dnat ip to 240.0.1.2:5302
 		drop
-		meta nfproto ipv4 meta l4proto udp dnat ip to 240.0.1.2:5303
+		meta nfproto ipv4 meta protocol udp dnat ip to 240.0.1.2:5303
 		drop
 		udp length . @th,160,128 vmap { 47-63 . 0xe373135363130333131303735353203 : goto nat_dns_dnstc, 62-78 . 0xe31393032383939353831343037320e : goto nat_dns_this_5301, 62-78 . 0xe31363436323733373931323934300e : goto nat_dns_saturn_5301, 62-78 . 0xe32393535373539353636383732310e : goto nat_dns_saturn_5302, 62-78 . 0xe38353439353637323038363633390e : goto nat_dns_saturn_5303 }
 		drop
@@ -276,9 +276,9 @@ table ip t {
 		accept comment "first"
 		accept comment "second"
 		accept comment "third"
-		meta l4proto icmp accept
+		meta protocol icmp accept
 		drop
-		meta l4proto igmp accept
+		meta protocol igmp accept
 		drop
 		counter packets 0 bytes 0
 		update @mapping { ip saddr : tcp sport }
@@ -326,7 +326,7 @@ table ip t {
 		ip saddr @y
 		jump x
 		type filter hook prerouting priority raw; policy accept;
-		meta l4proto != { icmp, tcp, udp, ipv6-icmp } counter packets 0 bytes 0 drop
+		meta protocol != { icmp, tcp, udp, ipv6-icmp } counter packets 0 bytes 0 drop
 		tcp flags syn jump {
 			tcp option maxseg size 1-500 counter packets 0 bytes 0 drop
 			tcp sport 0 counter packets 0 bytes 0 drop
@@ -362,7 +362,7 @@ table ip t {
 		fib daddr type { broadcast, anycast, multicast } counter packets 0 bytes 0 drop
 		icmpv6 type echo-request accept
 		tcp dport 22 iifname "eth1" accept
-		meta l4proto { tcp, udp } th dport 53 jump {
+		meta protocol { tcp, udp } th dport 53 jump {
 			ip6 saddr != { fd00::/8, fe80::/64 } counter packets 0 bytes 0 reject with icmpv6 port-unreachable
 			accept
 		}
@@ -540,13 +540,13 @@ table ip x {
 }
 table inet test {
 	set protos {
-		typeof meta l4proto
+		typeof meta protocol
 		elements = { tcp, udp }
 	}
 
 	chain prerouting {
 		type filter hook prerouting priority mangle; policy accept;
-		meta l4proto @protos tproxy to :1088
+		meta protocol @protos tproxy to :1088
 	}
 }
 table inet statelessnat {
@@ -1064,7 +1064,7 @@ table inet firewalld {
 		jump filter_IN_public_log
 		jump filter_IN_public_deny
 		jump filter_IN_public_allow
-		meta l4proto { icmp, ipv6-icmp } accept
+		meta protocol { icmp, ipv6-icmp } accept
 	}
 
 	chain filter_IN_public_log {
@@ -1082,7 +1082,7 @@ table inet firewalld {
 		jump filter_FWDI_public_log
 		jump filter_FWDI_public_deny
 		jump filter_FWDI_public_allow
-		meta l4proto { icmp, ipv6-icmp } accept
+		meta protocol { icmp, ipv6-icmp } accept
 	}
 
 	chain filter_FWDI_public_log {
@@ -1144,7 +1144,7 @@ table inet firewalld {
 		jump filter_IN_home_log
 		jump filter_IN_home_deny
 		jump filter_IN_home_allow
-		meta l4proto { icmp, ipv6-icmp } accept
+		meta protocol { icmp, ipv6-icmp } accept
 	}
 
 	chain filter_IN_home_log {
@@ -1170,7 +1170,7 @@ table inet firewalld {
 		jump filter_FWDI_home_log
 		jump filter_FWDI_home_deny
 		jump filter_FWDI_home_allow
-		meta l4proto { icmp, ipv6-icmp } accept
+		meta protocol { icmp, ipv6-icmp } accept
 	}
 
 	chain filter_FWDI_home_log {
@@ -1231,7 +1231,7 @@ table inet firewalld {
 		jump filter_IN_work_log
 		jump filter_IN_work_deny
 		jump filter_IN_work_allow
-		meta l4proto { icmp, ipv6-icmp } accept
+		meta protocol { icmp, ipv6-icmp } accept
 	}
 
 	chain filter_IN_work_log {
@@ -1249,7 +1249,7 @@ table inet firewalld {
 		jump filter_FWDI_work_log
 		jump filter_FWDI_work_deny
 		jump filter_FWDI_work_allow
-		meta l4proto { icmp, ipv6-icmp } accept
+		meta protocol { icmp, ipv6-icmp } accept
 	}
 
 	chain filter_FWDI_work_log {
@@ -2121,7 +2121,7 @@ table ip x {
 
 	chain x {
 		type nat hook prerouting priority dstnat; policy accept;
-		meta l4proto tcp dnat ip to iifname . ip saddr map { "enp2s0" . 10.1.1.136 : 1.1.2.69 . 22, "enp2s0" . 10.1.1.1-10.1.1.135 : 1.1.2.66-1.84.236.78 . 22 }
+		meta protocol tcp dnat ip to iifname . ip saddr map { "enp2s0" . 10.1.1.136 : 1.1.2.69 . 22, "enp2s0" . 10.1.1.1-10.1.1.135 : 1.1.2.66-1.84.236.78 . 22 }
 		dnat ip to iifname . ip saddr map { "enp2s0" . 10.1.1.136 : 1.1.2.69/32, "enp2s0" . 10.1.1.1-10.1.1.135 : 1.1.2.66-1.84.236.78 }
 	}
 
@@ -2241,7 +2241,7 @@ table inet filter {
 
 	chain output {
 		type filter hook output priority filter; policy accept;
-		meta mark set meta mark . tcp dport . meta l4proto map @test counter packets 0 bytes 0
+		meta mark set meta mark . tcp dport . meta protocol map @test counter packets 0 bytes 0
 	}
 }
 table ip t {
@@ -2459,9 +2459,9 @@ table ip nat {
 	chain prerouting {
 		type nat hook prerouting priority dstnat; policy accept;
 		ip protocol tcp dnat ip to ip saddr . ip daddr map @ipportmap2
-		meta l4proto { tcp, udp } dnat ip to ip daddr . th dport map @fwdtoip_th
+		meta protocol { tcp, udp } dnat ip to ip daddr . th dport map @fwdtoip_th
 		dnat ip to iifname . ip saddr map @ipportmap4
-		meta l4proto tcp dnat ip to iifname . ip saddr map @ipportmap5
+		meta protocol tcp dnat ip to iifname . ip saddr map @ipportmap5
 	}
 }
 table inet t {
@@ -2810,7 +2810,7 @@ table ip nat {
 
 	chain prerouting {
 		type nat hook prerouting priority dstnat; policy accept;
-		meta l4proto { tcp, udp } th dport 443 dnat to 10.0.0.1
+		meta protocol { tcp, udp } th dport 443 dnat to 10.0.0.1
 	}
 }
 table ip filter {
@@ -3415,7 +3415,7 @@ table inet firewalld {
 		jump filter_IN_public_deny
 		jump filter_IN_public_allow
 		jump filter_IN_public_post
-		meta l4proto { icmp, ipv6-icmp } accept
+		meta protocol { icmp, ipv6-icmp } accept
 	}
 
 	chain filter_IN_public_pre {
@@ -3441,7 +3441,7 @@ table inet firewalld {
 		jump filter_FWDI_public_deny
 		jump filter_FWDI_public_allow
 		jump filter_FWDI_public_post
-		meta l4proto { icmp, ipv6-icmp } accept
+		meta protocol { icmp, ipv6-icmp } accept
 	}
 
 	chain filter_FWDI_public_pre {
@@ -3652,7 +3652,7 @@ table inet firewalld {
 		jump filter_IN_work_deny
 		jump filter_IN_work_allow
 		jump filter_IN_work_post
-		meta l4proto { icmp, ipv6-icmp } accept
+		meta protocol { icmp, ipv6-icmp } accept
 	}
 
 	chain filter_IN_work_pre {
@@ -3701,7 +3701,7 @@ table inet firewalld {
 		jump filter_FWDI_work_deny
 		jump filter_FWDI_work_allow
 		jump filter_FWDI_work_post
-		meta l4proto { icmp, ipv6-icmp } accept
+		meta protocol { icmp, ipv6-icmp } accept
 	}
 
 	chain filter_FWDI_work_pre {

@@ -6,9 +6,9 @@
 # meta_stmt - INTERNALS; found in scanner.c (not in parser_bison.y)
 rule inet T C meta nfproto;
 rule inet T C meta nfproto abcde;
-rule inet T C meta l4proto;
-rule inet T C meta l4proto abc;
-rule inet T C meta l4proto { abc };
+rule inet T C meta protocol;
+rule inet T C meta protocol abc;
+rule inet T C meta protocol { abc };
 
 # meta_stmt - no value
 rule T C ipsec 1234;  # value only accepts '0' or '1', or 'exists' or 'missing'

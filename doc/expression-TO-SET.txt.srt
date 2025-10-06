@@ -11,10 +11,10 @@ iifname "eth0" tcp dport 81 snat ip to 192.168.3.2
 iifname "eth0" tcp dport 81 snat ip to 192.168.3.2
 iifname "foo" tcp dport 80 redirect to :8080
 ip daddr set numgen inc mod 16 map { 0-7 : 10.0.1.1, 8-15 : 10.0.1.2 }
-meta l4proto tcp dnat ip6 to numgen inc mod 2 map @t2
-meta l4proto tcp dnat ip6 to numgen inc mod 2 map @t2v6
-meta l4proto tcp dnat ip to numgen inc mod 2 map @t2
-meta l4proto tcp dnat ip to numgen inc mod 2 map @t2v4
+meta protocol tcp dnat ip6 to numgen inc mod 2 map @t2
+meta protocol tcp dnat ip6 to numgen inc mod 2 map @t2v6
+meta protocol tcp dnat ip to numgen inc mod 2 map @t2
+meta protocol tcp dnat ip to numgen inc mod 2 map @t2v4
 iifname "eth0" tcp dport 81 ip saddr 10.1.1.1 snat to 192.168.3.2
 iifname "eth0" tcp dport 81 snat ip6 to dead::beef
 iifname "foo" tcp dport 80 redirect to :8080

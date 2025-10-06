@@ -48,30 +48,7 @@ syn match nft_verdict_expr_chain_expr_identifier '\v(\$)?[a-zA-Z][a-zA-Z0-9_]{0,
 \    nft_variable_identifier,
 \    nft_rule_cluster_Error
 
-hi link   nft_verdict_expr_keyword_continue nftHL_Statement
-syn match nft_verdict_expr_keyword_continue "\vcontinue\ze[ \t\n;]" skipwhite contained
-" there is no nextgroup=nft_Error here, it can optionally end here for rule 'redirect'
 
-hi link   nft_verdict_expr_keyword_accept nftHL_Statement
-syn match nft_verdict_expr_keyword_accept '\vaccept\ze[ \t;\n]' skipwhite contained
-hi link   nft_verdict_expr_keyword_return nftHL_Statement
-syn match nft_verdict_expr_keyword_return '\vreturn\ze[ \t;\n]' skipwhite contained
-hi link   nft_verdict_expr_keyword_drop nftHL_Statement
-syn match nft_verdict_expr_keyword_drop '\vdrop\ze[ \t;\n]' skipwhite contained
-
-hi link   nft_verdict_expr_keyword_goto nftHL_Statement
-syn match nft_verdict_expr_keyword_goto '\vgoto\ze[ \t\n]' skipwhite contained
-\ nextgroup=
-\    nft_verdict_expr_chain_expr_identifier,
-\    nft_chain_stmt_delimiters,
-\    nft_rule_cluster_Error
-
-hi link   nft_chain_stmt_verdict_expr_keyword_jump nftHL_Statement
-syn match nft_chain_stmt_verdict_expr_keyword_jump '\vjump\ze[ \t]' keepend skipwhite contained
-\ nextgroup=
-\    nft_verdict_expr_chain_expr_identifier,
-\    nft_chain_stmt_delimiters,
-\    nft_rule_cluster_Error
 "******************** BEGIN verdict_stmt ******************************
 
   for s:this_semantic_file in s:stmt_verdict_list_filepaths_semantic_later

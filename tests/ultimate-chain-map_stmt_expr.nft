@@ -1,6 +1,6 @@
 #!/usr/sbin/nft
 
- T C
+T C drop
 
 table T {
     chain C {
@@ -36,29 +36,34 @@ table T {
 		ct mark set ct mark & 0xffff0000 | meta mark & 0x0000ffff
 		ct mark set ct mark | ip6 dscp | 0x00000200 counter packets 0 bytes 0
 		ct mark set ct mark | ip dscp | 0x00000200 counter packets 0 bytes 0
-		ct mark set ct mark | meta mark
+#		ct mark set ct mark | meta mark
 		ct mark set ip6 dscp << 2 | 0x10
 		ct mark set ip6 dscp << 26 | 0x10
 		ct mark set ip dscp << 2 | 0x10
 		ct mark set ip dscp << 26 | 0x10
 		ct mark set osf name map @m1
-#		ct state { established, related } accept
-#		ct state established,related accept
-#		ct state established,related meta secmark set ct secmark
-#		ct state != established | related | new
-#		ct state established,related,new
-#		ct state invalid drop
-#		ct state invalid log prefix "invalid state match, logging:"
-#		ct state new
-#		ct state new ct secmark set meta secmark
-#		ct state new ip daddr . ip protocol . th dport @myset accept
+		ct state established, related accept
+		ct state @setname accept
+		ct state { established, related } accept
+		ct state established,related accept
+		ct state established,related meta secmark set ct secmark
+		ct state != established | related | new
+		ct state established,related,new
+		ct state invalid drop
+		ct state invalid log prefix "invalid state match, logging:"
+		ct state new
+		ct state new ct secmark set meta secmark
+		ct state new ip daddr . ip protocol . th dport @myset accept
+
+# SLE 20251005 - uncomment as many lines as you can pass it
+
 #		ct state new meta nfproto vmap { ipv4 : jump blacklist_output_ipv4, ipv6 : jump blacklist_output_ipv6 }
 #		ct state vmap { invalid counter packets 0 bytes 0 : drop, established counter packets 0 bytes 0 : accept, related counter packets 0 bytes 0 : accept }
-#		ct state vmap { invalid : drop, established : accept, related : accept }
+		ct state vmap { invalid : drop, established : accept, related : accept }
 #		ct state vmap { invalid : jump ct_invalid_out, established : accept, related : accept, untracked : jump ct_untracked_out }
 #		ct state vmap { invalid : jump ct_invalid_pre, related : jump rpfilter, new : jump ct_new_pre, untracked : jump ct_untracked_pre }
 #		ct status dnat accept
-#		ct timeout set "cttime"
+		ct timeout set "cttime"
 #		ct timeout set ip6 daddr map { 1ce::/64 : "dns", dead::beef : "dns" }
 #		ct timeout set ip daddr map { 1.2.3.4-1.2.3.8 : "dns" }
 #		ct timeout set ip daddr map { 1.2.3.4 : "dns", 5.6.7.8 : "dns", 192.168.8.0/24 : "dns" }
@@ -323,7 +328,7 @@ table T {
 		l3proto ip
 		last
 		limit name ip6 saddr map @saddr6limit
-		limit name meta l4proto . ip saddr . th sport map @addr4limit
+		limit name meta protocol . ip saddr . th sport map @addr4limit
 		limit name tcp dport map { 80 : "http-traffic", 443 : "http-traffic" }
 		limit rate 1/second burst 5 packets
 		limit rate 1/second burst 5 packets counter
@@ -334,31 +339,31 @@ table T {
 		log prefix "NFT REJECT IN " flags ip options flags ether limit rate 5/second burst 10 packets reject
 		log prefix "NFT REJECT OUT " flags ip options flags ether limit rate 5/second burst 10 packets reject
 		masquerade
-		meta l4proto icmp accept
-		meta l4proto icmp ip daddr 127.0.0.42 jump test_ping
-		meta l4proto { icmp, ipv6-icmp } accept
-		meta l4proto != { icmp, tcp, udp, ipv6-icmp } counter packets 0 bytes 0 drop
-		meta l4proto igmp accept
-		meta l4proto . ip6 daddr . tcp dport { tcp . aaaa::3 . 8080, tcp . aaaa::2 . 3306, tcp . aaaa::4 . 3306 } counter packets 0 bytes 0 reject
-		meta l4proto . ip daddr . tcp dport { tcp . 172.30.238.117 . 8080, tcp . 172.30.33.71 . 3306, tcp . 172.30.254.251 . 3306 } counter packets 0 bytes 0 reject
-		meta l4proto ipv6-icmp jump {
-		meta l4proto @protos tproxy to :1088
-		meta l4proto tcp dnat ip6 to ip6 saddr map @y
-		meta l4proto tcp dnat ip6 to ip6 saddr map @y6
-		meta l4proto tcp dnat ip6 to numgen inc mod 2 map @t2
-		meta l4proto tcp dnat ip6 to numgen inc mod 2 map @t2v6
-		meta l4proto tcp dnat ip to iifname . ip saddr map { "enp2s0" . 10.1.1.136 : 1.1.2.69 . 22, "enp2s0" . 10.1.1.1-10.1.1.135 : 1.1.2.66-1.84.236.78 . 22 }
-		meta l4proto tcp dnat ip to iifname . ip saddr map @ipportmap5
-		meta l4proto tcp dnat ip to ip saddr map @y
-		meta l4proto tcp dnat ip to ip saddr map @y4
-		meta l4proto tcp dnat ip to numgen inc mod 2 map @t2
-		meta l4proto tcp dnat ip to numgen inc mod 2 map @t2v4
-		meta l4proto { tcp, udp } dnat ip to ip daddr . th dport map @fwdtoip_th
-		meta l4proto { tcp, udp } th dport 443 dnat to 10.0.0.1
-		meta l4proto { tcp, udp } th dport 53 jump {
-		meta l4proto udp redirect to :5300
-		meta l4proto udp redirect to :5301
-		meta l4proto vmap { tcp : goto filter_in_tcp, udp : goto filter_in_udp }
+		meta protocol icmp accept
+		meta protocol icmp ip daddr 127.0.0.42 jump test_ping
+		meta protocol { icmp, ipv6-icmp } accept
+		meta protocol != { icmp, tcp, udp, ipv6-icmp } counter packets 0 bytes 0 drop
+		meta protocol igmp accept
+		meta protocol . ip6 daddr . tcp dport { tcp . aaaa::3 . 8080, tcp . aaaa::2 . 3306, tcp . aaaa::4 . 3306 } counter packets 0 bytes 0 reject
+		meta protocol . ip daddr . tcp dport { tcp . 172.30.238.117 . 8080, tcp . 172.30.33.71 . 3306, tcp . 172.30.254.251 . 3306 } counter packets 0 bytes 0 reject
+		meta protocol ipv6-icmp jump {
+		meta protocol @protos tproxy to :1088
+		meta protocol tcp dnat ip6 to ip6 saddr map @y
+		meta protocol tcp dnat ip6 to ip6 saddr map @y6
+		meta protocol tcp dnat ip6 to numgen inc mod 2 map @t2
+		meta protocol tcp dnat ip6 to numgen inc mod 2 map @t2v6
+		meta protocol tcp dnat ip to iifname . ip saddr map { "enp2s0" . 10.1.1.136 : 1.1.2.69 . 22, "enp2s0" . 10.1.1.1-10.1.1.135 : 1.1.2.66-1.84.236.78 . 22 }
+		meta protocol tcp dnat ip to iifname . ip saddr map @ipportmap5
+		meta protocol tcp dnat ip to ip saddr map @y
+		meta protocol tcp dnat ip to ip saddr map @y4
+		meta protocol tcp dnat ip to numgen inc mod 2 map @t2
+		meta protocol tcp dnat ip to numgen inc mod 2 map @t2v4
+		meta protocol { tcp, udp } dnat ip to ip daddr . th dport map @fwdtoip_th
+		meta protocol { tcp, udp } th dport 443 dnat to 10.0.0.1
+		meta protocol { tcp, udp } th dport 53 jump {
+		meta protocol udp redirect to :5300
+		meta protocol udp redirect to :5301
+		meta protocol vmap { tcp : goto filter_in_tcp, udp : goto filter_in_udp }
 		meta mark 0x00000002 counter packets 0 bytes 0 accept
 		meta mark 0x00000003 counter packets 0 bytes 0 accept
 		meta mark { 0x0000000a counter packets 0 bytes 0 }
@@ -375,11 +380,11 @@ table T {
 		meta mark set ip saddr . ip daddr map @m3
 		meta mark set ip saddr map { 1.1.1.1 : 0x00000002 }
 		meta mark set meta mark << 2
-		meta mark set meta mark . tcp dport . meta l4proto map @test counter packets 0 bytes 0
+		meta mark set meta mark . tcp dport . meta protocol map @test counter packets 0 bytes 0
 		meta mark set vlan id map @m2
-		meta nfproto ipv4 meta l4proto udp dnat ip to 240.0.1.2:5301
-		meta nfproto ipv4 meta l4proto udp dnat ip to 240.0.1.2:5302
-		meta nfproto ipv4 meta l4proto udp dnat ip to 240.0.1.2:5303
+		meta nfproto ipv4 meta protocol udp dnat ip to 240.0.1.2:5301
+		meta nfproto ipv4 meta protocol udp dnat ip to 240.0.1.2:5302
+		meta nfproto ipv4 meta protocol udp dnat ip to 240.0.1.2:5303
 		meta nfproto ipv4 udp dport 67
 		meta nfproto ipv6 fib saddr . iif check missing drop
 		meta nfproto ipv6 udp dport 67
@@ -612,7 +617,7 @@ table T {
 		typeof ipsec in reqid . iif
 		typeof ip version
 		typeof meta ibrpvid
-		typeof meta l4proto
+		typeof meta protocol
 		typeof meta mark
 		typeof osf name
 		typeof sctp chunk init num-inbound-streams

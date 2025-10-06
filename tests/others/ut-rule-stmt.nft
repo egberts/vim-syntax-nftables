@@ -360,7 +360,7 @@ table T {
 
 
 
-        l4proto ;
+        protocol ;
         nfproto 1;
         notrack;
         

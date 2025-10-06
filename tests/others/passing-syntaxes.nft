@@ -1333,11 +1333,11 @@ add rule myTable myChain meta protocol { ip, arp, ip6, vlan }
 add rule myTable myChain meta nfproto ipv4
 add rule myTable myChain meta nfproto != ipv6
 add rule myTable myChain meta nfproto { ipv4, ipv6 }
-add rule myTable myChain meta l4proto 22
-add rule myTable myChain meta l4proto != 233
-add rule myTable myChain meta l4proto 33-45
-add rule myTable myChain meta l4proto { 33, 55, 67, 88 }
-add rule myTable myChain meta l4proto { 33-55 }
+add rule myTable myChain meta protocol 22
+add rule myTable myChain meta protocol != 233
+add rule myTable myChain meta protocol 33-45
+add rule myTable myChain meta protocol { 33, 55, 67, 88 }
+add rule myTable myChain meta protocol { 33-55 }
 add rule myTable myChain meta mark 0x4
 add rule myTable myChain meta mark 0x00000032
 add rule myTable myChain meta mark and 0x03 == 0x01

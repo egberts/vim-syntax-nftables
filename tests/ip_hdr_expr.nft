@@ -1,7 +1,6 @@
 # File: ip_hdr_expr.nft
 # Bison: ip_hdr_expr
 
-add rule T C ip6 protocol icmp ip protocol tcp
 add rule T C ip version 15 accept
 add rule T C ip hdrlength 15 accept
 add rule T C ip frag-off 15 accept
@@ -25,6 +24,7 @@ add rule T C ip saddr 127.0.0.1 accept
 add rule T C ip ecn 1 accept
 add rule T C ip ttl 15 accept
 add rule T C ip id 15 accept
+ip T C ip option lsrr type 131 ip option lsrr length 4-40 ip option lsrr ptr 4-40 ip option lsrr addr 0.0.0.0-255.255.255.255 drop
 
 
 add table ip T
@@ -57,8 +57,9 @@ table T {
 
 
         oopsie
+        ip protocol 0x1 ip version 0 accept
         ip protocol icmp ip version 0 accept
-        ip protocol tcp ip version 15 accept
+        ip protocol 7 ip version 15 accept
         ip protocol tcp ip version 0x0 accept
         ip protocol tcp ip version 0xf accept
         ip protocol tcp ip hdrlength 5 accept

@@ -8,11 +8,11 @@ rule inet T C meta nfproto ipv4;
 rule inet T C meta nfproto != ipv6;
 rule inet T C meta nfproto { inet,ipv4,ipv6 };
 
-rule inet T C meta l4proto { };
-rule inet T C meta l4proto != 233;
-rule inet T C meta l4proto 33-45;
-rule inet T C meta l4proto { 33, 55, 67, 88 };
-rule inet T C meta l4proto { 33-55 };
+rule inet T C meta protocol { };
+rule inet T C meta protocol != 233;
+rule inet T C meta protocol 33-45;
+rule inet T C meta protocol { 33, 55, 67, 88 };
+rule inet T C meta protocol { 33-55 };
 
 rule T C meta mark & 0x2 == 0x2 accept;
 rule T C meta mark or 0x03 == tcp;
