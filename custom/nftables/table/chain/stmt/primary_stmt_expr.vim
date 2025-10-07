@@ -56,10 +56,10 @@ syn cluster nft_c_primary_stmt_expr
 \ contains=
 \    nft_payload_expr_meta_expr_keyword_meta_key_unqualified_keyword_rtclassid,
 \    nft_verdict_expr_keyword_continue,
-\    nft_payload_expr_meta_expr_keyword_meta_key_unqualified_keyword_oifgroup,
+\    nft_payload_expr_meta_expr_keyword_meta_key_unqualified_keyword_ibriport,
 \    nft_payload_expr_meta_expr_keyword_meta_key_unqualified_keyword_iifgroup,
 \    nft_payload_expr_meta_expr_keyword_meta_key_unqualified_keyword_obriport,
-\    nft_payload_expr_meta_expr_keyword_meta_key_unqualified_keyword_ibriport,
+\    nft_payload_expr_meta_expr_keyword_meta_key_unqualified_keyword_oifgroup,
 \    nft_payload_expr_meta_expr_keyword_meta_key_unqualified_keyword_ibrname,
 \    nft_payload_expr_meta_expr_keyword_meta_key_unqualified_keyword_iifname,
 \    nft_payload_expr_meta_expr_keyword_meta_key_unqualified_keyword_iiftype,
@@ -115,6 +115,7 @@ syn cluster nft_c_primary_stmt_expr
 \    nft_payload_expr_th_hdr_expr_keyword_th,
 \    nft_payload_expr_payload_raw_expr_keyword_at,
 \    nft_stmt_primary_stmt_expr_symbol_expr_variable_expr,
+\    nft_stmt_verdict_expr_chain_expr_variable_expr,
 \    nft_stmt_primary_stmt_expr_integer_expr_num,
 \    nft_stmt_primary_stmt_expr_symbol_expr_string
 "*************** END primary_stmt_expr *******************************

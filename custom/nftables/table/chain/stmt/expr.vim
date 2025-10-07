@@ -3,6 +3,7 @@
 "
 let s:expr_list_filepaths_semantic_early = [
 \    'table/chain/stmt/expr/integer_expr.vim',
+\    'table/chain/stmt/expr/hash_expr.vim',
 \    'table/chain/stmt/expr/eth_hdr_expr.vim',
 \    'table/chain/stmt/expr/arp_hdr_expr.vim',
 \    'table/chain/stmt/expr/vlan_hdr_expr.vim',

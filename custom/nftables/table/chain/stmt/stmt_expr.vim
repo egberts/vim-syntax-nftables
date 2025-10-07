@@ -37,8 +37,7 @@ try
 
 syn cluster nft_c_stmt_expr
 \ contains=
-\    nft_stmt_keyword_icmp,
-\    nft_stmt_keyword_ip6,
+\    nft_payload_expr_hash_expr_keyword_symhash,
 \    nft_stmt_payload_expr_udplite_hdr_expr_keyword_udplite,
 \    nft_stmt_payload_expr_geneve_hdr_expr_keyword_geneve,
 \    nft_stmt_payload_expr_gretap_hdr_expr_keyword_gretap,
@@ -48,13 +47,16 @@ syn cluster nft_c_stmt_expr
 \    nft_stmt_payload_expr_comp_hdr_expr_keyword_comp,
 \    nft_stmt_payload_expr_dccp_hdr_expr_keyword_dccp,
 \    nft_stmt_payload_expr_icmp_hdr_expr_keyword_icmp,
+\    nft_stmt_keyword_icmp,
 \    nft_stmt_payload_expr_igmp_hdr_expr_keyword_igmp,
+\    nft_payload_expr_hash_expr_keyword_jhash,
 \    nft_stmt_payload_expr_sctp_hdr_expr_keyword_sctp,
 \    nft_stmt_payload_expr_vlan_hdr_expr_keyword_vlan,
 \    nft_stmt_payload_expr_arp_hdr_expr_keyword_arp,
 \    nft_stmt_payload_expr_esp_hdr_expr_keyword_esp,
 \    nft_stmt_payload_expr_gre_hdr_expr_keyword_gre,
 \    nft_stmt_payload_expr_ip6_hdr_expr_keyword_ip6,
+\    nft_stmt_keyword_ip6,
 \    nft_stmt_payload_expr_tcp_hdr_expr_keyword_tcp,
 \    nft_stmt_payload_expr_udp_hdr_expr_keyword_udp,
 \    nft_stmt_payload_expr_auth_hdr_expr_keyword_ah,

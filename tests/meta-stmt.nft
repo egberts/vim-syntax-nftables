@@ -33,7 +33,7 @@
 #     length       integer       Packet length
 #     protocol     integer/symbolic    Layer 4 protocol (e.g., tcp)
 #     pkttype      symbolic      unicast, broadcast, multicast
-#     nfproto      symbolic      ip, ip6, inet, etc.
+#     nfproto      symbolic      ip, ip6, inet, netdev, arp, bridge
 #     rtclassid    integer       Routing class ID
 #     skuid        integer       Socket UID
 #     skgid        integer       Socket GID
@@ -140,6 +140,8 @@ rule T C meta nftrace;  # 'meta nftrace == 1' only in meta_expr
 
 # meta_stmt - INTERNALS; found in scanner.c (not in parser_bison.y)
 # 'meta nfproto' is integer or string (as listed in /etc/protocol)
+# meta_stmt->META->STRING, where STRING is 'nfproto'
+# meta_expr->META->STRING, where STRING is 'nfproto'
 rule inet T C meta nfproto 1; rule inet T C meta nfproto 1;
 rule inet T C meta nfproto 1;
 rule inet T C meta nfproto inet;
@@ -153,17 +155,24 @@ rule inet T C meta nfproto 10;
 rule inet T C meta nfproto ip6;
 rule inet T C meta nfproto 12;
 rule inet T C meta nfproto netdev;
-rule inet T C meta nfproto netdev;
 
 rule inet T C meta protocol 1;
-rule inet T C meta protocol 802.1ad ;
+rule inet T C meta protocol icmp;
 rule inet T C meta protocol 6;
-rule inet T C meta protocol 802.1q;
+rule inet T C meta protocol udplite
 rule inet T C meta protocol 17;
-rule inet T C meta protocol vlan;
-rule inet T C meta protocol arp;
-rule inet T C meta protocol ip6;
-rule inet T C meta protocol ip;
+rule inet T C meta protocol gretap;
+rule inet T C meta protocol icmpv6;
+rule inet T C meta protocol comp;
+rule inet T C meta protocol dccp;
+rule inet T C meta protocol icmp;
+rule inet T C meta protocol igmp;
+rule inet T C meta protocol sctp;
+rule inet T C meta protocol esp;
+rule inet T C meta protocol gre;
+rule inet T C meta protocol tcp;
+rule inet T C meta protocol udp;
+rule inet T C meta protocol ah;
 
 # meta_stmt - unqualified META, with a value (no 'meta' needed)
 rule T C mark 64;  # length
@@ -190,6 +199,7 @@ rule T C ibriport "br0";  # L2 layer, by interface name
 rule T C obriport "br1";  # L2 layer, by interface name
 rule T C ibrname "under-bridge";
 rule T C obrname "over-bridge";
+rule T C ip protocol icmp jhash "over-bridge";
 rule T C pkttype broadcast;
 rule T C ipsec 0;  # 'meta ipsec 0' only in meta_expr
 rule T C cpu 1;
@@ -426,6 +436,7 @@ rule T C meta pkttype in { unicast, multicast };
 rule T C meta pkttype in @my_packet_types;
 rule T C meta pkttype not in { broadcast, otherhost, unicast, outgoing, fastroute, loopback, host };
 rule T C meta pkttype not in @my_packet_types;
+rule T C ipsec == 1;  # 'meta ipsec 0' only in meta_expr
 rule T C meta ipsec == 1;  # 'meta ipsec 0' only in meta_expr
 rule T C meta ipsec != 1;  # 'meta ipsec 0' only in meta_expr
 rule T C meta ipsec == { 1, missing };  # 'meta ipsec 0' only in meta_expr
@@ -528,7 +539,7 @@ rule T C meta hour not in { 0,2,4,8,10,22 };
 rule T C meta hour not in @my_set_of_hours;
 
 # meta_stmt - qualified META, with a value (requires 'meta' before it)
-rule T C meta length 1512;
+rule T C meta length 1512
 rule T C meta length == 1492;
 rule T C meta length != 256;
 rule T C meta length < 256;
@@ -540,39 +551,40 @@ rule T C meta length not in { 1490, 1512, 1518, 1290 };
 rule T C meta length not in { 1490, 1512, 1518, 1290 };
 
 rule T C meta protocol any;
-rule T C meta protocol 802.1ad;
-rule T C meta protocol 802_1ad;
-rule T C meta protocol 802.1q;
-rule T C meta protocol 802_1q;
-rule T C meta protocol vlan;
-rule T C meta protocol ip6;
-rule T C meta protocol ip;
-rule T C meta protocol arp;
-rule T C meta protocol == vlan;
-rule T C meta protocol == 32768;
+rule T C meta protocol udplite;
+rule T C meta protocol gretap;
+rule T C meta protocol icmpv6;
+rule T C meta protocol comp;
+rule T C meta protocol dccp;
+rule T C meta protocol icmp;
+rule T C meta protocol igmp;
+rule T C meta protocol sctp;
+rule T C meta protocol esp;
+rule T C meta protocol gre;
+rule T C meta protocol tcp;
+rule T C meta protocol udp;
+rule T C meta protocol ah;
+rule T C meta protocol == udp;
+rule T C meta protocol == 32767;
 rule T C meta protocol == 0x0800;
 rule T C meta protocol == @my_protocol_list;
 rule T C meta protocol == { 0x0800, 0x0806 };
-rule T C meta protocol == { ip, ip6 };
+rule T C meta protocol == { tcp, udp };
 rule T C meta protocol != 0x0800;
-rule T C meta protocol != ip;
+rule T C meta protocol != icmp;
 rule T C meta protocol <= 1;
 rule T C meta protocol >= 1;
 rule T C meta protocol in @my_protocol_list;
-rule T C meta protocol in { arp, 802_1q };
-rule T C meta protocol ip;
-rule T C meta protocol ip6;
-rule T C meta protocol arp;
-rule T C meta protocol arp;
-rule T C meta protocol arp;
-rule T C meta protocol arp;
+rule T C meta protocol in { icmp, icmpv6 };
 
 rule T C meta priority 1;
 rule T C meta priority 1;
 rule T C meta priority == 1;
-rule T C meta priority ==  100;
-rule T C meta priority == 0x010;
+rule T C meta priority ==  1
+rule T C meta priority ==  4294967295
+rule T C meta priority == 0xffffffff;
 rule T C meta priority == @my_set_of_priorities;
+rule T C meta priority != 123;
 rule T C meta priority != 200;
 rule T C meta priority != 0x001F;
 rule T C meta priority != @my_set_of_priorities;
@@ -640,8 +652,8 @@ rule T C meta skgid & 0xFF == 0x1 accept;
 rule inet T C meta nfproto;
 rule inet T C meta nfproto ip;
 rule inet T C meta protocol 0x1000;
-rule inet T C meta protocol ip;
-rule inet T C meta protocol in { 802.1q };
+rule inet T C meta protocol udp ;
+rule inet T C meta protocol in { icmp };
 
 # meta_stmt - no value
 rule T C ipsec 1234;  # value only accepts '0' or '1', or 'exists' or 'missing'
@@ -661,7 +673,7 @@ rule T C meta mark >= 14;
 rule T C meta mark in { 0, 1, 2 };
 rule T C meta mark not in { 0, 1, 2 };
 
-rule T C iif;  # missing interface name
+rule T C iif;  # missing 'meta'
 rule T C meta iif;  # missing interface name
 rule T C meta iif lo accept;  # missing interface index (integer)
 rule T C meta iif eth0;  # missing interface index (integer)
@@ -916,3 +928,11 @@ rule T C meta length 65536;
 rule T C meta length { };
 rule T C meta protocol ip;
 # 'meta random' - qualified META, but without a value
+
+table T {
+  chain C {
+    symhash mod 5 offset 2;
+    ip protocol icmp symhash mod 5 offset 2;
+  }
+}
+

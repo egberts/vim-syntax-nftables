@@ -37,7 +37,7 @@ try
 
 "******************** BEGIN nat_stmt ******************************
 hi link   nft_stmt_nat_stmt_keyword_to nftHL_Write
-syn match nft_stmt_nat_stmt_keyword_to '\vto' skipwhite contained
+syn match nft_stmt_nat_stmt_keyword_to '\vto\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    @nft_c_stmt_expr
 

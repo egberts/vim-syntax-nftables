@@ -180,6 +180,12 @@ syn match nft_stmt_ct_common_ct_key_keyword_proto_dst '\vproto\-dst' skipwhite c
 
 "\    ct 'protocol' - anything in /etc/services
 " ct protocol set
+
+hi link   nft_l4_protocol Define
+syn match nft_l4_protocol '\v(([0-9]{1,3})|(mobility\-header|mpls\-in\-ip|ipv6\-route|idpr\-cmtp|ipv6\-frag|ipv6\-icmp|ipv6\-nonxt|ipv6\-opts|ethernet|ipencap|iso\-tp4|udplite|xns\-idp|hopopt|ipcomp|ax\.25|eigrp|encap|manet|mptcp|shim6|dccp|icmp|idrp|igmp|ipv6|isis|l2tp|ospf|rohc|rspf|rsvp|sctp|skip|vrrp|vmtp|wesp|ddp|egp|esp|gre|hip|hmp|igp|ggp|pim|pup|rdp|tcp|udp|xtp|ah|fc|ip))\ze[ \t;]' skipwhite contained
+\ nextgroup=
+\    nft_stmt_separator
+
 hi link   nft_primary_expr_ct_expr_keyword_set nftHL_Write
 syn match nft_primary_expr_ct_expr_keyword_set '\vset' skipwhite contained
 \ nextgroup=
