@@ -2850,6 +2850,8 @@ hi link   nft_payload_expr_ip6_keyword_daddr nftHL_Keyword
 syn match nft_payload_expr_ip6_keyword_daddr '\vdaddr\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    nft_payload_expr_ip6_daddr,
+\    @nft_c_primary_stmt_expr,
+\    @nft_c_map_expr_rhs_expr,
 \    nft_stmt_expr_map_stmt_expr_keyword_map,
 \    nft_Error
 " ************************* END ip6 daddr' *************************

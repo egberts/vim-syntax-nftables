@@ -73,6 +73,7 @@ syn region nft_add_cmd_keyword_table_table_block_chain_chain_block_delimiters st
 \    nft_payload_expr_icmpv6_hdr_expr_keyword_icmpv6,
 \    nft_add_cmd_keyword_table_table_block_chain_chain_block_policy_spec_keyword_policy,
 \    nft_stmt_reject_stmt_reject_stmt_alloc_keyword_reject,
+\    nft_socket_expr_keyword_socket,
 \    nft_verdict_expr_keyword_return,
 \    nft_stmt_set_stmt_set_stmt_op_keyword_update,
 \    nft_common_block_keyword_error,

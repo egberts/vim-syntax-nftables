@@ -84,7 +84,7 @@ table T {
 
 # 'ip saddr map ...' : primary_stmt->close_scope_ip->primary_stmt->payload_expr->expr->concat_expr->map_expr->rhs_expr
 # 'ip saddr map ...' : close_scope_ip->concat_expr->map_expr->rhs_expr
-		ip saddr map { "enp2s0" . 10.1.1.136 : 1.1.2.69/32, "enp2s0" . 10.1.1.1-10.1.1.135 : 1.1.2.66-1.84.236.78 }
+		dnat ip to iifname . ip saddr map { "enp2s0" . 10.1.1.136 : 1.1.2.69/32, "enp2s0" . 10.1.1.1-10.1.1.135 : 1.1.2.66-1.84.236.78 }
 		dnat ip to iifname . ip saddr map { "enp2s0" . 10.1.1.136 : 1.1.2.69/32, "enp2s0" . 10.1.1.1-10.1.1.135 : 1.1.2.66-1.84.236.78 }
 		dnat ip to iifname . ip saddr map @ipportmap4
 		dnat ip to ip daddr map @x4
@@ -455,12 +455,12 @@ table T {
 		meta mark set meta mark << 2
 		meta mark set meta mark . tcp dport . meta protocol map @test counter packets 0 bytes 0
 		meta mark set vlan id map @m2
-		meta nfproto ipv4 meta protocol udp dnat ip to 240.0.1.2:5301
-		meta nfproto ipv4 meta protocol udp dnat ip to 240.0.1.2:5302
-		meta nfproto ipv4 meta protocol udp dnat ip to 240.0.1.2:5303
-		meta nfproto ipv4 udp dport 67
-		meta nfproto ipv6 fib saddr . iif check missing drop
-		meta nfproto ipv6 udp dport 67
+		meta nfproto ip meta protocol udp dnat ip to 240.0.1.2:5301
+		meta nfproto ip meta protocol udp dnat ip to 240.0.1.2:5302
+		meta nfproto ip meta protocol udp dnat ip to 240.0.1.2:5303
+		meta nfproto ip udp dport 67
+		meta nfproto ip6 fib saddr . iif check missing drop
+		meta nfproto ip6 udp dport 67
 		meta nftrace set 1
 		meta pkttype . udp dport vmap { broadcast . 547 : accept, broadcast . 67 : accept, multicast . 1900 : drop }
     }
@@ -566,6 +566,15 @@ table T {
 		snat to ip saddr . tcp sport map { 1.1.1.1 . 1024-65535 : 3.3.3.3, 2.2.2.2 . 1024-65535 : 4.4.4.4 }
     }
 }
+# Create a table named 'filter' for the inet family
+table inet filter {
+    # Create the 'output' chain for our filter table
+    chain output { 
+        type filter hook output priority 0; 
+        socket uid nginx reject
+    }
+}
+
 table T {
     chain C {
 		socket cgroupv2 level 1 "user.slice" counter

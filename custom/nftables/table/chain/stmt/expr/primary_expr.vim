@@ -492,6 +492,7 @@ syn cluster nft_c_primary_expr
 \    nft_payload_expr_gretap_hdr_expr_keyword_gretap,
 \    nft_payload_expr_icmpv6_hdr_expr_keyword_icmpv6,
 \    nft_payload_expr_numgen_expr_keyword_numgen,
+\    nft_socket_expr_keyword_socket,
 \    nft_payload_expr_meta_expr_keyword_meta_key_unqualified_keyword_ipsec,
 \    nft_payload_expr_hash_expr_keyword_jhash,
 \    nft_payload_expr_meta_expr_keyword_meta_key_unqualified_keyword_skuid,
