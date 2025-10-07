@@ -36,10 +36,11 @@ try
 
 
 "******************** BEGIN nat_stmt ******************************
+" 'to' stmt_expr->map_stmt_expr->concat_stmt_expr->basic_stmt_expr->exclusive_or_stmt_expr->and_stmt_expr->shift_stmt_expr->primary_stmt_expr
 hi link   nft_stmt_nat_stmt_keyword_to nftHL_Write
 syn match nft_stmt_nat_stmt_keyword_to '\vto\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    @nft_c_stmt_expr
+\    @nft_c_primary_stmt_expr
 
 hi link   nft_stmt_nat_stmt_nf_key_proto_keyword_ip nftHL_Define
 syn match nft_stmt_nat_stmt_nf_key_proto_keyword_ip '\vip' skipwhite contained

@@ -62,17 +62,29 @@ table T {
 		ct state vmap { invalid : drop, established : accept, related : accept }
 #		ct state vmap { invalid : jump ct_invalid_out, established : accept, related : accept, untracked : jump ct_untracked_out }
 #		ct state vmap { invalid : jump ct_invalid_pre, related : jump rpfilter, new : jump ct_new_pre, untracked : jump ct_untracked_pre }
-#		ct status dnat accept
+    }
+}
+table T {
+    chain C {
+		ct status dnat accept
 		ct timeout set "cttime"
-#		ct timeout set ip6 daddr map { 1ce::/64 : "dns", dead::beef : "dns" }
-#		ct timeout set ip daddr map { 1.2.3.4-1.2.3.8 : "dns" }
-#		ct timeout set ip daddr map { 1.2.3.4 : "dns", 5.6.7.8 : "dns", 192.168.8.0/24 : "dns" }
+		ct timeout set ip6 daddr map { 1ce::/64 : "dns", dead::beef : "dns" }
+		ct timeout set ip daddr map { 1.2.3.4-1.2.3.8 : "dns" }
+		ct timeout set ip daddr map { 1.2.3.4 : "dns", 5.6.7.8 : "dns", 192.168.8.0/24 : "dns" }
 		ct timeout set ip daddr map @timeoutmap
+    }
+}
+table T {
+    chain C {
 		dnat ip6 to ip6 daddr map @x6
 		dnat ip6 to ip6 saddr . tcp dport map @z
 		dnat ip6 to ip6 saddr . tcp dport map @z6
 		dnat ip6 to numgen inc mod 2 map @t1v6
 		dnat ip to iifname . ip daddr . tcp dport map { "enp2s0" . 72.2.3.70 . 80 : 10.1.1.52 . 80, "enp2s0" . 72.2.3.66 . 53122 : 10.1.1.10 . 22, "enp2s0" . 72.2.3.66 . 443 : 10.1.1.52 . 443 }
+
+# 'ip saddr map ...' : primary_stmt->close_scope_ip->primary_stmt->payload_expr->expr->concat_expr->map_expr->rhs_expr
+# 'ip saddr map ...' : close_scope_ip->concat_expr->map_expr->rhs_expr
+		ip saddr map { "enp2s0" . 10.1.1.136 : 1.1.2.69/32, "enp2s0" . 10.1.1.1-10.1.1.135 : 1.1.2.66-1.84.236.78 }
 		dnat ip to iifname . ip saddr map { "enp2s0" . 10.1.1.136 : 1.1.2.69/32, "enp2s0" . 10.1.1.1-10.1.1.135 : 1.1.2.66-1.84.236.78 }
 		dnat ip to iifname . ip saddr map @ipportmap4
 		dnat ip to ip daddr map @x4
@@ -89,6 +101,10 @@ table T {
 		dnat to numgen inc mod 2 map @t1
 		dport 5432
 		dport 9876
+    }
+}
+table T {
+    chain C {
 		drop
 		ether daddr @set1 add @set2 { ether daddr counter }
 		ether saddr 0a:0b:0c:0d:0e:0f vlan id 42
@@ -101,14 +117,7 @@ table T {
 		fib daddr type { broadcast, anycast, multicast } counter packets 0 bytes 0 drop
 		fib saddr . iif oif 0 counter packets 0 bytes 0 drop
 		fib saddr oifname @s accept
-		flags constant
-		flags constant,interval
-		flags dynamic
-		flags dynamic;
-		flags dynamic,timeout
-		flags interval
-		flags interval,timeout
-		flags timeout
+		flags offload
 		flow add @f
 		flow add @f counter packets 0 bytes 0
 		flow add @y
@@ -141,6 +150,10 @@ table T {
 		icmp type echo-request ip saddr . iif @s counter packets 1 bytes 84
 		icmp type echo-request ip saddr . "lo" @s2 counter packets 1 bytes 84
 		icmp type echo-request ip saddr . "lo" @s counter packets 1 bytes 84
+    }
+}
+table T {
+    chain C {
 		icmpv6 type { destination-unreachable, packet-too-big } accept
 		icmpv6 type { destination-unreachable, packet-too-big, time-exceeded, parameter-problem, echo-request } accept
 		icmpv6 type { destination-unreachable, packet-too-big, time-exceeded, parameter-problem, echo-request } oifname "eth0" accept
@@ -152,6 +165,10 @@ table T {
 		icmpv6 type { nd-router-solicit, nd-router-advert, nd-neighbor-solicit, nd-neighbor-advert } ip6 hoplimit 255 accept
 		icmpv6 type { nd-router-solicit, nd-router-advert, nd-neighbor-solicit, nd-neighbor-advert } ip6 saddr fe80::/64 ip6 hoplimit 255 accept
 		icmpv6 type { nd-router-solicit, nd-router-advert, nd-neighbor-solicit, nd-neighbor-advert } ip6 saddr fe80::/64 return
+    }
+}
+table T {
+    chain C {
 		iif "lo" accept
 		iif "lo" ct mark & 0x000000ff == 0x00000010 meta mark set ct mark >> 8
 		iifname { "abcdef*", "eth0" } counter packets 0 bytes 0
@@ -196,12 +213,24 @@ table T {
 		iifname vmap @map_wild
 		iifname { "whatever" } iif { "lo" } meta mark 0x0000007b
 		iifname "whatever" oifname "whatever" iif "lo" oif "lo"
+    }
+}
+table T {
+    chain C {
 		iif vmap { "lo" counter packets 0 bytes 0 : jump wan_input }
 		iif vmap { "lo" : jump wan_input }
+    }
+}
+table T {
+    chain C {
 		ip6 daddr ::1 tcp dport 5555 reject with tcp reset
 		ip6 daddr { 2001:db8::1-2001:db8::2 } jump {
 		ip6 daddr { ::/3, 2001::/32, 2001:2::/48, 2001:3::/32, 2001:10::-2001:2f:ffff:ffff:ffff:ffff:ffff:ffff, 2001:db8::/32, 2002::/16, 3000::-ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff } goto log_blacklist
 		ip6 daddr { ::/96, ::ffff:0.0.0.0/96, 2002::/24, 2002:a00::/24, 2002:7f00::/24, 2002:a9fe::/32, 2002:ac10::/28, 2002:c0a8::/32, 2002:e000::/19 } reject with icmpv6 addr-unreachable
+    }
+}
+table T {
+    chain C {
 		ip6 daddr aaaa::5 tcp dport 3306 counter packets 0 bytes 0 reject with tcp reset
 		ip6 daddr fe0::1 ip6 saddr fe0::2
 		ip6 daddr fe80::/64 udp dport 546 ct state { new, untracked } accept
@@ -221,6 +250,10 @@ table T {
 		ip6 saddr :: ip6 daddr . icmpv6 type { ff02::1:ff00:0/104 . nd-neighbor-solicit, ff02::16 . mld2-listener-report } return
 		ip6 saddr . ip6 nexthdr { fe0::2 . tcp, fe0::1 . udp }
 		ip6 saddr @ipv6_blacklist counter packets 0 bytes 0 drop
+    }
+}
+table T {
+    chain C {
 		ip daddr { 0.0.0.0/8, 10.0.0.0/8, 100.64.0.0/10, 127.0.0.0/8, 169.254.0.0/16, 172.16.0.0/12, 192.0.0.0/24, 192.0.2.0/24, 192.168.0.0/16, 198.18.0.0/15, 198.51.100.0/24, 203.0.113.0/24, 224.0.0.0/3 } goto log_blacklist
 		ip daddr { 1.1.1.1, 2.2.2.2 }
 		ip daddr 1.2.3.4 tcp dport { 22, 123, 443 } drop
@@ -316,15 +349,27 @@ table T {
 		ip saddr vmap @m
 		ip saddr vmap @sourcemap accept
 		ip saddr @y
+    }
+}
+table T {
+    chain C {
 		ipsec in reqid 23
 		ipsec in reqid . iifname vmap @m5
 		ipsec in reqid . iif vmap @ipsec_in
 		ipsec in reqid . "lo" @s
 		ip version @s8 accept
 		ip version vmap { 4 : jump t3, 6 : jump t4 }
+    }
+}
+table T {
+    chain C {
 		jump { }
 		jump { counter; }
 		jump filter_IN_work_pre
+    }
+}
+table T {
+    chain C {
 		l3proto ip
 		last
 		limit name ip6 saddr map @saddr6limit
@@ -352,7 +397,15 @@ table T {
 		meta protocol tcp dnat ip6 to ip6 saddr map @y6
 		meta protocol tcp dnat ip6 to numgen inc mod 2 map @t2
 		meta protocol tcp dnat ip6 to numgen inc mod 2 map @t2v6
+    }
+}
+table T {
+    chain C {
 		meta protocol tcp dnat ip to iifname . ip saddr map { "enp2s0" . 10.1.1.136 : 1.1.2.69 . 22, "enp2s0" . 10.1.1.1-10.1.1.135 : 1.1.2.66-1.84.236.78 . 22 }
+    }
+}
+table T {
+    chain C {
 		meta protocol tcp dnat ip to iifname . ip saddr map @ipportmap5
 		meta protocol tcp dnat ip to ip saddr map @y
 		meta protocol tcp dnat ip to ip saddr map @y4
@@ -364,21 +417,41 @@ table T {
 		meta protocol udp redirect to :5300
 		meta protocol udp redirect to :5301
 		meta protocol vmap { tcp : goto filter_in_tcp, udp : goto filter_in_udp }
+    }
+}
+table T {
+    chain C {
 		meta mark 0x00000002 counter packets 0 bytes 0 accept
 		meta mark 0x00000003 counter packets 0 bytes 0 accept
 		meta mark { 0x0000000a counter packets 0 bytes 0 }
+    }
+}
+table T {
+    chain C {
 		meta mark { 0x0000007b, 0x00000141 }
+    }
+}
+table T {
+    chain C {
 		meta mark >> 8 & 0xf vmap @sctm_o0
 		meta mark set 0x00123434
 		meta mark set ct mark & 0xffff0000 | meta mark & 0x0000ffff
 		meta mark set ip6 dscp << 2 | 0x10
 		meta mark set ip6 dscp << 26 | 0x10
 		meta mark set ip daddr map { 192.168.0.1 : 0x00000001 }
+    }
+}
+table T {
+    chain C {
 		meta mark set ip daddr map @m
 		meta mark set ip dscp << 2 | 0x10
 		meta mark set ip dscp << 26 | 0x10
 		meta mark set ip saddr . ip daddr map @m3
 		meta mark set ip saddr map { 1.1.1.1 : 0x00000002 }
+    }
+}
+table T {
+    chain C {
 		meta mark set meta mark << 2
 		meta mark set meta mark . tcp dport . meta protocol map @test counter packets 0 bytes 0
 		meta mark set vlan id map @m2
@@ -390,6 +463,10 @@ table T {
 		meta nfproto ipv6 udp dport 67
 		meta nftrace set 1
 		meta pkttype . udp dport vmap { broadcast . 547 : accept, broadcast . 67 : accept, multicast . 1900 : drop }
+    }
+}
+table T {
+    chain C {
 		meta priority set ct bytes map @m
 		meta protocol ip6 udp dport 67
 		meta protocol ip udp dport 67
@@ -402,6 +479,10 @@ table T {
 		oifname "enp0s25" goto filter_FWDO_home
 		oifname "enp0s25" goto nat_POST_home
 		oifname "enp2s0" snat ip to ip saddr map { 10.1.1.0/24 : 72.2.3.66-72.2.3.78 }
+    }
+}
+table T {
+    chain C {
 		oifname "eth0" accept
 		oifname "eth0" jump {
 		oifname "lo" accept
@@ -415,28 +496,67 @@ table T {
 		osf name @s1 accept
 		packets 0 bytes 0
 		policy = {established: 120 }
+    }
+}
+table T {
+    chain C {
 		policy = { established : 2m3s, close : 12s }
+    }
+}
+table T {
+    chain C {
 		policy = { unreplied : 15s, replied : 12s }
+    }
+}
+table T {
+    chain C {
 		protocol tcp
 		protocol tcp;
 		protocol udp
 		queue flags bypass,fanout to 1-10
 		queue flags bypass to ip saddr . ip daddr . tcp dport map @get_queue_id };
-
+    }
+}
+table T {
+    chain C {
 		quota name ip saddr map { 192.168.2.2 : "user124", 192.168.2.3 : "user124" } drop
+    }
+}
+table T {
+    chain C {
 		quota name ip saddr map @test drop
 		quota over 1000 bytes
 		rate 1/second
 		redirect to :tcp dport map { 83 : 8083, 84 : 8084 }
+    }
+}
+table T {
+    chain C {
 		reject with icmpx admin-prohibited
 		reject with icmpx type host-unreachable
 		reset tcp option fastopen
 		sctp chunk init 0
 		sctp chunk init num-inbound-streams @s7 accept
 		snat ip6 prefix to ip6 saddr map { 2001:db8:1111::/64 : 2001:db8:2222::/64 }
+    }
+}
+table T {
+    chain C {
 		snat ip prefix to ip saddr map { 10.141.11.0/24 : 192.168.2.0/24, 10.141.12.0/24 : 192.168.3.0/24, 10.141.13.0/24 : 192.168.4.0/24 }
+    }
+}
+table T {
+    chain C {
 		snat ip to ip daddr map { 72.2.3.66 : 10.2.2.2, 72.2.3.67 : 10.2.3.3 }
+    }
+}
+table T {
+    chain C {
 		snat ip to ip saddr map { 10.141.10.0/24 : 192.168.2.2-192.168.2.4, 10.141.11.0/24 : 192.168.4.2/31 }
+    }
+}
+table T {
+    chain C {
 		snat ip to ip saddr map @y
 		snat to ip saddr . ip daddr map { 10.141.0.0/24 . 10.0.0.0/8 : 192.168.0.2, 192.168.9.0/24 . 192.168.10.0/24 : 192.168.0.4, * : 192.168.0.3 }
 		snat to ip saddr map { 10.141.0.0/24 : 192.168.0.2, * : 192.168.0.3 }
@@ -444,9 +564,16 @@ table T {
 		snat to ip saddr map @m
 		snat to ip saddr map @z
 		snat to ip saddr . tcp sport map { 1.1.1.1 . 1024-65535 : 3.3.3.3, 2.2.2.2 . 1024-65535 : 4.4.4.4 }
+    }
+}
+table T {
+    chain C {
 		socket cgroupv2 level 1 "user.slice" counter
 		synproxy name ip saddr map { 192.168.1.0/24 : "https-synproxy", 192.168.2.0/24 : "other-synproxy" }
-		"system_u:object_r:ssh_server_packet_t:s0"
+    }
+}
+table T {
+    chain C {
 		tcp dport 10001 add @candidates_ipv4 { ip saddr . 10002 timeout 1s }
 		tcp dport 10002 ip saddr . tcp dport @candidates_ipv4 add @candidates_ipv4 { ip saddr . 10003 timeout 1s }
 		tcp dport 10003 ip saddr . tcp dport @candidates_ipv4 add @candidates_ipv4 { ip saddr . 10004 timeout 1s }
@@ -497,16 +624,39 @@ table T {
 		tcp dport @s4 accept
 		tcp dport @tcp_accepted accept
 		tcp dport vmap { 1 : accept, 2-3 : drop, 4 : accept }
+    }
+}
+table T {
+    chain C {
 		tcp dport vmap { 1 : jump c2 }
+    }
+}
+table T {
+    chain C {
 		tcp dport vmap { 22 : jump ssh_input }
+    }
+}
+table T {
+    chain C {
 		tcp dport vmap { 80 : accept, 81 : accept, 443 : accept, 8000-8100 : accept, 24000-25000 : accept }
+    }
+}
+table T {
+    chain C {
 		tcp dport vmap @m
 		tcp dport vmap @portmap
 		tcp flags & (ack | urg) vmap { ack : jump ack_chain, urg : jump urg_chain }
+    }
+}
+table T {
+    chain C {
 		tcp flags & (fin | syn | rst | ack) != syn counter packets 0 bytes 0 drop
 		tcp flags & (fin | syn | rst | ack | urg) == { fin | ack | urg, fin | ack, fin, syn | ack, syn, rst | ack, rst, ack | urg, ack }
+    }
+}
+table T {
+    chain C {
 		tcp flags & (rst | ack | urg) == rst | ack
-		tcp flags syn jump {
 		tcp flags & (syn | rst | ack | urg) == ack | urg
 		tcp option maxseg size @s6 accept
 		tcp option mptcp subtype . ip saddr @s14 accept
@@ -630,6 +780,10 @@ table T {
 		typeof vxlan ip saddr . vxlan ip daddr
 		type "sip" protocol tcp
 		type tcp_flag
+    }
+}
+table T {
+    chain C {
 		udp dport 1234 update @dlist { ip daddr } counter packets 0 bytes 0
 		udp dport 123 accept  # hello
 		udp dport 137 ct helper "netbios-ns"
@@ -643,6 +797,10 @@ table T {
 		udp dport 4789 vxlan ip saddr . vxlan ip daddr @x counter packets 0 bytes 0
 		udp dport { 5060, 7078-7097 } oifname "eth2.10" jump {
 		udp dport { 53, 123 } accept
+    }
+}
+table T {
+    chain C {
 		udp dport 53 accept
 		udp dport 547 ip6 daddr ff02::1:2 return
 		udp dport 547 ip6 saddr fe80::/64 ip6 daddr ff02::1:2 accept
@@ -664,6 +822,10 @@ table T {
 		udp sport 547 udp dport 546 ip6 saddr fe80::/64 oifname { "eth1", "eth2.10", "eth2.20" } accept
 		udp sport 67 udp dport 68 ip saddr { 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16 } accept
 		udp sport 68 udp dport 67 accept
+    }
+}
+table T {
+    chain C {
 		update @acct_out2 { ip6 saddr . iif timeout 10m counter }
 		update @acct_out { iif . ip6 saddr timeout 10m counter }
 		update @ipset { vlan id . ip saddr timeout 5s } counter packets 0 bytes 0
@@ -679,7 +841,10 @@ table T {
 		update @y { ip daddr }
 		update @y { ip daddr limit rate 1/second burst 5 packets counter }
 		update @y { ip saddr timeout 30s }
-		vlan id != { 1, 2 } vlan type ip6 counter packets 0 bytes 0 jump c2
+    }
+}
+table T {
+    chain {
 		vlan id . ip saddr @s11 accept
 		vlan id != @nodhcpvlan vlan type arp counter packets 0 bytes 0 jump c2
 		vlan id != @nodhcpvlan vlan type ip counter packets 0 bytes 0 jump c2
@@ -687,3 +852,6 @@ table T {
 		vlan pcp 1
 		wscale 5
 		wscale 7
+		vlan id != { 1, 2 } vlan type ip6 counter packets 0 bytes 0 jump c2
+    }
+}

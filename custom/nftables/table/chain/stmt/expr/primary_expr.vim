@@ -512,6 +512,7 @@ syn cluster nft_c_primary_expr
 \    nft_payload_expr_gre_hdr_expr_keyword_gre,
 \    nft_meta_expr_meta_key_unqualified_keyword_iif,
 \    nft_payload_expr_ip6_hdr_expr_keyword_ip6,
+\    nft_map_expr_keyword_map,
 \    nft_payload_expr_meta_expr_keyword_meta_key_unqualified_keyword_oif,
 \    nft_payload_expr_tcp_hdr_expr_keyword_tcp,
 \    nft_payload_expr_udp_hdr_expr_keyword_udp,

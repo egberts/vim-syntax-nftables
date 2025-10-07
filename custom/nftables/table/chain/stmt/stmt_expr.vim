@@ -57,6 +57,7 @@ syn cluster nft_c_stmt_expr
 \    nft_stmt_payload_expr_gre_hdr_expr_keyword_gre,
 \    nft_stmt_payload_expr_ip6_hdr_expr_keyword_ip6,
 \    nft_stmt_keyword_ip6,
+\    nft_map_expr_keyword_map,
 \    nft_stmt_payload_expr_tcp_hdr_expr_keyword_tcp,
 \    nft_stmt_payload_expr_udp_hdr_expr_keyword_udp,
 \    nft_stmt_payload_expr_auth_hdr_expr_keyword_ah,

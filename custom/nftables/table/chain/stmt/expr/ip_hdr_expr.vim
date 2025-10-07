@@ -342,6 +342,7 @@ hi link   nft_ip_hdr_expr_ip_hdr_field_keyword_daddr nftHL_Keyword
 syn match nft_ip_hdr_expr_ip_hdr_field_keyword_daddr '\vdaddr\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    nft_ip_hdr_expr_close_scope_ip_constant_expr_string_ip_opt_cidr,
+\    nft_map_stmt_expr_keyword_map,
 \    nft_Error
 
 " 'ip saddr'
@@ -349,6 +350,8 @@ syn match nft_ip_hdr_expr_ip_hdr_field_keyword_daddr '\vdaddr\ze[ \t]' skipwhite
 hi link   nft_ip_hdr_expr_ip_hdr_field_keyword_saddr nftHL_Keyword
 syn match nft_ip_hdr_expr_ip_hdr_field_keyword_saddr '\vsaddr\ze[ \t]' skipwhite contained
 \ nextgroup=
+\    nft_ip_hdr_expr_close_scope_ip_primarY_stmt_expr,
+\    nft_map_stmt_expr_keyword_map,
 \    nft_ip_hdr_expr_close_scope_ip_constant_expr_string_ip_opt_cidr,
 \    nft_Error
 
