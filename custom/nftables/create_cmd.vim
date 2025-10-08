@@ -128,7 +128,6 @@ syn match nft_base_cmd_keyword_create 'create' skipwhite contained
 \    nft_create_cmd_keyword_synproxy,
 \    nft_base_cmd_add_cmd_keyword_counter,
 \    nft_get_et_al_cmd_keyword_element,
-\    nft_create_cmd_keyword_secmark,
 \    nft_base_cmd_add_cmd_keyword_table_imperative,
 \    nft_base_cmd_add_cmd_keyword_chain_imperative,
 \    nft_base_cmd_add_cmd_keyword_quota,
@@ -139,6 +138,7 @@ syn match nft_base_cmd_keyword_create 'create' skipwhite contained
 \    nft_UnexpectedSemicolon,
 \    nft_UnexpectedEOS,
 \    nft_Error
+" no 'secmark' in create: nft_create_cmd_keyword_secmark
 " **************** END 'create' *****************************
 
 

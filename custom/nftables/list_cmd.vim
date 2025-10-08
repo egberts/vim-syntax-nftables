@@ -179,10 +179,11 @@ syn match nft_list_cmd_keywords_sets_et_al_keyword_table "table" skipwhite conta
 
 " 'list' ('sets'|'counters'|'quotas'|'limits'|'secmarks'|'synproxys')
 hi link   nft_base_cmd_list_keywords_sets_et_al_end nftHL_Statement
-syn match nft_base_cmd_list_keywords_sets_et_al_end "\v(sets|counters|quotas|limits|secmarks|synproxys)" skipwhite contained
+syn match nft_base_cmd_list_keywords_sets_et_al_end "\v(sets|counters|quotas|limits|synproxys)" skipwhite contained
 \ nextgroup=
 \    nft_list_cmd_keywords_sets_et_al_ruleset_spec,
-\    nft_list_cmd_keywords_sets_et_al_keyword_table,
+\    nft_list_cmd_keywords_sets_et_al_keyword_table
+" removed 'secmarks' from token list; not supported
 
 " base_cmd list_cmd 'chain' [ family_spec ] table_spec chain_spec
 hi link   nft_list_set_chain_spec_identifier_string nftHL_Identifier
@@ -658,7 +659,6 @@ syn match nft_base_cmd_keyword_list "list" skipwhite contained
 \    nft_base_cmd_list_keyword_chain_end,
 \    nft_base_cmd_list_keywords_sets_et_al_end,
 \    nft_base_cmd_list_set_map_meter_end,
-\    nft_list_cmd_keywords_counter_et_al_obj_spec,
 \    nft_base_cmd_list_keyword_flowtables,
 \    nft_base_cmd_list_keyword_flowtable,
 \    nft_base_cmd_list_keyword_flow,
@@ -667,6 +667,7 @@ syn match nft_base_cmd_keyword_list "list" skipwhite contained
 \    nft_UnexpectedSemicolon,
 \    nft_UnexpectedEOS,
 \    nft_Error
+" removed nft_list_cmd_keywords_counter_et_al_obj_spec; not supported
 "***************** END list_cmd *************************
 
   for s:this_semantic_file in s:list_cmd_list_filepaths_semantic_later

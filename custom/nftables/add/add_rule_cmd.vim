@@ -415,13 +415,6 @@ syn match nft_add_rule_declarative_rule_position_chain_spec_table_spec_ip_identi
 \    nft_add_rule_declarative_rule_position_chain_spec_ip_identifier,
 \    nft_Error
 
-
-hi link   nft_add_rule_declarative_rule_position_chain_spec_table_spec_unknown_family_identifier_table nftHL_Table
-syn match nft_add_rule_declarative_rule_position_chain_spec_table_spec_unknown_family_identifier_table '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_add_rule_declarative_rule_position_chain_spec_unknown_family_identifier_chain,
-\    nft_Error
-
 " Do the family_spec_explicit defines
 hi link   nft_add_rule_declarative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_bridge nftHL_Family
 syn match nft_add_rule_declarative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_bridge '\vbridge\ze[ \t]' skipwhite contained

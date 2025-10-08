@@ -521,7 +521,6 @@ syn match nft_base_cmd_keyword_delete '\vdelete\ze[ \t]' skipwhite contained
 \    nft_base_cmd_destroy_delete_cmds_keyword_flowtable,
 \    nft_base_cmd_destroy_delete_cmds_keyword_synproxy,
 \    nft_base_cmd_destroy_delete_cmds_keyword_element,
-\    nft_base_cmd_destroy_delete_cmds_keyword_secmark,
 \    nft_base_cmd_delete_cmd_keyword_chain,
 \    nft_base_cmd_destroy_delete_cmds_keyword_table,
 \    nft_base_cmd_destroy_delete_cmds_keyword_quota,
@@ -531,6 +530,8 @@ syn match nft_base_cmd_keyword_delete '\vdelete\ze[ \t]' skipwhite contained
 \    nft_UnexpectedSemicolon,
 \    nft_UnexpectedEOS,
 \    nft_Error
+" removed nft_base_cmd_destroy_delete_cmds_keyword_secmark; not supported
+
 
 
 " 'destroy'->base_cmd->line
@@ -540,7 +541,6 @@ syn match nft_base_cmd_keyword_destroy '\vdestroy\ze[ \t]' skipwhite contained
 \    nft_base_cmd_destroy_delete_cmds_keyword_flowtable,
 \    nft_base_cmd_destroy_delete_cmds_keyword_synproxy,
 \    nft_base_cmd_destroy_delete_cmds_keyword_element,
-\    nft_base_cmd_destroy_delete_cmds_keyword_secmark,
 \    nft_base_cmd_destroy_cmd_keyword_chain,
 \    nft_base_cmd_destroy_cmd_keyword_table,
 \    nft_base_cmd_destroy_delete_cmds_keyword_quota,
@@ -550,6 +550,7 @@ syn match nft_base_cmd_keyword_destroy '\vdestroy\ze[ \t]' skipwhite contained
 \    nft_UnexpectedSemicolon,
 \    nft_UnexpectedEOS,
 \    nft_Error
+" removed nft_base_cmd_destroy_delete_cmds_keyword_secmark; not supported
 " **************** END delete_cmd/destroy_cmd ***************
 
   for s:this_semantic_file in s:destroy_delete_cmds_list_filepaths_semantic_later

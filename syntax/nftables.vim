@@ -910,6 +910,13 @@ syn cluster nft_c_map_stmt_expr
 \    nft_c_concat_stmt_expr
 
 
+hi link   nft_add_rule_declarative_rule_position_chain_spec_table_spec_unknown_family_identifier_table nftHL_Table
+syn match nft_add_rule_declarative_rule_position_chain_spec_table_spec_unknown_family_identifier_table '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_add_rule_declarative_rule_position_chain_spec_unknown_family_identifier_chain,
+\    nft_Error
+
+
 
 " `line` main top-level syntax, do not add 'contained' here.
 " `line` is the only syntax with '^' caret (begin of line) regex pattern
@@ -927,7 +934,6 @@ syn match nft_line '^\v\s{0,63}'
 \    nft_common_block_keyword_include,
 \    nft_base_cmd_keyword_monitor,
 \    nft_base_cmd_keyword_replace,
-\    nft_base_cmd_add_cmd_keyword_secmark,
 \    nft_add_rule_declarative_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_bridge,
 \    nft_base_cmd_keyword_create,
 \    nft_common_block_keyword_define,
@@ -955,6 +961,8 @@ syn match nft_line '^\v\s{0,63}'
 \    nft_line_separator,
 \    nft_comment_inline,
 "\    nft_line_nonidentifier_error
+
+" no secmark at top-level: nft_base_cmd_add_cmd_keyword_secmark
 " practically no way to highlight an incorrect first alphanum token due
 " to unquoted_table_identifier as the first token
 " 'nft_Error_Always' is that catch-all for 1st token

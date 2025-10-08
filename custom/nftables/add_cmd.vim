@@ -2,6 +2,7 @@
 " Directory: custom/nftables/
 "
 let s:add_cmd_list_filepaths_semantic_early = [
+\    'add/add_rule_cmd.vim',
 \    'add/add_flowtable_cmd.vim',
 \    'add/add_synproxy_cmd.vim',
 \    'add/add_counter_cmd.vim',
@@ -14,7 +15,6 @@ let s:add_cmd_list_filepaths_semantic_early = [
 \    'add/add_map_cmd.vim',
 \    'add/add_set_cmd.vim',
 \    'add/add_ct_cmd.vim',
-\    'add/add_rule_cmd.vim',
 \  ]
 let s:add_cmd_list_filepaths_semantic_later = []
 
@@ -62,7 +62,6 @@ call nftables#syntax#define_match(
 \     'nft_base_cmd_add_cmd_keyword_counter',
 \     'nft_base_cmd_add_cmd_keyword_element',
 \     'nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_netdev',
-\     'nft_base_cmd_add_cmd_keyword_secmark',
 \     'nft_base_cmd_add_cmd_keyword_chain_imperative',
 \     'nft_base_cmd_add_cmd_keyword_quota',
 \     'nft_base_cmd_add_cmd_keyword_table_imperative',
@@ -78,6 +77,7 @@ call nftables#syntax#define_match(
  \    'nftHL_Command' )
 " \    { 'skipwhite' : 1, 'contained' : 1 })
 
+" no secmark in 'add' "'nft_base_cmd_add_cmd_keyword_secmark'
 "********** base_cmd END *************************************************
   for s:this_semantic_file in s:add_cmd_list_filepaths_semantic_later
     call nftables#syntax#log('OK', 'Loading ' . s:this_semantic_file)

@@ -55,7 +55,7 @@ syn region nft_add_cmd_keyword_secmark_secmark_block start=+{+ end=+}+ skipwhite
 hi link   nft_add_cmd_keyword_secmark_secmark_config_string nftHL_String
 syn match nft_add_cmd_keyword_secmark_secmark_config_string "\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}\ze[ \t]" skipwhite contained
 
-hi link   nft_add_cmd_keyword_secmark_obj_spec_identifier nftHL_Table
+hi link   nft_add_cmd_keyword_secmark_obj_spec_identifier nftHL_Chain
 syn match nft_add_cmd_keyword_secmark_obj_spec_identifier "\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}\ze[ \t]" skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_keyword_secmark_secmark_block,
@@ -67,6 +67,7 @@ syn match nft_add_cmd_keyword_secmark_obj_spec_table_spec_identifier "\v[a-zA-Z]
 \ nextgroup=
 \    nft_add_cmd_keyword_secmark_obj_spec_identifier,
 \    nft_UnexpectedSemicolon,
+\    nft_UnexpectedEOS,
 \    nft_UnexpectedEOL,
 \    nft_Error
 
@@ -84,10 +85,10 @@ hi link   nft_base_cmd_add_cmd_keyword_secmark nftHL_Command
 syn match nft_base_cmd_add_cmd_keyword_secmark "\vsecmark\ze[ \t]" skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_keyword_secmark_obj_spec_table_spec_family_spec_explicit,
-\    nft_add_cmd_keyword_secmark_obj_spec_table_spec_identifier,
 \    nft_UnexpectedSemicolon,
 \    nft_UnexpectedEOS,
 \    nft_Error
+" nft_add_cmd_keyword_secmark_obj_spec_table_spec_identifier is omitted here; family spec required
 " ******************* END base_cmd 'secmark' *************
 
   for s:this_semantic_file in s:add_secmark_cmd_list_filepaths_semantic_later
