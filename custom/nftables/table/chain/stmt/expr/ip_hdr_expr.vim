@@ -236,6 +236,12 @@ syn match nft_ip_hdr_expr_close_scope_ip_datatype_ip_protocol '\v(udplite|gretap
 hi link   nft_ip_hdr_expr_ip_hdr_field_keyword_protocol nftHL_Keyword
 syn match nft_ip_hdr_expr_ip_hdr_field_keyword_protocol '\vprotocol\ze[ \t]' skipwhite contained
 \ nextgroup=
+\    nft_verdict_expr_keyword_continue,
+\    nft_verdict_expr_keyword_accept,
+\    nft_verdict_expr_keyword_return,
+\    nft_verdict_expr_keyword_drop,
+\    nft_verdict_expr_keyword_goto,
+\    nft_verdict_expr_keyword_jump,
 \    nft_ip_hdr_expr_close_scope_ip_datatype_ip_protocol,
 \    nft_ip_hdr_expr_close_scope_ip_constant_expr_int_hex_8b_protocol,
 \    nft_UnexpectedNonNumber,

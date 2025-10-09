@@ -1,7 +1,7 @@
 " File: quota_cmd.vim
 " Directory: custom/nftables/
 
-let s:quota_cmd_list_filepaths_semantic_early = []
+let s:quota_cmd_list_filepaths_semantic_early = ['quota_config.vim']
 let s:quota_cmd_list_filepaths_semantic_later = []
 
 if exists('b:did_nftables_quota_cmd')
@@ -45,14 +45,19 @@ syn region nft_add_cmd_quota_block start="{" end="}" skip="\\}" skipwhite contai
 \    nft_common_block_keyword_include,
 \    nft_common_block_keyword_define,
 \    nft_common_block_keyword_error,
+\    nft_quota_config_quota_mode_keyword_until,
+\    nft_quota_config_quota_mode_keyword_over,
+\    nft_quota_config_num,
 \    nft_comment_spec,
 \    nft_stmt_separator,
 
 hi link   nft_add_cmd_quota_cmd_obj_spec_identifier_string nft_Identifier
 syn match nft_add_cmd_quota_cmd_obj_spec_identifier_string "\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}" skipwhite contained
 \ nextgroup=
-\    @nft_c_quota_config,
+\    nft_quota_config_quota_mode_keyword_until,
+\    nft_quota_config_quota_mode_keyword_over,
 \    nft_add_cmd_quota_block,
+\    nft_quota_config_num,
 \    nft_Error
 
 hi link   nft_add_cmd_quota_cmd_obj_spec_table_spec_identifier_string nftHL_Identifier

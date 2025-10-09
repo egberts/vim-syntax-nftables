@@ -465,12 +465,12 @@ table T {
 		masquerade
 		meta protocol icmp accept
 		meta protocol icmp ip daddr 127.0.0.42 jump test_ping
-		meta protocol { icmp, ipv6-icmp } accept
-		meta protocol != { icmp, tcp, udp, ipv6-icmp } counter packets 0 bytes 0 drop
+		meta protocol { icmp, icmpv6 } accept
+		meta protocol != { icmp, tcp, udp, icmpv6 } counter packets 0 bytes 0 drop
 		meta protocol igmp accept
 		meta protocol . ip6 daddr . tcp dport { tcp . aaaa::3 . 8080, tcp . aaaa::2 . 3306, tcp . aaaa::4 . 3306 } counter packets 0 bytes 0 reject
 		meta protocol . ip daddr . tcp dport { tcp . 172.30.238.117 . 8080, tcp . 172.30.33.71 . 3306, tcp . 172.30.254.251 . 3306 } counter packets 0 bytes 0 reject
-		meta protocol ipv6-icmp jump {
+		meta protocol icmpv6 jump
 		meta protocol @protos tproxy to :1088
 		meta protocol tcp dnat ip6 to ip6 saddr map @y
 		meta protocol tcp dnat ip6 to ip6 saddr map @y6
@@ -656,7 +656,11 @@ table inet filter {
 
 table T {
     chain C {
-		socket cgroupv2 level 1 "user.slice" counter
+		socket transparent counter accept
+		socket wildcard accept
+		socket mark 0xffffffff accept
+		socket mark & 0xff == 0x01 accept
+		socket cgroupv2 level 63 counter
 		synproxy name ip saddr map { 192.168.1.0/24 : "https-synproxy", 192.168.2.0/24 : "other-synproxy" }
     }
 }

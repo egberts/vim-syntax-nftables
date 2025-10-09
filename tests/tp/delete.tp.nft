@@ -152,6 +152,88 @@ table ip Tip {
     map action_map { flags timeout; timeout 1h; type ipv4_addr : verdict; }
 }
 
+table T {
+    set quarantine {
+        type ip_addr
+        flags dynamic
+        comment "Dynamic quarantine list"
+    }
+    chain E {
+        ip saddr @quarantine drop
+    }
+}
+add element T E { 2001:db8::dead comment "bad actor" }
+delete element T E
+
+table ip Tip {
+    set quarantine {
+        type ip_addr
+        flags dynamic
+        comment "Dynamic quarantine list"
+    }
+    chain Eip {
+        ip saddr @quarantine drop
+    }
+}
+add element ip Tip quarantine { 2001:db8::dead comment "bad actor" }
+delete element ip Tip quarantine
+
+table ip6 Tip6 {
+    set quarantine {
+        type ipv6_addr
+        flags dynamic
+        comment "Dynamic quarantine list"
+    }
+    chain input {
+        ip saddr @quarantine drop
+    }
+}
+add element ip6 Tip6 quarantine { 2001:db8::dead comment "bad actor" }
+delete element ip6 Tip6 quarantine
+
+table inet Tinet {
+    set quarantine {
+        type ipv6_addr
+        flags dynamic
+        comment "Dynamic quarantine list"
+    }
+    chain input {
+        ip saddr @quarantine drop
+    }
+}
+add element inet Tinet quarantine { 2001:db8::dead comment "bad actor" }
+delete element inet Tinet quarantine
+
+# Add element
+
+add element T E { }
+add element ip Tip Eip { }
+add element ip6 Tip6 Eip6 { 2001:db8::1, 2001:db8::2 }
+add element inet T E { 192.0.2.1, 198.51.100.2 }
+# set with concatenate keys
+add element inet filter mac_ip_map { 52:54:00:ab:cd:ef . 192.0.2.5 }
+# Set with mapped value
+add element inet nat dnat_map { 192.0.2.10 : 10.0.0.10, 192.0.2.11 : 10.0.0.11 }
+# Set with timeout/expire attribute
+add element inet filter dynamic_block { 203.0.113.1 timeout 1h }
+# Set with interval type 
+add element inet filter iprange { 192.0.2.0/24, 198.51.100.0/25 }
+# Mapping verdicts
+add element inet filter verdictmap { 192.0.2.5 : jump chain_a, 192.0.2.6 : drop }
+# Dynamic element with comment
+add element inet T E @quarantine { 2001:db8::dead comment "bad actor" }
+
+
+
+
+
+
+# Delete element (if needed)
+delete element T E
+delete element ip Tip Eip
+delete element ip6 Tip6 Eip6
+delete element inet Tinet Einet
+
 # 'delete' 'flowtable' <flowtable_spec>
 # common_block->flowtable_block->'{'->'flowtable'->delete_cmd->'delete'->base_cmd->line
 # Add tables
@@ -169,6 +251,7 @@ delete flowtable ip Tip FTip
 delete flowtable ip6 Tip6 FTip6
 delete flowtable inet Tinet FTinet
 
+
 # delete quota <obj_spec>
 add table ip T
 add table ip Tip
@@ -179,11 +262,12 @@ add table bridge Tbridge
 add table arp Tarp
 add quota T Q 500 mbytes
 add quota ip Tip Qip over 500 mbytes
-add quota ip6 Tip6 Qip6 until 500 mbytes
-add quota inet Tinet Qinet until 500 mbytes
-add quota netdev Tnetdev Qnetdev until 500 mbytes
-add quota bridge Tbridge Qbridge until 500 mbytes
-add quota arp Tarp Qarp until 500 mbytes
+add quota ip Tip Qip { over 500 mbytes }
+add quota ip6 Tip6 Qip6 { until 500 mbytes }
+add quota inet Tinet Qinet { until 500 mbytes }
+add quota netdev Tnetdev Qnetdev { until 500 mbytes }
+add quota bridge Tbridge Qbridge { until 500 mbytes }
+add quota arp Tarp Qarp { until 500 mbytes }
 delete quota T Q
 delete quota ip Tip Qip
 delete quota ip6 Tip6 Qip6

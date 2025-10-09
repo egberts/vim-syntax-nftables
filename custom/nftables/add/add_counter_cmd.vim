@@ -46,7 +46,7 @@ syn match nft_add_cmd_keyword_counter_counter_config_bytes_num '\v[0-9]{1,10}\ze
 \    nft_Error
 
 " add_cmd 'counter' obj_spec counter_config 'packet' <packet_num> 'bytes'
-hi link   nft_add_cmd_keyword_counter_counter_config_bytes nftHL_Keyword
+hi link   nft_add_cmd_keyword_counter_counter_config_bytes nftHL_Unit
 syn match nft_add_cmd_keyword_counter_counter_config_bytes '\vbytes\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_keyword_counter_counter_config_bytes_num,

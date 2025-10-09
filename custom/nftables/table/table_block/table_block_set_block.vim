@@ -86,7 +86,7 @@ syn match nft_table_block_set_block_stateful_stmt_limit_stmt_limit_burst_pkts_ke
 \    nft_Error
 
 
-hi link   nft_table_block_set_block_stateful_stmt_limit_stmt_limit_rate_pkts_time_unit nftHL_Keyword
+hi link   nft_table_block_set_block_stateful_stmt_limit_stmt_limit_rate_pkts_time_unit nftHL_Unit
 syn match nft_table_block_set_block_stateful_stmt_limit_stmt_limit_rate_pkts_time_unit "\v(second|minute|hour|day|week)[s]?" skipwhite contained
 \ nextgroup=
 \    nft_table_block_set_block_stateful_stmt_limit_stmt_limit_burst_pkts_keyword_burst,
@@ -107,7 +107,7 @@ syn match nft_table_block_set_block_stateful_stmt_limit_stmt_limit_rate_pkts_exp
 " limit_burst_bytes
 " 'limit' [ 'over'|'until' ] <NUM> '/' ('second'|'minute'|'hour'|'day'|'week') 'burst' <NUM> ('bytes'|'string')
 " 'bytes'->limit_burst_bytes->limit_config
-hi link   nft_table_block_set_block_stateful_stmt_limit_stmt_limit_burst_bytes_human nftHL_Keyword
+hi link   nft_table_block_set_block_stateful_stmt_limit_stmt_limit_burst_bytes_human nftHL_Unit
 syn match nft_table_block_set_block_stateful_stmt_limit_stmt_limit_burst_bytes_human "\v(pbyte|gbyte|mbyte|kbyte|byte)s" skipwhite contained
 \ nextgroup=
 \    nft_line_stmt_separator,
@@ -130,7 +130,7 @@ syn match nft_table_block_set_block_stateful_stmt_limit_stmt_limit_burst_bytes_k
 \    nft_table_block_set_block_stateful_stmt_limit_stmt_limit_burst_bytes_num,
 \    nft_Error
 
-hi link   nft_table_block_set_block_stateful_stmt_limit_stmt_limit_rate_bytes_time_unit nftHL_Keyword
+hi link   nft_table_block_set_block_stateful_stmt_limit_stmt_limit_rate_bytes_time_unit nftHL_Unit
 syn match nft_table_block_set_block_stateful_stmt_limit_stmt_limit_rate_bytes_time_unit "\v(second|minute|hour|day|week)[s]?" skipwhite contained
 \ nextgroup=
 \    nft_table_block_set_block_stateful_stmt_limit_stmt_limit_burst_bytes_keyword_burst,
@@ -145,7 +145,7 @@ syn match nft_table_block_set_block_stateful_stmt_limit_stmt_limit_rate_bytes_ex
 
 " 'limit' 'rate' [ 'over'|'until' ] <NUM> 'string'
 " 'string'->limit_rate_bytes->limit_config->(add_cmd|create_cmd|limit_block)
-hi link   nft_table_block_set_block_stateful_stmt_limit_stmt_limit_rate_bytes_string nftHL_Keyword
+hi link   nft_table_block_set_block_stateful_stmt_limit_stmt_limit_rate_bytes_string nftHL_Unit
 syn match nft_table_block_set_block_stateful_stmt_limit_stmt_limit_rate_bytes_string "\v(kbyte|mbyte|gbyte|pbyte|byte)s" skipwhite contained
 \ nextgroup=
 \    nft_table_block_set_block_stateful_stmt_limit_stmt_limit_rate_bytes_expression_slash,
@@ -181,7 +181,7 @@ syn match nft_add_cmd_table_block_set_block_stateful_stmt_list_stmt_stateful_stm
 \    nft_table_block_set_block_stateful_stmt_limit_stmt_keyword_rate,
 \    nft_Error
 
-hi link nft_table_block_set_block_stateful_stmt_quota_stmt_quota_used_quota_unit_keywords_bytes nftHL_Keyword
+hi link nft_table_block_set_block_stateful_stmt_quota_stmt_quota_used_quota_unit_keywords_bytes nftHL_Unit
 syn match nft_table_block_set_block_stateful_stmt_quota_stmt_quota_used_quota_unit_keywords_bytes '\v(kbyte|mbyte|gbyte|pbyte|byte)s' skipwhite contained
 
 hi link   nft_table_block_set_block_stateful_stmt_quota_stmt_quota_used_num nftHL_Integer
@@ -196,7 +196,7 @@ syn match nft_table_block_set_block_stateful_stmt_quota_stmt_quota_used_keyword_
 \    nft_table_block_set_block_stateful_stmt_quota_stmt_quota_used_num,
 \    nft_Error
 
-hi link   nft_table_block_set_block_stateful_stmt_quota_stmt_quota_unit_keywords_bytes nftHL_Keyword
+hi link   nft_table_block_set_block_stateful_stmt_quota_stmt_quota_unit_keywords_bytes nftHL_Unit
 syn match nft_table_block_set_block_stateful_stmt_quota_stmt_quota_unit_keywords_bytes '\v(kbyte|mbyte|gbyte|pbyte|byte)s' skipwhite contained
 \ nextgroup=
 \    nft_table_block_set_block_stateful_stmt_quota_stmt_quota_used_keyword_used

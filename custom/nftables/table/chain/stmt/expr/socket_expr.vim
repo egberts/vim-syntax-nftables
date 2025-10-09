@@ -32,11 +32,56 @@ try
   " INSERT 'syntax region' here
   " INSERT 'syntax cluster' here
   "
+" Form                                              Valid   Explanation
+" socket cgroupv2 level 5 accept                        ✅   Normal numeric match
+" socket cgroupv2 level 5 in { 1, 2, 3 }                ✅   Set membership
+" socket cgroupv2 level 5 map { 1 : accept, 2 : drop }  ✅   Map by numeric key
+" socket cgroupv2 map { 1 : accept }                    ❌   Invalid grammar
+" socket cgroupv2 level 5 'user.slice' accept           ❌   Invalid syntax
+"
 " **************** BEGIN socket_expr ********************************
 " socket_expr -> primary_expr
 " socket_expr -> primary_stmt_expr
+
+
+" socket_key->socket_expr->(primary_expr|primary_stmt_expr)
+hi link   nft_socket_expr_socket_key_keyword_transparent nftHL_Substatement
+syn match nft_socket_expr_socket_key_keyword_transparent '\vtransparent\ze[ \t\n;]' skipwhite contained
+
+hi link   nft_socket_expr_socket_key_keyword_wildcard nftHL_Substatement
+syn match nft_socket_expr_socket_key_keyword_wildcard '\vwildcard\ze[ \t\n;]' skipwhite contained
+
+hi link   nft_socket_expr_socket_key_keyword_mark nftHL_Substatement
+syn match nft_socket_expr_socket_key_keyword_mark '\vmark\ze[ \t\n;]' skipwhite contained
+
+" 'cgroupv2' <num>->socket_expr->(primary_expr|primary_stmt_expr)
+hi link   nft_socket_expr_cgroupv2_num nftHL_Number
+syn match nft_socket_expr_cgroupv2_num '\v(6[0-3]|[1-5][0-9]|[0-9])\ze[ \t\n;]' skipwhite contained
+
+" 'level'->socket_expr->(primary_expr|primary_stmt_expr)
+hi link   nft_socket_expr_keyword_level nftHL_Substatement
+syn match nft_socket_expr_keyword_level '\vlevel\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_socket_expr_cgroupv2_num,
+\    nft_Error
+
+" 'cgroupv2'->socket_expr->(primary_expr|primary_stmt_expr)
+hi link   nft_socket_expr_keyword_cgroupv2 nftHL_Substatement
+syn match nft_socket_expr_keyword_cgroupv2 '\vcgroupv2\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_socket_expr_keyword_level,
+\    nft_Error
+
+" socket_expr->(primary_expr|primary_stmt_expr)
+
 hi link   nft_socket_expr_keyword_socket nftHL_Command
 syn match nft_socket_expr_keyword_socket '\vsocket\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_socket_expr_socket_key_keyword_transparent,
+\    nft_socket_expr_keyword_cgroupv2,
+\    nft_socket_expr_socket_key_keyword_wildcard,
+\    nft_socket_expr_socket_key_keyword_mark,
+\    nft_Error
 " ***************** END socket_expr **********************************
 
 

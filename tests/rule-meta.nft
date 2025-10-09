@@ -164,6 +164,7 @@ rule T C meta oif 4;
 rule T C meta oifname "wlan0";
 rule T C meta oiftype 1;
 rule T C meta skgid 14;
+rule T C meta skuid "root";  # TODO
 rule T C meta skuid 14;
 # 'meta nftace' requires no argument, but still 'unqualified' (no 'meta' needed).
 # 'meta rtclassid' is used with 'realm' keyword, mnemonics are in /etc/iproute2/rt_realms

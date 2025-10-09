@@ -331,6 +331,7 @@ if v:version >= 508 || !exists('did_nftables_syn_inits')
   hi def link nftHL_Flowtable   Identifier
   hi def link nftHL_Device      Identifier
   hi def link nftHL_Member      Identifier
+  hi def link nftHL_Unit        MoreMsg
 
   hi def link nftHL_Verdict     Underlined
   hi def link nftHL_Hook        Type

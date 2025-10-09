@@ -80,7 +80,7 @@ syn match nft_add_cmd_table_block_limit_config_limit_burst_pkts_keyword_burst "\
 \    nft_Error
 
 
-hi link   nft_add_cmd_table_block_limit_config_limit_rate_pkts_time_unit nftHL_Keyword
+hi link   nft_add_cmd_table_block_limit_config_limit_rate_pkts_time_unit nftHL_Unit
 syn match nft_add_cmd_table_block_limit_config_limit_rate_pkts_time_unit "\v(second|minute|hour|day|week)[s]?" skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_table_block_limit_config_limit_burst_pkts_keyword_burst,
@@ -100,7 +100,7 @@ syn match nft_add_cmd_table_block_limit_config_limit_rate_pkts_expression_slash 
 " limit_burst_bytes
 " 'limit' [ 'over'|'until' ] <NUM> '/' ('second'|'minute'|'hour'|'day'|'week') 'burst' <NUM> ('bytes'|'string')
 " 'bytes'->limit_burst_bytes->limit_config->'limit'->'{'->table_block->'table'->
-hi link   nft_limit_config_limit_burst_bytes_limit_bytes_keyword_bytes nftHL_Keyword
+hi link   nft_limit_config_limit_burst_bytes_limit_bytes_keyword_bytes nftHL_Unit
 syn match nft_limit_config_limit_burst_bytes_limit_bytes_keyword_bytes "\v(pbyte|gbyte|mbyte|kbyte|byte)s" skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_table_block_limit_block_separator,
@@ -122,7 +122,7 @@ syn match nft_limit_config_limit_burst_bytes_keyword_burst "\vburst\ze[ \t]" ski
 \    nft_limit_config_limit_burst_bytes_limit_bytes_num,
 \    nft_Error
 
-hi link   nft_add_cmd_table_block_limit_config_limit_rate_bytes_time_unit nftHL_Keyword
+hi link   nft_add_cmd_table_block_limit_config_limit_rate_bytes_time_unit nftHL_Unit
 syn match nft_add_cmd_table_block_limit_config_limit_rate_bytes_time_unit "\v(second|minute|hour|day|week)[s]?" skipwhite contained
 \ nextgroup=
 \    nft_limit_config_limit_burst_bytes_keyword_burst,
@@ -137,7 +137,7 @@ syn match nft_add_cmd_table_block_limit_config_limit_rate_bytes_expression_slash
 
 " 'limit' 'rate' [ 'over'|'until' ] <NUM> 'string'
 " 'string'->limit_rate_bytes->limit_config->'limit'->'{'->table_block->'table'->(add_cmd|create_cmd|limit_block)
-hi link   nft_add_cmd_table_block_limit_config_limit_rate_bytes_keyword_string nftHL_Keyword
+hi link   nft_add_cmd_table_block_limit_config_limit_rate_bytes_keyword_string nftHL_Unit
 syn match nft_add_cmd_table_block_limit_config_limit_rate_bytes_keyword_string "\v(kbyte|mbyte|gbyte|pbyte|byte)s" skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_table_block_limit_config_limit_rate_bytes_expression_slash,

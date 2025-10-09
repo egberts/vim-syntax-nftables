@@ -236,5 +236,5 @@ syn cluster nft_c_primary_expr
 \    @nft_c_hash_expr,
 \    payload_expr,
 \    nft_keyword_expr,
-\    nft_socket_expr,
+\    nft_socket_expr_keyword_socket,
 \    nft_osf_expr,

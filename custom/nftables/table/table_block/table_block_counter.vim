@@ -42,7 +42,7 @@ hi link   nft_add_cmd_table_block_counter_block_stmt_separator nftHL_Separator
 syn match nft_add_cmd_table_block_counter_block_stmt_separator ';' skipwhite contained
 
 " add_cmd 'table' table_block '{' 'counter' counter_block '{' 'packet' <NUM> 'bytes' <NUM>
-hi link   nft_add_cmd_keyword_table_table_block_counter_block_counter_config_bytes_num nftHL_Number
+hi link   nft_add_cmd_keyword_table_table_block_counter_block_counter_config_bytes_num nftHL_Unit
 syn match nft_add_cmd_keyword_table_table_block_counter_block_counter_config_bytes_num "\v[0-9]{1,10}" skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_table_block_counter_block_stmt_separator,

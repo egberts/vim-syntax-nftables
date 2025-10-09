@@ -49,7 +49,7 @@ syn match nft_verdict_expr_chain_expr_identifier '\v(\$)?[a-zA-Z][a-zA-Z0-9_]{0,
 \    nft_rule_cluster_Error
 
 hi link   nft_chain_stmt_verdict_expr_keyword_jump nftHL_Command
-syn match nft_chain_stmt_verdict_expr_keyword_jump '\vjump\ze[ \t]' skipwhite contained
+syn match nft_chain_stmt_verdict_expr_keyword_jump '\vjump\ze[ \t\n;]' skipwhite contained
 \ nextgroup=
 \    nft_verdict_expr_chain_expr_identifier
 

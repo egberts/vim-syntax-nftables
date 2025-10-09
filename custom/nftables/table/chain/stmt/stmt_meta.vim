@@ -123,6 +123,10 @@ syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_keyword_set '\vset
 syntax match nft_meta_stmt_mark_missing '\v\ze[ \t]*[;\n]'  contained
 hi link nft_meta_stmt_mark_missing nftHL_Error
 
+hi link   nft_socket_t_quoted_string nftHL_String
+syn match nft_socket_t_quoted_string '\v\'[^\']{0,63}\'' skipwhite contained
+syn match nft_socket_t_quoted_string '\v\"[^\"]{0,63}\"' skipwhite contained
+
 hi link   nft_socket_t_integer nftHL_Integer
 syn match nft_socket_t_integer '\v[0-9]{1,10}' skipwhite contained
 syn match nft_socket_t_integer '\v0x[0-9a-f]{1,8}' skipwhite contained
@@ -138,9 +142,10 @@ syn match nft_socket_t_operators_relational_2char '\v(\<|\>)\=' skipwhite contai
 hi link   nft_socket_t_operators_equality nftHL_Operator
 syn match nft_socket_t_operators_equality '\v(\!|\=)\=' skipwhite contained
 \ nextgroup=
-\    nft_socket_t_integer,
 \    nft_socket_t_named_set,
 \    nft_socket_t_set_block,
+\    nft_socket_t_quoted_string,
+\    nft_socket_t_integer,
 \    nft_Error
 
 hi link   nft_socket_t_integer_operand nftHL_Integer
@@ -199,6 +204,7 @@ syn cluster nft_c_socket_t
 \    nft_socket_t_operator_mask,
 \    nft_socket_t_operators_discrete_only_1char,
 \    nft_socket_t_operators_relational_1char,
+\    nft_socket_t_quoted_string,
 \    nft_socket_t_integer,
 " *****
 
@@ -461,7 +467,7 @@ syn cluster nft_c_hour_type
 hi link   nft_day_of_week_integer nftHL_Integer
 syn match nft_day_of_week_integer '\v[0-6]{1}' skipwhite contained
 
-hi link   nft_day_of_week_symbolic_constants Define
+hi link   nft_day_of_week_symbolic_constants nftHL_Define
 syn match nft_day_of_week_symbolic_constants '\v(Saturday|Wednesday|Thursday|Tuesday|Friday|Monday|Sunday)\ze[ \t;]' skipwhite contained
 
 hi link   nft_day_of_week_set_block_element_separator nftHL_Separator
@@ -476,7 +482,7 @@ syn match nft_day_of_week_set_block_element_integer '\v[0-6]{1}' skipwhite conta
 \ nextgroup=
 \    nft_day_of_week_set_block_element_separator,
 
-hi link   nft_day_of_week_set_block_element_symbolic_constants Define
+hi link   nft_day_of_week_set_block_element_symbolic_constants nftHL_Define
 syn match nft_day_of_week_set_block_element_symbolic_constants '\v(Saturday|Wednesday|Thursday|Tuesday|Friday|Monday|Sunday)\ze[ \t,]' skipwhite contained
 \ nextgroup=
 \    nft_day_of_week_set_block_element_separator,

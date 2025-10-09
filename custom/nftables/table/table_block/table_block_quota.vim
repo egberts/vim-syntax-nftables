@@ -37,7 +37,7 @@ try
 
 
 " ************* BEGIN table_block 'quota' quota_block ***************
-hi link   nft_add_cmd_table_block_quota_block_quota_config_quota_used_quota_unit nftHL_Keyword
+hi link   nft_add_cmd_table_block_quota_block_quota_config_quota_used_quota_unit nftHL_Unit
 syn match nft_add_cmd_table_block_quota_block_quota_config_quota_used_quota_unit '\v(pbytes|gbytes|mbytes|kbytes|bytes|pbyte|gbyte|mbyte|kbyte|byte)s' skipwhite contained
 
 hi link   nft_add_cmd_table_block_quota_block_quota_config_quota_used_num nftHL_Integer
@@ -51,7 +51,7 @@ syn match nft_add_cmd_table_block_quota_block_quota_config_quota_used_keyword_us
 \    nft_add_cmd_table_block_quota_block_quota_config_quota_used_num,
 \    nft_Error
 
-hi link   nft_add_cmd_table_block_quota_block_quota_config_quota_unit nftHL_Keyword
+hi link   nft_add_cmd_table_block_quota_block_quota_config_quota_unit nftHL_Unit
 syn match nft_add_cmd_table_block_quota_block_quota_config_quota_unit '\v(pbytes|gbytes|mbytes|kbytes|bytes|pbyte|gbyte|mbyte|kbyte|byte)s' skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_table_block_quota_block_quota_config_quota_used_keyword_used
