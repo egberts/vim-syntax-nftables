@@ -3,6 +3,6 @@
 # so far, so good.
 ################################################################################
 
-add rule table_id chain_id vmap at 
+add rule table_id chain_id vmap @ 
 
 

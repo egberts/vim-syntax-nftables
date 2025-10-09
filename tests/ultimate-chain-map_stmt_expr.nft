@@ -57,9 +57,9 @@ table T {
 
 # SLE 20251005 - uncomment as many lines as you can pass it
 
-#		ct state new meta nfproto vmap { ipv4 : jump blacklist_output_ipv4, ipv6 : jump blacklist_output_ipv6 }
+		ct state new meta nfproto vmap { ipv4 : jump blacklist_output_ipv4, ipv6 : jump blacklist_output_ipv6 }
 #		ct state vmap { invalid counter packets 0 bytes 0 : drop, established counter packets 0 bytes 0 : accept, related counter packets 0 bytes 0 : accept }
-		ct state vmap { invalid : drop, established : accept, related : accept }
+#		ct state vmap { invalid : drop, established : accept, related : accept }
 #		ct state vmap { invalid : jump ct_invalid_out, established : accept, related : accept, untracked : jump ct_untracked_out }
 #		ct state vmap { invalid : jump ct_invalid_pre, related : jump rpfilter, new : jump ct_new_pre, untracked : jump ct_untracked_pre }
     }
@@ -72,10 +72,6 @@ table T {
 		ct timeout set ip daddr map { 1.2.3.4-1.2.3.8 : "dns" }
 		ct timeout set ip daddr map { 1.2.3.4 : "dns", 5.6.7.8 : "dns", 192.168.8.0/24 : "dns" }
 		ct timeout set ip daddr map @timeoutmap
-    }
-}
-table T {
-    chain C {
 		dnat ip6 to ip6 daddr map @x6
 		dnat ip6 to ip6 saddr . tcp dport map @z
 		dnat ip6 to ip6 saddr . tcp dport map @z6
@@ -163,8 +159,41 @@ table T {
 		icmpv6 type { mld-listener-query, nd-router-solicit, nd-router-advert, nd-neighbor-solicit, nd-neighbor-advert, mld2-listener-report } return
 		icmpv6 type { nd-router-advert, nd-neighbor-solicit } accept
 		icmpv6 type { nd-router-solicit, nd-router-advert, nd-neighbor-solicit, nd-neighbor-advert } ip6 hoplimit 255 accept
-		icmpv6 type { nd-router-solicit, nd-router-advert, nd-neighbor-solicit, nd-neighbor-advert } ip6 saddr fe80::/64 ip6 hoplimit 255 accept
-		icmpv6 type { nd-router-solicit, nd-router-advert, nd-neighbor-solicit, nd-neighbor-advert } ip6 saddr fe80::/64 return
+		icmpv6 type { nd-router-solicit } ip6 saddr ::/64 ip6 hoplimit 255 accept
+		icmpv6 type { nd-router-solicit } ip6 saddr fe80::/64 ip6 hoplimit 255 accept
+		icmpv6 type { nd-router-solicit } ip6 saddr ::1234:1:2:3:4:5:6/64 ip6 hoplimit 255 accept
+		icmpv6 type { nd-router-solicit } ip6 saddr 1234::1234:1:2:3:4:5:6/64 ip6 hoplimit 255 accept
+		ip6 saddr 1:2:3:4:5:6:7:8/64 return
+		ip6 saddr 1:2:3:4:5:6::8/64 return
+		ip6 saddr 1:2:3:4:5::7:8/64 return
+		ip6 saddr 1:2:3:4::6:7:8/64 return
+		ip6 saddr 1:2:3::5:6:7:8/64 return
+		ip6 saddr 1:2::4:5:6:7:8/64 return
+		ip6 saddr 1::3:4::6:7:8/64 return
+
+		ip6 saddr ::1
+		ip6 saddr :: 
+		ip6 saddr 0::2:3:4:5:6:7 
+		ip6 saddr 2001::1:2:3:4:5:6 
+		ip6 saddr 0::2:3:4:5:6:7 
+		ip6 saddr FFFF::FFFF:FFFF:FFFF:FFFF:FFFF:FFFF 
+		ip6 saddr 2001:db8::1 
+		ip6 saddr ::ffff:192.168.0.1 
+		ip6 saddr 2001:db8:0:0:0:0::1 
+		ip6 saddr FFFF:FFFF:FFFF::FFFF:FFFF:FFFF:FFFF 
+		ip6 saddr fe80:: 
+
+		ip6 saddr ::/0 
+		ip6 saddr ::1/32
+		ip6 saddr 0::2:3:4:5:6:7/32
+		ip6 saddr 2001::1:2:3:4:5:6/32
+		ip6 saddr 0::2:3:4:5:6:7/32
+		ip6 saddr FFFF::FFFF:FFFF:FFFF:FFFF:FFFF:FFFF/32
+		ip6 saddr 2001:db8::1/32
+		ip6 saddr ::ffff:192.168.0.1/32
+		ip6 saddr 2001:db8:0:0:0:0::1/32
+		ip6 saddr FFFF:FFFF:FFFF::FFFF:FFFF:FFFF:FFFF/32
+		ip6 saddr fe80::/128
     }
 }
 table T {
@@ -217,6 +246,7 @@ table T {
 }
 table T {
     chain C {
+		iif "abc"
 		iif vmap { "lo" counter packets 0 bytes 0 : jump wan_input }
 		iif vmap { "lo" : jump wan_input }
     }
@@ -238,22 +268,23 @@ table T {
 		ip6 daddr ff02::fb udp dport 5353 ct state new,untracked accept
 		ip6 daddr @ipv6_blacklist goto log_blacklist
 		ip6 daddr @s2 accept
+		ip6 daddr { fe80::/64 } accept
 		ip6 daddr vmap { fe0::1 : drop, fe0::2 : accept }
 		ip6 nexthdr @s3 accept
-			ip6 saddr { 2001:db8::1-2001:db8::2 } accept
+		ip6 saddr { 2001:db8::1-2001:db8::2 } accept
 		ip6 saddr { ::/3, 2001::/32, 2001:2::/48, 2001:3::/32, 2001:10::-2001:2f:ffff:ffff:ffff:ffff:ffff:ffff, 2001:db8::/32, 2002::/16, 3000::-ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff } counter packets 0 bytes 0 drop
 		ip6 saddr dead::1 dnat ip6 to feed::1
 		ip6 saddr dead::1 dnat to feed::1
 		ip6 saddr dead::2 tcp dport 42 dnat ip6 to [c0::1a]:4242
 		ip6 saddr dead::2 tcp dport 42 dnat to [c0::1a]:4242
-			ip6 saddr != { fd00::/8, fe80::/64 } counter packets 0 bytes 0 reject with icmpv6 port-unreachable
+		ip6 saddr != { fd00::/8, fe80::/64 } counter packets 0 bytes 0 reject with icmpv6 port-unreachable
 		ip6 saddr :: ip6 daddr . icmpv6 type { ff02::1:ff00:0/104 . nd-neighbor-solicit, ff02::16 . mld2-listener-report } return
-		ip6 saddr . ip6 nexthdr { fe0::2 . tcp, fe0::1 . udp }
-		ip6 saddr @ipv6_blacklist counter packets 0 bytes 0 drop
     }
 }
 table T {
     chain C {
+		ip6 saddr @ipv6_blacklist counter packets 0 bytes 0 drop
+		ip6 saddr . ip6 nexthdr { fe0::2 . tcp, fe0::1 . udp }
 		ip daddr { 0.0.0.0/8, 10.0.0.0/8, 100.64.0.0/10, 127.0.0.0/8, 169.254.0.0/16, 172.16.0.0/12, 192.0.0.0/24, 192.0.2.0/24, 192.168.0.0/16, 198.18.0.0/15, 198.51.100.0/24, 203.0.113.0/24, 224.0.0.0/3 } goto log_blacklist
 		ip daddr { 1.1.1.1, 2.2.2.2 }
 		ip daddr 1.2.3.4 tcp dport { 22, 123, 443 } drop
@@ -265,6 +296,10 @@ table T {
 		ip daddr { 192.168.0.1, 192.168.0.2, 192.168.0.3 } counter packets 0 bytes 0 accept
 		ip daddr 192.168.2.20 jump {
 		ip daddr { 192.168.3.30, 192.168.4.40 } tcp dport vmap { 22 : accept, 80 : drop, 443 : accept }
+	}
+}
+table T {
+	chain C {
 		ip daddr { 192.168.7.1, 192.168.7.5 } accept
 		ip daddr { 2.2.2.2, 4.4.4.4 } counter packets 0 bytes 0 accept
 		ip daddr 224.0.0.251 udp dport 5353 ct state new,untracked accept
@@ -275,7 +310,15 @@ table T {
 		ip daddr . @nh,32,32 @y
 		ip daddr @s
 		ip daddr set iifname map @m1
+	}
+}
+table T {
+	chain C {
 		ip daddr set numgen inc mod 16 map { 0-7 : 10.0.1.1, 8-15 : 10.0.1.2 }
+	}
+}
+table T {
+	chain C {
 		ip daddr set oifname map @m1
 		ip daddr . tcp dport { 192.168.0.1 . 22 } accept
 		ip daddr . tcp dport vmap @portaddrmap
@@ -287,18 +330,34 @@ table T {
 		ip daddr @y3
 		ip daddr @y4
 		ip hdrlength @s9 accept
+	}
+}
+table T {
+	chain C {
 		ip option ra value 255
 		ip option ra value @s5 accept
 		ip protocol icmp goto v4icmpc
 		ip protocol icmp jump v4icmp
 		ip protocol @s3 accept
+	}
+}
+table T {
+	chain C {
 		ip protocol tcp dnat ip to ip saddr . ip daddr map @ipportmap2
 		ip protocol tcp dnat ip to ip saddr map @ipportmap
 		ip protocol . th dport { tcp . 22, udp . 67 }
 		ip saddr { 0.0.0.0/8, 10.0.0.0/8, 100.64.0.0/10, 127.0.0.0/8, 169.254.0.0/16, 172.16.0.0/12, 192.0.0.0/24, 192.0.2.0/24, 192.168.0.0/16, 198.18.0.0/15, 198.51.100.0/24, 203.0.113.0/24, 224.0.0.0/3 } counter packets 0 bytes 0 drop
+	}
+}
+table T {
+	chain C {
 		ip saddr 0.0.0.0 ip daddr 255.255.255.255 udp sport 68 udp dport 67 return
 		ip saddr 10.0.0.0 ip daddr 10.0.0.2 ip saddr 10.0.0.0
 		ip saddr != { 10.10.10.100, 10.10.10.111 } ip saddr @example drop
+	}
+}
+table T {
+	chain C {
 		ip saddr 10.1.1.1 dnat ip to 10.2.3.4
 		ip saddr 10.1.1.1 dnat to 10.2.3.4
 		ip saddr 10.1.1.2 tcp dport 42 dnat ip to 10.2.3.4:4242
@@ -321,10 +380,18 @@ table T {
 		ip saddr 2.2.2.2 counter packets 0 bytes 0
 		ip saddr { 3.3.3.3, 4.4.4.4 }
 		ip saddr != @dynmark add @dynmark { ip saddr : 0x00000001 } counter packets 1 bytes 84
+	}
+}
+table T {
+	chain C {
 		ip saddr @dynmark counter packets 0 bytes 0 comment "delete should be instant but might fail under memory pressure"
 		ip saddr @dynmark counter packets 0 bytes 0 comment "should not increment"
 		ip saddr @dynmark counter packets 1 bytes 84 comment "should increment"
 		ip saddr @dynmark delete @dynmark { ip saddr : 0x00000001 }
+	}
+}
+table T {
+	chain C {
 		ip saddr . iifname { 10.1.2.2 . "abcdef0" } counter packets 0 bytes 0
 		ip saddr . iifname { 10.1.2.2 . "abcdef*" } counter packets 0 bytes 0
 		ip saddr . iifname @concat counter packets 0 bytes 0
@@ -334,8 +401,20 @@ table T {
 		ip saddr @ipv4_blacklist counter packets 0 bytes 0 drop
                 ip saddr @m
 		ip saddr . meta mark vmap @w
+	}
+}
+table T {
+	chain C {
 		ip saddr . @nh,32,32 { 1.1.1.1 . 0x14, 2.2.2.2 . 0x1e }
+	}
+}
+table T {
+	chain C {
 		ip saddr . @nh,32,32 vmap { 4.4.4.4 . 0x34 : accept, 5.5.5.5 . 0x45 : drop }
+	}
+}
+table T {
+	chain C {
 		ip saddr . @nh,32,32 vmap @y
 		ip saddr @s1 accept
 		ip saddr @s2 ip daddr { 3.3.3.3, 4.4.4.4 }
@@ -710,6 +789,10 @@ table T {
 		type filter hook prerouting priority mangle; policy accept;
 		type filter hook prerouting priority raw + 10; policy accept;
 		type filter hook prerouting priority raw; policy accept;
+	}
+}
+table T {
+	chain C {
 		type icmpv6_type
 		type iface_index
 		type iface_index . ether_addr . ipv4_addr
@@ -718,6 +801,10 @@ table T {
 		type ifname . mark
 		type ifname : verdict
 		type inet_proto
+	}
+}
+table T {
+	chain C {
 		type inet_service
 		type inet_service;
 		type inet_service . ifname
@@ -752,12 +839,20 @@ table T {
 		type ipv6_addr . ipv6_addr
 		type mark
 		type mark . inet_service . inet_proto : mark
+	}
+}
+table T {
+	chain C {
 		type nat hook postrouting priority filter; policy accept;
 		type nat hook postrouting priority srcnat + 10; policy accept;
 		type nat hook postrouting priority srcnat; policy accept;
 		type nat hook prerouting priority dstnat + 10; policy accept;
 		type nat hook prerouting priority dstnat; policy accept;
 		type nat hook prerouting priority filter; policy accept;
+	}
+}
+table T {
+	chain C {
 		typeof ct zone
 		typeof ether saddr . vlan id
 		typeof frag frag-off

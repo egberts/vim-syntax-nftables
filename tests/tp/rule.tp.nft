@@ -90,7 +90,7 @@ rule table_id chain_id log;
 tableid chainid vmap 
 table_id chain_id vmap
 table_id chain_id vmap { }
-table_id chain_id vmap at ABC
+table_id chain_id vmap @ABC
 
 # match_stmt->stmt
 tableid chainid match ;

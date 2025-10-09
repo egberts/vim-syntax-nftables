@@ -74,8 +74,8 @@ syn region nft_meta_expr_close_scope_meta_device_index_set_block start=+{+ end=+
 \     nft_meta_expr_close_scope_meta_device_index_set_number,
 \     nft_Error
 
-hi link   nft_meta_expr_close_scope_meta_device_index_named_set_identifier nftHL_Set
-syn match nft_meta_expr_close_scope_meta_device_index_named_set_identifier '\v\@[a-zA-Z][a-zA-Z0-9\-_]{0,63}[\ze[ \t;]' skipwhite contained
+hi link   nft_meta_expr_close_scope_meta_device_index_at_setname nftHL_AtSetname
+syn match nft_meta_expr_close_scope_meta_device_index_at_setname '\v\@[a-zA-Z][a-zA-Z0-9\-_]{0,63}[\ze[ \t;]' skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_keyword_set
 
@@ -85,8 +85,8 @@ syn match nft_meta_expr_close_scope_meta_device_index_number '\v[0-9]{1,3}\ze[ \
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_keyword_set
 
 hi link   nft_meta_expr_close_scope_meta_device_index_quoted_identifier nftHL_String
-syn match nft_meta_expr_close_scope_meta_device_index_quoted_identifier '\v\"[a-zA-Z][a-zA-Z0-9\-_\*]{0,63}\"[\ze[ \t;]' skipwhite contained
-syn match nft_meta_expr_close_scope_meta_device_index_quoted_identifier '\v\'[a-zA-Z][a-zA-Z0-9\-_\*]{0,63}\'[\ze[ \t;]' skipwhite contained
+syn match nft_meta_expr_close_scope_meta_device_index_quoted_identifier '\v\"[a-zA-Z][a-zA-Z0-9\-_\*]{0,63}\"[\ze[ \t\n;]' skipwhite contained
+syn match nft_meta_expr_close_scope_meta_device_index_quoted_identifier '\v\'[a-zA-Z][a-zA-Z0-9\-_\*]{0,63}\'[\ze[ \t\n;]' skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_keyword_set
 
@@ -99,7 +99,7 @@ syn match nft_meta_expr_close_scope_meta_device_index_identifier '\v[a-zA-Z][a-z
 hi link   nft_meta_expr_close_scope_meta_device_index_operators_equality nftHL_Operator
 syn match nft_meta_expr_close_scope_meta_device_index_operators_equality '\v(\!|\=)\=' skipwhite contained
 \ nextgroup=
-\    nft_meta_expr_close_scope_meta_device_index_named_set_identifier,
+\    nft_meta_expr_close_scope_meta_device_index_at_setname,
 \    nft_meta_expr_close_scope_meta_device_index_quoted_identifier,
 \    nft_meta_expr_close_scope_meta_device_index_set_block,
 \    nft_meta_expr_close_scope_meta_device_index_identifier,
@@ -109,7 +109,7 @@ syn match nft_meta_expr_close_scope_meta_device_index_operators_equality '\v(\!|
 hi link   nft_meta_expr_close_scope_meta_device_index_set_operator_in nftHL_Operator
 syn match nft_meta_expr_close_scope_meta_device_index_set_operator_in '\vin\ze[ \t;]' skipwhite contained
 \ nextgroup=
-\    nft_meta_expr_close_scope_meta_device_index_named_set_identifier,
+\    nft_meta_expr_close_scope_meta_device_index_at_setname,
 \    nft_meta_expr_close_scope_meta_device_index_set_block,
 \    nft_Error
 
@@ -148,8 +148,8 @@ hi link   nft_meta_expr_close_scope_meta_route_class_integer_id nftHL_Define
 syn match nft_meta_expr_close_scope_meta_route_class_integer_id '\v[0-9]{1,10}\ze[ \t;]' skipwhite contained
 
 
-hi link   nft_meta_expr_close_scope_meta_route_class_setname Define
-syn match nft_meta_expr_close_scope_meta_route_class_setname '\v\@[a-zA-Z][a-zA-Z0-9\-_]{0,63}[\ze[ \t;]' skipwhite contained
+hi link   nft_meta_expr_close_scope_meta_route_class_at_setname nftHL_AtSetname
+syn match nft_meta_expr_close_scope_meta_route_class_at_setname '\v\@[a-zA-Z][a-zA-Z0-9\-_]{0,63}[\ze[ \t;]' skipwhite contained
 
 hi link   nft_meta_expr_close_scope_meta_route_class_enum_any nftHL_Operator
 syn match nft_meta_expr_close_scope_meta_route_class_enum_any '\vany\ze[ \t;]' skipwhite contained
@@ -165,7 +165,7 @@ syn match nft_meta_expr_meta_key_unqualified_keyword_rtclassid '\vrtclassid\ze[ 
 \ nextgroup=
 \    nft_meta_expr_close_scope_meta_route_class_keyword_set,
 \    nft_meta_expr_close_scope_meta_route_class_enum_any,
-\    nft_meta_expr_close_scope_meta_route_class_setname,
+\    nft_meta_expr_close_scope_meta_route_class_at_setname,
 \    nft_meta_expr_close_scope_meta_route_class_integer_id,
 \    nft_Error
 " ************************ END 'meta rtclassid' **********************
@@ -258,7 +258,7 @@ syn region nft_ifgroup_index_set_block start=+{+ end=+}+ skipwhite contained
 \ contains=
 \    nft_ifgroup_index_set_block_member_integer
 
-hi link   nft_ifgroup_index_named_set_identifier nftHL_Set
+hi link   nft_ifgroup_index_at_setnamenamed_set_identifier nftHL_AtSetname
 syn match nft_ifgroup_index_named_set_identifier '\v\@[a-zA-Z][a-zA-Z0-9\-_]{0,63}' skipwhite contained
 
 hi link   nft_ifgroup_index_operator_set_keyword_in nftHL_Operator
@@ -340,15 +340,20 @@ hi link   nft_meta_expr_close_scope_meta_ifname_operators_relational_1char nftHL
 syn match nft_meta_expr_close_scope_meta_ifname_operators_relational_1char '\v(\<|\>)' skipwhite contained
 \ nextgroup=
 \    nft_meta_expr_close_scope_meta_ifname_integer, nft_Error
+
 hi link   nft_meta_expr_close_scope_meta_ifname_operators_relational_2char nftHL_Operator
 syn match nft_meta_expr_close_scope_meta_ifname_operators_relational_2char '\v(\<|\>)\=' skipwhite contained
 \ nextgroup=
 \    nft_meta_expr_close_scope_meta_ifname_integer, nft_Error
+
+hi link   nft_meta_expr_close_scope_meta_ifname_at_setname nftHL_AtSetname
+syn match nft_meta_expr_close_scope_meta_ifname_at_setname '\v\@[a-zA-Z][a-zA-Z0-9_\-]{0,63}' skipwhite contained
+
 hi link   nft_meta_expr_close_scope_meta_ifname_operators_equality nftHL_Operator
 syn match nft_meta_expr_close_scope_meta_ifname_operators_equality '\v(\!|\=)\=' skipwhite contained
 \ nextgroup=
 \    nft_meta_expr_close_scope_meta_ifname_integer,
-\    nft_meta_expr_close_scope_meta_ifname_setname,
+\    nft_meta_expr_close_scope_meta_ifname_at_setname,
 \    nft_meta_expr_close_scope_meta_ifname_set_block,
 \    nft_Error
 
@@ -403,6 +408,7 @@ syn match nft_meta_expr_close_scope_meta_nfproto_enum '\v(bridge|netdev|inet|arp
 hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_internal_string_keyword_nfproto nftHL_Substatement
 syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_internal_string_keyword_nfproto '\vnfproto\ze[ \t\n;]' skipwhite contained
 \ nextgroup=
+\    nft_verdict_stmt_verdict_map_stmt_keyword_vmap,
 \    nft_meta_expr_close_scope_meta_nfproto_enum,
 \    nft_meta_expr_close_scope_meta_nfproto_id,
 \    nft_Error
@@ -417,7 +423,7 @@ syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keywor
 \ nextgroup=
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_nftrace_value
 
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_nftrace_set_elements nftHL_Set
+hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_nftrace_set_elements nftHL_BlockDelimitersSet
 syn region nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_nftrace_set_elements start=+{+ end=+}+ skipwhite contained
 \ contains=
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_nftrace_value
@@ -449,13 +455,10 @@ syn match nft_meta_expr_meta_key_unqualified_keyword_obrname '\vobrname\ze[ \t]'
 " ************************ END 'meta obrname' ************************
 
 " ********************** START 'meta obrname' ************************
-hi link   nft_meta_expr_close_scope_meta_ifname_setname nftHL_Set
-syn match nft_meta_expr_close_scope_meta_ifname_setname '\v\@[a-zA-Z][a-zA-Z0-9_\-]{0,63}' skipwhite contained
-
 hi link   nft_meta_expr_close_scope_meta_ifname_set_membership_keyword_in nftHL_Operator
 syn match nft_meta_expr_close_scope_meta_ifname_set_membership_keyword_in '\vin\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_meta_expr_close_scope_meta_ifname_setname,
+\    nft_meta_expr_close_scope_meta_ifname_at_setname,
 \    nft_interface_name_set_block,
 \    nft_Error
 
@@ -482,8 +485,8 @@ syn match nft_meta_expr_meta_key_unqualified_keyword_oiftype '\voiftype\ze[ \t]'
 " ************************ END 'meta oiftype' ************************
 
 " ********************** START 'meta pkttype' ************************
-hi link   nft_pkttype_setname nftHL_Set
-syn match nft_pkttype_setname '\v\@[a-zA-Z][a-zA-Z0-9_\-]{0,63}' skipwhite contained
+hi link   nft_pkttype_at_setname nftHL_AtSetname
+syn match nft_pkttype_at_setname '\v\@[a-zA-Z][a-zA-Z0-9_\-]{0,63}' skipwhite contained
 
 hi link   nft_packet_type_keyword_set nftHL_Write
 syn match nft_packet_type_keyword_set '\vset\ze[ \t]' skipwhite contained
@@ -519,7 +522,7 @@ syn match nft_pkttype_set_membership_keyword_in '\vin\ze[ \t]' skipwhite contain
 \    nft_packet_type_keyword_set,
 \    nft_packet_type_operators_equality,
 \    nft_meta_pkttype_inline_set,
-\    nft_pkttype_setname,
+\    nft_pkttype_at_setname,
 \    nft_Error
 
 hi link   nft_pkttype_set_membership_keyword_not nftHL_Operator
@@ -594,7 +597,7 @@ hi link nft_meta_stmt_mark_missing nftHL_Error
 hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_mark_integer nftHL_Integer
 syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_mark_integer '\v((0x[0-9a-f]{1,8})|([0-9]{1,10}))\ze[ \t\n;]' skipwhite contained
 
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_mark_named_set nftHL_Set
+hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_mark_named_set nftHL_AtSetname
 syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_mark_integer '\v\@[a-zA-Z][a-zA-Z0-9]{0,63}' skipwhite contained
 
 hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_mark_operators_relational_1char nftHL_Operator
@@ -645,7 +648,7 @@ syn region nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_mark_
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_mark_set_block_element_integer,
 \    nft_Error
 
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_mark_named_set nftHL_Set
+hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_mark_named_set nftHL_AtSetname
 syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_mark_named_set '\v\@[a-zA-Z][a-zA-Z0-9_\-]{0,63}' skipwhite contained
 
 hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_mark_keyword_set nftHL_Write

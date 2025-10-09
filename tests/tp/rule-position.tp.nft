@@ -277,8 +277,8 @@ rule T C rtclassid redirect persistent ,random ;
 rule T C rtclassid redirect persistent , random ;
 rule T C rtclassid redirect persistent , random, fully-random redirect ;
 rule T C notrack ;
-rule T C flow offload at string_me ;
-rule T C flow add at string_me ;
+rule T C flow offload @string_me ;
+rule T C flow add @string_me ;
 
 
 # log_stmt

@@ -82,6 +82,16 @@ syn match nft_verdict_expr_keyword_jump '\vjump\ze[ \t]' keepend skipwhite conta
 \ nextgroup=
 \    nft_verdict_expr_chain_expr_identifier,
 \    nft_rule_cluster_Error
+
+syn cluster nft_c_verdict_expr
+\ contains=
+\    nft_verdict_expr_keyword_continue,
+\    nft_verdict_expr_keyword_accept,
+\    nft_verdict_expr_keyword_return,
+\    nft_verdict_expr_keyword_drop,
+\    nft_verdict_expr_keyword_goto,
+\    nft_verdict_expr_keyword_jump
+
 "******************** BEGIN verdict_stmt ******************************
 
 

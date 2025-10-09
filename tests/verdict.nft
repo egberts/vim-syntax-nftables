@@ -20,18 +20,25 @@ tableid chainid goto last
 tableid chainid goto $MY_ACTION
 tableid chainid return 
 
-# verdict_map_stmt
-rule table_id chain_id vmap { }
-rule table_id chain_id vmap { } ;
-add rule table_id chain_id vmap  
-add rule table_id chain_id vmap; 
+table tableid {
+    chain chainid {
+        ip jump vmap { }
+    }
+}
 
-add rule table_id chain_id vmap { }
-add rule table_id chain_id vmap { };
-add rule table_id chain_id vmap { }
-add rule table_id chain_id vmap { } ; 
-add rule table_id chain_id vmap at ABC
-add rule table_id chain_id vmap at ABC  ;
+# verdict_map_stmt
+add rule table_id chain_id ip saddr vmap { }
+insert rule table_id chain_id ip saddr vmap { } ;
+add rule table_id chain_id ip saddr vmap @setname ;
+add rule table_id chain_id ip saddr vmap $p
+add rule table_id chain_id ip saddr vmap ; 
+
+add rule table_id chain_id ip saddr vmap { }
+add rule table_id chain_id ip saddr vmap { };
+add rule table_id chain_id ip saddr vmap { }
+add rule table_id chain_id ip saddr vmap { } ; 
+add rule table_id chain_id ip saddr vmap @ABC
+add rule table_id chain_id ip saddr vmap @ABC  ;
 
 
 
@@ -40,7 +47,7 @@ add rule table_id chain_id vmap at ABC  ;
 # so far, so good.
 ################################################################################
 
-add rule table_id chain_id vmap at 
+add rule table_id chain_id vmap @ 
 
 
 ################################################################################

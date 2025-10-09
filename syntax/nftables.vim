@@ -321,7 +321,8 @@ if v:version >= 508 || !exists('did_nftables_syn_inits')
   hi def link nftHL_Chain       Identifier
   hi def link nftHL_Rule        Identifier
   hi def link nftHL_Map         Identifier
-  hi def link nftHL_Set         Identifier
+  hi def link nftHL_AtSetname     Variable
+  hi def link nftHL_SetIdentifier Identifier
   hi def link nftHL_Element     Identifier
   hi def link nftHL_Quota       Identifier
   hi def link nftHL_Position    Number
@@ -383,6 +384,7 @@ if exists('g:nft_colorscheme')
   hi def nftHL_BlockDelimitersSynProxy  ctermfg=DarkGrey guifg=#118100 ctermbg=Black cterm=NONE
   hi def nftHL_BlockDelimitersMeter  ctermfg=Red guifg=#720000 ctermbg=Black cterm=NONE
   hi def nftHL_BlockDelimitersDevices  ctermfg=Blue guifg=#303030 ctermbg=Black cterm=NONE
+  hi def nftHL_BlockDelimitersVerdict  ctermfg=Red guifg=#ff553e ctermbg=Black cterm=NONE
 endif
 
 "********* Leaf tokens (NOT-contained only)
@@ -587,10 +589,16 @@ hi link   nft_Error_Always nftHL_Error
 syn match nft_Error_Always /[^(\n|\r)\.]\{1,15}/ skipwhite contained
 
 hi link   nft_rule_cluster_Error nftHL_Error
-syn match nft_rule_cluster_Error /\v[\s\wa-zA-Z0-9_]{1,64}/ skipwhite contained  " uncontained, on purpose
+syn match nft_rule_cluster_Error /\v[\s\wa-zA-Z0-9_]{1,64}/ skipwhite contained
 
 hi link   nft_Error nftHL_Error
-syn match nft_Error /\v[\s\wa-zA-Z0-9_]{1,64}/ skipwhite contained  " uncontained, on purpose
+syn match nft_Error /\v[\s\wa-zA-Z0-9_]{1,64}/ skipwhite contained
+
+hi link   nft_Error_IPAddr nftHL_Error
+syn match nft_Error_IPAddr /\v[\s\wa-zA-Z0-9_\.:\/]{1,64}/ skipwhite contained
+
+hi link   nft_Error_Quotes nftHL_Error
+syn match nft_Error_Quotes /\v[\s\wa-zA-Z0-9_\.\'\"]{1,64}/ skipwhite contained
 
 hi link   nft_expected_identifier nftHL_Error
 syn match nft_expected_identifier /\v[^a-zA-Z]/ contained

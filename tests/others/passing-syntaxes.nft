@@ -177,17 +177,17 @@ table netdev filter {
 
     # Drop XMAS packets.
     tcp flags & (fin|syn|rst|psh|ack|urg) == fin|syn|rst|psh|ack|urg counter drop
-    tcp option at echo,1,2 counter drop
-    tcp option at eol,1,2 counter drop
-    tcp option at fastopen,1,2 counter drop
-    tcp option at md5sig,1,2 counter drop
-    tcp option at mptcp,1,2 counter drop
-    tcp option at mss,1,2 counter drop
-    tcp option at nop,1,2 counter drop
-    tcp option at timestamp,1,2 counter drop
-    tcp option at window,1,2 counter drop
-    tcp option at num,1,2 counter drop
-    tcp option at echo,123,123 counter drop
+    tcp option @echo,1,2 counter drop
+    tcp option @eol,1,2 counter drop
+    tcp option @fastopen,1,2 counter drop
+    tcp option @md5sig,1,2 counter drop
+    tcp option @mptcp,1,2 counter drop
+    tcp option @mss,1,2 counter drop
+    tcp option @nop,1,2 counter drop
+    tcp option @timestamp,1,2 counter drop
+    tcp option @window,1,2 counter drop
+    tcp option @num,1,2 counter drop
+    tcp option @echo,123,123 counter drop
     tcp option echo counter drop
     tcp option echo 1 counter drop
     tcp option eol counter drop

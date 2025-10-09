@@ -3144,7 +3144,7 @@ describe  1
 
 # base_cmd 'describe' payload_expr
 # base_cmd 'describe' payload_expr 'at'
-describe at 
+describe @ 
 # base_cmd 'describe' payload_expr 'ethhdr'
 describe ethhdr
 # base_cmd 'describe' payload_expr 'vlan'
@@ -5114,9 +5114,9 @@ rule T C meta secmark set 42;
 # top-level meta
 # 'meta flow' is a top-level meta action (not a meta key, meta_expr, nor meta_stmt)
 rule T C meta notrack;
-rule T C meta flow at MyDevice;
-rule T C meta flow offload at MyDevice;  # 'flow' is a top-level action (not a meta key)
-rule T C meta flow add at MyDevice;  # 'flow' meta key found only in 'meta_stmt'
+rule T C meta flow @MyDevice;
+rule T C meta flow offload @MyDevice;  # 'flow' is a top-level action (not a meta key)
+rule T C meta flow add @MyDevice;  # 'flow' meta key found only in 'meta_stmt'
 
 # meta keys, both qualified and unqualified
 # meta_stmt - flags only (support expression only in meta_expr)
@@ -6108,10 +6108,10 @@ replace rule ip table_id chain_id ether daddr
 replace rule ip table_id chain_id ether type
 
 # ruleid_spec payload_stmt payload_hdr_expr
-replace rule ip table_id chain_id at ll, 3, 7
-replace rule ip table_id chain_id at nh, 1, 2
-replace rule ip table_id chain_id at th, 1, 2
-replace rule ip table_id chain_id at string, 1, 2
+replace rule ip table_id chain_id @ll, 3, 7
+replace rule ip table_id chain_id @nh, 1, 2
+replace rule ip table_id chain_id @th, 1, 2
+replace rule ip table_id chain_id @string, 1, 2
 
 # ruleid_spec payload_stmt igmp_hdr_expr
 replace rule ip table_id chain_id igmp type
@@ -7032,8 +7032,8 @@ rule T C rtclassid redirect persistent ,random ;
 rule T C rtclassid redirect persistent , random ;
 rule T C rtclassid redirect persistent , random, fully-random redirect ;
 rule T C notrack ;
-rule T C flow offload at string_me ;
-rule T C flow add at string_me ;
+rule T C flow offload @string_me ;
+rule T C flow add @string_me ;
 
 
 # log_stmt
@@ -7303,7 +7303,7 @@ rule table_id chain_id log;
 tableid chainid vmap 
 table_id chain_id vmap
 table_id chain_id vmap { }
-table_id chain_id vmap at ABC
+table_id chain_id vmap @ABC
 
 # match_stmt->stmt
 tableid chainid match ;
@@ -8873,8 +8873,8 @@ add rule table_id chain_id vmap { }
 add rule table_id chain_id vmap { };
 add rule table_id chain_id vmap { }
 add rule table_id chain_id vmap { } ; 
-add rule table_id chain_id vmap at ABC
-add rule table_id chain_id vmap at ABC  ;
+add rule table_id chain_id vmap @ABC
+add rule table_id chain_id vmap @ABC  ;
 
 
 

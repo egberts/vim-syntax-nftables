@@ -116,9 +116,9 @@
 # top-level meta
 # 'meta flow' is a top-level meta action (not a meta key, meta_expr, nor meta_stmt)
 rule T C meta notrack;
-rule T C meta flow at MyDevice;
-rule T C meta flow offload at MyDevice;  # 'flow' is a top-level action (not a meta key)
-rule T C meta flow add at MyDevice;  # 'flow' meta key found only in 'meta_stmt'
+rule T C meta flow @MyDevice;
+rule T C meta flow offload @MyDevice;  # 'flow' is a top-level action (not a meta key)
+rule T C meta flow add @MyDevice;  # 'flow' meta key found only in 'meta_stmt'
 
 # meta keys, both qualified and unqualified
 # meta_stmt - flags only (support expression only in meta_expr)

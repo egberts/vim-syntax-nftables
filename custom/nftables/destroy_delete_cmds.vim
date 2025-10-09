@@ -379,7 +379,11 @@ syn match nft_base_cmd_destroy_delete_cmds_keyword_map '\vmap\ze[ \t]' skipwhite
 hi link   nft_delete_cmd_keyword_element_set_spec_identifier_string_element nftHL_Table
 syn match nft_delete_cmd_keyword_element_set_spec_identifier_string_element '\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}' skipwhite contained
 \ nextgroup=
-\    nft_set_expr
+\    nft_get_et_al_cmd_set_block_expr_variable_expr,
+\    nft_get_et_al_cmd_set_block_expr_set_expr,
+\    nft_UnexpectedSemicolon,
+\    nft_UnexpectedEOS,
+\    nft_Error
 
 hi link   nft_delete_cmd_keyword_element_set_spec_keyword_last nftHL_Keyword
 syn match nft_delete_cmd_keyword_element_set_spec_keyword_last '\vlast\ze[ \t]' skipwhite contained

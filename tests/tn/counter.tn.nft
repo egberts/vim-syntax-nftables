@@ -51,7 +51,7 @@ add counter ip table_id counter_id {
     packets 5 bytes1500 
 };
 
-add rule table_id chain_id set add { $MYVAR counter at  };
+add rule table_id chain_id set add { $MYVAR counter @  };
 
 add counter table_id counter_id { packets5bytes1500 } ;
 add counter ip table_id counter_id { packets5 bytes 1500 ; };

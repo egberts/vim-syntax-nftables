@@ -50,7 +50,7 @@ syn match nft_stmt_stmt_expr_map_stmt_expr_symbol_expr_string_quoted_string_conn
 hi link    nft_stmt_expr_map_stmt_expr_map_stmt_expr_set_set_expr_delimiters nftHL_BlockDelimitersSet
 syn region nft_stmt_expr_map_stmt_expr_map_stmt_expr_set_set_expr_delimiters start=+{+ end=+}+ skipwhite contained
 
-hi link   nft_stmt_expr_map_stmt_expr_map_stmt_expr_set_set_expr_set_ref_symbol_expr_at_setname nftHL_Variable
+hi link   nft_stmt_expr_map_stmt_expr_map_stmt_expr_set_set_expr_set_ref_symbol_expr_at_setname nftHL_AtSetname
 syn match nft_stmt_expr_map_stmt_expr_map_stmt_expr_set_set_expr_set_ref_symbol_expr_at_setname '\v\@[a-zA-Z][a-zA-Z0-9\-_]{0,63}' skipwhite contained
 
 hi link   nft_stmt_ct_stmt_stmt_expr_map_stmt_expr_keyword_map nftHL_Write

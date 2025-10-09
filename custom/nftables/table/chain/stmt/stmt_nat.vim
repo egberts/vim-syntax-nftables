@@ -42,16 +42,19 @@ syn match nft_stmt_nat_stmt_keyword_to '\vto\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    @nft_c_primary_stmt_expr
 
-hi link   nft_stmt_nat_stmt_nf_key_proto_keyword_ip nftHL_Define
-syn match nft_stmt_nat_stmt_nf_key_proto_keyword_ip '\vip' skipwhite contained
-\ nextgroup=
-\    nft_stmt_nat_stmt_keyword_to
 hi link   nft_stmt_nat_stmt_nf_key_proto_keyword_ip6 nftHL_Define
-syn match nft_stmt_nat_stmt_nf_key_proto_keyword_ip6 '\vip6' skipwhite contained
+syn match nft_stmt_nat_stmt_nf_key_proto_keyword_ip6 '\vip6\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    nft_stmt_nat_stmt_keyword_to
+
+hi link   nft_stmt_nat_stmt_nf_key_proto_keyword_ip nftHL_Define
+syn match nft_stmt_nat_stmt_nf_key_proto_keyword_ip '\vip\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_stmt_nat_stmt_keyword_to
+
 hi link   nft_stmt_nat_stmt_keyword_prefix nftHL_Keyword
 syn match nft_stmt_nat_stmt_keyword_prefix '\vprefix' skipwhite contained
+
 hi link   nft_stmt_nat_stmt_keyword_interval nftHL_Keyword
 syn match nft_stmt_nat_stmt_keyword_interval '\vinterval' skipwhite contained
 
@@ -63,6 +66,7 @@ syn match nft_stmt_nat_stmt_nat_stmt_alloc_keyword_dnat '\vdnat\ze[ \t]' skipwhi
 \    nft_stmt_nat_stmt_nf_key_proto_keyword_ip6,
 \    nft_stmt_nat_stmt_nf_key_proto_keyword_ip,
 \    nft_stmt_nat_stmt_keyword_to,
+\    @nft_c_primary_stmt_expr,
 \    nft_Error
 
 hi link   nft_stmt_nat_stmt_nat_stmt_alloc_keyword_snat nftHL_Statement

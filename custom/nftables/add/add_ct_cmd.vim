@@ -131,6 +131,7 @@ syn match nft_base_cmd_add_ct_keyword_helper "helper" skipwhite contained
 \    nft_base_cmd_add_ct_helper_obj_spec_table_spec_family_spec,
 \    nft_setname,
 \    nft_add_cmd_keyword_ct_keyword_helper_obj_spec_table_spec_identifier_table
+" TODO nft_setname
 
 " nft_stmt_ct_common_ct_key_keyword_helper
 " **************** END of ct_expr *******************
@@ -257,8 +258,8 @@ syn match nft_primary_expr_ct_expr_ct_state_comma '\v,' skipwhite contained
 \ nextgroup=
 \   nft_primary_expr_ct_expr_ct_state_choices
 
-hi link   nft_primary_expr_ct_expr_ct_state_setname nftHL_Variable
-syn match nft_primary_expr_ct_expr_ct_state_setname '\v\@[a-zA-Z0-9][a-zA-Z0-9\-_]{0,63}' skipwhite contained
+hi link   nft_primary_expr_ct_expr_ct_state_at_setname nftHL_AtSetname
+syn match nft_primary_expr_ct_expr_ct_state_at_setname '\v\@[a-zA-Z0-9][a-zA-Z0-9\-_]{0,63}' skipwhite contained
 \ nextgroup=
 \   nft_primary_expr_ct_expr_ct_state_comma
 
@@ -270,21 +271,20 @@ syn match nft_primary_expr_ct_expr_ct_state_choices '\v((invalid|established|rel
 hi link   nft_stmt_ct_common_ct_key_keyword_state nftHL_Keyword
 syn match nft_stmt_ct_common_ct_key_keyword_state '\vstate' skipwhite contained
 \ nextgroup=
-\    nft_primary_expr_ct_expr_ct_state_setname,
+\    nft_primary_expr_ct_expr_ct_state_at_setname,
 \    nft_primary_expr_ct_expr_ct_state_choices,
 \    nft_primary_expr_ct_expr_ct_state_inline_set,
 
 " **************** END ct_expr ct_key 'state' *******************
-hi link   nft_stmt_ct_common_ct_key_keyword_mark nftHL_Keyword
-syn match nft_stmt_ct_common_ct_key_keyword_mark '\vmark' skipwhite contained
-\ nextgroup=@nft_c_stmt_expr
-
-
 hi link   nft_stmt_ct_stmt_keyword_set nftHL_Write
-syn match nft_stmt_ct_stmt_keyword_set '\vset' skipwhite contained
+syn match nft_stmt_ct_stmt_keyword_set '\vset\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    @nft_c_set_stmt_expr_keys
+\    @nft_c_stmt_expr
 
+hi link   nft_stmt_ct_common_ct_key_keyword_mark nftHL_Keyword
+syn match nft_stmt_ct_common_ct_key_keyword_mark '\vmark\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_stmt_ct_stmt_keyword_set
 
 hi link   nft_stmt_ct_common_ct_key_keyword_zone nftHL_Keyword
 syn match nft_stmt_ct_common_ct_key_keyword_zone '\vzone' skipwhite contained

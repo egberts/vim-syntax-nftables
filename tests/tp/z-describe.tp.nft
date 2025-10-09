@@ -22,7 +22,7 @@ describe  1
 
 # base_cmd 'describe' payload_expr
 # base_cmd 'describe' payload_expr 'at'
-describe at 
+describe @ 
 # base_cmd 'describe' payload_expr 'ethhdr'
 describe ethhdr
 # base_cmd 'describe' payload_expr 'vlan'

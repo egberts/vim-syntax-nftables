@@ -317,7 +317,7 @@ table T {
         tcp flags syn drop;
         # at/payload_raw_expr/payload_expr/payload_stmt
         # at/payload_raw_expr/payload_expr/primary_expr/basic_expr/concat_expr/verdict_map_stmt/verdict_stmt
-        at ;
+        @ ;
         # ct/ct_stmt
         # ct/ct_expr/primary_expr/basic_expr/concat_expr/expr/relational_expr/match_stmt
         # ct/ct_expr/primary_expr/basic_expr/concat_expr/map_expr/expr/relational_expr/match_stmt

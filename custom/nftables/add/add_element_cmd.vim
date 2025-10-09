@@ -151,7 +151,6 @@ syn match nft_add_cmd_keyword_element_set_spec_table_spec_identifier_string_tabl
 \ nextgroup=
 \    nft_add_cmd_keyword_element_set_spec_set_spec_keyword_last,
 \    nft_add_cmd_keyword_element_set_spec_set_spec_identifier,
-\    nft_UnexpectedCurlyBrace,
 \    nft_Error
 
 hi link   nft_add_cmd_keyword_element_set_spec_table_spec_keyword_last nftHL_Keyword

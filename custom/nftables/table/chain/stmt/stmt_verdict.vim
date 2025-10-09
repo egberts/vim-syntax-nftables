@@ -48,6 +48,54 @@ syn match nft_verdict_expr_chain_expr_identifier '\v(\$)?[a-zA-Z][a-zA-Z0-9_]{0,
 \    nft_variable_identifier,
 \    nft_rule_cluster_Error
 
+hi link   nft_chain_stmt_verdict_expr_keyword_jump nftHL_Command
+syn match nft_chain_stmt_verdict_expr_keyword_jump '\vjump\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_verdict_expr_chain_expr_identifier
+
+hi link    nft_verdict_map_expr_block_delimiters nftHL_BlockDelimitersVerdict
+syn region nft_verdict_map_expr_block_delimiters start=+{+ end=+}+ skipwhite contained
+\ contains=
+\    nft_set_elem_expr
+\ nextgroup=
+\    nft_stmt_separator
+
+hi link   nft_verdict_map_expr_set_ref_symbol_expr nftHL_AtSetname
+syn match nft_verdict_map_expr_set_ref_symbol_expr '\v\@[a-zA-Z][a-zA-Z0-9_\-]{0,63}\ze[ \t\n;]' skipwhite contained
+\ nextgroup=
+\    nft_stmt_separator
+
+hi link   nft_verdict_map_expr_variable_expr nftHL_Variable
+syn match nft_verdict_map_expr_variable_expr '\v\$[a-zA-Z][a-zA-Z0-9_\-]{0,63}\ze[ \t\n;]' skipwhite contained
+
+syn cluster nft_c_verdict_map_expr_set_ref_expr
+\ contains=
+\    nft_verdict_map_expr_set_ref_symbol_expr,
+\    nft_verdict_map_expr_variable_expr,
+\    nft_stmt_separator
+
+
+syn cluster nft_c_verdict_map_expr
+\ contains=
+\    @nft_c_verdict_map_expr_set_ref_expr,
+\    nft_verdict_map_expr_block_delimiters
+
+hi link   nft_verdict_map_stmt_keyword_vmap nftHL_Substatement
+syn match nft_verdict_map_stmt_keyword_vmap '\vvmap\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_verdict_map_expr_set_ref_symbol_expr,
+\    nft_verdict_map_expr_variable_expr,
+\    nft_verdict_map_expr_block_delimiters,
+\    nft_Error
+
+syn cluster nft_c_verdict_stmt
+\ contains=
+\    nft_verdict_expr_keyword_continue,
+\    nft_verdict_expr_keyword_accept,
+\    nft_verdict_expr_keyword_return,
+\    nft_verdict_expr_keyword_drop,
+\    nft_verdict_expr_keyword_goto,
+\    nft_verdict_expr_keyword_jump
 
 "******************** BEGIN verdict_stmt ******************************
 

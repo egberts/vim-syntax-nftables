@@ -58,8 +58,8 @@ syn match nft_stmt_ip_payload_stmt_keyword_set '\vset\ze[ \t]' skipwhite contain
 
 " ************************* END payload_stmt ***********************
 
-hi link   nft_close_scope_ip_primary_expr_constant_expr_setname nftHL_Element
-syn match nft_close_scope_ip_primary_expr_constant_expr_setname '\v\@[a-zA-Z][a-zA-Z0-9_\-]{0,63}' skipwhite contained
+hi link   nft_close_scope_ip_primary_expr_constant_expr_at_setname nftHL_AtSetname
+syn match nft_close_scope_ip_primary_expr_constant_expr_at_setname '\v\@[a-zA-Z][a-zA-Z0-9_\-]{0,63}' skipwhite contained
 
 hi link    nft_stmt_ip_payload_expr_ip_hdr_expr_close_scope_ip_primary_expr_constant_expr_int_hex_2b_ecn nftHL_Integer
 syn match  nft_stmt_ip_payload_expr_ip_hdr_expr_close_scope_ip_primary_expr_constant_expr_int_hex_2b_ecn '\v(0x)?[0-3]' skipwhite contained

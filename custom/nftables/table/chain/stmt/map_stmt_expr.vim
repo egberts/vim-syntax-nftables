@@ -40,13 +40,13 @@ try
 " above are then placed inside 'contains=' in decreasing order of length of
 " its lexical token then in least-to-most permissive regex order.
 "
-hi link    nft_map_stmt_expr_set_expr_block_delimiters nftHL_BlockDelimiterMap
-syn region nft_map_stmt_expr_set_expr_block_delimiters start=+{+ end=+}+ skipwhite contained
+hi link    nft_map_stmt_expr_map_stmt_expr_set_set_expr_block_delimiters nftHL_BlockDelimiterMap
+syn region nft_map_stmt_expr_map_stmt_expr_set_set_expr_block_delimiters start=+{+ end=+}+ skipwhite contained
 
-hi link   nft_map_stmt_expr_keyword_map nftHL_Substatement
+hi link   nft_map_stmt_expr_keyword_map nftHL_Write
 syn match nft_map_stmt_expr_keyword_map '\vmap\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_map_stmt_expr_set_expr_block_delimiters
+\    nft_map_stmt_expr_map_stmt_expr_set_set_expr_block_delimiters
 "*************** END map_stmt_expr *******************************
 
 

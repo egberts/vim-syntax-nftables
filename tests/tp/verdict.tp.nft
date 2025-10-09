@@ -30,8 +30,8 @@ add rule table_id chain_id vmap { }
 add rule table_id chain_id vmap { };
 add rule table_id chain_id vmap { }
 add rule table_id chain_id vmap { } ; 
-add rule table_id chain_id vmap at ABC
-add rule table_id chain_id vmap at ABC  ;
+add rule table_id chain_id vmap @ABC
+add rule table_id chain_id vmap @ABC  ;
 
 
 

@@ -1,6 +1,7 @@
 " File: expr.vim
 " Directory: custom/nftables/table/chain/stmt/
 "
+" set_expr before verdict_map_expr
 let s:expr_list_filepaths_semantic_early = [
 \    'table/chain/stmt/expr/integer_expr.vim',
 \    'table/chain/stmt/expr/hash_expr.vim',
@@ -12,6 +13,7 @@ let s:expr_list_filepaths_semantic_early = [
 \    'table/chain/stmt/expr/map_expr.vim',
 \    'table/chain/stmt/expr/socket_expr.vim',
 \    'table/chain/stmt/expr/numgen_expr.vim',
+\    'table/chain/stmt/expr/set_expr.vim',
 \    'table/chain/stmt/expr/verdict_expr.vim',
 \    'table/chain/stmt/expr/verdict_map_expr.vim',
 \    'table/chain/stmt/expr/meta_expr.vim',

@@ -252,10 +252,9 @@ syn match nft_Error_get_cmd_set_block_expr_variable_expr /[^\;\s\wa-zA-Z0-9_./]{
 
 
 hi link   nft_get_et_al_cmd_set_block_expr_variable_expr nftHL_Variable
-syn match nft_get_et_al_cmd_set_block_expr_variable_expr "\$\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}" skipwhite contained
+syn match nft_get_et_al_cmd_set_block_expr_variable_expr "\v\$[a-zA-Z][a-zA-Z0-9_\-]{0,63}\ze[ \t\n;]" skipwhite contained
 \ nextgroup=
 \    nft_line_stmt_separator,
-\    nft_Error,
 \    nft_Error_get_cmd_block_expr_variable_expr,
 \    nft_UnexpectedSemicolon,
 \    nft_UnexpectedEOS,
@@ -267,23 +266,26 @@ syn match nft_get_et_al_cmd_set_block_expr_variable_expr "\$\v[a-zA-Z][a-zA-Z0-9
 " base_cmd 'get' 'element' [ family_spec_explicit ] table_id set_id set_block_expr
 syn cluster nft_c_get_et_al_cmd_set_block_expr
 \ contains=
+\    nft_get_et_al_cmd_set_block_expr_set_expr,
 \    nft_get_et_al_cmd_set_block_expr_variable_expr,
-\    nft_get_et_al_cmd_set_block_expr_set_expr
+\    nft_Error
+" TODO nft_get_et_al_cmd_set_block_expr_set_expr is the wrong scope (has set-block), redo
 
 " base_cmd 'get' 'element' [ family_spec_explicit ] table_id set_id
 "   nft_c_get_et_al_cmd includes add_cmd, create_cmd, delete_cmd, destroy_cmd, get_cmd, and reset_cmd
-hi link   nft_get_et_al_cmd_set_spec_identifier nftHL_Set
-syn match nft_get_et_al_cmd_set_spec_identifier "\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}" skipwhite contained
+hi link   nft_get_et_al_cmd_set_spec_identifier nftHL_Identifier
+syn match nft_get_et_al_cmd_set_spec_identifier "\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}\ze[ \t\$]" skipwhite contained
 \ nextgroup=
-\    nft_get_et_al_cmd_set_block_expr_variable_expr,
 \    nft_get_et_al_cmd_set_block_expr_set_expr,
+\    nft_get_et_al_cmd_set_block_expr_variable_expr,
 \    nft_UnexpectedSemicolon,
 \    nft_UnexpectedEOS,
 \    nft_Error
+" TODO nft_get_et_al_cmd_set_block_expr_set_expr is the wrong scope (has set-block), redo
 
 " base_cmd 'get' 'element' [ family_spec_explicit ] table_id set_id
 hi link   nft_get_et_al_cmd_set_spec_table_spec_identifier nftHL_Table
-syn match nft_get_et_al_cmd_set_spec_table_spec_identifier "\v[a-zA-Z][a-zA-Z0-9\/\\_\.\-]{0,63}" skipwhite contained
+syn match nft_get_et_al_cmd_set_spec_table_spec_identifier "\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}\ze[ \t]" skipwhite contained
 \ nextgroup=
 \    nft_get_et_al_cmd_set_spec_identifier,
 \    nft_UnexpectedSemicolon,

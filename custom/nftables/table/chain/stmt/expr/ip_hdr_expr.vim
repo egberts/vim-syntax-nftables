@@ -47,6 +47,12 @@ try
   " INSERT 'syntax cluster' here
   "
 
+hi link    nft_ip_hdr_expr_close_scope_ip_inline_set nftHL_BlockDelimitersSet
+syn region nft_ip_hdr_expr_close_scope_ip_inline_set start=+{+ end=+}+ skipwhite contained
+\ contains=
+\    @nft_c_primary_stmt_expr
+
+
 hi link   nft_ip_hdr_expr_close_scope_ip_constant_expr_int_hex_2b_ecn nftHL_Integer
 syn match nft_ip_hdr_expr_close_scope_ip_constant_expr_int_hex_2b_ecn '\v(0x)?[0-3]' skipwhite contained
 \ nextgroup=
@@ -341,8 +347,10 @@ syn match nft_ip_hdr_expr_keyword_option '\voption\ze[ \t]' skipwhite contained
 hi link   nft_ip_hdr_expr_ip_hdr_field_keyword_daddr nftHL_Keyword
 syn match nft_ip_hdr_expr_ip_hdr_field_keyword_daddr '\vdaddr\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_ip_hdr_expr_close_scope_ip_constant_expr_string_ip_opt_cidr,
+\    nft_verdict_map_stmt_keyword_vmap,
 \    nft_map_stmt_expr_keyword_map,
+\    nft_ip_hdr_expr_close_scope_ip_inline_set,
+\    nft_ip_hdr_expr_close_scope_ip_constant_expr_string_ip_opt_cidr,
 \    nft_Error
 
 " 'ip saddr'
@@ -350,8 +358,10 @@ syn match nft_ip_hdr_expr_ip_hdr_field_keyword_daddr '\vdaddr\ze[ \t]' skipwhite
 hi link   nft_ip_hdr_expr_ip_hdr_field_keyword_saddr nftHL_Keyword
 syn match nft_ip_hdr_expr_ip_hdr_field_keyword_saddr '\vsaddr\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_ip_hdr_expr_close_scope_ip_primarY_stmt_expr,
+\    nft_verdict_map_stmt_keyword_vmap,
 \    nft_map_stmt_expr_keyword_map,
+\    nft_ip_hdr_expr_close_scope_ip_inline_set,
+\    nft_ip_hdr_expr_close_scope_ip_primary_stmt_expr,
 \    nft_ip_hdr_expr_close_scope_ip_constant_expr_string_ip_opt_cidr,
 \    nft_Error
 

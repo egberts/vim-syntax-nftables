@@ -79,7 +79,7 @@ syn match nft_base_cmd_reset_set_or_map_family_spec_table_id_spec_id_handle_spec
 \    nft_base_cmd_reset_set_or_map_family_spec_table_id_spec_id_handle_id
 
 " base_cmd 'reset' [ 'set' | 'map' ] table_id spec_id
-hi link   nft_base_cmd_reset_set_or_map_family_spec_table_id_spec_id nftHL_Set
+hi link   nft_base_cmd_reset_set_or_map_family_spec_table_id_spec_id nftHL_Identifier
 syn match nft_base_cmd_reset_set_or_map_family_spec_table_id_spec_id "\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}" skipwhite contained
 \ nextgroup=
 \    nft_base_cmd_reset_set_or_map_family_spec_table_id_spec_id_handle_spec,
@@ -120,7 +120,7 @@ syn match nft_base_cmd_reset_element_family_spec_table_id_spec_id_variable "\v\$
 \    nft_base_cmd_reset_element_family_spec_table_id_spec_id
 
 " base_cmd 'reset' 'element' table_id spec_id
-hi link   nft_base_cmd_reset_element_family_spec_table_id_spec_id nftHL_Set
+hi link   nft_base_cmd_reset_element_family_spec_table_id_spec_id nftHL_SetIdentifier
 syn match nft_base_cmd_reset_element_family_spec_table_id_spec_id "\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}" skipwhite contained
 \ nextgroup=
 \    nft_base_cmd_reset_element_family_spec_table_id_spec_id_variable,
@@ -141,22 +141,26 @@ syn match nft_base_cmd_reset_element_family_spec "\v(ip6|ip|inet|netdev|bridge|a
 hi link   nft_base_cmd_reset_cmd_ruleid_spec_keyword_handle nftHL_Table
 syn match nft_base_cmd_reset_cmd_ruleid_spec_keyword_handle '\vhandle' skipwhite contained
 
+" 'reset rule <table_identifier> <chain_identifier>'
 hi link   nft_base_cmd_reset_cmd_ruleid_spec_chain_spec_identifier nftHL_Table
-syn match nft_base_cmd_reset_cmd_ruleid_spec_chain_spec_identifier '\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}' skipwhite contained
+syn match nft_base_cmd_reset_cmd_ruleid_spec_chain_spec_identifier '\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    nft_base_cmd_reset_cmd_ruleid_spec_keyword_handle,
 \    nft_UnexpectedEOS,
 \    nft_Error
 
+" 'reset rule <table_identifier>'
+" 'reset rule [<family_spec_explicit>] <table_identifier>'
 hi link   nft_base_cmd_reset_cmd_ruleid_spec_chain_spec_table_spec_identifier nftHL_Table
-syn match nft_base_cmd_reset_cmd_ruleid_spec_chain_spec_table_spec_identifier '\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}' skipwhite contained
+syn match nft_base_cmd_reset_cmd_ruleid_spec_chain_spec_table_spec_identifier '\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    nft_base_cmd_reset_cmd_ruleid_spec_chain_spec_identifier,
 \    nft_UnexpectedEOS,
 \    nft_Error
 
+" 'reset rule <family_spec_explicit>'
 hi link   nft_base_cmd_reset_cmd_ruleid_spec_chain_spec_table_spec_family_spec_explicit nftHL_Family
-syn match nft_base_cmd_reset_cmd_ruleid_spec_chain_spec_table_spec_family_spec_explicit '\v(bridge|netdev|inet|arp|ip6|ip)' skipwhite contained
+syn match nft_base_cmd_reset_cmd_ruleid_spec_chain_spec_table_spec_family_spec_explicit '\v(bridge|netdev|inet|arp|ip6|ip)\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    nft_base_cmd_reset_cmd_ruleid_spec_chain_spec_table_spec_identifier,
 \    nft_UnexpectedEOS,

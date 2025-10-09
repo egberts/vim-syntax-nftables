@@ -34,7 +34,7 @@ try
   "
 " ************************* BEGIN fib' expression *************************
 " fib (Forward Information Base) is about routing decision.
-hi link   nft_primary_expr_fib_named_set nftHL_Set
+hi link   nft_primary_expr_fib_named_set nftHL_AtSetname
 syn match nft_primary_expr_fib_named_set '\v\@[a-zA-Z][a-zA-Z0-9\-_]{0,63}\ze[ \t\n]' skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_rule_rule_alloc_stmt_primary_expr_fib_expr_keyword_fib

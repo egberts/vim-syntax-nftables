@@ -39,10 +39,6 @@ syn match nft_stateful_stmt_counter_stmt_counter_arg_bytes_num '\v[0-9]{1,10}' s
 \ nextgroup=
 \     nft_add_cmd_table_block_set_block_separator
 
-" 'table' table_block '{' 'set' set_block '{' stateful_stmt_list stateful_stmt counter_stmt 'counter' 'bytes'
-hi link   nft_stateful_stmt_counter_stmt_counter_arg_keyword_bytes nftHL_Keyword
-syn match nft_stateful_stmt_counter_stmt_counter_arg_keyword_bytes '\vbytes\ze[ \t]' skipwhite contained
-\ nextgroup=nft_stateful_stmt_counter_stmt_counter_arg_bytes_num
 
 " 'table' table_block '{' 'set' set_block '{' stateful_stmt_list stateful_stmt counter_stmt 'counter' 'packets' <NUM>
 hi link   nft_stateful_stmt_counter_stmt_counter_arg_packets_num nftHL_Integer

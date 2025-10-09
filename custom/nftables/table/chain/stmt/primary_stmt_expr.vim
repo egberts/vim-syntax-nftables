@@ -77,7 +77,7 @@ syn cluster nft_c_primary_stmt_expr
 \    nft_payload_expr_geneve_hdr_expr_keyword_geneve,
 \    nft_payload_expr_gretap_hdr_expr_keyword_gretap,
 \    nft_payload_expr_icmpv6_hdr_expr_keyword_icmpv6,
-\    nft_payload_expr_numgen_expr_keyword_numgen,
+\    nft_chain_block_primary_expr_numgen_expr_keyword_numgen,
 \    nft_verdict_expr_keyword_return,
 \    nft_socket_expr_keyword_socket,
 \    nft_payload_expr_keyword_expr_keyword_ether,
@@ -111,12 +111,12 @@ syn cluster nft_c_primary_stmt_expr
 \    nft_payload_expr_udp_hdr_expr_keyword_udp,
 \    nft_payload_expr_auth_hdr_expr_keyword_ah,
 \    nft_payload_expr_ct_expr_keyword_ct,
-\    nft_keyword_expr_keyword_ip,
 \    nft_payload_expr_rt_expr_keyword_rt,
 \    nft_payload_expr_th_hdr_expr_keyword_th,
 \    nft_payload_expr_payload_raw_expr_keyword_at,
 \    nft_stmt_primary_stmt_expr_symbol_expr_variable_expr,
 \    nft_stmt_verdict_expr_chain_expr_variable_expr,
+\
 \    nft_stmt_primary_stmt_expr_integer_expr_num,
 \    nft_stmt_primary_stmt_expr_symbol_expr_string
 "*************** END primary_stmt_expr *******************************

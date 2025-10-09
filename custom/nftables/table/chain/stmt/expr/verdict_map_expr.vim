@@ -36,7 +36,7 @@ try
 hi link    nft_verdict_stmt_verdict_map_stmt_verdict_map_expr_delimiters nftHL_BlockDelimitersSet
 syn region nft_verdict_stmt_verdict_map_stmt_verdict_map_expr_delimiters start=+{+ end=+}+ keepend skipwhite contained
 
-hi link   nft_verdict_stmt_verdict_map_stmt_keyword_vmap nftHL_Keyword
+hi link   nft_verdict_stmt_verdict_map_stmt_keyword_vmap nftHL_Write
 syn match nft_verdict_stmt_verdict_map_stmt_keyword_vmap '\vvmap' skipwhite contained
 \ nextgroup=
 \    nft_verdict_stmt_verdict_map_stmt_verdict_map_expr_delimiters
