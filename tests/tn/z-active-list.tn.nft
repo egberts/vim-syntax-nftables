@@ -52,7 +52,6 @@ list flow table
 list flow table MyFlow 
 
 
-list flow table MyFlow last ExtraIdentifier 
 list flow table MyFlow MyChain ExtraIdentifier 
 list flow table ip6 MyFlow MyChain ExtraIdentifier 
 

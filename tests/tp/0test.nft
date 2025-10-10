@@ -38,7 +38,6 @@ table inet TestKeywords {
         ct label "test_label" counter accept
         # Test 'original' and 'reply' (conntrack direction)
         ct direction reply counter accept
-        # Test 'last' (meta mark to indicate last fragment)
         ip frag-off & 0x1fff != 0 meta mark set 1 counter accept
     }
 }

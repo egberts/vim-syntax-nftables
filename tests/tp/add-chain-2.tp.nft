@@ -56,9 +56,7 @@ table T { chain C {
     define A = 1 
     redefine A = 1 ;
     undefine A;
-    define last = 1 ;
  # not an ideal variable name (reserved word)
-    redefine last = 1 ;
     define A = {} ; 
     redefine A = { 127.0.0.1 } ;  
     iif "lo" accept
@@ -156,19 +154,6 @@ table ip6 myIp6Table { flags dormant; }
 table inet myInetTable { flags dormant; }
 # END OF WORK
 
-table xxxx { undefine abc; chain last { undefine abc; }; };
-
-
-
-
-
-
-
-table xxxx { chain last {
-    undefine abc;
-    include "../include/rule-counter.nft";
-    define a = 123;
-}; };
 table arp A0b__RP_TABLE {
     chain ARP_INPUT_FILTER {
         define a = 123;

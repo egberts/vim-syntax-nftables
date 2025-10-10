@@ -27,25 +27,12 @@ add secmark myTable sshtag { "system_u:object_r:ssh_server_packet_t:s0" }
 #    system_u:object_r:unlabeled_t:s0
 #    system_u:object_r:default_t:s0
 
-secmark obj_spec secmark_obj { }
-secmark obj_spec secmark_obj { } 
-secmark obj_spec secmark_obj {;} 
-secmark obj_spec secmark_obj { ; } 
-secmark T SM { define my_var = 1; };
-secmark T SM { redefine my_var = 2; };
-secmark T SM { undefine my_var; };
-secmark T SM { typeof b.c.d.e.f : secmark  };
-secmark myTable sshtag { "system_u:object_r:ssh_server_packet_t:s0" }
-
 add table ip Tip
 add table ip6 Tip6
 add table inet Tinet
 add secmark ip Tip SMip { "system_u:object_r:ssh_server_packet_t:s0" }
 add secmark ip6 Tip6 SMip6 { "system_u:object_r:http_server_packet_t:s0" }  # fails, family_spec required
 add secmark inet Tinet SMinet { "system_u:object_r:dns_server_packet_t:s0" }
-delete secmark ip Tip SMip
-delete secmark ip6 Tip6 SMip6
-delete secmark inet Tinet SMinet
 
 
 # base_cmd add_cmd 'table' table_spec table_block 'secmark' secmark_block
@@ -57,7 +44,6 @@ table inet T { secmark SM { } }
 table netdev T { secmark SM { } }
 table bridge T { secmark SM { } }
 table arp T { secmark SM { } }
-table last { secmark SM { } }
 table T { secmark SM { "some security settings goes into here" } }
 table T {
     secmark SM {
@@ -68,70 +54,6 @@ table T {
         undefine A
     }
 };
-
-create secmark myTable mySecMark 'asdf \'asdd"asdfdf'
-create secmark myTable mySecMark 'asdf \'asddfasdfdf'
-create secmark myTable mySecMark 'a:;fasddfa()fdf' ;
-create secmark myTable mySecMark "asdf \"dfa[]fdf"
-create secmark myTable mySecMark "asdf \"dfa'dfdf"
-create secmark ip myTable mySecMark an unconstrained string
-create secmark inet myTable mySecMark an unconstrained string ;
-create secmark obj_spec secmark_obj secmark_config close_scope_secmark
-
-delete secmark T secmark_name 
-delete secmark table_name secmark_name 
-delete secmark ip table_name secmark_name
-delete secmark ip6 table_name secmark_name
-delete secmark inet table_name secmark_name
-delete secmark arp table_name secmark_name
-delete secmark bridge table_name secmark_name
-delete secmark netdev table_name secmark_name
-delete secmark T handle 15
-delete secmark table_name handle 15
-delete secmark ip table_name handle 15
-delete secmark ip6 table_name handle 15
-delete secmark inet table_name handle 15
-delete secmark arp table_name handle 15
-delete secmark bridge table_name handle 15
-delete secmark netdev table_name handle 15
-
-destroy secmark arp T handle 15
-destroy secmark arp T secmark_name
-destroy secmark bridge T handle 15
-destroy secmark bridge T secmark_name
-destroy secmark inet T handle 15
-destroy secmark inet T secmark_name
-destroy secmark ip6 T handle 15
-destroy secmark ip6 T secmark_name
-destroy secmark ip T handle 15
-destroy secmark ip T secmark_name
-destroy secmark netdev T handle 15
-destroy secmark netdev T secmark_name
-
-list secmark table ruleset_spec
-list secmark table table_name
-list secmark table_id secmark_id
-list secmark ip table_id secmark_id
-list secmark ip6 table_id secmark_id
-list secmark inet table_id secmark_id
-list secmark netdev table_id secmark_id
-list secmark bridge table_id secmark_id
-list secmark arp table_id secmark_id
-
-list secmarks 
-list secmarks ip 
-list secmarks ip6
-list secmarks inet 
-list secmarks netdev 
-list secmarks bridge
-list secmarks arp 
-list secmarks table table_id
-list secmarks table ip table_id
-list secmarks table ip6 table_id
-list secmarks table inet table_id
-list secmarks table netdev table_id
-list secmarks table bridge table_id
-list secmarks table arp table_id
 
 add rule T C ct secmark;
 add rule ip6 myTable myChain position 1 ct secmark set ip6 myIpTable myCTHchain { };

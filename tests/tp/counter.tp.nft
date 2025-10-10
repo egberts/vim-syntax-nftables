@@ -51,7 +51,6 @@ counter table_id counter_id
 counter table_id counter_id; 
 counter table_id counter_id ;
 counter table_id counter_id ; 
-counter table_id last;
 
 add table ip table_id_ip
 add table ip6 table_id_ip6
@@ -65,7 +64,6 @@ counter inet   table_id_inet counter_id ;
 counter netdev table_id_netdev counter_id; 
 counter bridge table_id_bridge counter_id ; 
 counter arp    table_id_arp counter_id
-counter arp    table_id_arp last
 
 
 counter table_id counter_id packets 5 bytes 1500

@@ -81,9 +81,6 @@ insert rule arp T C
 
 
 insert rule T C offset
-insert rule T last offset
-insert rule last C offset
-insert rule last last offset
 
 insert rule T C position 
 

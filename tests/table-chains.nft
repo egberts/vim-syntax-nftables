@@ -32,8 +32,6 @@ add table filter
 table T  # that one creates an empty table
 # base_cmd add_cmd 'table' table_spec identifier <STRING>
 table xxxx
-# base_cmd add_cmd 'table' table_spec identifier 'last'
-table last
 
 # base_cmd add_cmd 'table' table_spec table_block
 table T { }
@@ -52,8 +50,6 @@ table T { define A = 1; }  # very interesting, ';' is required inside one-liner 
 table T { 
     define A = 1 
     define A = 1 ;
-    define last = 1
-    define last = 1 ;
     define A = {} ;
 }
 # base_cmd add_cmd 'table' table_spec table_block common_block 'redefine'
@@ -136,14 +132,6 @@ table xxxx {
     include "add-more-table-xxxx.nft";
 };
 
-table T { chain last }
-table T { chain last; }
-table T { chain last; };
-table xxxx { 
-    chain last  
-}
-table xxxx { 
-    chain last; };
 table T { chain C }
 table T { chain C };
 table T { chain C ; } ;
@@ -179,10 +167,6 @@ table ip myIpTable { flags dormant; }
 table ip6 myIp6Table { flags dormant; }
 table inet myInetTable { flags dormant; }
 
-table xxxx { undefine abc; chain last { undefine abc; }; };
-
-
-
 table inet MyIpNet {
     chain MyForwardChain {
         type filter hook prerouting device wlan0 priority 1;
@@ -193,15 +177,6 @@ table inet MyIpNet {
     flags persist, dormant, owner
     comment "unique"
 };
-
-
-
-
-table xxxx { chain last {
-    undefine abc;
-    include "file";
-    define a = 123;
-}; };
 
 table arp A0b__RP_TABLE {
      chain ARP_INPUT_FILTER {
@@ -881,8 +856,6 @@ table ip6 firewall {
   }
 }
 
-table xxxx { undefine abc; chain last { chain last; undefine abc; }; };  # oopsie
-
 
 ################################################################################
 # true negative test: properly hightlighted wrongly to show an error; 
@@ -1006,11 +979,6 @@ table T { chain C { devices = { eth0 } }; };
 ################################################################################
 
 table T { chain C { type filter ; }; };  # incomplete
-
-table xxxx { chain MyIpNet {
-    chain last;  # oopsie
-    };
-};
 
 table @TX
 table A @# @   # invalid character

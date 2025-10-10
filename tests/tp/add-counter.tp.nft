@@ -71,13 +71,7 @@ counter arp T C  ;
 add counter T C0
 add counter T C_
 add counter T C\
-
-add counter T last;
-
 add counter T C ;
-
-counter T last;
-
 
 add table filter
 add chain filter input

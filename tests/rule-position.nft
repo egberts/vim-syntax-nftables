@@ -150,8 +150,6 @@ rule T C continue ;
 rule T C jump chain_id ;
 rule T C goto chain_id ;
 rule T C return ;
-rule T C jump last ;
-rule T C goto last ;
 rule T C jump $MY_CHAIN ;
 rule T C goto $MY_CHAIN ;
 
@@ -179,9 +177,6 @@ rule T C quota over 150 bytes used 100 bytes ;
 rule T C quota until 300 mbytes used 600 bytes ;
 rule T C ct 123 300  ;
 rule T C ct over 123 300  ;
-rule T C last ;
-rule T C last used never ;
-rule T C last used 1h15m ;
 
 
 # meta_stmt

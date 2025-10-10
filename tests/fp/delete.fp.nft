@@ -27,14 +27,12 @@ delete rule T C ct proto-src set destroy  # keyword_expr
 delete rule T C ct proto-dst set original  # keyword_expr
 delete rule T C ct label set reply  # keyword_expr
 delete rule T C ct event set label  # keyword_expr
-delete rule T C ct secmark set last  # keyword_expr
 delete rule T C ct id set
 delete rule T C ct bytes set
 delete rule T C ct packets set
 delete rule T C ct avgpkt set
 delete rule T C ct zone set
 delete rule T C ct original set
-delete rule T C ct reply set last
 
 delete flowtable netdev T FT { flowtable_block }
 

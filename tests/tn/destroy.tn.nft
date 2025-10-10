@@ -13,9 +13,6 @@ destroy table bridge Tbridge handle 123
 destroy table arp Tarp handle 123
 
 
-destroy chain last C
-destroy chain T last
-destroy chain last last
 destroy chain T C { }
 destroy chain ip T C {  }
 destroy chain ip6 T C {  }

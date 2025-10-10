@@ -11,9 +11,6 @@
 
 # quota statements
 add quota filter http_quota over 25 mbytes
-add quota last http_quota over 25 mbytes
-add quota filter last over 25 mbytes
-add quota last last over 25 mbytes
 add quota filter ssh_quota { 10 kbytes }
 add quota filter http_quota { over 25 mbytes };
 add quota ip mangle eth0output over 500 mbytes
@@ -24,9 +21,6 @@ add quota bridge myIpfilter http-quota over 25 mbytes
 add quota arp myIpfilter http-quota over 25 mbytes
 
 add quota filter http_quota { over 25 mbytes }
-add quota last http_quota { over 25 mbytes }
-add quota filter last { over 25 mbytes }
-add quota last last { over 25 mbytes }
 add quota filter ssh_quota { 10 kbytes }
 add quota filter http_quota { over 25 mbytes };
 add quota ip mangle eth0output { over 500 mbytes }
@@ -121,7 +115,7 @@ reset quotas table arp myIpFilter
 # quota expressions
 # base_cmd add_cmd 'table' table_spec table_block 'quota' quota_block
 table T {
-    quota last { }
+    quota quota_a { }
     quota Q {
         # comment_spec
         comment "my comments"
@@ -166,9 +160,6 @@ add
 
 
 add quota 
-
-
-add quota last
 
 
 add quota filter

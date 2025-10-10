@@ -90,9 +90,6 @@ delete chain Tchain C { define my_var = 1; };
 # TODO: Polish up the 'delete rule'
 # delete rule <ruleid_spec>
 #delete rule T C handle 16
-#delete rule last C handle 16
-#delete rule T last handle 16
-#delete rule last last handle 16
 #delete rule arp T C handle 16
 #delete rule bridge T C handle 16
 #delete rule filter output handle 5

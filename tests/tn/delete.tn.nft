@@ -30,7 +30,6 @@ delete table bridge handle 123
 delete table arp handle 123
 
 add table ip Tip
-delete table ip last
 
 delete table ip handle 7
 delete table ip6 handle 8
@@ -71,9 +70,6 @@ delete chain netdev T handle 15
 
 # delete rule <ruleid_spec>
 delete rule T C handle 16
-delete rule last C handle 16
-delete rule T last handle 16
-delete rule last last handle 16
 delete rule arp T C handle 16
 delete rule bridge T C handle 16
 delete rule filter output handle 5

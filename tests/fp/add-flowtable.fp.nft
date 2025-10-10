@@ -43,16 +43,6 @@ list flowtable ip
 
 # set_spec->'table'->'flow'->list_cmd->base_cmd
 add table table_id
-list flow table table_id last
-list flow table last last
-list flow table table_id last
-list flow table last last
-list flow table ip table_id last
-list flow table ip last last
-list flow table ip table_id last
-list flow table ip last last
-list flow table ip6 table_id last
-list flow table inet table_id last
 
 add flowtable ip6 T C { hook prerouting priority 100; };
 list flowtable ip6 T C

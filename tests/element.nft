@@ -17,9 +17,6 @@
 
 # set_expr->set_block_expr->'element'->add_cmd->base_cmd->line
 element T S { };
-element last S { };
-element T last { };
-element last last { };
 element ip T S { };
 element ip6 T S { };
 element inet T S { };
@@ -28,7 +25,6 @@ element bridge T S { };
 element arp T S { };
 
 # variable_expr->set_block_expr->'element'->add_cmd->base_cmd->line
-element ip T last $MY_ELEMENT;
 element ip T S $MY_ELEMENT ;
 
 # set_expr->set_block_expr->'element'->add_cmd->'add'->base_cmd->line
@@ -100,10 +96,6 @@ element ip
 
 
 element TE  { };
-element lastE { };
-element Tlast { };
-element last { };
-element lastlast { };
 element ipT E { };
 element ip6 TE { };
 element inet T E{ };

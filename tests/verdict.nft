@@ -13,10 +13,8 @@ tableid chainid accept
 tableid chainid drop 
 tableid chainid continue 
 tableid chainid jump myChainId
-tableid chainid jump last
 tableid chainid jump $MY_ACTION
 tableid chainid goto hisChainId
-tableid chainid goto last
 tableid chainid goto $MY_ACTION
 tableid chainid return 
 

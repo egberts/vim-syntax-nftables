@@ -514,7 +514,6 @@ table netdev filter {
     224.0.0.0/3,
     240.0.0.0/5
   }
-  # fix the last two IPs overlapping
 }
 
 table netdev filter {
@@ -3469,7 +3468,6 @@ add rule myTable myChain accept
 add rule myTable myChain drop
 add rule myTable myChain continue
 add rule myTable myChain return
-add rule myTable myChain jump last
 add rule myTable myChain jump $chainvar
 add rule myTable myChain jump AltChain
 add rule myTable myChain goto AltChain

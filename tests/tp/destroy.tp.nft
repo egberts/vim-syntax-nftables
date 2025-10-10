@@ -12,7 +12,6 @@
 # destroy table <table_spec>
 # table_spec->'table'->destroy_cmd->'destroy'->base_cmd->line
 destroy table T
-destroy table last
 destroy table ip T
 destroy table ip6 T
 destroy table inet T

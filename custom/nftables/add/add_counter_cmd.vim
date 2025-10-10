@@ -148,18 +148,10 @@ syn match nft_add_cmd_counter_Semicolon contained '\v\s{0,8};' skipwhite contain
 hi link   nft_add_cmd_counter_last_Error_Always nftHL_Error
 syn match nft_add_cmd_counter_last_Error_Always '\v\i{1,15}' skipwhite contained
 
-hi link   nft_add_cmd_keyword_counter_obj_spec_identifier_last nftHL_Keyword
-syn match nft_add_cmd_keyword_counter_obj_spec_identifier_last '\vlast\ze(([ \t])|($))' skipwhite contained
-\ nextgroup=
-\    nft_add_cmd_keyword_counter_counter_block,
-\    nft_add_cmd_keyword_counter_counter_config_keyword_packets,
-\    nft_line_stmt_separator
-
 " add_cmd 'counter' obj_spec obj_id table_spec table_id
 hi link   nft_add_cmd_keyword_counter_obj_spec_table_spec_table_id nftHL_Identifier
 syn match nft_add_cmd_keyword_counter_obj_spec_table_spec_table_id '\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_add_cmd_keyword_counter_obj_spec_identifier_last,
 \    nft_add_cmd_counter_obj_spec_obj_id,
 \    nft_UnexpectedSemicolon,
 \    nft_UnexpectedEOS
@@ -214,16 +206,10 @@ syn cluster nft_c_add_cmd_keyword_counter_obj_spec_obj_last
 \    nft_add_cmd_keyword_counter_counter_config_keyword_packets,
 \    nft_line_stmt_separator
 
-hi link   nft_add_cmd_keyword_counter_obj_spec_identifier_last nftHL_Keyword
-syn match nft_add_cmd_keyword_counter_obj_spec_identifier_last 'last' skipwhite contained
-\ nextgroup=
-\    @nft_c_add_cmd_keyword_counter_obj_spec_obj_last
-
 " add_cmd 'counter' obj_spec obj_id table_spec table_id
 hi link   nft_add_cmd_keyword_counter_obj_spec_table_spec_table_id nftHL_Identifier
 syn match nft_add_cmd_keyword_counter_obj_spec_table_spec_table_id '\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}' skipwhite contained
 \ nextgroup=
-\    nft_add_cmd_keyword_counter_obj_spec_identifier_last,
 \    nft_base_cmd_keyword_counter_keyword_table_obj_spec_obj_id,
 \    nft_UnexpectedSemicolon,
 \    nft_UnexpectedEOS

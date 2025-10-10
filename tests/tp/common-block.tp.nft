@@ -33,10 +33,6 @@ define A=1
 define B= 1
 define C =1
 define D = 1
-define lastA=1
-define lastB= 1
-define lastC =1
-define lastD = 1
 define ABC= 1  # missing stmt_separator
 define ABD = 1  ;
 define ABE = 1, 2, 3  ;  # set
@@ -61,7 +57,6 @@ define ABT = "string";
 
 # line/common_block/DEFINE/initializer_expr/rhs_expr/.../primary_rhs_expr/set_expr/{}
 define ABU = {};
-define last = {   }
 define ABV = { }
 define ABW = { }
 define ABX = {            }
@@ -103,10 +98,8 @@ define negative_valueB = -1000 ;
 #
 # line common_block 'redefine' identifier '=' initializer_expr
 # line/common_block/REDEFINE
-redefine last = {}
 redefine A = {}
 redefine A={}
-redefine last = {}
 redefine A = { 1 }
 redefine A = { 1,2, 3, 4 }
 redefine A = { 127.0.0.1 }
@@ -122,10 +115,6 @@ redefine A = $ABC  # missing stmt_separator
 
 # line common_block 'undefine' identifier 
 # line/common_block/UNDEFINE
-undefine last
-undefine last;
-undefine last; 
-undefine last ; 
 undefine A
 undefine ABC
 # line/common_block/UNDEFINE/stmt_separator
@@ -147,8 +136,6 @@ table T { define A = 1; }
 table T {
     define BAA = 1
     define BAB = 1 ;
-    define lastBBA = 1
-    define lastBBB = 1 ;
     define BAC = {} ;
 }
 # base_cmd add_cmd 'table' table_spec table_block common_block 'redefine'

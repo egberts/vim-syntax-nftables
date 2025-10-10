@@ -22,7 +22,6 @@ counter bridge T C;
 counter arp T C  ;  
 counter T C { packet 123 bytes 12345 } ;
 counter T C { packet 123 bytes 12345 } ;
-counter T last { packet 123 bytes 12345; } ;
 counter ip T C { packet 123 bytes 123; packet 123 bytes 123; };
 counter ip T C { 
     packet 123 bytes 123 
@@ -33,8 +32,6 @@ add counter T C0
 add counter T C_
 add counter T C\
 add counter T C ;
-add counter T last;
-add counter T last packet 123 bytes 12345;
 add counter T C { packet 123 bytes 12345 };
 add counter T C { packet 123 bytes 12345; packet 321 bytes 4321; };
 add counter T C { 
@@ -43,8 +40,6 @@ add counter T C {
 };
 add counter T C ;
 add counter ip T C { packet 123 bytes 123 };
-counter T last;
-counter T last packet 123 bytes 12345;
 add counter filter http
 add counter filter https
 add rule filter input tcp dport 80 counter name \"http\"  # nftables manpage
@@ -160,13 +155,7 @@ list flow tables ip
 list flow tables ip6
 list flow tables inet
 list flow table table_id synproxy_id
-list flow table last synproxy_id
-list flow table table_id last
-list flow table last last
 list flow table ip table_id synproxy_id
-list flow table ip last synproxy_id
-list flow table ip table_id last
-list flow table ip last last
 list flow table ip6 table_id synproxy_id
 list flow table inet table_id synproxy_id
 list flowtables
@@ -332,7 +321,6 @@ table A
 add table filter
 table T  # that one creates an empty table
 table xxxx
-table last
 table T { }
 table T { } ; #
 table inet xxxx { };
@@ -355,8 +343,6 @@ table T { define A = 1; }
 table T { 
     define A = 1 
     define A = 1 ;
-    define last = 1
-    define last = 1 ;
     define A = {} ;
 }
 table T { redefine A = 1; }
@@ -409,14 +395,6 @@ table xxxx {
     comment test;
     include "add-more-table-xxxx.nft";
 };
-table T { chain last }
-table T { chain last; }
-table T { chain last; };
-table xxxx { 
-    chain last  
-}
-table xxxx { 
-    chain last; };
 table T { chain C }
 table T { chain C };
 table T { chain C ; } ;
@@ -462,7 +440,6 @@ table arp myArpTable { flags dormant; }
 table ip myIpTable { flags dormant; }
 table ip6 myIp6Table { flags dormant; }
 table inet myInetTable { flags dormant; }
-table xxxx { undefine abc; chain last { undefine abc; }; };
 table inet MyIpNet {
     chain MyForwardChain {
         type filter hook prerouting device wlan0 priority 1;
@@ -473,11 +450,6 @@ table inet MyIpNet {
     flags a, b, c
     comment "unique"
 };
-table xxxx { chain last {
-    undefine abc;
-    include "file";
-    define a = 123;
-}; };
 table arp A0b_._/RP_TABLE {
     chain ARP_INPUT_FILTER {
         define a = 123;
@@ -1095,7 +1067,6 @@ table ip6 firewall {
   }
 }
 
-table xxxx { undefine abc; chain last { chain last; undefine abc; }; };  # oopsie
 chain T C { ip protocol jump C2 }
 add chain T C { ip protocol jump C2 }
 table T {
@@ -1454,8 +1425,6 @@ json
 jump
 3l3protocol
 label
-last
-last-ent
 left
 length
 level
@@ -2241,7 +2210,6 @@ define int_if3 = { virbr0, $int_if2, virbr1 }
 define int_if3 = { virbr0, $int_if2, virbr1 } ;
 delete table ;
 delete table T
-delete table last
 delete table ip T
 delete table ip6 T
 delete table inet T
@@ -2279,9 +2247,6 @@ delete chain bridge T handle 15
 delete chain arp T handle 15
 delete chain netdev T handle 15
 delete rule T C handle 16
-delete rule last C handle 16
-delete rule T last handle 16
-delete rule last last handle 16
 delete rule arp T C handle 16
 delete rule bridge T C handle 16
 delete rule filter output handle 5
@@ -2546,7 +2511,6 @@ describe ipsec out ip6 daddr
 describe ipsec out spi
 describe ipsec out reqid
 destroy table T
-destroy table last
 destroy table ip T
 destroy table ip6 T
 destroy table inet T
@@ -2561,9 +2525,6 @@ destroy table netdev handle 123
 destroy table bridge handle 123
 destroy table arp handle 123
 destroy chain T C
-destroy chain last C
-destroy chain T last
-destroy chain last last
 destroy chain ip T C
 destroy chain ip6 T C
 destroy chain inet T C
@@ -2912,38 +2873,6 @@ insert rule bridge T C index 123
 insert rule arp T C position 123
 insert rule arp T C handle 123
 insert rule arp T C index 123
-last
-last used 
-last used time_spec
-rule last
-rule last used never
-rule last used time_spec
-add rule last
-add rule last used never
-add rule last used time_spec
-table T {
-    chain C {
-        last
-        last used never
-        last used +1h5m
-    }
-}
-jump { 
-    last
-    last used never
-    last used 2w1d
-}
-goto { 
-    last
-    last used never
-    last used 2w1d
-}
-
-insert rule T C {
-    last
-    last used never
-    last used time_spec
-}
 limit myIp6Table myIp6Limit rate 1 / week
 limit myIpTable myIpLimit rate over 3600000/ day
 limit myInetTable myInetLimit rate until 1/second
@@ -3032,7 +2961,6 @@ redefine A = 123  # missing stmt_separator
 redefine A = $ABC  # missing stmt_separator
 undefine ABC
 undefine A
-list table last
 list table table_id
 list table ip table_id
 list table ip6 table_id
@@ -3078,13 +3006,7 @@ list maps netdev
 list maps bridge 
 list maps arp 
 list chain table_id chain_id
-list chain last chain_id
-list chain table_id last
-list chain last last
 list chain ip table_id chain_id
-list chain ip last chain_id
-list chain ip table_id last
-list chain ip last last
 list chain ip6 table_id chain_id
 list chain inet table_id chain_id
 list chain netdev table_id chain_id
@@ -3098,9 +3020,7 @@ list sets netdev
 list sets bridge 
 list sets arp 
 list sets table table_id
-list sets table last
 list sets table ip table_id
-list sets table ip last
 list sets table ip6 table_id
 list sets table inet table_id
 list sets table netdev table_id
@@ -3114,9 +3034,7 @@ list counters netdev
 list counters bridge 
 list counters arp 
 list counters table table_id
-list counters table last
 list counters table ip table_id
-list counters table ip last
 list counters table ip6 table_id
 list counters table inet table_id
 list counters table netdev table_id
@@ -3130,9 +3048,7 @@ list quotas netdev
 list quotas bridge 
 list quotas arp 
 list quotas table table_id
-list quotas table last
 list quotas table ip table_id
-list quotas table ip last
 list quotas table ip6 table_id
 list quotas table inet table_id
 list quotas table netdev table_id
@@ -3146,30 +3062,12 @@ list limits netdev
 list limits bridge 
 list limits arp 
 list limits table table_id
-list limits table last
 list limits table ip table_id
-list limits table ip last
 list limits table ip6 table_id
 list limits table inet table_id
 list limits table netdev table_id
 list limits table bridge table_id
 list limits table arp table_id
-list secmarks 
-list secmarks ip 
-list secmarks ip6
-list secmarks inet 
-list secmarks netdev 
-list secmarks bridge 
-list secmarks arp 
-list secmarks table table_id
-list secmarks table last
-list secmarks table ip table_id
-list secmarks table ip last
-list secmarks table ip6 table_id
-list secmarks table inet table_id
-list secmarks table netdev table_id
-list secmarks table bridge table_id
-list secmarks table arp table_id
 list synproxys 
 list synproxys ip 
 list synproxys ip6
@@ -3178,18 +3076,13 @@ list synproxys netdev
 list synproxys bridge 
 list synproxys arp 
 list synproxys table table_id
-list synproxys table last
 list synproxys table ip table_id
-list synproxys table ip last
 list synproxys table ip6 table_id
 list synproxys table inet table_id
 list synproxys table netdev table_id
 list synproxys table bridge table_id
 list synproxys table arp table_id
 list set table_id set_id
-list set last set_id
-list set table_id last
-list set last last
 list set ip table_id set_id
 list set ip6 table_id set_id
 list set inet table_id set_id
@@ -3197,9 +3090,6 @@ list set netdev table_id set_id
 list set bridge table_id set_id
 list set arp table_id set_id
 list meter table_id meter_id
-list meter last meter_id
-list meter table_id last
-list meter last last
 list meter ip table_id meter_id
 list meter ip6 table_id meter_id
 list meter inet table_id meter_id
@@ -3207,66 +3097,12 @@ list meter netdev table_id meter_id
 list meter bridge table_id meter_id
 list meter arp table_id meter_id
 list map table_id map_id
-list map last map_id
-list map table_id last
-list map last last
 list map ip table_id map_id
 list map ip6 table_id map_id
 list map inet table_id map_id
 list map netdev table_id map_id
 list map bridge table_id map_id
 list map arp table_id map_id
-list counter table_id counter_id
-list counter last counter_id
-list counter table_id last
-list counter last last
-list counter ip table_id counter_id
-list counter ip6 table_id counter_id
-list counter inet table_id counter_id
-list counter netdev table_id counter_id
-list counter bridge table_id counter_id
-list counter arp table_id counter_id
-list quota table_id quota_id
-list quota last quota_id
-list quota table_id last
-list quota last last
-list quota ip table_id quota_id
-list quota ip6 table_id quota_id
-list quota inet table_id quota_id
-list quota netdev table_id quota_id
-list quota bridge table_id quota_id
-list quota arp table_id quota_id
-list limit table_id limit_id
-list limit last limit_id
-list limit table_id last
-list limit last last
-list limit ip table_id limit_id
-list limit ip6 table_id limit_id
-list limit inet table_id limit_id
-list limit netdev table_id limit_id
-list limit bridge table_id limit_id
-list limit arp table_id limit_id
-list secmark table_id secmark_id
-list secmark last secmark_id
-list secmark table_id last
-list secmark last last
-list secmark ip table_id secmark_id
-list secmark ip6 table_id secmark_id
-list secmark inet table_id secmark_id
-list secmark netdev table_id secmark_id
-list secmark bridge table_id secmark_id
-list secmark arp table_id secmark_id
-list synproxy table_id synproxy_id
-list synproxy last synproxy_id
-list synproxy table_id last
-list synproxy last last
-list synproxy ip table_id synproxy_id
-list synproxy ip table_id last
-list synproxy ip6 table_id synproxy_id
-list synproxy inet table_id synproxy_id
-list synproxy netdev table_id synproxy_id
-list synproxy bridge table_id synproxy_id
-list synproxy arp table_id synproxy_id
 list flow tables 
 list flow tables ip
 list flow tables ip6
@@ -3278,15 +3114,11 @@ list flow table table_id synproxy_id
 list flow table ip table_id synproxy_id
 list flow table ip6 table_id synproxy_id
 list flow table inet table_id synproxy_id
-list flowtable last 
 list flowtable table_id 
 list flowtable ip table_id 
 list flowtable ip6 table_id 
 list flowtable inet table_id 
 list ct helper table_id ct_id x
-list ct helper last ct_id
-list ct helper table_id last
-list ct helper last last
 list ct helper ip table_id ct_id
 list ct helper ip6 table_id ct_id
 list ct helper inet table_id ct_id
@@ -3302,14 +3134,12 @@ list ct timeout netdev table_id ct_id
 list ct timeout bridge table_id ct_id
 list ct timeout arp table_id ct_id
 list ct timeout table table_id
-list ct timeout table last
 list ct timeout table ip table_id
 list ct timeout table ip6 table_id
 list ct timeout table inet table_id
 list ct timeout table netdev table_id
 list ct timeout table bridge table_id
 list ct timeout table arp table_id
-list ct timeout table arp last
 list ct expectation
 list ct expectation table_id ct_id
 list ct expectation ip table_id ct_id
@@ -3319,23 +3149,19 @@ list ct expectation netdev table_id ct_id
 list ct expectation bridge table_id ct_id
 list ct expectation arp table_id ct_id
 list ct expectation table table_id
-list ct expectation table last
 list ct expectation table ip table_id
 list ct expectation table ip6 table_id
 list ct expectation table inet table_id
 list ct expectation table netdev table_id
 list ct expectation table bridge table_id
 list ct expectation table arp table_id
-list ct expectation table arp last
 list ct helpers table table_id 
-list ct helpers table last 
 list ct helpers table ip table_id
 list ct helpers table ip6 table_id
 list ct helpers table inet table_id
 list ct helpers table netdev table_id
 list ct helpers table bridge table_id
 list ct helpers table arp table_id
-list ct helpers table arp last
 list hooks 
 list hooks ip
 list hooks ip6
@@ -3426,30 +3252,19 @@ add rule tableid chainid snat
 tableid chainid snat to $VARIABLE_NAME 
 tableid chainid snat to ether 
 tableid chainid snat to : dnat 
-tableid chainid snat to destroy : last 
 tableid chainid snat interval to ecn 
 tableid chainid snat prefix to reset 
-tableid chainid snat ip to last 
-tableid chainid snat ip to original : last
 tableid chainid snat ip6 to label 
 tableid chainid snat ip6 to reply : arp
 tableid chainid snat ip6 addr . port to
 tableid chainid snat ip6 interval to
 tableid chainid snat ip6 prefix to
-tableid chainid snat ip to original : last random
-tableid chainid snat ip to original : last fully-random
-tableid chainid snat ip to original : last persistent
-tableid chainid snat ip to original : last persistent,random
-tableid chainid snat ip to original : last persistent,random,fully-random
 add rule myTable myChain queue num 2
 add rule myTable myChain queue num 2-3
 add rule myTable myChain queue num 4-5 fanout bypass
 add rule myTable myChain queue num 4-5 fanout
 add rule myTable myChain queue num 4-5 bypass
 add quota filter http_quota over 25 mbytes
-add quota last http_quota over 25 mbytes
-add quota filter last over 25 mbytes
-add quota last last over 25 mbytes
 add quota filter ssh_quota { 10 kbytes }
 add quota filter http_quota { over 25 mbytes };
 add quota ip mangle eth0output over 500 mbytes
@@ -3458,18 +3273,6 @@ add quota inet myIpfilter http-quota over 25 mbytes
 add quota netdev myIpfilter http-quota over 25 mbytes;
 add quota bridge myIpfilter http-quota over 25 mbytes
 add quota arp myIpfilter http-quota over 25 mbytes
-quota T Q over 123
-quota table1 last over 123
-quota last quota2 over 123
-quota last last over 123
-quota example { over 100 mbytes used 0 bytes }
-quota ip T Q over 123
-quota ip myIpfilter http-quota over 25 mbytes
-quota ip6 myIpfilter http-quota until 525 kbytes
-quota inet myIpfilter http-quota over 25 mbytes
-quota netdev myIpfilter http-quota over 25 mbytes;
-quota bridge myIpfilter http-quota over 25 mbytes
-quota arp myIpfilter http-quota over 25 mbytes
 create quota filter http-quota { over 25 mbytes };
 create quota filter http-quota over 25 mbytes
 create quota filter ssh-quota { 10 kbytes }
@@ -3875,8 +3678,6 @@ reset rules table T ;
 reset rules table T; 
 reset rules table T ; 
 reset rules table a  ;
-reset rules table last  
-reset rules table myTable last # extraneous 'last' keyword
 reset rules table myTable myChain  # extraneous chain_id
 reset rules chain  
 reset rules chain;
@@ -3884,9 +3685,6 @@ reset rules chain ;
 reset rules chain ; 
 reset rules chain  ; 
 reset rules chain myTable myChain
-reset rules chain last myChain
-reset rules chain myTable last
-reset rules chain last last
 reset rules chain myTable  # missing chain_identifier
 reset rules chain myTable; # missing chain_identifier
 reset rules chain myTable;  # missing chain_identifier
@@ -4006,11 +3804,6 @@ tableid chainid limit rate
 tableid chainid quota  
 tableid chainid ct count 1
 tableid chainid ct count over 15
-tableid chainid last
-add rule tableid chainid last
-tableid chainid last used
-tableid chainid last used never
-tableid chainid last used 1h
 tableid chainid log
 tableId chainId log prefix
 tableId chainId log group 15
@@ -4225,10 +4018,8 @@ tableid chainid accept
 tableid chainid drop 
 tableid chainid continue 
 tableid chainid jump myChainId
-tableid chainid jump last
 tableid chainid jump $MY_ACTION
 tableid chainid goto hisChainId
-tableid chainid goto last
 tableid chainid goto $MY_ACTION
 tableid chainid return 
 rule table_id chain_id vmap { }

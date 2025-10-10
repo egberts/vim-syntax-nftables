@@ -10,9 +10,6 @@ add
 add quota 
 
 
-add quota last  
-
-
 add quota filter 
 
 
@@ -34,23 +31,6 @@ quota example
 
 
 quota ip 
-
-
-quota ip myIpfilter
-
-
-quota T Q over 123
-quota table1 last over 123
-quota last quota2 over 123
-quota last last over 123
-quota example { over 100 mbytes used 0 bytes }
-quota ip T Q over 123
-quota ip myIpfilter http-quota over 25 mbytes
-quota ip6 myIpfilter http-quota until 525 kbytes
-quota inet myIpfilter http-quota over 25 mbytes
-quota netdev myIpfilter http-quota over 25 mbytes;
-quota bridge myIpfilter http-quota over 25 mbytes
-quota arp myIpfilter http-quota over 25 mbytes
 
 
 create 

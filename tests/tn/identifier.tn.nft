@@ -41,7 +41,6 @@ iif
 iifname
 iiftype
 jump
-last
 log
 masquerade
 meta

@@ -106,11 +106,6 @@ tableid chainid limit rate;
 tableid chainid quota  ;
 tableid chainid ct count 1;
 tableid chainid ct count over 15;
-tableid chainid last;
-add rule tableid chainid last;
-tableid chainid last used;
-tableid chainid last used never;
-tableid chainid last used 1h;
 
 # meta_stmt->stmt
 

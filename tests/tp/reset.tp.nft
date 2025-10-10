@@ -93,9 +93,7 @@ reset rules table T ;
 reset rules table T; 
 reset rules table T ; 
 reset rules table a  ;
-reset rules table last  
 
-reset rules table myTable last # extraneous 'last' keyword
 reset rules table myTable myChain  # extraneous chain_id
 
 # 'reset' 'rules' chain_spec
@@ -105,9 +103,6 @@ reset rules chain ;
 reset rules chain ; 
 reset rules chain  ; 
 reset rules chain myTable myChain
-reset rules chain last myChain
-reset rules chain myTable last
-reset rules chain last last
 
 reset rules chain myTable  # missing chain_identifier
 reset rules chain myTable; # missing chain_identifier

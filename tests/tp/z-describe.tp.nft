@@ -105,7 +105,6 @@ describe rt2 addr
 describe  rt2 addr
 describe rt2  addr
 # nft_line/nft_base_cmd_describe/nft_c_primary_expr/nft_c_exthdr_expr/nft_rt4_hdr_expr
-describe rt4 last-entry;
 describe rt4 tag
 describe rt4 sid
 describe rt4 sid [ 1 ]

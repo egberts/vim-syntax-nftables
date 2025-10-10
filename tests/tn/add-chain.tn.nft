@@ -81,12 +81,6 @@ table T { chain C {
     }
 }
 
-table xxxx {
-    chain last
-}
-
-table xxxx {
-    chain last; };
 table T { chain C }
 table T { chain C };
 table T { chain C ; } ;
@@ -101,14 +95,6 @@ table netdev T { chain C { } }
 table bridge T { chain C { } }
 table arp T { chain C { } }
 
-table T { chain last }
-table T { chain last; }
-table T { chain last; };
-table xxxx {
-    chain last
-}
-table xxxx {
-    chain last; };
 table T { chain C }
 table T { chain C };
 table T { chain C ; } ;
@@ -188,8 +174,6 @@ table inet foo {
     }
 }
 
-
-table xxxx { undefine abc; chain last { chain last; undefine abc; }; };  # oopsie
 
 table xxxx { chain 'MyIpNet' { chain }; };
 table xxxx { chain "MyIpNet" { chain }; };

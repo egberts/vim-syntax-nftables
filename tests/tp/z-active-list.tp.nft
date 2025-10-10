@@ -308,74 +308,12 @@ list meter arp Tarp Sarp
 
 # set_spec->'map'->list_cmd->base_cmd
 list map T map_id
-list map T last
 list map ip Tip map_id
 list map ip6 Tip6 map_id
 list map inet Tinet map_id
 list map netdev Tnetdev map_id
 list map bridge Tbridge map_id
 list map arp Tarp map_id
-
-# obj_spec->'counter'->list_cmd->base_cmd
-list counter T counter_id
-list counter last counter_id
-list counter T last
-list counter last last
-list counter ip Tip counter_id
-list counter ip6 Tip6 counter_id
-list counter inet Tinet counter_id
-list counter netdev Tnetdev counter_id
-list counter bridge Tbridge counter_id
-list counter arp Tarp counter_id
-
-# obj_spec->'quota'->list_cmd->base_cmd
-list quota T quota_id
-list quota last quota_id
-list quota T last
-list quota last last
-list quota ip Tip quota_id
-list quota ip6 Tip6 quota_id
-list quota inet Tinet quota_id
-list quota netdev Tnetdev quota_id
-list quota bridge Tbridge quota_id
-list quota arp Tarp quota_id
-
-# obj_spec->'limit'->list_cmd->base_cmd
-list limit T limit_id
-list limit last limit_id
-list limit T last
-list limit last last
-list limit ip Tip limit_id
-list limit ip6 Tip6 limit_id
-list limit inet Tinet limit_id
-list limit netdev Tnetdev limit_id
-list limit bridge Tbridge limit_id
-list limit arp Tarp limit_id
-
-# obj_spec->'secmark'->list_cmd->base_cmd
-list secmark T secmark_id
-list secmark last secmark_id
-list secmark T last
-list secmark last last
-list secmark ip Tip secmark_id
-list secmark ip6 Tip6 secmark_id
-list secmark inet Tinet secmark_id
-list secmark netdev Tnetdev secmark_id
-list secmark bridge Tbridge secmark_id
-list secmark arp Tarp secmark_id
-
-# obj_spec->'synproxy'->list_cmd->base_cmd
-list synproxy T synproxy_id
-list synproxy last synproxy_id
-list synproxy T last
-list synproxy last last
-list synproxy ip Tip synproxy_id
-list synproxy ip Tip last
-list synproxy ip6 Tip6 synproxy_id
-list synproxy inet Tinet synproxy_id
-list synproxy netdev Tnetdev synproxy_id
-list synproxy bridge Tbridge synproxy_id
-list synproxy arp Tarp synproxy_id
 
 # ruleset_spec->'tables'->'flow'->list_cmd->base_cmd
 list flow tables 
@@ -391,9 +329,6 @@ list flow table inet Tinet synproxy_id
 
 # ruleset_spec->'tables'->'flow'->list_cmd->base_cmd
 list flowtable T C
-list flowtable T last
-list flowtable last C
-list flowtable last last
 list flowtable ip Tip Cip
 list flowtable ip6 Tip6 Cip6
 list flowtable inet Tinet Cinet
@@ -401,9 +336,6 @@ list flowtable inet Tinet Cinet
 
 # obj_spec->'helper'->ct_obj_type->'ct'->list_cmd->base_cmd
 list ct helper T CT
-list ct helper last CT
-list ct helper T last
-list ct helper last last
 list ct helper ip Tip CTip
 list ct helper ip6 Tip6 CTip6
 list ct helper inet Tinet CTinet
@@ -422,14 +354,12 @@ list ct timeout arp Tarp CTarp
 
 # obj_spec->'timeout'->ct_cmd_type->'ct'->list_cmd->base_cmd
 list ct timeout table T
-list ct timeout table last
 list ct timeout table ip Tip
 list ct timeout table ip6 Tip6
 list ct timeout table inet Tinet
 list ct timeout table netdev Tnetdev
 list ct timeout table bridge Tbridge
 list ct timeout table arp Tarp
-list ct timeout table arp last
 
 # obj_spec->'expectation'->ct_obj_type->'ct'->list_cmd->base_cmd
 list ct expectation T ct_id
@@ -442,25 +372,21 @@ list ct expectation arp Tarp ct_id
 
 # obj_spec->'expectation'->ct_cmd_type->'ct'->list_cmd->base_cmd
 list ct expectation table T
-list ct expectation table last
 list ct expectation table ip Tip
 list ct expectation table ip6 Tip6
 list ct expectation table inet Tinet
 list ct expectation table netdev Tnetdev
 list ct expectation table bridge Tbridge
 list ct expectation table arp Tarp
-list ct expectation table arp last
 
 # obj_spec->'helpers'->ct_cmd_type->'ct'->list_cmd->base_cmd
 list ct helpers table T
-list ct helpers table last 
 list ct helpers table ip Tip
 list ct helpers table ip6 Tip6
 list ct helpers table inet Tinet
 list ct helpers table netdev Tnetdev
 list ct helpers table bridge Tbridge
 list ct helpers table arp Tarp
-list ct helpers table arp last
 
 # basehook_spec->'hooks'->list_cmd->base_cmd
 list hooks 

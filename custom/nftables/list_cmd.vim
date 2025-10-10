@@ -37,7 +37,6 @@ try
 " base_cmd list_cmd 'table' table_spec family_spec identifier
 hi link   nft_list_table_spec_identifier_string nftHL_Identifier
 syn match nft_list_table_spec_identifier_string "\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}" skipwhite contained
-\ contains=nft_identifier_last
 \ nextgroup=
 \    nft_stmt_separator,
 \    nft_Error

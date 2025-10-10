@@ -106,7 +106,6 @@ table T {
         redefine A = 2
         undefine A
     }
-    quota last { };  # not a pre-defined 'last' keyword, but a 'last' identifier
 }
 
 table T {

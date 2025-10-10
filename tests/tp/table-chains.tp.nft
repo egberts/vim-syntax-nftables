@@ -29,8 +29,6 @@ table A
 table T  # that one creates an empty table
 # base_cmd add_cmd 'table' table_spec identifier <STRING>
 table xxxx
-# base_cmd add_cmd 'table' table_spec identifier 'last'
-table last
 
 # base_cmd add_cmd 'table' table_spec table_block
 table T { }
@@ -54,8 +52,6 @@ table T { define A = 1 }
 table T { 
     define A = 1 
     define A = 1 ;
-    define last = 1
-    define last = 1 ;
     define A = {} ;
 }
 # base_cmd add_cmd 'table' table_spec table_block common_block 'redefine'
@@ -146,14 +142,6 @@ table xxxx {
     include "add-more-table-xxxx.nft";
 };
 
-table T { chain last }
-table T { chain last; }
-table T { chain last; };
-table xxxx { 
-    chain last  
-}
-table xxxx { 
-    chain last; };
 table T { chain C }
 table T { chain C };
 table T { chain C ; } ;
@@ -194,10 +182,6 @@ table ip6 myIp6Table { flags dormant; }
 table inet myInetTable { flags dormant; }
 # END OF WORK
 
-table xxxx { undefine abc; chain last { undefine abc; }; };
-
-
-
 table inet MyIpNet {
     chain MyForwardChain {
         type filter hook prerouting device wlan0 priority 1;
@@ -212,11 +196,6 @@ table inet MyIpNet {
 
 
 
-table xxxx { chain last {
-    undefine abc;
-    include "file";
-    define a = 123;
-}; };
 table arp A0b_._/RP_TABLE {
     chain ARP_INPUT_FILTER {
         define a = 123;
@@ -904,7 +883,4 @@ table ip6 firewall {
     tcp dport { ssh, http } accept
   }
 }
-
-table xxxx { undefine abc; chain last { chain last; undefine abc; }; };  # oopsie
-
 

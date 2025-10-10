@@ -17,18 +17,11 @@ element ip
 
 
 element TS  { };
-element lastC { };
-element Tlast { };
-element last { };
-element lastlast { };
 element ipT S { };
 element ip6 TS { };
 element inet T S{ };
 
 element T S { };
-element last S { };
-element T last { };
-element last last { };
 element ip T S { };
 element ip6 T S { };
 element inet T S { };
@@ -48,12 +41,7 @@ add element
 
 add element T 
 
-add element ip T last $MY_ELEMENT;
-
 add element T C
-
-element ip Tip last $MY_ELEMENT;
-
 
 # set_block_expr->'element'->create_cmd->'create'->base_cmd->line
 create 

@@ -450,7 +450,6 @@ table T {
 table T {
     chain C {
 		l3proto ip
-		last
 		limit name ip6 saddr map @saddr6limit
 		limit name meta protocol . ip saddr . th sport map @addr4limit
 		limit name tcp dport map { 80 : "http-traffic", 443 : "http-traffic" }

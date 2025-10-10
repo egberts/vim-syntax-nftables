@@ -34,7 +34,6 @@ add synproxy myTable other-synproxy {
 #   Bison: SYNPROXY obj_spec synproxy_obj synproxy_config { common_block } close_scope_synproxy 
 synproxy myTable synproxy_obj mss 1500 ;
 synproxy myTable synproxy_obj mss 1500 wscale 7
-synproxy last myTable synproxy_obj mss 1492 wscale 5;
 synproxy ip myTable synproxy_obj mss 1492 wscale 5
 synproxy ip6 myTable synproxy_obj mss 1498 wscale 6 ; 
 synproxy inet myTable synproxy_obj mss 1496 wscale 4

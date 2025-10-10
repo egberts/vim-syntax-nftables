@@ -9,10 +9,6 @@ counter
  
 counter T C packet !xxx
 counter T C packet 123 xxx xxx; 
-counter T last packet !xxx
-counter T last packet 123 xxx xxx; 
-counter T last xxx
-counter T last 123 
 
 counter T C { automerge }  # non-supporting block option
 add counter T C { automerge }  # non-supporting block option
@@ -25,7 +21,6 @@ counter T C)  # invalid character
 # Prototyping error highlighting here
 counter T C { packet 123 bytes 12345 } ;
 counter T C { packet 123 bytes 12345 } ;
-counter T last { packet 123 bytes 12345; } ;
 counter ip T C { packet 123 bytes 123; packet 123 bytes 123; };
 counter ip T C {
     packet 123 bytes 123
@@ -34,7 +29,6 @@ counter ip T C {
 
 add counter T C ;
 
-add counter T last packet 123 bytes 12345;
 add counter T C { packet 123 bytes 12345 };
 add counter T C { packet 123 bytes 12345; packet 321 bytes 4321; };
 add counter T C {
@@ -43,8 +37,6 @@ add counter T C {
 };
 
 add counter ip T C { packet 123 bytes 123 };
-
-counter T last packet 123 bytes 12345;
 
 add rule filter input name tcp dport map { 80 : "http", 443 : "https" } drop # nftables manpage
 

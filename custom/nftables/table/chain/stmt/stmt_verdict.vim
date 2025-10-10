@@ -44,7 +44,6 @@ hi link   nft_verdict_expr_chain_expr_identifier nftHL_Chain
 syn match nft_verdict_expr_chain_expr_identifier '\v(\$)?[a-zA-Z][a-zA-Z0-9_]{0,63}' skipwhite contained
 \ contains=
 \    nft_identifier,
-\    nft_identifier_last,
 \    nft_variable_identifier,
 \    nft_rule_cluster_Error
 

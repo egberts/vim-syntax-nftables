@@ -125,10 +125,6 @@ set T S { timeout 15:00:01 }
 set T S { gc-interval 1:00:1 }
 # base_cmd add_cmd 'table' table_spec table_block 'set' set_block
 table T { set S { } }
-table last { set S { } }
-table T { set last { } }
-table last { set last { } }
-table ip last { set S { } }
 table ip T { set S { } }
 table ip6 T { set S { } }
 
@@ -170,9 +166,6 @@ table T { set S { quota until 123 bytes } }
 table T { set S { quota until 123 bytes used 123 bytes } }
 table T { set S { ct count 123 } }
 table T { set S { ct count over 123 } }
-table T { set S { last } }
-table T { set S { last used never } }
-table T { set S { last used 4h15m20s } }
 
 table T { set S { policy performance } }
 table T { set S { policy memory } }

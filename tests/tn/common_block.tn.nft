@@ -26,8 +26,6 @@ define A = 0 - 1000  # whitespace NOT allowed in port-range
 define A = - 1000
 define port_range = 1024-32767 oopsie
 
-define last = { ,  }
-define last = { $  }
 define MY_MAP = { ,  2:"br0" };
 define MY_DEV = { , "br0" }
 define MY_DEV = { , "br0" };
@@ -41,10 +39,6 @@ undefine A$BCDE;
 
 redefine A = { ;
 redefine A = { 1,2, 3, 4; }
-redefinelast { };
-
-undefine last TABLE_ID
-undefine last TABLE_ID;
 
 undefine 1BCDEF;
 undefine A$BCDE;
@@ -77,7 +71,6 @@ undefine A?BCDE;
 undefine A\BCDE;
 undefine A/BCDE;
 undefine A.BCDE;
-undefinelast
 undefine TABLE_ID = ;
 undefine TABLE_ID UNKNOWN_TOKEN ;
 

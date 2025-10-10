@@ -341,8 +341,6 @@ table netdev filter {
     224.0.0.0/3,
     240.0.0.0/5
   }
-  # fix the last two IPs overlapping
-  auto-merge
 }
 
 # 

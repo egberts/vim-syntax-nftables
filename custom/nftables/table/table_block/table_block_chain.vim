@@ -174,19 +174,12 @@ syn region nft_add_cmd_keyword_table_table_block_chain_chain_identifier_string_d
 \ nextgroup=
 \    nft_add_cmd_keyword_table_table_block_chain_chain_block_delimiters
 
-" add_cmd 'table' table_block 'chain' 'last'
-hi link  nft_add_cmd_keyword_table_table_block_chain_chain_identifier_last nftHL_Keyword
-syn match nft_add_cmd_keyword_table_table_block_chain_chain_identifier_last "last" skipwhite contained
-\ nextgroup=
-\    nft_add_cmd_keyword_table_table_block_chain_chain_block_delimiters
-
 " add_cmd 'table' table_block 'chain'
 hi link   nft_add_cmd_table_block_keyword_chain nftHL_Command
 syn match nft_add_cmd_table_block_keyword_chain "chain" skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_keyword_table_table_block_chain_chain_identifier_string_single,
 \    nft_add_cmd_keyword_table_table_block_chain_chain_identifier_string_double,
-\    nft_add_cmd_keyword_table_table_block_chain_chain_identifier_last,
 \    nft_add_cmd_keyword_table_table_block_chain_chain_identifier_string_unquoted
 "**** END OF table <identifier> { chain
 "**** END 'table T { chain' ******************

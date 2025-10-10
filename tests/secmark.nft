@@ -19,7 +19,6 @@ table inet T { secmark SM { } }
 table netdev T { secmark SM { } }
 table bridge T { secmark SM { } }
 table arp T { secmark SM { } }
-table last { secmark SM { } }
 table T { secmark SM { "some security settings goes into here" } }
 table T {
     secmark SM {

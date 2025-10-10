@@ -27,7 +27,6 @@ tableid chainid snat to ether  ;
 tableid chainid snat to : dnat  ;
 
 # stmt_expr->'to'->nat_stmt->stmt
-tableid chainid snat to destroy : last  ;
 
 # stmt_expr->'to'->'interval'->nat_stmt->stmt
 tableid chainid snat interval to ecn  ;
@@ -37,8 +36,6 @@ tableid chainid snat prefix to reset  ;
 
 
 # stmt_expr->keyword_expr->'prefix'->nat_stmt->stmt
-tableid chainid snat ip to last  ;
-tableid chainid snat ip to original : last ;
 tableid chainid snat ip6 to label  ;
 tableid chainid snat ip6 to reply : arp ;
 tableid chainid snat ip6 addr . port to ;
@@ -46,11 +43,6 @@ tableid chainid snat ip6 interval to ;
 tableid chainid snat ip6 prefix to ;
 
 # nf_nat_flags->nat_stmt->stmt
-tableid chainid snat ip to original : last random ;
-tableid chainid snat ip to original : last fully-random ;
-tableid chainid snat ip to original : last persistent ;
-tableid chainid snat ip to original : last persistent,random ;
-tableid chainid snat ip to original : last persistent,random,fully-random ;
 
 table tableID {
     chain chainID {

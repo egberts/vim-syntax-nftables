@@ -41,9 +41,7 @@ table T { chain C {
     define A = 1 
     redefine A = 1 ;
     undefine A;
-    define last = 1 ;
  # not an ideal variable name (reserved word)
-    redefine last = 1 ;
     define A = {} ; 
     redefine A = { 127.0.0.1 } ;  
 ;
@@ -132,18 +130,10 @@ table arp myArpTable { flags dormant; }
 table ip myIpTable { flags dormant; }
 table ip6 myIp6Table { flags dormant; }
 table inet myInetTable { flags dormant; }
-# END OF WORK
-
-table xxxx { undefine abc; chain last { undefine abc; }; };
-
-
-
-
-
 
 
 define MY_PRIORITY = 100
-table xxxx { chain last {
+table xxxx { chain chain_a {
     undefine abc;
     include "../include/rule-counter.nft";
     define a = 123;
@@ -538,8 +528,7 @@ table inet filter {
         # your rules for traffic originated from the firewall itself here
     }
 }
-
-# Port Knocking Example #1
+# Port Knocking Example 1
 table inet portknock {
     set clients_ipv4 {
         type ipv4_addr
@@ -577,7 +566,7 @@ table inet portknock {
     }
 }
 
-# Port Knocking Example #2
+# Port Knocking Example 2
 table ip Inet4 {
     set Knocked_1 {
         type ipv4_addr
@@ -851,11 +840,11 @@ add counter T C0
 add counter T C_
 add counter T C\
 
-add counter T last;
+add counter T counter_a;
 
 add counter T C ;
 
-counter T last;
+counter T counter_b;
 
 
 add counter filter http
@@ -867,9 +856,6 @@ add counter filter https
 add table filter
 add chain filter input
 add rule filter input tcp dport 80 counter name "http"  # nftables manpage ;
-delete counter table_id counter_id
-
-destroy counter table_id counter_id
 
 add table table_id2
 add counter table_id2 chain_id2
@@ -1107,7 +1093,7 @@ add set nat S_FULL {
 ################################################################################
 
 add table filter
-add table last
+add table table_a
 
 add table my/IpTable
 add table my/IpTable 
@@ -1209,9 +1195,6 @@ table T {
         # rule/rule_alloc/stmt/stateful_stmt/connlimit_stmt
         ct count over 20
         # rule/rule_alloc/stmt/stateful_stmt/last_stmt
-        last
-        last used never
-        last used 15m
         # set_mechanism
         policy performance;
         policy memory;
@@ -1249,9 +1232,6 @@ table T {
         # stateful_stmt/connlimit_stmt
         ct count over 20
         # stateful_stmt/last_stmt
-        last
-        last used never
-        last used 15m
         # comment_spec
         comment 'ABCDEFGHIJKLMNOPQRSTUVXWYZabcdefghijklmnopqrstuvwxyz' ;
         # set_mechanism
@@ -1415,10 +1395,6 @@ define A=1
 define A= 1
 define A =1
 define A = 1
-define last=1
-define last= 1
-define last =1
-define last = 1
 define ABC= 1  # missing stmt_separator
 define ABC = 1  ;
 define ABC = 1, 2, 3  ;  # set
@@ -1442,7 +1418,6 @@ define ABC = "string";
 
 # line/common_block/DEFINE/initializer_expr/rhs_expr/.../primary_rhs_expr/set_expr/{}
 define ABC = {};
-define last = {   }
 define ABC = { }
 define ABC = { }
 define ABC = {            }
@@ -1484,10 +1459,8 @@ define negative_value = -1000 ;
 #
 # line common_block 'redefine' identifier '=' initializer_expr
 # line/common_block/REDEFINE
-redefine last = {}
 redefine A = {}
 redefine A={}
-redefine last = {}
 redefine A = { 1 }
 redefine A = { 1,2, 3, 4 }
 redefine A = { 127.0.0.1 }
@@ -1503,10 +1476,6 @@ redefine A = $ABC  # missing stmt_separator
 
 # line common_block 'undefine' identifier 
 # line/common_block/UNDEFINE
-undefine last
-undefine last;
-undefine last; 
-undefine last ; 
 undefine A
 undefine ABC
 # line/common_block/UNDEFINE/stmt_separator
@@ -1536,8 +1505,6 @@ table T { define A = 1 }
 table T {
     define A = 1
     define A = 1 ;
-    define last = 1
-    define last = 1 ;
     define A = {} ;
 }
 # base_cmd add_cmd 'table' table_spec table_block common_block 'redefine'
@@ -1662,19 +1629,12 @@ counter table_id counter_id
 counter table_id counter_id; 
 counter table_id counter_id ;
 counter table_id counter_id ; 
-counter last counter_id
-counter table_id last
-counter last last
 counter ip table_id counter_id
 counter ip6 table_id counter_id;
 counter inet table_id counter_id ;
 counter netdev table_id counter_id; 
 counter bridge table_id counter_id ; 
 counter arp table_id counter_id
-counter arp last counter_id
-counter arp table_id last
-counter arp last counter_id
-counter arp last last
 counter bridge table_id counter_id name mycountername; 
 
 counter table_id counter_id packets 5 bytes 1500
@@ -1842,7 +1802,7 @@ add table T {
 
 # counter_stmt (used in rule/stmt and table-counter counter_block)
 table T {
-    counter last {
+    counter counter_a {
         # inline comments
         define A = 1  # inline comments
         redefine A = 2  # inline comments
@@ -2915,7 +2875,6 @@ delete table ;
 # delete table <table_spec>
 # 'table'->delete_cmd->'delete'->base_cmd->line
 delete table T
-delete table last
 delete table ip T
 delete table ip6 T
 delete table inet T
@@ -2961,9 +2920,6 @@ delete chain netdev T handle 15
 
 # delete rule <ruleid_spec>
 delete rule T C handle 16
-delete rule last C handle 16
-delete rule T last handle 16
-delete rule last last handle 16
 delete rule arp T C handle 16
 delete rule bridge T C handle 16
 delete rule filter output handle 5
@@ -2988,14 +2944,12 @@ delete rule T C ct proto-src set destroy  # keyword_expr
 delete rule T C ct proto-dst set original  # keyword_expr
 delete rule T C ct label set reply  # keyword_expr
 delete rule T C ct event set label  # keyword_expr
-delete rule T C ct secmark set last  # keyword_expr
 delete rule T C ct id set
 delete rule T C ct bytes set
 delete rule T C ct packets set
 delete rule T C ct avgpkt set
 delete rule T C ct zone set
 delete rule T C ct original set
-delete rule T C ct reply set last 
 
 # delete set <set_spec>
 delete set T S
@@ -3281,7 +3235,6 @@ describe ipsec out reqid
 # destroy table <table_spec>
 # table_spec->'table'->destroy_cmd->'destroy'->base_cmd->line
 destroy table T
-destroy table last
 destroy table ip T
 destroy table ip6 T
 destroy table inet T
@@ -3300,9 +3253,6 @@ destroy table arp handle 123
 # destroy chain <chainid_spec>
 # common_block->chain_block->'{'->'chain'->destroy_cmd->'destroy'->base_cmd->line
 destroy chain T C
-destroy chain last C
-destroy chain T last
-destroy chain last last
 destroy chain ip T C
 destroy chain ip6 T C
 destroy chain inet T C
@@ -3531,9 +3481,6 @@ destroy synproxy T synproxy_name ;
 
 # set_expr->set_block_expr->'element'->add_cmd->base_cmd->line
 element T S { };
-element last S { };
-element T last { };
-element last last { };
 element ip T S { };
 element ip6 T S { };
 element inet T S { };
@@ -3542,7 +3489,6 @@ element bridge T S { };
 element arp T S { };
 
 # variable_expr->set_block_expr->'element'->add_cmd->base_cmd->line
-element ip T last $MY_ELEMENT;
 element ip T S $MY_ELEMENT ;
 
 # set_expr->set_block_expr->'element'->add_cmd->'add'->base_cmd->line
@@ -3836,56 +3782,6 @@ insert rule arp T C position 123
 insert rule arp T C handle 123
 insert rule arp T C index 123
 
-
-#!/usr/sbin/nft -f
-# File: last.nft
-# Description: A test NFT file to exercise 'last_stmt' Vim syntax highlightings.
-#
-# nftables syntax name: last_stmt
-# syntax pathway: last_stmt->stateful_stmt->stmt
-#
-################################################################################
-# true positive test: properly hightlighted correctly; has good content; perfect
-################################################################################
-
-# 'last'->last_stmt->stateful_stmt->stmt->rule_alloc->rule->add_cmd->base_cmd->line
-last
-last used 
-last used time_spec
-rule last
-rule last used never
-rule last used time_spec
-
-# 'last'->last_stmt->stateful_stmt->stmt->rule_alloc->rule->chain_block
-table T {
-    chain C {
-        last
-        last used never
-        last used +1h5m
-    }
-}
-# 'last'->last_stmt->stateful_stmt->stmt->rule_alloc->rule->chain_stmt
-jump { 
-    last
-    last used never
-    last used 2w1d
-}
-goto { 
-    last
-    last used never
-    last used 2w1d
-}
-
-# 'last'->last_stmt->stateful_stmt->stmt->rule_alloc->rule->insert_cmd
-insert rule T C {
-    last
-    last used never
-    last used time_spec
-}
-# 'last'->last_stmt->stateful_stmt->stmt->rule_alloc->rule->replace_cmd
-replace rule T C handle 1 last
-replace rule T C handle 2 last never
-replace rule ip6 T C handle 3 last used
 
 #!/usr/sbin/nft -f
 # File: limit.nft
@@ -4222,7 +4118,6 @@ undefine A
 ################################################################################
 
 # 'table'->'list'->list_cmd->base_cmd
-list table last
 list table table_id
 list table ip table_id
 list table ip6 table_id
@@ -4282,13 +4177,7 @@ list maps bridge
 list maps arp 
 
 # chain_spec->'chain'->'list'->list_cmd->base_cmd
-list chain last chain_id
-list chain table_id last
-list chain last last
 list chain ip table_id chain_id
-list chain ip last chain_id
-list chain ip table_id last
-list chain ip last last
 list chain ip6 table_id chain_id
 list chain inet table_id chain_id
 list chain netdev table_id chain_id
@@ -4306,9 +4195,7 @@ list sets arp
 
 # 'table'->'sets'->'list'->list_cmd->base_cmd
 list sets table table_id
-list sets table last
 list sets table ip table_id
-list sets table ip last
 list sets table ip6 table_id
 list sets table inet table_id
 list sets table netdev table_id
@@ -4326,9 +4213,7 @@ list counters arp
 
 # 'table'->'counters'->'list'->list_cmd->base_cmd
 list counters table table_id
-list counters table last
 list counters table ip table_id
-list counters table ip last
 list counters table ip6 table_id
 list counters table inet table_id
 list counters table netdev table_id
@@ -4346,9 +4231,7 @@ list quotas arp
 
 # 'table'->'quotas'->'list'->list_cmd->base_cmd
 list quotas table table_id
-list quotas table last
 list quotas table ip table_id
-list quotas table ip last
 list quotas table ip6 table_id
 list quotas table inet table_id
 list quotas table netdev table_id
@@ -4366,9 +4249,7 @@ list limits arp
 
 # 'table'->'limits'->'list'->list_cmd->base_cmd
 list limits table table_id
-list limits table last
 list limits table ip table_id
-list limits table ip last
 list limits table ip6 table_id
 list limits table inet table_id
 list limits table netdev table_id
@@ -4386,9 +4267,7 @@ list secmarks arp
 
 # 'table'->'secmarks'->'list'->list_cmd->base_cmd
 list secmarks table table_id
-list secmarks table last
 list secmarks table ip table_id
-list secmarks table ip last
 list secmarks table ip6 table_id
 list secmarks table inet table_id
 list secmarks table netdev table_id
@@ -4406,9 +4285,7 @@ list synproxys arp
 
 # 'table'->'synproxys'->'list'->list_cmd->base_cmd
 list synproxys table table_id
-list synproxys table last
 list synproxys table ip table_id
-list synproxys table ip last
 list synproxys table ip6 table_id
 list synproxys table inet table_id
 list synproxys table netdev table_id
@@ -4417,9 +4294,6 @@ list synproxys table arp table_id
 
 # set_spec->'set'->list_cmd->base_cmd
 list set table_id set_id
-list set last set_id
-list set table_id last
-list set last last
 list set ip table_id set_id
 list set ip6 table_id set_id
 list set inet table_id set_id
@@ -4429,9 +4303,6 @@ list set arp table_id set_id
 
 # set_spec->'meter'->list_cmd->base_cmd
 list meter table_id meter_id
-list meter last meter_id
-list meter table_id last
-list meter last last
 list meter ip table_id meter_id
 list meter ip6 table_id meter_id
 list meter inet table_id meter_id
@@ -4441,76 +4312,12 @@ list meter arp table_id meter_id
 
 # set_spec->'map'->list_cmd->base_cmd
 list map table_id map_id
-list map last map_id
-list map table_id last
-list map last last
 list map ip table_id map_id
 list map ip6 table_id map_id
 list map inet table_id map_id
 list map netdev table_id map_id
 list map bridge table_id map_id
 list map arp table_id map_id
-
-# obj_spec->'counter'->list_cmd->base_cmd
-list counter table_id counter_id
-list counter last counter_id
-list counter table_id last
-list counter last last
-list counter ip table_id counter_id
-list counter ip6 table_id counter_id
-list counter inet table_id counter_id
-list counter netdev table_id counter_id
-list counter bridge table_id counter_id
-list counter arp table_id counter_id
-
-# obj_spec->'quota'->list_cmd->base_cmd
-list quota table_id quota_id
-list quota last quota_id
-list quota table_id last
-list quota last last
-list quota ip table_id quota_id
-list quota ip6 table_id quota_id
-list quota inet table_id quota_id
-list quota netdev table_id quota_id
-list quota bridge table_id quota_id
-list quota arp table_id quota_id
-
-# obj_spec->'limit'->list_cmd->base_cmd
-list limit table_id limit_id
-list limit last limit_id
-list limit table_id last
-list limit last last
-list limit ip table_id limit_id
-list limit ip6 table_id limit_id
-list limit inet table_id limit_id
-list limit netdev table_id limit_id
-list limit bridge table_id limit_id
-list limit arp table_id limit_id
-
-# obj_spec->'secmark'->list_cmd->base_cmd
-list secmark table_id secmark_id
-list secmark last secmark_id
-list secmark table_id last
-list secmark last last
-list secmark ip table_id secmark_id
-list secmark ip6 table_id secmark_id
-list secmark inet table_id secmark_id
-list secmark netdev table_id secmark_id
-list secmark bridge table_id secmark_id
-list secmark arp table_id secmark_id
-
-# obj_spec->'synproxy'->list_cmd->base_cmd
-list synproxy table_id synproxy_id
-list synproxy last synproxy_id
-list synproxy table_id last
-list synproxy last last
-list synproxy ip table_id synproxy_id
-list synproxy ip table_id last
-list synproxy ip6 table_id synproxy_id
-list synproxy inet table_id synproxy_id
-list synproxy netdev table_id synproxy_id
-list synproxy bridge table_id synproxy_id
-list synproxy arp table_id synproxy_id
 
 # ruleset_spec->'tables'->'flow'->list_cmd->base_cmd
 list flow tables 
@@ -4525,9 +4332,6 @@ list flow table ip6 table_id synproxy_id
 list flow table inet table_id synproxy_id
 
 # ruleset_spec->'tables'->'flow'->list_cmd->base_cmd
-list flowtable last 
-
-
 list flowtable table_id 
 
 
@@ -4541,10 +4345,6 @@ list flowtable inet table_id
 
 # obj_spec->'helper'->ct_obj_type->'ct'->list_cmd->base_cmd
 list ct helper table_id ct_id x
-
-list ct helper last ct_id
-list ct helper table_id last
-list ct helper last last
 list ct helper ip table_id ct_id
 list ct helper ip6 table_id ct_id
 list ct helper inet table_id ct_id
@@ -4564,14 +4364,12 @@ list ct timeout arp table_id ct_id
 
 # obj_spec->'timeout'->ct_cmd_type->'ct'->list_cmd->base_cmd
 list ct timeout table table_id
-list ct timeout table last
 list ct timeout table ip table_id
 list ct timeout table ip6 table_id
 list ct timeout table inet table_id
 list ct timeout table netdev table_id
 list ct timeout table bridge table_id
 list ct timeout table arp table_id
-list ct timeout table arp last
 
 # obj_spec->'expectation'->ct_obj_type->'ct'->list_cmd->base_cmd
 list ct expectation
@@ -4585,25 +4383,21 @@ list ct expectation arp table_id ct_id
 
 # obj_spec->'expectation'->ct_cmd_type->'ct'->list_cmd->base_cmd
 list ct expectation table table_id
-list ct expectation table last
 list ct expectation table ip table_id
 list ct expectation table ip6 table_id
 list ct expectation table inet table_id
 list ct expectation table netdev table_id
 list ct expectation table bridge table_id
 list ct expectation table arp table_id
-list ct expectation table arp last
 
 # obj_spec->'helpers'->ct_cmd_type->'ct'->list_cmd->base_cmd
 list ct helpers table table_id 
-list ct helpers table last 
 list ct helpers table ip table_id
 list ct helpers table ip6 table_id
 list ct helpers table inet table_id
 list ct helpers table netdev table_id
 list ct helpers table bridge table_id
 list ct helpers table arp table_id
-list ct helpers table arp last
 
 # basehook_spec->'hooks'->list_cmd->base_cmd
 list hooks 
@@ -5701,9 +5495,6 @@ tableid chainid snat to ether
 # ':'->'to'->nat_stmt->stmt
 tableid chainid snat to : dnat 
 
-# stmt_expr->'to'->nat_stmt->stmt
-tableid chainid snat to destroy : last 
-
 # stmt_expr->'to'->'interval'->nat_stmt->stmt
 tableid chainid snat interval to ecn 
 
@@ -5712,20 +5503,11 @@ tableid chainid snat prefix to reset
 
 
 # stmt_expr->keyword_expr->'prefix'->nat_stmt->stmt
-tableid chainid snat ip to last 
-tableid chainid snat ip to original : last
 tableid chainid snat ip6 to label 
 tableid chainid snat ip6 to reply : arp
 tableid chainid snat ip6 addr . port to
 tableid chainid snat ip6 interval to
 tableid chainid snat ip6 prefix to
-
-# nf_nat_flags->nat_stmt->stmt
-tableid chainid snat ip to original : last random
-tableid chainid snat ip to original : last fully-random
-tableid chainid snat ip to original : last persistent
-tableid chainid snat ip to original : last persistent,random
-tableid chainid snat ip to original : last persistent,random,fully-random
 
 table tableID {
     chain chainID {
@@ -5844,9 +5626,6 @@ add rule myTable myChain queue num 4-5 bypass
 
 # quota statements
 add quota filter http_quota over 25 mbytes
-add quota last http_quota over 25 mbytes
-add quota filter last over 25 mbytes
-add quota last last over 25 mbytes
 add quota filter ssh_quota { 10 kbytes }
 add quota filter http_quota { over 25 mbytes };
 add quota ip mangle eth0output over 500 mbytes
@@ -5931,7 +5710,6 @@ reset quotas table arp myIpFilter
 # quota expressions
 # base_cmd add_cmd 'table' table_spec table_block 'quota' quota_block
 table T {
-    quota last { }
     quota Q {
         # comment_spec
         comment "my comments"
@@ -6399,9 +6177,7 @@ reset rules table T ;
 reset rules table T; 
 reset rules table T ; 
 reset rules table a  ;
-reset rules table last  
 
-reset rules table myTable last # extraneous 'last' keyword
 reset rules table myTable myChain  # extraneous chain_id
 
 # 'reset' 'rules' chain_spec
@@ -6411,9 +6187,6 @@ reset rules chain ;
 reset rules chain ; 
 reset rules chain  ; 
 reset rules chain myTable myChain
-reset rules chain last myChain
-reset rules chain myTable last
-reset rules chain last last
 
 reset rules chain myTable  # missing chain_identifier
 reset rules chain myTable; # missing chain_identifier
@@ -6876,8 +6649,6 @@ rule T C continue ;
 rule T C jump chain_id ;
 rule T C goto chain_id ;
 rule T C return ;
-rule T C jump last ;
-rule T C goto last ;
 rule T C jump $MY_CHAIN ;
 rule T C goto $MY_CHAIN ;
 
@@ -6905,9 +6676,6 @@ rule T C quota over 150 bytes used 100 bytes ;
 rule T C quota until 300 mbytes used 600 bytes ;
 rule T C ct 123 300  ;
 rule T C ct over 123 300  ;
-rule T C last ;
-rule T C last used never ;
-rule T C last used 1h15m ;
 
 
 # meta_stmt
@@ -7290,11 +7058,6 @@ tableid chainid limit rate;
 tableid chainid quota  ;
 tableid chainid ct count 1;
 tableid chainid ct count over 15;
-tableid chainid last;
-add rule tableid chainid last;
-tableid chainid last used;
-tableid chainid last used never;
-tableid chainid last used 1h;
 
 # meta_stmt->stmt
 
@@ -7509,7 +7272,6 @@ table inet T { secmark SM { } }
 table netdev T { secmark SM { } }
 table bridge T { secmark SM { } }
 table arp T { secmark SM { } }
-table last { secmark SM { } }
 table T { secmark SM { "some security settings goes into here" } }
 table T {
     secmark SM {
@@ -7685,7 +7447,6 @@ add synproxy myTable other-synproxy {
 #   Bison: SYNPROXY obj_spec synproxy_obj synproxy_config { common_block } close_scope_synproxy 
 synproxy myTable synproxy_obj mss 1500 ;
 synproxy myTable synproxy_obj mss 1500 wscale 7
-synproxy last myTable synproxy_obj mss 1492 wscale 5;
 synproxy ip myTable synproxy_obj mss 1492 wscale 5
 synproxy ip6 myTable synproxy_obj mss 1498 wscale 6 ; 
 synproxy inet myTable synproxy_obj mss 1496 wscale 4
@@ -7829,8 +7590,6 @@ add table filter
 table T  # that one creates an empty table
 # base_cmd add_cmd 'table' table_spec identifier <STRING>
 table xxxx
-# base_cmd add_cmd 'table' table_spec identifier 'last'
-table last
 
 # base_cmd add_cmd 'table' table_spec table_block
 table T { }
@@ -7859,8 +7618,6 @@ table T { define A = 1 }
 table T { 
     define A = 1 
     define A = 1 ;
-    define last = 1
-    define last = 1 ;
     define A = {} ;
 }
 # base_cmd add_cmd 'table' table_spec table_block common_block 'redefine'
@@ -7951,14 +7708,6 @@ table xxxx {
     include "add-more-table-xxxx.nft";
 };
 
-table T { chain last }
-table T { chain last; }
-table T { chain last; };
-table xxxx { 
-    chain last  
-}
-table xxxx { 
-    chain last; };
 table T { chain C }
 table T { chain C };
 table T { chain C ; } ;
@@ -8009,9 +7758,6 @@ table ip6 myIp6Table { flags dormant; }
 table inet myInetTable { flags dormant; }
 # END OF WORK
 
-table xxxx { undefine abc; chain last { undefine abc; }; };
-
-
 
 table inet MyIpNet {
     chain MyForwardChain {
@@ -8024,14 +7770,6 @@ table inet MyIpNet {
     comment "unique"
 };
 
-
-
-
-table xxxx { chain last {
-    undefine abc;
-    include "file";
-    define a = 123;
-}; };
 table arp A0b_._/RP_TABLE {
     chain ARP_INPUT_FILTER {
         define a = 123;
@@ -8721,8 +8459,6 @@ table ip6 firewall {
   }
 }
 
-table xxxx { undefine abc; chain last { chain last; undefine abc; }; };  # oopsie
-
 
 #!/usr/sbin/nft -f
 # File: table-chain.nft
@@ -8827,10 +8563,8 @@ tableid chainid accept
 tableid chainid drop 
 tableid chainid continue 
 tableid chainid jump myChainId
-tableid chainid jump last
 tableid chainid jump $MY_ACTION
 tableid chainid goto hisChainId
-tableid chainid goto last
 tableid chainid goto $MY_ACTION
 tableid chainid return 
 

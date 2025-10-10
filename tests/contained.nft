@@ -210,8 +210,6 @@ json
 jump
 3l3protocol
 label
-last
-last-ent
 left
 length
 level
@@ -529,8 +527,6 @@ xxx json
 xxx jump
 xxx 3l3protocol
 xxx label
-xxx last
-xxx last-ent
 xxx left
 xxx length
 xxx level
