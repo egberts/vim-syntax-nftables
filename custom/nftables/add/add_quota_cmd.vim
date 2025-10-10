@@ -77,8 +77,8 @@ syn match nft_add_cmd_quota_cmd_obj_spec_table_spec_family_spec_explicit "\v(bri
 \    nft_Error
 
 " 'quota'->add_cmd->'add'->base_cmd->line
-hi link   nft_base_cmd_add_cmd_keyword_quota nftHL_Command
-syn match nft_base_cmd_add_cmd_keyword_quota "quota" skipwhite contained
+hi link   nft_base_cmd_add_cmd_keyword_quota nftHL_Substatement
+syn match nft_base_cmd_add_cmd_keyword_quota "\vquota\ze[ \t]" skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_quota_cmd_obj_spec_table_spec_family_spec_explicit,
 \    nft_add_cmd_quota_cmd_obj_spec_table_spec_identifier_string_unknown,

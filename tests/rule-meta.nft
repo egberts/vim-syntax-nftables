@@ -197,6 +197,7 @@ rule T C meta hour 15;
 # meta_stmt - qualified META, with a value (requires 'meta' before it)
 rule T C meta length 1512;
 
+rule T C meta protocol 0;
 rule T C meta protocol loopback;
 rule T C meta protocol ip;
 rule T C meta protocol ip6;
@@ -394,6 +395,7 @@ rule T C meta iiftype != 772;
 rule T C meta iiftype { 1, 772, 65534, 512, 801, 768, 6, 32 };
 
 rule T C meta oifname != "eth0";
+rule T C meta oifname { };
 
 rule T C meta skgid != 2001-2005;
 rule T C meta skgid { 2001-2005 };
@@ -474,7 +476,6 @@ rule T C meta secmark;
 ################################################################################
 
 # meta_stmt - unqualified META, with a value (no 'meta' needed)
-rule T C meta oifname { };
 rule T C meta skgid { };
 rule T C meta skuid { };
 

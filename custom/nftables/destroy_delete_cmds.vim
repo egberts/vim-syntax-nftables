@@ -491,7 +491,7 @@ syn match nft_delete_cmd_obj_or_id_spec_obj_spec_table_spec_family_spec_family_s
 \    nft_Error
 
 
-hi link   nft_base_cmd_destroy_delete_cmds_keyword_quota nftHL_Statement
+hi link   nft_base_cmd_destroy_delete_cmds_keyword_quota nftHL_Substatement
 syn match nft_base_cmd_destroy_delete_cmds_keyword_quota '\vquota\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    nft_delete_cmd_obj_or_id_spec_obj_spec_table_spec_family_spec_family_spec_explicit,

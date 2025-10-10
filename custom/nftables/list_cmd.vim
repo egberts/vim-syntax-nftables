@@ -178,7 +178,7 @@ syn match nft_list_cmd_keywords_sets_et_al_keyword_table "table" skipwhite conta
 \    nft_Error
 
 " 'list' ('sets'|'counters'|'quotas'|'limits'|'secmarks'|'synproxys')
-hi link   nft_base_cmd_list_keywords_sets_et_al_end nftHL_Statement
+hi link   nft_base_cmd_list_keywords_sets_et_al_end nftHL_Substatement
 syn match nft_base_cmd_list_keywords_sets_et_al_end "\v(sets|counters|quotas|limits|synproxys)" skipwhite contained
 \ nextgroup=
 \    nft_list_cmd_keywords_sets_et_al_ruleset_spec,

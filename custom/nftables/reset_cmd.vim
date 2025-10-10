@@ -304,8 +304,8 @@ syn match nft_base_cmd_reset_counter_quota_family_spec "\v(ip6|ip|inet|arp|bridg
 \    nft_Error
 
 " base_cmd 'reset' 'quota'
-hi link   nft_base_cmd_reset_quota nftHL_Keyword
-syn match nft_base_cmd_reset_quota "quota" skipwhite contained
+hi link   nft_base_cmd_reset_quota nftHL_Substatement
+syn match nft_base_cmd_reset_quota "\vquota\ze[ \t]" skipwhite contained
 \ nextgroup=
 \    nft_base_cmd_reset_counter_quota_family_spec,
 \    nft_base_cmd_reset_counter_quota_obj_spec_id_table,
@@ -353,8 +353,8 @@ syn match nft_base_cmd_reset_counters_quotas_table_keyword "table" skipwhite con
 \    nft_Error
 
 " base_cmd 'reset' 'quotas'
-hi link   nft_base_cmd_reset_quotas nftHL_Keyword
-syn match nft_base_cmd_reset_quotas "quotas" skipwhite contained
+hi link   nft_base_cmd_reset_quotas nftHL_Substatement
+syn match nft_base_cmd_reset_quotas "\vquotas\ze[ \t]" skipwhite contained
 \ nextgroup=
 \    nft_base_cmd_reset_counters_quotas_ruleset_spec_family_spec,
 \    nft_base_cmd_reset_counters_quotas_table_table_spec_identifier_table,
