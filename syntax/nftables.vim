@@ -121,7 +121,7 @@
 "       indent/nftables.vim
 
 " Enable debug mode (0 = off, >=1 = on for logging).
-let g:nft_debug = 3
+let g:nft_debug = 4
 
 " Store the current script’s filename for stack-based logging.
 " Used in LL(1) parsing to track script context for error reporting.

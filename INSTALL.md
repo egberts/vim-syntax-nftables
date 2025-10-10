@@ -13,6 +13,9 @@ cd vim-syntax-nftables
 ```
 
 ## Setup 
+You can install this either using 'make' or manual copying.
+
+No support for live update because my network is offline.
 
 ### Setup via Makefile
 
@@ -34,7 +37,7 @@ mkdir -p ~/.vim
 Create necessary subdirs:
 
 ```bash
-mkdir -p ~/.vim/{indent,ftdetect,ftplugin,syntax}
+mkdir -p ~/.vim/{indent,ftdetect,ftplugin,syntax,custom}
 ```
 
 ## Copy the Files
@@ -43,7 +46,7 @@ Copy files:
 
 ```bash
 cd /tmp/vim-syntax-nftables
-cp -R vim-syntax-nftables/{indent,ftdetect,ftplugin,syntax}/* ~/.vim/{indent,ftdetect,ftplugin,syntax}/
+cp -R vim-syntax-nftables/{indent,ftdetect,ftplugin,syntax}/* ~/.vim/{indent,ftdetect,ftplugin,syntax,custom}/
 ```
 
 ## Verify Highlighting
@@ -51,5 +54,9 @@ cp -R vim-syntax-nftables/{indent,ftdetect,ftplugin,syntax}/* ~/.vim/{indent,ftd
 Test the syntax highlighting with the provided file:
 
 ```bash
-vim /tmp/vim-syntax-nftables/test/passing-syntax.nft
+vim /tmp/vim-syntax-nftables/test/*.nft
+```
+or using your nftables configuration file:
+```bash
+vim /etc/nftables.conf
 ```
