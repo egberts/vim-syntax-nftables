@@ -133,12 +133,12 @@ syn cluster nft_c_ct_expectation_stmt_expr
 \    nft_ct_stmt_verdict_stmt_verdict_map_stmt_set_ref_expr_set_ref_symbol_expr_keyword_at_identifier
 
 
-hi link   nft_stmt_objref_stmt_objref_stmt_ct_keyword_expectation nftHL_Keyword
+hi link   nft_stmt_objref_stmt_objref_stmt_ct_keyword_expectation nftHL_Substatement
 syn match nft_stmt_objref_stmt_objref_stmt_ct_keyword_expectation '\vexpectation[ \t]' skipwhite contained
 \ nextgroup=
 \    nft_stmt_objref_stmt_objref_stmt_ct_keyword_set
 
-hi link   nft_stmt_objref_stmt_objref_stmt_ct_keyword_timeout nftHL_Keyword
+hi link   nft_stmt_objref_stmt_objref_stmt_ct_keyword_timeout nftHL_Substatement
 syn match nft_stmt_objref_stmt_objref_stmt_ct_keyword_timeout '\vtimeout[ \t]' skipwhite contained
 \ nextgroup=
 \    nft_stmt_objref_stmt_objref_stmt_ct_keyword_set

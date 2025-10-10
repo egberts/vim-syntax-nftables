@@ -310,7 +310,7 @@ if v:version >= 508 || !exists('did_nftables_syn_inits')
 
   hi def nftHL_Command      guifg=#ffff60 guibg=NONE ctermfg=227 ctermbg=NONE cterm=bold gui=bold
   hi def nftHL_Statement    guifg=#ffff60 guibg=NONE ctermfg=227 ctermbg=NONE cterm=bold gui=bold
-  hi def nftHL_Substatement guifg=#fff070 guibg=NONE ctermfg=214 ctermbg=NONE
+  hi def nftHL_Substatement guifg=#ffe020 guibg=NONE ctermfg=214 ctermbg=NONE
   hi def nftHL_Keyword      guifg=#ffc986 guibg=NONE ctermfg=208 ctermbg=NONE
   hi def link nftHL_Write       SpecialKey
   hi def link nftHL_Expression  Conditional

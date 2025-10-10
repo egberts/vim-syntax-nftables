@@ -93,6 +93,7 @@ syn match nft_add_cmd_keyword_table_table_block_keyword_counter '\vcounter\ze[ \
 \ nextgroup=
 \    nft_common_block_keyword_redefine,
 \    nft_common_block_keyword_undefine,
+\    nft_stateful_stmt_counter_stmt_counter_arg_keyword_packets,
 \    nft_common_block_keyword_include,
 \    nft_common_block_keyword_define,
 \    nft_common_block_keyword_error,

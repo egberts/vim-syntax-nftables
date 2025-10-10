@@ -40,11 +40,11 @@ syn match nft_reject_stmt_reject_opts_icmp_num '\v[0-9]{1,2}' skipwhite containe
 
 hi link   nft_reject_stmt_reject_opts_icmpx_types_enum nftHL_Define
 syn match nft_reject_stmt_reject_opts_icmpx_types_enum
-\ '\v(addr\-unreachable|admin\-prohibited|port\-unreachable|not\-neighbour|reject\-route|policy\-fail|no\-route)' skipwhite contained
+\ '\v(addr\-unreachable|admin\-prohibited|port\-unreachable|not\-neighbor|reject\-route|policy\-fail|prohibited|no\-route)\ze[ \t\n;]' skipwhite contained
 
 hi link   nft_reject_stmt_reject_opts_icmp_types_enum nftHL_Define
 syn match nft_reject_stmt_reject_opts_icmp_types_enum
-\ '\v(fragmentation\-needed|host\-unreachable\-tos|precedence\-violation|protocol\-unreachable|net\-unreachable\-tos|source\-route\-failed|precedence\-cutoff|admin\-prohibited|host\-unreachable|port\-unreachable|net\-unreachable|host\-isolated|host\-unknown|net\-unknown|host\-anon|net\-anon)' skipwhite contained
+\ '\v(fragmentation\-needed|host\-unreachable\-tos|precedence\-violation|protocol\-unreachable|net\-unreachable\-tos|source\-route\-failed|precedence\-cutoff|admin\-prohibited|host\-unreachable|port\-unreachable|net\-unreachable|host\-isolated|host\-unknown|net\-unknown|host\-anon|net\-anon)\ze[ \t\n;]' skipwhite contained
 
 hi link   nft_reject_stmt_reject_opts_icmp_keyword_type nftHL_Keyword
 syn match nft_reject_stmt_reject_opts_icmp_keyword_type '\vtype' skipwhite contained
@@ -67,10 +67,10 @@ syn match nft_reject_stmt_reject_opts_icmpv6_keyword_type '\vtype' skipwhite con
 \    nft_reject_stmt_reject_opts_icmp_num,
 \    nft_Error
 
-hi link   nft_reject_stmt_reject_opts_keyword_reset nftHL_Keyword
+hi link   nft_reject_stmt_reject_opts_keyword_reset nftHL_Substatement
 syn match nft_reject_stmt_reject_opts_keyword_reset '\vreset' skipwhite contained
 
-hi link   nft_reject_stmt_reject_opts_keyword_icmp nftHL_Keyword
+hi link   nft_reject_stmt_reject_opts_keyword_icmp nftHL_Substatement
 syn match nft_reject_stmt_reject_opts_keyword_icmp '\vicmp' skipwhite contained
 \ nextgroup=
 \    nft_reject_stmt_reject_opts_icmp_keyword_type,
@@ -78,7 +78,7 @@ syn match nft_reject_stmt_reject_opts_keyword_icmp '\vicmp' skipwhite contained
 \    nft_reject_stmt_reject_opts_icmp_types_num,
 \    nft_Error
 
-hi link   nft_reject_stmt_reject_opts_keyword_icmpx nftHL_Keyword
+hi link   nft_reject_stmt_reject_opts_keyword_icmpx nftHL_Substatement
 syn match nft_reject_stmt_reject_opts_keyword_icmpx '\vicmpx' skipwhite contained
 \ nextgroup=
 \    nft_reject_stmt_reject_opts_icmpx_keyword_type,
@@ -86,13 +86,14 @@ syn match nft_reject_stmt_reject_opts_keyword_icmpx '\vicmpx' skipwhite containe
 \    nft_reject_stmt_reject_opts_icmpx_types_num,
 \    nft_Error
 
-hi link   nft_reject_stmt_reject_opts_keyword_icmpv6 nftHL_Keyword
+hi link   nft_reject_stmt_reject_opts_keyword_icmpv6 nftHL_Substatement
 syn match nft_reject_stmt_reject_opts_keyword_icmpv6 '\vicmpv6' skipwhite contained
 \ nextgroup=
-\    nft_reject_stmt_reject_opts_icmpv6_types,
-\    nft_reject_stmt_reject_opts_icmpv6_keyword_type
+\    nft_reject_stmt_reject_opts_icmpx_types_enum,
+\    nft_reject_stmt_reject_opts_icmpv6_keyword_type,
+\    nft_reject_stmt_reject_opts_icmpx_types_num,
 
-hi link   nft_reject_stmt_reject_opts_keyword_tcp nftHL_Keyword
+hi link   nft_reject_stmt_reject_opts_keyword_tcp nftHL_Substatement
 syn match nft_reject_stmt_reject_opts_keyword_tcp '\vtcp' skipwhite contained
 \ nextgroup=
 \    nft_reject_stmt_reject_opts_keyword_reset

@@ -56,7 +56,7 @@ syn region nft_add_cmd_keyword_table_table_block_chain_chain_block_delimiters st
 \    nft_common_block_keyword_include,
 \    nft_add_cmd_rule_rule_alloc_stmt_redir_stmt_redir_stmt_alloc_keyword_redirect,
 \    nft_add_cmd_keyword_table_table_block_chain_chain_block_comment_spec,
-\    nft_stmt_keyword_counter,
+\    nft_stmt_counter_stmt_keyword_counter,
 \    nft_add_cmd_keyword_table_table_block_chain_chain_block_keyword_devices,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_ibrname,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iifname,

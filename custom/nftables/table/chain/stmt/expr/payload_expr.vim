@@ -3006,7 +3006,7 @@ syn match nft_th_hdr_expr_th_hdr_field_keyword_sport '\vsport\ze[ \t]' skipwhite
 \    nft_verdict_map_stmt_keyword_vmap
 
 hi link   nft_payload_expr_th_hdr_expr_keyword_th nftHL_Expression
-syn match nft_payload_expr_th_hdr_expr_keyword_th '\vth\ze[ \t]' skipwhite contained
+syn match nft_payload_expr_th_hdr_expr_keyword_th '\v[ \t]\zsth\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    nft_th_hdr_expr_th_hdr_field_keyword_dport,
 \    nft_th_hdr_expr_th_hdr_field_keyword_sport

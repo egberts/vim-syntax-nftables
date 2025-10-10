@@ -152,13 +152,13 @@ syn match nft_conntrack_types '\v(h323|pptp|tftp|ftp|irc|sip)' skipwhite contain
 \    nft_ct_common_conntrack_types,
 \    nft_Error
 
-hi link   nft_stmt_objref_stmt_objref_stmt_ct_keyword_expiration nftHL_Keyword
+hi link   nft_stmt_objref_stmt_objref_stmt_ct_keyword_expiration nftHL_Substatement
 syn match nft_stmt_objref_stmt_objref_stmt_ct_keyword_expiration '\vexpiration' skipwhite contained
 \ nextgroup=
 \    nft_ct_common_conntrack_types,
 \    nft_Error
 
-hi link   nft_stmt_ct_common_ct_key_keyword_direction nftHL_Keyword
+hi link   nft_stmt_ct_common_ct_key_keyword_direction nftHL_Substatement
 syn match nft_stmt_ct_common_ct_key_keyword_direction '\vdirection' skipwhite contained
 \ nextgroup=
 \    nft_direction_types,
@@ -167,13 +167,13 @@ syn match nft_stmt_ct_common_ct_key_keyword_direction '\vdirection' skipwhite co
 hi link   nft_close_scope_ct_primary_expr_constant_expr_int_hex_16b nftHL_Integer
 syn match nft_close_scope_ct_primary_expr_constant_expr_int_hex_16b '\v((0[xX][0-9a-fA-F]{1,2})|([0-9]{1,5}))' skipwhite contained
 
-hi link   nft_stmt_ct_common_ct_key_keyword_proto_src nftHL_Keyword
+hi link   nft_stmt_ct_common_ct_key_keyword_proto_src nftHL_Substatement
 syn match nft_stmt_ct_common_ct_key_keyword_proto_src '\vproto\-src' skipwhite contained
 \ nextgroup=
 \    nft_stmt_ct_stmt_keyword_set,
 \    nft_close_scope_ct_primary_expr_constant_expr_int_hex_16b
 
-hi link   nft_stmt_ct_common_ct_key_keyword_proto_dst nftHL_Keyword
+hi link   nft_stmt_ct_common_ct_key_keyword_proto_dst nftHL_Substatement
 syn match nft_stmt_ct_common_ct_key_keyword_proto_dst '\vproto\-dst' skipwhite contained
 \ nextgroup=
 \    nft_stmt_ct_stmt_keyword_set,
@@ -192,49 +192,49 @@ syn match nft_primary_expr_ct_expr_keyword_set '\vset' skipwhite contained
 \ nextgroup=
 \    nft_l4_protocol
 
-hi link   nft_stmt_ct_common_ct_key_keyword_protocol nftHL_Keyword
+hi link   nft_stmt_ct_common_ct_key_keyword_protocol nftHL_Substatement
 syn match nft_stmt_ct_common_ct_key_keyword_protocol '\vprotocol' skipwhite contained
 \ nextgroup=
 \    nft_primary_expr_ct_expr_keyword_set,
 \    @nft_c_stmt_expr
 
-hi link   nft_stmt_ct_common_ct_key_keyword_packets nftHL_Keyword
+hi link   nft_stmt_ct_common_ct_key_keyword_packets nftHL_Substatement
 syn match nft_stmt_ct_common_ct_key_keyword_packets '\vpackets' skipwhite contained
 
 "\    ct 'l3proto' - `family_spec`
-hi link   nft_stmt_ct_common_ct_key_keyword_l3proto nftHL_Keyword
+hi link   nft_stmt_ct_common_ct_key_keyword_l3proto nftHL_Substatement
 syn match nft_stmt_ct_common_ct_key_keyword_l3proto '\vl3proto' skipwhite contained
 \ nextgroup=
 \    nft_conntrack_types
 
-hi link   nft_stmt_ct_common_ct_key_keyword_secmark nftHL_Keyword
+hi link   nft_stmt_ct_common_ct_key_keyword_secmark nftHL_Substatement
 syn match nft_stmt_ct_common_ct_key_keyword_secmark '\vsecmark' skipwhite contained
 
-hi link   nft_stmt_ct_common_ct_key_keyword_avgpkt nftHL_Keyword
+hi link   nft_stmt_ct_common_ct_key_keyword_avgpkt nftHL_Substatement
 syn match nft_stmt_ct_common_ct_key_keyword_avgpkt '\vavgpkt' skipwhite contained
 
 "\    ct 'helper' - ftp sip h323 irc pptp tftp
 hi link   nft_ct_stmt_verdict_stmt_verdict_map_stmt_set_ref_expr_set_ref_symbol_expr_keyword_at_identifier nftHL_Variable
 syn match nft_ct_stmt_verdict_stmt_verdict_map_stmt_set_ref_expr_set_ref_symbol_expr_keyword_at_identifier '\v\@[a-zA-Z][a-zA-Z0-9\-_]{0,63}' skipwhite contained
 
-hi link   nft_stmt_ct_common_ct_key_keyword_helper nftHL_Keyword
+hi link   nft_stmt_ct_common_ct_key_keyword_helper nftHL_Substatement
 syn match nft_stmt_ct_common_ct_key_keyword_helper '\vhelper' skipwhite contained
 \ nextgroup=
 \    nft_ct_common_conntrack_types,
 \    nft_stmt_objref_stmt_objref_stmt_ct_keyword_set,
 \    nft_ct_stmt_verdict_stmt_verdict_map_stmt_set_ref_expr_set_ref_symbol_expr_keyword_at_identifier
 
-hi link   nft_stmt_ct_common_ct_key_keyword_status nftHL_Keyword
+hi link   nft_stmt_ct_common_ct_key_keyword_status nftHL_Substatement
 syn match nft_stmt_ct_common_ct_key_keyword_status '\vstatus' skipwhite contained
-hi link   nft_stmt_ct_common_ct_key_keyword_bytes nftHL_Keyword
+hi link   nft_stmt_ct_common_ct_key_keyword_bytes nftHL_Substatement
 syn match nft_stmt_ct_common_ct_key_keyword_bytes '\vbytes' skipwhite contained
-hi link   nft_stmt_ct_common_ct_key_keyword_event nftHL_Keyword
+hi link   nft_stmt_ct_common_ct_key_keyword_event nftHL_Substatement
 syn match nft_stmt_ct_common_ct_key_keyword_event '\vevent' skipwhite contained
-hi link   nft_stmt_ct_common_ct_key_keyword_label nftHL_Keyword
+hi link   nft_stmt_ct_common_ct_key_keyword_label nftHL_Substatement
 syn match nft_stmt_ct_common_ct_key_keyword_label '\vlabel' skipwhite contained
-hi link   nft_stmt_ct_common_ct_key_keyword_daddr nftHL_Keyword
+hi link   nft_stmt_ct_common_ct_key_keyword_daddr nftHL_Substatement
 syn match nft_stmt_ct_common_ct_key_keyword_daddr '\vdaddr' skipwhite contained
-hi link   nft_stmt_ct_common_ct_key_keyword_saddr nftHL_Keyword
+hi link   nft_stmt_ct_common_ct_key_keyword_saddr nftHL_Substatement
 syn match nft_stmt_ct_common_ct_key_keyword_saddr '\vsaddr' skipwhite contained
 
 " **************** BEGIN ct_expr ct_key 'state' *******************
@@ -268,7 +268,7 @@ syn match nft_primary_expr_ct_expr_ct_state_choices '\v((invalid|established|rel
 \ nextgroup=
 \   nft_primary_expr_ct_expr_ct_state_comma
 
-hi link   nft_stmt_ct_common_ct_key_keyword_state nftHL_Keyword
+hi link   nft_stmt_ct_common_ct_key_keyword_state nftHL_Substatement
 syn match nft_stmt_ct_common_ct_key_keyword_state '\vstate' skipwhite contained
 \ nextgroup=
 \    nft_primary_expr_ct_expr_ct_state_at_setname,
@@ -281,24 +281,24 @@ syn match nft_stmt_ct_stmt_keyword_set '\vset\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    @nft_c_stmt_expr
 
-hi link   nft_stmt_ct_common_ct_key_keyword_mark nftHL_Keyword
+hi link   nft_stmt_ct_common_ct_key_keyword_mark nftHL_Substatement
 syn match nft_stmt_ct_common_ct_key_keyword_mark '\vmark\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    nft_stmt_ct_stmt_keyword_set
 
-hi link   nft_stmt_ct_common_ct_key_keyword_zone nftHL_Keyword
+hi link   nft_stmt_ct_common_ct_key_keyword_zone nftHL_Substatement
 syn match nft_stmt_ct_common_ct_key_keyword_zone '\vzone' skipwhite contained
 \ nextgroup=
 \    nft_stmt_ct_stmt_keyword_set
 
-hi link   nft_stmt_ct_common_ct_key_keyword_id nftHL_Keyword
+hi link   nft_stmt_ct_common_ct_key_keyword_id nftHL_Substatement
 syn match nft_stmt_ct_common_ct_key_keyword_id '\vid' skipwhite contained
-hi link   nft_stmt_ct_common_ct_key_proto_field_keyword_ip nftHL_Keyword
+hi link   nft_stmt_ct_common_ct_key_proto_field_keyword_ip nftHL_Substatement
 syn match nft_stmt_ct_common_ct_key_proto_field_keyword_ip '\vip' skipwhite contained
 \ nextgroup=
 \   nft_stmt_ct_common_ct_key_keyword_daddr,
 \   nft_stmt_ct_common_ct_key_keyword_saddr
-hi link   nft_stmt_ct_common_ct_key_proto_field_keyword_ip6 nftHL_Keyword
+hi link   nft_stmt_ct_common_ct_key_proto_field_keyword_ip6 nftHL_Substatement
 syn match nft_stmt_ct_common_ct_key_proto_field_keyword_ip6 '\vip6' skipwhite contained
 \ nextgroup=
 \   nft_stmt_ct_common_ct_key_keyword_daddr,
@@ -336,15 +336,15 @@ syn cluster nft_c_primary_expr_ct_expr_ct_dir_ct_dir_key_keywords
 \    nft_stmt_ct_common_ct_key_proto_field_keyword_ip6,
 \    nft_stmt_ct_common_ct_key_proto_field_keyword_ip,
 
-hi link   nft_primary_expr_ct_expr_ct_dir_keyword_original nfHL_Action
+hi link   nft_primary_expr_ct_expr_ct_dir_keyword_original nftHL_Keyword
 syn match nft_primary_expr_ct_expr_ct_dir_keyword_original '\voriginal' skipwhite contained
 \ nextgroup=
-\    @nft_c_primary_expr_ct_expr_ct_dir_key_keywords
+\    @nft_c_primary_expr_ct_expr_ct_dir_ct_dir_key_keywords
 
-hi link   nft_primary_expr_ct_expr_ct_dir_keyword_reply nfHL_Action
+hi link   nft_primary_expr_ct_expr_ct_dir_keyword_reply nftHL_Keyword
 syn match nft_primary_expr_ct_expr_ct_dir_keyword_reply '\vreply' skipwhite contained
 \ nextgroup=
-\    @nft_c_primary_expr_ct_expr_ct_dir_key_keywords
+\    @nft_c_primary_expr_ct_expr_ct_dir_ct_dir_key_keywords
 " **************** END ct_expr ***************************************
 
 " **************** BEGIN ct_stmt *************************************

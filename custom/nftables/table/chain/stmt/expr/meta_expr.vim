@@ -687,6 +687,7 @@ syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_mark_k
 hi link   nft_meta_expr_meta_key_unqualified_keyword_mark nftHL_Substatement
 syn match nft_meta_expr_meta_key_unqualified_keyword_mark '\vmark\ze[ \t]' skipnl skipwhite contained
 \ nextgroup=
+\    nft_map_expr_keyword_map,
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_mark_keyword_not,
 \    @nft_c_mark,
 \    nft_Error

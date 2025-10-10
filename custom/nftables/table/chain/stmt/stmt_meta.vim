@@ -863,6 +863,7 @@ hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keywor
 syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oifname '\voifname\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    nft_verdict_stmt_verdict_map_stmt_keyword_vmap,
+\    nft_map_expr_keyword_map,
 \    nft_meta_expr_close_scope_meta_ifname_set_membership_keyword_not,
 \    nft_meta_expr_close_scope_meta_ifname_set_membership_keyword_in,
 \    @nft_c_meta_expr_close_scope_meta_interface_name_quoted_device_name,
@@ -911,9 +912,10 @@ syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keywor
 
 " **************** BEGIN 'meta iifname' ******************************
 hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iifname nftHL_Statement
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iifname '\viifname\ze[ \t]' skipwhite contained
+syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iifname '\v[ \t\n]\zsiifname\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    nft_verdict_stmt_verdict_map_stmt_keyword_vmap,
+\    nft_map_expr_keyword_map,
 \    nft_meta_expr_close_scope_meta_ifname_set_membership_keyword_not,
 \    nft_meta_expr_close_scope_meta_ifname_set_membership_keyword_in,
 \    @nft_c_meta_expr_close_scope_meta_interface_name_quoted_device_name,
@@ -922,7 +924,7 @@ syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keywor
 
 " **************** BEGIN 'meta iiftype' ******************************
 hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iiftype nftHL_Statement
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iiftype '\viiftype\ze[ \t]' skipwhite contained
+syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iiftype '\v[ \t\n]iiftype\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    @nft_c_interface_type,
 \    nft_Error
@@ -1196,7 +1198,7 @@ syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keywor
 
 
 hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_mark nftHL_Statement
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_mark '\vmark\ze[ \t]' skipnl skipwhite contained
+syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_mark '\v[ \t]\zsmark\ze[ \t]' skipnl skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_mark_keyword_not,
 \    @nft_c_mark,
@@ -1215,9 +1217,10 @@ syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keywor
 \ nextgroup=@nft_c_day_of_week, nft_Error
 
 hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iif nftHL_Statement
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iif '\viif\ze[ \t]' skipwhite contained
+syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iif '\v[ \t\n]\zsiif\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    nft_verdict_stmt_verdict_map_stmt_keyword_vmap,
+\    nft_map_expr_keyword_map,
 \    nft_meta_expr_close_scope_meta_device_index_keyword_any,
 \    nft_meta_expr_close_scope_meta_device_index_operator_keyword_not,
 \    nft_meta_expr_close_scope_meta_device_index_operators_equality,
@@ -1241,12 +1244,12 @@ syn match nft_meta_expr_meta_key_unqualified_keyword_oif '\voif\ze[ \t]' skipwhi
 hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oif nftHL_Statement
 syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oif '\voif\ze[ \t]' skipwhite contained
 \ nextgroup=
+\    nft_map_expr_keyword_map,
 \    nft_meta_expr_close_scope_meta_device_index_keyword_any,
 \    nft_meta_expr_close_scope_meta_device_index_operator_keyword_not,
 \    nft_meta_expr_close_scope_meta_device_index_operators_equality,
 \    nft_meta_expr_close_scope_meta_device_index_set_operator_in,
 \    nft_meta_expr_close_scope_meta_device_index_quoted_identifier,
-\    nft_meta_expr_close_scope_meta_device_index_identifier,
 \    nft_meta_expr_close_scope_meta_device_index_number,
 \    nft_Error
 

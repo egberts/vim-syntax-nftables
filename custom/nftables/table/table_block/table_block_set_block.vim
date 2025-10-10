@@ -33,13 +33,6 @@ try
   " INSERT 'syntax cluster' here
   "
 " ******************** BEGIN stateful_stmt
-" 'table' table_block '{' 'set' set_block '{' stateful_stmt_list stateful_stmt counter_stmt 'counter' 'bytes' <NUM>
-hi link   nft_stateful_stmt_counter_stmt_counter_arg_bytes_num nftHL_Integer
-syn match nft_stateful_stmt_counter_stmt_counter_arg_bytes_num '\v[0-9]{1,10}' skipwhite contained
-\ nextgroup=
-\     nft_add_cmd_table_block_set_block_separator
-
-
 " 'table' table_block '{' 'set' set_block '{' stateful_stmt_list stateful_stmt counter_stmt 'counter' 'packets' <NUM>
 hi link   nft_stateful_stmt_counter_stmt_counter_arg_packets_num nftHL_Integer
 syn match nft_stateful_stmt_counter_stmt_counter_arg_packets_num '\v[0-9]{1,10}' skipwhite contained

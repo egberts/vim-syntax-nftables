@@ -271,13 +271,16 @@ table T {
 		ip6 daddr { fe80::/64 } accept
 		ip6 daddr vmap { fe0::1 : drop, fe0::2 : accept }
 		ip6 nexthdr @s3 accept
-		ip6 saddr { 2001:db8::1-2001:db8::2 } accept
+		ip6 saddr { 2001:db8::1-2001:db8::2 } reject with icmpv6 prohibited
+		ip6 saddr { 2001:db8::1-2001:db8::2 } reject with icmp type precedence-violation
+		ip6 saddr { 2001:db8::1-2001:db8::2 } reject with icmpv6 port-unreachable
+		ip6 saddr { 2001:db8::1-2001:db8::2 } reject with icmpv6 type port-unreachable
 		ip6 saddr { ::/3, 2001::/32, 2001:2::/48, 2001:3::/32, 2001:10::-2001:2f:ffff:ffff:ffff:ffff:ffff:ffff, 2001:db8::/32, 2002::/16, 3000::-ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff } counter packets 0 bytes 0 drop
 		ip6 saddr dead::1 dnat ip6 to feed::1
 		ip6 saddr dead::1 dnat to feed::1
 		ip6 saddr dead::2 tcp dport 42 dnat ip6 to [c0::1a]:4242
 		ip6 saddr dead::2 tcp dport 42 dnat to [c0::1a]:4242
-		ip6 saddr != { fd00::/8, fe80::/64 } counter packets 0 bytes 0 reject with icmpv6 port-unreachable
+		ip6 saddr != { fd00::/8, fe80::/64 } counter packets 0 bytes 0 reject with icmp port-unreachable;  # need to create counter_stmt, not use counter_cmd
 		ip6 saddr :: ip6 daddr . icmpv6 type { ff02::1:ff00:0/104 . nd-neighbor-solicit, ff02::16 . mld2-listener-report } return
     }
 }

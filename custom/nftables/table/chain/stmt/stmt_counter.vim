@@ -53,7 +53,7 @@ syn match nft_stmt_objref_stmt_objref_stmt_counter_keyword_name '\vname\ze[ \t]'
 
 " 'objref_stmt'->add_cmd->base_cmd->line
 hi link   nft_stateful_stmt_counter_stmt_counter_arg_bytes_num nftHL_Integer
-syn match nft_stateful_stmt_counter_stmt_counter_arg_bytes_num '\v[0-9]{1,10}' skipwhite contained
+syn match nft_stateful_stmt_counter_stmt_counter_arg_bytes_num '\v[0-9]{1,10}\ze[ \t\n;]' skipwhite contained
 
 hi link   nft_stateful_stmt_counter_stmt_counter_arg_keyword_bytes nftHL_Keyword
 syn match nft_stateful_stmt_counter_stmt_counter_arg_keyword_bytes '\vbytes' skipwhite contained
@@ -76,8 +76,8 @@ syn match nft_stateful_stmt_counter_stmt_counter_arg_keyword_packets '\vpackets\
 
 " ********************* BEGIN 'counter_stmt' *************************
 " Match the 'counter' keyword
-hi link   nft_stmt_keyword_counter nftHL_Statement
-syn match nft_stmt_keyword_counter '\vcounter\ze[ \t\n;]' skipwhite contained
+hi link   nft_stmt_counter_stmt_keyword_counter nftHL_Statement
+syn match nft_stmt_counter_stmt_keyword_counter '\vcounter\ze[ \t\n;]' skipwhite contained
 \ nextgroup=
 \    nft_stateful_stmt_counter_stmt_counter_arg_keyword_packets,
 \    nft_stmt_keyword_quota,
