@@ -472,18 +472,11 @@ syn match nft_common_block_undefine_extra_error_or_semicolon '\v\S+' contained
 \    nft_common_block_stmt_separator,
 \    nft_common_block_undefine_error
 
-hi link   nft_common_block_undefine_identifier_keyword_last nftHL_Keyword
-syn match nft_common_block_undefine_identifier_keyword_last '\vlast' skipwhite contained
-\ nextgroup=
-\    nft_common_block_stmt_separator,
-\    nft_common_block_undefine_error
-
 " commmon_block 'undefine' (via common_block)
 hi link   nft_common_block_keyword_undefine nftHL_Command
 syn match nft_common_block_keyword_undefine '\vundefine\ze\s' skipnl skipwhite contained
 \ containedin=nft_c_common_block
 \ nextgroup=
-\    nft_common_block_undefine_identifier_keyword_last,
 \    nft_common_block_undefine_identifier_string,
 \    nft_Error
 

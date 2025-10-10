@@ -194,17 +194,10 @@ syn match nft_add_cmd_table_block_keyword_flowtable_identifier "\v[a-zA-Z][a-zA-
 \ nextgroup=
 \    nft_add_cmd_table_block_flowtable_block_delimiters
 
-" base_cmd add_cmd 'table' table_block 'flowtable' 'last'
-hi link   nft_add_cmd_table_block_keyword_flowtable_identifier_keyword_last nftHL_Keyword
-syn match nft_add_cmd_table_block_keyword_flowtable_identifier_keyword_last "last" skipwhite contained
-\ nextgroup=
-\    nft_add_cmd_table_block_flowtable_block_delimiters
-
 " base_cmd add_cmd 'table' table_block 'flowtable'
 hi link   nft_add_cmd_table_block_keyword_flowtable nftHL_Command
 syn match nft_add_cmd_table_block_keyword_flowtable "flowtable" skipwhite contained
 \ nextgroup=
-\    nft_add_cmd_table_block_keyword_flowtable_identifier_keyword_last,
 \    nft_add_cmd_table_block_keyword_flowtable_identifier,
 " ************* END table_block 'flowtable' flowtable_block ***************
 

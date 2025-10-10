@@ -60,36 +60,17 @@ syn match nft_insert_cmd_keyword_rule_rule_position_table_spec_identifier_string
 \    nft_UnexpectedEOS,
 \    nft_Error
 
-hi link   nft_insert_cmd_keyword_rule_rule_position_table_spec_identifier_keyword_last nftHL_Keyword
-syn match nft_insert_cmd_keyword_rule_rule_position_table_spec_identifier_keyword_last "last" skipwhite contained
-\ nextgroup=
-\    nft_insert_cmd_keyword_rule_rule_position_keywords_position_et_al_spec,
-\    nft_UnexpectedSemicolon,
-\    nft_UnexpectedEOS,
-\    nft_Error
-
 hi link   nft_insert_cmd_keyword_rule_rule_position_chain_spec_table_spec_identifier_string_table nftHL_Identifier
 syn match nft_insert_cmd_keyword_rule_rule_position_chain_spec_table_spec_identifier_string_table "\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}" skipwhite contained
 \ nextgroup=
-\    nft_insert_cmd_keyword_rule_rule_position_table_spec_identifier_keyword_last,
 \    nft_insert_cmd_keyword_rule_rule_position_table_spec_identifier_string_chain,
 \    nft_Error,
 \    nft_UnexpectedSemicolon,
 \    nft_UnexpectedEOS,
 
-hi link   nft_insert_cmd_keyword_rule_rule_position_chain_spec_table_spec_identifier_keyword_last nftHL_Keyword
-syn match nft_insert_cmd_keyword_rule_rule_position_chain_spec_table_spec_identifier_keyword_last "last" skipwhite contained
-\ nextgroup=
-\    nft_insert_cmd_keyword_rule_rule_position_table_spec_identifier_keyword_last,
-\    nft_insert_cmd_keyword_rule_rule_position_table_spec_identifier_string_chain,
-\    nft_UnexpectedSemicolon,
-\    nft_UnexpectedEOS,
-\    nft_Error
-
 hi link   nft_insert_cmd_keyword_rule_rule_position_chain_spec_table_spec_family_spec_explicit nftHL_Family
 syn match nft_insert_cmd_keyword_rule_rule_position_chain_spec_table_spec_family_spec_explicit "\v(bridge|netdev|inet|arp|ip6|ip)" skipwhite contained
 \ nextgroup=
-\    nft_insert_cmd_keyword_rule_rule_position_chain_spec_table_spec_identifier_keyword_last,
 \    nft_insert_cmd_keyword_rule_rule_position_chain_spec_table_spec_identifier_string_table,
 \    nft_UnexpectedSemicolon,
 \    nft_UnexpectedEOS,
@@ -100,7 +81,6 @@ hi link   nft_base_cmd_keyword_insert_keyword_rule nftHL_Command
 syn match nft_base_cmd_keyword_insert_keyword_rule "rule" skipwhite contained
 \ nextgroup=
 \    nft_insert_cmd_keyword_rule_rule_position_chain_spec_table_spec_family_spec_explicit,
-\    nft_insert_cmd_keyword_rule_rule_position_chain_spec_table_spec_identifier_keyword_last,
 \    nft_insert_cmd_keyword_rule_rule_position_chain_spec_table_spec_identifier_string_table,
 \    nft_UnexpectedSemicolon,
 \    nft_UnexpectedEOS,

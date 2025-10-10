@@ -34,10 +34,6 @@ try
   "
 
 " ********************* BEGIN 'objref_stmt_counter' ******************
-" stmt_expr->'name'->'counter'->objref_stmt_counter->objref_stmt->stmt->rule_alloc->rule->add_cmd->base_cmd->line
-hi link   nft_stmt_objref_stmt_objref_stmt_counter_stmt_expr_keyword_expr_keyword_last nftHL_Keyword
-syn match nft_stmt_objref_stmt_objref_stmt_counter_stmt_expr_keyword_expr_keyword_last '\vlast\ze[ \t]' skipwhite contained
-
 hi link   nft_stmt_objref_stmt_objref_stmt_counter_stmt_expr_symbol_expr_variable nftHL_Variable
 syn match nft_stmt_objref_stmt_objref_stmt_counter_stmt_expr_symbol_expr_variable '\v\$[a-zA-Z][a-zA-Z0-9\-_]{0,63}\ze[ \t\n;]' skipwhite contained
 

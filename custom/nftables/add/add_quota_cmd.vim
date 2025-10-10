@@ -94,26 +94,9 @@ syn match nft_quota_cmd_obj_spec_identifier_string "\v[a-zA-Z][a-zA-Z0-9_\-]{0,6
 \    nft_quota_config_quota_mode,
 \    nft_quota_config_num
 
-hi link   nft_quota_cmd_obj_spec_identifier_keyword_last nftHL_Keyword
-syn match nft_quota_cmd_obj_spec_identifier_keyword_last "last" skipwhite contained
-\ nextgroup=
-\    nft_add_cmd_quota_block,
-\    nft_quota_config_quota_mode,
-\    nft_quota_config_num
-
 hi link   nft_quota_cmd_obj_spec_table_spec_identifier_string nftHL_Identifier
 syn match nft_quota_cmd_obj_spec_table_spec_identifier_string "\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}" skipwhite contained
 \ nextgroup=
-\    nft_quota_cmd_obj_spec_identifier_keyword_last,
-\    nft_quota_cmd_obj_spec_identifier_string,
-\    nft_UnexpectedSemicolon,
-\    nft_UnexpectedEOS,
-\    nft_Error
-
-hi link   nft_quota_cmd_obj_spec_table_spec_identifier_keyword_last nftHL_Keyword
-syn match nft_quota_cmd_obj_spec_table_spec_identifier_keyword_last "last" skipwhite contained
-\ nextgroup=
-\    nft_quota_cmd_obj_spec_identifier_keyword_last,
 \    nft_quota_cmd_obj_spec_identifier_string,
 \    nft_UnexpectedSemicolon,
 \    nft_UnexpectedEOS,
@@ -122,7 +105,6 @@ syn match nft_quota_cmd_obj_spec_table_spec_identifier_keyword_last "last" skipw
 hi link   nft_quota_cmd_obj_spec_table_spec_family_spec_explicit nftHL_Family
 syn match nft_quota_cmd_obj_spec_table_spec_family_spec_explicit "\v(bridge|netdev|inet|arp|ip6|ip)" skipwhite contained
 \ nextgroup=
-\    nft_quota_cmd_obj_spec_table_spec_identifier_keyword_last,
 \    nft_quota_cmd_obj_spec_table_spec_identifier_string,
 \    nft_UnexpectedSemicolon,
 \    nft_UnexpectedEOS,
@@ -132,7 +114,6 @@ syn match nft_quota_cmd_obj_spec_table_spec_family_spec_explicit "\v(bridge|netd
 hi link   nft_base_cmd_keyword_quota nftHL_Command
 syn match nft_base_cmd_keyword_quota "\vquota\ze[ \t]" skipwhite contained
 \ nextgroup=
-\    nft_quota_cmd_obj_spec_table_spec_identifier_keyword_last,
 \    nft_quota_cmd_obj_spec_table_spec_identifier_string,
 \    nft_quota_cmd_obj_spec_table_spec_family_spec_explicit,
 \    nft_quota_cmd_obj_spec_table_spec_identifier_string,

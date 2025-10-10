@@ -116,12 +116,6 @@ syn region nft_add_cmd_table_block_synproxy_block_delimiters start=+{+ end=+}+ s
 \    nft_EOS,
 \    nft_Error
 
-hi link   nft_add_cmd_table_block_keyword_synproxy_obj_identifier_keyword_last nftHL_Define
-syn match nft_add_cmd_table_block_keyword_synproxy_obj_identifier_keyword_last '\vlast' skipwhite contained
-\ nextgroup=
-\    nft_add_cmd_table_block_synproxy_block_delimiters,
-\    nft_Error
-
 hi link   nft_add_cmd_table_block_keyword_synproxy_obj_identifier nftHL_Identifier
 syn match nft_add_cmd_table_block_keyword_synproxy_obj_identifier '\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}\ze[ \t]' skipwhite contained
 \ nextgroup=
@@ -131,7 +125,6 @@ syn match nft_add_cmd_table_block_keyword_synproxy_obj_identifier '\v[a-zA-Z][a-
 hi link   nft_add_cmd_table_block_keyword_synproxy nftHL_Statement
 syn match nft_add_cmd_table_block_keyword_synproxy '\vsynproxy' skipwhite contained
 \ nextgroup=
-\    nft_add_cmd_table_block_keyword_synproxy_obj_identifier_keyword_last,
 \    nft_add_cmd_table_block_keyword_synproxy_obj_identifier,
 \    nft_Error
 " ------------- END table_block 'synproxy' -------------

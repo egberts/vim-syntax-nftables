@@ -102,15 +102,9 @@ syn match nft_add_cmd_table_block_keyword_quota_obj_identifier_identifier_string
 \ nextgroup=
 \    nft_add_cmd_table_block_quota_block_delimiters
 
-hi link   nft_add_cmd_table_block_keyword_quota_obj_identifier_identifier_keyword_last nftHL_Define
-syn match nft_add_cmd_table_block_keyword_quota_obj_identifier_identifier_keyword_last '\vlast' skipwhite contained
-\ nextgroup=
-\    nft_add_cmd_table_block_quota_block_delimiters
-
 hi link   nft_add_cmd_keyword_table_table_block_keyword_quota nftHL_Statement
 syn match nft_add_cmd_keyword_table_table_block_keyword_quota '\vquota' skipwhite contained
 \ nextgroup=
-\    nft_add_cmd_table_block_keyword_quota_obj_identifier_identifier_keyword_last,
 \    nft_add_cmd_table_block_keyword_quota_obj_identifier_identifier_string,
 \    nft_Error
 " ************* END table_block 'quota' quota_block ***************

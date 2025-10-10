@@ -288,10 +288,7 @@ hi link   nft_add_cmd_keyword_synproxy_obj_spec_table_spec_family_spec_explicit_
 syn match nft_add_cmd_keyword_synproxy_obj_spec_table_spec_family_spec_explicit_netdev /netdev/ skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_keyword_synproxy_obj_spec_table_spec_identifier
-hi link   nft_add_cmd_keyword_synproxy_obj_spec_table_spec_identifier_keyword_last nftHL_Keyword
-syn match nft_add_cmd_keyword_synproxy_obj_spec_table_spec_identifier_keyword_last /last/ skipwhite contained
-\ nextgroup=
-\    nft_add_cmd_keyword_synproxy_obj_spec_table_spec_identifier
+
 hi link   nft_add_cmd_keyword_synproxy_obj_spec_table_spec_family_spec_explicit_bridge nftHL_Family
 syn match nft_add_cmd_keyword_synproxy_obj_spec_table_spec_family_spec_explicit_bridge /bridge/ skipwhite contained
 \ nextgroup=
@@ -304,7 +301,6 @@ syn match nft_base_cmd_add_cmd_keyword_synproxy '\vsynproxy\ze[ \t]' skipwhite c
 \ nextgroup=
 \    nft_add_cmd_keyword_synproxy_obj_spec_table_spec_family_spec_explicit_bridge,
 \    nft_add_cmd_keyword_synproxy_obj_spec_table_spec_family_spec_explicit_netdev,
-\    nft_add_cmd_keyword_synproxy_obj_spec_table_spec_identifier_keyword_last,
 \    nft_add_cmd_keyword_synproxy_obj_spec_table_spec_family_spec_explicit_inet,
 \    nft_add_cmd_keyword_synproxy_obj_spec_table_spec_family_spec_explicit_arp,
 \    nft_add_cmd_keyword_synproxy_obj_spec_table_spec_family_spec_explicit_ip6,

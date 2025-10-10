@@ -137,34 +137,15 @@ syn match nft_add_cmd_keyword_element_set_spec_set_spec_identifier '\v[a-zA-Z][a
 \    nft_add_cmd_keyword_element_set_block_expr_set_spec_block,
 \    nft_Error
 
-hi link   nft_add_cmd_keyword_element_set_spec_set_spec_keyword_last nftHL_Keyword
-syn match nft_add_cmd_keyword_element_set_spec_set_spec_keyword_last '\vlast\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_add_cmd_keyword_element_set_block_expr_variable_expr_variable,
-\    nft_add_cmd_keyword_element_set_block_expr_set_spec_block,
-\    nft_add_cmd_keyword_element_set_spec_block,
-\    nft_variable_identifier,
-\    nft_Error
-
 hi link   nft_add_cmd_keyword_element_set_spec_table_spec_identifier_string_table nftHL_Table
 syn match nft_add_cmd_keyword_element_set_spec_table_spec_identifier_string_table '\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_add_cmd_keyword_element_set_spec_set_spec_keyword_last,
 \    nft_add_cmd_keyword_element_set_spec_set_spec_identifier,
-\    nft_Error
-
-hi link   nft_add_cmd_keyword_element_set_spec_table_spec_keyword_last nftHL_Keyword
-syn match nft_add_cmd_keyword_element_set_spec_table_spec_keyword_last '\vlast\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_add_cmd_keyword_element_set_spec_set_spec_keyword_last,
-\    nft_add_cmd_keyword_element_set_spec_set_spec_identifier,
-\    nft_UnexpectedCurlyBrace,
 \    nft_Error
 
 hi link   nft_add_cmd_keyword_element_set_spec_table_spec_family_spec nftHL_Family
 syn match nft_add_cmd_keyword_element_set_spec_table_spec_family_spec '\v(bridge|netdev|inet|arp|ip6|ip)\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_add_cmd_keyword_element_set_spec_table_spec_keyword_last,
 \    nft_add_cmd_keyword_element_set_spec_table_spec_identifier_string_table,
 \    nft_UnexpectedSemicolon,
 \    nft_UnexpectedEOS,
@@ -173,7 +154,6 @@ syn match nft_add_cmd_keyword_element_set_spec_table_spec_family_spec '\v(bridge
 hi link nft_base_cmd_add_cmd_keyword_element nftHL_Command
 syn match nft_base_cmd_add_cmd_keyword_element '\velement\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_add_cmd_keyword_element_set_spec_table_spec_keyword_last,
 \    nft_add_cmd_keyword_element_set_spec_table_spec_family_spec,
 \    nft_add_cmd_keyword_element_set_spec_table_spec_identifier_string_table,
 \    nft_Error

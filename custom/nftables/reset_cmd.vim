@@ -182,28 +182,10 @@ syn match nft_reset_cmd_keyword_rules_chain_spec_identifier_string "\v[a-zA-Z][a
 \    nft_Semicolon,
 \    nft_Error
 
-" base_cmd 'reset' 'rules' 'chain' <table_identifier> 'last'
-hi link   nft_reset_cmd_keyword_rules_chain_spec_identifier_keyword_last nftHL_Chain
-syn match nft_reset_cmd_keyword_rules_chain_spec_identifier_keyword_last "last" skipwhite contained
-\ nextgroup=
-\    nft_EOS,
-\    nft_Semicolon,
-\    nft_Error
-
 " base_cmd 'reset' 'rules' 'chain' <table_identifier>
 hi link   nft_reset_cmd_keyword_rules_chain_spec_table_spec_identifier_string nftHL_Table
 syn match nft_reset_cmd_keyword_rules_chain_spec_table_spec_identifier_string "\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}" skipwhite contained
 \ nextgroup=
-\    nft_reset_cmd_keyword_rules_chain_spec_identifier_keyword_last,
-\    nft_reset_cmd_keyword_rules_chain_spec_identifier_string,
-\    nft_Semicolon,
-\    nft_EOS
-
-" base_cmd 'reset' 'rules' 'chain' 'last'
-hi link   nft_reset_cmd_keyword_rules_chain_spec_table_spec_identifier_keyword_last nftHL_Keyword
-syn match nft_reset_cmd_keyword_rules_chain_spec_table_spec_identifier_keyword_last "last" skipwhite contained
-\ nextgroup=
-\    nft_reset_cmd_keyword_rules_chain_spec_identifier_keyword_last,
 \    nft_reset_cmd_keyword_rules_chain_spec_identifier_string,
 \    nft_Semicolon,
 \    nft_EOS
@@ -212,7 +194,6 @@ syn match nft_reset_cmd_keyword_rules_chain_spec_table_spec_identifier_keyword_l
 hi link   nft_reset_cmd_keyword_rules_chain_spec_table_spec_family_spec_explicit nftHL_Family
 syn match nft_reset_cmd_keyword_rules_chain_spec_table_spec_family_spec_explicit "\v(ip6|ip|inet|arp|bridge|netdev)" skipwhite contained
 \ nextgroup=
-\    nft_reset_cmd_keyword_rules_chain_spec_table_spec_identifier_keyword_last,
 \    nft_reset_cmd_keyword_rules_chain_spec_table_spec_identifier_string,
 \    nft_Error
 
@@ -221,7 +202,6 @@ hi link   nft_reset_cmd_keyword_rules_keyword_chain nftHL_Keyword
 syn match nft_reset_cmd_keyword_rules_keyword_chain "chain" skipwhite contained
 \ nextgroup=
 \    nft_reset_cmd_keyword_rules_chain_spec_table_spec_family_spec_explicit,
-\    nft_reset_cmd_keyword_rules_chain_spec_table_spec_identifier_keyword_last,
 \    nft_reset_cmd_keyword_rules_chain_spec_table_spec_identifier_string,
 \    nft_Error
 
@@ -231,19 +211,10 @@ syn match nft_reset_cmd_keyword_rules_table_spec_table_id "\v[a-zA-Z][a-zA-Z0-9_
 \    nft_reset_cmd_keyword_rules_chain_spec_table_spec_identifier_string,
 \    nft_Semicolon,
 
-hi link   nft_reset_cmd_keyword_rules_table_spec_keyword_last nftHL_Keyword
-syn match nft_reset_cmd_keyword_rules_table_spec_keyword_last "last" skipwhite contained
-\ nextgroup=
-\    nft_reset_cmd_keyword_rules_chain_spec_table_spec_identifier_string,
-\    nft_Semicolon,
-\    nft_EOS
-
-
 hi link   nft_reset_cmd_keyword_rules_table_spec_family_spec nftHL_Family
 syn match nft_reset_cmd_keyword_rules_table_spec_family_spec "\v(bridge|netdev|inet|arp|ip6|ip)" skipwhite contained
 \ nextgroup=
 \    nft_reset_cmd_keyword_rules_table_spec_table_id,
-\    nft_reset_cmd_keyword_rules_table_spec_keyword_last,
 \    nft_UnexpectedEOS,
 \    nft_UnexpectedSemicolon,
 \    nft_Error
@@ -253,7 +224,6 @@ hi link   nft_reset_cmd_keyword_rules_keyword_table nftHL_Keyword
 syn match nft_reset_cmd_keyword_rules_keyword_table "table" skipwhite contained
 \ nextgroup=
 \    nft_reset_cmd_keyword_rules_table_spec_family_spec,
-\    nft_reset_cmd_keyword_rules_table_spec_keyword_last,
 \    nft_reset_cmd_keyword_rules_table_spec_table_id,
 \    nft_UnexpectedEOS,
 \    nft_UnexpectedSemicolon,

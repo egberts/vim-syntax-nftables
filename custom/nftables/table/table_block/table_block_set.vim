@@ -260,7 +260,6 @@ syn region nft_add_cmd_table_block_set_block_delimiters start="{" end="}" skip="
 \    nft_add_cmd_table_block_set_block_stateful_stmt_list_stmt_stateful_stmt_limit_stmt_keyword_limit,
 \    nft_add_cmd_table_block_set_block_stateful_stmt_list_stmt_stateful_stmt_quota_stmt_keyword_quota,
 \    nft_add_cmd_table_block_set_block_keyword_flags,
-\    nft_add_cmd_table_block_set_block_stateful_stmt_list_stmt_stateful_stmt_last_stmt_keyword_last,
 \    nft_add_cmd_table_block_set_block_set_mechanism_keyword_size,
 \    nft_add_cmd_table_block_set_block_typeof_key_expr_keyword_type,
 \    nft_add_cmd_table_block_set_block_stateful_stmt_list_stmt_stateful_stmt_connlimit_stmt_keyword_ct,
@@ -274,17 +273,10 @@ syn match nft_add_cmd_table_block_keyword_set_identifier "\v[a-zA-Z][a-zA-Z0-9_\
 \ nextgroup=
 \    nft_add_cmd_table_block_set_block_delimiters
 
-" base_cmd add_cmd 'table' table_block 'set' 'last'
-hi link   nft_add_cmd_table_block_keyword_set_identifier_keyword_last nftHL_Keyword
-syn match nft_add_cmd_table_block_keyword_set_identifier_keyword_last "last" skipwhite contained
-\ nextgroup=
-\    nft_add_cmd_table_block_set_block_delimiters
-
 " base_cmd add_cmd 'table' table_block 'set'
 hi link   nft_add_cmd_table_block_keyword_set nftHL_Command
 syn match nft_add_cmd_table_block_keyword_set "set" skipwhite contained
 \ nextgroup=
-\    nft_add_cmd_table_block_keyword_set_identifier_keyword_last,
 \    nft_add_cmd_table_block_keyword_set_identifier,
 
 " ************* END table_block 'set' set_block ***************
@@ -478,7 +470,6 @@ syn region nft_add_cmd_table_block_map_block_delimiters start="{" end="}" skip="
 \    nft_add_cmd_table_block_set_block_stateful_stmt_list_stmt_stateful_stmt_limit_stmt_keyword_limit,
 \    nft_add_cmd_table_block_set_block_stateful_stmt_list_stmt_stateful_stmt_quota_stmt_keyword_quota,
 \    nft_add_cmd_table_block_set_block_keyword_flags,
-\    nft_add_cmd_table_block_set_block_stateful_stmt_list_stmt_stateful_stmt_last_stmt_keyword_last,
 \    nft_add_cmd_table_block_set_block_set_mechanism_keyword_size,
 \    nft_add_cmd_table_block_map_block_typeof_key_expr_keyword_type,
 \    nft_add_cmd_table_block_set_block_stateful_stmt_list_stmt_stateful_stmt_connlimit_stmt_keyword_ct,
@@ -493,17 +484,10 @@ syn match nft_add_cmd_table_block_keyword_map_identifier "\v[a-zA-Z][a-zA-Z0-9_\
 \ nextgroup=
 \    nft_add_cmd_table_block_map_block_delimiters
 
-" base_cmd add_cmd 'table' table_block 'map' 'last'
-hi link   nft_add_cmd_table_block_keyword_map_identifier_keyword_last nftHL_Keyword
-syn match nft_add_cmd_table_block_keyword_map_identifier_keyword_last "last" skipwhite contained
-\ nextgroup=
-\    nft_add_cmd_table_block_map_block_delimiters
-
 " base_cmd add_cmd 'table' table_block 'map'
 hi link   nft_add_cmd_table_block_keyword_map nftHL_Command
 syn match nft_add_cmd_table_block_keyword_map "map" skipwhite contained
 \ nextgroup=
-\    nft_add_cmd_table_block_keyword_map_identifier_keyword_last,
 \    nft_add_cmd_table_block_keyword_map_identifier,
 " ************* END table_block 'map' map_block ***************
 
