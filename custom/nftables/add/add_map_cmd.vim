@@ -262,17 +262,21 @@ syn region nft_add_cmd_map_map_spec_map_block start="{" end="}" skipnl skipempty
 
 " base_cmd add_cmd 'map' map_spec set_identifier (chain)
 hi link   nft_add_cmd_map_map_spec_identifier_set nftHL_Chain
-syn match nft_add_cmd_map_map_spec_identifier_set "\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}" skipwhite contained
+syn match nft_add_cmd_map_map_spec_identifier_set "\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}\ze[ \t\n;]" skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_map_map_spec_map_block,
-\    nft_UnexpectedEOS,
+\    nft_line_separator,
+\    nft_EOS,
+\    nft_EOL,
+\    nft_Error
 
 " base_cmd add_cmd 'map' map_spec table_spec family_spec identifier (table)
 hi link   nft_add_cmd_map_map_spec_table_spec_family_spec_identifier_table nftHL_Table
-syn match nft_add_cmd_map_map_spec_table_spec_family_spec_identifier_table "\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}" skipwhite contained
+syn match nft_add_cmd_map_map_spec_table_spec_family_spec_identifier_table "\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}\ze[ \t]" skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_map_map_spec_identifier_set,
-\    nft_UnexpectedEOS
+\    nft_UnexpectedEOS,
+\    nft_Error
 
 " base_cmd add_cmd 'map' map_spec table_spec family_spec family_spec_explicit (table)
 hi link   nft_add_cmd_map_map_spec_table_spec_family_spec_family_spec_explicit nftHL_Family

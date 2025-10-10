@@ -41,7 +41,7 @@ hi link    nft_add_cmd_keyword_table_table_block_chain_chain_block_delimiters nf
 "syn region nft_add_cmd_keyword_table_table_block_chain_chain_block_delimiters start='\v\s*\zs\{' end='\v\}' skipwhite skipempty
 syn region nft_add_cmd_keyword_table_table_block_chain_chain_block_delimiters start='\v\s*\zs\{' end='\v\}' skipwhite skipempty contained
 \ nextgroup=
-\    nft_table_block_stmt_separator,
+\    nft_line_separator,
 \    nft_comment_inline
 \ contains=
 \    nft_add_cmd_rule_rule_alloc_stmt_masq_keyword_masquerade,

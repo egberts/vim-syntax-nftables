@@ -14,6 +14,13 @@ list meter ip table_name identifier
 list meter bridge table_name identifier
 list meter netdev table_name identifier
 
+
+
+################################################################################
+# true negative test: properly hightlighted wrongly to show an error;
+# so far, so good.
+################################################################################
+
 flush meter myIpTable mySet
 flush meter ip myIpTable mySet
 flush meter ip6 myIp6Table mySet
@@ -21,12 +28,6 @@ flush meter inet myInetTable mySet ;
 flush meter netdev myNetdevTable mySet
 flush meter bridge myBridgeTable mySet
 flush meter arp myArpTable mySet
-
-
-################################################################################
-# true negative test: properly hightlighted wrongly to show an error;
-# so far, so good.
-################################################################################
 
 ################################################################################
 # false negative test: highlighted wrongly; still has good content; oops.

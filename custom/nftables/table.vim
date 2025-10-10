@@ -76,7 +76,7 @@ syn match nft_table_spec_variable_expr "\v\$[a-zA-Z][A-Za-z0-9_\-]{0,63}" skipwh
 
 " base_cmd add_cmd 'add' 'table' table_spec family_spec identifier
 hi link   nft_add_table_spec_identifier nftHL_Identifier
-syn match nft_add_table_spec_identifier '\v[a-zA-Z][A-Za-z0-9_\-]{0,63}' skipwhite contained
+syn match nft_add_table_spec_identifier '\v[a-zA-Z][A-Za-z0-9_\-]{0,63}\ze[ \t\n;]' skipwhite contained
 \ nextgroup=
 \    nft_comment_inline,
 \    nft_line_separator,

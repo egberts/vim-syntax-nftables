@@ -53,12 +53,3 @@ list meter ip Tip flood
 list meter bridge Tbridge flood
 list meter netdev Tnetdev flood
 
-flush meter T flood
-flush meter ip Tip flood
-flush meter ip6 Tip6 flood
-flush meter inet Tinet flood ;
-flush meter netdev Tnetdev flood
-flush meter bridge Tbridge flood
-flush meter arp Tarp flood
-
-

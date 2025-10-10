@@ -164,13 +164,13 @@ list flowtables ip6
 list flowtables inet
 list flowtable ip
 list flowtable ip6 T C
-flush flow table table_id flow_id
-flush flow table ip table_id flow_id
-flush flow table ip6 table_id flow_id
-flush flow table inet table_id flow_id
-flush flow table netdev table_id flow_id
-flush flow table bridge table_id flow_id
-flush flow table arp table_id flow_id
+flush flowtable table_id flow_id
+flush flowtable ip table_id flow_id
+flush flowtable ip6 table_id flow_id
+flush flowtable inet table_id flow_id
+flush flowtable netdev table_id flow_id
+flush flowtable bridge table_id flow_id
+flush flowtable arp table_id flow_id
 map T S
 map ip T S
 map ip6 T S
@@ -2766,12 +2766,6 @@ flush map inet table_id MyMap
 flush map netdev table_id MyMap
 flush map bridge table_id MyMap
 flush map arp table_id MyMap
-flush meter table_id MyMap
-flush meter ip table_id MyMap
-flush meter ip6 table_id MyMap
-flush meter inet table_id MyMap
-flush meter netdev table_id MyMap
-flush meter arp table_id MyMap
 flush ruleset 
 flush ruleset ip 
 flush ruleset ip6
@@ -3199,13 +3193,6 @@ list meter table_name identifier
 list meter ip table_name identifier
 list meter bridge table_name identifier
 list meter netdev table_name identifier
-flush meter myIpTable mySet
-flush meter ip myIpTable mySet
-flush meter ip6 myIp6Table mySet
-flush meter inet myInetTable mySet ; 
-flush meter netdev myNetdevTable mySet
-flush meter bridge myBridgeTable mySet
-flush meter arp myArpTable mySet
 monitor new  # monitor 'ANY'
 monitor new tables 
 monitor new chains

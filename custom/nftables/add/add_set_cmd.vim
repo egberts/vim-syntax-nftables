@@ -500,12 +500,11 @@ syn match nft_add_cmd_set_block_expr_variable_expr "\v\$[a-zA-Z][a-zA-Z0-9_\-]{0
 " base_cmd add_cmd 'set' set_spec set_identifier
 " set_identifier->'set'->add_cmd->base_cmd->line
 hi link   nft_add_cmd_keyword_set_set_spec_set_id nftHL_Identifier
-syn match nft_add_cmd_keyword_set_set_spec_set_id "\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}" skipwhite contained
+syn match nft_add_cmd_keyword_set_set_spec_set_id "\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}\ze[ \t\n;]" skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_set_block,
+\    nft_line_separator,
 \    nft_add_cmd_set_block_expr_variable_expr,
-\    nft_MissingCurlyBrace,
-\    nft_UnexpectedEOS
 
 
 " base_cmd add_cmd 'set' set_spec table_spec family_spec identifier (table)

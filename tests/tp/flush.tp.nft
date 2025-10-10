@@ -54,7 +54,6 @@ flush chain T C ;
 flush chain T C ;
 
 # Setup map
-map T M { flags timeout; timeout 1h; type ipv4_addr : verdict; };
 map ip Tip Mip { flags timeout; timeout 1h; type ipv4_addr : verdict; };
 map ip6 Tip6 Mip6 { flags timeout; timeout 1h; type ipv4_addr : verdict; };
 map inet Tinet Minet { flags timeout; timeout 1h; type ipv4_addr : verdict; };

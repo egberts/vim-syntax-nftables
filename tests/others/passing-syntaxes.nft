@@ -2465,23 +2465,14 @@ flush map ip myIpTable myIpMap
 flush map ip6 myIp6Table myIp6Map 
 flush map inet myInetTable myInetMap 
 
-# flush flow table <flowtable_spec>
-flush flow table myIpTable mySet
-flush flow table netdev myNetdevTable mySet
-flush flow table bridge myBridgeTable mySet
-flush flow table arp myArpTable mySet
-flush flow table ip myIpTable mySet
-flush flow table ip6 myIp6Table mySet
-flush flow table inet myInetTable mySet ; 
-
-# flush meter <set_spec>
-flush meter myIpTable mySet
-flush meter netdev myNetdevTable mySet
-flush meter bridge myBridgeTable mySet
-flush meter arp myArpTable mySet
-flush meter ip myIpTable mySet
-flush meter ip6 myIp6Table mySet
-flush meter inet myInetTable mySet ; 
+# flush flowtable <flowtable_spec>
+flush flowtable myIpTable mySet
+flush flowtable netdev myNetdevTable mySet
+flush flowtable bridge myBridgeTable mySet
+flush flowtable arp myArpTable mySet
+flush flowtable ip myIpTable mySet
+flush flowtable ip6 myIp6Table mySet
+flush flowtable inet myInetTable mySet ; 
 
 # flush ruleset <ruleset_spec>
 flush ruleset
@@ -2541,15 +2532,6 @@ export ruleset json
 # TODO Need to study syntax for secmark/synproxy
 
 #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-# list quota <obj_spec>
-list quota
-list quota myInetTable myInetChain
-list quota netdev myNetdevTable myNetdevChain
-list quota bridge myBridgeTable myBridgeChain
-list quota arp myArpTable myArpChain
-list quota ip myIpTable myIpChain
-list quota ip6 myIp6Table myIp6Chain
-list quota inet myInetTable myInetChain
 
 # list limits <ruleset_spec>
 list limits
@@ -2559,15 +2541,6 @@ list limits arp
 list limits ip
 list limits ip6
 list limits inet
-
-# list limit <obj_spec>
-list limit myIpTable myIpChain
-list limit netdev myNetdevTable myNetdevChain
-list limit ip myBridgeTable myBridgeChain
-list limit ip myArpTable myArpChain
-list limit ip myIpTable myIpChain
-list limit ip myIp6Table myIp6Chain
-list limit ip myInetTable myInetChain
 
 # list ruleset <ruleset_spec>
 list ruleset   

@@ -218,7 +218,7 @@ hi link   nft_ct_stmt_verdict_stmt_verdict_map_stmt_set_ref_expr_set_ref_symbol_
 syn match nft_ct_stmt_verdict_stmt_verdict_map_stmt_set_ref_expr_set_ref_symbol_expr_keyword_at_identifier '\v\@[a-zA-Z][a-zA-Z0-9\-_]{0,63}' skipwhite contained
 
 hi link   nft_stmt_ct_common_ct_key_keyword_helper nftHL_Substatement
-syn match nft_stmt_ct_common_ct_key_keyword_helper '\vhelper' skipwhite contained
+syn match nft_stmt_ct_common_ct_key_keyword_helper '\vhelper\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    nft_ct_common_conntrack_types,
 \    nft_stmt_objref_stmt_objref_stmt_ct_keyword_set,

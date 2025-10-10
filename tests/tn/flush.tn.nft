@@ -17,25 +17,23 @@ flush set ip table_id set_id  xyz
 flush map MyTable MyChain ExtraIdentifier  # intentional invalid
 flush map arp MyTable MyChain ExtraIdentifier  # intentional invalid
 flush map table_id MyMap  xyz
-flush flow MyFlow MyChain ExtraIdentifier  # intentional invalid
-flush flow table arp table_id flow_id  xyz
-flush flow table MyFlow MyChain ExtraIdentifier  # intentional invalid
-flush flow table ip MyFlow MyChain ExtraIdentifier  # intentional invalid
-flush meter MyTable MyChain ExtraIdentifier  # intentional invalid
-flush meter arp MyTable MyChain ExtraIdentifier  # intentional invalid
-flush meter bridge table_id MyMap  xyz
+flush flowtable MyFlow MyChain ExtraIdentifier  # intentional invalid
+flush flowtable table arp table_id flow_id  xyz
+flush flowtable table MyFlow MyChain ExtraIdentifier  # intentional invalid
+flush flowtable table ip MyFlow MyChain ExtraIdentifier  # intentional invalid
 flush ruleset netdev  # intentional invalid; netdev is not a flushable
 flush ruleset bridge  # intentional invalid; bridge is not a flushable
 flush ruleset arp  # intentional invalid; arp is not a flushable
 
 # Create tables
-add table T
-add table ip Tip
-add table ip6 Tip6
-add table inet Tinet
-add table netdev Tnetdev
-add table bridge Tbridge
-add table arp Tarp
+add table T X
+add table ip Tip UnneededChain 
+add table ip6 Tip6 123
+add table inet Tinet $$$
+add table netdev Tnetdev {{}}
+add table bridge Tbridge ///
+add table arp Tarp ouch 
+add table arp ouch$$
 
 # Setup flowtables
 # set_spec->'table'->'flow'->flush_cmd->base_cmd
@@ -98,3 +96,6 @@ flush meter inet Tinet MTinet
 flush meter netdev Tnetdev MTnetdev
 flush meter bridge Tbridge MTbridge
 flush meter arp Tarp MTarp
+flush meter MyTable MyChain ExtraIdentifier  # intentional invalid
+flush meter arp MyTable MyChain ExtraIdentifier  # intentional invalid
+flush meter bridge table_id MyMap  xyz
