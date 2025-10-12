@@ -9,16 +9,115 @@
 # true positive test: properly hightlighted correctly; has good content; perfect
 ################################################################################
 
-add rule T C rt classid 
-add rule T C rt nexthop 
-add rule T C rt mtu 
-add rule T C rt ipsec 
+add rule T C rt classid  > 0xffffffff drop
+add rule T C rt ip classid != 10 accept
+add rule T C rt ip6 classid  > 11 reject with host-unreachable 
+add rule ip filter output rt classid eq 10 drop
+add rule ip filter output rt classid gt 5 accept
 
+add rule filter postrouting ip daddr 192.168.1.0/24 rt nexthop != 192.168.0.1 drop
+add rule filter postrouting ip ip daddr 192.168.1.0/24 rt nexthop != 192.168.0.1 drop
+add rule filter postrouting ip daddr 192.168.1.0/24 rt nexthop != 192.168.0.1 drop
+add rule filter postrouting meter acct { rt nexthop timeout 600s counter }
+add rule ip6 filter postrouting meter acct { rt nexthop timeout 600s counter }
 
-add rule T C rt ip classid 
+add rule inet filter output ip daddr 192.168.1.10 rt ipsec exists drop
+add rule inet filter output ip daddr 192.168.1.10 rt ip ipsec not 1 drop
+add rule inet filter output ip daddr 192.168.1.10 rt ip6 ipsec exists drop
+add rule inet filter output ip daddr 192.168.1.10 rt ip6 ipsec not exists drop
+add rule T C rt mtu not 0xff drop
+add rule T C rt mtu not 1500 accept
+add rule T C rt ip mtu >= 65535 continue
+add rule T C rt ip mtu != 65536
+add rule T C rt ip6 mtu in {1400, 65536, 1492, 1500, 1512, 1514 } drop
+add rule T C rt ip6 mtu not in {1400, 1448, 1492, 1500, 1512, 1514 }
 
+add rule T C rt OOPSIEft 
 
-add rule T C rt ip6 classid 
+add rule T C rt hdrlength 0
+add rule T C rt hdrlength 0xff
+add rule T C rt hdrlength 65539
+
+add rule T C rt seg-left 0xff ;
+add rule T C rt seg-left 0xff
+add rule T C rt seg-left 255
+
+add rule T C rt nexthdr tcp
+add rule T C rt nexthdr mobility-header
+add rule T C rt nexthdr mpls-in-ip
+add rule T C rt nexthdr ipv6-route
+add rule T C rt nexthdr idpr-cmtp
+add rule T C rt nexthdr ipv6-frag
+add rule T C rt nexthdr ipv6-icmp
+add rule T C rt nexthdr ipv6-nonxt
+add rule T C rt nexthdr ipv6-opts
+add rule T C rt nexthdr ethernet
+add rule T C rt nexthdr ipencap
+add rule T C rt nexthdr iso-tp4
+add rule T C rt nexthdr udplite
+add rule T C rt nexthdr xns-idp
+add rule T C rt nexthdr hopopt
+add rule T C rt nexthdr ipcomp
+add rule T C rt nexthdr ax.25
+add rule T C rt nexthdr eigrp
+add rule T C rt nexthdr encap
+add rule T C rt nexthdr manet
+add rule T C rt nexthdr mptcp
+add rule T C rt nexthdr shim6
+add rule T C rt nexthdr dccp
+add rule T C rt nexthdr icmp
+add rule T C rt nexthdr idrp
+add rule T C rt nexthdr igmp
+add rule T C rt nexthdr ipv6
+add rule T C rt nexthdr isis
+add rule T C rt nexthdr l2tp
+add rule T C rt nexthdr ospf
+add rule T C rt nexthdr rohc
+add rule T C rt nexthdr rspf
+add rule T C rt nexthdr rsvp
+add rule T C rt nexthdr sctp
+add rule T C rt nexthdr skip
+add rule T C rt nexthdr vrrp
+add rule T C rt nexthdr vmtp
+add rule T C rt nexthdr wesp
+add rule T C rt nexthdr ddp
+add rule T C rt nexthdr egp
+add rule T C rt nexthdr esp
+add rule T C rt nexthdr gre
+add rule T C rt nexthdr hip
+add rule T C rt nexthdr hmp
+add rule T C rt nexthdr igp
+add rule T C rt nexthdr ggp
+add rule T C rt nexthdr pim
+add rule T C rt nexthdr pup
+add rule T C rt nexthdr rdp
+add rule T C rt nexthdr tcp
+add rule T C rt nexthdr udp
+add rule T C rt nexthdr xtp
+add rule T C rt nexthdr ah
+add rule T C rt nexthdr fc
+add rule T C rt nexthdr ip
+add rule T C rt nexthdr OOPSIE
+
+add rule T C rt type rfc2460 
+add rule T C rt type type0 
+add rule T C rt type srh
+add rule T C rt type rpl
+add rule T C rt type 0xff
+add rule T C rt type 255
+
+table T {
+    chain C {
+        rt hdrlength
+        rt classid
+        rt nexthop
+        rt ipsec
+        rt type
+        rt mtu
+    }
+}
+
+add rule T C ip daddr 127.0.0.1 rt hdrlength 15
 
 
 

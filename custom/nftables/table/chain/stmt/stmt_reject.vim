@@ -35,36 +35,50 @@ try
 
 
 " ************************* BEGIN reject_stmt ************************
-hi link   nft_reject_stmt_reject_opts_icmp_num nftHL_Define
-syn match nft_reject_stmt_reject_opts_icmp_num '\v[0-9]{1,2}' skipwhite contained
+
+hi link   nft_reject_stmt_reject_opts_icmp_num_hex nftHL_Integer
+syn match nft_reject_stmt_reject_opts_icmp_num_hex '\v(0x([A-Fa-f]\d|[A-Fa-f]{2}|[0-9A-Fa-f])|25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)\ze[ \t]' skipwhite contained
+
 
 hi link   nft_reject_stmt_reject_opts_icmpx_types_enum nftHL_Define
 syn match nft_reject_stmt_reject_opts_icmpx_types_enum
 \ '\v(addr\-unreachable|admin\-prohibited|port\-unreachable|not\-neighbor|reject\-route|policy\-fail|prohibited|no\-route)\ze[ \t\n;]' skipwhite contained
 
+hi link   nft_reject_stmt_reject_opts_constant_expr_inline_set_icmpx_types_enum nftHL_Define
+syn match nft_reject_stmt_reject_opts_constant_expr_inline_set_icmpx_types_enum
+\ '\v(addr\-unreachable|admin\-prohibited|port\-unreachable|not\-neighbor|reject\-route|policy\-fail|prohibited|no\-route)\ze[ \t\n,]' skipwhite contained
+
+hi link    nft_reject_stmt_reject_opts_constant_expr_inline_delimiters nftHL_BlockDelimiterSet
+syn region nft_reject_stmt_reject_opts_constant_expr_inline_delimiters start=+{+ end=+}+ skipwhite contained
+\ contains=
+\    nft_reject_stmt_reject_opts_constant_expr_inline_set_icmpx_types_enum
+
 hi link   nft_reject_stmt_reject_opts_icmp_types_enum nftHL_Define
 syn match nft_reject_stmt_reject_opts_icmp_types_enum
 \ '\v(fragmentation\-needed|host\-unreachable\-tos|precedence\-violation|protocol\-unreachable|net\-unreachable\-tos|source\-route\-failed|precedence\-cutoff|admin\-prohibited|host\-unreachable|port\-unreachable|net\-unreachable|host\-isolated|host\-unknown|net\-unknown|host\-anon|net\-anon)\ze[ \t\n;]' skipwhite contained
 
+
 hi link   nft_reject_stmt_reject_opts_icmp_keyword_type nftHL_Keyword
-syn match nft_reject_stmt_reject_opts_icmp_keyword_type '\vtype' skipwhite contained
+syn match nft_reject_stmt_reject_opts_icmp_keyword_type '\vtype\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    nft_reject_stmt_reject_opts_icmp_types_enum,
-\    nft_reject_stmt_reject_opts_icmp_num,
+\    nft_reject_stmt_reject_opts_icmp_num_hex,
 \    nft_Error
 
 hi link   nft_reject_stmt_reject_opts_icmpx_keyword_type nftHL_Keyword
 syn match nft_reject_stmt_reject_opts_icmpx_keyword_type '\vtype' skipwhite contained
 \ nextgroup=
 \    nft_reject_stmt_reject_opts_icmpx_types_enum,
-\    nft_reject_stmt_reject_opts_icmp_num,
+\    nft_reject_stmt_reject_opts_constant_expr_inline_delimiters,
+\    nft_reject_stmt_reject_opts_icmp_num_hex,
 \    nft_Error
 
 hi link   nft_reject_stmt_reject_opts_icmpv6_keyword_type nftHL_Keyword
 syn match nft_reject_stmt_reject_opts_icmpv6_keyword_type '\vtype' skipwhite contained
 \ nextgroup=
 \    nft_reject_stmt_reject_opts_icmpx_types_enum,
-\    nft_reject_stmt_reject_opts_icmp_num,
+\    nft_reject_stmt_reject_opts_constant_expr_inline_delimiters,
+\    nft_reject_stmt_reject_opts_icmp_num_hex,
 \    nft_Error
 
 hi link   nft_reject_stmt_reject_opts_keyword_reset nftHL_Substatement
@@ -105,6 +119,12 @@ syn match nft_reject_stmt_reject_opts_keyword_with '\vwith' skipwhite contained
 \    nft_reject_stmt_reject_opts_keyword_icmpx,
 \    nft_reject_stmt_reject_opts_keyword_icmp,
 \    nft_reject_stmt_reject_opts_keyword_tcp,
+\    nft_reject_stmt_reject_opts_icmp_keyword_type,
+\    nft_reject_stmt_reject_opts_icmp_types_enum,
+\    nft_reject_stmt_reject_opts_icmp_types_num,
+\    nft_reject_stmt_reject_opts_icmpx_keyword_type,
+\    nft_reject_stmt_reject_opts_icmpx_types_enum,
+\    nft_reject_stmt_reject_opts_icmpx_types_num,
 \    nft_Error
 
 hi link   nft_stmt_reject_stmt_reject_stmt_alloc_keyword_reject nftHL_Command

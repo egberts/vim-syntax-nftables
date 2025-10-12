@@ -1228,7 +1228,7 @@ syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keywor
 \    nft_meta_expr_close_scope_meta_device_index_quoted_identifier,
 \    nft_interface_name_set_block,
 \    nft_meta_expr_close_scope_meta_device_index_number,
-\    nft_Error_Quotes
+" No error handler here, 'iif' is also a standalone statement keyword
 
 hi link   nft_meta_expr_meta_key_unqualified_keyword_oif nftHL_Substatement
 syn match nft_meta_expr_meta_key_unqualified_keyword_oif '\voif\ze[ \t]' skipwhite contained
@@ -1239,7 +1239,7 @@ syn match nft_meta_expr_meta_key_unqualified_keyword_oif '\voif\ze[ \t]' skipwhi
 \    nft_meta_expr_close_scope_meta_device_index_set_operator_in,
 \    nft_meta_expr_close_scope_meta_device_index_quoted_identifier,
 \    nft_meta_expr_close_scope_meta_device_index_number,
-\    nft_Error
+" No error handler here, 'oif' is also a standalone statement keyword
 
 hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oif nftHL_Statement
 syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oif '\voif\ze[ \t]' skipwhite contained

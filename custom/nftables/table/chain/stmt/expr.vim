@@ -9,6 +9,7 @@ let s:expr_list_filepaths_semantic_early = [
 \    'table/chain/stmt/expr/arp_hdr_expr.vim',
 \    'table/chain/stmt/expr/vlan_hdr_expr.vim',
 \    'table/chain/stmt/expr/ip_hdr_expr.vim',
+\    'table/chain/stmt/expr/rt_expr.vim',
 \    'table/chain/stmt/expr/icmp_hdr_expr.vim',
 \    'table/chain/stmt/expr/map_expr.vim',
 \    'table/chain/stmt/expr/socket_expr.vim',

@@ -18,7 +18,7 @@
 "
 
 hi link   nft_arp_hdr_expr_close_scope_constant_expr_ip nftHL_Integer
-syn match nft_arp_hdr_expr_close_scope_constant_expr_ip '\v[0-9]{1,3}(\.([0-9]{1,3})){3}' skipwhite contained
+syn match nft_arp_hdr_expr_close_scope_constant_expr_ip '\v(25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|[0-9])\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|[0-9])\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|[0-9])\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|[0-9])(/(3[0-2]|[12]\d|\d)){0,1}\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    @nft_c_primary_stmt_expr
 
@@ -28,12 +28,12 @@ syn match nft_arp_hdr_expr_close_scope_arp_macaddr '\v[0-9a-fA-F]{1,2}(:[0-9a-fA
 \    @nft_c_primary_stmt_expr
 
 hi link   nft_arp_hdr_expr_close_scope_arp_constant_expr_int_hex_8b nftHL_Integer
-syn match nft_arp_hdr_expr_close_scope_arp_constant_expr_int_hex_8b '\v((0x[0-9a-fA-F]{1,2})|([0-9]{1,3}))' skipwhite contained
+syn match nft_arp_hdr_expr_close_scope_arp_constant_expr_int_hex_8b '\v(0x([A-Fa-f]\d|[A-Fa-f]{2}|[0-9A-Fa-f])|25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    @nft_c_primary_stmt_expr
 
 hi link   nft_arp_hdr_expr_close_scope_arp_constant_expr_int_hex_16b nftHL_Integer
-syn match nft_arp_hdr_expr_close_scope_arp_constant_expr_int_hex_16b '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))' skipwhite contained
+syn match nft_arp_hdr_expr_close_scope_arp_constant_expr_int_hex_16b '\v(0x([A-Fa-f]\d{3}|[A-Fa-f]{2}\d{2}|[A-Fa-f0-9]{1,4})|6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d\d\d|[1-5]\d{4}|\d{1,4})\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    @nft_c_primary_stmt_expr
 

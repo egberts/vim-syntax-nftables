@@ -118,6 +118,7 @@ syn region nft_add_cmd_keyword_table_table_block_chain_chain_block_delimiters st
 \    nft_payload_expr_tcp_hdr_expr_keyword_tcp,
 \    nft_payload_stmt_payload_expr_udp_hdr_expr_keyword_udp,
 \    nft_payload_expr_ah_hdr_expr_keyword_ah,
+\    nft_payload_expr_nft_rt_expr_keyword_rt,
 \    nft_payload_expr_th_hdr_expr_keyword_th,
 \    nft_stmt_keyword_ct,
 \    nft_stmt_declarative_keyword_ip,

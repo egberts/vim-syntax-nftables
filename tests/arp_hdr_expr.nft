@@ -42,14 +42,14 @@ table arp filter {
         ip protocol icmp  arp daddr ether 00:11:22:33:44:55 accept
         ip protocol icmp  arp daddr ip 1.11.1.1 accept
 
-        arp htype 5 drop
+        arp htype 65535 drop
         arp ptype ipv6 drop
         arp ptype ip drop
         arp ptype arp drop
         arp ptype 0x539 drop
-        arp hlen 1 drop
+        arp hlen 255 drop
         arp plen 0 drop
-        arp operation 5 drop
+        arp operation 65535 drop
         arp operation request drop
         arp operation reply drop
         arp saddr ether 00:11:22:33:44:55 accept

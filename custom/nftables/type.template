@@ -67,3 +67,24 @@ syn match nft_payload_expr_ip6_keyword_daddr '\vdaddr\ze[ \t]' skipwhite contain
 \    @nft_c_map_expr_rhs_expr,
 \    nft_stmt_expr_map_stmt_expr_keyword_map,
 \    nft_Error
+
+hi link   nft_constant_expr_ip4_keyword_addr nftHL_Integer
+syn match nft_constant_expr_ip4_keyword_addr '\v(25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|[0-9])\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|[0-9])\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|[0-9])\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|[0-9])(/(3[0-2]|[12]\d|\d)){0,1}\ze[ \t]' skipwhite contained
+
+hi link   nft_constant_expr_ip4_keyword_addr nftHL_Integer
+syn match nft_constant_expr_ip4_keyword_addr '\v(25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|[0-9])\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|[0-9])\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|[0-9])\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|[0-9])(/(3[0-2]|[12]\d|\d)){0,1}\ze[ \t]' skipwhite contained
+
+
+
+hi link   nft_constant_expr_integer_uint16 nftHL_Integer
+syn match nft_constant_expr_integer_uint16 '\v(6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d\d\d|[1-5]\d{4}|\d{1,4})\ze[ \t]'  skipwhite contained
+
+hi link   nft_constant_expr_integer_uint16_hex nftHL_Integer
+syn match nft_constant_expr_integer_uint16_hex '\v(0x([A-Fa-f]\d{3}|[A-Fa-f]{2}\d{2}|[A-Fa-f0-9]{1,4})|6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d\d\d|[1-5]\d{4}|\d{1,4})\ze[ \t]' skipwhite contained
+
+hi link   nft_constant_expr_integer_uint8 nftHL_Integer
+syn match nft_constant_expr_integer_uint8 '\v(25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)\ze[ \t]' skipwhite contained
+
+hi link   nft_constant_expr_integer_uint8_hex nftHL_Integer
+syn match nft_constant_expr_integer_uint8_hex '\v(0x([A-Fa-f]\d|[A-Fa-f]{2}|[0-9A-Fa-f])|25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)\ze[ \t]' skipwhite contained
+

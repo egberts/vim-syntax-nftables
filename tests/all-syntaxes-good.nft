@@ -180,24 +180,24 @@ map bridge T S
 map arp T S
  map arp T S
 map T C;
-map T C { timeout 15:00:01 }
-map T C { gc-interval 1:00:1 }
-map T C { flags constant }
-map T C { flags interval; }
-map T C { flags timeout };
+map ip T C { timeout 15:00:01 }
+map ip T C { gc-interval 1:00:1 }
+map ip T C { flags constant }
+map ip T C { flags interval; }
+map ip T C { flags timeout };
 map ip T C { flags dynamic ; } ;
-map T C { flags constant, interval, timeout, dynamic };
-map T C { flags constant; flags interval; flags timeout; flags dynamic };
-map T C { comment *A comment string* }
-map T C { comment "A comment string" }
-map T C { comment 'A comment string' }
-map T C { comment single-word }
-map T C { policy performance };
-map T C { policy memory };
-map T C { size 123 };
-map T C { elements = 1:00:1 }
-map T C { policy performance; elements = 1:00:1; size 123; flags timeout,constant; };
-map T C { 
+map ip T C { flags constant, interval, timeout, dynamic };
+map ip T C { flags constant; flags interval; flags timeout; flags dynamic };
+map ip T C { comment *A comment string* }
+map ip T C { comment "A comment string" }
+map ip T C { comment 'A comment string' }
+map ip T C { comment single-word }
+map ip T C { policy performance };
+map ip T C { policy memory };
+map ip T C { size 123 };
+map ip T C { elements = 1:00:1 }
+map ip T C { policy performance; elements = 1:00:1; size 123; flags timeout,constant; };
+map ip T C { 
     policy performance; 
 include "Secret-map-policy"
     elements = 1:00:1; 
@@ -205,71 +205,75 @@ include "Secret-map-policy"
     flags timeout,constant; 
 };
 add map T C 
-add map ip T C 
+add map ip T C ;
 add map ip6 T C 
 add map inet T C 
 add map netdev T C 
 add map bridge T C 
 add map arp T C 
-add map ip T C ;
 
+add map ip T C { flags interval };
 add map ip6 T C { timeout 15:00:01 }
 add map inet T C { gc-interval 1:00:1 }
 add map netdev T C { flags constant }
 add map bridge  T C { flags interval; }
 add map arp T C { flags timeout };
-add map T C { flags dynamic ; } ;
-add map T C { flags constant, interval, timeout, dynamic };
-add map T C { flags constant; flags interval; flags timeout; flags dynamic };
-add map T C { comment *A comment string* }
-add map T C { comment "A comment string" }
-add map T C { comment 'A comment string' }
-add map T C { comment single-word }
-add map T C { policy performance };
-add map T C { policy memory };
-add map T C { size 123 };
-add map T C { elements = 1:00:1 }
+add map arp T C { flags dynamic ; } ;
+add map arp T C { flags constant, interval, timeout, dynamic };
+add map arp T C { flags constant; flags interval; flags timeout; flags dynamic };
+add map arp T C { comment *A comment string* }
+add map arp T C { comment "A comment string" }
+add map arp T C { comment 'A comment string' }
+add map arp T C { comment single-word }
+add map arp T C { policy performance };
+add map arp T C { policy memory };
+add map arp T C { size 123 };
+add map arp T C { elements = 1:00:1 }
 map ip T C { typeof b };
-map T C { typeof a.b.c.d.e.f };
-add map T C { typeof a : interval g.h };
-add map T C { typeof a : interval .i };
-add map T C { typeof b.c.d.e.f : i.j };
-add map T C { typeof b.c.d.e.f : counter  };
-add map T C { typeof b.c.d.e.f : quota  };
-add map T C { typeof b.c.d.e.f : limit  };
-add map T C { typeof b.c.d.e.f : secmark  };
-add map T C { typeof b.c.d.e.f : synproxy  };
-add map T C { typeof b.c.d.e.f : ct timeout };
-add map T C { typeof b.c.d.e.f : ct expectation };
-add map T C { type time : };
-add map T C { type string : };
-add map T C { type mark : };
-add map T C { type dscp : };
-add map T C { type ecn : };
-add map T C { type classid : };
-add map T C { type mark.classid : };
-add map T C { type time : interval };
-add map T C { type time : interval time };
-add map T C { type time : interval string; };
-add map T C { type time : interval mark ; };
-add map T C { type time : interval dscp   ;  }
-add map T C { type time : interval ecn };
-add map T C { type time : interval classid };
-add map T C { 
+map arp T C { typeof a.b.c.d.e.f };
+add map arp T C { typeof a : interval g.h };
+add map arp T C { typeof a : interval .i };
+add map arp T C { typeof b.c.d.e.f : i.j };
+add map arp T C { typeof b.c.d.e.f : counter  };
+add map arp T C { typeof b.c.d.e.f : quota  };
+add map arp T C { typeof b.c.d.e.f : limit  };
+add map arp T C { typeof b.c.d.e.f : secmark  };
+add map arp T C { typeof b.c.d.e.f : synproxy  };
+add map arp T C { typeof b.c.d.e.f : ct timeout };
+add map arp T C { typeof b.c.d.e.f : ct expectation };
+add map arp T C { type time : };
+add map arp T C { type string : };
+add map arp T C { type mark : };
+add map arp T C { type dscp : };
+add map arp T C { type ecn : };
+add map arp T C { type classid : };
+add map arp T C { type mark.classid : };
+add map arp T C { type time : interval };
+add map arp T C { type time : interval time };
+add map arp T C { type time : interval string; };
+add map arp T C { type time : interval mark ; };
+add map arp T C { type time : interval dscp   ;  }
+add map arp T C { type time : interval ecn };
+add map arp T C { type time : interval classid };
+add map arp T C { 
     define A = -15 ;
     type time : interval classid
 };
 map 
+
+
 map ip
+
+
 map ip T
 map ip6 T
 map inet T
 map netdev T
 map bridge T
 map arp T
-map T C ;
-map T C { timeout 15:00:01 }
-map T C { typeof b.c.d.e.f : .k };
+map netdev T C ;
+map netdev T C { timeout 15:00:01 }
+map netdev T C { typeof b.c.d.e.f : .k };
 add set T C { counter }
 add set T C { counter bytes 2048 }
 add set T C { counter packets 3 }
@@ -291,7 +295,11 @@ set T S { comment 'A comment string' }
 set T S { comment single-word }
  set T S { comment single-word }
     set
-add set T S;
+add set T S
+add set T S 
+add set T S; 
+add set T S ;
+add set T S A;A
 add set ip T S { typeof b };
 add set T S { typeof a.b.c.d.e.f };
 add set T S { flags constant }
@@ -403,7 +411,7 @@ table T { chain C { }; };
 table T { chain C { }; chain D { }; };
 
 
-add table T { 
+table T { 
     chain C {
         comment asdf 
     }; 
@@ -417,11 +425,12 @@ table T { chain C { type filter hook ingress devices = $MY_DEVICE ; }; };
 table T { chain C { type filter hook ingress devices = $MY_DEVICE }; };
 table T { chain C { type filter hook ingress devices = { a }; }; };
 table T { chain C { type filter hook ingress devices = { $a }; }; };
-table ip MyTable { chain C { type filter hook ingress devices = { a }; };
+table ip MyTable { chain C { type filter hook ingress devices = { a }; } }
 table T { chain C { type filter hook ingress device eth0 priority 256 }; };
 table T { chain C { type filter hook ingress device eth0 priority 1; } };
 table T { chain C { type filter hook ingress device eth0 priority 1; } };
-add table T { chain C { type filter hook ingress device eth0 priority 1; }; };
+
+table T { chain C { type filter hook ingress device eth0 priority 1; }; };
 table T { chain C { policy $MYPOLICY; };};
 table T { chain C { policy drop; };};
 table T { chain C { policy accept; };};
@@ -471,7 +480,6 @@ table arp A0b_._/RP_TABLE {
 table netdev A {
     chain a { 
         type filter hook ingress device lo priority -100; policy accept
-        chain a { type };
         udp dport 53 ether type 0x8006 ether saddr set aa:bb:cc:dd:ff:ee ether daddr set numgen inc mod 2 map {  0 : ca:fe:ba:be:00:00, 1: de:ad:be:ef:00:00 } fwd to eth0;
     };
     chain b { }

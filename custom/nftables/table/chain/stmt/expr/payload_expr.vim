@@ -754,6 +754,8 @@ syn match nft_payload_expr_icmp_keyword_code '\vcode\ze[ \t]' skipwhite containe
 " ************************* END icmp code' expression *************************
 
 " ************************* BEGIN icmp type' expression *************************
+hi link   nft_payload_expr_close_scope_icmp_variable_expr nftHL_Variable
+syn match nft_payload_expr_close_scope_icmp_variable_expr '\v\$[a-zA-Z][a-zA-Z0-9\-_]{0,63}\ze[ \t\n;]' skipwhite contained
 " ip6 nexthdr icmp type <type_name>
 hi link   nft_payload_expr_icmp_type_inline_set_type_num Define
 syn match nft_payload_expr_icmp_type_inline_set_type_num '\v[0-9]{1,3}\ze[ \t,\}$]' skipwhite contained
@@ -814,6 +816,7 @@ syn match nft_payload_expr_icmp_keyword_type '\vtype\ze[ \t]' skipwhite containe
 \    nft_payload_expr_icmp_type_operator_1char,
 \    nft_payload_expr_icmp_type_inline_set,
 \    nft_payload_expr_named_set,
+\    nft_payload_expr_close_scope_icmp_variable_expr,
 \    nft_payload_expr_icmp_type_num,
 \    nft_chainError
 " ************************* END icmp type' expression *************************
@@ -922,7 +925,7 @@ syn match nft_payload_expr_icmp_keyword_id '\vid\ze[ \t]' skipwhite contained
 " icmp nexthdr: echo-reply, destination-unreachable, source-quench, redirect, echo-request, router-advertisement, router-solicitation, time-exceeded, parameter-problem, timestamp-request, timestamp-reply, info-request, info-reply, address-mask-request, address-mask-reply.
 " 'icmp': type, code, checksum, id, sequence, gateway, mtu
 hi link   nft_payload_expr_icmp_hdr_expr_keyword_icmp nftHL_Command
-syn match nft_payload_expr_icmp_hdr_expr_keyword_icmp '\vicmp' skipwhite contained
+syn match nft_payload_expr_icmp_hdr_expr_keyword_icmp '\vicmp\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    nft_payload_expr_icmp_keyword_sequence,
 \    nft_payload_expr_icmp_keyword_checksum,
@@ -3067,6 +3070,7 @@ syn cluster nft_c_payload_expr
 \    nft_payload_expr_tcp_hdr_expr_keyword_tcp,
 \    nft_payload_expr_udp_hdr_expr_keyword_udp,
 \    nft_payload_expr_ip_hdr_expr_keyword_ip,
+\    payload_expr_nft_rt_expr_keyword_rt,
 \    nft_payload_expr_th_hdr_expr_keyword_th,
 "*************** END payload_expr *******************************
 
@@ -3126,7 +3130,8 @@ syn cluster nft_c_payload_expr
 \    nft_vxlan_hdr_expr,
 \    nft_geneve_hdr_expr,
 \    nft_gre_hdr_expr,
-\    nft_gretap_hdr_expr
+\    nft_gretap_hdr_expr,
+\    payload_expr_nft_rt_expr_keyword_rt,
 " ************************* END payload_expr' *************************
 
 

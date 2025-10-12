@@ -4,8 +4,8 @@
 " Called by: inner_inet_expr
 
 " ************************* BEGIN ether_hdr_expr' *************************
-hi link   nft_ether_hdr_expr_eth_hdr_field_close_scope_type_types nftHL_Number
-syn match nft_ether_hdr_expr_eth_hdr_field_close_scope_type_types '\v((0[xX][0-9a-fA-F]{1,4})|([0-9]{1,5}))' skipwhite contained
+hi link   nft_ether_hdr_expr_eth_hdr_field_close_scope_type_types nftHL_Integer
+syn match nft_ether_hdr_expr_eth_hdr_field_close_scope_type_types '\v(0x([A-Fa-f]\d{3}|[A-Fa-f]{2}\d{2}|[A-Fa-f0-9]{1,4})|6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d\d\d|[1-5]\d{4}|\d{1,4})\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    @nft_c_primary_stmt_expr
 

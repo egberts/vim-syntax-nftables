@@ -151,12 +151,12 @@ syn match nft_ip_hdr_expr_close_scope_ip_constant_expr_int_hex_16b_id '\v(0x[fF]
 \ nextgroup=
 \    @nft_c_primary_stmt_expr
 
-hi link   nft_ip_hdr_expr_close_scope_ip_constant_expr_string_ip_opt_cidr nftHL_Integer
+hi link   nft_ip_hdr_expr_close_scope_ip_constant_expr_string_ip_opt_cidr nftHL_Define
 syn match nft_ip_hdr_expr_close_scope_ip_constant_expr_string_ip_opt_cidr
-\ '\v(0x[0-9a-fA-F]{1,8})|(25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}(\/(3[0-2]|[12]\d|[0-9]))?'
+\ '\v(0x[0-9a-fA-F]{1,8})|(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])(\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])){3}(\/(3[0-2]|[12][0-9]|[0-9])){0,1}'
 \ skipwhite contained
 \ nextgroup=
-\    @nft_c_primary_stmt_expr
+\    @nft_c_primary_stmt_expr,
 
 hi link   nft_ip_hdr_expr_ip_hdr_field_addr_close_scope_ip_constant_expr_string_ip_cidr nftHL_Integer
 syn match nft_ip_hdr_expr_ip_hdr_field_addr_close_scope_ip_constant_expr_string_ip_cidr
@@ -232,6 +232,16 @@ syn match nft_ip_hdr_expr_close_scope_ip_datatype_ip_protocol '\v(udplite|gretap
 \ nextgroup=
 \    @nft_c_primary_stmt_expr,
 
+hi link   nft_ip_hdr_expr_close_scope_inline_set_ip_datatype_ip_protocol nftHL_Define
+syn match nft_ip_hdr_expr_close_scope_inline_set_ip_datatype_ip_protocol '\v(udplite|gretap|icmpv6|comp|dccp|icmp|igmp|sctp|esp|gre|tcp|udp|ah)\ze[ \t\n,]' skipwhite contained
+\ nextgroup=
+\    @nft_c_primary_stmt_expr,
+
+hi link    nft_ip_hdr_expr_close_scope_ip_inline_set_protocols nftHL_BlockDelimitersSet
+syn region nft_ip_hdr_expr_close_scope_ip_inline_set_protocols start=+{+ end=+}+ skipwhite contained
+\ contains=
+\    nft_ip_hdr_expr_close_scope_inline_set_ip_datatype_ip_protocol
+
 " Valid range: 0-255
 hi link   nft_ip_hdr_expr_ip_hdr_field_keyword_protocol nftHL_Keyword
 syn match nft_ip_hdr_expr_ip_hdr_field_keyword_protocol '\vprotocol\ze[ \t]' skipwhite contained
@@ -242,9 +252,10 @@ syn match nft_ip_hdr_expr_ip_hdr_field_keyword_protocol '\vprotocol\ze[ \t]' ski
 \    nft_verdict_expr_keyword_drop,
 \    nft_verdict_expr_keyword_goto,
 \    nft_verdict_expr_keyword_jump,
+\    nft_verdict_map_stmt_keyword_vmap,
 \    nft_map_expr_keyword_map,
 \    nft_ip_hdr_expr_close_scope_ip_datatype_ip_protocol,
-\    nft_ip_hdr_expr_close_scope_ip_constant_expr_int_hex_8b_protocol,
+\    nft_ip_hdr_expr_close_scope_ip_inline_set_protocols,
 \    nft_UnexpectedNonNumber,
 \    nft_Error
 
