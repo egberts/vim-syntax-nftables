@@ -115,6 +115,7 @@ syn region nft_add_cmd_keyword_table_table_block_chain_chain_block_delimiters st
 \    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oif,
 \    nft_payload_expr_esp_hdr_expr_keyword_esp,
 \    nft_stmt_keyword_ip6,
+\    nft_stmt_declarative_keyword_ip6,
 \    nft_payload_expr_tcp_hdr_expr_keyword_tcp,
 \    nft_payload_stmt_payload_expr_udp_hdr_expr_keyword_udp,
 \    nft_payload_expr_ah_hdr_expr_keyword_ah,

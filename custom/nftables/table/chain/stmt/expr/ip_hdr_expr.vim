@@ -151,12 +151,25 @@ syn match nft_ip_hdr_expr_close_scope_ip_constant_expr_int_hex_16b_id '\v(0x[fF]
 \ nextgroup=
 \    @nft_c_primary_stmt_expr
 
-hi link   nft_ip_hdr_expr_close_scope_ip_constant_expr_string_ip_opt_cidr nftHL_Define
-syn match nft_ip_hdr_expr_close_scope_ip_constant_expr_string_ip_opt_cidr
-\ '\v(0x[0-9a-fA-F]{1,8})|(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])(\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])){3}(\/(3[0-2]|[12][0-9]|[0-9])){0,1}'
+hi link   nft_ip_hdr_expr_close_scope_ip_set_expr_constant_expr_string_ip_cidr nftHL_Integer
+syn match nft_ip_hdr_expr_close_scope_ip_set_expr_constant_expr_string_ip_cidr
+\ '\v(0x[0-9a-fA-F]{1,8})|(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])(\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])){3}(\/(3[0-2]|[12][0-9]|[0-9])){0,1}\ze[ \t\n,\-]'
+\ skipwhite contained
+
+hi link   nft_ip_hdr_expr_close_scope_ip_addr_constant_expr_string_ip_cidr nftHL_Integer
+syn match nft_ip_hdr_expr_close_scope_ip_addr_constant_expr_string_ip_cidr
+\ '\v(0x[0-9a-fA-F]{1,8})|(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])(\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])){3}(\/(3[0-2]|[12][0-9]|[0-9])){0,1}\ze[ \t\n\;]'
 \ skipwhite contained
 \ nextgroup=
-\    @nft_c_primary_stmt_expr,
+\    @nft_c_primary_stmt_expr
+
+hi link   nft_ip_hdr_expr_close_scope_ip_constant_expr_string_ip_opt_cidr nftHL_Define
+syn match nft_ip_hdr_expr_close_scope_ip_constant_expr_string_ip_opt_cidr
+\ '\v(0x[0-9a-fA-F]{1,8})|(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])(\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])){3}(\/(3[0-2]|[12][0-9]|[0-9])){0,1}\ze[ \t\n\;]'
+\ skipwhite contained
+\ nextgroup=
+\    nft_payload_expr_nft_rt_expr_keyword_rt,
+\    @nft_c_primary_stmt_expr
 
 hi link   nft_ip_hdr_expr_ip_hdr_field_addr_close_scope_ip_constant_expr_string_ip_cidr nftHL_Integer
 syn match nft_ip_hdr_expr_ip_hdr_field_addr_close_scope_ip_constant_expr_string_ip_cidr
@@ -185,6 +198,9 @@ syn match nft_ip_hdr_expr_ip_hdr_field_addr_close_scope_ip_constant_expr_string_
 \    nft_ip_hdr_expr_ip_hdr_field_addr_close_scope_ip_constant_expr_string_dash,
 \    @nft_c_primary_stmt_expr
 
+hi link   nft_ip_hdr_expr_ip_hdr_field_addr_close_scope_ip_hdrlength_at_setname nftHL_AtSetname
+syn match nft_ip_hdr_expr_ip_hdr_field_addr_close_scope_ip_hdrlength_at_setname '\v\@[a-zA-Z][a-zA-Z0-9\-_]{0,63}\ze[ \t]' skipwhite contained
+
 " 'ip hdrlength'
 " 'hdrlength'->ip_hdr_field->'ip'->ip_hdr_expr (internal Bison/Lex)
 " Valid range: 5-15
@@ -192,6 +208,7 @@ hi link   nft_ip_hdr_expr_ip_hdr_field_keyword_hdrlength nftHL_Keyword
 syn match nft_ip_hdr_expr_ip_hdr_field_keyword_hdrlength '\vhdrlength\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    nft_ip_hdr_expr_close_scope_ip_constant_expr_int_hex_4b_hdrlength,
+\    nft_ip_hdr_expr_ip_hdr_field_addr_close_scope_ip_hdrlength_at_setname,
 \    nft_UnexpectedNonNumber,
 \    nft_Error
 
@@ -242,6 +259,9 @@ syn region nft_ip_hdr_expr_close_scope_ip_inline_set_protocols start=+{+ end=+}+
 \ contains=
 \    nft_ip_hdr_expr_close_scope_inline_set_ip_datatype_ip_protocol
 
+hi link   nft_ip_hdr_expr_ip_hdr_field_addr_close_scope_ip_protocol_at_setname nftHL_AtSetname
+syn match nft_ip_hdr_expr_ip_hdr_field_addr_close_scope_ip_protocol_at_setname '\v\@[a-zA-Z][a-zA-Z0-9\-_]{0,63}\ze[ \t]' skipwhite contained
+
 " Valid range: 0-255
 hi link   nft_ip_hdr_expr_ip_hdr_field_keyword_protocol nftHL_Keyword
 syn match nft_ip_hdr_expr_ip_hdr_field_keyword_protocol '\vprotocol\ze[ \t]' skipwhite contained
@@ -256,6 +276,7 @@ syn match nft_ip_hdr_expr_ip_hdr_field_keyword_protocol '\vprotocol\ze[ \t]' ski
 \    nft_map_expr_keyword_map,
 \    nft_ip_hdr_expr_close_scope_ip_datatype_ip_protocol,
 \    nft_ip_hdr_expr_close_scope_ip_inline_set_protocols,
+\    nft_ip_hdr_expr_ip_hdr_field_addr_close_scope_ip_protocol_at_setname,
 \    nft_UnexpectedNonNumber,
 \    nft_Error
 
@@ -360,16 +381,43 @@ syn match nft_ip_hdr_expr_keyword_option '\voption\ze[ \t]' skipwhite contained
 \    nft_ip_hdr_expr_ip_option_type_keyword_rr,
 \    nft_Error
 
-" 'ip daddr'
-" 'daddr'->ip_hdr_field->'ip'->ip_hdr_expr (internal Bison/Lex)
-hi link   nft_ip_hdr_expr_ip_hdr_field_keyword_daddr nftHL_Keyword
-syn match nft_ip_hdr_expr_ip_hdr_field_keyword_daddr '\vdaddr\ze[ \t]' skipwhite contained
+
+" ******************* BEGIN 'ip saddr' *******************************
+hi link    nft_ip_hdr_expr_close_scope_ip_addr_set_expr_inline_set nftHL_BlockDelimitersSet
+syn region nft_ip_hdr_expr_close_scope_ip_addr_set_expr_inline_set start=+{+ end=+}+ skipwhite contained
+\ contains=
+\    nft_ip_hdr_expr_close_scope_ip_set_expr_constant_expr_string_ip_cidr
+
+hi link   nft_ip_hdr_expr_close_scope_ip_addr_set_ref_symbol_expr_at_setname nftHL_AtSetname
+syn match nft_ip_hdr_expr_close_scope_ip_addr_set_ref_symbol_expr_at_setname '\v\@[a-zA-Z][a-zA-Z0-9\-_]{0,63}\ze[ \t]' skipwhite contained
+
+hi link   nft_ip_hdr_expr_close_scope_ip_addr_internal_keyword_in nftHL_Operator
+syn match nft_ip_hdr_expr_close_scope_ip_addr_internal_keyword_in '\vin\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_verdict_map_stmt_keyword_vmap,
-\    nft_map_stmt_expr_keyword_map,
-\    nft_ip_hdr_expr_close_scope_ip_inline_set,
-\    nft_ip_hdr_expr_close_scope_ip_constant_expr_string_ip_opt_cidr,
-\    nft_Error
+\    nft_ip_hdr_expr_close_scope_ip_addr_set_ref_symbol_expr_at_setname,
+\    nft_ip_hdr_expr_close_scope_ip_addr_set_expr_inline_set
+
+hi link   nft_ip_hdr_expr_close_scope_ip_addr_relational_expr_relational_op_2char nftHL_Operator
+syn match nft_ip_hdr_expr_close_scope_ip_addr_relational_expr_relational_op_2char '\v(\!\=|\<\=|\>\=|\=\=)\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_ip_hdr_expr_close_scope_ip_addr_set_ref_symbol_expr_at_setname,
+\    nft_ip_hdr_expr_close_scope_ip_addr_set_expr_inline_set,
+\    nft_ip_hdr_expr_close_scope_ip_addr_constant_expr_string_ip_cidr
+
+hi link   nft_ip_hdr_expr_close_scope_ip_addr_relational_expr_relational_op_1char nftHL_Operator
+syn match nft_ip_hdr_expr_close_scope_ip_addr_relational_expr_relational_op_1char '\v(\!|\<|\>)\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_ip_hdr_expr_close_scope_ip_addr_set_ref_symbol_expr_at_setname,
+\    nft_ip_hdr_expr_close_scope_ip_addr_set_expr_inline_set,
+\    nft_ip_hdr_expr_close_scope_ip_addr_constant_expr_string_ip_cidr
+
+hi link   nft_ip_hdr_expr_close_scope_ip_addr_relational_expr_relational_op_keyword_not nftHL_Operator
+syn match nft_ip_hdr_expr_close_scope_ip_addr_relational_expr_relational_op_keyword_not '\vnot\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_ip_hdr_expr_close_scope_ip_addr_internal_keyword_in,
+\    nft_ip_hdr_expr_close_scope_ip_addr_set_ref_symbol_expr_at_setname,
+\    nft_ip_hdr_expr_close_scope_ip_addr_set_expr_inline_set,
+\    nft_ip_hdr_expr_close_scope_ip_addr_constant_expr_string_ip_cidr
 
 " 'ip saddr'
 " 'saddr'->ip_hdr_field->'ip'->ip_hdr_expr (internal Bison/Lex)
@@ -378,10 +426,30 @@ syn match nft_ip_hdr_expr_ip_hdr_field_keyword_saddr '\vsaddr\ze[ \t]' skipwhite
 \ nextgroup=
 \    nft_verdict_map_stmt_keyword_vmap,
 \    nft_map_stmt_expr_keyword_map,
+\    nft_payload_stmt_keyword_set,
+\    nft_ip_hdr_expr_close_scope_ip_addr_relational_expr_relational_op_keyword_not,
+\    nft_ip_hdr_expr_close_scope_ip_addr_internal_keyword_in,
+\    nft_ip_hdr_expr_close_scope_ip_addr_relational_expr_relational_op_2char,
+\    nft_ip_hdr_expr_close_scope_ip_addr_relational_expr_relational_op_1char,
+\    nft_ip_hdr_expr_close_scope_ip_addr_set_expr_inline_set,
+\    nft_ip_hdr_expr_close_scope_ip_addr_set_ref_symbol_expr_at_setname,
+\    nft_ip_hdr_expr_close_scope_ip_addr_constant_expr_string_ip_cidr,
+\    nft_Error
+" ********************* END 'ip saddr' *******************************
+
+" ******************* BEGIN 'ip daddr' *******************************
+" 'ip daddr'
+" 'daddr'->ip_hdr_field->'ip'->ip_hdr_expr (internal Bison/Lex)
+hi link   nft_ip_hdr_expr_ip_hdr_field_keyword_daddr nftHL_Keyword
+syn match nft_ip_hdr_expr_ip_hdr_field_keyword_daddr '\vdaddr\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_verdict_map_stmt_keyword_vmap,
+\    nft_map_stmt_expr_keyword_map,
+\    nft_payload_stmt_keyword_set,
 \    nft_ip_hdr_expr_close_scope_ip_inline_set,
-\    nft_ip_hdr_expr_close_scope_ip_primary_stmt_expr,
 \    nft_ip_hdr_expr_close_scope_ip_constant_expr_string_ip_opt_cidr,
 \    nft_Error
+" ********************* END 'ip daddr' *******************************
 
 " 'ip' 'dscp' <NUM>
 " ip_hdr_field (via ip_hdr_expr) (internal Bison/Lex)

@@ -817,6 +817,8 @@ syn match nft_protocol_type_number '\v(0[xX][0-7]?[0-9a-fA-F]{1,3}|3276[0-7]|327
 hi link   nft_protocol_type_identifier nftHL_Define
 syn match nft_protocol_type_identifier '\v(udplite|gretap|icmpv6|comp|dccp|icmp|igmp|sctp|esp|gre|tcp|udp|ah)\ze[ \t\n;]' skipwhite contained
 \ contains=nft_protocol_type_any
+\ nextgroup=
+\    @nft_c_stmt
 
 hi link   nft_protocol_type_operators nftHL_Operator
 syn match nft_protocol_type_operators '\v(\!|\=)\=\ze[ \t]' skipwhite contained
@@ -851,7 +853,7 @@ syn cluster nft_c_protocol_type
 \    nft_protocol_type_number,
 
 hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_protocol nftHL_Substatement
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_protocol '\vprotocol\ze[ \t]' skipwhite contained
+syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_protocol '\v(protocol|l4proto)\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    @nft_c_protocol_type,
 \    nft_Error

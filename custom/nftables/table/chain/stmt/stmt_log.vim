@@ -71,10 +71,17 @@ syn region nft_stmt_log_stmt_log_arg_keyword_prefix_string start='\"' end='\"' s
 \    nft_stmt_log_stmt_log_arg_keyword_level,
 \    nft_stmt_log_stmt_log_arg_keyword_flags,
 
+hi link   nft_stmt_log_stmt_log_arg_keyword_prefix_string_unquoted nftHL_String
+syn match nft_stmt_log_stmt_log_arg_keyword_prefix_string_unquoted
+\ '\v[a-zA-Z0-9_\-:;~!@#\$%^&\*\(\)\+\|\}\{\?><`=\\\]\[\'\/\.,]{1,64}' skipwhite contained
+\ nextgroup=
+\    @nft_c_primary_stmt_expr
+
 hi link   nft_stmt_log_stmt_log_arg_keyword_prefix nftHL_Keyword
 syn match nft_stmt_log_stmt_log_arg_keyword_prefix '\vprefix\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    nft_stmt_log_stmt_log_arg_keyword_prefix_string,
+\    nft_stmt_log_stmt_log_arg_keyword_prefix_string_unquoted,
 \    nft_Error
 
 hi link   nft_stmt_log_stmt_log_arg_keyword_level_defines nftHL_Define

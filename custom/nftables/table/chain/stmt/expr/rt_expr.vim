@@ -277,7 +277,7 @@ syn match primary_expr_exthdr_expr_rt_hdr_expr_keyword_rt '\vrt\ze[ \t]' skipwhi
 \    nft_Error
 
 hi link   nft_payload_expr_nft_rt_expr_keyword_rt nftHL_Command
-syn match nft_payload_expr_nft_rt_expr_keyword_rt '\vrt\ze[ \t]' skipwhite contained
+syn match nft_payload_expr_nft_rt_expr_keyword_rt '\v[ \t]zsrt\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    nft_primary_expr_exthdr_expr_rt_hdr_expr_rt_hdr_field_keyword_hdrlength,
 \    nft_rt_expr_rt_key_keyword_classid,

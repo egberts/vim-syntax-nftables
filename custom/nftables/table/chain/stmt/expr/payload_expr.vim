@@ -788,7 +788,7 @@ hi link   nft_payload_expr_icmp_type_defines Define
 syn match nft_payload_expr_icmp_type_defines '\v(destination\-unreachable|address\-mask\-request|router\-advertisement|info\-request|router\-solicitation|address\-mask\-reply|info\-reply|parameter\-problem|timestamp\-request|timestamp\-reply|source\-quench|time\-exceeded|echo\-request|echo\-reply|redirect)\ze[ \t]' skipwhite contained
 \ skipwhite contained
 \ nextgroup=
-\    @nft_c_payload_expr_icmp_expressions
+\    @nft_c_stmt
 
 " 'ip6 nexthdr icmp type >'
 hi link   nft_payload_expr_icmp_type_operator_1char nftHL_Expression
@@ -2998,15 +2998,25 @@ syn match nft_payload_expr_ip6_keyword_ecn '\vecn\ze[ \t]' skipwhite contained
 " ************************* End ip6_hdr_expr 'ip6 ecn' *************************
 
 "*************** BEGIN th_hdr_expr *******************************
+hi link   nft_th_hdr_expr_th_hdr_field_close_scope_th_port_at_setname nftHL_AtSetname
+syn match nft_th_hdr_expr_th_hdr_field_close_scope_th_port_at_setname '\v\@[a-zA-Z][a-zA-Z0-9\-_]{0,63}\ze[ \t]' skipwhite contained
+
+hi link    nft_th_hdr_expr_th_hdr_field_close_scope_th_port_inline_set nftHL_BlockDelimitersSet
+syn region nft_th_hdr_expr_th_hdr_field_close_scope_th_port_inline_set start=+{+ end=+}+ skipwhite contained
+
 hi link   nft_th_hdr_expr_th_hdr_field_keyword_dport nftHL_Keyword
 syn match nft_th_hdr_expr_th_hdr_field_keyword_dport '\vdport\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_verdict_map_stmt_keyword_vmap
+\    nft_verdict_map_stmt_keyword_vmap,
+\    nft_th_hdr_expr_th_hdr_field_close_scope_th_port_at_setname,
+\    nft_th_hdr_expr_th_hdr_field_close_scope_th_port_inline_set,
 
 hi link   nft_th_hdr_expr_th_hdr_field_keyword_sport nftHL_Keyword
 syn match nft_th_hdr_expr_th_hdr_field_keyword_sport '\vsport\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_verdict_map_stmt_keyword_vmap
+\    nft_verdict_map_stmt_keyword_vmap,
+\    nft_th_hdr_expr_th_hdr_field_close_scope_th_port_at_setname,
+\    nft_th_hdr_expr_th_hdr_field_close_scope_th_port_inline_set,
 
 hi link   nft_payload_expr_th_hdr_expr_keyword_th nftHL_Expression
 syn match nft_payload_expr_th_hdr_expr_keyword_th '\v[ \t]\zsth\ze[ \t]' skipwhite contained

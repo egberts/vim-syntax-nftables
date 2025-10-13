@@ -1,8 +1,8 @@
 
 
 " payload_stmt <payload_expr> 'set' (via payload_stmt <payload_expr>)
-hi link   nft_payload_stmt_before_set nftHL_Statement
-syn match nft_payload_stmt_before_set "set" skipwhite contained
+hi link   nft_payload_stmt_keyword_set nftHL_Statement
+syn match nft_payload_stmt_keyword_set '\vset\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    @nft_c_stmt_expr
 

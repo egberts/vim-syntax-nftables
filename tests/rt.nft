@@ -108,11 +108,13 @@ add rule T C rt type 255
 
 table T {
     chain C {
-        rt hdrlength
-        rt classid
-        rt nexthop
-        rt ipsec
-        rt type
+        define A = 1;
+        flags offload
+        rt hdrlength 123
+        rt classid 123
+        rt nexthop 123
+        rt ipsec 123
+        rt type 123
         rt mtu
     }
 }

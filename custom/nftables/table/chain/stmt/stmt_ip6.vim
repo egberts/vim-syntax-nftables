@@ -45,6 +45,119 @@ try
   " INSERT 'syntax cluster' here
   "
 
+hi link   nft_close_scope_ip6_primary_expr_constant_expr_at_setname nftHL_AtSetname
+syn match nft_close_scope_ip6_primary_expr_constant_expr_at_setname '\v\@[a-zA-Z][a-zA-Z0-9_\-]{0,63}' skipwhite contained
+
+hi link    nft_stmt_ip6_payload_expr_ip6_hdr_expr_close_scope_ip6_primary_expr_constant_expr_int_hex_2b_ecn nftHL_Integer
+syn match  nft_stmt_ip6_payload_expr_ip6_hdr_expr_close_scope_ip6_primary_expr_constant_expr_int_hex_2b_ecn '\v(0x)?[0-3]' skipwhite contained
+
+hi link    nft_stmt_ip6_payload_expr_ip6_hdr_expr_close_scope_ip6_primary_expr_constant_expr_int_hex_4b_hdrlength nftHL_Integer
+syn match  nft_stmt_ip6_payload_expr_ip6_hdr_expr_close_scope_ip6_primary_expr_constant_expr_int_hex_4b_hdrlength '\v(0x[5-9a-fA-F]|1[0-5]|[5-9])\ze[ \t\n]' skipwhite contained
+\ nextgroup=
+\    @nft_c_primary_stmt_expr
+
+hi link    nft_stmt_ip6_payload_expr_ip6_hdr_expr_close_scope_ip6_primary_expr_constant_expr_int_hex_4b_hdrversion nftHL_Integer
+syn match  nft_stmt_ip6_payload_expr_ip6_hdr_expr_close_scope_ip6_primary_expr_constant_expr_int_hex_4b_hdrversion '\v(0x[fF]|0x[0-9a-eA-E]|[1][0-5]|[0-9])\ze[ \t\n]' skipwhite contained
+\ nextgroup=
+\    @nft_c_primary_stmt_expr
+
+hi link    nft_stmt_ip6_payload_expr_ip6_hdr_expr_close_scope_ip6_primary_expr_constant_expr_int_hex_4b nftHL_Integer
+syn match  nft_stmt_ip6_payload_expr_ip6_hdr_expr_close_scope_ip6_primary_expr_constant_expr_int_hex_4b '\v((0x[0-9a-fA-F]{1,1})|([0-9]{1,2}))' skipwhite contained
+
+hi link    nft_stmt_ip6_payload_expr_ip6_hdr_expr_close_scope_ip6_primary_expr_constant_expr_int_hex_6b nftHL_Integer
+syn match  nft_stmt_ip6_payload_expr_ip6_hdr_expr_close_scope_ip6_primary_expr_constant_expr_int_hex_6b '\v((0x[0-9a-fA-F]{1,1})|([0-9]{1,2}))' skipwhite contained
+
+hi link    nft_stmt_ip6_payload_expr_ip6_hdr_expr_close_scope_ip6_primary_expr_constant_expr_int_hex_8b nftHL_Integer
+syn match  nft_stmt_ip6_payload_expr_ip6_hdr_expr_close_scope_ip6_primary_expr_constant_expr_int_hex_8b '\v((0x[0-9a-fA-F]{1,2})|([0-9]{1,3}))' skipwhite contained
+
+hi link    nft_stmt_ip6_payload_expr_ip6_hdr_expr_close_scope_ip6_primary_expr_constant_expr_int_hex_8b_protocol nftHL_Integer
+syn match  nft_stmt_ip6_payload_expr_ip6_hdr_expr_close_scope_ip6_primary_expr_constant_expr_int_hex_8b_protocol '\v(0x[fF]{2}|0x[0-9a-eA-E][0-9a-fA-F]|0x[0-9a-fA-F]|25[0-5]|2[0-4][0-9]|[1-9][0-9]|[0-9])\ze[ \t\n]' skipwhite contained
+\ nextgroup=
+\    @nft_c_primary_stmt_expr
+
+hi link    nft_stmt_ip6_payload_expr_ip6_hdr_expr_close_scope_ip6_primary_expr_constant_expr_int_hex_8b_ttl nftHL_Integer
+syn match  nft_stmt_ip6_payload_expr_ip6_hdr_expr_close_scope_ip6_primary_expr_constant_expr_int_hex_8b_ttl '\v(0x[fF]{2}|0x[0-9a-eA-E][0-9a-fA-F]|0x[0-9a-fA-F]|25[0-5]|2[0-4][0-9]|[1-9][0-9]|[0-9])\ze[ \t\n]' skipwhite contained
+
+hi link    nft_stmt_ip6_payload_expr_ip6_hdr_expr_close_scope_ip6_primary_expr_constant_expr_int_hex_13b_frag_off nftHL_Integer
+syn match  nft_stmt_ip6_payload_expr_ip6_hdr_expr_close_scope_ip6_primary_expr_constant_expr_int_hex_13b_frag_off '\v(0x1[fF]{3}|0x1[fF][0-9a-eA-E][0-9a-fA-F]|0x1[0-9a-eA-E][0-9a-fA-F]{2}|0x[0-9a-fA-F]{1,3}|819[0-1]|81[0-8][0-9]|80[0-9]{2}|[1-7][0-9]{3}|[1-9][0-9]{0,2}|0)\ze[ \t\n]' skipwhite contained
+
+hi link    nft_stmt_ip6_payload_expr_ip6_hdr_expr_close_scope_ip6_primary_expr_constant_expr_int_hex_16b_length nftHL_Integer
+syn match  nft_stmt_ip6_payload_expr_ip6_hdr_expr_close_scope_ip6_primary_expr_constant_expr_int_hex_16b_length '\v(0x[fF]{4}|0x[0-9a-eA-E][0-9a-fA-F]{3}|0x[0-9a-fA-F]{3}|0x[0-9a-fA-F]{2}|0x[2-9a-fA-F]|6553[0-5]|655[0-2][0-9]|65[0-4][0-9]{2}|6[0-4][0-9]{3}|[1-5][0-9]{4}|[1-9][0-9]{3}|[1-9][0-9]{2}|[2-9][0-9])' skipwhite contained
+
+hi link    nft_stmt_ip6_payload_expr_ip6_hdr_expr_close_scope_ip6_primary_expr_constant_expr_int_hex_16b_checksum nftHL_Integer
+syn match  nft_stmt_ip6_payload_expr_ip6_hdr_expr_close_scope_ip6_primary_expr_constant_expr_int_hex_16b_checksum '\v(0x[fF]{4}|0x[0-9a-eA-E][0-9a-fA-F]{3}|0x[0-9a-fA-F]{3}|0x[0-9a-fA-F]{2}|0x[0-9a-fA-F]|6553[0-5]|655[0-2][0-9]|65[0-4][0-9]{2}|6[0-4][0-9]{3}|[1-5][0-9]{4}|[1-9][0-9]{3}|[1-9][0-9]{2}|[1-9][0-9]|[0-9])\ze[ \t\n]' skipwhite contained
+
+hi link    nft_stmt_ip6_payload_expr_ip6_hdr_expr_close_scope_ip6_primary_expr_constant_expr_int_hex_16b_id nftHL_Integer
+syn match  nft_stmt_ip6_payload_expr_ip6_hdr_expr_close_scope_ip6_primary_expr_constant_expr_int_hex_16b_id '\v(0x[fF]{4}|0x[0-9a-eA-E][0-9a-fA-F]{3}|0x[0-9a-fA-F]{3}|0x[0-9a-fA-F]{2}|0x[0-9a-fA-F]|6553[0-5]|655[0-2][0-9]|65[0-4][0-9]{2}|6[0-4][0-9]{3}|[1-5][0-9]{4}|[1-9][0-9]{3}|[1-9][0-9]{2}|[1-9][0-9]|[0-9])\ze[ \t\n]' skipwhite contained
+
+hi link    nft_stmt_ip6_payload_expr_ip6_hdr_expr_close_scope_ip6_primary_expr_constant_expr_string_ip6_opt_cidr nftHL_Integer
+syn match  nft_stmt_ip6_payload_expr_ip6_hdr_expr_close_scope_ip6_primary_expr_constant_expr_string_ip6_opt_cidr
+\ '\v(25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}(\/(3[0-2]|[12]\d|[0-9]))?'
+\ skipwhite contained
+
+
+" ************************* Keyword 'ip' ***************************
+" this is not an expression but THE opening statement 'ip' keyword
+"
+" No expression allowed here
+""
+" WRONG to use: rule → stmt_list → stmt → stmt_expr → multiton_stmt_expr → primary_stmt_expr → keyword_expr -> 'ip'
+"     multiton_stmt_expr is for range/prefix only
+
+" TODO, rename this multion_stmt_expr to:
+"   stmt->payload_stmt->payload_expr->ip6_hdr_expr->'ip' (only if using 'set')
+"   stmt->match_stmt->relational_expr->expr->concat_expr->basic_expr->primary_expr->payload_expr->ip6_hdr_expr
+"   stmt->match_stmt->relational_expr->expr->concat_expr->basic_expr->primary_expr->payload_expr->ip6_hdr_expr
+"   (14 others)->stmt_expr->symbol_stmt_expr->keyword_expr->'ip'; typically with modifier keyword ('set', 'to', 'devices')
+"   primary_stmt_expr->payload_expr->ip6_hdr_expr->'ip' (used in sub-stmt, not applicable in this 'stmt' context here)
+""
+"   payload_expr->ip6_hdr_expr->'ip'
+"   family_spec->family_spec_explicit->'ip'  (not applicable in this 'stmt' context here)
+"
+" Most simplistic LL(1) semantic action is 'keyword_expr' (one keyword: 'ip'),
+" not used because out-of-scope (not at 'stmt' context) and only used as an
+" expression after its initial statement.
+"
+" Next most simplistic semantic is 'concat_stmt_expr': 'ip protocol icmp', the 'ip' part.
+"
+" 'rule'
+hi link   nft_stmt_declarative_keyword_ip  nftHL_Command
+syn match nft_stmt_declarative_keyword_ip  '\vip6\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_ip6_hdr_expr_ip6_hdr_field_keyword_flowlabel,
+\    nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_ip6_hdr_expr_ip6_hdr_field_keyword_hoplimit,
+\    nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_ip6_hdr_expr_ip6_hdr_field_keyword_nexthdr,
+\    nft_payload_expr_ip6_keyword_version,
+\    nft_payload_expr_ip6_keyword_length,
+\    nft_payload_expr_ip6_keyword_daddr,
+\    nft_payload_expr_ip6_keyword_saddr,
+\    nft_payload_expr_ip6_keyword_dscp,
+\    nft_payload_expr_ip6_keyword_ecn,
+\    nft_payload_expr_tcp_hdr_expr_keyword_tcp,
+\    nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_ip6_hdr_expr_ip6_hdr_field_keyword_ttl,
+\    nft_payload_expr_udp_hdr_expr_keyword_udp,
+\    nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_ip6_hdr_expr_ip6_hdr_field_keyword_id,
+\    @nft_c_primary_stmt_expr
+" no error here, 'ip' can be a standalone statement
+
+hi link   nft_add_rule_imperative_keyword_ip  nftHL_Command
+syn match nft_add_rule_imperative_keyword_ip  '\vip6\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_ip6_hdr_expr_ip6_hdr_field_keyword_hdrversion,
+\    nft_ip6_hdr_expr_ip6_hdr_field_keyword_hdrlength,
+\    nft_ip6_hdr_expr_ip6_hdr_field_keyword_checksum,
+\    nft_ip6_hdr_expr_ip6_hdr_field_keyword_frag_off,
+\    nft_ip6_hdr_expr_ip6_hdr_field_keyword_protocol,
+\    nft_ip6_hdr_expr_ip6_hdr_field_keyword_length,
+\    nft_ip6_hdr_expr_keyword_option,
+\    nft_ip6_hdr_expr_ip6_hdr_field_keyword_daddr,
+\    nft_ip6_hdr_expr_ip6_hdr_field_keyword_saddr,
+\    nft_ip6_hdr_expr_ip6_hdr_field_keyword_dscp,
+\    nft_ip6_hdr_expr_ip6_hdr_field_keyword_ecn,
+\    nft_ip6_hdr_expr_ip6_hdr_field_keyword_ttl,
+\    nft_ip6_hdr_expr_ip6_hdr_field_keyword_id,
+\    nft_Error
+
 
 
 hi link   nft_stmt_keyword_ip6 nftHL_Command
@@ -59,7 +172,9 @@ syn match nft_stmt_keyword_ip6 '\vip6\ze[ \t]' skipwhite contained
 \    nft_payload_expr_ip6_keyword_saddr,
 \    nft_payload_expr_ip6_keyword_dscp,
 \    nft_payload_expr_ip6_keyword_ecn,
+\    nft_payload_expr_tcp_hdr_expr_keyword_tcp,
 \    nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_ip6_hdr_expr_ip6_hdr_field_keyword_ttl,
+\    nft_payload_expr_udp_hdr_expr_keyword_udp,
 \    nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_ip6_hdr_expr_ip6_hdr_field_keyword_id,
 \    nft_chainError
 

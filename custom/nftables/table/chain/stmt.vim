@@ -23,6 +23,7 @@ let s:stmt_list_filepaths_semantic_early = [
 \    'table/chain/stmt/stmt_ip.vim',
 \    'table/chain/stmt/expr.vim',
 \    'table/chain/stmt/stmt_expr.vim',
+\    'table/chain/stmt/payload_stmt.vim',
 \    'table/chain/stmt/primary_stmt_expr.vim',
 \    'table/chain/stmt/map_stmt_expr.vim',
 \    'table/chain/stmt_policy.vim',

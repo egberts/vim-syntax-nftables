@@ -62,7 +62,7 @@ try
 \    nft_UnexpectedCurrencySign,
 \    nft_Error
 
-  hi link   nft_base_cmd_add_cmd_keyword_chain_imperative nftHL_Keyword
+  hi link   nft_base_cmd_add_cmd_keyword_chain_imperative nftHL_Command
   syn match nft_base_cmd_add_cmd_keyword_chain_imperative '\vchain\ze\s' skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_chain_imperative_chain_spec_table_spec_family_spec_family_spec_explicit_defines,

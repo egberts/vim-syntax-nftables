@@ -82,7 +82,8 @@ syn match nft_stmt_counter_stmt_keyword_counter '\vcounter\ze[ \t\n;]' skipwhite
 \    nft_stateful_stmt_counter_stmt_counter_arg_keyword_packets,
 \    nft_stmt_keyword_quota,
 \    nft_stmt_objref_stmt_objref_stmt_counter_keyword_name,
-\    nft_add_cmd_rule_rule_alloc_stmt_counter_objref_identifier
+\    nft_add_cmd_rule_rule_alloc_stmt_counter_objref_identifier,
+\    @nft_c_stmt
 " *********************  END 'counter_stmt' **************************
 
 

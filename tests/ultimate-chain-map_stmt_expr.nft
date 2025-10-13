@@ -110,6 +110,7 @@ table T {
 		ether type != 8021q update @s { ether daddr . 123 timeout 1m } counter packets 0 bytes 0 return
 		ether type ip6 udp dport 67
 		ether type ip udp dport 67
+		ether type ip udp dport 67
 		fib daddr type { broadcast, anycast, multicast } counter packets 0 bytes 0 drop
 		fib saddr . iif oif 0 counter packets 0 bytes 0 drop
 		fib saddr oifname @s accept
@@ -280,7 +281,7 @@ table T {
 		ip6 saddr dead::1 dnat to feed::1
 		ip6 saddr dead::2 tcp dport 42 dnat ip6 to [c0::1a]:4242
 		ip6 saddr dead::2 tcp dport 42 dnat to [c0::1a]:4242
-		ip6 saddr != { fd00::/8, fe80::/64 } counter packets 0 bytes 0 reject with icmp port-unreachable;  # need to create counter_stmt, not use counter_cmd
+		# ip6 saddr != { fd00::/8, fe80::/64 } counter packets 0 bytes 0 reject with icmp port-unreachable;  \ need to create counter_stmt, not use counter_cmd
 		ip6 saddr :: ip6 daddr . icmpv6 type { ff02::1:ff00:0/104 . nd-neighbor-solicit, ff02::16 . mld2-listener-report } return
     }
 }
@@ -354,9 +355,16 @@ table T {
 }
 table T {
 	chain C {
+		ip saddr >= 255.255.255.255.0 ip daddr 255.255.255.255 udp sport 68 udp dport 67 return
+		ip saddr == 0.0.0.0 ip daddr 255.255.255.255 udp sport 68 udp dport 67 return
+		ip saddr not 0.0.0.0 ip daddr 255.255.255.255 udp sport 68 udp dport 67 return ;}
+    chain C {
 		ip saddr 0.0.0.0 ip daddr 255.255.255.255 udp sport 68 udp dport 67 return
 		ip saddr 10.0.0.0 ip daddr 10.0.0.2 ip saddr 10.0.0.0
 		ip saddr != { 10.10.10.100, 10.10.10.111 } ip saddr @example drop
+		ip saddr not in @setname
+		ip saddr not in { 10.10.10.100, 10.10.10.111 } ip saddr @example drop
+		ip saddr in { 10.10.10.100, 10.10.10.111 } ip saddr @example drop
 	}
 }
 table T {

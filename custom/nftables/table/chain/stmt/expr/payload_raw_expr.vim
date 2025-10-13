@@ -92,7 +92,7 @@ syn match nft_payload_raw_expr_payload_base_spec_keyword_at_th '\v\@th' containe
 
 " '@<string>,9,9 99'
 hi link   nft_payload_raw_expr_payload_base_spec_keyword_at_string nftHL_AtSetname
-syn match nft_payload_raw_expr_payload_base_spec_keyword_at_string '\v\@[a-zA-Z][a-zA-Z0-9\-_]{0,15}\ze[ \t,]' contained
+syn match nft_payload_raw_expr_payload_base_spec_keyword_at_string '\v\@[a-zA-Z][a-zA-Z0-9\-_]{0,15}\ze[ \t,\n]' contained
 \ nextgroup=
 \    nft_payload_raw_expr_comma1_symbol, nft_Error
 " ************************* END payload_raw_expr' *************************
