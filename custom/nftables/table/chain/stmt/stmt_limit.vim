@@ -53,7 +53,7 @@ try
 
 " 'limit' 'rate' [ 'over'|'until' ]
 " limit_mode->limit_stmt->stateful_stmt
-hi link   nft_limit_stmt_limit_config_limit_mode nftHL_Action
+hi link   nft_limit_stmt_limit_config_limit_mode nftHL_Keyword
 syn match nft_limit_stmt_limit_config_limit_mode "\v(over|until)" skipwhite contained
 \ nextgroup=
 \    nft_limit_stmt_limit_rate_pktsbytes_num
@@ -61,14 +61,14 @@ syn match nft_limit_stmt_limit_config_limit_mode "\v(over|until)" skipwhite cont
 " limit_burst_bytes
 " 'limit' [ 'over'|'until' ] <NUM> '/' ('second'|'minute'|'hour'|'day'|'week') 'burst' <NUM> ('bytes'|'string')
 " 'bytes'->limit_burst_bytes->limit_config
-hi link   nft_add_cmd_set_block_stateful_stmt_limit_stmt_limit_burst_pkts_keyword_packets nftHL_Keyword
+hi link   nft_add_cmd_set_block_stateful_stmt_limit_stmt_limit_burst_pkts_keyword_packets nftHL_Unit
 syn match nft_add_cmd_set_block_stateful_stmt_limit_stmt_limit_burst_pkts_keyword_packets "\vpackets" skipwhite contained
 \ nextgroup=
 \    nft_line_stmt_separator
 
 " 'limit' [ 'over'|'until' ] <NUM> '/' ('second'|'minute'|'hour'|'day'|'week') 'burst' <NUM>
 " num->limit_burst_pkts->limit_config->(add_cmd|create_cmd|limit_block)
-hi link   nft_add_cmd_set_block_stateful_stmt_limit_stmt_limit_burst_pkts_num nftHL_Number
+hi link   nft_add_cmd_set_block_stateful_stmt_limit_stmt_limit_burst_pkts_num nftHL_Integer
 syn match nft_add_cmd_set_block_stateful_stmt_limit_stmt_limit_burst_pkts_num "\v[0-9]{1,20}\ze[ \t]" skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_set_block_stateful_stmt_limit_stmt_limit_burst_pkts_keyword_packets,
@@ -77,7 +77,7 @@ syn match nft_add_cmd_set_block_stateful_stmt_limit_stmt_limit_burst_pkts_num "\
 
 " 'limit' [ 'over'|'until' ] <NUM> '/' ('second'|'minute'|'hour'|'day'|'week') 'burst'
 " 'burst'->limit_burst_pkts->limit_config->(add_cmd|create_cmd|limit_block)
-hi link   nft_add_cmd_set_block_stateful_stmt_limit_stmt_limit_burst_pkts_keyword_burst nftHL_Keyword
+hi link   nft_add_cmd_set_block_stateful_stmt_limit_stmt_limit_burst_pkts_keyword_burst nftHL_Substatement
 syn match nft_add_cmd_set_block_stateful_stmt_limit_stmt_limit_burst_pkts_keyword_burst "\vburst\ze[ \t]" skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_set_block_stateful_stmt_limit_stmt_limit_burst_pkts_num,
@@ -112,7 +112,7 @@ syn match nft_add_cmd_set_block_stateful_stmt_limit_stmt_limit_burst_bytes_human
 
 " 'limit' [ 'over'|'until' ] <NUM> '/' ('second'|'minute'|'hour'|'day'|'week') 'burst' <NUM>
 " num->limit_burst_bytes->limit_config->(add_cmd|create_cmd|limit_block)
-hi link   nft_add_cmd_set_block_stateful_stmt_limit_stmt_limit_burst_bytes_num nftHL_Number
+hi link   nft_add_cmd_set_block_stateful_stmt_limit_stmt_limit_burst_bytes_num nftHL_Integer
 syn match nft_add_cmd_set_block_stateful_stmt_limit_stmt_limit_burst_bytes_num "\v[0-9]{1,10}\ze[ \t]" skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_set_block_stateful_stmt_limit_stmt_limit_burst_bytes_human,
@@ -120,7 +120,7 @@ syn match nft_add_cmd_set_block_stateful_stmt_limit_stmt_limit_burst_bytes_num "
 
 " 'limit' [ 'over'|'until' ] <NUM> '/' ('second'|'minute'|'hour'|'day'|'week') 'burst'
 " 'burst'->limit_burst_bytes->limit_config->(add_cmd|create_cmd|limit_block)
-hi link   nft_add_cmd_set_block_stateful_stmt_limit_stmt_limit_burst_bytes_keyword_burst nftHL_Command
+hi link   nft_add_cmd_set_block_stateful_stmt_limit_stmt_limit_burst_bytes_keyword_burst nftHL_Substatement
 syn match nft_add_cmd_set_block_stateful_stmt_limit_stmt_limit_burst_bytes_keyword_burst "\vburst\ze[ \t]" skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_set_block_stateful_stmt_limit_stmt_limit_burst_bytes_num,
@@ -149,7 +149,7 @@ syn match nft_add_cmd_set_block_stateful_stmt_limit_stmt_limit_rate_bytes_string
 
 " 'limit' 'rate' [ 'over'|'until' ] <NUM>
 " <num>->*->limit_config->(add_cmd|create_cmd|limit_block)
-hi link   nft_add_cmd_set_block_stateful_stmt_limit_stmt_limit_rate_pktsbytes_num nftHL_Number
+hi link   nft_add_cmd_set_block_stateful_stmt_limit_stmt_limit_rate_pktsbytes_num nftHL_Integer
 syn match nft_add_cmd_set_block_stateful_stmt_limit_stmt_limit_rate_pktsbytes_num "\v[0-9]{1,10}\ze[ \t\/\}]" skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_set_block_stateful_stmt_limit_stmt_limit_rate_pkts_expression_slash,
@@ -164,7 +164,7 @@ syn match nft_add_cmd_set_block_stateful_stmt_limit_stmt_limit_mode "\v(over|unt
 \    nft_add_cmd_set_block_stateful_stmt_limit_stmt_limit_rate_pktsbytes_num,
 \    nft_Error
 
-hi link   nft_add_cmd_set_block_stateful_stmt_limit_stmt_keyword_rate nftHL_Keyword
+hi link   nft_add_cmd_set_block_stateful_stmt_limit_stmt_keyword_rate nftHL_Substatement
 syn match nft_add_cmd_set_block_stateful_stmt_limit_stmt_keyword_rate "\vrate\ze[ \t]" skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_set_block_stateful_stmt_limit_stmt_limit_mode,

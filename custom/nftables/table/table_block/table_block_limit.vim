@@ -56,7 +56,7 @@ syn match nft_comment_spec_keyword_comment '\vcomment' skipwhite contained
 " limit_burst_bytes
 " 'limit' [ 'over'|'until' ] <NUM> '/' ('second'|'minute'|'hour'|'day'|'week') 'burst' <NUM> ('bytes'|'string')
 " 'bytes'->limit_burst_bytes->limit_confi->'limit'->'{'->table_block->'table'->
-hi link   nft_add_cmd_table_block_limit_config_limit_burst_pkts_limit_pkts_keyword_pkts nftHL_Keyword
+hi link   nft_add_cmd_table_block_limit_config_limit_burst_pkts_limit_pkts_keyword_pkts nftHL_Unit
 syn match nft_add_cmd_table_block_limit_config_limit_burst_pkts_limit_pkts_keyword_pkts "\vpackets" skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_table_block_limit_block_separator,
@@ -64,7 +64,7 @@ syn match nft_add_cmd_table_block_limit_config_limit_burst_pkts_limit_pkts_keywo
 
 " 'limit' [ 'over'|'until' ] <NUM> '/' ('second'|'minute'|'hour'|'day'|'week') 'burst' <NUM>
 " num->limit_burst_pkts->limit_config->'limit'->'{'->table_block->'table'->(add_cmd|create_cmd|limit_block)
-hi link   nft_add_cmd_table_block_limit_config_limit_burst_pkts_limit_pkts_num nftHL_Number
+hi link   nft_add_cmd_table_block_limit_config_limit_burst_pkts_limit_pkts_num nftHL_Integer
 syn match nft_add_cmd_table_block_limit_config_limit_burst_pkts_limit_pkts_num "\v[0-9]{1,20}\ze[ \t]" skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_table_block_limit_config_limit_burst_pkts_limit_pkts_keyword_pkts,
@@ -73,7 +73,7 @@ syn match nft_add_cmd_table_block_limit_config_limit_burst_pkts_limit_pkts_num "
 
 " 'limit' [ 'over'|'until' ] <NUM> '/' ('second'|'minute'|'hour'|'day'|'week') 'burst'
 " 'burst'->limit_burst_pkts->limit_config->'limit'->'{'->table_block->'table'->(add_cmd|create_cmd|limit_block)
-hi link   nft_add_cmd_table_block_limit_config_limit_burst_pkts_keyword_burst nftHL_Command
+hi link   nft_add_cmd_table_block_limit_config_limit_burst_pkts_keyword_burst nftHL_Substatement
 syn match nft_add_cmd_table_block_limit_config_limit_burst_pkts_keyword_burst "\vburst\ze[ \t]" skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_table_block_limit_config_limit_burst_pkts_limit_pkts_num,
@@ -108,7 +108,7 @@ syn match nft_limit_config_limit_burst_bytes_limit_bytes_keyword_bytes "\v(pbyte
 
 " 'limit' [ 'over'|'until' ] <NUM> '/' ('second'|'minute'|'hour'|'day'|'week') 'burst' <NUM>
 " num->limit_burst_bytes->limit_config->'limit'->'{'->table_block->'table'->(add_cmd|create_cmd|limit_block)
-hi link   nft_limit_config_limit_burst_bytes_limit_bytes_num nftHL_Number
+hi link   nft_limit_config_limit_burst_bytes_limit_bytes_num nftHL_Integer
 syn match nft_limit_config_limit_burst_bytes_limit_bytes_num "\v[0-9]{1,10}\ze[ \t]" skipwhite contained
 \ nextgroup=
 \    nft_limit_config_limit_burst_bytes_limit_bytes_keyword_bytes,
@@ -116,7 +116,7 @@ syn match nft_limit_config_limit_burst_bytes_limit_bytes_num "\v[0-9]{1,10}\ze[ 
 
 " 'limit' [ 'over'|'until' ] <NUM> '/' ('second'|'minute'|'hour'|'day'|'week') 'burst'
 " 'burst'->limit_burst_bytes->limit_config->'limit'->'{'->table_block->'table'->(add_cmd|create_cmd|limit_block)
-hi link   nft_limit_config_limit_burst_bytes_keyword_burst nftHL_Command
+hi link   nft_limit_config_limit_burst_bytes_keyword_burst nftHL_Substatement
 syn match nft_limit_config_limit_burst_bytes_keyword_burst "\vburst\ze[ \t]" skipwhite contained
 \ nextgroup=
 \    nft_limit_config_limit_burst_bytes_limit_bytes_num,
@@ -145,7 +145,7 @@ syn match nft_add_cmd_table_block_limit_config_limit_rate_bytes_keyword_string "
 
 " 'limit' 'rate' [ 'over'|'until' ] <NUM>
 " <num>->*->limit_config->'limit'->'{'->table_block->'table'->(add_cmd|create_cmd|limit_block)
-hi link   nft_add_cmd_table_block_limit_config_limit_rate_pktsbytes_num nftHL_Number
+hi link   nft_add_cmd_table_block_limit_config_limit_rate_pktsbytes_num nftHL_Integer
 syn match nft_add_cmd_table_block_limit_config_limit_rate_pktsbytes_num "\v[0-9]{1,10}\ze[ \t\/]" skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_table_block_limit_config_limit_rate_bytes_keyword_string,
@@ -191,7 +191,7 @@ syn match nft_add_cmd_table_block_keyword_limit_obj_spec_identifier "\v[A-Za-z][
 \    nft_Error
 
 " base_cmd 'add' add_cmd 'table' '{' 'limit'
-hi link   nft_add_cmd_table_block_keyword_limit nftHL_Command
+hi link   nft_add_cmd_table_block_keyword_limit nftHL_Statement
 syn match nft_add_cmd_table_block_keyword_limit "\vlimit\ze[ \t]" skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_table_block_keyword_limit_obj_spec_identifier,

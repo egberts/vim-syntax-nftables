@@ -122,16 +122,6 @@ create limit netdev Tnetdev LnetdevCreate rate 1/minute
 create limit bridge Tbridge LbridgeCreate rate 1 /hour
 create limit arp Tarp LarpCreate rate 1 /hour
 
-# TODO list limit
-# obj_spec->'limit'->list_cmd->base_cmd
-list limit T L
-list limit ip Tip Lip
-list limit ip6 Tip6 Lip6
-list limit inet Tinet Linet
-list limit netdev Tnetdev Lnetdev
-list limit bridge Tbridge Lbridge
-list limit arp Tarp Larp
-
 # ruleset_spec->'limits'->'list'->list_cmd->base_cmd
 list limits
 list limits ip
