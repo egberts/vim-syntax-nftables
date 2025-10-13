@@ -62,6 +62,25 @@ table T {
 }
 table T { limit L { }; }
 
+table T {
+    chain C {
+        limit rate 1/second ;
+        limit rate 15/minute ;
+        limit rate 15/hour ;
+        limit rate 15/day ;
+        limit rate 15/week ;
+        limit rate 1/second burst 1 packets ;
+        limit rate 1 bytes/second;
+        limit rate 1 kbytes/minute; 
+        limit rate 1 mbytes/hour ;
+        limit rate 1 gbytes/week burst 250 bytes
+        limit rate 1 pbytes/day burst 250 kbytes 
+        limit rate 1 mbytes/hour burst 250 mbytes; 
+        limit rate 1 mbytes/hour burst 250 gbytes ;
+        limit rate 1 mbytes/hour burst 250 pbytes ; 
+    }
+}
+
 
 table T {
     set S {
