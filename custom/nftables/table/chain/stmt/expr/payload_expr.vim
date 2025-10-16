@@ -771,7 +771,7 @@ syn region nft_payload_expr_icmp_type_inline_set start=+{+ end=+}+ skip="#.{0,45
 \    nft_payload_expr_icmp_type_inline_set_type_num
 \ nextgroup=
 \    @nft_c_payload_expr_icmp_expressions,
-\    @nft_c_stmt
+\    @nft_c_primary_stmt_expr
 
 
 " ip6 nexthdr icmp type in

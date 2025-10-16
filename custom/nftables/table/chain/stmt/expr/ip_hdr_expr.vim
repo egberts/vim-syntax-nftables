@@ -48,7 +48,7 @@ try
   "
 
 hi link    nft_ip_hdr_expr_close_scope_ip_inline_set nftHL_BlockDelimitersSet
-syn region nft_ip_hdr_expr_close_scope_ip_inline_set start=+{+ end=+}+ skipwhite contained
+syn region nft_ip_hdr_expr_close_scope_ip_inline_set start=+{+ end=+}+ skip="#.{0,45}$" skipwhite contained
 \ contains=
 \    @nft_c_primary_stmt_expr
 
@@ -542,8 +542,6 @@ syn match nft_ip_hdr_expr_keyword_ip '\vip\ze[ \t]' skipwhite contained
 \    nft_ip_hdr_expr_ip_hdr_field_keyword_hdrlength,
 \    nft_ip_hdr_expr_ip_hdr_field_keyword_checksum,
 \    nft_ip_hdr_expr_ip_hdr_field_keyword_frag_off,
-\    nft_ip_hdr_expr_ip_hdr_field_keyword_protocol,
-\    nft_ip_hdr_expr_ip_hdr_field_keyword_length,
 \    nft_ip_hdr_expr_keyword_option,
 \    nft_ip_hdr_expr_ip_hdr_field_keyword_daddr,
 \    nft_ip_hdr_expr_ip_hdr_field_keyword_saddr,
@@ -552,6 +550,7 @@ syn match nft_ip_hdr_expr_keyword_ip '\vip\ze[ \t]' skipwhite contained
 \    nft_ip_hdr_expr_ip_hdr_field_keyword_ttl,
 \    nft_ip_hdr_expr_ip_hdr_field_keyword_id,
 \    nft_Error
+"\    nft_ip_hdr_expr_ip_hdr_field_keyword_protocol,
 
 
   for s:this_semantic_file in s:ip_hdr_expr_list_filepaths_semantic_later

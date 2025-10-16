@@ -145,7 +145,7 @@ syn match nft_stmt_objref_stmt_objref_stmt_ct_keyword_timeout '\vtimeout[ \t]' s
 "    nft_conntrack_types is only done OUTSIDE chain_block
 " ********************* END 'objref_stmt_ct' **********************
 
-" ************************* BEGIN ct_stmt **************************** SLE
+" ************************* BEGIN ct_stmt ****************************
 hi link   nft_stmt_keyword_ct nftHL_Statement
 syn match nft_stmt_keyword_ct '\vct[ \t]' skipwhite contained
 \ nextgroup=

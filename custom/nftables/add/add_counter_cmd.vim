@@ -113,7 +113,7 @@ syn match nft_add_cmd_keyword_counter_counter_block_comment_spec '\vcomment\ze[ 
 
 " add_cmd 'counter' obj_spec '{' counter_block '}'
 hi link    nft_add_cmd_keyword_counter_counter_block nftHL_BlockDelimitersCounter
-syn region nft_add_cmd_keyword_counter_counter_block start=/{/ end=/}/ skipwhite contained
+syn region nft_add_cmd_keyword_counter_counter_block start=+{+ end=+}+ skipwhite contained
 \ nextgroup=
 \    nft_line_stmt_separator,
 \    nft_EOS,

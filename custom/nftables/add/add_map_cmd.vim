@@ -334,8 +334,8 @@ syn match nft_meta_stmt_unqualified_meta_keys '\vmark' skipwhite contained
 \ nextgroup=
 \    nft_stmt_ct_stmt_set_map_stmt_expr_keyword_map
 
-hi link   nft_stmt_meta_stmt_set_keyword_meta nftHL_Keyword
-syn match nft_stmt_meta_stmt_set_keyword_meta '\vmeta' skipwhite contained
+hi link   nft_meta_stmt_set_keyword_meta nftHL_Keyword
+syn match nft_meta_stmt_set_keyword_meta '\vmeta' skipwhite contained
 \ nextgroup=
 \    nft_meta_stmt_unqualified_meta_keys
 
@@ -353,15 +353,6 @@ hi link   nft_stmt_ct_stmt_set_map_stmt_expr_keys nftHL_Keyword
 syn match nft_stmt_ct_stmt_set_map_stmt_expr_keys '\v(iifname|oifname|daddr|saddr|mark|iif|oif)' skipwhite contained
 \ nextgroup=
 \    nft_stmt_ct_stmt_set_map_stmt_expr_keyword_map,
-
-" non-functional placeholder  nft_c_set_stmt_expr_keys
-syn cluster nft_c_set_stmt_expr_keys
-\ contains=
-\    nft_stmt_ct_stmt_set_map_stmt_expr_keys,
-\    nft_stmt_meta_stmt_set_keyword_meta,
-\    nft_stmt_payload_stmt_set_ip6_keyword_ip6,
-\    nft_stmt_payload_stmt_set_ip_keyword_ip,
-
 
 "***************** END set stmt_expr *********************************
 

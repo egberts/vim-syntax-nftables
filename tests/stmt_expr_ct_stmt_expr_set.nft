@@ -8,7 +8,7 @@ table inet my_table {
     }
     chain my_chain {
         type filter hook prerouting priority 0; policy accept;
-        ct zone set oifname map { $MY_DEVICE : 1, "virbr0" : 2; } accept  # Output interface name
+        ct zone set oif map { $MY_DEVICE : 1, "virbr0" : 2; } accept  # Output interface name
         ct zone set oif map { 1 : 10, 2 : 20 } accept                    # Output interface index
         ct zone set iif map { 1 : 10, 2 : 20 } accept                    # Input interface index
         ct zone set iifname map { "lo" : 10, "eth0" : 20 } accept        # Input interface name

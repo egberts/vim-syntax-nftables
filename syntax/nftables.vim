@@ -761,62 +761,6 @@ syn region nft_common_block_undefine_extra_text start=/\%#\s*/ end=/\ze[;\n]/ sk
 
 
 
-"**************** BEGIN stmt_expr **********************************************
-" stmt_expr - trying for a generic Vim syntax group (to reside ONLY within chain_block)
-"   used by ct_stmt dup_stmt fwd_stmt masq_stmt_args meta_stmt nat_stmt
-"           objref_stmt_counter objref_stmt_ct objref_stmt_limit
-"           objref_stmt_quota objref_stmt_synproxy payload_stmt
-"           redir_stmt_arg tproxy_stmt
-"   points to map_stmt_expr, multion_stmt_expr, and symbol_stmt_expr
-hi link   nft_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_symbol_expr_variable_expr nftHL_Variable
-syn match nft_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_symbol_expr_variable_expr '\v\$[a-zA-Z][a-zA-Z0-9_\-]{0,63}' skipwhite contained
-
-hi link   nft_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_symbol_expr_string nftHL_String
-syn match nft_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_symbol_expr_string '\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}' skipwhite contained
-
-hi link   nft_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_integer_expr_num nftHL_Integer
-syn match nft_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_integer_expr_num '\v[0-9]{1,10}' skipwhite contained
-
-hi link   nft_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_boolean_expr_keywords nftHL_Define
-syn match nft_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_boolean_expr_keywords '\v(missing|exists)' skipwhite contained
-
-hi link   nft_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_boolean_expr_keyword_missing nftHL_Define
-syn match nft_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_boolean_expr_keyword_missing '\vmissing' skipwhite contained
-
-hi link   nft_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_boolean_expr_keyword_exists nftHL_Define
-syn match nft_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_boolean_expr_keyword_exists '\vexists' skipwhite contained
-
-hi link   nft_symbol_stmt_expr_symbol_expr_variable_expr_variable nftHL_Variable
-syn match nft_symbol_stmt_expr_symbol_expr_variable_expr_variable '\v\$[a-zA-Z][a-zA-Z0-9\-_]{0,63}' skipwhite contained
-
-hi link   nft_symbol_stmt_expr_symbol_expr_quoted_string nftHL_String
-syn region nft_symbol_stmt_expr_symbol_expr_quoted_string start='\"' end='\"' oneline skipwhite contained
-
-syn cluster nft_c_symbol_stmt_expr
-\ contains=
-\    nft_symbol_stmt_expr_symbol_expr_variable_expr_variable,
-\    nft_symbol_stmt_expr_symbol_expr_quoted_string
-
-" stmt_expr; referenced by referenced by: ct_stmt dup_stmt fwd_stmt masq_stmt_args
-"     meta_stmt nat_stmt objref_stmt_counter objref_stmt_ct objref_stmt_limit
-"     objref_stmt_quota objref_stmt_synproxy payload_stmt redir_stmt_arg tproxy_stmt
-syn cluster nft_c_stmt_expr
-\ contains=
-\    nft_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_boolean_expr_keyword_missing,
-\    nft_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_boolean_expr_keyword_exists,
-\    @nft_c_multion_stmt_expr,
-\    @nft_c_symbol_stmt_expr,
-\    nft_payload_expr_icmp_hdr_expr_keyword_icmp,
-\    nft_payload_expr_ip_protocol_keyword_udp,
-\    nft_stmt_keyword_ip6,
-\    nft_stmt_declarative_keyword_ip,
-\    nft_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_symbol_expr_variable_expr,
-\    nft_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_symbol_expr_string,
-\    nft_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_integer_expr_num,
-\    nft_stmt_expr_map_stmt_expr_set_expr_set_ref_expr_set_symbol_ref_expr_keyword_at_identifier,
-\    nft_stmt_expr_map_stmt_expr_set_expr,
-\    nft_stmt_expr_map_stmt_expr_set_expr_set_ref_expr_set_symbol_ref_expr_variable
-"***************** END stmt_expr *************************************
 
 " add_cmd 'table' table_block 'chain' chain_block rule 'rule' rule_alloc
 " short-circuiting to chain_block comment_spec

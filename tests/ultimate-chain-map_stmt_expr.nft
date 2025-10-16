@@ -25,7 +25,7 @@ table T {
 		ct expectation set "ctexpect"
 		ct expectation set @setname
 		ct expectation set ip saddr map @exp
-		ct expectation set ip6 saddr map { dead::beef : "exp2" }
+		ct expectation set ip6 saddr map { dead::beef :  "exp2" }
 		ct expectation set ip6 daddr map { dead::beef : "exp2", feed::17 : "exp2" } ;
 		ct expectation set ip6 daddr map @secret_setname
 		ct expectation set ip6 daddr . tcp dport map { feed::17 . 512 : "exp2", dead::beef . 123 : "exp2" }
@@ -137,7 +137,7 @@ table T {
 		icmp type { destination-unreachable, echo-request, time-exceeded, parameter-problem } accept
 		icmp type echo-reply accept
 		icmp type { echo-reply, echo-request } icmp id 42
-		icmp type echo-request accep
+		icmp type echo-request accept
 		icmp type echo-request accept
 		icmp type echo-request iif @s3 counter packets 1 bytes 84
 		icmp type echo-request iif @s4 counter packets 1 bytes 84

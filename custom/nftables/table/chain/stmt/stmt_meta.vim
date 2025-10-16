@@ -32,80 +32,6 @@ try
   " INSERT 'syntax region' here
   " INSERT 'syntax cluster' here
   "
-
-
-syn cluster nft_c_meta_expr_close_scope_meta_interface_name_quoted_device_name
-\ contains=
-\    nft_interface_name_operator_special_any,
-\    nft_interface_name_operators_equality,
-\    nft_interface_name_operator_regex_not_match,
-\    nft_interface_name_operator_regex_match,
-\    nft_interface_name_set_block,
-\    nft_interface_name_quote_string_asterisk,
-
-
-hi link   nft_interface_type_identifier_at_setname nftHL_AtSetname
-syn match nft_interface_type_identifier_at_setname '\v\@[a-zA-Z][a-zA-Z0-9\-_]{0,63}[\ze[ \t;]' skipwhite contained
-
-hi link   nft_interface_type_set_symbol_comma nftHL_Element
-syn match nft_interface_type_set_symbol_comma '\v,' contained
-\ nextgroup=
-\    nft_interface_type_listed_number
-
-hi link   nft_interface_type_listed_number nftHL_Integer
-syn match nft_interface_type_listed_number '\v[0-9]{1,3}' contained
-\ nextgroup=
-\    nft_interface_type_set_symbol_comma
-
-hi link   nft_interface_type_number nftHL_Integer
-syn match nft_interface_type_number '\v[0-9]{1,3}\ze[ \t;]' skipwhite contained
-
-hi link   nft_interface_type_operators nftHL_Operator
-syn match nft_interface_type_operators '\v(\!|\=)\=' skipwhite contained
-\ nextgroup=
-\    nft_interface_type_identifier_at_setname,
-\    nft_interface_type_set_block,
-\    nft_interface_type_number,
-\    nft_Error
-
-hi link   nft_interface_type_operators_discrete nftHL_Operator
-syn match nft_interface_type_operators_discrete '\v(\<|\>)\=' skipwhite contained
-\ nextgroup=
-\    nft_interface_type_number,
-\    nft_Error
-
-hi link    nft_interface_type_inline_set nftHL_BlockDelimitersSet
-syn region nft_interface_type_inline_set start=+{+ end=+}+ skipwhite contained
-\ contains=
-\    nft_inteface_type_number
-
-hi link   nft_interface_type_operators_keyword_in nftHL_Operator
-syn match nft_interface_type_operators_keyword_in '\vin\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_interface_type_identifier_at_setname,
-\    nft_interface_type_inline_set,
-\    nft_Error
-
-hi link   nft_interface_type_operators_keyword_not nftHL_Operator
-syn match nft_interface_type_operators_keyword_not '\vnot\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_meta_expr_datatype_iface_type,
-\    nft_interface_type_operators_keyword_in,
-\    nft_interface_type_number,
-\    nft_interface_type_identifier_at_setname,
-\    nft_Error
-
-syn cluster nft_c_interface_type
-\ contains=
-\    nft_meta_expr_datatype_iface_type,
-\    nft_interface_type_operators_keyword_not,
-\    nft_interface_type_operators_discrete,
-\    nft_interface_type_operators_keyword_in,
-\    nft_interface_type_operators,
-\    nft_interface_type_identifier_at_setname,
-\    nft_interface_type_inline_set,
-\    nft_interface_type_number,
-
 " ***************** BEGIN meta_stmt ***************
 " If it's followed by a set, it's likely meta_stmt. If it's
 " followed by a field name and then a comparison (==, <, etc.),
@@ -114,594 +40,351 @@ syn cluster nft_c_interface_type
 " meta_expr is followed by a comparison.
 " meta_expr is followed by a field name.
 
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_keyword_set nftHL_Write
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_keyword_set '\vset' skipwhite contained
+hi link   nft_meta_stmt_keyword_set nftHL_Write
+syn match nft_meta_stmt_keyword_set '\vset' skipwhite contained
 \ nextgroup=
-\    @nft_c_primary_stmt_expr
+\    nft_meta_stmt_meta_key_qualified_priority_keyword_none,
+\    nft_meta_stmt_meta_key_qualified_priority_number,
+\    @nft_c_stmt_expr
 
-" *****
-syntax match nft_meta_stmt_mark_missing '\v\ze[ \t]*[;\n]'  contained
-hi link nft_meta_stmt_mark_missing nftHL_Error
-
-hi link   nft_socket_t_quoted_string nftHL_String
-syn match nft_socket_t_quoted_string '\v\'[^\']{0,63}\'' skipwhite contained
-syn match nft_socket_t_quoted_string '\v\"[^\"]{0,63}\"' skipwhite contained
-
-hi link   nft_socket_t_integer nftHL_Integer
-syn match nft_socket_t_integer '\v[0-9]{1,10}' skipwhite contained
-syn match nft_socket_t_integer '\v0x[0-9a-f]{1,8}' skipwhite contained
-
-hi link   nft_socket_t_operators_relational_1char nftHL_Operator
-syn match nft_socket_t_operators_relational_1char '\v(\<|\>)' skipwhite contained
+" ********** BEGIN meta_stmt 'iif' ******************************
+hi link   nft_meta_stmt_meta_key_unqualified_keyword_iif nftHL_Error
+syn match nft_meta_stmt_meta_key_unqualified_keyword_iif '\v[ \t\n]\zsiif' skipwhite contained
 \ nextgroup=
-\    nft_socket_t_integer, nft_Error
-hi link   nft_socket_t_operators_relational_2char nftHL_Operator
-syn match nft_socket_t_operators_relational_2char '\v(\<|\>)\=' skipwhite contained
+\    nftHL_Error
+" No error handler here, 'iif' is also a standalone statement keyword
+" ************ END meta_stmt 'iif' ******************************
+
+" ********** BEGIN meta_stmt 'oif' ******************************
+hi link   nft_meta_stmt_meta_key_unqualified_keyword_oif nftHL_Error
+syn match nft_meta_stmt_meta_key_unqualified_keyword_oif '\voif' skipwhite contained
 \ nextgroup=
-\    nft_socket_t_integer, nft_Error
-hi link   nft_socket_t_operators_equality nftHL_Operator
-syn match nft_socket_t_operators_equality '\v(\!|\=)\=' skipwhite contained
+\    nft_Error
+" ************ END meta_stmt 'oif' ******************************
+
+" **************** BEGIN meta_stmt 'rtclassid' ******************
+hi link   nft_meta_stmt_meta_key_unqualified_keyword_rtclassid nftHL_Error
+syn match nft_meta_stmt_meta_key_unqualified_keyword_rtclassid '\vrtclassid' skipwhite contained
 \ nextgroup=
-\    nft_socket_t_named_set,
-\    nft_socket_t_set_block,
-\    nft_socket_t_quoted_string,
-\    nft_socket_t_integer,
+\    nft_Error
+" ****************** END meta_stmt 'rtclassid' ******************
+
+" **************** BEGIN meta_stmt 'ibriport' *******************
+hi link   nft_meta_stmt_meta_key_unqualified_keyword_ibriport nftHL_Error
+syn match nft_meta_stmt_meta_key_unqualified_keyword_ibriport '\vibriport' skipwhite contained
+\ nextgroup=
+\    nft_Error
+" ****************** END meta_stmt 'ibriport' *******************
+
+" **************** BEGIN meta_stmt 'iifgroup' *******************
+hi link   nft_meta_stmt_meta_key_unqualified_keyword_iifgroup nftHL_Error
+syn match nft_meta_stmt_meta_key_unqualified_keyword_iifgroup '\viifgroup' skipwhite contained
+\ nextgroup=
+\    nft_Error
+" ****************** END meta_stmt 'iifgroup' ********************
+
+" **************** BEGIN meta_stmt 'obriport' *******************
+hi link   nft_meta_stmt_meta_key_unqualified_keyword_obriport nftHL_Error
+syn match nft_meta_stmt_meta_key_unqualified_keyword_obriport '\vobriport' skipwhite contained
+\ nextgroup=
+\    nft_Error
+" ****************** END meta_stmt 'obriport' ********************
+
+" **************** BEGIN meta_stmt 'oifgroup' *******************
+hi link   nft_meta_stmt_meta_key_unqualified_keyword_oifgroup nftHL_Error
+syn match nft_meta_stmt_meta_key_unqualified_keyword_oifgroup '\voifgroup' skipwhite contained
+\ nextgroup=
+\    nft_Error
+" ****************** END meta_stmt 'oifgroup' ********************
+
+" **************** BEGIN meta_stmt 'priority' *******************
+hi link   nft_meta_stmt_meta_key_qualified_priority_keyword_none nftHL_Define
+syn match nft_meta_stmt_meta_key_qualified_priority_keyword_none '\vnone\ze[ \t;]' skipwhite contained
+
+hi link   nft_meta_stmt_meta_key_qualified_priority_number nftHL_Integer
+"syn match nft_meta_stmt_meta_key_qualified_priority_number '\v(0[xX][0-9a-fA-F]{1,8}|429496729[0-5]|42949672[0-9][0-9]|4294967[0-2][0-9][0-9]|429496[0-7][0-9][0-9][0-9][0-9]|42949[0-5][0-9]{5}429[0-4][0-9]{7}|4[0-2][0-9]{8})\ze[ \t\n;]' skipwhite contained
+syn match nft_meta_stmt_meta_key_qualified_priority_number '\v((0[xX][0-9a-fA-F]{1,8})|(429496729[0-5])|4294967[0-1][0-9][0-9]|429496[0-6][0-9][0-9][0-9]|42949[0-5][0-9]{4}|429[0-3][0-9]{6}|4[0-1][0-9]{8}|[0-3][0-9]{9}|[0-9]{1,8})\ze[ \t\n;]' skipwhite contained
+\ nextgroup=
+\    nft_meta_stmt_keyword_set,
 \    nft_Error
 
-hi link   nft_socket_t_integer_operand nftHL_Integer
-syn match nft_socket_t_integer_operand '\v(0x)?[0-9a-f]{1,10}' skipwhite contained
+hi link   nft_meta_stmt_priority_set_block_element_separator nftHL_Separator
+syn match nft_meta_stmt_priority_set_block_element_separator /,/ skipwhite contained
 \ nextgroup=
-\    nft_socket_t_operators_relational_2char,
-\    nft_socket_t_operators_equality,
-\    nft_socket_t_operators_relational_1char
-
-hi link   nft_socket_t_operator_mask nftHL_Operator
-syn match nft_socket_t_operator_mask '\v\&' skipwhite contained
-\ nextgroup=
-\    nft_socket_t_integer_operand,
-\    nft_Error
-hi link   nft_socket_t_set_block_element_integer nftHL_Integer
-syn match nft_socket_t_set_block_element_integer '\v[0-9]{1,10}' skipwhite contained
-syn match nft_socket_t_set_block_element_integer '\v0x[0-9a-f]{1,8}' skipwhite contained
-\ nextgroup=
-\    nft_socket_t_set_block_element_separator,
+\    nft_meta_stmt_priority_set_block_element_protocol_types,
+\    nft_meta_stmt_priority_set_block_element_protocol_number,
 \    nft_Error
 
-hi link   nft_socket_t_set_block_element_separator nftHL_Separator
-syn match nft_socket_t_set_block_element_separator /,/ skipwhite contained
-\ nextgroup=
-\    nft_socket_t_set_block_element_integer
+hi link   nft_meta_stmt_priority_set_block_element_protocol_number nftHL_Integer
+syn match nft_meta_stmt_priority_set_block_element_protocol_number '\v[0-9]{1,5}' skipwhite contained
+syn match nft_meta_stmt_priority_set_block_element_protocol_number '\v\c0x[0-9a-f]{1,4}' skipwhite contained
+\ nextgroup= nft_meta_stmt_priority_set_block_element_separator, nft_Error
 
-hi link    nft_socket_t_set_block nftHL_BlockDelimitersSet
-syn region nft_socket_t_set_block start=+{+ end=+}+ skipwhite contained
+hi link   nft_meta_stmt_priority_set_block_element_protocol_types nftHL_Identifier
+syn match nft_meta_stmt_priority_set_block_element_protocol_types '\v(loopback|mpls_mc|mpls_uc|(802_1q)|pppoe|lldp|qinq|arp|ip6|ip)' skipwhite contained
+
+hi link    nft_meta_stmt_priority_set_block nftHL_BlockDelimitersSet
+syn region nft_meta_stmt_priority_set_block start=+{+ end=+}+ skipwhite contained
 \ contains=
-\    nft_socket_t_set_block_element_integer,
+\     nft_meta_stmt_priority_set_block_element_protocol_identifier,
+\     nft_meta_stmt_priority_set_block_element_protocol_types,
+\     nft_meta_stmt_priority_set_block_element_protocol_number,
+\     nft_Error
+
+hi link   nft_meta_stmt_priority_any nftHL_Operator
+syn match nft_meta_stmt_priority_any '\vany\ze[ \t;]' skipwhite contained
+
+hi link   nft_meta_stmt_priority_identifier nftHL_Define
+syn match nft_meta_stmt_priority_identifier '\v(loopback|mpls_mc|mpls_uc|(802_1q)|pppoe|lldp|qinq|any|arp|ip6|ip)' skipwhite contained
+\ contains=nft_meta_stmt_priority_any
+
+hi link   nft_meta_stmt_priority_operators_2char nftHL_Operator
+syn match nft_meta_stmt_priority_operators_2char '\v(\!|\=)\=\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_meta_stmt_priority_identifier,
+\    nft_meta_stmt_priority_set_block,
+\    nft_meta_stmt_meta_key_qualified_priority_number,
+\    nft_Error
+hi link   nft_meta_stmt_priority_operators_1char nftHL_Operator
+syn match nft_meta_stmt_priority_operators_1char '\v(\<|\>)\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_meta_stmt_priority_identifier,
+\    nft_meta_stmt_priority_set_block,
+\    nft_meta_stmt_priority_set_identifier,
+\    nft_meta_stmt_meta_key_qualified_priority_number,
+\    nft_Error
+hi link   nft_meta_key_qualified_priority_operators_discrete nftHL_Operator
+syn match nft_meta_key_qualified_priority_operators_discrete '\v(\<|\>)\=' skipwhite contained
+\ nextgroup=
+\    nft_meta_stmt_meta_key_qualified_priority_number,
+\    nft_Error
+hi link   nft_meta_stmt_priority_set_operator_in nftHL_Operator
+syn match nft_meta_stmt_priority_set_operator_in '\vin\ze[ \t;]' skipwhite contained
+\ nextgroup=
+\    nft_meta_stmt_priority_set_identifier,
+\    nft_meta_stmt_priority_set_block,
 \    nft_Error
 
-hi link   nft_socket_t_named_set nftHL_AtSetname
-syn match nft_socket_t_named_set '\v\@[a-zA-Z][a-zA-Z0-9_\-]{0,63}' skipwhite contained
+hi link   nft_meta_stmt_meta_key_qualified_keyword_priority nftHL_Error
+syn match nft_meta_stmt_meta_key_qualified_keyword_priority '\vpriority' skipwhite contained
+\ nextgroup=nft_Error
 
+" ****************** END meta_stmt 'priority' *******************
 
-hi link   nft_socket_t_set_membership_keyword_in nftHL_Operator
-syn match nft_socket_t_set_membership_keyword_in '\vin\ze[ \t]' skipwhite contained
+" **************** BEGIN meta_stmt 'protocol' *******************
+hi link   nft_meta_stmt_meta_key_qualified_keyword_protocol nftHL_Error
+syn match nft_meta_stmt_meta_key_qualified_keyword_protocol '\v(protocol|l4proto)' skipwhite contained
 \ nextgroup=
-\    nft_socket_t_named_set,
-\    nft_socket_t_set_block,
 \    nft_Error
+" 'protocol is read-only, no 'set' supported
+" ****************** END meta_stmt 'protocol' *******************
 
-hi link   nft_socket_t_set_membership_keyword_not nftHL_Operator
-syn match nft_socket_t_set_membership_keyword_not '\vnot\ze[ \t]' skipwhite contained
+" ************ BEGIN meta_stmt 'ibrname' ************************
+hi link   nft_meta_stmt_meta_key_unqualified_keyword_ibrname nftHL_Error
+syn match nft_meta_stmt_meta_key_unqualified_keyword_ibrname '\vibrname' skipwhite contained
 \ nextgroup=
-\    nft_socket_t_set_membership_keyword_in,
 \    nft_Error
+" *************** END meta_stmt 'ibrname' ***********************
 
-syn cluster nft_c_socket_t
-\ contains=
-\    nft_socket_t_set_membership_keyword_not,
-\    nft_socket_t_set_membership_keyword_in,
-\    nft_socket_t_operators_equality,
-\    nft_socket_t_operators_relational_2char,
-\    nft_socket_t_operator_mask,
-\    nft_socket_t_operators_discrete_only_1char,
-\    nft_socket_t_operators_relational_1char,
-\    nft_socket_t_quoted_string,
-\    nft_socket_t_integer,
-" *****
-
-" *******
-hi link   nft_packet_length_integer nftHL_Integer
-syn match nft_packet_length_integer '\v(0[xX][0-9a-fA-F]{8}|0[xX][0-9a-fA-F]{1,7}|[0-3]?[0-9]{1,9}|4[0-1][0-9]{8}|42[0-8][0-9]{7}|429[0-3][0-9]{6}|4294[0-8][0-9]{5}|42949[0-5][0-9]{4}|429496[0-6][0-9]{3}|4294967[0-1][0-9]{2}|42949672[0-8][0-9]|429496729[0-5])\ze[ \t\n;]' skipwhite contained
-
-hi link   nft_packet_length_set_block_member_separator nftHL_Integer
-syn match nft_packet_length_set_block_member_separator /,/ skipwhite contained
+" ************ BEGIN meta_stmt 'ifgroup' ************************
+hi link   nft_meta_stmt_meta_key_unqualified_keyword_oifgroup nftHL_Error
+syn match nft_meta_stmt_meta_key_unqualified_keyword_oifgroup '\voifgroup' skipwhite contained
 \ nextgroup=
-\    nft_packet_length_set_block_member_integer,
 \    nft_Error
+" ************** END meta_stmt 'ifgroup' ************************
 
-syn match nft_packet_length_set_block_member_integer '\v(0[xX][0-9a-fA-F]{8}|0[xX][0-9a-fA-F]{1,7}|[0-3]?[0-9]{1,9}|4[0-1][0-9]{8}|42[0-8][0-9]{7}|429[0-3][0-9]{6}|4294[0-8][0-9]{5}|42949[0-5][0-9]{4}|429496[0-6][0-9]{3}|4294967[0-1][0-9]{2}|42949672[0-8][0-9]|429496729[0-5])' skipwhite contained
+" ************ BEGIN meta_stmt 'iifname' ************************
+hi link   nft_meta_stmt_meta_key_unqualified_keyword_iifname nftHL_Error
+syn match nft_meta_stmt_meta_key_unqualified_keyword_iifname '\v[ \t\n]\zsiifname' skipwhite contained
 \ nextgroup=
-\    nft_packet_length_set_block_member_separator
-
-hi link    nft_packet_length_set_block nftHL_BlockDelimitersSet
-syn region nft_packet_length_set_block start=+{+ end=+}+ skipwhite contained
-\ contains=
-\    nft_packet_length_set_block_member_integer
-
-hi link   nft_packet_length_named_set_identifier nftHL_AtSetname
-syn match nft_packet_length_named_set_identifier '\v\@[a-zA-Z][a-zA-Z0-9\-_]{0,63}' skipwhite contained
-
-hi link   nft_packet_length_operator_set_keyword_in nftHL_Operator
-syn match nft_packet_length_operator_set_keyword_in '\vin\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_packet_length_set_block,
-\    nft_packet_length_named_set_identifier,
 \    nft_Error
+" ************** END meta_stmt 'iifname' ************************
 
-hi link   nft_packet_length_operator_set_keyword_not nftHL_Operator
-syn match nft_packet_length_operator_set_keyword_not '\vnot\ze[ \t]' skipwhite contained
+" ************ BEGIN meta_stmt 'iiftype' ************************
+hi link   nft_meta_stmt_meta_key_unqualified_keyword_iiftype nftHL_Error
+syn match nft_meta_stmt_meta_key_unqualified_keyword_iiftype '\v[ \t\n]iiftype' skipwhite contained
 \ nextgroup=
-\    nft_packet_length_operator_set_keyword_in
-
-hi link   nft_packet_length_operators_relational_2char nftHL_Operator
-syn match nft_packet_length_operators_relational_2char '\v(\<|\>)\=\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_packet_length_named_set_identifier,
-\    nft_packet_length_set_block,
-\    nft_packet_length_integer,
 \    nft_Error
+" ************ END meta_stmt 'iiftype' **************************
 
-hi link   nft_packet_length_operators_relational_1char nftHL_Operator
-syn match nft_packet_length_operators_relational_1char '\v(\<|\>)\ze[ \t]' skipwhite contained
+" ********** BEGIN meta_stmt 'nftrace' **************************
+hi link   nft_meta_stmt_meta_key_unqualified_keyword_nftrace nftHL_Error
+syn match nft_meta_stmt_meta_key_unqualified_keyword_nftrace '\vnftrace' skipwhite contained
 \ nextgroup=
-\    nft_packet_length_named_set_identifier,
-\    nft_packet_length_set_block,
-\    nft_packet_length_integer,
 \    nft_Error
+" ************ END meta_stmt 'nftrace' **************************
 
-hi link   nft_packet_length_operators_equality nftHL_Operator
-syn match nft_packet_length_operators_equality '\v(\!|\=)\=\ze[ \t]' skipwhite contained
+" ********** BEGIN meta_stmt 'obrname' **************************
+hi link   nft_meta_stmt_meta_key_unqualified_keyword_obrname nftHL_Error
+syn match nft_meta_stmt_meta_key_unqualified_keyword_obrname '\vobrname' skipwhite contained
 \ nextgroup=
-\    nft_packet_length_integer,
 \    nft_Error
+" ************ END meta_stmt 'obrname' **************************
 
-syn cluster nft_c_packet_length
-\ contains=
-\    nft_packet_length_operator_set_keyword_not,
-\    nft_packet_length_operator_set_keyword_in,
-\    nft_packet_length_operators_relational_2char,
-\    nft_packet_length_operators_equality,
-\    nft_packet_length_operators_relational_1char,
-\    nft_packet_length_integer,
-
-hi link   nft_cpu_index_integer nftHL_Integer
-syn match nft_cpu_index_integer '\v[0-9]{1,5}\ze[ \t;]' skipwhite contained
-
-hi link   nft_cpu_index_set_block_member_separator nftHL_Integer
-syn match nft_cpu_index_set_block_member_separator /,/ skipwhite contained
+" ********** BEGIN meta_stmt 'oifname' **************************
+hi link   nft_meta_stmt_meta_key_unqualified_keyword_oifname nftHL_Error
+syn match nft_meta_stmt_meta_key_unqualified_keyword_oifname '\voifname' skipwhite contained
 \ nextgroup=
-\    nft_cpu_index_set_block_member_integer,
 \    nft_Error
+" ************ END meta_stmt 'oifname' **************************
 
-hi link   nft_cpu_index_set_block_member_integer nftHL_Integer
-syn match nft_cpu_index_set_block_member_integer '\v[0-9]{1,5}' skipwhite contained
+" ********** BEGIN meta_stmt 'oiftype' **************************
+hi link   nft_meta_stmt_meta_key_unqualified_keyword_oiftype nftHL_Error
+syn match nft_meta_stmt_meta_key_unqualified_keyword_oiftype '\voiftype' skipwhite contained
 \ nextgroup=
-\    nft_cpu_index_set_block_member_separator
-
-hi link    nft_cpu_index_set_block nftHL_BlockDelimitersSet
-syn region nft_cpu_index_set_block start=+{+ end=+}+ skipwhite contained
-\ contains=
-\    nft_cpu_index_set_block_member_integer
-
-hi link   nft_cpu_index_named_set_identifier nftHL_AtSetname
-syn match nft_cpu_index_named_set_identifier '\v\@[a-zA-Z][a-zA-Z0-9\-_]{0,63}' skipwhite contained
-
-hi link   nft_cpu_index_operator_set_keyword_in nftHL_Operator
-syn match nft_cpu_index_operator_set_keyword_in '\vin\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_cpu_index_set_block,
-\    nft_cpu_index_named_set_identifier,
 \    nft_Error
+" ************ END meta_stmt 'oiftype' **************************
 
-hi link   nft_cpu_index_operator_set_keyword_not nftHL_Operator
-syn match nft_cpu_index_operator_set_keyword_not '\vnot\ze[ \t]' skipwhite contained
+" ********** BEGIN meta_stmt 'pkttype' **************************
+hi link   nft_meta_stmt_meta_key_unqualified_keyword_pkttype nftHL_Error
+syn match nft_meta_stmt_meta_key_unqualified_keyword_pkttype '\vpkttype' skipnl skipwhite contained
 \ nextgroup=
-\    nft_cpu_index_operator_set_keyword_in
-
-hi link   nft_cpu_index_operators_equality nftHL_Operator
-syn match nft_cpu_index_operators_equality '\v(\!|\=)\=\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_cpu_index_named_set_identifier,
-\    nft_cpu_index_set_block,
-\    nft_cpu_index_integer,
 \    nft_Error
+" ************ END meta_stmt 'pkttype' **************************
 
-syn cluster nft_c_cpu_index
-\ contains=
-\    nft_cpu_index_operator_set_keyword_not,
-\    nft_cpu_index_operator_set_keyword_in,
-\    nft_cpu_index_operators_equality,
-\    nft_cpu_index_integer,
-
-" ******
-
-
-" ******
-hi link   nft_time_type_integer nftHL_Integer
-syn match nft_time_type_integer '\v[0-9]{1,10}\ze[ \t;]' skipwhite contained
-syn match nft_time_type_integer '\v0x[0-9a-fA-F]{1,32}\ze[ \t;]' skipwhite contained
-
-hi link   nft_time_type_set_block_member_separator nftHL_Separator
-syn match nft_time_type_set_block_member_separator /,/ skipwhite contained
+" ********** BEGIN meta_stmt 'secmark' **************************
+hi link   nft_meta_stmt_meta_key_qualified_keyword_secmark nftHL_Error
+syn match nft_meta_stmt_meta_key_qualified_keyword_secmark '\vsecmark' skipwhite contained
 \ nextgroup=
-\    nft_time_type_set_block_member_integer,
 \    nft_Error
+" ************ END meta_stmt 'secmark' **************************
 
-hi link   nft_time_type_set_block_member_integer nftHL_Integer
-syn match nft_time_type_set_block_member_integer '\v[0-9]{1,10}' skipwhite contained
+" ********** BEGIN meta_stmt 'cgroup' ***************************
+hi link   nft_meta_stmt_meta_key_unqualified_keyword_cgroup nftHL_Error
+syn match nft_meta_stmt_meta_key_unqualified_keyword_cgroup '\vcgroup' skipwhite contained
+\ nextgroup=nft_Error
+" ************ END meta_stmt 'cgroup' ***************************
+
+" ********** BEGIN meta_stmt 'length' ***************************
+hi link   nft_meta_stmt_meta_key_qualified_keyword_length nftHL_Error
+syn match nft_meta_stmt_meta_key_qualified_keyword_length '\vlength' skipwhite contained
+\ nextgroup=nft_Error
+" ************ END meta_stmt 'length' ***************************
+
+" ********** BEGIN meta_stmt 'random' ***************************
+" meta_stmt 'random' is read-only
+hi link   nft_meta_stmt_meta_key_qualified_keyword_random nftHL_Error
+syn match nft_meta_stmt_meta_key_qualified_keyword_random '\vrandom' skipwhite contained
 \ nextgroup=
-\    nft_time_type_set_block_member_separator
-syn match nft_time_type_set_block_member_integer '\v0x[0-9a-fA-F]{1,8}' skipwhite contained
-\ nextgroup=
-\    nft_time_type_set_block_member_separator
-
-hi link    nft_time_type_set_block nftHL_BlockDelimitersSet
-syn region nft_time_type_set_block start=+{+ end=+}+ skipwhite contained
-\ contains=
-\    nft_time_type_set_block_member_integer
-
-hi link   nft_time_type_named_set_identifier nftHL_AtSetname
-syn match nft_time_type_named_set_identifier '\v\@[a-zA-Z][a-zA-Z0-9\-_]{0,63}' skipwhite contained
-
-hi link   nft_time_type_operator_set_keyword_in nftHL_Operator
-syn match nft_time_type_operator_set_keyword_in '\vin\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_time_type_set_block,
-\    nft_time_type_named_set_identifier,
 \    nft_Error
+" ************ END meta_stmt 'random' ***************************
 
-hi link   nft_time_type_operator_set_keyword_not nftHL_Operator
-syn match nft_time_type_operator_set_keyword_not '\vnot\ze[ \t]' skipwhite contained
+" ********** BEGIN meta_stmt 'ipsec' ****************************
+hi link   nft_meta_stmt_meta_key_unqualified_keyword_ipsec nftHL_Error
+syn match nft_meta_stmt_meta_key_unqualified_keyword_ipsec '\vipsec' skipwhite contained
 \ nextgroup=
-\    nft_time_type_operator_set_keyword_in
-
-hi link   nft_time_type_operators_relational_2char nftHL_Operator
-syn match nft_time_type_operators_relational_2char '\v(\<|\>)\=\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_time_type_integer,
 \    nft_Error
+" ************ END meta_stmt 'ipsec' ****************************
 
-hi link   nft_time_type_operators_relational_1char nftHL_Operator
-syn match nft_time_type_operators_relational_1char '\v(\<|\>)\ze[ \t]' skipwhite contained
+" ********** BEGIN meta_stmt 'skgid' ****************************
+hi link   nft_meta_stmt_meta_key_unqualified_keyword_skgid nftHL_Error
+syn match nft_meta_stmt_meta_key_unqualified_keyword_skgid '\vskgid' skipwhite contained
+\ nextgroup=nft_Error
+" ************ END meta_stmt 'skgid' ****************************
+
+" ********** BEGIN meta_stmt 'skuid' ****************************
+hi link   nft_meta_stmt_meta_key_unqualified_keyword_skuid nftHL_Error
+syn match nft_meta_stmt_meta_key_unqualified_keyword_skuid '\vskuid' skipwhite contained
+\ nextgroup=nft_Error
+" ************ END meta_stmt 'skuid' ****************************
+
+" ********** BEGIN meta_stmt 'flow' *****************************
+hi link   nft_meta_stmt_set_ref_symbol_expr_at_identifier nftHL_AtSetname
+syn match nft_meta_stmt_set_ref_symbol_expr_at_identifier '\v\@[a-zA-Z0-9_\-]+\ze[ \t;]' contained
+
+hi link   nft_meta_stmt_offload_add_keywords nftHL_Keyword
+syn match nft_meta_stmt_offload_add_keywords '\v(offload|add)\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_time_type_integer,
-\    nft_Error
-
-hi link   nft_time_type_operators_equality nftHL_Operator
-syn match nft_time_type_operators_equality '\v(\!|\=)\=\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_time_type_named_set_identifier,
-\    nft_time_type_set_block,
-\    nft_time_type_integer,
-\    nft_Error
-
-syn cluster nft_c_time_type
-\ contains=
-\    nft_time_type_operator_set_keyword_not,
-\    nft_time_type_operator_set_keyword_in,
-\    nft_time_type_operators_relational_2char,
-\    nft_time_type_operators_equality,
-\    nft_time_type_operators_relational_1char,
-\    nft_time_type_integer,
-
-" ******
-hi link   nft_hour_type_integer nftHL_Integer
-syn match nft_hour_type_integer '\v[0-9]{1,10}\ze[ \t;]' skipwhite contained
-syn match nft_hour_type_integer '\v0x[0-9a-fA-F]{1,8}\ze[ \t;]' skipwhite contained
-
-hi link   nft_hour_type_set_block_member_separator nftHL_Integer
-syn match nft_hour_type_set_block_member_separator /,/ skipwhite contained
-\ nextgroup=
-\    nft_hour_type_set_block_member_integer,
-\    nft_Error
-
-hi link   nft_hour_type_set_block_member_integer nftHL_Integer
-syn match nft_hour_type_set_block_member_integer '\v[0-9]{1,10}' skipwhite contained
-\ nextgroup=
-\    nft_hour_type_set_block_member_separator
-syn match nft_hour_type_set_block_member_integer '\v0x[0-9a-fA-F]{1,8}' skipwhite contained
-\ nextgroup=
-\    nft_hour_type_set_block_member_separator
-
-hi link    nft_hour_type_set_block nftHL_BlockDelimitersSet
-syn region nft_hour_type_set_block start=+{+ end=+}+ skipwhite contained
-\ contains=
-\    nft_hour_type_set_block_member_integer
-
-hi link   nft_hour_type_named_set_identifier nftHL_AtSetname
-syn match nft_hour_type_named_set_identifier '\v\@[a-zA-Z][a-zA-Z0-9\-_]{0,63}' skipwhite contained
-
-hi link   nft_hour_type_operator_set_keyword_in nftHL_Operator
-syn match nft_hour_type_operator_set_keyword_in '\vin\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_hour_type_set_block,
-\    nft_hour_type_named_set_identifier,
-\    nft_Error
-
-hi link   nft_hour_type_operator_set_keyword_not nftHL_Operator
-syn match nft_hour_type_operator_set_keyword_not '\vnot\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_hour_type_operator_set_keyword_in
-
-hi link   nft_hour_type_operators_relational_2char nftHL_Operator
-syn match nft_hour_type_operators_relational_2char '\v(\<|\>)\=\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_hour_type_named_set_identifier,
-\    nft_hour_type_set_block,
-\    nft_hour_type_integer,
-\    nft_Error
-
-hi link   nft_hour_type_operators_relational_1char nftHL_Operator
-syn match nft_hour_type_operators_relational_1char '\v(\<|\>)\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_hour_type_named_set_identifier,
-\    nft_hour_type_set_block,
-\    nft_hour_type_integer,
-\    nft_Error
-
-hi link   nft_hour_type_operators_equality nftHL_Operator
-syn match nft_hour_type_operators_equality '\v(\!|\=)\=\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_hour_type_integer,
-\    nft_Error
-
-syn cluster nft_c_hour_type
-\ contains=
-\    nft_hour_type_operator_set_keyword_not,
-\    nft_hour_type_operator_set_keyword_in,
-\    nft_hour_type_operators_relational_2char,
-\    nft_hour_type_operators_equality,
-\    nft_hour_type_operators_relational_1char,
-\    nft_hour_type_integer,
-" ******\"
-
-hi link   nft_day_of_week_integer nftHL_Integer
-syn match nft_day_of_week_integer '\v[0-6]{1}' skipwhite contained
-
-hi link   nft_day_of_week_symbolic_constants nftHL_Define
-syn match nft_day_of_week_symbolic_constants '\v(Saturday|Wednesday|Thursday|Tuesday|Friday|Monday|Sunday)\ze[ \t;]' skipwhite contained
-
-hi link   nft_day_of_week_set_block_element_separator nftHL_Separator
-syn match nft_day_of_week_set_block_element_separator /,/ skipwhite contained
-\ nextgroup=
-\    nft_day_of_week_set_block_element_integer,
-\    nft_day_of_week_set_block_element_symbolic_constants,
-\    nft_Error
-
-hi link   nft_day_of_week_set_block_element_integer nftHL_Integer
-syn match nft_day_of_week_set_block_element_integer '\v[0-6]{1}' skipwhite contained
-\ nextgroup=
-\    nft_day_of_week_set_block_element_separator,
-
-hi link   nft_day_of_week_set_block_element_symbolic_constants nftHL_Define
-syn match nft_day_of_week_set_block_element_symbolic_constants '\v(Saturday|Wednesday|Thursday|Tuesday|Friday|Monday|Sunday)\ze[ \t,]' skipwhite contained
-\ nextgroup=
-\    nft_day_of_week_set_block_element_separator,
-
-hi link    nft_day_of_week_set_block nftHL_BlockDelimitersSet
-syn region nft_day_of_week_set_block start=+{+ end=+}+ skipwhite contained
-\ contains=
-\    nft_day_of_week_set_block_element_symbolic_constants,
-\    nft_day_of_week_set_block_element_integer,
-
-hi link   nft_day_of_week_operator_set_keyword_in nftHL_Operator
-syn match nft_day_of_week_operator_set_keyword_in '\vin\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_day_of_week_set_block,
-\    nft_Error
-
-hi link   nft_day_of_week_operator_set_keyword_not nftHL_Operator
-syn match nft_day_of_week_operator_set_keyword_not '\vnot\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_day_of_week_operator_set_keyword_in,
-\    nft_Error
-
-hi link   nft_day_of_week_operators_equality nftHL_Operator
-syn match nft_day_of_week_operators_equality '\v(\!|\=)\=\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_day_of_week_symbolic_constants,
-\    nft_day_of_week_integer,
-\    nft_Error
-
-hi link   nft_day_of_week_operators_equality nftHL_Operator
-syn match nft_day_of_week_operators_equality '\v(\!|\=)\=\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_day_of_week_symbolic_constants,
-\    nft_day_of_week_integer,
-\    nft_Error
-
-syn cluster nft_c_day_of_week
-\ contains=
-\    nft_day_of_week_symbolic_constants,
-\    nft_day_of_week_operator_set_keyword_not,
-\    nft_day_of_week_operator_set_keyword_in,
-\    nft_day_of_week_operators_equality,
-\    nft_day_of_week_integer,
-
-
-" 'meta iifgroup 42' value is set by 'ip link set dev eth0 group 42' CLI command
-hi link   nft_interface_group_index nftHL_Integer
-syn match nft_interface_group_index '\v(([0-9]{1,10})|(0x[0-9a-fA-F]{1,8}))\ze[ \t;]' skipwhite contained
-
-
-hi link   nft_cpu_index_integer nftHL_Integer
-syn match nft_cpu_index_integer '\v[0-9]{1,5}\ze[ \t;]' skipwhite contained
-
-hi link   nft_cpu_index_set_block_member_separator nftHL_Separator
-syn match nft_cpu_index_set_block_member_separator /,/ skipwhite contained
-\ nextgroup=
-\    nft_cpu_index_set_block_member_integer,
-\    nft_Error
-
-hi link   nft_cpu_index_set_block_member_integer nftHL_Integer
-syn match nft_cpu_index_set_block_member_integer '\v[0-9]{1,5}' skipwhite contained
-\ nextgroup=
-\    nft_cpu_index_set_block_member_separator
-
-hi link    nft_cpu_index_set_block nftHL_BlockDelimitersSet
-syn region nft_cpu_index_set_block start=+{+ end=+}+ skipwhite contained
-\ contains=
-\    nft_cpu_index_set_block_member_integer
-
-hi link   nft_cpu_index_named_set_identifier nftHL_AtSetname
-syn match nft_cpu_index_named_set_identifier '\v\@[a-zA-Z][a-zA-Z0-9\-_]{0,63}' skipwhite contained
-
-hi link   nft_cpu_index_operator_set_keyword_in nftHL_Operator
-syn match nft_cpu_index_operator_set_keyword_in '\vin\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_cpu_index_set_block,
-\    nft_cpu_index_named_set_identifier,
-\    nft_Error
-
-hi link   nft_cpu_index_operator_set_keyword_not nftHL_Operator
-syn match nft_cpu_index_operator_set_keyword_not '\vnot\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_cpu_index_operator_set_keyword_in
-
-hi link   nft_cpu_index_operators_relational_2char nftHL_Operator
-syn match nft_cpu_index_operators_relational_2char '\v(\<|\>)\=\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_cpu_index_integer,
-\    nft_Error
-
-hi link   nft_cpu_index_operators_relational_1char nftHL_Operator
-syn match nft_cpu_index_operators_relational_1char '\v(\<|\>)\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_cpu_index_integer,
-\    nft_Error
-
-hi link   nft_cpu_index_operators_equality nftHL_Operator
-syn match nft_cpu_index_operators_equality '\v(\!|\=)\=\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_cpu_index_named_set_identifier,
-\    nft_cpu_index_set_block,
-\    nft_cpu_index_integer,
-\    nft_Error
-
-syn cluster nft_c_interface_group_index
-\ contains=
-\    nft_cpu_index_operator_set_keyword_not,
-\    nft_cpu_index_operator_set_keyword_in,
-\    nft_cpu_index_operators_relational_2char,
-\    nft_cpu_index_operators_equality,
-\    nft_cpu_index_operators_relational_1char,
-\    nft_cpu_index_integer,
-
-"******"
-hi link   nft_cgroup_index nftHL_Integer
-syn match nft_cgroup_index '\v(([0-9]{1,20})|(0x[0-9a-fA-F]{1,8}))\ze[ \t;]' skipwhite contained
-
-hi link   nft_cgroup_index_integer nftHL_Integer
-syn match nft_cgroup_index_integer '\v[0-9]{1,20}\ze[ \t;]' skipwhite contained
-hi link   nft_cgroup_index_integer nftHL_Integer
-syn match nft_cgroup_index_integer '\v0x\c[0-9a-f]{1,16}\ze[ \t;]' skipwhite contained
-
-hi link   nft_cgroup_index_set_block_member_separator nftHL_Separator
-syn match nft_cgroup_index_set_block_member_separator /,/ skipwhite contained
-\ nextgroup=
-\    nft_cgroup_index_set_block_member_integer,
-\    nft_Error
-
-hi link   nft_cgroup_index_set_block_member_integer nftHL_Integer
-syn match nft_cgroup_index_set_block_member_integer '\v[0-9]{1,20}' skipwhite contained
-\ nextgroup=
-\    nft_cgroup_index_set_block_member_separator
-syn match nft_cgroup_index_set_block_member_integer '\v0x[0-9a-f]{1,16}' skipwhite contained
-\ nextgroup=
-\    nft_cgroup_index_set_block_member_separator
-
-hi link    nft_cgroup_index_set_block nftHL_BlockDelimitersSet
-syn region nft_cgroup_index_set_block start=+{+ end=+}+ skipwhite contained
-\ contains=
-\    nft_cgroup_index_set_block_member_integer
-
-hi link   nft_cgroup_index_named_set_identifier nftHL_AtSetname
-syn match nft_cgroup_index_named_set_identifier '\v\@[a-zA-Z][a-zA-Z0-9\-_]{0,63}' skipwhite contained
-
-hi link   nft_cgroup_index_operator_set_keyword_in nftHL_Operator
-syn match nft_cgroup_index_operator_set_keyword_in '\vin\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_cgroup_index_set_block,
-\    nft_cgroup_index_named_set_identifier,
-\    nft_Error
-
-hi link   nft_cgroup_index_operator_set_keyword_not nftHL_Operator
-syn match nft_cgroup_index_operator_set_keyword_not '\vnot\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_cgroup_index_operator_set_keyword_in
-
-hi link   nft_cgroup_index_operators_relational_2char nftHL_Operator
-syn match nft_cgroup_index_operators_relational_2char '\v(\<|\>)\=\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_cgroup_index_integer,
-\    nft_Error
-
-hi link   nft_cgroup_index_operators_relational_1char nftHL_Operator
-syn match nft_cgroup_index_operators_relational_1char '\v(\<|\>)\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_cgroup_index_integer,
-\    nft_Error
-
-hi link   nft_cgroup_index_operators_equality nftHL_Operator
-syn match nft_cgroup_index_operators_equality '\v(\!|\=)\=\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_cgroup_index_named_set_identifier,
-\    nft_cgroup_index_set_block,
-\    nft_cgroup_index_integer,
-\    nft_Error
-
-syn cluster nft_c_cgroup_index
-\ contains=
-\    nft_cgroup_index_operator_set_keyword_not,
-\    nft_cgroup_index_operator_set_keyword_in,
-\    nft_cgroup_index_operators_relational_2char,
-\    nft_cgroup_index_operators_equality,
-\    nft_cgroup_index_operators_relational_1char,
-\    nft_cgroup_index_integer,
-"******"
-
-
-
-
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_rtclassid nftHL_Statement
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_rtclassid '\vrtclassid\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_meta_expr_close_scope_meta_route_class_keyword_set,
-\    nft_meta_expr_close_scope_meta_route_class_enum_any,
-\    nft_meta_expr_close_scope_meta_route_class_integer_id,
+\    nft_meta_stmt_set_ref_symbol_expr_at_identifier,
 \    nft_Error
 
 
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_ibriport nftHL_Statement
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_ibriport '\vibriport\ze[ \t]' skipwhite contained
+hi link   nft_meta_stmt_keyword_flow nftHL_Statement
+syn match nft_meta_stmt_keyword_flow '\vflow\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    @nft_c_meta_expr_close_scope_meta_interface_name,
+\     nft_meta_stmt_offload_add_keywords,
+\     nft_UnexpectedSymbol,
+\     nft_Error
+" no error, because 'flow' alone means enable
+" ************ END meta_stmt 'flow' *****************************
+
+" ********** BEGIN meta_stmt 'hour' *****************************
+hi link   nft_meta_stmt_meta_key_unqualified_keyword_hour nftHL_Statement
+syn match nft_meta_stmt_meta_key_unqualified_keyword_hour '\vhour\ze[ \t\n;]' skipwhite contained
+" ************ END meta_stmt 'hour' *****************************
+
+" ********** BEGIN meta_stmt 'mark' *****************************
+hi link   nft_meta_stmt_meta_key_unqualified_keyword_mark nftHL_Error
+syn match nft_meta_stmt_meta_key_unqualified_keyword_mark '\vmark' skipwhite contained
+\ nextgroup=
 \    nft_Error
+" ************ END meta_stmt 'mark' *****************************
 
-hi link   nft_meta_expr_meta_key_qualified_priority_keyword_none nftHL_Define
-syn match nft_meta_expr_meta_key_qualified_priority_keyword_none '\vnone\ze[ \t;]' skipwhite contained
+" ********** BEGIN meta_stmt 'time' *****************************
+hi link   nft_meta_stmt_meta_key_unqualified_keyword_time nftHL_Statement
+syn match nft_meta_stmt_meta_key_unqualified_keyword_time '\vtime\ze[ \t\n;]' skipwhite contained
+" ************ END meta_stmt 'time' *****************************
 
-hi link   nft_meta_expr_meta_key_qualified_priority_number nftHL_Integer
-"syn match nft_meta_expr_meta_key_qualified_priority_number '\v(0[xX][0-9a-fA-F]{1,8}|429496729[0-5]|42949672[0-9][0-9]|4294967[0-2][0-9][0-9]|429496[0-7][0-9][0-9][0-9][0-9]|42949[0-5][0-9]{5}429[0-4][0-9]{7}|4[0-2][0-9]{8})\ze[ \t\n;]' skipwhite contained
-syn match nft_meta_expr_meta_key_qualified_priority_number '\v((0[xX][0-9a-fA-F]{1,8})|(429496729[0-5])|4294967[0-1][0-9][0-9]|429496[0-6][0-9][0-9][0-9]|42949[0-5][0-9]{4}|429[0-3][0-9]{6}|4[0-1][0-9]{8}|[0-3][0-9]{9}|[0-9]{1,8})\ze[ \t\n;]' skipwhite contained
+" ********** BEGIN meta_stmt 'cpu' ******************************
+hi link   nft_meta_stmt_meta_key_unqualified_keyword_cpu nftHL_Error
+syn match nft_meta_stmt_meta_key_unqualified_keyword_cpu '\vcpu' skipwhite contained
+\ nextgroup=nft_Error
+" ************ END meta_stmt 'cpu' ******************************
+
+" ********** BEGIN meta_stmt 'day' ******************************
+hi link   nft_meta_stmt_meta_key_unqualified_keyword_day nftHL_Statement
+syn match nft_meta_stmt_meta_key_unqualified_keyword_day '\vday\ze[ \t\n;]' skipwhite contained
+" ************ END meta_stmt 'day' ******************************
+
+" ********************************************************************
+"  Here after, is the 'meta XXXXXX', what was before is without the 'meta'
+" ********************************************************************
+
+" **************** BEGIN meta_stmt 'meta rtclassid' ******************
+hi link   nft_meta_stmt_meta_key_meta_key_unqualified_keyword_rtclassid nftHL_Error
+syn match nft_meta_stmt_meta_key_meta_key_unqualified_keyword_rtclassid '\vrtclassid' skipwhite contained
 \ nextgroup=
-\    nft_stmt_separator,
 \    nft_Error
+" ****************** END meta_stmt 'meta rtclassid' ******************
 
-hi link   nft_meta_expr_meta_key_qualified_priority_keyword_set nftHL_Write
-syn match nft_meta_expr_meta_key_qualified_priority_keyword_set '\vset\ze[ \t]' skipwhite contained
+" **************** BEGIN meta_stmt 'meta ibriport' *******************
+hi link   nft_meta_stmt_meta_key_meta_key_unqualified_keyword_ibriport nftHL_Error
+syn match nft_meta_stmt_meta_key_meta_key_unqualified_keyword_ibriport '\vibriport' skipwhite contained
 \ nextgroup=
-\    nft_meta_expr_meta_key_qualified_priority_keyword_none,
-\    nft_meta_expr_meta_key_qualified_priority_number
+\    nft_Error
+" ****************** END meta_stmt 'meta ibriport' *******************
+
+" **************** BEGIN meta_stmt 'meta iifgroup' *******************
+hi link   nft_meta_stmt_meta_key_meta_key_unqualified_keyword_iifgroup nftHL_Error
+syn match nft_meta_stmt_meta_key_meta_key_unqualified_keyword_iifgroup '\viifgroup' skipwhite contained
+\ nextgroup=
+\    nft_Error
+" ****************** END meta_stmt 'meta iifgroup' ********************
+
+" **************** BEGIN meta_stmt 'meta obriport' *******************
+hi link   nft_meta_stmt_meta_key_meta_key_unqualified_keyword_obriport nftHL_Error
+syn match nft_meta_stmt_meta_key_meta_key_unqualified_keyword_obriport '\vobriport' skipwhite contained
+\ nextgroup=
+\    nft_Error
+" ****************** END meta_stmt 'meta obriport' ********************
+
+" **************** BEGIN meta_stmt 'meta oifgroup' *******************
+hi link   nft_meta_stmt_meta_key_meta_key_unqualified_keyword_oifgroup nftHL_Error
+syn match nft_meta_stmt_meta_key_meta_key_unqualified_keyword_oifgroup '\voifgroup' skipwhite contained
+\ nextgroup=
+\    nft_Error
+" ****************** END meta_stmt 'meta oifgroup' ********************
+
+" **************** BEGIN meta_stmt 'meta priority' *******************
+hi link   nft_meta_stmt_meta_key_meta_key_qualified_priority_keyword_none nftHL_Define
+syn match nft_meta_stmt_meta_key_meta_key_qualified_priority_keyword_none '\vnone\ze[ \t;]' skipwhite contained
+
+hi link   nft_meta_stmt_meta_key_meta_key_qualified_priority_number nftHL_Integer
+"syn match nft_meta_stmt_meta_key_meta_key_qualified_priority_number '\v(0[xX][0-9a-fA-F]{1,8}|429496729[0-5]|42949672[0-9][0-9]|4294967[0-2][0-9][0-9]|429496[0-7][0-9][0-9][0-9][0-9]|42949[0-5][0-9]{5}429[0-4][0-9]{7}|4[0-2][0-9]{8})\ze[ \t\n;]' skipwhite contained
+syn match nft_meta_stmt_meta_key_meta_key_qualified_priority_number '\v((0[xX][0-9a-fA-F]{1,8})|(429496729[0-5])|4294967[0-1][0-9][0-9]|429496[0-6][0-9][0-9][0-9]|42949[0-5][0-9]{4}|429[0-3][0-9]{6}|4[0-1][0-9]{8}|[0-3][0-9]{9}|[0-9]{1,8})\ze[ \t\n;]' skipwhite contained
+\ nextgroup=
+\    nft_meta_stmt_keyword_set,
+\    nft_Error
 
 hi link   nft_meta_stmt_priority_set_block_element_separator nftHL_Separator
 syn match nft_meta_stmt_priority_set_block_element_separator /,/ skipwhite contained
@@ -738,7 +421,7 @@ syn match nft_meta_stmt_priority_operators_2char '\v(\!|\=)\=\ze[ \t]' skipwhite
 \ nextgroup=
 \    nft_meta_stmt_priority_identifier,
 \    nft_meta_stmt_priority_set_block,
-\    nft_meta_expr_meta_key_qualified_priority_number,
+\    nft_meta_stmt_meta_key_meta_key_qualified_priority_number,
 \    nft_Error
 hi link   nft_meta_stmt_priority_operators_1char nftHL_Operator
 syn match nft_meta_stmt_priority_operators_1char '\v(\<|\>)\ze[ \t]' skipwhite contained
@@ -746,12 +429,12 @@ syn match nft_meta_stmt_priority_operators_1char '\v(\<|\>)\ze[ \t]' skipwhite c
 \    nft_meta_stmt_priority_identifier,
 \    nft_meta_stmt_priority_set_block,
 \    nft_meta_stmt_priority_set_identifier,
-\    nft_meta_expr_meta_key_qualified_priority_number,
+\    nft_meta_stmt_meta_key_meta_key_qualified_priority_number,
 \    nft_Error
 hi link   nft_meta_key_qualified_priority_operators_discrete nftHL_Operator
 syn match nft_meta_key_qualified_priority_operators_discrete '\v(\<|\>)\=' skipwhite contained
 \ nextgroup=
-\    nft_meta_expr_meta_key_qualified_priority_number,
+\    nft_meta_stmt_meta_key_meta_key_qualified_priority_number,
 \    nft_Error
 hi link   nft_meta_stmt_priority_set_operator_in nftHL_Operator
 syn match nft_meta_stmt_priority_set_operator_in '\vin\ze[ \t;]' skipwhite contained
@@ -760,538 +443,250 @@ syn match nft_meta_stmt_priority_set_operator_in '\vin\ze[ \t;]' skipwhite conta
 \    nft_meta_stmt_priority_set_block,
 \    nft_Error
 
-
-syn cluster nft_c_priority
-\ contains=
-\    nft_meta_key_qualified_priority_operators_discrete,
-\    nft_meta_expr_meta_key_qualified_priority_keyword_none,
-\    nft_meta_expr_meta_key_qualified_priority_keyword_set,
-\    nft_meta_stmt_priority_operators_2char,
-\    nft_meta_stmt_priority_set_operator_in,
-\    nft_meta_stmt_priority_operators_1char,
-\    nft_meta_stmt_priority_identifier,
-\    nft_meta_expr_meta_key_qualified_priority_number,
-
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_priority nftHL_Substatement
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_priority '\vpriority\ze[ \t]' skipwhite contained
-\ nextgroup= @nft_c_priority,
+hi link   nft_meta_stmt_meta_key_meta_key_qualified_keyword_priority nftHL_Substatement
+syn match nft_meta_stmt_meta_key_meta_key_qualified_keyword_priority '\vpriority\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_meta_stmt_keyword_set,
 \    nft_Error
+" ****************** END meta_stmt 'meta priority' *******************
 
-" ******************** BEGIN 'meta protocol' *************************
-" Ummm, that is Layer-2 protocol here; as in 'l2proto'
-" more specifically, Ethernet Header Type
-hi link   nft_protocol_type_set_block_element_separator nftHL_Separator
-syn match nft_protocol_type_set_block_element_separator /,/ skipwhite contained
+" **************** BEGIN meta_stmt 'meta protocol' *******************
+hi link   nft_meta_stmt_meta_key_meta_key_qualified_keyword_protocol nftHL_Error
+syn match nft_meta_stmt_meta_key_meta_key_qualified_keyword_protocol '\v(protocol|l4proto)\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_protocol_type_set_block_element_protocol_types,
-\    nft_protocol_type_set_block_element_protocol_number,
 \    nft_Error
+" 'meta protocol is read-only, no 'set' supported
+" ****************** END meta_stmt 'meta protocol' *******************
 
-hi link   nft_protocol_type_set_block_element_protocol_number nftHL_Integer
-syn match nft_protocol_type_set_block_element_protocol_number '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))' skipwhite contained
+" ************ BEGIN meta_stmt 'meta ibrname' ************************
+hi link   nft_meta_stmt_meta_key_meta_key_unqualified_keyword_ibrname nftHL_Error
+syn match nft_meta_stmt_meta_key_meta_key_unqualified_keyword_ibrname '\vibrname\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_protocol_type_set_block_element_separator
-
-" 'vlan' == '802.1q'
-hi link   nft_protocol_type_set_block_element_protocol_types nftHL_Define
-syn match nft_protocol_type_set_block_element_protocol_types '\v(udplite|gretap|icmpv6|comp|dccp|icmp|igmp|sctp|esp|gre|tcp|udp|ah)' skipwhite contained
-\ nextgroup=
-\    nft_protocol_type_set_block_element_separator
-
-hi link    nft_protocol_type_set_block nftHL_BlockDelimitersSet
-syn region nft_protocol_type_set_block start=+{+ end=+}+ skipwhite contained
-\ contains=
-\     nft_protocol_type_set_block_element_protocol_identifier,
-\     nft_protocol_type_set_block_element_protocol_types,
-\     nft_protocol_type_set_block_element_protocol_number,
-\     nft_Error
-hi link   nft_protocol_type_set_identifier nftHL_AtSetname
-syn match nft_protocol_type_set_identifier '\v\@[a-zA-Z][a-zA-Z0-9_\-]{0,63}' skipwhite contained
-
-hi link   nft_protocol_type_any nftHL_Operator
-syn match nft_protocol_type_any '\vany\ze[ \t;]' skipwhite contained
-
-hi link   nft_protocol_type_number nftHL_Integer
-syn match nft_protocol_type_number '\v(0[xX][0-7]?[0-9a-fA-F]{1,3}|3276[0-7]|327[0-5][0-9]|32[0-6][0-9][0-9]|3[0-1][0-9][0-9][0-9]|[0-2]?[0-9][0-9]?[0-9]?[0-9]?)\ze[ \t;]' skipwhite contained
-
-hi link   nft_protocol_type_identifier nftHL_Define
-syn match nft_protocol_type_identifier '\v(udplite|gretap|icmpv6|comp|dccp|icmp|igmp|sctp|esp|gre|tcp|udp|ah)\ze[ \t\n;]' skipwhite contained
-\ contains=nft_protocol_type_any
-\ nextgroup=
-\    @nft_c_stmt
-
-hi link   nft_protocol_type_operators nftHL_Operator
-syn match nft_protocol_type_operators '\v(\!|\=)\=\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_protocol_type_identifier,
-\    nft_protocol_type_set_block,
-\    nft_protocol_type_set_identifier,
-\    nft_protocol_type_number,
 \    nft_Error
-hi link   nft_protocol_type_operators_discrete nftHL_Operator
-syn match nft_protocol_type_operators_discrete '\v(\<|\>)\=' skipwhite contained
+" *************** END meta_stmt 'meta ibrname' ***********************
+
+" ************ BEGIN meta_stmt 'meta ifgroup' ************************
+hi link   nft_meta_stmt_meta_key_meta_key_unqualified_keyword_oifgroup nftHL_Error
+syn match nft_meta_stmt_meta_key_meta_key_unqualified_keyword_oifgroup '\voifgroup\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_protocol_type_number,
 \    nft_Error
-hi link   nft_protocol_type_set_operator_in nftHL_Operator
-syn match nft_protocol_type_set_operator_in '\vin\ze[ \t;]' skipwhite contained
+" ************** END meta_stmt 'meta ifgroup' ************************
+
+" ************ BEGIN meta_stmt 'meta iifname' ************************
+hi link   nft_meta_stmt_meta_key_meta_key_unqualified_keyword_iifname nftHL_Error
+syn match nft_meta_stmt_meta_key_meta_key_unqualified_keyword_iifname '\v[ \t\n]\zsiifname\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_protocol_type_set_identifier,
-\    nft_protocol_type_set_block,
 \    nft_Error
-hi link   nft_protocol_type_keyword_any nftHL_Operator
-syn match nft_protocol_type_keyword_any '\vany\ze[ \t;]' skipwhite contained
+" ************** END meta_stmt 'meta iifname' ************************
 
-syn cluster nft_c_protocol_type
-\ contains=
-\    nft_protocol_type_keyword_any,
-\    nft_protocol_type_operators_discrete,
-\    nft_protocol_type_operators,
-\    nft_protocol_type_set_operator_in,
-\    nft_protocol_type_set_block,
-\    nft_protocol_type_identifier,
-\    nft_protocol_type_number,
-
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_protocol nftHL_Substatement
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_protocol '\v(protocol|l4proto)\ze[ \t]' skipwhite contained
+" ************ BEGIN meta_stmt 'meta iiftype' ************************
+hi link   nft_meta_stmt_meta_key_meta_key_unqualified_keyword_iiftype nftHL_Error
+syn match nft_meta_stmt_meta_key_meta_key_unqualified_keyword_iiftype '\v[ \t\n]iiftype\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    @nft_c_protocol_type,
 \    nft_Error
-" ************************ END 'meta protocol' ***********************
+" ************ END meta_stmt 'meta iiftype' **************************
 
-
-
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oifname nftHL_Statement
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oifname '\voifname\ze[ \t]' skipwhite contained
+" ********** BEGIN meta_stmt 'meta nftrace' **************************
+hi link   nft_meta_stmt_meta_key_meta_key_unqualified_keyword_nftrace nftHL_Substatement
+syn match nft_meta_stmt_meta_key_meta_key_unqualified_keyword_nftrace '\vnftrace\ze[ \t;]' skipwhite contained
 \ nextgroup=
-\    nft_verdict_stmt_verdict_map_stmt_keyword_vmap,
-\    nft_map_expr_keyword_map,
-\    nft_meta_expr_close_scope_meta_ifname_set_membership_keyword_not,
-\    nft_meta_expr_close_scope_meta_ifname_set_membership_keyword_in,
-\    @nft_c_meta_expr_close_scope_meta_interface_name_quoted_device_name,
+\    nft_meta_stmt_keyword_set,
 \    nft_Error
+" ************ END meta_stmt 'meta nftrace' **************************
 
-
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iifgroup nftHL_Statement
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iifgroup '\viifgroup\ze[ \t]' skipwhite contained
-\ nextgroup= @nft_c_ifgroup_index, nft_Error
-
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_obriport nftHL_Statement
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_obriport '\vobriport\ze[ \t]' skipwhite contained
-\ nextgroup= @nft_c_meta_expr_close_scope_meta_interface_name, nft_Error
-
-hi link   nft_meta_expr_meta_key_unqualified_keyword_oifgroup nftHL_Substatement
-syn match nft_meta_expr_meta_key_unqualified_keyword_oifgroup '\voifgroup\ze[ \t]' skipwhite contained
-\ nextgroup= @nft_c_ifgroup_index, nft_Error
-
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oifgroup nftHL_Statement
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oifgroup '\voifgroup\ze[ \t]' skipwhite contained
-\ nextgroup= @nft_c_ifgroup_index, nft_Error
-
-syn cluster nft_c_secmark
-\ contains=
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_keyword_set,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_mark_operators_equality,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_mark_operators_relational_2char,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_mark_operator_mask,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_mark_operators_discrete_only_1char,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_mark_operators_relational_1char,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_mark_integer,
-
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_secmark nftHL_Substatement
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_secmark '\vsecmark\ze[ \t\n;]' skipwhite contained
+" ********** BEGIN meta_stmt 'meta notrack' **************************
+hi link   nft_meta_stmt_keyword_notrack nftHL_Statement
+syn match nft_meta_stmt_keyword_notrack '\vnotrack\ze(([ \t;])|($))' skipwhite contained
 \ nextgroup=
-\    @nft_c_secmark,
+\    nft_line_separator,
 \    nft_Error
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_ibrname nftHL_Statement
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_ibrname '\vibrname\ze[ \t]' skipwhite contained
+" ************ END meta_stmt 'meta notrack' **************************
+
+" ********** BEGIN meta_stmt 'meta obrname' **************************
+hi link   nft_meta_stmt_meta_key_meta_key_unqualified_keyword_obrname nftHL_Error
+syn match nft_meta_stmt_meta_key_meta_key_unqualified_keyword_obrname '\vobrname\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_verdict_stmt_verdict_map_stmt_keyword_vmap,
-\    nft_meta_expr_close_scope_meta_ifname_set_membership_keyword_not,
-\    nft_meta_expr_close_scope_meta_ifname_set_membership_keyword_in,
-\    @nft_c_meta_expr_close_scope_meta_interface_name_quoted_device_name,
 \    nft_Error
+" ************ END meta_stmt 'meta obrname' **************************
 
-" **************** BEGIN 'meta iifname' ******************************
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iifname nftHL_Statement
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iifname '\v[ \t\n]\zsiifname\ze[ \t]' skipwhite contained
+" ********** BEGIN meta_stmt 'meta oifname' **************************
+hi link   nft_meta_stmt_meta_key_meta_key_unqualified_keyword_oifname nftHL_Error
+syn match nft_meta_stmt_meta_key_meta_key_unqualified_keyword_oifname '\voifname\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_verdict_stmt_verdict_map_stmt_keyword_vmap,
-\    nft_map_expr_keyword_map,
-\    nft_meta_expr_close_scope_meta_ifname_set_membership_keyword_not,
-\    nft_meta_expr_close_scope_meta_ifname_set_membership_keyword_in,
-\    @nft_c_meta_expr_close_scope_meta_interface_name_quoted_device_name,
 \    nft_Error
-" **************** END 'meta iifname' ********************************
+" ************ END meta_stmt 'meta oifname' **************************
 
-" **************** BEGIN 'meta iiftype' ******************************
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iiftype nftHL_Statement
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iiftype '\v[ \t\n]iiftype\ze[ \t]' skipwhite contained
+" ********** BEGIN meta_stmt 'meta oiftype' **************************
+hi link   nft_meta_stmt_meta_key_meta_key_unqualified_keyword_oiftype nftHL_Error
+syn match nft_meta_stmt_meta_key_meta_key_unqualified_keyword_oiftype '\voiftype' skipwhite contained
 \ nextgroup=
-\    @nft_c_interface_type,
 \    nft_Error
-" **************** END 'meta iiftype' ********************************
+" ************ END meta_stmt 'meta oiftype' **************************
 
-" ************** START 'meta nftrace' ********************************
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_nftrace nftHL_Statement
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_nftrace '\vnftrace\ze[ \t;]' skipwhite contained
+" ********** BEGIN meta_stmt 'meta pkttype' **************************
+hi link   nft_meta_stmt_meta_key_meta_key_unqualified_keyword_pkttype nftHL_Error
+syn match nft_meta_stmt_meta_key_meta_key_unqualified_keyword_pkttype '\vpkttype' skipwhite contained
 \ nextgroup=
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_nftrace_set,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_nftrace_value,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_nftrace_comparison,
 \    nft_Error
-" **************** END 'meta nftrace' ********************************
+" ************ END meta_stmt 'meta pkttype' **************************
 
-
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_obrname nftHL_Statement
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_obrname '\vobrname\ze[ \t]' skipwhite contained
+" ********** BEGIN meta_stmt 'meta secmark' **************************
+hi link   nft_meta_stmt_meta_key_meta_key_qualified_keyword_secmark nftHL_Error
+syn match nft_meta_stmt_meta_key_meta_key_qualified_keyword_secmark '\vsecmark' skipwhite contained
 \ nextgroup=
-\    nft_verdict_stmt_verdict_map_stmt_keyword_vmap,
-\    nft_meta_expr_close_scope_meta_ifname_set_membership_keyword_not,
-\    nft_meta_expr_close_scope_meta_ifname_set_membership_keyword_in,
-\    @nft_c_meta_expr_close_scope_meta_interface_name_quoted_device_name,
 \    nft_Error
+" ************ END meta_stmt 'meta secmark' **************************
 
+" ********** BEGIN meta_stmt 'meta cgroup' ***************************
+hi link   nft_meta_stmt_meta_key_meta_key_unqualified_keyword_cgroup nftHL_Error
+syn match nft_meta_stmt_meta_key_meta_key_unqualified_keyword_cgroup '\vcgroup\ze[ \t]' skipwhite contained
+\ nextgroup=nft_Error
+" ************ END meta_stmt 'meta cgroup' ***************************
 
-" ********************** START 'meta oiftype' ************************
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oiftype nftHL_Statement
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oiftype '\voiftype\ze[ \t]' skipwhite contained
-\ nextgroup=@nft_c_interface_type, nft_Error
-" ************************ END 'meta oiftype' ************************
+" ********** BEGIN meta_stmt 'meta length' ***************************
+hi link   nft_meta_stmt_meta_key_meta_key_qualified_keyword_length nftHL_Error
+syn match nft_meta_stmt_meta_key_meta_key_qualified_keyword_length '\vlength\ze[ \t]' skipwhite contained
+\ nextgroup=nft_Error
+" ************ END meta_stmt 'meta length' ***************************
 
-" ******************* BEGIN 'meta pkttype' ***************************
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_pkttype nftHL_Statement
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_pkttype '\vpkttype\ze[ \t\n]' skipnl skipwhite contained
+" ********** BEGIN meta_stmt 'meta random' ***************************
+" meta_stmt 'meta random' is read-only
+hi link   nft_meta_stmt_meta_key_meta_key_qualified_keyword_random nftHL_Error
+syn match nft_meta_stmt_meta_key_meta_key_qualified_keyword_random '\vrandom\ze[ \t;]' skipwhite contained
 \ nextgroup=
-\    nft_packet_type,
-\    nft_verdict_stmt_verdict_map_stmt_keyword_vmap,
-\    nft_pkttype_set_membership_keyword_not,
-\    nft_pkttype_set_membership_keyword_in,
-\    nft_packet_type_operators_equality,
-\    nft_packet_type_keyword_set,
 \    nft_Error
-" ******************* BEGIN 'meta pkttype' ***************************
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_cgroup nftHL_Statement
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_cgroup '\vcgroup\ze[ \t]' skipwhite contained
-\ nextgroup= @nft_c_cgroup_index, nft_Error
+" ************ END meta_stmt 'meta random' ***************************
 
-" 'meta random' has '0'/'1'
-
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_random_match nftHL_Integer
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_random_match '\v[0-9]{1,10}\ze[ \t;]' skipwhite contained
-
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_random_expr nftHL_Operator
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_random_expr '\v((\<)|(\>)|(\=)|(\!))\=\ze[ \t]' skipwhite contained
+" ********** BEGIN meta_stmt 'meta ipsec' ****************************
+hi link   nft_meta_stmt_meta_key_meta_key_unqualified_keyword_ipsec nftHL_Error
+syn match nft_meta_stmt_meta_key_meta_key_unqualified_keyword_ipsec '\vipsec\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_random_match
-
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_random_mod_divisor nftHL_Integer
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_random_mod_divisor '\v[0-9]{1,10}\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_random_expr
-
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_random_mod nftHL_Keyword
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_random_mod '\vmod\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_random_mod_divisor
-
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_set nftHL_Write
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_set '\vset\ze[ \t;]' skipwhite contained
-\ nextgroup=
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_random_mod,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_random_expr,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_random_match
-
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_random nftHL_Substatement
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_random '\vrandom\ze[ \t;]' skipwhite contained
-\ nextgroup=
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_set,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_random_match,
 \    nft_Error
+" ************ END meta_stmt 'meta ipsec' ****************************
 
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_length nftHL_Substatement
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_length '\vlength\ze[ \t]' skipwhite contained
-\ nextgroup=@nft_c_packet_length, nft_Error
+" ********** BEGIN meta_stmt 'meta skgid' ****************************
+hi link   nft_meta_stmt_meta_key_meta_key_unqualified_keyword_skgid nftHL_Error
+syn match nft_meta_stmt_meta_key_meta_key_unqualified_keyword_skgid '\vskgid\ze[ \t]' skipwhite contained
+\ nextgroup=nft_Error
+" ************ END meta_stmt 'meta skgid' ****************************
 
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_ipsec_integer nftHL_Integer
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_ipsec_integer '\v[0-1]{1,1}\ze[ \t;]' skipwhite contained
+" ********** BEGIN meta_stmt 'meta skuid' ****************************
+hi link   nft_meta_stmt_meta_key_meta_key_unqualified_keyword_skuid nftHL_Error
+syn match nft_meta_stmt_meta_key_meta_key_unqualified_keyword_skuid '\vskuid\ze[ \t]' skipwhite contained
+\ nextgroup=nft_Error
+" ************ END meta_stmt 'meta skuid' ****************************
 
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_ipsec_operators_relational nftHL_Operator
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_ipsec_operators_relational '\v((\<)|(\>)|(\=)|(\!))\=\ze[ \t]' skipwhite contained
+" ********** BEGIN meta_stmt 'meta hour' *****************************
+hi link   nft_meta_stmt_meta_key_meta_key_unqualified_keyword_hour nftHL_Error
+syn match nft_meta_stmt_meta_key_meta_key_unqualified_keyword_hour '\vhour\ze[ \t]' skipwhite contained
+\ nextgroup=nft_Error
+" ************ END meta_stmt 'meta hour' *****************************
+
+" ********** BEGIN meta_stmt 'meta mark' *****************************
+hi link   nft_meta_stmt_meta_key_meta_key_unqualified_keyword_mark nftHL_Substatement
+syn match nft_meta_stmt_meta_key_meta_key_unqualified_keyword_mark '\vmark\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_ipsec_integer
-
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_ipsec_special_keywords Define
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_ipsec_special_keywords '\v(missing|exists)\ze[ \t;]' skipwhite contained
-
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_ipsec_named_set_identifier Identifier
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_ipsec_named_set_identifier '\v\@[a-zA-Z][a-zA-Z0-9\-\_]{0,63}\ze[ \t;]' skipwhite contained
-
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_ipsec_set_block_member_separator  nftHL_Separator
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_ipsec_set_block_member_separator  /,/ skipwhite contained
-\ nextgroup=
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_ipsec_set_block_member_integer,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_ipsec_set_block_member_special_keywords
-
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_ipsec_set_block_member_integer nftHL_Integer
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_ipsec_set_block_member_integer '\v[0-1]{1,1}' skipwhite contained
-\ nextgroup=
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_set_block_member_separator
-
-hi link    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_set_block nftHL_BlockDelimitersSet
-syn region nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_set_block start='{' end='}' skipwhite contained
-\ contains=
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_set_block_member_special_keywords,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_set_block_member_integer,
-
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_set_block_member_special_keywords nftHL_Define
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_set_block_member_special_keywords '\v(missing|exists)\ze[ \t;]' skipwhite contained
-
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_operators_equality nftHL_Operator
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_operators_equality '\v((\=)|(\!))\=\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_ipsec_special_keywords,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_ipsec_named_set_identifier,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_ipsec_set_block,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_ipsec_integer
-
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_reqid_num nftHL_Integer
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_reqid_num '\v[0-9]{1,10}\ze[ \t]' skipwhite contained
-
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_keyword_reqid nftHL_Keyword
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_keyword_reqid '\vreqid\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_reqid_num
-
-" ***************** Begin 'ipsec spi num' ***************
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_spi_num nftHL_Integer
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_spi_num '\v(([0-9]{1,10})|(0[xX][0-9a-fA-F]{1,8}))\ze[ \t]' skipwhite contained
-
-" ipsec [in|out] spi"
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_keyword_spi nftHL_Keyword
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_keyword_spi '\vspi\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_spi_num
-" ***************** End 'ipsec spi num' ***************
-
-" ***************** End 'ipsec spnum num' ***************
-" ipsec [in|out] spnum"
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_keyword_spnum nftHL_Keyword
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_keyword_spnum '\vspnum\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_spnum_num_or_range
-
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_named_set_identifier nftHL_AtSetname
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_named_set_identifier '\v\@[a-zA-Z]a-zA-Z0-9]{0,63}' skipwhite contained
-" ***************** End 'ipsec spnum num' ***************
-
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_value_integer nftHL_Integer
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_value_integer '\v[0-1]\ze[ \t\n;]' skipwhite contained
-
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_directional_keyword_in nftHL_Keyword
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_directional_keyword_in '\vin\ze[ \t\{]' skipwhite contained
-\ nextgroup=
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_named_set_identifier,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_keyword_reqid,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_keyword_spnum,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_keyword_spi,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_set_block,
-\    nft_Error
-
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_directional_keyword_out nftHL_Keyword
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_directional_keyword_out '\vout\ze[ \t\{]' skipwhite contained
-\ nextgroup=
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_named_set_identifier,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_keyword_spnum,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_keyword_reqid,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_keyword_spi,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_set_block,
-\    nft_Error
-
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_set_keyword_not nftHL_Operator
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_set_keyword_not '\vnot\ze[ \t\{]' skipwhite contained
-\ nextgroup=
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_set_keyword_out,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_set_keyword_spi,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_set_keyword_in,
-\    nft_Error
-
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_set_keyword_exclaimation nftHL_Operator
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_set_keyword_exclaimation '\v\!\ze[ \t\{]' skipwhite contained
-\ nextgroup=
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_set_keyword_out,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_set_keyword_spi,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_set_keyword_in,
-\    nft_Error
-
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_expr_keyword_meta_meta_key_unqualified_ipsec_keyword_missing nftHL_Define
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_expr_keyword_meta_meta_key_unqualified_ipsec_keyword_missing '\vmissing' skipwhite contained
-
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_expr_keyword_meta_meta_key_unqualified_ipsec_keyword_exists nftHL_Define
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_expr_keyword_meta_meta_key_unqualified_ipsec_keyword_exists '\vexists' skipwhite contained
-
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_expr_keyword_meta_meta_key_unqualified_ipsec_keyword_not nftHL_Expression
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_expr_keyword_meta_meta_key_unqualified_ipsec_keyword_not '\vnot' skipwhite contained
-\ nextgroup=nft_add_cmd_rule_rule_alloc_stmt_meta_expr_keyword_meta_meta_key_unqualified_ipsec_keyword_exists
-
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_expr_keyword_meta_meta_key_unqualified_ipsec_keyword_exclaimation nftHL_Expression
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_expr_keyword_meta_meta_key_unqualified_ipsec_keyword_exclaimation '\v\!' skipwhite contained
-\ nextgroup=nft_add_cmd_rule_rule_alloc_stmt_meta_expr_keyword_meta_meta_key_unqualified_ipsec_keyword_exists
-
-" LL(1) maintains distinction between 'meta ipsec' and 'ipsec'
-" This here is 'ipsec' (no 'exists' keyword)
-" There is no writable ipsec so meta_stmt is not supported here (strictly meta_expr)
-" We use condensed 'primary_stmt/primary_stmt_expr' as an anchor for ipsec group name
-"    (thereby skipping primary_stmt/concat_primary_expr/meta_expr/stmt_expr/concat_stmt_expr/basic_stmt_expr/exclusive_or_stmt_expr/and_stmt_expr/shift_stmt_expr/primary_stmt_expr/meta_expr)
-" keyword_ipsec is split between:
-"    - stmt/meta_stmt/stmt_expr and
-"    - stmt/primary_stmt/concat_primary_expr/meta_expr/stmt_expr/concat_stmt_expr/basic_stmt_expr/exclusive_or_stmt_expr/and_stmt_expr/shift_stmt_expr/primary_stmt_expr/meta_expr
-" The 'ipsec' part (without 'meta' keyword)
-
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_expr_keyword_ipsec nftHL_Expression
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_expr_keyword_ipsec '\vipsec\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_special_keywords,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_set_keyword_not,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_set_keyword_spi,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_set_keyword_out,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_set_keyword_in,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_operators_relational,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_operators_equality,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_set_keyword_exclaimation,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_ipsec_value_integer,
-\    nft_Error
-
-" The 'meta ipsec' part
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_expr_keyword_meta_meta_key_unqualified_keyword_ipsec nftHL_Substatement
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_expr_keyword_meta_meta_key_unqualified_keyword_ipsec '\vipsec\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_expr_keyword_meta_meta_key_unqualified_ipsec_keyword_missing,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_expr_keyword_meta_meta_key_unqualified_ipsec_keyword_exists,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_expr_keyword_meta_meta_key_unqualified_ipsec_keyword_not,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_expr_keyword_meta_meta_key_unqualified_ipsec_keyword_exclaimation,
-\    nft_Error
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_skuid nftHL_Statement
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_skuid '\vskuid\ze[ \t]' skipwhite contained
-\ nextgroup= @nft_c_socket_t, nft_Error
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_skgid nftHL_Statement
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_skgid '\vskgid\ze[ \t]' skipwhite contained
-\ nextgroup=@nft_c_socket_t, nft_Error
-
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_string nftHL_String
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_string '\v[a-zA-Z0-9_\-]+\ze[ \t;]{1,5}' contained
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_keyword_at nftHL_Keyword
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_keyword_at '\vat\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_string
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_offload_add_keywords nftHL_Keyword
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_offload_add_keywords '\v(offload|add)\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_keyword_at
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_keyword_flow nftHL_Statement
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_keyword_flow '\vflow\ze[ \t]' skipwhite contained
-\ nextgroup=
-\     nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_offload_add_keywords,
-\     nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_keyword_at
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_hour nftHL_Statement
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_hour '\vhour\ze[ \t]' skipwhite contained
-\ nextgroup=@nft_c_hour_type, nft_Error
-
-
-
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_mark nftHL_Statement
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_mark '\v[ \t]\zsmark\ze[ \t]' skipnl skipwhite contained
-\ nextgroup=
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_mark_keyword_not,
+\    nft_meta_stmt_meta_key_meta_key_unqualified_mark_keyword_not,
 \    @nft_c_mark,
 \    nft_Error
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_time nftHL_Statement
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_time '\vtime\ze[ \t]' skipwhite contained
-\ nextgroup=@nft_c_time_type, nft_Error
+" ************ END meta_stmt 'meta mark' *****************************
 
+" ********** BEGIN meta_stmt 'meta time' *****************************
+hi link   nft_meta_stmt_meta_key_meta_key_unqualified_keyword_time nftHL_Error
+syn match nft_meta_stmt_meta_key_meta_key_unqualified_keyword_time '\vtime\ze[ \t]' skipwhite contained
+\ nextgroup=nft_Error
+" ************ END meta_stmt 'meta time' *****************************
 
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_cpu nftHL_Statement
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_cpu '\vcpu\ze[ \t]' skipwhite contained
-\ nextgroup=@nft_c_cpu_index, nft_Error
+" ********** BEGIN meta_stmt 'meta cpu' ******************************
+hi link   nft_meta_stmt_meta_key_meta_key_unqualified_keyword_cpu nftHL_Error
+syn match nft_meta_stmt_meta_key_meta_key_unqualified_keyword_cpu '\vcpu\ze[ \t]' skipwhite contained
+\ nextgroup=nft_Error
+" ************ END meta_stmt 'meta cpu' ******************************
 
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_day nftHL_Statement
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_day '\vday\ze[ \t]' skipwhite contained
-\ nextgroup=@nft_c_day_of_week, nft_Error
+" ********** BEGIN meta_stmt 'meta day' ******************************
+hi link   nft_meta_stmt_meta_key_meta_key_unqualified_keyword_day nftHL_Error
+syn match nft_meta_stmt_meta_key_meta_key_unqualified_keyword_day '\vday\ze[ \t]' skipwhite contained
+\ nextgroup=nft_Error
+" ************ END meta_stmt 'meta day' ******************************
 
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iif nftHL_Statement
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_iif '\v[ \t\n]\zsiif\ze[ \t]' skipwhite contained
+" ********** BEGIN meta_stmt 'meta iif' ******************************
+hi link   nft_meta_stmt_meta_key_meta_key_unqualified_keyword_iif nftHL_Error
+syn match nft_meta_stmt_meta_key_meta_key_unqualified_keyword_iif '\v[ \t\n]\zsiif\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_verdict_stmt_verdict_map_stmt_keyword_vmap,
-\    nft_map_expr_keyword_map,
-\    nft_meta_expr_close_scope_meta_device_index_keyword_any,
-\    nft_meta_expr_close_scope_meta_device_index_operator_keyword_not,
-\    nft_meta_expr_close_scope_meta_device_index_operators_equality,
-\    nft_meta_expr_close_scope_meta_device_index_set_operator_in,
-\    nft_meta_expr_close_scope_meta_device_index_quoted_identifier,
-\    nft_interface_name_set_block,
-\    nft_meta_expr_close_scope_meta_device_index_number,
+\    nftHL_Error
 " No error handler here, 'iif' is also a standalone statement keyword
+" ************ END meta_stmt 'meta iif' ******************************
 
-hi link   nft_meta_expr_meta_key_unqualified_keyword_oif nftHL_Substatement
-syn match nft_meta_expr_meta_key_unqualified_keyword_oif '\voif\ze[ \t]' skipwhite contained
+" ********** BEGIN meta_stmt 'meta oif' ******************************
+hi link   nft_meta_stmt_meta_key_meta_key_unqualified_keyword_oif nftHL_Error
+syn match nft_meta_stmt_meta_key_meta_key_unqualified_keyword_oif '\voif\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_meta_expr_close_scope_meta_device_index_keyword_any,
-\    nft_meta_expr_close_scope_meta_device_index_operator_keyword_not,
-\    nft_meta_expr_close_scope_meta_device_index_operators_equality,
-\    nft_meta_expr_close_scope_meta_device_index_set_operator_in,
-\    nft_meta_expr_close_scope_meta_device_index_quoted_identifier,
-\    nft_meta_expr_close_scope_meta_device_index_number,
-" No error handler here, 'oif' is also a standalone statement keyword
-
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oif nftHL_Statement
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_unqualified_keyword_oif '\voif\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_map_expr_keyword_map,
-\    nft_meta_expr_close_scope_meta_device_index_keyword_any,
-\    nft_meta_expr_close_scope_meta_device_index_operator_keyword_not,
-\    nft_meta_expr_close_scope_meta_device_index_operators_equality,
-\    nft_meta_expr_close_scope_meta_device_index_set_operator_in,
-\    nft_meta_expr_close_scope_meta_device_index_quoted_identifier,
-\    nft_meta_expr_close_scope_meta_device_index_number,
 \    nft_Error
+" ************ END meta_stmt 'meta oif' ******************************
 
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_keyword_notrack nftHL_Statement
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_keyword_notrack '\vnotrack\ze(([ \t;])|($))' skipwhite contained
-
-hi link   nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_keyword_meta nftHL_Statement
-syn match nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_keyword_meta '\vmeta\ze[ \t]' skipwhite contained
+hi link   nft_meta_stmt_keyword_meta nftHL_Statement
+syn match nft_meta_stmt_keyword_meta '\vmeta\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_meta_expr_meta_key_unqualified_keyword_rtclassid,
-\    nft_meta_expr_meta_key_unqualified_keyword_ibriport,
-\    nft_meta_expr_meta_key_unqualified_keyword_iifgroup,
-\    nft_meta_expr_meta_key_unqualified_keyword_obriport,
-\    nft_meta_expr_meta_key_unqualified_keyword_oifgroup,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_priority,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_protocol,
-\    nft_meta_expr_meta_key_unqualified_keyword_ibrname,
-\    nft_meta_expr_meta_key_unqualified_keyword_iifname,
-\    nft_meta_expr_meta_key_unqualified_keyword_iiftype,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_internal_string_keyword_nfproto,
-\    nft_meta_expr_meta_key_unqualified_keyword_nftrace,
-\    nft_meta_expr_meta_key_unqualified_keyword_obrname,
-\    nft_meta_expr_meta_key_unqualified_keyword_oifname,
-\    nft_meta_expr_meta_key_unqualified_keyword_oiftype,
-\    nft_meta_expr_meta_key_unqualified_keyword_pkttype,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_secmark,
-\    nft_meta_expr_meta_key_unqualified_keyword_cgroup,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_length,
-\    nft_add_cmd_rule_rule_alloc_stmt_meta_stmt_meta_key_qualified_keyword_random,
-\    nft_meta_expr_meta_key_unqualified_keyword_ipsec,
-\    nft_meta_expr_meta_key_unqualified_keyword_skgid,
-\    nft_meta_expr_meta_key_unqualified_keyword_skuid,
-\    nft_meta_expr_meta_key_unqualified_keyword_hour,
-\    nft_meta_expr_meta_key_unqualified_keyword_mark,
-\    nft_meta_expr_meta_key_unqualified_keyword_time,
-\    nft_meta_expr_meta_key_unqualified_keyword_cpu,
-\    nft_meta_expr_meta_key_unqualified_keyword_day,
-\    nft_meta_expr_meta_key_unqualified_keyword_iif,
-\    nft_meta_expr_meta_key_unqualified_keyword_oif,
+\    nft_meta_stmt_meta_key_meta_key_unqualified_keyword_rtclassid,
+\    nft_meta_stmt_meta_key_meta_key_unqualified_keyword_ibriport,
+\    nft_meta_stmt_meta_key_meta_key_unqualified_keyword_iifgroup,
+\    nft_meta_stmt_meta_key_meta_key_unqualified_keyword_obriport,
+\    nft_meta_stmt_meta_key_meta_key_unqualified_keyword_oifgroup,
+\    nft_meta_stmt_meta_key_meta_key_qualified_keyword_priority,
+\    nft_meta_stmt_meta_key_meta_key_qualified_keyword_protocol,
+\    nft_meta_stmt_meta_key_meta_key_unqualified_keyword_ibrname,
+\    nft_meta_stmt_meta_key_meta_key_unqualified_keyword_iifname,
+\    nft_meta_stmt_meta_key_meta_key_unqualified_keyword_iiftype,
+\    nft_meta_stmt_meta_key_meta_key_unqualified_keyword_nftrace,
+\    nft_meta_stmt_meta_key_meta_key_unqualified_keyword_obrname,
+\    nft_meta_stmt_meta_key_meta_key_unqualified_keyword_oifname,
+\    nft_meta_stmt_meta_key_meta_key_unqualified_keyword_oiftype,
+\    nft_meta_stmt_meta_key_meta_key_unqualified_keyword_pkttype,
+\    nft_meta_stmt_meta_key_meta_key_qualified_keyword_secmark,
+\    nft_meta_stmt_meta_key_meta_key_unqualified_keyword_cgroup,
+\    nft_meta_stmt_meta_key_meta_key_qualified_keyword_length,
+\    nft_meta_stmt_meta_key_meta_key_qualified_keyword_random,
+\    nft_meta_stmt_meta_key_meta_key_unqualified_keyword_ipsec,
+\    nft_meta_stmt_meta_key_meta_key_unqualified_keyword_skgid,
+\    nft_meta_stmt_meta_key_meta_key_unqualified_keyword_skuid,
+\    nft_meta_stmt_meta_key_meta_key_unqualified_keyword_hour,
+\    nft_meta_stmt_meta_key_meta_key_unqualified_keyword_mark,
+\    nft_meta_stmt_meta_key_meta_key_unqualified_keyword_time,
+\    nft_meta_stmt_meta_key_meta_key_unqualified_keyword_cpu,
+\    nft_meta_stmt_meta_key_meta_key_unqualified_keyword_day,
+\    nft_meta_stmt_meta_key_meta_key_unqualified_keyword_iif,
+\    nft_meta_stmt_meta_key_meta_key_unqualified_keyword_oif,
 \    nft_rule_cluster_Error
+
+syn cluster nft_c_meta_stmt
+\ contains=
+\    nft_meta_stmt_meta_key_unqualified_keyword_rtclassid,
+\    nft_meta_stmt_meta_key_unqualified_keyword_ibriport,
+\    nft_meta_stmt_meta_key_unqualified_keyword_iifgroup,
+\    nft_meta_stmt_meta_key_unqualified_keyword_obriport,
+\    nft_meta_stmt_meta_key_unqualified_keyword_oifgroup,
+\    nft_meta_stmt_meta_key_unqualified_keyword_ibrname,
+\    nft_meta_stmt_meta_key_unqualified_keyword_iifname,
+\    nft_meta_stmt_meta_key_unqualified_keyword_iiftype,
+\    nft_meta_stmt_meta_key_unqualified_keyword_nftrace,
+\    nft_meta_stmt_keyword_notrack,
+\    nft_meta_stmt_meta_key_unqualified_keyword_obrname,
+\    nft_meta_stmt_meta_key_unqualified_keyword_oifname,
+\    nft_meta_stmt_meta_key_unqualified_keyword_oiftype,
+\    nft_meta_stmt_meta_key_unqualified_keyword_pkttype,
+\    nft_meta_stmt_meta_key_unqualified_keyword_cgroup,
+\    nft_meta_stmt_meta_key_unqualified_keyword_ipsec,
+\    nft_meta_stmt_meta_key_unqualified_keyword_skgid,
+\    nft_meta_stmt_meta_key_unqualified_keyword_skuid,
+\    nft_meta_stmt_keyword_flow,
+\    nft_meta_stmt_meta_key_unqualified_keyword_hour,
+\    nft_meta_stmt_meta_key_unqualified_keyword_mark,
+\    nft_meta_stmt_keyword_meta,
+\    nft_meta_stmt_meta_key_unqualified_keyword_time,
+\    nft_meta_stmt_meta_key_unqualified_keyword_cpu,
+\    nft_meta_stmt_meta_key_unqualified_keyword_day,
+\    nft_meta_stmt_meta_key_unqualified_keyword_iif,
+\    nft_meta_stmt_meta_key_unqualified_keyword_oif
 " ***************** END meta_stmt ***************
 
 

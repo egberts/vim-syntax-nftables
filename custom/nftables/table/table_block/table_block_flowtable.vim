@@ -58,7 +58,7 @@ syn cluster nft_c_add_cmd_block_table_flowtable_block_hook_keyword_priority_exte
 \    nft_add_cmd_block_table_flowtable_block_hook_keyword_priority_extended_name
 
 hi link   nft_add_cmd_block_table_flowtable_block_hook_keyword_priority nftHL_Keyword
-syn match nft_add_cmd_block_table_flowtable_block_hook_keyword_priority "\vpriority\ze\s" skipwhite contained
+syn match nft_add_cmd_block_table_flowtable_block_hook_keyword_priority "\vpriority\ze[ \t]" skipwhite contained
 \ nextgroup=
 \    @nft_c_add_cmd_block_table_flowtable_block_hook_keyword_priority_extended
 
