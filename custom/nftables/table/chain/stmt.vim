@@ -473,6 +473,7 @@ syn cluster nft_c_stmt
 \    nft_common_block_keyword_define,
 \    nft_stmt_set_stmt_set_stmt_op_keyword_delete,
 \    nft_add_cmd_keyword_table_table_block_chain_chain_block_policy_spec_keyword_policy,
+\    nft_meta_expr_meta_key_qualified_keyword_random,
 \    nft_stmt_reject_stmt_reject_stmt_alloc_keyword_reject,
 \    nft_verdict_expr_keyword_return,
 \    nft_socket_expr_keyword_socket,

@@ -2825,7 +2825,7 @@ syn match nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_ip6_hd
 \    nft_payload_expr_ip6_nexthdr_num,
 \    nft_verdict_stmt_verdict_map_stmt_keyword_vmap,
 \    nft_meta_expr_close_scope_meta_device_index_keyword_any,
-\    nft_meta_expr_close_scope_meta_device_index_operator_keyword_not,
+\    nft_meta_expr_close_scope_meta_device_index_operator_prefix_keyword_not,
 \    nft_meta_expr_close_scope_meta_device_index_operators_equality,
 \    nft_meta_expr_close_scope_meta_device_index_set_operator_in,
 \    nft_meta_expr_close_scope_meta_device_index_quoted_identifier,

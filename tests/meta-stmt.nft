@@ -209,71 +209,377 @@ add rule T C meta priority set abc:0xffff;
 
 add rule T C meta mark in @my_set_of_iftypes drop;
 
+table T {
+    chain C {  # metakeywords, passing
+        iif 1  # meta_expr-only via primary_stmt_expr
+        iif 15  # meta_expr-only via primary_stmt_expr
+        iif 4294967295    # meta_expr-only via primary_stmt_expr
+        iif 0x1  # meta_expr-only via primary_stmt_expr
+        iif 0xFFFFffff  # meta_expr-only via primary_stmt_expr
+        iif in { 1, 2, 3 } # meta_expr-only via primary_stmt_expr
+        iif not in { 0x1, 0x2, 0x3 } # meta_expr-only via primary_stmt_expr
+        iifname "eth0"   # meta_expr-only via primary_stmt_expr
+        iifname == "eth0"   # meta_expr-only via primary_stmt_expr
+        iifname != "eth0"   # meta_expr-only via primary_stmt_expr
+        iifname in { "eth0" }  # meta_expr-only via primary_stmt_expr
+        iifname not in { "eth0" }  # meta_expr-only via primary_stmt_expr
+        iiftype 1  # meta_expr-only via primary_stmt_expr
+        iiftype 4294967295  # meta_expr-only via primary_stmt_expr
+        iiftype 0x1  # meta_expr-only via primary_stmt_expr
+        iiftype 0xFFFFffff  # meta_expr-only via primary_stmt_expr
+        iiftype in { 1,2,3 }  # meta_expr-only via primary_stmt_expr
+        iiftype not in { 0x1,0x2,0x3 }  # meta_expr-only via primary_stmt_expr
+        oif 1  # meta_expr-only via primary_stmt_expr
+        oif 15  # meta_expr-only via primary_stmt_expr
+        oif 4294967295  # meta_expr-only via primary_stmt_expr
+        oif 0x1  # meta_expr-only via primary_stmt_expr
+        oif 0xFFFFffff  # meta_expr-only via primary_stmt_expr
+        oif in { 1,2,3 }  # meta_expr-only via primary_stmt_expr
+        oif not in { 0x1,0x2,0x3 }  # meta_expr-only via primary_stmt_expr
+        oifname  "wlan1"  # meta_expr-only via primary_stmt_expr
+        oifname != "wlan1"  # meta_expr-only via primary_stmt_expr
+        oifname == "wlan1"  # meta_expr-only via primary_stmt_expr
+        oiftype 1  # meta_expr-only via primary_stmt_expr
+        oiftype 15  # meta_expr-only via primary_stmt_expr
+        oiftype 4294967295  # meta_expr-only via primary_stmt_expr
+        oiftype 0x1  # meta_expr-only via primary_stmt_expr
+        oiftype 0xFFFFffff  # meta_expr-only via primary_stmt_expr
+        oiftype in { 1,2,3 }  # meta_expr-only via primary_stmt_expr
+        oiftype not in { 0x1,0x2,0x3 }  # meta_expr-only via primary_stmt_expr
+        pkttype multicast  # meta_expr-only via primary_stmt_expr
+        pkttype != multicast  # meta_expr-only via primary_stmt_expr
+        pkttype == multicast  # meta_expr-only via primary_stmt_expr
+        pkttype in { multicast } # meta_expr-only via primary_stmt_expr
+        pkttype not in { broadcast, unicast, loopback, multicast } # meta_expr-only via primary_stmt_expr
+        time 1  # meta_expr-only via primary_stmt_expr
+        time 15  # meta_expr-only via primary_stmt_expr
+        time 23  # meta_expr-only via primary_stmt_expr
+        time 25  # meta_expr-only via primary_stmt_expr
+        time == 4  # meta_expr-only via primary_stmt_expr
+        time > 0x3  # meta_expr-only via primary_stmt_expr
+        time != 0  # meta_expr-only via primary_stmt_expr
+        time in { 1,2,3,4 } # meta_expr-only via primary_stmt_expr
+        time not in { 0x1,0x2,0x3,0x4 } # meta_expr-only via primary_stmt_expr
+        day 0  # meta_expr-only via primary_stmt_expr
+        day 6  # meta_expr-only via primary_stmt_expr
+        day 0x0  # meta_expr-only via primary_stmt_expr
+        day 0x6  # meta_expr-only via primary_stmt_expr
+        day Monday  # meta_expr-only via primary_stmt_expr
+        day Tuesday  # meta_expr-only via primary_stmt_expr
+        day in { Saturday } # meta_expr-only via primary_stmt_expr
+        day not in { Sunday }  # meta_expr-only via primary_stmt_expr
+        hour 0  # meta_expr-only via primary_stmt_expr
+        hour 15  # meta_expr-only via primary_stmt_expr
+        hour 24  # meta_expr-only via primary_stmt_expr
+        hour 25  # meta_expr-only via primary_stmt_expr
+
+        length  0
+        length  15
+        length  4294967295
+        length  0x1
+        length  0xFFFFffff
+        length > 15
+        length < 15
+        length >= 15
+        length <= 15
+        length == 15
+        length != 15
+        length in {1,2,3,4}
+        length not in {0x1,0x2,0x3,0x4}
+        protocol tcp
+
+        meta mark set 1  # TODO operator 'not' support needed
+        meta iif 1000
+        meta iif 0x1
+        meta iif @setname
+        meta iif in { 1,2,3 }
+        meta iif not in { 0x1,0x2,0x3 }
+        meta iifname "eth0";
+        meta iiftype 15;
+        meta iiftype not in { 0x1,0x2,0x3 };
+        meta iiftype in { 1,2,3 };
+        meta oif 15;
+        meta oifname "br*";
+        meta oiftype 15;
+        meta skuid 15;
+        meta skgid 15;
+        meta nftrace  set 1
+        meta rtclassid any;
+        meta rtclassid @setname;
+        meta rtclassid 0x1;
+        meta rtclassid 0xFFFFffff;
+        meta rtclassid 4;
+        meta rtclassid 4294967295;
+        meta ibriport 1;
+        meta ibriport 4294967295;
+        meta ibriport 0x1;
+        meta ibriport 0xFFFFffff;
+        meta ibriport > 0x1;
+        meta ibriport >= 0x1;
+        meta ibriport in { 1,2,3 };
+        meta ibriport not in { 0x1,0x2,0x3 };
+        meta obriport 1;
+        meta obriport 4294967295;
+        meta obriport 0x1;
+        meta obriport 0xFFFFffff;
+        meta obriport > 0x1;
+        meta obriport >= 0x1;
+        meta obriport in { 1,2,3 };
+        meta obriport not in { 0x1,0x2,0x3 };
+        meta ibrname "br*";
+        meta obrname "vbr*";
+        meta pkttype unicast;
+        meta cpu 15
+        meta cpu 1
+        meta cpu 99999
+        meta cpu == 128
+        meta cpu != 5
+        meta cpu in { 1,2,3,4,5 }
+        meta cpu not in { 0x1,0x2,0x3,0x4,0x5 }
+        meta iifgroup 15;
+        meta iifgroup 15;
+        meta oifgroup  15
+        meta cgroup  1
+        meta cgroup  0x0
+        meta cgroup  4294967295
+        meta cgroup  0xFFFFffff
+        meta ipsec 0
+        meta ipsec 1
+        meta ipsec 0x0
+        meta ipsec 0x1
+        meta ipsec exists
+        meta ipsec missing
+        meta ipsec in ip daddr
+        meta ipsec in ip saddr
+        meta ipsec in ip6 daddr
+        meta ipsec in ip6 saddr
+        meta ipsec in spi 15 ip daddr
+        meta ipsec in spi 15 ip saddr
+        meta ipsec in spi 15 ip6 daddr
+        meta ipsec in spi 15 ip6 saddr
+        meta ipsec in reqid  15 ip daddr
+        meta ipsec in reqid  15 ip saddr
+        meta ipsec in reqid  15 ip6 daddr
+        meta ipsec in reqid  15 ip6 saddr
+        meta ipsec in spnum 15 spi  15 
+        meta ipsec out spi  15 
+        meta ipsec spi spi  15 
+        meta ipsec not spi  15 
+        meta ipsec ! spi  15 
+        meta ipsec > 15 
+        meta ipsec >= 15 
+        meta ipsec == 15 
+        meta ipsec != 15 
+        meta time 0 
+        meta time 9999999 
+        meta time 15 
+        meta time 55 
+        meta day 0 
+        meta day 3 
+        meta day 6 
+        meta day Tuesday 
+        meta hour 15 
+        meta nfproto  15
+
+        meta length 15
+        meta protocol  15
+        meta protocol  -5
+        meta priority  set 1
+        meta priority -1;
+        meta priority -0;
+        meta priority 1;
+        meta priority 0x1;
+        meta priority 0x7fffFFFF;
+        meta priority == 1;
+        meta priority ==  1
+        meta priority ==  -4294967295
+        meta priority ==  4294967295
+        meta priority == 0xffffffff;
+        meta priority == @my_set_of_priorities;
+        meta priority != 123;
+        meta priority != 200;
+        meta priority != 0x001F;
+        meta priority != @my_set_of_priorities;
+        meta priority > 15;
+        meta priority >= 15;
+        meta priority < 15;
+        meta priority <= 15;
+        meta priority in @my_set_of_priorities;
+        meta priority in { 1, 5, 200 };
+        meta priority in { 1, 5, 200 };
+        meta priority set 0x1:abc;
+        meta priority set abc:0xffff;
+        meta random 15
+        meta secmark 15
+    }
+}
+
 ################################################################################
 # true negative test: properly hightlighted wrongly to show an error;
 # so far, so good)
 ################################################################################
 
 table T {
-    chain C {
-        priority 802_1q
-        rtclassid ;
-        rtclassid ;
-        ibriport
-        iifgroup
-        obriport
-        oifgroup
-        ibrname
-        iifname
-        iiftype
-        length 
-        nftrace set 1
-        obrname
-        oifname
-        oiftype
-        pkttype
-        random
-        ipsec
-        skgid
-        skuid
-        hour
-        mark 1
-        time
-        cpu
-        day
-        iif
-        oif
-        meta rtclassid ;
-        meta rtclassid ;
-        meta ibriport ;
-        meta iifgroup 
-        meta obriport 
-        meta oifgroup 
-        meta priority  set 1
-        meta protocol 
-        meta ibrname 
-        meta iifname 
-        meta iiftype 
+    chain C {  # metakeywords, positive failing 
+        mark set 15  # invalid
+        mark missing  # invalid
+        skuid 15  # invalid
+        skgid 15  # invalid
+        nftrace set 1  # invalid
+        rtclassid 4294967296
+        rtclassid 0x1;  # invalid
+        ibriport   # invalid
+        obriport   # invalid
+        ibrname   # invalid
+        obrname   # invalid
+        cpu 15  # invalid
+        iifgroup  # invalid
+        oifgroup  # invalid
+        cgroup 1048577;  # invalid
+        ipsec 15  # invalid
+
+        priority 802_1q  # invalid
+        random 15  # invalid
+        secmark 15  # invalid
+        meta rtclassid 4294967296
+    }
+}
+table T {
+    chain C {  # meta keywords, sorted by parser_bison.y semantic order
+        mark set 15  # invalid
+        mark missing  # invalid
+        iif 15  # meta_expr-only via primary_stmt_expr
+        iifname "eth0"   # meta_expr-only via primary_stmt_expr
+        iiftype 15  # meta_expr-only via primary_stmt_expr
+        oif 15  # meta_expr-only via primary_stmt_expr
+        oifname  "wlan1"  # meta_expr-only via primary_stmt_expr
+        oiftype 15  # meta_expr-only via primary_stmt_expr
+        skuid 15  # invalid
+        skgid 15  # invalid
+        nftrace set 1  # invalid
+        rtclassid 0x1;  # invalid
+        ibriport   # invalid
+        obriport   # invalid
+        ibrname   # invalid
+        obrname   # invalid
+        pkttype multicast  # meta_expr-only via primary_stmt_expr
+        cpu 15  # invalid
+        iifgroup  # invalid
+        oifgroup  # invalid
+        cgroup 1048577;  # invalid
+        ipsec 15  # invalid
+        time 15  # meta_expr-only via primary_stmt_expr
+        day Saturday  # meta_expr-only via primary_stmt_expr
+        hour 15  # meta_expr-only via primary_stmt_expr
+
+        length  > 15
+        protocol tcp
+        priority 802_1q  # invalid
+        random 15  # invalid
+        secmark 15  # invalid
+
+        meta mark set 1  # TODO operator 'not' support needed
+        meta iif 15
+        meta iifname "eth0"
+        meta iiftype  15
+        meta oif 15
+        meta oifname "br*"
+        meta oiftype 15
+        meta skuid 15
+        meta skgid 15
         meta nftrace  set 1
-        meta nfproto 
-        meta obrname
-        meta oifname
-        meta oiftype
-        meta pkttype
-        meta secmark
-        meta length
-        meta random
-        meta ipsec
-        meta skgid
-        meta skuid
-        meta hour
+        meta rtclassid any;
+        meta rtclassid @setname;
+        meta rtclassid 0x1
+        meta rtclassid 0xFFFFffff
+        meta rtclassid 4
+        meta rtclassid 4294967295
+        meta rtclassid 4294967296
+        meta ibriport ; 15
+        meta obriport  15
+        meta ibrname  15
+        meta obrname 15
+        meta pkttype unicast
+        meta cpu 15
+        meta iifgroup  15
+        meta oifgroup  15
+        meta cgroup  15
+        meta ipsec 15
+        meta time 15
+        meta day 15
+        meta hour 15
+        meta nfproto  15
+
+        meta length 15 
+        meta protocol  15
+        meta priority  set 1
+        meta random 15
+        meta secmark 15
+    }
+}
+table T {
+    chain C {  # meta keywords, sorted by longest lexical firstly
+        rtclassid ; 15
+        rtclassid ; 15
+        ibriport 15
+        iifgroup 15
+        obriport 15
+        oifgroup 15
+        priority 802_1q
+        protocol tcp
+        ibrname 15
+        iifname "eth0"
+        iiftype  15
+        length  15
+        nftrace set 1
+        obrname 15
+        oifname "wlan1"
+        oiftype 15
+        pkttype loopback  
+        random 15
+        ipsec 15
+        skgid 15
+        skuid 15
+        hour 15
+        mark 15
+        mark not 1
+        mark set 1  # TODO operator support needed
+        time 15
+        cpu 15
+        day 15
+        iif 15
+        oif 15
+        meta rtclassid 15;
+        meta rtclassid ; 15
+        meta ibriport "br*"
+        meta iifgroup  15
+        meta obriport  15
+        meta oifgroup  15
+        meta priority  set 1
+        meta protocol  15
+        meta ibrname  15
+        meta iifname "eth*"
+        meta iiftype  15
+        meta nftrace  set 1
+        meta nfproto  15
+        meta obrname 15
+        meta oifname 15
+        meta oiftype 15
+        meta pkttype unicast
+        meta secmark 15
+        meta length 15
+        meta random 15
+        meta ipsec 15
+        meta skgid 15
+        meta skuid 15
+        meta hour 15
         meta mark not 1
         meta mark set 1  # TODO operator support needed
-        meta time
-        meta cpu
-        meta day
-        meta iif
-        meta oif
+        meta time 15
+        meta cpu 15
+        meta day 6
+        meta iif 2
+        meta oif 3
     }
 }
 
