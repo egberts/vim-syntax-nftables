@@ -93,7 +93,7 @@ syn match nft_create_cmd_keyword_secmark "secmark" skipwhite contained
 hi link   nft_create_cmd_keyword_table_identifier_chain nftHL_Table
 syn match nft_create_cmd_keyword_table_identifier_chain "\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}" skipwhite contained
 \ nextgroup=
-\    nft_c_add_table_spec,
+\    @nft_c_add_table_spec,
 \    nft_EOS
 
 hi link   nft_create_cmd_keyword_table_identifier_table nftHL_Table

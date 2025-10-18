@@ -45,15 +45,15 @@ syn match nft_add_cmd_flowtable_block_hook_keyword_priority_extended_int '\v\-?[
 hi link   nft_add_cmd_flowtable_block_hook_keyword_priority_extended_var nftHL_Variable
 syn match nft_add_cmd_flowtable_block_hook_keyword_priority_extended_var '\v\$[a-zA-Z][a-zA-Z0-9_\-]{0,63}' skipwhite contained
 
-hi link   nft_c_flowtable_block_hook_keyword_priority_extended_sign nftHL_Expression
-syn match nft_c_flowtable_block_hook_keyword_priority_extended_sign '\v[-+]' skipwhite contained
+hi link   nft_flowtable_block_hook_keyword_priority_extended_sign nftHL_Expression
+syn match nft_flowtable_block_hook_keyword_priority_extended_sign '\v[-+]' skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_flowtable_block_hook_keyword_priority_extended_int
 
 hi link   nft_add_cmd_flowtable_block_hook_keyword_priority_extended_name nftHL_Keyword
 syn match nft_add_cmd_flowtable_block_hook_keyword_priority_extended_name '\v[a-zA-Z][a-zA-Z0-9]{1,16}' skipwhite contained
 \ nextgroup=
-\     nft_c_flowtable_block_hook_keyword_priority_extended_sign
+\     @nft_flowtable_block_hook_keyword_priority_extended_sign
 
 hi link   nft_add_cmd_flowtable_block_hook_keyword_priority nftHL_Keyword
 syn match nft_add_cmd_flowtable_block_hook_keyword_priority '\vpriority\ze\s' skipwhite contained

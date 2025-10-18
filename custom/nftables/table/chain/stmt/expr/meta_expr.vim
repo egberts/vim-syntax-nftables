@@ -745,17 +745,26 @@ syn region nft_protocol_type_set_block start=+{+ end=+}+ skipwhite contained
 \     nft_protocol_type_set_block_element_protocol_types,
 \     nft_protocol_type_set_block_element_protocol_number,
 \     nft_Error
+\ nextgroup=
+\    @nft_c_stmt
+
 hi link   nft_protocol_type_set_identifier nftHL_AtSetname
 syn match nft_protocol_type_set_identifier '\v\@[a-zA-Z][a-zA-Z0-9_\-]{0,63}' skipwhite contained
+\ nextgroup=
+\    @nft_c_stmt
 
 hi link   nft_protocol_type_any nftHL_Operator
 syn match nft_protocol_type_any '\vany\ze[ \t;]' skipwhite contained
+\ nextgroup=
+\    @nft_c_stmt
 
 hi link   nft_protocol_type_number nftHL_Integer
 syn match nft_protocol_type_number '\v(0[xX][0-7]?[0-9a-fA-F]{1,3}|3276[0-7]|327[0-5][0-9]|32[0-6][0-9][0-9]|3[0-1][0-9][0-9][0-9]|[0-2]?[0-9][0-9]?[0-9]?[0-9]?)\ze[ \t\n;]' skipwhite contained
+\ nextgroup=
+\    @nft_c_stmt
 
 hi link   nft_protocol_type_identifier nftHL_Define
-syn match nft_protocol_type_identifier '\v(udplite|gretap|icmpv6|comp|dccp|icmp|igmp|sctp|esp|gre|tcp|udp|ah)\ze[ \t\n;]' skipwhite contained
+syn match nft_protocol_type_identifier '\v(ipv6\-icmp|udplite|gretap|icmpv6|comp|dccp|icmp|igmp|sctp|esp|gre|tcp|udp|ah)\ze[ \t\n;]' skipwhite contained
 \ contains=nft_protocol_type_any
 \ nextgroup=
 \    @nft_c_stmt

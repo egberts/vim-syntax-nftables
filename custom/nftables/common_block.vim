@@ -451,7 +451,7 @@ syn match nft_common_block_keyword_redefine contained '\vredefine\s' skipwhite c
 " common_block 'define' (via common_block)
 hi link   nft_common_block_keyword_define nftHL_Command
 syn match nft_common_block_keyword_define contained '\vdefine\s' skipwhite contained
-\ containedin=nft_c_common_block
+\ containedin=@nft_c_common_block
 \ nextgroup=
 \    nft_common_block_define_redefine_keywords_identifier,
 \    nft_expected_identifier
@@ -475,7 +475,7 @@ syn match nft_common_block_undefine_extra_error_or_semicolon '\v\S+' contained
 " commmon_block 'undefine' (via common_block)
 hi link   nft_common_block_keyword_undefine nftHL_Command
 syn match nft_common_block_keyword_undefine '\vundefine\ze\s' skipnl skipwhite contained
-\ containedin=nft_c_common_block
+\ containedin=@nft_c_common_block
 \ nextgroup=
 \    nft_common_block_undefine_identifier_string,
 \    nft_Error

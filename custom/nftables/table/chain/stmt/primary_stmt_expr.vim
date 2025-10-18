@@ -79,7 +79,7 @@ syn cluster nft_c_primary_stmt_expr
 \    nft_boolean_expr_boolean_key_keyword_exists,
 \    nft_payload_expr_geneve_hdr_expr_keyword_geneve,
 \    nft_payload_expr_gretap_hdr_expr_keyword_gretap,
-\    nft_payload_expr_icmpv6_hdr_expr_keyword_icmpv6,
+\    nft_payload_expr_icmp6_hdr_expr_icmp6_hdr_field_keyword_icmp6,
 \    nft_meta_expr_meta_key_qualified_keyword_length,
 \    nft_chain_block_primary_expr_numgen_expr_keyword_numgen,
 \    nft_meta_expr_meta_key_qualified_keyword_random,

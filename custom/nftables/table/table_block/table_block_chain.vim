@@ -74,7 +74,7 @@ syn region nft_add_cmd_keyword_table_table_block_chain_chain_block_delimiters st
 \    nft_meta_stmt_meta_key_unqualified_keyword_cgroup,
 \    nft_meta_expr_meta_key_qualified_keyword_random,
 \    nft_common_block_keyword_define,
-\    nft_payload_expr_icmpv6_hdr_expr_keyword_icmpv6,
+\    nft_stmt_declarative_keyword_icmpv6,
 \    nft_meta_stmt_meta_key_unqualified_keyword_ipsec,
 \    nft_meta_expr_meta_key_qualified_keyword_length,
 \    nft_add_cmd_keyword_table_table_block_chain_chain_block_policy_spec_keyword_policy,

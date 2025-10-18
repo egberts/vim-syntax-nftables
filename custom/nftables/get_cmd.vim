@@ -159,21 +159,21 @@ syn cluster nft_c_concat_rhs_expr_basic_rhs_expr_exclusive_or_rhs_expr_and_rhs_e
 \ contains=
 \          @nft_c_concat_rhs_expr_basic_rhs_expr_exclusive_or_rhs_expr_and_rhs_expr_shift_rhs_expr_primary_rhs_expr
 "\ nextgroup=
-"\    nft_c_concat_rhs_expr_basic_rhs_expr_ampersand
+"\    @nft_c_concat_rhs_expr_basic_rhs_expr_ampersand
 
 " base_cmd 'get' 'element' table_id spec_id set_block_expr set_expr '{' concat_rhs_expr basic_rhs_expr exclusive_or_rhs_expr and_rhs_expr '}'
 syn cluster nft_c_concat_rhs_expr_basic_rhs_expr_exclusive_or_rhs_expr_and_rhs_expr
 \ contains=
 \    @nft_c_concat_rhs_expr_basic_rhs_expr_exclusive_or_rhs_expr_shift_rhs_expr
 "\ nextgroup=
-"\    nft_c_concat_rhs_expr_basic_rhs_expr_caret
+"\    @nft_c_concat_rhs_expr_basic_rhs_expr_caret
 
 " base_cmd 'get' 'element' table_id spec_id set_block_expr set_expr '{' concat_rhs_expr basic_rhs_expr exclusive_or_rhs_expr '}'
 syn cluster nft_c_concat_rhs_expr_basic_rhs_expr_exclusive_or_rhs_expr
 \ contains=
 \    @nft_c_concat_rhs_expr_basic_rhs_expr_exclusive_or_rhs_expr_and_rhs_expr
 "\ nextgroup=
-"\    nft_c_concat_rhs_expr_basic_rhs_expr_bar
+"\    @nft_c_concat_rhs_expr_basic_rhs_expr_bar
 
 " base_cmd 'get' 'element' table_id spec_id set_block_expr set_expr '{' concat_rhs_expr basic_rhs_expr '}'
 syn cluster nft_c_concat_rhs_expr_basic_rhs_expr
@@ -231,7 +231,7 @@ syn cluster nft_c_get_et_al_cmd_set_block_expr_set_expr_set_list_member_expr
 \    nft_get_et_al_cmd_set_block_expr_set_expr,
 \    @nft_c_get_et_al_cmd_set_block_expr_set_expr_set_list_member_expr_set_elem_expr
 "\ nextgroup=
-"\     nft_c_get_et_al_cmd_set_block_expr_set_expr_comma
+"\     @nft_c_get_et_al_cmd_set_block_expr_set_expr_comma
 
 " base_cmd 'get' 'element' table_id spec_id set_block_expr set_expr '{' ... '}'
 hi link    nft_get_et_al_cmd_set_block_expr_set_expr nftHL_BlockDelimitersSet
@@ -260,9 +260,9 @@ syn match nft_get_et_al_cmd_set_block_expr_variable_expr "\v\$[a-zA-Z][a-zA-Z0-9
 \    nft_UnexpectedEOS,
 \    nft_Error
 
-" All nft_c_get_et_al_cmd also applies toward:
+" All @nft_c_get_et_al_cmd also applies toward:
 "   add_cmd, create_cmd, delete_cmd, destroy_cmd, get_cmd, and reset_cmd
-"   nft_c_get_et_al_cmd includes add_cmd, create_cmd, delete_cmd, destroy_cmd, get_cmd, and reset_cmd
+"   @nft_c_get_et_al_cmd includes add_cmd, create_cmd, delete_cmd, destroy_cmd, get_cmd, and reset_cmd
 " base_cmd 'get' 'element' [ family_spec_explicit ] table_id set_id set_block_expr
 syn cluster nft_c_get_et_al_cmd_set_block_expr
 \ contains=
@@ -272,7 +272,7 @@ syn cluster nft_c_get_et_al_cmd_set_block_expr
 " TODO nft_get_et_al_cmd_set_block_expr_set_expr is the wrong scope (has set-block), redo
 
 " base_cmd 'get' 'element' [ family_spec_explicit ] table_id set_id
-"   nft_c_get_et_al_cmd includes add_cmd, create_cmd, delete_cmd, destroy_cmd, get_cmd, and reset_cmd
+"   @nft_c_get_et_al_cmd includes add_cmd, create_cmd, delete_cmd, destroy_cmd, get_cmd, and reset_cmd
 hi link   nft_get_et_al_cmd_set_spec_identifier nftHL_Identifier
 syn match nft_get_et_al_cmd_set_spec_identifier "\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}\ze[ \t\$]" skipwhite contained
 \ nextgroup=
@@ -308,7 +308,7 @@ syn cluster nft_c_get_cmd_set_spec
 \    nft_get_et_al_cmd_set_spec_table_spec_identifier
 
 " 'element'->get_cmd->'get'->base_cmd->line
-"   nft_c_get_et_al_cmd includes add_cmd, create_cmd, delete_cmd, destroy_cmd, get_cmd, and reset_cmd
+"   @nft_c_get_et_al_cmd includes add_cmd, create_cmd, delete_cmd, destroy_cmd, get_cmd, and reset_cmd
 hi link   nft_get_et_al_cmd_keyword_element nftHL_Statement
 syn match nft_get_et_al_cmd_keyword_element "element" skipwhite contained
 \ nextgroup=
@@ -319,7 +319,7 @@ syn match nft_get_et_al_cmd_keyword_element "element" skipwhite contained
 \    nft_Error
 
 " 'get'->base_cmd->line
-"   nft_c_get_et_al_cmd includes add_cmd, create_cmd, delete_cmd, destroy_cmd, get_cmd, and reset_cmd
+"   @nft_c_get_et_al_cmd includes add_cmd, create_cmd, delete_cmd, destroy_cmd, get_cmd, and reset_cmd
 hi link   nft_base_cmd_keyword_get nftHL_Command
 syn match nft_base_cmd_keyword_get "get" skipwhite contained
 \ nextgroup=

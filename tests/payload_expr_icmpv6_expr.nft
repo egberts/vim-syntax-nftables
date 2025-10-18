@@ -4,20 +4,237 @@ add chain C
 table T {
     chain C {
         type filter hook input priority 0; policy drop;
-        ip6 nexthdr icmpv6 icmpv6 type 1 accept
-        icmpv6 checksum 3 accept
-        icmpv6 code 3 accept
+
+        icmpv6 id 0 accept
+        icmpv6 id 65535 accept
+        icmpv6 id 65536 accept
+        icmpv6 id 0x0 accept
+        icmpv6 id 0xffff accept
+        icmpv6 id > 15 accept
+        icmpv6 id >= 15 accept
+        icmpv6 id != 15 accept
+        icmpv6 id not 15 accept
+        icmpv6 id <= 15 accept
+        icmpv6 id == 15 accept
+        icmpv6 id { 0 } accept
+        icmpv6 id not { 0, 0x0 } accept
+        icmpv6 id in { 0x0, 0xfffff } accept
+        icmpv6 id not in { 15, 0x15 } accept
+        icmpv6 id @setname accept
+        icmpv6 id not @setname accept
+        icmpv6 id not in @setname accept
+
+        icmpv6 mtu 0 accept
+        icmpv6 mtu 4294967295 accept
+        icmpv6 mtu 4294967296 accept
+        icmpv6 mtu 0x0 accept
+        icmpv6 mtu 0xFFFFffff accept
+        icmpv6 mtu > 15 accept
+        icmpv6 mtu >= 15 accept
+        icmpv6 mtu != 15 accept
+        icmpv6 mtu not 15 accept
+        icmpv6 mtu <= 15 accept
+        icmpv6 mtu == 15 accept
+        icmpv6 mtu { 15 } accept
+        icmpv6 mtu not { 15 } accept
+        icmpv6 mtu in { 15, 0x15 } accept
+        icmpv6 mtu not in { 15, 0xffffFFFF } accept
+        icmpv6 mtu @setname accept
+        icmpv6 mtu not @setname accept
+        icmpv6 mtu in @setname accept
+        icmpv6 mtu not in @setname accept
+
+        icmpv6 code 0 accept
+        icmpv6 code 255 accept
+        icmpv6 code 256 accept
+        icmpv6 code 0x0 accept
+        icmpv6 code 0xff accept
+        icmpv6 code > 15 accept
+        icmpv6 code >= 15 accept
+        icmpv6 code != 15 accept
+        icmpv6 code not 15 accept
+        icmpv6 code <= 15 accept
+        icmpv6 code == 15 accept
+        icmpv6 code { 15 } accept
+        icmpv6 code not { 15 } accept
+        icmpv6 code in { 15, 0x15 } accept
+        icmpv6 code not in { 15, 0x15 } accept
+        icmpv6 code @setname accept
+        icmpv6 code not @setname accept
+        icmpv6 code in @setname accept
+        icmpv6 code not in @setname accept
+
+        icmpv6 type destination-unreachable accept
+        icmpv6 type packet-too-big accept
+        icmpv6 type time-exceeded accept
+        icmpv6 type echo-request accept
         icmpv6 type echo-reply accept
-        icmpv6 id 15 accept
+        icmpv6 type mld-listener-query accept
+        icmpv6 type mld-listener-report accept
+        icmpv6 type mld-listener-done accept
+        icmpv6 type router-solicitation accept
+        icmpv6 type router-advertisement accept
+        icmpv6 type neighbour-solicitation accept
+        icmpv6 type neighbor-solicitation accept
+        icmpv6 type neighbour-advertisement accept
+        icmpv6 type neighbor-advertisement accept
+        icmpv6 type redirect accept
+        icmpv6 type router-renumbering accept
+        icmpv6 type ni-query accept
+        icmpv6 type ni-reply accept
+        icmpv6 type mldv2-listener-report accept
+        icmpv6 type extended-echo-request accept
+        icmpv6 type extended-echo-reply accept
+        icmpv6 type not echo-reply accept
+        icmpv6 type != echo-reply accept
+        icmpv6 type == echo-reply accept
+        icmpv6 type 0 accept
+        icmpv6 type 255 accept
+        icmpv6 type 256 accept
+        icmpv6 type 0x0 accept
+        icmpv6 type 0xff accept
+        icmpv6 type > 15 accept
+        icmpv6 type >= 15 accept
+        icmpv6 type != 15 accept
+        icmpv6 type <= 15 accept
+        icmpv6 type == 15 accept
+        icmpv6 type { 15 } accept
+        icmpv6 type in { 0, 255 } accept
+        icmpv6 type not { 0, 256 } accept
+        icmpv6 type not in { 15 } accept
+        icmpv6 type { redirect,echo-request, parameter-problem } accept
+        icmpv6 type @setname accept
+        icmpv6 type not @setname accept
+        icmpv6 type in @setname accept
+        icmpv6 type not in @setname accept
+
+        icmpv6 taddr 0 accept
+        icmpv6 taddr 65535 accept
+        icmpv6 taddr > 15 accept
+        icmpv6 taddr >= 15 accept
+        icmpv6 taddr != 15 accept
+        icmpv6 taddr <= 15 accept
+        icmpv6 taddr == 15 accept
+        icmpv6 taddr { 15, 0x15 } accept
+        icmpv6 taddr not { 15, 0x15 } accept
+        icmpv6 taddr in { 15, 0x15 } accept
+        icmpv6 taddr not in { 15, 0x15 } accept
+        icmpv6 taddr @setname accept
+        icmpv6 taddr not @setname accept
+        icmpv6 taddr in @setname accept
+        icmpv6 taddr not in @setname accept
+
+        icmpv6 daddr 15 accept
+        icmpv6 daddr > 15 accept
+        icmpv6 daddr >= 15 accept
+        icmpv6 daddr != 15 accept
+        icmpv6 daddr <= 15 accept
+        icmpv6 daddr == 15 accept
+        icmpv6 daddr { 15, 0x15 } accept
+        icmpv6 daddr not { 15 } accept
+        icmpv6 daddr in { 15 } accept
+        icmpv6 daddr not in { 15 } accept
+        icmpv6 daddr @setname accept
+        icmpv6 daddr in @setname accept
+        icmpv6 daddr not @setname accept
+        icmpv6 daddr not in @setname accept
+
+        icmpv6 checksum 0 accept
+        icmpv6 checksum 65535 accept
+        icmpv6 checksum 65536 accept
+        icmpv6 checksum 0x0 accept
+        icmpv6 checksum 0xFFFF accept
+        icmpv6 checksum 0xFFFFf accept
+        icmpv6 checksum > 15 accept
+        icmpv6 checksum >= 15 accept
+        icmpv6 checksum != 15 accept
+        icmpv6 checksum <= 15 accept
+        icmpv6 checksum == 15 accept
+        icmpv6 checksum { 15, 0x15 } accept
+        icmpv6 checksum in { 15 } accept
+        icmpv6 checksum not { 0xfffff, 65536 } accept
+        icmpv6 checksum not in { 15 } accept
+        icmpv6 checksum @setname accept
+        icmpv6 checksum in @setname accept
+        icmpv6 checksum not @setname accept
+        icmpv6 checksum not in @setname accept
+
+        icmpv6 sequence 0 accept
+        icmpv6 sequence 65535 accept
+        icmpv6 sequence 65536 accept
+        icmpv6 sequence 0x0 accept
+        icmpv6 sequence 0xffFF accept
+        icmpv6 sequence > 15 accept
+        icmpv6 sequence >= 15 accept
+        icmpv6 sequence != 15 accept
+        icmpv6 sequence <= 15 accept
+        icmpv6 sequence == 15 accept
+        icmpv6 sequence { 15, 0x15 } accept
+        icmpv6 sequence in { 15 } accept
+        icmpv6 sequence not { 0x0, 0xfffff } accept
+        icmpv6 sequence not in { 15 } accept
+        icmpv6 sequence @setname accept
+        icmpv6 sequence in @setname accept
+        icmpv6 sequence not @setname accept
+        icmpv6 sequence not in @setname accept
+
+        icmpv6 max-delay 15 accept
+        icmpv6 max-delay > 15 accept
+        icmpv6 max-delay >= 15 accept
+        icmpv6 max-delay != 15 accept
+        icmpv6 max-delay <= 15 accept
+        icmpv6 max-delay == 15 accept
+        icmpv6 max-delay { 15, 0x15 } accept
+        icmpv6 max-delay in { 15 } accept
+        icmpv6 max-delay not { 15 } accept
+        icmpv6 max-delay not in { 15 } accept
+        icmpv6 max-delay @setname accept
+
+        icmpv6 param-problem 0 accept
+        icmpv6 param-problem 4294967295 accept
+        icmpv6 param-problem 0x0 accept
+        icmpv6 param-problem 0xffFFffFF accept
+        icmpv6 param-problem > 15 accept
+        icmpv6 param-problem >= 15 accept
+        icmpv6 param-problem != 15 accept
+        icmpv6 param-problem <= 15 accept
+        icmpv6 param-problem == 15 accept
+        icmpv6 param-problem { 15, 0x15 } accept
+        icmpv6 param-problem in { 15 } accept
+        icmpv6 param-problem not { 0x0, 0xffffffff } accept
+        icmpv6 param-problem not in { 0, 4294967295 } accept
+        icmpv6 param-problem @setname accept
+        icmpv6 param-problem in @setname accept
+        icmpv6 param-problem not @setname accept
+        icmpv6 param-problem not in @setname accept
+
+        icmpv6 parameter-problem 15 accept
+        icmpv6 parameter-problem > 15 accept
+        icmpv6 parameter-problem >= 15 accept
+        icmpv6 parameter-problem != 15 accept
+        icmpv6 parameter-problem <= 15 accept
+        icmpv6 parameter-problem == 15 accept
+        icmpv6 parameter-problem { 15, 0x15 } accept
+        icmpv6 parameter-problem in { 15 } accept
+        icmpv6 parameter-problem not { 15 } accept
+        icmpv6 parameter-problem not in { 15 } accept
+        icmpv6 parameter-problem @setname accept
+        icmpv6 parameter-problem in @setname accept
+        icmpv6 parameter-problem not @setname accept
+        icmpv6 parameter-problem not in @setname accept
 
         # Cross-over demonstration of reusing ICMPv6 expressions from above
         icmpv6 id 1 type echo-reply code 3 type echo-reply checksum 15 accept
         icmpv6 type 1 checksum 15 accept
-        icmpv6 type echo-reply checksum 15 accept
+        icmpv6 type echo-reply checksum 15 mtu 15 accept
         icmpv6 checksum 1000 code 1 type echo-reply id 100 accept
         icmpv6 checksum in { 1 } code in { 123 } type in { echo-reply } id in { 10 } accept;
         icmpv6 checksum { 1 } code { 123 } type { echo-reply } id { 10 } accept;
-
         icmpv6 checksum in { 1 } code in { 123 } type in { echo-reply } id in { 1000 } accept
+
+        # run-on fields (without repetitive 'icmpv6' keyword
+        icmpv6 id 15 type 0 code 3 mtu 1500 taddr 0 saddr 0 param-problem 0 checksum 0x0 accept
+
+        ip6 nexthdr icmpv6 icmpv6 type 1 accept
     }
 }

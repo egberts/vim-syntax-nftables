@@ -49,7 +49,7 @@ syn match nft_c_add_cmd_block_table_flowtable_block_hook_keyword_priority_extend
 hi link   nft_add_cmd_block_table_flowtable_block_hook_keyword_priority_extended_name nftHL_Keyword
 syn match nft_add_cmd_block_table_flowtable_block_hook_keyword_priority_extended_name "\v[a-zA-Z][a-zA-Z]{1,16}" skipwhite contained
 \ nextgroup=
-\     nft_c_add_cmd_block_table_flowtable_block_hook_keyword_priority_extended_sign
+\     @nft_c_add_cmd_block_table_flowtable_block_hook_keyword_priority_extended_sign
 
 syn cluster nft_c_add_cmd_block_table_flowtable_block_hook_keyword_priority_extended
 \ contains=

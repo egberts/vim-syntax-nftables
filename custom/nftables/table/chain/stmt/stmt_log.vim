@@ -76,7 +76,8 @@ hi link   nft_stmt_log_stmt_log_arg_keyword_prefix_string_unquoted nftHL_String
 syn match nft_stmt_log_stmt_log_arg_keyword_prefix_string_unquoted
 \ '\v[a-zA-Z0-9_\-:;~!@#\$%^&\*\(\)\+\|\}\{\?><`=\\\]\[\'\/\.,]{1,64}' skipwhite contained
 \ nextgroup=
-\    @nft_c_primary_stmt_expr
+\    @nft_c_primary_stmt_expr,
+\    @nft_c_stmt
 
 hi link   nft_stmt_log_stmt_log_arg_keyword_prefix nftHL_Keyword
 syn match nft_stmt_log_stmt_log_arg_keyword_prefix '\vprefix\ze[ \t]' skipwhite contained
