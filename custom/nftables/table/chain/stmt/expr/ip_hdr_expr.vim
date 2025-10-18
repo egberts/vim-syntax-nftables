@@ -139,17 +139,20 @@ syn match nft_ip_hdr_expr_close_scope_ip_constant_expr_int_hex_13b_frag_off '\v(
 hi link   nft_ip_hdr_expr_close_scope_ip_constant_expr_int_hex_16b_length nftHL_Integer
 syn match nft_ip_hdr_expr_close_scope_ip_constant_expr_int_hex_16b_length '\v(0x[fF]{4}|0x[0-9a-eA-E][0-9a-fA-F]{3}|0x[0-9a-fA-F]{3}|0x[0-9a-fA-F]{2}|0x[2-9a-fA-F]|6553[0-5]|655[0-2][0-9]|65[0-4][0-9]{2}|6[0-4][0-9]{3}|[1-5][0-9]{4}|[1-9][0-9]{3}|[1-9][0-9]{2}|[2-9][0-9])' skipwhite contained
 \ nextgroup=
-\    @nft_c_primary_stmt_expr
+\    @nft_c_primary_stmt_expr,
+\    @nft_c_stmt
 
 hi link   nft_ip_hdr_expr_close_scope_ip_constant_expr_int_hex_16b_checksum nftHL_Integer
 syn match nft_ip_hdr_expr_close_scope_ip_constant_expr_int_hex_16b_checksum '\v(0x[fF]{4}|0x[0-9a-eA-E][0-9a-fA-F]{3}|0x[0-9a-fA-F]{3}|0x[0-9a-fA-F]{2}|0x[0-9a-fA-F]|6553[0-5]|655[0-2][0-9]|65[0-4][0-9]{2}|6[0-4][0-9]{3}|[1-5][0-9]{4}|[1-9][0-9]{3}|[1-9][0-9]{2}|[1-9][0-9]|[0-9])\ze[ \t\n]' skipwhite contained
 \ nextgroup=
-\    @nft_c_primary_stmt_expr
+\    @nft_c_primary_stmt_expr,
+\    @nft_c_stmt
 
 hi link   nft_ip_hdr_expr_close_scope_ip_constant_expr_int_hex_16b_id nftHL_Integer
 syn match nft_ip_hdr_expr_close_scope_ip_constant_expr_int_hex_16b_id '\v(0x[fF]{4}|0x[0-9a-eA-E][0-9a-fA-F]{3}|0x[0-9a-fA-F]{3}|0x[0-9a-fA-F]{2}|0x[0-9a-fA-F]|6553[0-5]|655[0-2][0-9]|65[0-4][0-9]{2}|6[0-4][0-9]{3}|[1-5][0-9]{4}|[1-9][0-9]{3}|[1-9][0-9]{2}|[1-9][0-9]|[0-9])\ze[ \t\n]' skipwhite contained
 \ nextgroup=
-\    @nft_c_primary_stmt_expr
+\    @nft_c_primary_stmt_expr,
+\    @nft_c_stmt
 
 hi link   nft_ip_hdr_expr_close_scope_ip_set_expr_constant_expr_string_ip_cidr nftHL_Integer
 syn match nft_ip_hdr_expr_close_scope_ip_set_expr_constant_expr_string_ip_cidr
@@ -161,7 +164,8 @@ syn match nft_ip_hdr_expr_close_scope_ip_addr_constant_expr_string_ip_cidr
 \ '\v(0x[0-9a-fA-F]{1,8})|(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])(\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])){3}(\/(3[0-2]|[12][0-9]|[0-9])){0,1}\ze[ \t\n\;]'
 \ skipwhite contained
 \ nextgroup=
-\    @nft_c_primary_stmt_expr
+\    @nft_c_primary_stmt_expr,
+\    @nft_c_stmt
 
 hi link   nft_ip_hdr_expr_close_scope_ip_constant_expr_string_ip_opt_cidr nftHL_Define
 syn match nft_ip_hdr_expr_close_scope_ip_constant_expr_string_ip_opt_cidr
@@ -169,21 +173,24 @@ syn match nft_ip_hdr_expr_close_scope_ip_constant_expr_string_ip_opt_cidr
 \ skipwhite contained
 \ nextgroup=
 \    nft_payload_expr_nft_rt_expr_keyword_rt,
-\    @nft_c_primary_stmt_expr
+\    @nft_c_primary_stmt_expr,
+\    @nft_c_stmt
 
 hi link   nft_ip_hdr_expr_ip_hdr_field_addr_close_scope_ip_constant_expr_string_ip_cidr nftHL_Integer
 syn match nft_ip_hdr_expr_ip_hdr_field_addr_close_scope_ip_constant_expr_string_ip_cidr
 \ '\v(0x[0-9a-fA-F]{1,8})|(25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}(\/(3[0-2]|[12]\d|[0-9]))'
 \ skipwhite contained
 \ nextgroup=
-\    @nft_c_primary_stmt_expr
+\    @nft_c_primary_stmt_expr,
+\    @nft_c_stmt
 
 hi link   nft_ip_hdr_expr_ip_hdr_field_addr_close_scope_ip_constant_expr_string_ip_second nftHL_Integer
 syn match nft_ip_hdr_expr_ip_hdr_field_addr_close_scope_ip_constant_expr_string_ip_second
 \ '\v(0x[0-9a-fA-F]{1,8})|(25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}'
 \ skipwhite contained
 \ nextgroup=
-\    @nft_c_primary_stmt_expr
+\    @nft_c_primary_stmt_expr,
+\    @nft_c_stmt
 
 hi link   nft_ip_hdr_expr_ip_hdr_field_addr_close_scope_ip_constant_expr_string_dash nftHL_Operator
 syn match nft_ip_hdr_expr_ip_hdr_field_addr_close_scope_ip_constant_expr_string_dash '\-' contained
@@ -383,10 +390,17 @@ syn match nft_ip_hdr_expr_keyword_option '\voption\ze[ \t]' skipwhite contained
 
 
 " ******************* BEGIN 'ip saddr' *******************************
+hi link   nft_primary_stmt_expr_payload_expr_symbol_expr_variable_expr_identifier nftHL_Variable
+syn match nft_primary_stmt_expr_payload_expr_symbol_expr_variable_expr_identifier '\v\$[a-zA-Z][a-zA-Z0-9\-_]{0,63}' skipwhite contained
+\ nextgroup=
+\    @nft_c_stmt
+
 hi link    nft_ip_hdr_expr_close_scope_ip_addr_set_expr_inline_set nftHL_BlockDelimitersSet
 syn region nft_ip_hdr_expr_close_scope_ip_addr_set_expr_inline_set start=+{+ end=+}+ skipwhite contained
 \ contains=
 \    nft_ip_hdr_expr_close_scope_ip_set_expr_constant_expr_string_ip_cidr
+\ nextgroup=
+\    @nft_c_stmt
 
 hi link   nft_ip_hdr_expr_close_scope_ip_addr_set_ref_symbol_expr_at_setname nftHL_AtSetname
 syn match nft_ip_hdr_expr_close_scope_ip_addr_set_ref_symbol_expr_at_setname '\v\@[a-zA-Z][a-zA-Z0-9\-_]{0,63}\ze[ \t]' skipwhite contained
@@ -402,6 +416,7 @@ syn match nft_ip_hdr_expr_close_scope_ip_addr_relational_expr_relational_op_2cha
 \ nextgroup=
 \    nft_ip_hdr_expr_close_scope_ip_addr_set_ref_symbol_expr_at_setname,
 \    nft_ip_hdr_expr_close_scope_ip_addr_set_expr_inline_set,
+\    nft_primary_stmt_expr_payload_expr_symbol_expr_variable_expr_identifier,
 \    nft_ip_hdr_expr_close_scope_ip_addr_constant_expr_string_ip_cidr
 
 hi link   nft_ip_hdr_expr_close_scope_ip_addr_relational_expr_relational_op_1char nftHL_Operator
@@ -409,6 +424,7 @@ syn match nft_ip_hdr_expr_close_scope_ip_addr_relational_expr_relational_op_1cha
 \ nextgroup=
 \    nft_ip_hdr_expr_close_scope_ip_addr_set_ref_symbol_expr_at_setname,
 \    nft_ip_hdr_expr_close_scope_ip_addr_set_expr_inline_set,
+\    nft_primary_stmt_expr_payload_expr_symbol_expr_variable_expr_identifier,
 \    nft_ip_hdr_expr_close_scope_ip_addr_constant_expr_string_ip_cidr
 
 hi link   nft_ip_hdr_expr_close_scope_ip_addr_relational_expr_relational_op_keyword_not nftHL_Operator
@@ -433,6 +449,7 @@ syn match nft_ip_hdr_expr_ip_hdr_field_keyword_saddr '\vsaddr\ze[ \t]' skipwhite
 \    nft_ip_hdr_expr_close_scope_ip_addr_relational_expr_relational_op_1char,
 \    nft_ip_hdr_expr_close_scope_ip_addr_set_expr_inline_set,
 \    nft_ip_hdr_expr_close_scope_ip_addr_set_ref_symbol_expr_at_setname,
+\    nft_primary_stmt_expr_payload_expr_symbol_expr_variable_expr_identifier,
 \    nft_ip_hdr_expr_close_scope_ip_addr_constant_expr_string_ip_cidr,
 \    nft_Error
 " ********************* END 'ip saddr' *******************************
@@ -446,8 +463,13 @@ syn match nft_ip_hdr_expr_ip_hdr_field_keyword_daddr '\vdaddr\ze[ \t]' skipwhite
 \    nft_verdict_map_stmt_keyword_vmap,
 \    nft_map_stmt_expr_keyword_map,
 \    nft_payload_stmt_keyword_set,
-\    nft_ip_hdr_expr_close_scope_ip_inline_set,
-\    nft_ip_hdr_expr_close_scope_ip_constant_expr_string_ip_opt_cidr,
+\    nft_ip_hdr_expr_close_scope_ip_addr_relational_expr_relational_op_keyword_not,
+\    nft_ip_hdr_expr_close_scope_ip_addr_internal_keyword_in,
+\    nft_ip_hdr_expr_close_scope_ip_addr_relational_expr_relational_op_2char,
+\    nft_ip_hdr_expr_close_scope_ip_addr_relational_expr_relational_op_1char,
+\    nft_ip_hdr_expr_close_scope_ip_addr_set_expr_inline_set,
+\    nft_ip_hdr_expr_close_scope_ip_addr_set_ref_symbol_expr_at_setname,
+\    nft_ip_hdr_expr_close_scope_ip_addr_constant_expr_string_ip_cidr,
 \    nft_Error
 " ********************* END 'ip daddr' *******************************
 

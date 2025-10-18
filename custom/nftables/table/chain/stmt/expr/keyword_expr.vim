@@ -45,7 +45,7 @@ syn match nft_keyword_expr_keyword_vlan '\vvlan' skipwhite contained
 \    nft_chainError
 
 " arp_hdr_expr 'arp' (via inner_eth_expr, payload_expr)
-hi link   nft_keyword_expr_keyword_arp nftHL_Substatement
+hi link   nft_keyword_expr_keyword_arp nftHL_Statement
 syn match nft_keyword_expr_keyword_arp '\varp' skipwhite contained
 \ nextgroup=
 \    nft_arp_hdr_expr_arp_hdr_field_keyword_operation,

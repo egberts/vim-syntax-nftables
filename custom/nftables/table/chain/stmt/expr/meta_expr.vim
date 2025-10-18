@@ -48,9 +48,13 @@ syn match nft_interface_type_listed_number '\v[0-9]{1,3}' contained
 
 hi link   nft_interface_set_type_number nftHL_Integer
 syn match nft_interface_set_type_number '\v(0x[0-9A-Fa-f]{1,8}|(429496729[0-5]|42949672[0-8][0-9]|4294967[01][0-9]{2}|429496[0-6][0-9]{3}|42949[0-5][0-9]{4}|4294[0-8][0-9]{5}|429[0-3][0-9]{6}|42[0-8][0-9]{7}|4[01][0-9]{8}|[1-3][0-9]{9}|[0-9]{1,9}))\ze[ \t\n,]' skipwhite contained
+\ nextgroup=
+\    @nft_c_stmt
 
 hi link   nft_interface_type_number nftHL_Integer
 syn match nft_interface_type_number '\v(0x[0-9A-Fa-f]{1,8}|(429496729[0-5]|42949672[0-8][0-9]|4294967[01][0-9]{2}|429496[0-6][0-9]{3}|42949[0-5][0-9]{4}|4294[0-8][0-9]{5}|429[0-3][0-9]{6}|42[0-8][0-9]{7}|4[01][0-9]{8}|[1-3][0-9]{9}|[0-9]{1,9}))\ze[ \t\n;]' skipwhite contained
+\ nextgroup=
+\    @nft_c_stmt
 
 hi link   nft_interface_type_operators nftHL_Operator
 syn match nft_interface_type_operators '\v(\!|\=)\=' skipwhite contained
@@ -70,6 +74,8 @@ hi link    nft_interface_type_inline_set nftHL_BlockDelimitersSet
 syn region nft_interface_type_inline_set start=+{+ end=+}+ skipwhite contained
 \ contains=
 \    nft_interface_set_type_number
+\ nextgroup=
+\    @nft_c_stmt
 
 hi link   nft_interface_type_operators_keyword_in nftHL_Operator
 syn match nft_interface_type_operators_keyword_in '\vin\ze[ \t]' skipwhite contained
@@ -298,23 +304,37 @@ syn region nft_meta_expr_close_scope_meta_device_index_set_block start=+{+ end=+
 
 hi link   nft_meta_expr_close_scope_meta_device_index_at_setname nftHL_AtSetname
 syn match nft_meta_expr_close_scope_meta_device_index_at_setname '\v\@[a-zA-Z][a-zA-Z0-9\-_]{0,63}[\ze[ \t;]' skipwhite contained
+\ nextgroup=
+\    @nft_c_stmt
 
 hi link   nft_meta_expr_close_scope_meta_device_index_number nftHL_Integer
 syn match nft_meta_expr_close_scope_meta_device_index_number '\v(0x[0-9A-Fa-f]{1,8})|(429496729[0-5]|42949672[0-8][0-9]|4294967[01][0-9]{2}|429496[0-6][0-9]{3}|42949[0-5][0-9]{4}|4294[0-8][0-9]{5}|429[0-3][0-9]{6}|42[0-8][0-9]{7}|4[01][0-9]{8}|[1-3][0-9]{9}|[0-9]{1,9})\ze[ \t\n;]' skipwhite contained
+\ nextgroup=
+\    @nft_c_stmt
 
 hi link   nft_meta_expr_close_scope_meta_device_index_quoted_identifier nftHL_String
 syn match nft_meta_expr_close_scope_meta_device_index_quoted_identifier '\v\"[a-zA-Z][a-zA-Z0-9\-_\*]{0,63}\"[\ze[ \t\n;]' skipwhite contained
 syn match nft_meta_expr_close_scope_meta_device_index_quoted_identifier '\v\'[a-zA-Z][a-zA-Z0-9\-_\*]{0,63}\'[\ze[ \t\n;]' skipwhite contained
+\ nextgroup=
+\    @nft_c_stmt
 
 hi link   nft_meta_expr_close_scope_meta_device_index_identifier nftHL_Identifier
 syn match nft_meta_expr_close_scope_meta_device_index_identifier '\v[a-zA-Z][a-zA-Z0-9\-_]{0,63}[\ze[ \t;]' skipwhite contained
+\ nextgroup=
+\    @nft_c_stmt
 
 hi link   nft_interface_name_set_block_element_string_quoted nftHL_String
 syn match nft_interface_name_set_block_element_string_quoted '\v\"[a-zA-Z][a-zA-Z0-9\-_]{0,63}\"' skipwhite contained
-\ nextgroup= nft_interface_name_set_element_separator, nft_Error
+\ nextgroup=
+\    nft_interface_name_set_element_separator,
+\    @nft_c_stmt,
+\    nft_Error
 
 syn match nft_interface_name_set_block_element_string_quoted '\v\'[a-zA-Z][a-zA-Z0-9\-_]{0,63}\'' skipwhite contained
-\ nextgroup= nft_interface_name_set_element_separator, nft_Error
+\ nextgroup=
+\    nft_interface_name_set_element_separator,
+\    @nft_c_stmt,
+\    nft_Error
 
 hi link    nft_interface_name_set_block  nftHL_BlockDelimitersSet
 syn region nft_interface_name_set_block start=+{+ end=+}+ skip="#.{0,45}$" skipwhite contained
@@ -350,6 +370,13 @@ syn match nft_meta_expr_close_scope_meta_device_index_operator_prefix_keyword_no
 
 hi link   nft_meta_expr_close_scope_meta_device_index_keyword_any nftHL_Operator
 syn match nft_meta_expr_close_scope_meta_device_index_keyword_any '\vany\ze[ \t;]' skipwhite contained
+\ nextgroup=
+\    @nft_c_stmt
+
+hi link   nft_blind_interface nftHL_Define
+syn match nft_blind_interface '\vlo|[a-z]{1,3}[0-9]{1,2}([a-z]{1,2}[0-9]{1,2}){0,1}' skipwhite contained
+\ nextgroup=
+\    @nft_c_stmt
 
 hi link   nft_meta_expr_meta_key_unqualified_keyword_iif nftHL_Statement
 syn match nft_meta_expr_meta_key_unqualified_keyword_iif '\viif\ze[ \t]' skipwhite contained
@@ -363,19 +390,26 @@ syn match nft_meta_expr_meta_key_unqualified_keyword_iif '\viif\ze[ \t]' skipwhi
 \    nft_meta_expr_close_scope_meta_device_index_quoted_identifier,
 \    nft_interface_name_set_block,
 \    nft_meta_expr_close_scope_meta_device_index_number,
+\    nft_blind_interface
 " No error handler here, 'iif' is also a standalone statement keyword
+
+hi link   nft_primary_rhs_expr_symbol_expr_variable_expr_identifier nftHL_Variable
+syn match nft_primary_rhs_expr_symbol_expr_variable_expr_identifier '\v\$[a-zA-Z][a-zA-Z0-9\-_]{0,63}\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    @nft_c_stmt
 
 hi link   nft_meta_expr_meta_key_meta_key_unqualified_keyword_iif nftHL_Substatement
 syn match nft_meta_expr_meta_key_meta_key_unqualified_keyword_iif '\viif\ze[ \t]' skipwhite contained
 \ nextgroup=
+\    nft_verdict_stmt_verdict_map_stmt_keyword_vmap,
 \    nft_meta_expr_close_scope_meta_device_index_keyword_any,
 \    nft_map_expr_keyword_map,
-\    nft_verdict_stmt_verdict_map_stmt_keyword_vmap,
 \    nft_meta_expr_close_scope_meta_device_index_operator_prefix_keyword_not,
 \    nft_meta_expr_close_scope_meta_device_index_operators_equality,
 \    nft_meta_expr_close_scope_meta_device_index_set_operator_in,
 \    nft_meta_expr_close_scope_meta_device_index_quoted_identifier,
 \    nft_interface_name_set_block,
+\    nft_primary_rhs_expr_symbol_expr_variable_expr_identifier,
 \    nft_meta_expr_close_scope_meta_device_index_identifier,
 \    nft_meta_expr_close_scope_meta_device_index_number,
 " No error handler here, 'iif' is also a standalone statement keyword
@@ -386,12 +420,17 @@ hi link   nft_meta_expr_meta_key_unqualified_keyword_oif nftHL_Statement
 syn match nft_meta_expr_meta_key_unqualified_keyword_oif '\voif\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    nft_meta_expr_close_scope_meta_device_index_keyword_any,
+\    nft_verdict_stmt_verdict_map_stmt_keyword_vmap,
+\    nft_map_expr_keyword_map,
 \    nft_meta_expr_close_scope_meta_device_index_operator_prefix_keyword_not,
 \    nft_meta_expr_close_scope_meta_device_index_operators_equality,
 \    nft_meta_expr_close_scope_meta_device_index_set_operator_in,
 \    nft_meta_expr_close_scope_meta_device_index_quoted_identifier,
+\    nft_interface_name_set_block,
+\    nft_primary_rhs_expr_symbol_expr_variable_expr_identifier,
 \    nft_meta_expr_close_scope_meta_device_index_identifier,
-\    nft_meta_expr_close_scope_meta_device_index_number
+\    nft_meta_expr_close_scope_meta_device_index_number,
+\    nft_blind_interface
 " No error handler here, 'oif' is also a standalone statement keyword
 
 hi link   nft_meta_expr_meta_key_meta_key_unqualified_keyword_oif nftHL_Substatement
@@ -817,7 +856,11 @@ syn match nft_interface_name_namedset '\v\@[a-zA-Z][a-zA-Z0-9\-_]{0,63}' skipwhi
 
 hi link   nft_interface_name_quote_string_asterisk  nftHL_String
 syn match nft_interface_name_quote_string_asterisk '\v\"[a-zA-Z][a-zA-Z0-9\-_\*]{0,15}\"\ze[ \t\n;]' skipwhite contained
+\ nextgroup=
+\    @nft_c_stmt
 syn match nft_interface_name_quote_string_asterisk '\v\'[a-zA-Z][a-zA-Z0-9\-_\*]{0,15}\'\ze[ \t\n;]' skipwhite contained
+\ nextgroup=
+\    @nft_c_stmt
 
 hi link   nft_interface_name_quote_mandatory  nftHL_String
 syn match nft_interface_name_quote_mandatory '\v\"[a-zA-Z][a-zA-Z0-9\-_]{0,15}\"\ze[ \t\n;]' skipwhite contained
@@ -1040,6 +1083,7 @@ syn match nft_meta_expr_meta_key_meta_key_unqualified_keyword_oifname '\voifname
 \    nft_map_expr_keyword_map,
 \    nft_meta_expr_close_scope_meta_ifname_set_membership_operator_prefix_keyword_not,
 \    nft_meta_expr_close_scope_meta_ifname_set_membership_keyword_in,
+\    nft_primary_rhs_expr_symbol_expr_variable_expr_identifier,
 \    @nft_c_meta_expr_close_scope_meta_interface_name_quoted_device_name,
 \    nft_Error
 " **************** END meta_expr 'oifname' **********************
@@ -1050,7 +1094,9 @@ syn match nft_meta_expr_meta_key_unqualified_keyword_oifname '\voifname\ze[ \t]'
 \    nft_map_expr_keyword_map,
 \    nft_meta_expr_close_scope_meta_ifname_set_membership_operator_prefix_keyword_not,
 \    nft_meta_expr_close_scope_meta_ifname_set_membership_keyword_in,
+\    nft_primary_rhs_expr_symbol_expr_variable_expr_identifier,
 \    @nft_c_meta_expr_close_scope_meta_interface_name_quoted_device_name,
+\    nft_blind_interface,
 \    nft_Error
 " **************** END meta_expr 'meta oifname' **********************
 
@@ -1236,6 +1282,7 @@ syn match nft_meta_expr_meta_key_meta_key_unqualified_keyword_cgroup '\vcgroup\z
 " ************** BEGIN meta_expr 'meta length' ***********************
 hi link   nft_packet_length_integer nftHL_Integer
 syn match nft_packet_length_integer '\v(0[xX][0-9a-fA-F]{8}|0[xX][0-9a-fA-F]{1,7}|[0-3]?[0-9]{1,9}|4[0-1][0-9]{8}|42[0-8][0-9]{7}|429[0-3][0-9]{6}|4294[0-8][0-9]{5}|42949[0-5][0-9]{4}|429496[0-6][0-9]{3}|4294967[0-1][0-9]{2}|42949672[0-8][0-9]|429496729[0-5])\ze[ \t\n;]' skipwhite contained
+\ nextgroup=@nft_c_stmt
 
 hi link   nft_packet_length_set_block_member_separator nftHL_Integer
 syn match nft_packet_length_set_block_member_separator /,/ skipwhite contained

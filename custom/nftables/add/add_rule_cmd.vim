@@ -311,8 +311,7 @@ syn match nft_add_cmd_rule_position_index_spec_keyword_index /\vindex\ze[ \t]/ s
 hi link   nft_base_cmd_add_cmd_rule_position_chain_spec_identifier nftHL_Table
 syn match nft_base_cmd_add_cmd_rule_position_chain_spec_identifier '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_stmt_declarative_keyword_ip,
-"\    @nft_c_stmt,
+\    @nft_c_stmt,
 " TODO: We need a split-out of super-cluster nft_add_cmd_rule_rule_alloc_stmt to interperse position_spec's keywords
 
 syn cluster nft_c_add_cmd_rule_rule_alloc_again
@@ -356,7 +355,7 @@ syn match nft_add_rule_declarative_rule_position_chain_spec_netdev_identifier '\
 hi link   nft_add_rule_declarative_rule_position_chain_spec_inet_identifier nftHL_Table
 syn match nft_add_rule_declarative_rule_position_chain_spec_inet_identifier '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    @nft_c_stmt_family_inet
+\    @nft_c_stmt
 
 hi link   nft_add_rule_declarative_rule_position_chain_spec_arp_identifier nftHL_Table
 syn match nft_add_rule_declarative_rule_position_chain_spec_arp_identifier '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
@@ -489,32 +488,32 @@ syn cluster nft_c_base_cmd_implied_rule
 hi link   nft_add_rule_imperative_rule_position_chain_spec_bridge_identifier nftHL_Table
 syn match nft_add_rule_imperative_rule_position_chain_spec_bridge_identifier '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    @nft_c_stmt
+\    @nft_c_stmt_family_bridge
 
 hi link   nft_add_rule_imperative_rule_position_chain_spec_netdev_identifier nftHL_Table
 syn match nft_add_rule_imperative_rule_position_chain_spec_netdev_identifier '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    @nft_c_stmt
+\    @nft_c_stmt_family_netdev
 
 hi link   nft_add_rule_imperative_rule_position_chain_spec_inet_identifier nftHL_Table
 syn match nft_add_rule_imperative_rule_position_chain_spec_inet_identifier '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    @nft_c_stmt
+\    @nft_c_stmt_family_inet
 
 hi link   nft_add_rule_imperative_rule_position_chain_spec_arp_identifier nftHL_Table
 syn match nft_add_rule_imperative_rule_position_chain_spec_arp_identifier '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    @nft_c_stmt
+\    @nft_c_stmt_family_arp
 
 hi link   nft_add_rule_imperative_rule_position_chain_spec_ip6_identifier nftHL_Table
 syn match nft_add_rule_imperative_rule_position_chain_spec_ip6_identifier '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    @nft_c_stmt
+\    @nft_c_stmt_family_ip6
 
 hi link   nft_add_rule_imperative_rule_position_chain_spec_ip_identifier nftHL_Table
 syn match nft_add_rule_imperative_rule_position_chain_spec_ip_identifier '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    @nft_c_stmt
+\    @nft_c_stmt_family_ip
 
 hi link   nft_add_rule_imperative_rule_position_chain_spec_unknown_identifier nftHL_Table
 syn match nft_add_rule_imperative_rule_position_chain_spec_unknown_identifier '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained

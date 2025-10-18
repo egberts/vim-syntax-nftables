@@ -96,39 +96,38 @@ syn match  nft_stmt_ip6_payload_expr_ip6_hdr_expr_close_scope_ip6_primary_expr_c
 \ skipwhite contained
 
 
-" ************************* Keyword 'ip' ***************************
-" this is not an expression but THE opening statement 'ip' keyword
+" ************************* Keyword 'ip6' ***************************
+" this is not an expression but THE opening statement 'ip6' keyword
 "
 " No expression allowed here
 ""
-" WRONG to use: rule → stmt_list → stmt → stmt_expr → multiton_stmt_expr → primary_stmt_expr → keyword_expr -> 'ip'
+" WRONG to use: rule → stmt_list → stmt → stmt_expr → multiton_stmt_expr → primary_stmt_expr → keyword_expr -> 'ip6'
 "     multiton_stmt_expr is for range/prefix only
 
 " TODO, rename this multion_stmt_expr to:
-"   stmt->payload_stmt->payload_expr->ip6_hdr_expr->'ip' (only if using 'set')
+"   stmt->payload_stmt->payload_expr->ip6_hdr_expr->'ip6' (only if using 'set')
 "   stmt->match_stmt->relational_expr->expr->concat_expr->basic_expr->primary_expr->payload_expr->ip6_hdr_expr
 "   stmt->match_stmt->relational_expr->expr->concat_expr->basic_expr->primary_expr->payload_expr->ip6_hdr_expr
-"   (14 others)->stmt_expr->symbol_stmt_expr->keyword_expr->'ip'; typically with modifier keyword ('set', 'to', 'devices')
-"   primary_stmt_expr->payload_expr->ip6_hdr_expr->'ip' (used in sub-stmt, not applicable in this 'stmt' context here)
+"   (14 others)->stmt_expr->symbol_stmt_expr->keyword_expr->'ip6'; typically with modifier keyword ('set', 'to', 'devices')
+"   primary_stmt_expr->payload_expr->ip6_hdr_expr->'ip6' (used in sub-stmt, not applicable in this 'stmt' context here)
 ""
-"   payload_expr->ip6_hdr_expr->'ip'
-"   family_spec->family_spec_explicit->'ip'  (not applicable in this 'stmt' context here)
+"   payload_expr->ip6_hdr_expr->'ip6'
+"   family_spec->family_spec_explicit->'ip6'  (not applicable in this 'stmt' context here)
 "
-" Most simplistic LL(1) semantic action is 'keyword_expr' (one keyword: 'ip'),
+" Most simplistic LL(1) semantic action is 'keyword_expr' (one keyword: 'ip6'),
 " not used because out-of-scope (not at 'stmt' context) and only used as an
 " expression after its initial statement.
 "
-" Next most simplistic semantic is 'concat_stmt_expr': 'ip protocol icmp', the 'ip' part.
+" Next most simplistic semantic is 'concat_stmt_expr': 'ip6 protocol icmpv6', the 'ip6' part.
 "
 " 'rule'
-hi link   nft_stmt_declarative_keyword_ip  nftHL_Command
-syn match nft_stmt_declarative_keyword_ip  '\vip6\ze[ \t]' skipwhite contained
+hi link   nft_stmt_declarative_keyword_ip6  nftHL_Statement
+syn match nft_stmt_declarative_keyword_ip6  '\vip6\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_ip6_hdr_expr_ip6_hdr_field_keyword_flowlabel,
 \    nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_ip6_hdr_expr_ip6_hdr_field_keyword_hoplimit,
 \    nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_ip6_hdr_expr_ip6_hdr_field_keyword_nexthdr,
 \    nft_payload_expr_ip6_keyword_version,
-\    nft_payload_expr_ip6_keyword_length,
 \    nft_payload_expr_ip6_keyword_daddr,
 \    nft_payload_expr_ip6_keyword_saddr,
 \    nft_payload_expr_ip6_keyword_dscp,
@@ -138,10 +137,11 @@ syn match nft_stmt_declarative_keyword_ip  '\vip6\ze[ \t]' skipwhite contained
 \    nft_payload_expr_udp_hdr_expr_keyword_udp,
 \    nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_ip6_hdr_expr_ip6_hdr_field_keyword_id,
 \    @nft_c_primary_stmt_expr
-" no error here, 'ip' can be a standalone statement
+" no error here, 'ip6' can be a standalone statement
+" nft_payload_expr_ip6_keyword_length supplanted by nft_meta_expr_meta_key_qualified_keyword_length
 
-hi link   nft_add_rule_imperative_keyword_ip  nftHL_Command
-syn match nft_add_rule_imperative_keyword_ip  '\vip6\ze[ \t]' skipwhite contained
+hi link   nft_add_rule_imperative_keyword_ip6  nftHL_Statement
+syn match nft_add_rule_imperative_keyword_ip6  '\vip6\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    nft_ip6_hdr_expr_ip6_hdr_field_keyword_hdrversion,
 \    nft_ip6_hdr_expr_ip6_hdr_field_keyword_hdrlength,
@@ -160,7 +160,7 @@ syn match nft_add_rule_imperative_keyword_ip  '\vip6\ze[ \t]' skipwhite containe
 
 
 
-hi link   nft_stmt_keyword_ip6 nftHL_Command
+hi link   nft_stmt_keyword_ip6 nftHL_Statement
 syn match nft_stmt_keyword_ip6 '\vip6\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_rule_rule_alloc_stmt_primary_stmt_expr_payload_expr_ip6_hdr_expr_ip6_hdr_field_keyword_flowlabel,

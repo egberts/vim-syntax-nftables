@@ -43,10 +43,14 @@ syn match nft_reject_stmt_reject_opts_icmp_num_hex '\v(0x([A-Fa-f]\d|[A-Fa-f]{2}
 hi link   nft_reject_stmt_reject_opts_icmpx_types_enum nftHL_Define
 syn match nft_reject_stmt_reject_opts_icmpx_types_enum
 \ '\v(addr\-unreachable|admin\-prohibited|port\-unreachable|not\-neighbor|reject\-route|policy\-fail|prohibited|no\-route)\ze[ \t\n;]' skipwhite contained
+\ nextgroup=
+\    @nft_c_stmt
 
 hi link   nft_reject_stmt_reject_opts_constant_expr_inline_set_icmpx_types_enum nftHL_Define
 syn match nft_reject_stmt_reject_opts_constant_expr_inline_set_icmpx_types_enum
 \ '\v(addr\-unreachable|admin\-prohibited|port\-unreachable|not\-neighbor|reject\-route|policy\-fail|prohibited|no\-route)\ze[ \t\n,]' skipwhite contained
+\ nextgroup=
+\    @nft_c_stmt
 
 hi link    nft_reject_stmt_reject_opts_constant_expr_inline_delimiters nftHL_BlockDelimiterSet
 syn region nft_reject_stmt_reject_opts_constant_expr_inline_delimiters start=+{+ end=+}+ skipwhite contained
@@ -56,6 +60,8 @@ syn region nft_reject_stmt_reject_opts_constant_expr_inline_delimiters start=+{+
 hi link   nft_reject_stmt_reject_opts_icmp_types_enum nftHL_Define
 syn match nft_reject_stmt_reject_opts_icmp_types_enum
 \ '\v(fragmentation\-needed|host\-unreachable\-tos|precedence\-violation|protocol\-unreachable|net\-unreachable\-tos|source\-route\-failed|precedence\-cutoff|admin\-prohibited|host\-unreachable|port\-unreachable|net\-unreachable|host\-isolated|host\-unknown|net\-unknown|host\-anon|net\-anon)\ze[ \t\n;]' skipwhite contained
+\ nextgroup=
+\    @nft_c_stmt
 
 
 hi link   nft_reject_stmt_reject_opts_icmp_keyword_type nftHL_Keyword
@@ -101,7 +107,7 @@ syn match nft_reject_stmt_reject_opts_keyword_icmpx '\vicmpx' skipwhite containe
 \    nft_Error
 
 hi link   nft_reject_stmt_reject_opts_keyword_icmpv6 nftHL_Substatement
-syn match nft_reject_stmt_reject_opts_keyword_icmpv6 '\vicmpv6' skipwhite contained
+syn match nft_reject_stmt_reject_opts_keyword_icmpv6 '\v(ipv6\-icmp|icmpv6)' skipwhite contained
 \ nextgroup=
 \    nft_reject_stmt_reject_opts_icmpx_types_enum,
 \    nft_reject_stmt_reject_opts_icmpv6_keyword_type,

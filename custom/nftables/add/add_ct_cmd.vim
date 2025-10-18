@@ -261,12 +261,14 @@ syn match nft_primary_expr_ct_expr_ct_state_comma '\v,' skipwhite contained
 hi link   nft_primary_expr_ct_expr_ct_state_at_setname nftHL_AtSetname
 syn match nft_primary_expr_ct_expr_ct_state_at_setname '\v\@[a-zA-Z0-9][a-zA-Z0-9\-_]{0,63}' skipwhite contained
 \ nextgroup=
+\   @nft_c_stmt,
 \   nft_primary_expr_ct_expr_ct_state_comma
 
 hi link   nft_primary_expr_ct_expr_ct_state_choices nftHL_Define
 syn match nft_primary_expr_ct_expr_ct_state_choices '\v((invalid|established|related|new|untracked)|([0-9]{1,10}))' skipwhite contained
 \ nextgroup=
-\   nft_primary_expr_ct_expr_ct_state_comma
+\   @nft_c_stmt,
+\   nft_primary_expr_ct_expr_ct_state_comma,
 
 hi link   nft_stmt_ct_common_ct_key_keyword_state nftHL_Substatement
 syn match nft_stmt_ct_common_ct_key_keyword_state '\vstate' skipwhite contained

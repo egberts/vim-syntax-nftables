@@ -70,6 +70,7 @@ syn region nft_stmt_log_stmt_log_arg_keyword_prefix_string start='\"' end='\"' s
 \    nft_stmt_log_stmt_log_arg_keyword_queue_threshold,
 \    nft_stmt_log_stmt_log_arg_keyword_level,
 \    nft_stmt_log_stmt_log_arg_keyword_flags,
+\    @nft_c_stmt,
 
 hi link   nft_stmt_log_stmt_log_arg_keyword_prefix_string_unquoted nftHL_String
 syn match nft_stmt_log_stmt_log_arg_keyword_prefix_string_unquoted

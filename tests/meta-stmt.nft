@@ -343,6 +343,7 @@ table T {
         meta cgroup  0x0
         meta cgroup  4294967295
         meta cgroup  0xFFFFffff
+        meta ipsec drop
         meta ipsec 0
         meta ipsec 1
         meta ipsec 0x0
@@ -353,17 +354,17 @@ table T {
         meta ipsec in ip saddr
         meta ipsec in ip6 daddr
         meta ipsec in ip6 saddr
-        meta ipsec in spi 15 ip daddr
+        meta ipsec in spi 0xffff ip daddr
         meta ipsec in spi 15 ip saddr
         meta ipsec in spi 15 ip6 daddr
         meta ipsec in spi 15 ip6 saddr
-        meta ipsec in reqid  15 ip daddr
+        meta ipsec in reqid !=15 ip daddr
         meta ipsec in reqid  15 ip saddr
         meta ipsec in reqid  15 ip6 daddr
         meta ipsec in reqid  15 ip6 saddr
         meta ipsec in spnum 15 spi  15 
         meta ipsec out spi  15 
-        meta ipsec spi spi  15 
+        meta ipsec spi 15 
         meta ipsec not spi  15 
         meta ipsec ! spi  15 
         meta ipsec > 15 

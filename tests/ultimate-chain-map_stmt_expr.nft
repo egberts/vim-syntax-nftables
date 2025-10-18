@@ -209,7 +209,7 @@ table T {
 		iifname "enp0s25" goto raw_PRE_home
 		iifname "enp0s8" ip daddr . ip protocol . th dport vmap @forwport counter packets 0 bytes 0
 		iifname { "eth0", "abcdef0" } counter packets 0 bytes 0
-		iifname "eth0" meta nfproto vmap { ipv4 : jump blacklist_input_ipv4, ipv6 : jump blacklist_input_ipv6 }
+		#iifname "eth0" meta nfproto vmap { ipv4 : jump blacklist_input_ipv4, ipv6 : jump blacklist_input_ipv6 }
 		iifname "eth0" oifname != "eth0" counter packets 0 bytes 0 accept
 		iifname "eth0" oifname "eth0" counter packets 0 bytes 0 accept
 		iifname != "foobar" accept

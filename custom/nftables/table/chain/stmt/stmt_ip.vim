@@ -134,7 +134,7 @@ syn match  nft_stmt_ip_payload_expr_ip_hdr_expr_close_scope_ip_primary_expr_cons
 " Next most simplistic semantic is 'concat_stmt_expr': 'ip protocol icmp', the 'ip' part.
 "
 " 'rule'
-hi link   nft_stmt_declarative_keyword_ip  nftHL_Command
+hi link   nft_stmt_declarative_keyword_ip  nftHL_Statement
 syn match nft_stmt_declarative_keyword_ip  '\vip\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    nft_ip_hdr_expr_ip_hdr_field_keyword_hdrversion,
