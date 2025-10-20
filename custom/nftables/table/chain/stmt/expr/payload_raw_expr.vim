@@ -67,25 +67,25 @@ syn match nft_payload_raw_expr_comma1_symbol '\v,' contained
 " Predefined payload base: @ih, @ll, @nh, @th
 " payload_raw_expr/payload_expr/primary_expr/basic_expr/concat_expr/relational_expr/match_stmt/stmt/rule_alloc/rule/chain_block ...
 " '@ih,9,9 99'
-hi link   nft_payload_raw_expr_payload_base_spec_keyword_at_ih nftHL_Statement
+hi link   nft_payload_raw_expr_payload_base_spec_keyword_at_ih nftHL_AtSetname
 syn match nft_payload_raw_expr_payload_base_spec_keyword_at_ih '\v\@ih' contained
 \ nextgroup=
 \    nft_payload_raw_expr_comma1_symbol, nft_Error
 
 " '@ll,9,9 99'
-hi link   nft_payload_raw_expr_payload_base_spec_keyword_at_ll nftHL_Statement
+hi link   nft_payload_raw_expr_payload_base_spec_keyword_at_ll nftHL_AtSetname
 syn match nft_payload_raw_expr_payload_base_spec_keyword_at_ll '\v\@ll' contained
 \ nextgroup=
 \    nft_payload_raw_expr_comma1_symbol, nft_Error
 
 " '@nh,9,9 99'
-hi link   nft_payload_raw_expr_payload_base_spec_keyword_at_nh nftHL_Statement
+hi link   nft_payload_raw_expr_payload_base_spec_keyword_at_nh nftHL_AtSetname
 syn match nft_payload_raw_expr_payload_base_spec_keyword_at_nh '\v\@nh' contained
 \ nextgroup=
 \    nft_payload_raw_expr_comma1_symbol, nft_Error
 
 " '@th,9,9 99'
-hi link   nft_payload_raw_expr_payload_base_spec_keyword_at_th nftHL_Statement
+hi link   nft_payload_raw_expr_payload_base_spec_keyword_at_th nftHL_AtSetname
 syn match nft_payload_raw_expr_payload_base_spec_keyword_at_th '\v\@th' contained
 \ nextgroup=
 \    nft_payload_raw_expr_comma1_symbol, nft_Error

@@ -114,7 +114,8 @@ syn cluster nft_c_stmt_expr
 \    @nft_c_multion_stmt_expr,
 \    @nft_c_symbol_stmt_expr,
 \    nft_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_symbol_expr_variable_expr,
-\    nft_stmt_expr_map_stmt_expr_set_expr_set_ref_expr_set_symbol_ref_expr_variable
+\    nft_stmt_expr_map_stmt_expr_set_expr_set_ref_expr_set_symbol_ref_expr_variable,
+\    nft_primary_expr_integer_expr_num_u32
 
   for s:this_semantic_file in s:stmt_expr_list_filepaths_semantic_later
     call nftables#syntax#log('OK', 'Loading ' . s:this_semantic_file)

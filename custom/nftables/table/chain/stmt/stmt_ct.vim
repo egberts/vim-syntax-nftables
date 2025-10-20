@@ -115,7 +115,7 @@ syn match nft_stmt_ct_stmt_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_e
 hi link    nft_stmt_objref_stmt_objref_stmt_ct_stmt_expr_symbol_stmt_expr_symbol_expr_string_quoted_string nftHL_String
 syn region nft_stmt_objref_stmt_objref_stmt_ct_stmt_expr_symbol_stmt_expr_symbol_expr_string_quoted_string start='\"' end='\"' oneline skipwhite contained
 
-hi link   nft_ct_stmt_verdict_stmt_verdict_map_stmt_set_ref_expr_set_ref_symbol_expr_keyword_at_identifier nftHL_Variable
+hi link   nft_ct_stmt_verdict_stmt_verdict_map_stmt_set_ref_expr_set_ref_symbol_expr_keyword_at_identifier nftHL_AtSetname
 syn match nft_ct_stmt_verdict_stmt_verdict_map_stmt_set_ref_expr_set_ref_symbol_expr_keyword_at_identifier '\v\@[a-zA-Z][a-zA-Z0-9\-_]{0,63}' skipwhite contained
 
 hi link   nft_stmt_objref_stmt_objref_stmt_ct_keyword_set nftHL_Write

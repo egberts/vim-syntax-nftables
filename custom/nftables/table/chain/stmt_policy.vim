@@ -45,7 +45,7 @@ syn match nft_add_cmd_keyword_table_table_block_chain_chain_block_separator /;/ 
 
 
 " chain_policy->policy_expr->'policy'->policy_spec->chain_block->'{'->
-hi link   nft_add_cmd_keyword_table_table_block_chain_chain_policy_spec_policy_expr_chain_policy nftHL_Keyword
+hi link   nft_add_cmd_keyword_table_table_block_chain_chain_policy_spec_policy_expr_chain_policy Type
 syn match nft_add_cmd_keyword_table_table_block_chain_chain_policy_spec_policy_expr_chain_policy "\v(accept|drop)" skipwhite contained
 \ nextgroup=
 \    nft_MissingSemicolon,

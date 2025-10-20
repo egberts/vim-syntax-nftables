@@ -30,7 +30,6 @@ let s:stmt_list_filepaths_semantic_early = [
 \    'table/chain/stmt/map_stmt_expr.vim',
 \    'table/chain/stmt_policy.vim',
 \    'table/chain/stmt_type.vim',
-\    'table/chain/stmt_type.vim',
 \    ]
 let s:stmt_list_filepaths_semantic_later = []
 

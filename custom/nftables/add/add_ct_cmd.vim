@@ -214,7 +214,7 @@ hi link   nft_stmt_ct_common_ct_key_keyword_avgpkt nftHL_Substatement
 syn match nft_stmt_ct_common_ct_key_keyword_avgpkt '\vavgpkt' skipwhite contained
 
 "\    ct 'helper' - ftp sip h323 irc pptp tftp
-hi link   nft_ct_stmt_verdict_stmt_verdict_map_stmt_set_ref_expr_set_ref_symbol_expr_keyword_at_identifier nftHL_Variable
+hi link   nft_ct_stmt_verdict_stmt_verdict_map_stmt_set_ref_expr_set_ref_symbol_expr_keyword_at_identifier nftHL_AtSetname
 syn match nft_ct_stmt_verdict_stmt_verdict_map_stmt_set_ref_expr_set_ref_symbol_expr_keyword_at_identifier '\v\@[a-zA-Z][a-zA-Z0-9\-_]{0,63}' skipwhite contained
 
 hi link   nft_stmt_ct_common_ct_key_keyword_helper nftHL_Substatement

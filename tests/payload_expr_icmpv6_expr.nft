@@ -192,6 +192,7 @@ table T {
 
         icmpv6 param-problem 0 accept
         icmpv6 param-problem 4294967295 accept
+        icmpv6 param-problem 4294967296 accept
         icmpv6 param-problem 0x0 accept
         icmpv6 param-problem 0xffFFffFF accept
         icmpv6 param-problem > 15 accept

@@ -220,7 +220,7 @@ syn match nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_types "\v(
 hi link   nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_keyword_type nftHL_Command
 " A more restrictive type look-behind is required due to reuse of 'type' keyword elsewhere:
 " A left curly brace or a new line (start of line)
-syn match nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_keyword_type "\v(^|\{)\s{0,40}[ \t]{0,40}\zstype" skipwhite contained
+syn match nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_keyword_type "\v(^|\{)\s{0,40}[ \t]{0,40}\zstype\ze[ \t]" skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_keyword_table_table_block_chain_block_hook_spec_types,
 \    nft_UnexpectedSymbol,

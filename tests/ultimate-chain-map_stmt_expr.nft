@@ -11,6 +11,8 @@ table T {
 		add @y { ip saddr }
 		counter
 		counter name meta mark >> 8 & 0xf map @sctm_o1
+        counter name myctr
+        update @sctm_o1 { meta mark >> 8 & 0xf : counter }
 		#counter name ip saddr map { 1.1.1.1 : "user123", 2.2.2.2 : "user123", 192.168.2.2 : "user123" }
 		counter packets 0 bytes 0
 		counter packets 0 bytes 0 accept
@@ -101,6 +103,10 @@ table T {
 }
 table T {
     chain C {
+        type filter
+            hook ingress
+            priority -100
+             policy drop ;
 		drop
 		ether daddr @set1 add @set2 { ether daddr counter }
 		ether saddr 0a:0b:0c:0d:0e:0f vlan id 42
@@ -130,9 +136,6 @@ table T {
 		goto nat_PRE_public
 		goto raw_PRE_public
 		goto underflow
-		hook ingress priority filter
-		hook ingress priority filter - 1
-		hook ingress priority filter + 10
 		icmp type { 1, 2 } accept
 		icmp type { destination-unreachable, echo-request, time-exceeded, parameter-problem } accept
 		icmp type echo-reply accept
@@ -141,12 +144,12 @@ table T {
 		icmp type echo-request accept
 		icmp type echo-request iif @s3 counter packets 1 bytes 84
 		icmp type echo-request iif @s4 counter packets 1 bytes 84
-		icmp type echo-request ip daddr . "lo" @s2 counter packets 1 bytes 84
-		icmp type echo-request ip daddr . "lo" @s counter packets 1 bytes 84
+		icmp type echo-request ip daddr . iif "lo" @s2 counter packets 1 bytes 84
+		icmp type echo-request ip daddr . iif "lo" @s counter packets 1 bytes 84
 		icmp type echo-request ip saddr . iif @s2 counter packets 1 bytes 84
 		icmp type echo-request ip saddr . iif @s counter packets 1 bytes 84
-		icmp type echo-request ip saddr . "lo" @s2 counter packets 1 bytes 84
-		icmp type echo-request ip saddr . "lo" @s counter packets 1 bytes 84
+		icmp type echo-request ip saddr . oif "lo" @s2 counter packets 1 bytes 84
+		icmp type echo-request ip saddr . oif "lo" @s counter packets 1 bytes 84
     }
 }
 table T {
@@ -459,11 +462,13 @@ table T {
     }
 }
 table T {
+    limit l1 rate 10/second
+    limit l2 rate 5/second
+	limit name ip6 saddr map @saddr6limit
+	limit name meta protocol . ip saddr . th sport map @addr4limit
+	limit name tcp dport map { 80 : "http-traffic", 443 : "http-traffic" }
     chain C {
 		l3proto ip
-		limit name ip6 saddr map @saddr6limit
-		limit name meta protocol . ip saddr . th sport map @addr4limit
-		limit name tcp dport map { 80 : "http-traffic", 443 : "http-traffic" }
 		limit rate 1/second burst 5 packets
 		limit rate 1/second burst 5 packets counter
 		limit rate over 1 mbytes/second
@@ -660,7 +665,7 @@ table inet filter {
     # Create the 'output' chain for our filter table
     chain output { 
         type filter hook output priority 0; 
-        socket uid nginx reject
+        meta skuid 1000 reject
     }
 }
 
@@ -692,7 +697,7 @@ table T {
 		tcp dport { 21, 2121 } counter packets 0 bytes 0 accept
 		tcp dport 21 add @s { ip saddr . 22 timeout 1m }
 		tcp dport { 22222, 33333 }
-		tcp dport 2222 ct state new meta secmark set "ssh_server"
+		# tcp dport 2222 ct state new meta secmark set "ssh_server"  # 'set' not supported in libnlnft
 		tcp dport { 22, 80, 443 } ct state new counter packets 0 bytes 0 accept
 		tcp dport 22 accept
 		tcp dport 22 counter packets 0 bytes 0 accept

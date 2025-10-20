@@ -264,13 +264,13 @@ syn match nft_payload_expr_ip6_nexthdr_hop_by_hop_keyword_opt_data '\vopt\-data\
 hi link   nft_payload_expr_ip6_nexthdr_hop_by_hop_keyword_opt_type nftHL_Keyword
 syn match nft_payload_expr_ip6_nexthdr_hop_by_hop_keyword_opt_type '\vopt\-type\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_packet_length_integer,
+\    nft_meta_expr_close_scope_meta_length_integer_expr_num,
 \    nft_Error
 
 hi link   nft_payload_expr_ip6_nexthdr_hop_by_hop_keyword_opt_len nftHL_Keyword
 syn match nft_payload_expr_ip6_nexthdr_hop_by_hop_keyword_opt_len '\vopt\-len\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_packet_length_integer,
+\    nft_meta_expr_close_scope_meta_length_integer_expr_num,
 \    nft_Error
 
 hi link   nft_payload_expr_ip6_nexthdr_keyword_hop_by_hop nftHL_Keyword
@@ -2084,7 +2084,8 @@ hi link   nft_payload_expr_tcp_sport_num_or_range nftHL_Integer
 syn match nft_payload_expr_tcp_sport_num_or_range '\v((0x[0-9a-fA-F]{1,4})|([0-9]{1,5}))\ze[ \t\-]' skipwhite contained
 \ nextgroup=
 \    @nft_c_payload_expr_tcp_expressions,
-\    nft_payload_expr_tcp_sport_dash_symbol
+\    nft_payload_expr_tcp_sport_dash_symbol,
+\    @nft_c_primary_expr,
 
 "  tcp sport >
 hi link   nft_payload_expr_tcp_sport_operator_1char nftHL_Expression

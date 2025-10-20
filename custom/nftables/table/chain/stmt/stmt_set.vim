@@ -37,7 +37,7 @@ try
 hi link    nft_set_stmt_and_map_stmt_delimiters nftHL_BlockDelimitersSet
 syn region nft_set_stmt_and_map_stmt_delimiters start=+{+ end=+}+ keepend skipnl skipwhite contained
 
-hi link   nft_map_stmt_set_ref_expr_set_ref_symbol_expr_keyword_at_identifier nftHL_Element
+hi link   nft_map_stmt_set_ref_expr_set_ref_symbol_expr_keyword_at_identifier nftHL_AtSetname
 syn match nft_map_stmt_set_ref_expr_set_ref_symbol_expr_keyword_at_identifier '\v\@[a-zA-Z][a-zA-Z0-9\_-]{0,63}' skipwhite contained
 \ nextgroup=
 \    nft_set_stmt_and_map_stmt_delimiters

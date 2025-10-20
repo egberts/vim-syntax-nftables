@@ -67,6 +67,7 @@ syn cluster nft_c_primary_stmt_expr
 \    nft_meta_expr_meta_key_unqualified_keyword_iiftype,
 \    nft_boolean_expr_boolean_key_keyword_missing,
 \    nft_meta_expr_meta_key_unqualified_keyword_nftrace,
+\    nft_meta_expr_internal_string_keyword_nfproto,
 \    nft_meta_expr_invalid_keyword_notrack,
 \    nft_meta_expr_meta_key_unqualified_keyword_obrname,
 \    nft_meta_expr_meta_key_unqualified_keyword_oifname,

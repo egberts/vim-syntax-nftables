@@ -47,6 +47,11 @@ syn match nft_meta_stmt_keyword_set '\vset' skipwhite contained
 \    nft_meta_stmt_meta_key_qualified_priority_number,
 \    @nft_c_stmt_expr
 
+hi link   nft_meta_stmt_keyword_mark_keyword_set nftHL_Write
+syn match nft_meta_stmt_keyword_mark_keyword_set '\vset' skipwhite contained
+\ nextgroup=
+\    @nft_c_stmt_expr
+
 " ********** BEGIN meta_stmt 'iif' ******************************
 " handled by nft_meta_expr_meta_key_unqualified_keyword_iif
 " ************ END meta_stmt 'iif' ******************************
@@ -567,6 +572,7 @@ syn match nft_meta_stmt_meta_key_meta_key_unqualified_keyword_hour '\vhour\ze[ \
 hi link   nft_meta_stmt_meta_key_meta_key_unqualified_keyword_mark nftHL_Substatement
 syn match nft_meta_stmt_meta_key_meta_key_unqualified_keyword_mark '\vmark\ze[ \t]' skipwhite contained
 \ nextgroup=
+\    nft_meta_stmt_keyword_mark_keyword_set,
 \    nft_meta_stmt_meta_key_meta_key_unqualified_mark_keyword_not,
 \    @nft_c_mark,
 \    nft_Error
@@ -618,6 +624,7 @@ syn match nft_meta_stmt_keyword_meta '\vmeta\ze[ \t]' skipwhite contained
 \    nft_meta_expr_meta_key_meta_key_unqualified_keyword_ibrname,
 \    nft_meta_expr_meta_key_meta_key_unqualified_keyword_iifname,
 \    nft_meta_expr_meta_key_meta_key_unqualified_keyword_iiftype,
+\    nft_meta_expr_meta_key_internal_string_keyword_nfproto,
 \    nft_meta_expr_meta_key_meta_key_unqualified_keyword_nftrace,
 \    nft_meta_expr_meta_key_meta_key_unqualified_keyword_obrname,
 \    nft_meta_expr_meta_key_meta_key_unqualified_keyword_oifname,

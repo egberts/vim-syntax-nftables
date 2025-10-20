@@ -97,7 +97,19 @@
 
 table T {
     chain C {
-        ip meta rtclassid 0xffffffff 
+        meta nfproto ip counter
+        meta nfproto ip6 drop
+        ip protocol tcp accept
+        ip6 nexthdr udp counter
+        meta protocol 1 drop     # 1 = ICMP
+        meta protocol 0x1 drop     # 1 = ICMP
+
+    }
+}
+
+table T {
+    chain C {
+        ip meta rtclassid 0xffffffff
         ip meta ibriport 7
         ip meta iifgroup 15
         ip meta obriport 7
@@ -106,34 +118,36 @@ table T {
         ip meta protocol 6
         ip meta protocol tcp
         ip meta ibrname "abc0"
-        ip meta iifname 15
+        ip meta iifname "br0"
         ip meta iiftype 0xffff
         ip meta nftrace 0
-        ip meta nftrace 1
+        ip meta nftrace 0
+        ip meta nftrace set 1
         ip meta nftrace 0x1
         ip meta nfproto 0xff
-        ip meta notrack 0
-        ip meta notrack 0x1
-        ip meta notrack 0xff
         ip meta obrname "abc0"
         ip meta oifname "abc0"
         ip meta oiftype 0xffff
-        ip meta pkttype 0xff
+        ip meta pkttype broadcast
+        ip meta pkttype 0xf
         ip meta secmark 0xffffffff
         ip meta cgroup 0xffffffffffffffff
         ip meta length 0xffffffff
-        ip meta random 0xffffffff
+        ip meta random 4
         ip meta ipsec 0xff
         ip meta skgid 0xffffffff
         ip meta skuid 0xffffffff
-        ip meta flow 0xffffffff
         ip meta hour 23
         ip meta mark 0xffffffff
         ip meta time 0xffffffff
-        ip meta cpu 0xffffffff
-        ip meta day 0xff
+        ip meta cpu 0x7fffffff
+        ip meta day 0x6
         ip meta iif 0xffffffff
         ip meta oif 0xffffffff
+        ip meta notrack 0
+        ip meta notrack 0x1
+        ip meta notrack 0xff
+        ip meta flow 0xffffffff
 
         ip rtclassid 
         ip ibriport "eth0"
@@ -143,15 +157,15 @@ table T {
         ip priority 15
         ip protocol tcp
         ip ibrname 15
-        ip iifname 15
+        ip iifname "br*"
         ip iiftype 15
-        ip nftrace 15
+        ip nftrace 1
         ip nfproto 15
         ip notrack 15
         ip obrname 15
-        ip oifname 15
+        ip oifname "eth0"
         ip oiftype 15
-        ip pkttype 15
+        ip pkttype 5
         ip secmark 15
         ip cgroup 15
         ip length 15
@@ -193,8 +207,8 @@ rule T C ip meta ipsec exists; # 'meta ipsec 0' only in meta_expr
 rule T C ip meta ipsec missing; # 'meta ipsec 0' only in meta_expr
 rule T C ip meta ipsec missing; # 'meta ipsec 0' only in meta_expr
 
-rule T C ip nftrace;  # 'meta nftrace == 1' only in meta_expr
-rule T C ip meta nftrace;  # 'meta nftrace == 1' only in meta_expr
+rule T C ip nftrace == 1;  # must use 'meta nftrace == 1' only in meta_expr
+rule T C ip meta nftrace;
 
 # meta_expr - INTERNALS; found in scanner.c (not in parser_bison.y)
 # 'meta nfproto' is integer or string (as listed in /etc/protocol)
@@ -719,10 +733,13 @@ rule T C ip ipsec 1234;  # value only accepts '0' or '1', or 'exists' or 'missin
 rule T C ip meta ipsec 1234;  # value only accepts '0' or '1', or 'exists' or 'missing'
 rule T C ip meta ipsec;  # missing keyword value
 
-rule T C nftrace 1;  # 'meta nftrace == 1' only in meta_expr
+rule T C nftrace 1;  # must use 'meta nftrace == 1' only in meta_expr
 rule T C ip meta nftrace 1;  # 'meta nftrace == 1' only in meta_expr
 
-rule T C ip meta random 1234;  # cannot use a value to start
+rule T C ip meta random 0x1234;  # cannot use a value to start
+rule T C ip meta random 1;  # cannot use a value to start
+rule T C ip meta random 429496729;  # cannot use a value to start
+rule T C ip meta random 4294967295;  # cannot use a value to start
 rule T C ip meta random set mod 5 == 4;  # only 'mod' enum supported
 
 rule T C ip meta mark == 0000000000;  # non-integer is invalid
@@ -743,9 +760,11 @@ rule T C ip meta iif not in { "eth0", "br0" };
 rule T C ip iifname;  # missing interface name
 rule T C ip meta iifname;  # missing interface name
 rule T C ip meta iifname eth0;  # missing double-quote
-rule T C ip meta iifname "eth-0_b*";  # no wildcard allowed
+rule T C ip meta iifname "eth-0_b*";  # wildcard allowed
+rule T C ip meta iifname { "eth-0_b*" };  # wildcard allowed
 rule T C ip meta oifname wlan0;  # missing double-quote
 rule T C ip meta oifname "eth*";
+rule T C ip meta oifname { "eth*", "br0" };
 
 rule T C ip iiftype;  # missing interface type
 rule T C ip meta iiftype;  # missing interface type
@@ -753,6 +772,12 @@ rule T C ip meta iiftype ether;  # can only handle integer
 rule T C ip meta iiftype != ether;  # can only handle integer
 rule T C ip meta iiftype { ether, ppp, ipip, ipip6, loopback, sit, ipgre };  # can only handle integer
 rule T C ip meta iiftype wlan;  # can only handle integer
+rule T C ip meta iiftype 0;
+rule T C ip meta iiftype 65535;
+rule T C ip meta iiftype 0x0;
+rule T C ip meta iiftype 0xffff;
+rule T C ip meta iiftype 65536;  # overflowed 16-bit
+rule T C ip meta iiftype 0x10000;  # overflowed 16-bit
 
 rule T C ip oif;  # missing interface name
 rule T C ip meta oif;  # missing interface name
@@ -765,24 +790,43 @@ rule T C ip meta oiftype ether;  # can only handle integer
 rule T C ip meta oiftype != ether;  # can only handle integer
 rule T C ip meta oiftype { ether, ppp, ipip, ipip6, loopback, sit, ipgre };  # can only handle integer
 rule T C ip meta oiftype wlan;  # can only handle integer
+rule T C ip meta oiftype 0;
+rule T C ip meta oiftype 65535;
+rule T C ip meta oiftype 0x0;
+rule T C ip meta oiftype 0xffff;
 
 rule T C ip meta skuid;  # missing socket_uid_t
-rule T C ip meta skuid 99999999999;  # too many digits for 32-bit
+rule T C ip meta skuid 0;  # too many digits for 32-bit
+rule T C ip meta skuid 42949672956;  # overflow 32-bit
+rule T C ip meta skuid 999999999999;  # too many digits for 32-bit
 rule T C ip meta skuid abc-3001;
 rule T C ip meta skuid 3001-abc;
 rule T C ip meta skuid { abc };
 
 rule T C ip skgid;  # missing socket gid_t
+rule T C ip meta skgid 0;  # too many digits for 32-bit
+rule T C ip meta skgid 42949672956;  # overflow 32-bit
 rule T C ip meta skgid 99999999999;  # too many digits for 32-bit
+rule T C ip meta skgid 0x1-0x1f;
 rule T C ip meta skgid abc-3001;
 rule T C ip meta skgid 3001-abc;
-rule T C ip meta skuid { abc };
+rule T C ip meta skuid in { 0x123 };
 
-rule T C ip meta nftrace 1;  # no argument expected for  state.
+rule T C ip meta nftrace;  # no argument expected for  state.
+rule T C ip meta nftrace 1;
+rule T C ip meta nftrace in { 1; };
 rule T C ip meta nftrace abc;  # no argument expected for  state.
 
 rule T C ip meta rtclassid;  # missing route index number
-rule T C ip meta rtclassid 123456;  # too many digits for 16-bit
+rule T C ip meta rtclassid 0;
+rule T C ip meta rtclassid 65535;
+rule T C ip meta rtclassid 65536;
+rule T C ip meta rtclassid 1000065536;
+rule T C ip meta rtclassid 0x0;
+rule T C ip meta rtclassid 0xffff;
+rule T C ip meta rtclassid 0xffffffff;  # too many hex-char
+rule T C ip meta rtclassid 123456;
+rule T C ip meta rtclassid { 0xff, 123456};
 rule T C ip meta rtclassid cosmos;  # no mnemonic in 'meta rtclassid', but you can with 'realm'
 
 rule T C ip meta ibriport;  # missing bridge interface name
@@ -808,37 +852,85 @@ rule T C ip meta pkttype alternet;   # invalid packet type
 rule T C ip cpu;
 rule T C ip cpu abc;
 rule T C ip meta abc;
+rule T C ip meta cpu 0;
+rule T C ip meta cpu 4294967295;
+rule T C ip meta cpu 0x0;
+rule T C ip meta cpu 0xffffffff;
+rule T C ip meta cpu in { 0 };
+rule T C ip meta cpu { 0, 2, 4294967295, 4 };
+rule T C ip meta cpu { 0x0, 0x2, 0x3, 0x4 };
 rule T C ip meta cpu abc;
+rule T C ip meta cpu 1-1;
 
 rule T C ip iifgroup;
-rule T C ip iifgroup abc;
+rule T C ip meta iifgroup;
+rule T C ip meta iifgroup abc;
+rule T C ip meta iifgroup 0;
+rule T C ip meta iifgroup 0x0;
+rule T C ip meta iifgroup 0xfffffffff;
 
 rule T C ip oifgroup;
-rule T C ip oifgroup abc;
+rule T C ip meta oifgroup;
+rule T C ip meta oifgroup abc;
+rule T C ip meta oifgroup 0;
+rule T C ip meta oifgroup 0x0;
+rule T C ip meta oifgroup 0xfffffffff;
 
-rule T C ip cgroup;
-rule T C ip cgroup abc;
+rule T C ip cgroup;  # missing 'meta'
+rule T C ip cgroup abc;  # missing 'meta'
+rule T C ip meta cgroup;  # missing argument
+rule T C ip meta cgroup abc;  # no symbolic name
+rule T C ip meta cgroup 0;
+rule T C ip meta cgroup 9294967251111;
+rule T C ip meta cgroup 0x0;
+rule T C ip meta cgroup 0xffffffffffffffff;
+rule T C ip meta cgroup { 0, 1 };
+rule T C ip meta cgroup { 0x0, 0x0000000000000001 };
+rule T C ip meta cgroup in { 0x0, 1 };
+rule T C ip meta cgroup not in { 0x0, 1 };
 
 rule T C ip day;
 rule T C ip day wHiNeSdAy;
 rule T C ip day Flukesday;
+rule T C ip day 0;
+rule T C ip day 6;
+rule T C ip day Sunday;
+rule T C ip day Monday;
+rule T C ip day Tuesday;
+rule T C ip day Wednesday;
+rule T C ip day Thursday;
+rule T C ip day Friday;
+rule T C ip day Saturday;
+rule T C ip 
 
 rule T C ip hour;
 rule T C ip hour 24;
 
 rule T C ip length 123;  # 'meta' missing (qualified)
 rule T C ip length abc;  # 'meta' missing (qualified)
+rule T C ip meta length 0;
+rule T C ip meta length 65535;
+rule T C ip meta length 65536;  # overflowed 16-bit
 rule T C ip meta length 165536;  # too many digits for 16-bit 
 rule T C ip meta length abc;  # integer expected
 rule T C ip meta length abc-45;
-rule T C ip meta length 33-abc;
+rule T C ip meta length 0
+rule T C ip meta length 65537
+rule T C ip meta length 4294967295-abc;
 
 rule T C ip protocol; # 'meta' missing (qualified)
 rule T C ip protocol tcp;  # 'meta' missing (qualified)
 rule T C ip meta protocol; # missing protocol
 rule T C ip meta protocol napster;   # non-existant protocol name
 rule T C ip meta protocol "802.1q";
-rule T C ip meta protocol 802_1q;
+rule T C ip meta protocol 802_1q;  # must be in double-quote
+rule T C ip meta protocol 0;
+rule T C ip meta protocol 255;
+rule T C ip meta protocol 256;  # overflowed 8-bit
+rule T C ip meta protocol 0x0;
+rule T C ip meta protocol 0xff;
+rule T C ip meta protocol 0x100;  # overflowed 8-bit + extra hex-char
+rule T C ip meta protocol 0x7fff;  # overflowed 8-bit
 
 rule T C ip priority abc;   # 'meta' missing (qualified)
 rule T C ip priority default;   # 'meta' missing (qualified)

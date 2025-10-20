@@ -126,7 +126,7 @@ syn region nft_icmpv6_hdr_expr_close_scope_icmp6_id_set_expr start=+{+ end=+}+ s
 \    @nft_c_icmpv6_expressions
 
 hi link   nft_icmpv6_hdr_expr_close_scope_icmp6_id_integer_expr_num nftHL_Integer
-syn match nft_icmpv6_hdr_expr_close_scope_icmp6_id_integer_expr_num '\v(0x[A-Fa-f0-9]{1,4}|6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d\d\d|[1-5]\d{4}|\d{1,4})\ze[ \t]' skipwhite contained
+syn match nft_icmpv6_hdr_expr_close_scope_icmp6_id_integer_expr_num '\v(0x[A-Fa-f0-9]{1,4}|6553[0-5]|655[0-2][0-9]|65[0-4][0-9][0-9]|6[0-4][0-9][0-9][0-9]|[1-5][0-9]{4}|[0-9]{1,4})\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    @nft_c_icmpv6_expressions
 
@@ -149,6 +149,7 @@ hi link   nft_icmpv6_hdr_expr_close_scope_icmp6_id_keyword_in nftHL_Keyword
 syn match nft_icmpv6_hdr_expr_close_scope_icmp6_id_keyword_in '\vin' skipwhite contained
 \ nextgroup=
 \    nft_icmpv6_hdr_expr_close_scope_icmp6_id_set_expr,
+\    nft_icmpv6_hdr_expr_close_scope_icmp6_id_set_ref_symbol_expr_setname,
 \    nft_Error
 
 hi link   nft_icmpv6_hdr_expr_close_scope_icmp6_id_relational_expr_keyword_not nftHL_Expression
@@ -264,7 +265,7 @@ syn region nft_icmpv6_hdr_expr_close_scope_icmp6_code_set_expr start=+{+ end=+}+
 \    @nft_c_icmpv6_expressions
 
 hi link   nft_icmpv6_hdr_expr_close_scope_icmp6_code_integer_expr_num nftHL_Integer
-syn match nft_icmpv6_hdr_expr_close_scope_icmp6_code_integer_expr_num '\v(0x([A-Fa-f]\d|[A-Fa-f]{2}|[0-9A-Fa-f])|25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)\ze[ \t]' skipwhite contained
+syn match nft_icmpv6_hdr_expr_close_scope_icmp6_code_integer_expr_num '\v(0x([A-Fa-f][0-9]|[A-Fa-f]{2}|[0-9A-Fa-f])|25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    @nft_c_icmpv6_expressions
 
@@ -343,7 +344,7 @@ syn region nft_icmpv6_hdr_expr_close_scope_icmp6_type_set_expr start=+{+ end=+}+
 \    @nft_c_icmpv6_expressions
 
 hi link   nft_icmpv6_hdr_expr_close_scope_icmp6_type_integer_expr_num nftHL_Integer
-syn match nft_icmpv6_hdr_expr_close_scope_icmp6_type_integer_expr_num '\v(0x([A-Fa-f]\d|[A-Fa-f]{2}|[0-9A-Fa-f])|25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)\ze[ \t]' skipwhite contained
+syn match nft_icmpv6_hdr_expr_close_scope_icmp6_type_integer_expr_num '\v(0x([A-Fa-f][0-9]|[A-Fa-f]{2}|[0-9A-Fa-f])|25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    @nft_c_icmpv6_expressions
 
@@ -553,7 +554,7 @@ syn region nft_icmpv6_hdr_expr_close_scope_icmp6_checksum_set_expr start=+{+ end
 \    @nft_c_icmpv6_expressions
 
 hi link   nft_icmpv6_hdr_expr_close_scope_icmp6_checksum_integer_expr_num nftHL_Integer
-syn match nft_icmpv6_hdr_expr_close_scope_icmp6_checksum_integer_expr_num '\v(0x[A-Fa-f0-9]{1,4}|6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d\d\d|[1-5]\d{4}|\d{1,4})\ze[ \t]' skipwhite contained
+syn match nft_icmpv6_hdr_expr_close_scope_icmp6_checksum_integer_expr_num '\v(0x[A-Fa-f0-9]{1,4}|6553[0-5]|655[0-2][0-9]|65[0-4][0-9][0-9]|6[0-4][0-9][0-9][0-9]|[1-5][0-9]{4}|[0-9]{1,4})\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    @nft_c_icmpv6_expressions
 
@@ -619,7 +620,7 @@ syn region nft_icmpv6_hdr_expr_close_scope_icmp6_sequence_set_expr start=+{+ end
 \    @nft_c_icmpv6_expressions
 
 hi link   nft_icmpv6_hdr_expr_close_scope_icmp6_sequence_integer_expr_num nftHL_Integer
-syn match nft_icmpv6_hdr_expr_close_scope_icmp6_sequence_integer_expr_num '\v(0x[A-Fa-f0-9]{1,4}|6553[0-5]|655[0-2]\d|65[0-4]\d\d|6[0-4]\d\d\d|[1-5]\d{4}|\d{1,4})\ze[ \t]' skipwhite contained
+syn match nft_icmpv6_hdr_expr_close_scope_icmp6_sequence_integer_expr_num '\v(0x[A-Fa-f0-9]{1,4}|6553[0-5]|655[0-2][0-9]|65[0-4][0-9][0-9]|6[0-4][0-9][0-9][0-9]|[1-5][0-9]{4}|[0-9]{1,4})\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    @nft_c_icmpv6_expressions
 
@@ -628,6 +629,8 @@ hi link   nft_icmpv6_hdr_expr_close_scope_icmp6_sequence_relational_expr_operato
 syn match nft_icmpv6_hdr_expr_close_scope_icmp6_sequence_relational_expr_operator_1_char '\v([\>\<\!])' skipwhite contained
 \ nextgroup=
 \    nft_icmpv6_hdr_expr_close_scope_icmp6_sequence_integer_expr_num,
+\    nft_UnexpectedCurlyBrace,
+\    nft_UnexpectedAtSymbol,
 \    nft_chainError
 
 " ip6 nexthdr icmpv6 sequence
@@ -639,8 +642,9 @@ syn match nft_icmpv6_hdr_expr_close_scope_icmp6_sequence_relational_expr_operato
 
 " ip6 nexthdr icmpv6 sequence
 hi link   nft_icmpv6_hdr_expr_close_scope_icmp6_sequence_keyword_in nftHL_Keyword
-syn match nft_icmpv6_hdr_expr_close_scope_icmp6_sequence_keyword_in '\vin' skipwhite contained
+syn match nft_icmpv6_hdr_expr_close_scope_icmp6_sequence_keyword_in '\vin\ze[ \t]' skipwhite contained
 \ nextgroup=
+\    nft_icmpv6_hdr_expr_close_scope_icmp6_sequence_set_ref_symbol_expr_setname,
 \    nft_icmpv6_hdr_expr_close_scope_icmp6_sequence_set_expr,
 \    nft_Error
 
@@ -739,8 +743,8 @@ syn match nft_icmpv6_hdr_expr_close_scope_icmp6_paramproblem_set_ref_symbol_expr
 \    @nft_c_stmt
 
 " ip6 nexthdr icmpv6 param-problem { 1,127,255 }
-hi link   nft_icmpv6_hdr_expr_close_scope_icmp6_paramproblem_set_expr_integer_expr_num nftHL_Integer
-syn match nft_icmpv6_hdr_expr_close_scope_icmp6_paramproblem_set_expr_integer_expr_num '\v(0x[0-9A-Fa-f]{1,8}|(429496729[0-5]|42949672[0-8][0-9]|4294967[01][0-9]{2}|429496[0-6][0-9]{3}|42949[0-5][0-9]{4}|4294[0-8][0-9]{5}|429[0-3][0-9]{6}|42[0-8][0-9]{7}|4[01][0-9]{8}|[1-3][0-9]{9}|[0-9]{1,9}))\ze[ \t\n,\}]' skipwhite contained
+hi link   nft_icmpv6_hdr_expr_close_scope_icmp6_paramproblem_set_integer_expr_num nftHL_Integer
+syn match nft_icmpv6_hdr_expr_close_scope_icmp6_paramproblem_set_integer_expr_num '\v(0x[0-9A-Fa-f]{1,8}|(429496729[0-5]|42949672[0-8][0-9]|4294967[01][0-9]{2}|429496[0-6][0-9]{3}|42949[0-5][0-9]{4}|4294[0-8][0-9]{5}|429[0-3][0-9]{6}|42[0-8][0-9]{7}|4[01][0-9]{8}|[1-3][0-9]{9}|[0-9]{1,9}))\ze[ \t\n,\}]' skipwhite contained
 
 " ip6 nexthdr icmpv6 param-problem {  }
 hi link    nft_icmpv6_hdr_expr_close_scope_icmp6_paramproblem_set_expr nftHL_BlockDelimitersSet
