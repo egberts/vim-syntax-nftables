@@ -742,8 +742,9 @@ rule T C ip meta random 429496729;  # cannot use a value to start
 rule T C ip meta random 4294967295;  # cannot use a value to start
 rule T C ip meta random set mod 5 == 4;  # only 'mod' enum supported
 
-rule T C ip meta mark == 0000000000;  # non-integer is invalid
-rule T C ip meta mark != @nameset;
+rule T C ip meta mark == f000000000;  # non-integer is invalid
+rule T C ip meta mark > { 1 };
+rule T C ip meta mark > @nameset;
 rule T C ip meta mark <= { 0, 1, 2 };
 rule T C ip meta mark >= 14;
 rule T C ip meta mark in { 0, 1, 2 };
@@ -935,6 +936,11 @@ rule T C ip meta protocol 0x7fff;  # overflowed 8-bit
 rule T C ip priority abc;   # 'meta' missing (qualified)
 rule T C ip priority default;   # 'meta' missing (qualified)
 rule T C ip meta priority;
+rule T C ip meta priority -1;
+rule T C ip meta priority 0;
+rule T C ip meta priority 1;
+rule T C ip meta priority 0x80000000;
+rule T C ip meta priority 0x7fffffff;
 
 rule T C ip secmark;  # missing 'set' (this here is , not meta_expr)
 rule T C secmark 12345678901;  # too many digits for 32-bit

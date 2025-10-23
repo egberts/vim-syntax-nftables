@@ -1,9 +1,38 @@
 # File: ip_hdr_expr.nft
 # Bison: ip_hdr_expr
 
+add rule T C ip version 0 accept
 add rule T C ip version 15 accept
+add rule T C ip version 16 accept  # overflowed 4-bit
+add rule T C ip version 0x0 accept
+add rule T C ip version 0xf accept
+add rule T C ip version 0x10 accept  # overflowed 4-bit
+add rule T C ip version $IP_HDR_VERSION accept
+add rule T C ip version == 0x7 accept  # overflowed 4-bit
+add rule T C ip version != 0x7 accept
+add rule T C ip version not 0x10 accept
+add rule T C ip version > 0x1 accept
+add rule T C ip version >= 0x2 accept
+add rule T C ip version <= 0x3 accept
+add rule T C ip version < 0x4 accept
+add rule T C ip version not { 1,2,4 } accept
+add rule T C ip version in { 1,2,4 } accept
+add rule T C ip version not in { 1,2,4 } accept
+add rule T C ip version not in 1 accept  # not a set of integer
+add rule T C ip version not in 0x4 accept  # overflowed 4-bit
+add rule T C ip version any
 add rule T C ip hdrlength 15 accept
 add rule T C ip frag-off 15 accept
+add rule T C ip protocol 0 accept
+add rule T C ip protocol 255 accept
+add rule T C ip protocol 0x0 accept
+add rule T C ip protocol 0xff accept
+add rule T C ip protocol > 0xff accept
+add rule T C ip protocol >= 0xff accept
+add rule T C ip protocol == 0xff accept
+add rule T C ip protocol <= 0xff accept
+add rule T C ip protocol != 0xff accept
+add rule T C ip protocol ! 0xff accept
 add rule T C ip protocol tcp accept
 add rule T C ip checksum 15 accept
 add rule T C ip length 21 accept
@@ -38,11 +67,19 @@ table T {
         ip hdrlength 15 accept
         ip frag-off 8191 accept
         ip protocol 15 accept
+        ip protocol { 1, 6, 17 } accept           # Implicit set match
+        ip protocol in { 1, 6, 17 } accept        # Explicit set match
+        ip protocol ! { 1, 6, 17 } drop           # Implicit negation
+        ip protocol not in { 1, 6, 17 } drop      # Explicit negation with 'not'
+        ip protocol ! in { 1, 6, 17 } drop        # Explicit negation with '!'
+        ip protocol ! @blocked_protos accept       # Negation with named set
         ip checksum 15 accept
         ip length 29 accept
         ip daddr 127.0.0.1 accept
         ip saddr 0xFffffffF accept
         ip saddr 255.255.255.255 accept
+        ip saddr { 127.0.0.1, 192.168.1.1 } accept  # Implicit IP set match
+        ip saddr ! { 127.0.0.1 } drop             # Implicit IP set negation
         ip ecn 1 accept
         ip ttl 15 accept
         ip id 15 accept

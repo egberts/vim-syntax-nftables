@@ -2,6 +2,9 @@
 " Directory: custom/nftables/table/chain/
 "
 let s:stmt_list_filepaths_semantic_early = [
+\    'table/chain/stmt/expr.vim',
+\    'table/chain/stmt/stmt_expr.vim',
+\    'table/chain/stmt/payload_stmt.vim',
 \    'table/chain/stmt/stmt_comment.vim',
 \    'table/chain/stmt/stmt_counter.vim',
 \    'table/chain/stmt/stmt_devices.vim',
@@ -23,9 +26,6 @@ let s:stmt_list_filepaths_semantic_early = [
 \    'table/chain/stmt/stmt_set.vim',
 \    'table/chain/stmt/stmt_ct.vim',
 \    'table/chain/stmt/stmt_ip.vim',
-\    'table/chain/stmt/expr.vim',
-\    'table/chain/stmt/stmt_expr.vim',
-\    'table/chain/stmt/payload_stmt.vim',
 \    'table/chain/stmt/primary_stmt_expr.vim',
 \    'table/chain/stmt/map_stmt_expr.vim',
 \    'table/chain/stmt_policy.vim',
