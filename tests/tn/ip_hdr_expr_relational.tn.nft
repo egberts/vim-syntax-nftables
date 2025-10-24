@@ -1,0 +1,1710 @@
+# True-Negative
+# ip_hdr_expr 'version'
+# FAILED by: nftables 'nft' v1.1.4
+#
+# Commented out means it failed 'nft' syntax/semantic checker
+# set cannot be inside a variable
+#        ip version any
+#        ip version missing
+#        ip version exists
+#        ip version none
+#        ip version "eth0"
+#        ip version "br*"
+#        ip version 127.0.0.1
+#        ip version 127.0.0.1-127.0.0.254
+#        ip version { 127.0.0.1 }
+#        ip version { 127.0.0.1-127.0.0.254 }
+#        ip version { 127.0.0.1/24 }
+#        ip version > 0-15
+#        ip version > any
+#        ip version > missing
+#        ip version > exists
+#        ip version > none
+#        ip version > "eth0"
+#        ip version > "br*"
+#        ip version > 127.0.0.1
+#        ip version > 127.0.0.1-127.0.0.254
+#        ip version > @setname
+#        ip version > { 1, 2, 3 }
+#        ip version > { 1-4, 6-7 }
+#        ip version > { 127.0.0.1 }
+#        ip version > { 127.0.0.1-127.0.0.254 }
+#        ip version > { 127.0.0.1/24 }
+#        ip version < 0-15
+#        ip version < any
+#        ip version < missing
+#        ip version < exists
+#        ip version < none
+#        ip version < "eth0"
+#        ip version < "br*"
+#        ip version < 127.0.0.1
+#        ip version < 127.0.0.1-127.0.0.254
+#        ip version < @setname
+#        ip version < { 1, 2, 3 }
+#        ip version < { 1-4, 6-7 }
+#        ip version < { 127.0.0.1 }
+#        ip version < { 127.0.0.1-127.0.0.254 }
+#        ip version < { 127.0.0.1/24 }
+#        ip version >= 0-15
+#        ip version >= any
+#        ip version >= missing
+#        ip version >= exists
+#        ip version >= none
+#        ip version >= "eth0"
+#        ip version >= "br*"
+#        ip version >= 127.0.0.1
+#        ip version >= 127.0.0.1-127.0.0.254
+#        ip version >= @setname
+#        ip version >= { 1, 2, 3 }
+#        ip version >= { 1-4, 6-7 }
+#        ip version >= { 127.0.0.1 }
+#        ip version >= { 127.0.0.1-127.0.0.254 }
+#        ip version >= { 127.0.0.1/24 }
+#        ip version <= 0-15
+#        ip version <= any
+#        ip version <= missing
+#        ip version <= exists
+#        ip version <= none
+#        ip version <= "eth0"
+#        ip version <= "br*"
+#        ip version <= 127.0.0.1
+#        ip version <= 127.0.0.1-127.0.0.254
+#        ip version <= @setname
+#        ip version <= { 1, 2, 3 }
+#        ip version <= { 1-4, 6-7 }
+#        ip version <= { 127.0.0.1 }
+#        ip version <= { 127.0.0.1-127.0.0.254 }
+#        ip version <= { 127.0.0.1/24 }
+#        ip version == any
+#        ip version == missing
+#        ip version == exists
+#        ip version == none
+#        ip version == "eth0"
+#        ip version == "br*"
+#        ip version == 127.0.0.1
+#        ip version == 127.0.0.1-127.0.0.254
+#        ip version == { 127.0.0.1 }
+#        ip version == { 127.0.0.1-127.0.0.254 }
+#        ip version == { 127.0.0.1/24 }
+#        ip version != any
+#        ip version != missing
+#        ip version != exists
+#        ip version != none
+#        ip version != "eth0"
+#        ip version != "br*"
+#        ip version != 127.0.0.1
+#        ip version != 127.0.0.1-127.0.0.254
+#        ip version != { 127.0.0.1 }
+#        ip version != { 127.0.0.1-127.0.0.254 }
+#        ip version != { 127.0.0.1/24 }
+#        ip version not in 0
+#        ip version not in 15
+#        ip version not in 0-15
+#        ip version not in 0x0
+#        ip version not in 0xf
+#        ip version not in any
+#        ip version not in missing
+#        ip version not in exists
+#        ip version not in none
+#        ip version not in "eth0"
+#        ip version not in "br*"
+#        ip version not in 127.0.0.1
+#        ip version not in 127.0.0.1-127.0.0.254
+#        ip version not in @setname
+#        ip version not in { 1, 2, 3 }
+#        ip version not in { 1-4, 6-7 }
+#        ip version not in { 127.0.0.1 }
+#        ip version not in { 127.0.0.1-127.0.0.254 }
+#        ip version not in { 127.0.0.1/24 }
+#        ip version not in $IP_HDR_LENGTH
+#        ip version in 0
+#        ip version in 15
+#        ip version in 0-15
+#        ip version in 0x0
+#        ip version in 0xf
+#        ip version in any
+#        ip version in missing
+#        ip version in exists
+#        ip version in none
+#        ip version in "eth0"
+#        ip version in "br*"
+#        ip version in 127.0.0.1
+#        ip version in 127.0.0.1-127.0.0.254
+#        ip version in @setname
+#        ip version in { 1, 2, 3 }
+#        ip version in { 1-4, 6-7 }
+#        ip version in { 127.0.0.1 }
+#        ip version in { 127.0.0.1-127.0.0.254 }
+#        ip version in { 127.0.0.1/24 }
+#        ip version in $IP_HDR_LENGTH
+#        ip version not 0
+##        ip version not 15
+#        ip version not 0-15
+#        ip version not 0x0
+#        ip version not 0xf
+#        ip version not any
+#        ip version not missing
+#        ip version not exists
+#        ip version not none
+#        ip version not "eth0"
+#        ip version not "br*"
+#        ip version not 127.0.0.1
+#        ip version not 127.0.0.1-127.0.0.254
+#        ip version not @setname
+#        ip version not { 1, 2, 3 }
+#        ip version not { 1-4, 6-7 }
+#        ip version not { 127.0.0.1 }
+#        ip version not { 127.0.0.1-127.0.0.254 }
+#        ip version not { 127.0.0.1/24 }
+#        ip version not $IP_HDR_LENGTH
+#        ip hdrlength > 5-15
+#        ip hdrlength > any
+#        ip hdrlength > missing
+#        ip hdrlength > exists
+#        ip hdrlength > none
+#        ip hdrlength > "eth0"
+#        ip hdrlength > "br*"
+#        ip hdrlength > 127.0.0.1
+#        ip hdrlength > 127.0.0.1-127.0.0.254
+#        ip hdrlength > @setname
+#        ip hdrlength > { 1, 2, 3 }
+#        ip hdrlength > { 1-4, 6-7 }
+#        ip hdrlength > { 127.0.0.1 }
+#        ip hdrlength > { 127.0.0.1-127.0.0.254 }
+#        ip hdrlength > { 127.0.0.1/24 }
+#        ip hdrlength < 5-15
+#        ip hdrlength < any
+#        ip hdrlength < missing
+#        ip hdrlength < exists
+#        ip hdrlength < none
+#        ip hdrlength < "eth0"
+#        ip hdrlength < "br*"
+#        ip hdrlength < 127.0.0.1
+#        ip hdrlength < 127.0.0.1-127.0.0.254
+#        ip hdrlength < @setname
+#        ip hdrlength < { 1, 2, 3 }
+#        ip hdrlength < { 1-4, 6-7 }
+#        ip hdrlength < { 127.0.0.1 }
+#        ip hdrlength < { 127.0.0.1-127.0.0.254 }
+#        ip hdrlength < { 127.0.0.1/24 }
+#        ip hdrlength >= 5-15
+#        ip hdrlength >= any
+#        ip hdrlength >= missing
+#        ip hdrlength >= exists
+#        ip hdrlength >= none
+#        ip hdrlength >= "eth0"
+#        ip hdrlength >= "br*"
+#        ip hdrlength >= 127.0.0.1
+#        ip hdrlength >= 127.0.0.1-127.0.0.254
+#        ip hdrlength >= @setname
+#        ip hdrlength >= { 1, 2, 3 }
+#        ip hdrlength >= { 1-4, 6-7 }
+#        ip hdrlength >= { 127.0.0.1 }
+#        ip hdrlength >= { 127.0.0.1-127.0.0.254 }
+#        ip hdrlength >= { 127.0.0.1/24 }
+#        ip hdrlength <= 5-15
+#        ip hdrlength <= any
+#        ip hdrlength <= missing
+#        ip hdrlength <= exists
+#        ip hdrlength <= none
+#        ip hdrlength <= "eth0"
+#        ip hdrlength <= "br*"
+#        ip hdrlength <= 127.0.0.1
+#        ip hdrlength <= 127.0.0.1-127.0.0.254
+#        ip hdrlength <= @setname
+#        ip hdrlength <= { 1, 2, 3 }
+#        ip hdrlength <= { 1-4, 6-7 }
+#        ip hdrlength <= { 127.0.0.1 }
+#        ip hdrlength <= { 127.0.0.1-127.0.0.254 }
+#        ip hdrlength <= { 127.0.0.1/24 }
+#        ip hdrlength == any
+#        ip hdrlength == missing
+#        ip hdrlength == exists
+#        ip hdrlength == none
+#        ip hdrlength == "eth0"
+#        ip hdrlength == "br*"
+#        ip hdrlength == 127.0.0.1
+#        ip hdrlength == 127.0.0.1-127.0.0.254
+#        ip hdrlength == { 127.0.0.1 }
+#        ip hdrlength == { 127.0.0.1-127.0.0.254 }
+#        ip hdrlength == { 127.0.0.1/24 }
+#        ip hdrlength != any
+#        ip hdrlength != missing
+#        ip hdrlength != exists
+#        ip hdrlength != none
+#        ip hdrlength != "eth0"
+#        ip hdrlength != "br*"
+#        ip hdrlength != 127.0.0.1
+#        ip hdrlength != 127.0.0.1-127.0.0.254
+#        ip hdrlength != { 127.0.0.1 }
+#        ip hdrlength != { 127.0.0.1-127.0.0.254 }
+#        ip hdrlength != { 127.0.0.1/24 }
+#        ip hdrlength not in 5
+#        ip hdrlength not in 15
+#        ip hdrlength not in 5-15
+#        ip hdrlength not in 0x5
+#        ip hdrlength not in 0xf
+#        ip hdrlength not in any
+#        ip hdrlength not in missing
+#        ip hdrlength not in exists
+#        ip hdrlength not in none
+#        ip hdrlength not in "eth0"
+#        ip hdrlength not in "br*"
+#        ip hdrlength not in 127.0.0.1
+#        ip hdrlength not in 127.0.0.1-127.0.0.254
+#        ip hdrlength not in @setname
+#        ip hdrlength not in { 1, 2, 3 }
+#        ip hdrlength not in { 1-4, 6-7 }
+#        ip hdrlength not in { 127.0.0.1 }
+#        ip hdrlength not in { 127.0.0.1-127.0.0.254 }
+#        ip hdrlength not in { 127.0.0.1/24 }
+#        ip hdrlength not in $IP_HDR_LENGTH
+#        ip hdrlength in 5
+#        ip hdrlength in 15
+#        ip hdrlength in 5-15
+#        ip hdrlength in 0x5
+#        ip hdrlength in 0xf
+#        ip hdrlength in any
+#        ip hdrlength in missing
+#        ip hdrlength in exists
+#        ip hdrlength in none
+#        ip hdrlength in "eth0"
+#        ip hdrlength in "br*"
+#        ip hdrlength in 127.0.0.1
+#        ip hdrlength in 127.0.0.1-127.0.0.254
+#        ip hdrlength in @setname
+#        ip hdrlength in { 1, 2, 3 }
+#        ip hdrlength in { 1-4, 6-7 }
+#        ip hdrlength in { 127.0.0.1 }
+#        ip hdrlength in { 127.0.0.1-127.0.0.254 }
+#        ip hdrlength in { 127.0.0.1/24 }
+#        ip hdrlength in $IP_HDR_LENGTH
+#        ip hdrlength not 5
+#        ip hdrlength not 15
+#        ip hdrlength not 5-15
+#        ip hdrlength not 0x5
+#        ip hdrlength not 0xf
+#        ip hdrlength not any
+#        ip hdrlength not missing
+#        ip hdrlength not exists
+#        ip hdrlength not none
+#        ip hdrlength not "eth0"
+#        ip hdrlength not "br*"
+#        ip hdrlength not 127.0.0.1
+#        ip hdrlength not 127.0.0.1-127.0.0.254
+#        ip hdrlength not @setname
+#        ip hdrlength not { 1, 2, 3 }
+#        ip hdrlength not { 1-4, 6-7 }
+#        ip hdrlength not { 127.0.0.1 }
+#        ip hdrlength not { 127.0.0.1-127.0.0.254 }
+#        ip hdrlength not { 127.0.0.1/24 }
+#        ip hdrlength not $IP_HDR_LENGTH
+#        ip dscp > 0-63
+#        ip dscp > any
+#        ip dscp > missing
+#        ip dscp > exists
+#        ip dscp > none
+#        ip dscp > "eth0"
+#        ip dscp > "br*"
+#        ip dscp > 127.0.0.1
+#        ip dscp > 127.0.0.1-127.0.0.254
+#        ip dscp > @setname_dscp
+#        ip dscp > { 1, 2, 3 }
+#        ip dscp > { 1-4, 6-7 }
+#        ip dscp > { 127.0.0.1 }
+#        ip dscp > { 127.0.0.1-127.0.0.254 }
+#        ip dscp > { 127.0.0.1/24 }
+#        ip dscp < 0-63
+#        ip dscp < any
+#        ip dscp < missing
+#        ip dscp < exists
+#        ip dscp < none
+#        ip dscp < "eth0"
+#        ip dscp < "br*"
+#        ip dscp < 127.0.0.1
+#        ip dscp < 127.0.0.1-127.0.0.254
+#        ip dscp < @setname_dscp
+#        ip dscp < { 1, 2, 3 }
+#        ip dscp < { 1-4, 6-7 }
+#        ip dscp < { 127.0.0.1 }
+#        ip dscp < { 127.0.0.1-127.0.0.254 }
+#        ip dscp < { 127.0.0.1/24 }
+#        ip dscp >= 0-63
+#        ip dscp >= 0xffffffff
+#        ip dscp >= any
+#        ip dscp >= missing
+#        ip dscp >= exists
+#        ip dscp >= none
+#        ip dscp >= "eth0"
+#        ip dscp >= "br*"
+#        ip dscp >= 127.0.0.1
+#        ip dscp >= 127.0.0.1-127.0.0.254
+#        ip dscp >= @setname_dscp
+#        ip dscp >= { 1, 2, 3 }
+#        ip dscp >= { 1-4, 6-7 }
+#        ip dscp >= { 127.0.0.1 }
+#        ip dscp >= { 127.0.0.1-127.0.0.254 }
+#        ip dscp >= { 127.0.0.1/24 }
+#        ip dscp <= 0-63
+#        ip dscp <= any
+#        ip dscp <= missing
+#        ip dscp <= exists
+#        ip dscp <= none
+#        ip dscp <= "eth0"
+#        ip dscp <= "br*"
+#        ip dscp <= 127.0.0.1
+#        ip dscp <= 127.0.0.1-127.0.0.254
+#        ip dscp <= @setname_dscp
+#        ip dscp <= { 1, 2, 3 }
+#        ip dscp <= { 1-4, 6-7 }
+#        ip dscp <= { 127.0.0.1 }
+#        ip dscp <= { 127.0.0.1-127.0.0.254 }
+#        ip dscp <= { 127.0.0.1/24 }
+#        ip dscp == any
+#        ip dscp == missing
+#        ip dscp == exists
+#        ip dscp == none
+#        ip dscp == "eth0"
+#        ip dscp == "br*"
+#        ip dscp == 127.0.0.1
+#        ip dscp == 127.0.0.1-127.0.0.254
+#        ip dscp == @setname_dscp
+#        ip dscp == { 1, 2, 3 }
+#        ip dscp == { 1-4, 6-7 }
+#        ip dscp == { 127.0.0.1 }
+#        ip dscp == { 127.0.0.1-127.0.0.254 }
+#        ip dscp == { 127.0.0.1/24 }
+#        ip dscp != any
+#        ip dscp != missing
+#        ip dscp != exists
+#        ip dscp != none
+#        ip dscp != "eth0"
+#        ip dscp != "br*"
+#        ip dscp != 127.0.0.1
+#        ip dscp != 127.0.0.1-127.0.0.254
+#        ip dscp != @setname_dscp
+#        ip dscp != { 127.0.0.1 }
+#        ip dscp != { 127.0.0.1-127.0.0.254 }
+#        ip dscp != { 127.0.0.1/24 }
+#        ip dscp not in 0
+#        ip dscp not in 63
+#        ip dscp not in 0-63
+#        ip dscp not in 0x0
+#        ip dscp not in 0x3f
+#        ip dscp not in any
+#        ip dscp not in missing
+#        ip dscp not in exists
+#        ip dscp not in none
+#        ip dscp not in "eth0"
+#        ip dscp not in "br*"
+#        ip dscp not in 127.0.0.1
+#        ip dscp not in 127.0.0.1-127.0.0.254
+#        ip dscp not in @setname_dscp
+#        ip dscp not in { 1, 2, 3 }
+#        ip dscp not in { 1-4, 6-7 }
+#        ip dscp not in { 127.0.0.1 }
+#        ip dscp not in { 127.0.0.1-127.0.0.254 }
+#        ip dscp not in { 127.0.0.1/24 }
+#        ip dscp not in $IP_HDR_LENGTH
+#        ip dscp in 0
+#        ip dscp in 63
+#        ip dscp in 0-63
+#        ip dscp in 0x0
+#        ip dscp in 0x3f
+#        ip dscp in any
+#        ip dscp in missing
+#        ip dscp in exists
+#        ip dscp in none
+#        ip dscp in "eth0"
+#        ip dscp in "br*"
+#        ip dscp in 127.0.0.1
+#        ip dscp in 127.0.0.1-127.0.0.254
+#        ip dscp in @setname_dscp
+#        ip dscp in { 1, 2, 3 }
+#        ip dscp in { 1-4, 6-7 }
+#        ip dscp in { 127.0.0.1 }
+#        ip dscp in { 127.0.0.1-127.0.0.254 }
+#        ip dscp in { 127.0.0.1/24 }
+#        ip dscp in $IP_HDR_LENGTH
+#        ip dscp not 0
+#        ip dscp not 63
+#        ip dscp not 0-63
+#        ip dscp not 0x0
+#        ip dscp not 0x3f
+#        ip dscp not any
+#        ip dscp not missing
+#        ip dscp not exists
+#        ip dscp not none
+#        ip dscp not "eth0"
+#        ip dscp not "br*"
+#        ip dscp not 127.0.0.1
+#        ip dscp not 127.0.0.1-127.0.0.254
+#        ip dscp not @setname_dscp
+#        ip dscp not { 1, 2, 3 }
+#        ip dscp not { 1-4, 6-7 }
+#        ip dscp not { 127.0.0.1 }
+#        ip dscp not { 127.0.0.1-127.0.0.254 }
+#        ip dscp not { 127.0.0.1/24 }
+#        ip dscp not $IP_HDR_LENGTH
+#        ip ecn > 0-3
+#        ip ecn > any
+#        ip ecn > missing
+#        ip ecn > exists
+#        ip ecn > none
+#        ip ecn > "eth0"
+#        ip ecn > "br*"
+#        ip ecn > 127.0.0.1
+#        ip ecn > 127.0.0.1-127.0.0.254
+#        ip ecn > @setname
+#        ip ecn > { 1, 2, 3 }
+#        ip ecn > { 1-4, 6-7 }
+#        ip ecn > { 127.0.0.1 }
+#        ip ecn > { 127.0.0.1-127.0.0.254 }
+#        ip ecn > { 127.0.0.1/24 }
+#        ip ecn < 0-3
+#        ip ecn < any
+#        ip ecn < missing
+#        ip ecn < exists
+#        ip ecn < none
+#        ip ecn < "eth0"
+#        ip ecn < "br*"
+#        ip ecn < 127.0.0.1
+#        ip ecn < 127.0.0.1-127.0.0.254
+#        ip ecn < @setname
+#        ip ecn < { 1, 2, 3 }
+#        ip ecn < { 1-4, 6-7 }
+#        ip ecn < { 127.0.0.1 }
+#        ip ecn < { 127.0.0.1-127.0.0.254 }
+#        ip ecn < { 127.0.0.1/24 }
+#        ip ecn >= 0-3
+#        ip ecn >= any
+#        ip ecn >= missing
+#        ip ecn >= exists
+#        ip ecn >= none
+#        ip ecn >= "eth0"
+#        ip ecn >= "br*"
+#        ip ecn >= 127.0.0.1
+#        ip ecn >= 127.0.0.1-127.0.0.254
+#        ip ecn >= @setname
+#        ip ecn >= { 1, 2, 3 }
+#        ip ecn >= { 1-4, 6-7 }
+#        ip ecn >= { 127.0.0.1 }
+#        ip ecn >= { 127.0.0.1-127.0.0.254 }
+#        ip ecn >= { 127.0.0.1/24 }
+#        ip ecn <= 0-3
+#        ip ecn <= any
+#        ip ecn <= missing
+#        ip ecn <= exists
+#        ip ecn <= none
+#        ip ecn <= "eth0"
+#        ip ecn <= "br*"
+#        ip ecn <= 127.0.0.1
+#        ip ecn <= 127.0.0.1-127.0.0.254
+#        ip ecn <= @setname
+#        ip ecn <= { 1, 2, 3 }
+#        ip ecn <= { 1-4, 6-7 }
+#        ip ecn <= { 127.0.0.1 }
+#        ip ecn <= { 127.0.0.1-127.0.0.254 }
+#        ip ecn <= { 127.0.0.1/24 }
+#        ip ecn == any
+#        ip ecn == missing
+#        ip ecn == exists
+#        ip ecn == none
+#        ip ecn == "eth0"
+#        ip ecn == "br*"
+#        ip ecn == 127.0.0.1
+#        ip ecn == 127.0.0.1-127.0.0.254
+#        ip ecn == @setname
+#        ip ecn == { 1-4, 6-7 }
+#        ip ecn == { 127.0.0.1 }
+#        ip ecn == { 127.0.0.1-127.0.0.254 }
+#        ip ecn == { 127.0.0.1/24 }
+#        ip ecn != any
+#        ip ecn != missing
+#        ip ecn != exists
+#        ip ecn != none
+#        ip ecn != "eth0"
+#        ip ecn != "br*"
+#        ip ecn != 127.0.0.1
+#        ip ecn != 127.0.0.1-127.0.0.254
+#        ip ecn != @setname
+#        ip ecn != { 1-4, 6-7 }
+#        ip ecn != { 127.0.0.1 }
+#        ip ecn != { 127.0.0.1-127.0.0.254 }
+#        ip ecn != { 127.0.0.1/24 }
+#        ip ecn not in 0
+#        ip ecn not in 3
+#        ip ecn not in 0-3
+#        ip ecn not in 0x0
+#        ip ecn not in 0x3
+#        ip ecn not in any
+#        ip ecn not in missing
+#        ip ecn not in exists
+#        ip ecn not in none
+#        ip ecn not in "eth0"
+#       ip ecn not in "br*"
+#       ip ecn not in 127.0.0.1
+#       ip ecn not in 127.0.0.1-127.0.0.254
+#       ip ecn not in @setname
+#       ip ecn not in { 1, 2, 3 }
+#       ip ecn not in { 1-4, 6-7 }
+#       ip ecn not in { 127.0.0.1 }
+#       ip ecn not in { 127.0.0.1-127.0.0.254 }
+#       ip ecn not in { 127.0.0.1/24 }
+#       ip ecn not in $IP_HDR_LENGTH
+#        ip ecn in 0
+#        ip ecn in 3
+#        ip ecn in 0-3
+#        ip ecn in 0x0
+#        ip ecn in 0x3
+#        ip ecn in any
+#        ip ecn in missing
+#        ip ecn in exists
+#        ip ecn in none
+#        ip ecn in "eth0"
+#        ip ecn in "br*"
+#        ip ecn in 127.0.0.1
+#        ip ecn in 127.0.0.1-127.0.0.254
+#        ip ecn in @setname
+#        ip ecn in { 1, 2, 3 }
+#        ip ecn in { 1-4, 6-7 }
+#        ip ecn in { 127.0.0.1 }
+#        ip ecn in { 127.0.0.1-127.0.0.254 }
+#        ip ecn in { 127.0.0.1/24 }
+#        ip ecn in $IP_HDR_LENGTH
+#        ip ecn not 0
+#        ip ecn not 3
+#        ip ecn not 0-3
+#        ip ecn not 0x0
+#        ip ecn not 0x3
+#        ip ecn not any
+#        ip ecn not missing
+#        ip ecn not exists
+#        ip ecn not none
+#        ip ecn not "eth0"
+#        ip ecn not "br*"
+#        ip ecn not 127.0.0.1
+#        ip ecn not 127.0.0.1-127.0.0.254
+#        ip ecn not @setname
+#        ip ecn not { 1, 2, 3 }
+#        ip ecn not { 1-4, 6-7 }
+#        ip ecn not { 127.0.0.1 }
+#        ip ecn not { 127.0.0.1-127.0.0.254 }
+#        ip ecn not { 127.0.0.1/24 }
+#        ip ecn not $IP_HDR_LENGTH
+#        ip length > 0-65535
+#        ip length > any
+#        ip length > missing
+#        ip length > exists
+#        ip length > none
+#        ip length > "eth0"
+#        ip length > "br*"
+#        ip length > 127.0.0.1
+#        ip length > 127.0.0.1-127.0.0.254
+#        ip length > @setname
+#        ip length > { 1, 2, 3 }
+#        ip length > { 1-4, 6-7 }
+#        ip length > { 127.0.0.1 }
+#        ip length > { 127.0.0.1-127.0.0.254 }
+#        ip length > { 127.0.0.1/24 }
+#        ip length < 0-65535
+#        ip length < any
+#        ip length < missing
+#        ip length < exists
+#        ip length < none
+#        ip length < "eth0"
+#        ip length < "br*"
+#        ip length < 127.0.0.1
+#        ip length < 127.0.0.1-127.0.0.254
+#        ip length < @setname
+#        ip length < { 1, 2, 3 }
+#        ip length < { 1-4, 6-7 }
+#        ip length < { 127.0.0.1 }
+#        ip length < { 127.0.0.1-127.0.0.254 }
+#        ip length < { 127.0.0.1/24 }
+#        ip length >= 0-65535
+#        ip length >= any
+#        ip length >= missing
+#        ip length >= exists
+#        ip length >= none
+#        ip length >= "eth0"
+#        ip length >= "br*"
+#        ip length >= 127.0.0.1
+#        ip length >= 127.0.0.1-127.0.0.254
+#        ip length >= @setname
+#        ip length >= { 1, 2, 3 }
+#        ip length >= { 1-4, 6-7 }
+#        ip length >= { 127.0.0.1 }
+#        ip length >= { 127.0.0.1-127.0.0.254 }
+#        ip length >= { 127.0.0.1/24 }
+#        ip length <= 0-65535
+#        ip length <= any
+#        ip length <= missing
+#        ip length <= exists
+#        ip length <= none
+#        ip length <= "eth0"
+#        ip length <= "br*"
+#        ip length <= 127.0.0.1
+#        ip length <= 127.0.0.1-127.0.0.254
+#        ip length <= @setname
+#        ip length <= { 1, 2, 3 }
+#        ip length <= { 1-4, 6-7 }
+#        ip length <= { 127.0.0.1 }
+#        ip length <= { 127.0.0.1-127.0.0.254 }
+#        ip length <= { 127.0.0.1/24 }
+#        ip length == any
+#        ip length == missing
+#        ip length == exists
+#        ip length == none
+#        ip length == "eth0"
+#        ip length == "br*"
+#        ip length == 127.0.0.1
+#        ip length == 127.0.0.1-127.0.0.254
+#        ip length == { 127.0.0.1 }
+#        ip length == { 127.0.0.1-127.0.0.254 }
+#        ip length == { 127.0.0.1/24 }
+#        ip length != any
+#        ip length != missing
+#        ip length != exists
+#        ip length != none
+#        ip length != "eth0"
+#        ip length != "br*"
+#        ip length != 127.0.0.1
+#        ip length != 127.0.0.1-127.0.0.254
+#        ip length != { 127.0.0.1 }
+#        ip length != { 127.0.0.1-127.0.0.254 }
+#        ip length != { 127.0.0.1/24 }
+#        ip length not in 20
+#        ip length not in 65535
+#        ip length not in 20-65535
+#        ip length not in 0x14
+#        ip length not in 0xffff
+#        ip length not in any
+#        ip length not in missing
+#        ip length not in exists
+#        ip length not in none
+#        ip length not in "eth0"
+#        ip length not in "br*"
+#        ip length not in 127.0.0.1
+#        ip length not in 127.0.0.1-127.0.0.254
+#        ip length not in @setname
+#        ip length not in { 1, 2, 3 }
+#        ip length not in { 1-4, 6-7 }
+#        ip length not in { 127.0.0.1 }
+#        ip length not in { 127.0.0.1-127.0.0.254 }
+#        ip length not in { 127.0.0.1/24 }
+#        ip length not in $IP_HDR_LENGTH
+#        ip length in 20
+#        ip length in 65535
+#        ip length in 20-65535
+#        ip length in 0x14
+#        ip length in 0xffff
+#        ip length in any
+#        ip length in missing
+#        ip length in exists
+#        ip length in none
+#        ip length in "eth0"
+#        ip length in "br*"
+#        ip length in 127.0.0.1
+#        ip length in 127.0.0.1-127.0.0.254
+#        ip length in @setname
+#        ip length in { 1, 2, 3 }
+#        ip length in { 1-4, 6-7 }
+#        ip length in { 127.0.0.1 }
+#        ip length in { 127.0.0.1-127.0.0.254 }
+#        ip length in { 127.0.0.1/24 }
+#        ip length in $IP_HDR_LENGTH
+#        ip length not 20
+#        ip length not 65535
+#        ip length not 20-65535
+#        ip length not 0x14
+#        ip length not 0xffff
+#        ip length not any
+#        ip length not missing
+#        ip length not exists
+#        ip length not none
+#        ip length not "eth0"
+#        ip length not "br*"
+#        ip length not 127.0.0.1
+#        ip length not 127.0.0.1-127.0.0.254
+#        ip length not @setname
+#        ip length not { 1, 2, 3 }
+#        ip length not { 1-4, 6-7 }
+#        ip length not { 127.0.0.1 }
+#        ip length not { 127.0.0.1-127.0.0.254 }
+#        ip length not { 127.0.0.1/24 }
+#        ip length not $IP_HDR_LENGTH
+#        ip id > 0-65535
+#        ip id > any
+#        ip id > missing
+#        ip id > exists
+#        ip id > none
+#        ip id > "eth0"
+#        ip id > "br*"
+#        ip id > 127.0.0.1
+#        ip id > 127.0.0.1-127.0.0.254
+#        ip id > @setname
+#        ip id > { 1, 2, 3 }
+#        ip id > { 1-4, 6-7 }
+#        ip id > { 127.0.0.1 }
+#        ip id > { 127.0.0.1-127.0.0.254 }
+#        ip id > { 127.0.0.1/24 }
+#        ip id < 0-65535
+#        ip id < any
+#        ip id < missing
+#        ip id < exists
+#        ip id < none
+#        ip id < "eth0"
+#        ip id < "br*"
+#        ip id < 127.0.0.1
+#        ip id < 127.0.0.1-127.0.0.254
+#        ip id < @setname
+#        ip id < { 1, 2, 3 }
+#        ip id < { 1-4, 6-7 }
+#        ip id < { 127.0.0.1 }
+#        ip id < { 127.0.0.1-127.0.0.254 }
+#        ip id < { 127.0.0.1/24 }
+#        ip id >= 0-65535
+#        ip id >= any
+#        ip id >= missing
+#        ip id >= exists
+#        ip id >= none
+#        ip id >= "eth0"
+#        ip id >= "br*"
+#        ip id >= 127.0.0.1
+#        ip id >= 127.0.0.1-127.0.0.254
+#        ip id >= @setname
+#        ip id >= { 1, 2, 3 }
+#        ip id >= { 1-4, 6-7 }
+#        ip id >= { 127.0.0.1 }
+#        ip id >= { 127.0.0.1-127.0.0.254 }
+#        ip id >= { 127.0.0.1/24 }
+#        ip id <= 0-65535
+#        ip id <= any
+#        ip id <= missing
+#        ip id <= exists
+#        ip id <= none
+#        ip id <= "eth0"
+#        ip id <= "br*"
+#        ip id <= 127.0.0.1
+#        ip id <= 127.0.0.1-127.0.0.254
+#        ip id <= @setname
+#        ip id <= { 1, 2, 3 }
+#        ip id <= { 1-4, 6-7 }
+#        ip id <= { 127.0.0.1 }
+#        ip id <= { 127.0.0.1-127.0.0.254 }
+#        ip id <= { 127.0.0.1/24 }
+#        ip id == any
+#        ip id == missing
+#        ip id == exists
+#        ip id == none
+#        ip id == "eth0"
+#        ip id == "br*"
+#        ip id == 127.0.0.1
+#        ip id == 127.0.0.1-127.0.0.254
+#        ip id == { 127.0.0.1 }
+#        ip id == { 127.0.0.1-127.0.0.254 }
+#        ip id == { 127.0.0.1/24 }
+#        ip id != any
+#        ip id != missing
+#        ip id != exists
+#        ip id != none
+#        ip id != "eth0"
+#        ip id != "br*"
+#        ip id != 127.0.0.1
+#        ip id != 127.0.0.1-127.0.0.254
+#        ip id != { 127.0.0.1 }
+#        ip id != { 127.0.0.1-127.0.0.254 }
+#        ip id != { 127.0.0.1/24 }
+#        ip id not in 0
+#        ip id not in 65535
+#        ip id not in 0-65535
+#        ip id not in 0x0
+#        ip id not in 0xffff
+#        ip id not in any
+#        ip id not in missing
+#        ip id not in exists
+#        ip id not in none
+#        ip id not in "eth0"
+#        ip id not in "br*"
+#        ip id not in 127.0.0.1
+#        ip id not in 127.0.0.1-127.0.0.254
+#        ip id not in @setname
+#        ip id not in { 1, 2, 3 }
+#        ip id not in { 1-4, 6-7 }
+#        ip id not in { 127.0.0.1 }
+#        ip id not in { 127.0.0.1-127.0.0.254 }
+#        ip id not in { 127.0.0.1/24 }
+#        ip id not in $IP_HDR_LENGTH
+#        ip id in 0
+#        ip id in 65535
+#        ip id in 0-65535
+#        ip id in 0x0
+#        ip id in 0xffff
+#        ip id in any
+#        ip id in missing
+#        ip id in exists
+#        ip id in none
+#        ip id in "eth0"
+#        ip id in "br*"
+#        ip id in 127.0.0.1
+#        ip id in 127.0.0.1-127.0.0.254
+#        ip id in @setname
+#        ip id in { 1, 2, 3 }
+#        ip id in { 1-4, 6-7 }
+#        ip id in { 127.0.0.1 }
+#        ip id in { 127.0.0.1-127.0.0.254 }
+#        ip id in { 127.0.0.1/24 }
+#        ip id in $IP_HDR_LENGTH
+#        ip id not 0
+#        ip id not 65535
+#        ip id not 0-65535
+#        ip id not 0x0
+#        ip id not 0xffff
+#        ip id not any
+#        ip id not missing
+#        ip id not exists
+#        ip id not none
+#        ip id not "eth0"
+#        ip id not "br*"
+#        ip id not 127.0.0.1
+#        ip id not 127.0.0.1-127.0.0.254
+#        ip id not @setname
+#        ip id not { 1, 2, 3 }
+#        ip id not { 1-4, 6-7 }
+#        ip id not { 127.0.0.1 }
+#        ip id not { 127.0.0.1-127.0.0.254 }
+#        ip id not { 127.0.0.1/24 }
+#        ip id not $IP_HDR_LENGTH
+#        ip frag-off > 0-8191
+#        ip frag-off > any
+#        ip frag-off > missing
+#        ip frag-off > exists
+#        ip frag-off > none
+#        ip frag-off > "eth0"
+#        ip frag-off > "br*"
+#        ip frag-off > 127.0.0.1
+#        ip frag-off > 127.0.0.1-127.0.0.254
+#        ip frag-off > @setname
+#        ip frag-off > { 1, 2, 3 }
+#        ip frag-off > { 1-4, 6-7 }
+#        ip frag-off > { 127.0.0.1 }
+#        ip frag-off > { 127.0.0.1-127.0.0.254 }
+#        ip frag-off > { 127.0.0.1/24 }
+#        ip frag-off < 0-8191
+#        ip frag-off < any
+#        ip frag-off < missing
+#        ip frag-off < exists
+#        ip frag-off < none
+#        ip frag-off < "eth0"
+#        ip frag-off < "br*"
+#        ip frag-off < 127.0.0.1
+#        ip frag-off < 127.0.0.1-127.0.0.254
+#        ip frag-off < @setname
+#        ip frag-off < { 1, 2, 3 }
+#        ip frag-off < { 1-4, 6-7 }
+#        ip frag-off < { 127.0.0.1 }
+#        ip frag-off < { 127.0.0.1-127.0.0.254 }
+#        ip frag-off < { 127.0.0.1/24 }
+#        ip frag-off >= 0-8191
+#        ip frag-off >= any
+#        ip frag-off >= missing
+#        ip frag-off >= exists
+#        ip frag-off >= none
+#        ip frag-off >= "eth0"
+#        ip frag-off >= "br*"
+#        ip frag-off >= 127.0.0.1
+#        ip frag-off >= 127.0.0.1-127.0.0.254
+#        ip frag-off >= @setname
+#        ip frag-off >= { 1, 2, 3 }
+#        ip frag-off >= { 1-4, 6-7 }
+#        ip frag-off >= { 127.0.0.1 }
+#        ip frag-off >= { 127.0.0.1-127.0.0.254 }
+#        ip frag-off >= { 127.0.0.1/24 }
+#        ip frag-off <= 0-8191
+#        ip frag-off <= any
+#        ip frag-off <= missing
+#        ip frag-off <= exists
+#        ip frag-off <= none
+#        ip frag-off <= "eth0"
+#        ip frag-off <= "br*"
+#        ip frag-off <= 127.0.0.1
+#        ip frag-off <= 127.0.0.1-127.0.0.254
+#        ip frag-off <= @setname
+#        ip frag-off <= { 1, 2, 3 }
+#        ip frag-off <= { 1-4, 6-7 }
+#        ip frag-off <= { 127.0.0.1 }
+#        ip frag-off <= { 127.0.0.1-127.0.0.254 }
+#        ip frag-off <= { 127.0.0.1/24 }
+#        ip frag-off == any
+#        ip frag-off == missing
+#        ip frag-off == exists
+#        ip frag-off == none
+#        ip frag-off == "eth0"
+#        ip frag-off == "br*"
+#        ip frag-off == 127.0.0.1
+#        ip frag-off == 127.0.0.1-127.0.0.254
+#        ip frag-off == { 127.0.0.1 }
+#        ip frag-off == { 127.0.0.1-127.0.0.254 }
+#        ip frag-off == { 127.0.0.1/24 }
+#        ip frag-off != any
+#        ip frag-off != missing
+#        ip frag-off != exists
+#        ip frag-off != none
+#        ip frag-off != "eth0"
+#        ip frag-off != "br*"
+#        ip frag-off != 127.0.0.1
+#        ip frag-off != 127.0.0.1-127.0.0.254
+#        ip frag-off != { 127.0.0.1 }
+#        ip frag-off != { 127.0.0.1-127.0.0.254 }
+#        ip frag-off != { 127.0.0.1/24 }
+#        ip frag-off not in 0
+#        ip frag-off not in 8191
+#        ip frag-off not in 0-8191
+#        ip frag-off not in 0x0
+#        ip frag-off not in 0x1fff
+#        ip frag-off not in any
+#        ip frag-off not in missing
+#        ip frag-off not in exists
+#        ip frag-off not in none
+#        ip frag-off not in "eth0"
+#        ip frag-off not in "br*"
+#        ip frag-off not in 127.0.0.1
+#        ip frag-off not in 127.0.0.1-127.0.0.254
+#        ip frag-off not in @setname
+#        ip frag-off not in { 1, 2, 3 }
+#        ip frag-off not in { 1-4, 6-7 }
+#        ip frag-off not in { 127.0.0.1 }
+#        ip frag-off not in { 127.0.0.1-127.0.0.254 }
+#        ip frag-off not in { 127.0.0.1/24 }
+#        ip frag-off not in $IP_HDR_LENGTH
+#        ip frag-off in 0
+#        ip frag-off in 8191
+#        ip frag-off in 0-8191
+#        ip frag-off in 0x0
+#        ip frag-off in 0x1fff
+#        ip frag-off in any
+#        ip frag-off in missing
+#        ip frag-off in exists
+#        ip frag-off in none
+#        ip frag-off in "eth0"
+#        ip frag-off in "br*"
+#        ip frag-off in 127.0.0.1
+#        ip frag-off in 127.0.0.1-127.0.0.254
+#        ip frag-off in @setname
+#        ip frag-off in { 1, 2, 3 }
+#        ip frag-off in { 1-4, 6-7 }
+#        ip frag-off in { 127.0.0.1 }
+#        ip frag-off in { 127.0.0.1-127.0.0.254 }
+#        ip frag-off in { 127.0.0.1/24 }
+#        ip frag-off in $IP_HDR_LENGTH
+#        ip frag-off not 0
+#        ip frag-off not 8191
+#        ip frag-off not 0-8191
+#        ip frag-off not 0x0
+#        ip frag-off not 0x1fff
+#        ip frag-off not any
+#        ip frag-off not missing
+#        ip frag-off not exists
+#        ip frag-off not none
+#        ip frag-off not "eth0"
+#        ip frag-off not "br*"
+#        ip frag-off not 127.0.0.1
+#        ip frag-off not 127.0.0.1-127.0.0.254
+#        ip frag-off not @setname
+#        ip frag-off not { 1, 2, 3 }
+#        ip frag-off not { 1-4, 6-7 }
+#        ip frag-off not { 127.0.0.1 }
+#        ip frag-off not { 127.0.0.1-127.0.0.254 }
+#        ip frag-off not { 127.0.0.1/24 }
+#        ip frag-off not $IP_HDR_LENGTH
+#        ip ttl > 0-255
+#        ip ttl > any
+#        ip ttl > missing
+#        ip ttl > exists
+#        ip ttl > none
+#        ip ttl > "eth0"
+#        ip ttl > "br*"
+#        ip ttl > 127.0.0.1
+#        ip ttl > 127.0.0.1-127.0.0.254
+#        ip ttl > @setname
+#        ip ttl > { 1, 2, 3 }
+#        ip ttl > { 1-4, 6-7 }
+#        ip ttl > { 127.0.0.1 }
+#        ip ttl > { 127.0.0.1-127.0.0.254 }
+#        ip ttl > { 127.0.0.1/24 }
+#        ip ttl < 0-255
+#        ip ttl < any
+#        ip ttl < missing
+#        ip ttl < exists
+#        ip ttl < none
+#        ip ttl < "eth0"
+#        ip ttl < "br*"
+#        ip ttl < 127.0.0.1
+#        ip ttl < 127.0.0.1-127.0.0.254
+#        ip ttl < @setname
+#        ip ttl < { 1, 2, 3 }
+#        ip ttl < { 1-4, 6-7 }
+#        ip ttl < { 127.0.0.1 }
+#        ip ttl < { 127.0.0.1-127.0.0.254 }
+#        ip ttl < { 127.0.0.1/24 }
+#        ip ttl >= 0-255
+#        ip ttl >= any
+#        ip ttl >= missing
+#        ip ttl >= exists
+#        ip ttl >= none
+#        ip ttl >= "eth0"
+#        ip ttl >= "br*"
+#        ip ttl >= 127.0.0.1
+#        ip ttl >= 127.0.0.1-127.0.0.254
+#        ip ttl >= @setname
+#        ip ttl >= { 1, 2, 3 }
+#        ip ttl >= { 1-4, 6-7 }
+#        ip ttl >= { 127.0.0.1 }
+#        ip ttl >= { 127.0.0.1-127.0.0.254 }
+#        ip ttl >= { 127.0.0.1/24 }
+#        ip ttl <= 0-255
+#        ip ttl <= any
+#        ip ttl <= missing
+#        ip ttl <= exists
+#        ip ttl <= none
+#        ip ttl <= "eth0"
+#        ip ttl <= "br*"
+#        ip ttl <= 127.0.0.1
+#        ip ttl <= 127.0.0.1-127.0.0.254
+#        ip ttl <= @setname
+#        ip ttl <= { 1, 2, 3 }
+#        ip ttl <= { 1-4, 6-7 }
+#        ip ttl <= { 127.0.0.1 }
+#        ip ttl <= { 127.0.0.1-127.0.0.254 }
+#        ip ttl <= { 127.0.0.1/24 }
+#        ip ttl == any
+#        ip ttl == missing
+#        ip ttl == exists
+#        ip ttl == none
+#        ip ttl == "eth0"
+#        ip ttl == "br*"
+#        ip ttl == 127.0.0.1
+#        ip ttl == 127.0.0.1-127.0.0.254
+#        ip ttl == { 127.0.0.1 }
+#        ip ttl == { 127.0.0.1-127.0.0.254 }
+#        ip ttl == { 127.0.0.1/24 }
+#        ip ttl != any
+#        ip ttl != missing
+#        ip ttl != exists
+#        ip ttl != none
+#        ip ttl != "eth0"
+#        ip ttl != "br*"
+#        ip ttl != 127.0.0.1
+#        ip ttl != 127.0.0.1-127.0.0.254
+#        ip ttl != { 127.0.0.1 }
+#        ip ttl != { 127.0.0.1-127.0.0.254 }
+#        ip ttl != { 127.0.0.1/24 }
+#        ip ttl not in 0
+#        ip ttl not in 255
+#        ip ttl not in 0-255
+#        ip ttl not in 0x0
+#        ip ttl not in 0xff
+#        ip ttl not in any
+#        ip ttl not in missing
+#        ip ttl not in exists
+#        ip ttl not in none
+#        ip ttl not in "eth0"
+#        ip ttl not in "br*"
+#        ip ttl not in 127.0.0.1
+#        ip ttl not in 127.0.0.1-127.0.0.254
+#        ip ttl not in @setname
+#        ip ttl not in { 1, 2, 3 }
+#        ip ttl not in { 1-4, 6-7 }
+#        ip ttl not in { 127.0.0.1 }
+#        ip ttl not in { 127.0.0.1-127.0.0.254 }
+#        ip ttl not in { 127.0.0.1/24 }
+#        ip ttl not in $IP_HDR_LENGTH
+#        ip ttl in 0
+#        ip ttl in 255
+#        ip ttl in 0-255
+#        ip ttl in 0x0
+#        ip ttl in 0xff
+#        ip ttl in any
+#        ip ttl in missing
+#        ip ttl in exists
+#        ip ttl in none
+#        ip ttl in "eth0"
+#        ip ttl in "br*"
+#        ip ttl in 127.0.0.1
+#        ip ttl in 127.0.0.1-127.0.0.254
+#        ip ttl in @setname
+#        ip ttl in { 1, 2, 3 }
+#        ip ttl in { 1-4, 6-7 }
+#        ip ttl in { 127.0.0.1 }
+#        ip ttl in { 127.0.0.1-127.0.0.254 }
+#        ip ttl in { 127.0.0.1/24 }
+#        ip ttl in $IP_HDR_LENGTH
+#        ip ttl not 0
+#        ip ttl not 255
+#        ip ttl not 0-255
+#        ip ttl not 0x0
+#        ip ttl not 0xff
+#        ip ttl not any
+#        ip ttl not missing
+#        ip ttl not exists
+#        ip ttl not none
+#        ip ttl not "eth0"
+#        ip ttl not "br*"
+#        ip ttl not 127.0.0.1
+#        ip ttl not 127.0.0.1-127.0.0.254
+#        ip ttl not @setname
+#        ip ttl not { 1, 2, 3 }
+#        ip ttl not { 1-4, 6-7 }
+#        ip ttl not { 127.0.0.1 }
+#        ip ttl not { 127.0.0.1-127.0.0.254 }
+#        ip ttl not { 127.0.0.1/24 }
+#        ip ttl not $IP_HDR_LENGTH
+#        ip protocol > 0-255
+#        ip protocol > any
+#        ip protocol > missing
+#        ip protocol > exists
+#        ip protocol > none
+#        ip protocol > "eth0"
+#        ip protocol > "br*"
+#        ip protocol > 127.0.0.1
+#        ip protocol > 127.0.0.1-127.0.0.254
+#        ip protocol > @setname
+#        ip protocol > { 1, 2, 3 }
+#        ip protocol > { 1-4, 6-7 }
+#        ip protocol > { 127.0.0.1 }
+#        ip protocol > { 127.0.0.1-127.0.0.254 }
+#        ip protocol > { 127.0.0.1/24 }
+#        ip protocol < 0-255
+#        ip protocol < any
+#        ip protocol < missing
+#        ip protocol < exists
+#        ip protocol < none
+#        ip protocol < "eth0"
+#        ip protocol < "br*"
+#        ip protocol < 127.0.0.1
+#        ip protocol < 127.0.0.1-127.0.0.254
+#        ip protocol < @setname
+#        ip protocol < { 1, 2, 3 }
+#        ip protocol < { 1-4, 6-7 }
+#        ip protocol < { 127.0.0.1 }
+#        ip protocol < { 127.0.0.1-127.0.0.254 }
+#        ip protocol < { 127.0.0.1/24 }
+#        ip protocol >= 0-255
+#        ip protocol >= any
+#        ip protocol >= missing
+#        ip protocol >= exists
+#        ip protocol >= none
+#        ip protocol >= "eth0"
+#        ip protocol >= "br*"
+#        ip protocol >= 127.0.0.1
+#        ip protocol >= 127.0.0.1-127.0.0.254
+#        ip protocol >= @setname
+#        ip protocol >= { 1, 2, 3 }
+#        ip protocol >= { 1-4, 6-7 }
+#        ip protocol >= { 127.0.0.1 }
+#        ip protocol >= { 127.0.0.1-127.0.0.254 }
+#        ip protocol >= { 127.0.0.1/24 }
+#        ip protocol <= 0-255
+#        ip protocol <= any
+#        ip protocol <= missing
+#        ip protocol <= exists
+#        ip protocol <= none
+#        ip protocol <= "eth0"
+#        ip protocol <= "br*"
+#        ip protocol <= 127.0.0.1
+#        ip protocol <= 127.0.0.1-127.0.0.254
+#        ip protocol <= @setname
+#        ip protocol <= { 1, 2, 3 }
+#        ip protocol <= { 1-4, 6-7 }
+#        ip protocol <= { 127.0.0.1 }
+#        ip protocol <= { 127.0.0.1-127.0.0.254 }
+#        ip protocol <= { 127.0.0.1/24 }
+#        ip protocol == any
+#        ip protocol == missing
+#        ip protocol == exists
+#        ip protocol == none
+#        ip protocol == "eth0"
+#        ip protocol == "br*"
+#        ip protocol == 127.0.0.1
+#        ip protocol == 127.0.0.1-127.0.0.254
+#        ip protocol == @setname
+#        ip protocol == { 127.0.0.1 }
+#        ip protocol == { 127.0.0.1-127.0.0.254 }
+#        ip protocol == { 127.0.0.1/24 }
+#        ip protocol != any
+#        ip protocol != missing
+#        ip protocol != exists
+#        ip protocol != none
+#        ip protocol != "eth0"
+#        ip protocol != "br*"
+#        ip protocol != 127.0.0.1
+#        ip protocol != 127.0.0.1-127.0.0.254
+#        ip protocol != @setname
+#        ip protocol != { 127.0.0.1 }
+#        ip protocol != { 127.0.0.1-127.0.0.254 }
+#        ip protocol != { 127.0.0.1/24 }
+#        ip protocol not in 0
+#        ip protocol not in 255
+#        ip protocol not in 0-255
+#        ip protocol not in 0x0
+#        ip protocol not in 0xff
+#        ip protocol not in any
+#        ip protocol not in missing
+#        ip protocol not in exists
+#        ip protocol not in none
+#        ip protocol not in "eth0"
+#        ip protocol not in "br*"
+#        ip protocol not in 127.0.0.1
+#        ip protocol not in 127.0.0.1-127.0.0.254
+#        ip protocol not in @setname
+#        ip protocol not in { 1, 2, 3 }
+#        ip protocol not in { 1-4, 6-7 }
+#        ip protocol not in { 127.0.0.1 }
+#        ip protocol not in { 127.0.0.1-127.0.0.254 }
+#        ip protocol not in { 127.0.0.1/24 }
+#        ip protocol not in $IP_HDR_LENGTH
+#        ip protocol in 0
+#        ip protocol in 255
+#        ip protocol in 0-255
+#        ip protocol in 0x0
+#        ip protocol in 0xff
+#        ip protocol in any
+#        ip protocol in missing
+#        ip protocol in exists
+#        ip protocol in none
+#        ip protocol in "eth0"
+#        ip protocol in "br*"
+#        ip protocol in 127.0.0.1
+#        ip protocol in 127.0.0.1-127.0.0.254
+#        ip protocol in @setname
+#        ip protocol in { 1, 2, 3 }
+#        ip protocol in { 1-4, 6-7 }
+#        ip protocol in { 127.0.0.1 }
+#        ip protocol in { 127.0.0.1-127.0.0.254 }
+#        ip protocol in { 127.0.0.1/24 }
+#        ip protocol in $IP_HDR_LENGTH
+#        ip protocol not 0
+#        ip protocol not 255
+#        ip protocol not 0-255
+#        ip protocol not 0x0
+#        ip protocol not 0xff
+#        ip protocol not any
+#        ip protocol not missing
+#        ip protocol not exists
+#        ip protocol not none
+#        ip protocol not "eth0"
+#        ip protocol not "br*"
+#        ip protocol not 127.0.0.1
+#        ip protocol not 127.0.0.1-127.0.0.254
+#        ip protocol not @setname
+#        ip protocol not { 1, 2, 3 }
+#        ip protocol not { 1-4, 6-7 }
+#        ip protocol not { 127.0.0.1 }
+#        ip protocol not { 127.0.0.1-127.0.0.254 }
+#        ip protocol not { 127.0.0.1/24 }
+#        ip protocol not $IP_HDR_LENGTH
+#        ip checksum > 0-65535
+#        ip checksum > any
+#        ip checksum > missing
+#        ip checksum > exists
+#        ip checksum > none
+#        ip checksum > "eth0"
+#        ip checksum > "br*"
+#        ip checksum > 127.0.0.1
+#        ip checksum > 127.0.0.1-127.0.0.254
+#        ip checksum > @setname
+#        ip checksum > { 1, 2, 3 }
+#        ip checksum > { 1-4, 6-7 }
+#        ip checksum > { 127.0.0.1 }
+#        ip checksum > { 127.0.0.1-127.0.0.254 }
+#        ip checksum > { 127.0.0.1/24 }
+#        ip checksum < 0-65535
+#        ip checksum < any
+#        ip checksum < missing
+#        ip checksum < exists
+#        ip checksum < none
+#        ip checksum < "eth0"
+#        ip checksum < "br*"
+#        ip checksum < 127.0.0.1
+#        ip checksum < 127.0.0.1-127.0.0.254
+#        ip checksum < @setname
+#        ip checksum < { 1, 2, 3 }
+#        ip checksum < { 1-4, 6-7 }
+#        ip checksum < { 127.0.0.1 }
+#        ip checksum < { 127.0.0.1-127.0.0.254 }
+#        ip checksum < { 127.0.0.1/24 }
+#        ip checksum >= 0-65535
+#        ip checksum >= any
+#        ip checksum >= missing
+#        ip checksum >= exists
+#        ip checksum >= none
+#        ip checksum >= "eth0"
+#        ip checksum >= "br*"
+#        ip checksum >= 127.0.0.1
+#        ip checksum >= 127.0.0.1-127.0.0.254
+#        ip checksum >= @setname
+#        ip checksum >= { 1, 2, 3 }
+#        ip checksum >= { 1-4, 6-7 }
+#        ip checksum >= { 127.0.0.1 }
+#        ip checksum >= { 127.0.0.1-127.0.0.254 }
+#        ip checksum >= { 127.0.0.1/24 }
+#        ip checksum <= 0-65535
+#        ip checksum <= any
+#        ip checksum <= missing
+#        ip checksum <= exists
+#        ip checksum <= none
+#        ip checksum <= "eth0"
+#        ip checksum <= "br*"
+#        ip checksum <= 127.0.0.1
+#        ip checksum <= 127.0.0.1-127.0.0.254
+#        ip checksum <= @setname
+#        ip checksum <= { 1, 2, 3 }
+#        ip checksum <= { 1-4, 6-7 }
+#        ip checksum <= { 127.0.0.1 }
+#        ip checksum <= { 127.0.0.1-127.0.0.254 }
+#        ip checksum <= { 127.0.0.1/24 }
+#        ip checksum == any
+#        ip checksum == missing
+#        ip checksum == exists
+#        ip checksum == none
+#        ip checksum == "eth0"
+#        ip checksum == "br*"
+#        ip checksum == 127.0.0.1
+#        ip checksum == 127.0.0.1-127.0.0.254
+#        ip checksum == { 127.0.0.1 }
+#        ip checksum == { 127.0.0.1-127.0.0.254 }
+#        ip checksum == { 127.0.0.1/24 }
+#        ip checksum != any
+#        ip checksum != missing
+#        ip checksum != exists
+#        ip checksum != none
+#        ip checksum != "eth0"
+#        ip checksum != "br*"
+#        ip checksum != 127.0.0.1
+#        ip checksum != 127.0.0.1-127.0.0.254
+#        ip checksum != { 127.0.0.1 }
+#        ip checksum != { 127.0.0.1-127.0.0.254 }
+#        ip checksum != { 127.0.0.1/24 }
+#        ip checksum not in 0
+#        ip checksum not in 65535
+#        ip checksum not in 0-65535
+#        ip checksum not in 0x0
+#        ip checksum not in 0xffff
+#        ip checksum not in any
+#        ip checksum not in missing
+#        ip checksum not in exists
+#        ip checksum not in none
+#        ip checksum not in "eth0"
+#        ip checksum not in "br*"
+#        ip checksum not in 127.0.0.1
+#        ip checksum not in 127.0.0.1-127.0.0.254
+#        ip checksum not in @setname
+#        ip checksum not in { 1, 2, 3 }
+#        ip checksum not in { 1-4, 6-7 }
+#        ip checksum not in { 127.0.0.1 }
+#        ip checksum not in { 127.0.0.1-127.0.0.254 }
+#        ip checksum not in { 127.0.0.1/24 }
+#        ip checksum not in $IP_HDR_LENGTH
+#        ip checksum in 0
+#        ip checksum in 65535
+#        ip checksum in 0-65535
+#        ip checksum in 0x0
+#        ip checksum in 0xffff
+#        ip checksum in any
+#        ip checksum in missing
+#        ip checksum in exists
+#        ip checksum in none
+#        ip checksum in "eth0"
+#        ip checksum in "br*"
+#        ip checksum in 127.0.0.1
+#        ip checksum in 127.0.0.1-127.0.0.254
+#        ip checksum in @setname
+#        ip checksum in { 1, 2, 3 }
+#        ip checksum in { 1-4, 6-7 }
+#        ip checksum in { 127.0.0.1 }
+#        ip checksum in { 127.0.0.1-127.0.0.254 }
+#        ip checksum in { 127.0.0.1/24 }
+#        ip checksum in $IP_HDR_LENGTH
+#        ip checksum not 0
+#        ip checksum not 65535
+#        ip checksum not 0-65535
+#        ip checksum not 0x0
+#        ip checksum not 0xffff
+#        ip checksum not any
+#        ip checksum not missing
+#        ip checksum not exists
+#        ip checksum not none
+#        ip checksum not "eth0"
+#        ip checksum not "br*"
+#        ip checksum not 127.0.0.1
+#        ip checksum not 127.0.0.1-127.0.0.254
+#        ip checksum not @setname
+#        ip checksum not { 1, 2, 3 }
+#        ip checksum not { 1-4, 6-7 }
+#        ip checksum not { 127.0.0.1 }
+#        ip checksum not { 127.0.0.1-127.0.0.254 }
+#        ip checksum not { 127.0.0.1/24 }
+#        ip checksum not $IP_HDR_LENGTH
+#        ip saddr > 0-4294967295
+#        ip saddr > any
+#        ip saddr > missing
+#        ip saddr > exists
+#        ip saddr > none
+#        ip saddr > "eth0"
+#        ip saddr > "br*"
+#        ip saddr > 127.0.0.1-127.0.0.254
+#        ip saddr > @setname
+#        ip saddr > { 1, 2, 3 }
+#        ip saddr > { 1-4, 6-7 }
+#        ip saddr > { 127.0.0.1 }
+#        ip saddr > { 127.0.0.1-127.0.0.254 }
+#        ip saddr > { 127.0.0.1/24 }
+#        ip saddr < 0-4294967295
+#        ip saddr < any
+#        ip saddr < missing
+#        ip saddr < exists
+#        ip saddr < none
+#        ip saddr < "eth0"
+#        ip saddr < "br*"
+#        ip saddr < 127.0.0.1-127.0.0.254
+#        ip saddr < @setname
+#        ip saddr < { 1, 2, 3 }
+#        ip saddr < { 1-4, 6-7 }
+#        ip saddr < { 127.0.0.1 }
+#        ip saddr < { 127.0.0.1-127.0.0.254 }
+#        ip saddr < { 127.0.0.1/24 }
+#        ip saddr >= 0-4294967295
+#        ip saddr >= any
+#        ip saddr >= missing
+#        ip saddr >= exists
+#        ip saddr >= none
+#        ip saddr >= "eth0"
+#        ip saddr >= "br*"
+#        ip saddr >= 127.0.0.1
+#        ip saddr >= 127.0.0.1-127.0.0.254
+#        ip saddr >= @setname
+#        ip saddr >= { 1, 2, 3 }
+#        ip saddr >= { 1-4, 6-7 }
+#        ip saddr >= { 127.0.0.1 }
+#        ip saddr >= { 127.0.0.1-127.0.0.254 }
+#        ip saddr >= { 127.0.0.1/24 }
+#        ip saddr <= 0-4294967295
+#        ip saddr <= any
+#        ip saddr <= missing
+#        ip saddr <= exists
+#        ip saddr <= none
+#        ip saddr <= "eth0"
+#        ip saddr <= "br*"
+#        ip saddr <= 127.0.0.1-127.0.0.254
+#        ip saddr <= @setname
+#        ip saddr <= { 1, 2, 3 }
+#        ip saddr <= { 1-4, 6-7 }
+#        ip saddr <= { 127.0.0.1 }
+#        ip saddr <= { 127.0.0.1-127.0.0.254 }
+#        ip saddr <= { 127.0.0.1/24 }
+#        ip saddr == any
+#        ip saddr == missing
+#        ip saddr == exists
+#        ip saddr == none
+#        ip saddr == "eth0"
+#        ip saddr == "br*"
+#        ip saddr == @setname
+#        ip saddr != any
+#        ip saddr != missing
+#        ip saddr != exists
+#        ip saddr != none
+#        ip saddr != "eth0"
+#        ip saddr != "br*"
+#        ip saddr != @setname
+#        ip saddr not in 0
+#        ip saddr not in 4294967295
+#        ip saddr not in 0-4294967295
+#        ip saddr not in 0x0
+#        ip saddr not in 0xffffffff
+#        ip saddr not in any
+#        ip saddr not in missing
+#        ip saddr not in exists
+#        ip saddr not in none
+#        ip saddr not in "eth0"
+#        ip saddr not in "br*"
+#        ip saddr not in 127.0.0.1
+#        ip saddr not in 127.0.0.1-127.0.0.254
+#        ip saddr not in @setname
+#        ip saddr not in { 1, 2, 3 }
+#        ip saddr not in { 1-4, 6-7 }
+#        ip saddr not in { 127.0.0.1 }
+#        ip saddr not in { 127.0.0.1-127.0.0.254 }
+#        ip saddr not in { 127.0.0.1/24 }
+#        ip saddr not in $IP_HDR_LENGTH
+#        ip saddr in 0
+#        ip saddr in 4294967295
+#        ip saddr in 0-4294967295
+#        ip saddr in 0x0
+#        ip saddr in 0xffffffff
+#        ip saddr in any
+#        ip saddr in missing
+#        ip saddr in exists
+#        ip saddr in none
+#        ip saddr in "eth0"
+#        ip saddr in "br*"
+#        ip saddr in 127.0.0.1
+#        ip saddr in 127.0.0.1-127.0.0.254
+#        ip saddr in @setname
+#        ip saddr in { 1, 2, 3 }
+#        ip saddr in { 1-4, 6-7 }
+#        ip saddr in { 127.0.0.1 }
+#        ip saddr in { 127.0.0.1-127.0.0.254 }
+#        ip saddr in { 127.0.0.1/24 }
+#        ip saddr in $IP_HDR_LENGTH
+#        ip saddr not 0
+#        ip saddr not 4294967295
+#        ip saddr not 0-4294967295
+#        ip saddr not 0x0
+#        ip saddr not 0xffffffff
+#        ip saddr not any
+#        ip saddr not missing
+#        ip saddr not exists
+#        ip saddr not none
+#        ip saddr not "eth0"
+#        ip saddr not "br*"
+#        ip saddr not 127.0.0.1
+#        ip saddr not 127.0.0.1-127.0.0.254
+#        ip saddr not @setname
+#        ip saddr not { 1, 2, 3 }
+#        ip saddr not { 1-4, 6-7 }
+#        ip saddr not { 127.0.0.1 }
+#        ip saddr not { 127.0.0.1-127.0.0.254 }
+#        ip saddr not { 127.0.0.1/24 }
+#        ip saddr not $IP_HDR_LENGTH
+#        ip daddr > 0-4294967295
+#        ip daddr > any
+#        ip daddr > missing
+#        ip daddr > exists
+#        ip daddr > none
+#        ip daddr > "eth0"
+#        ip daddr > "br*"
+#        ip daddr > 127.0.0.1
+#        ip daddr > 127.0.0.1-127.0.0.254
+#        ip daddr > @setname
+#        ip daddr > { 1, 2, 3 }
+#        ip daddr > { 1-4, 6-7 }
+#        ip daddr > { 127.0.0.1 }
+#        ip daddr > { 127.0.0.1-127.0.0.254 }
+#        ip daddr > { 127.0.0.1/24 }
+#        ip daddr < 0-4294967295
+#        ip daddr < any
+#        ip daddr < missing
+#        ip daddr < exists
+#        ip daddr < none
+#        ip daddr < "eth0"
+#        ip daddr < "br*"
+#        ip daddr < 127.0.0.1-127.0.0.254
+#        ip daddr < @setname
+#        ip daddr < { 1, 2, 3 }
+#        ip daddr < { 1-4, 6-7 }
+#        ip daddr < { 127.0.0.1 }
+#        ip daddr < { 127.0.0.1-127.0.0.254 }
+#        ip daddr < { 127.0.0.1/24 }
+#        ip daddr >= 0-4294967295
+#        ip daddr >= any
+#        ip daddr >= missing
+#        ip daddr >= exists
+#        ip daddr >= none
+#        ip daddr >= "eth0"
+#        ip daddr >= "br*"
+#        ip daddr >= 127.0.0.1-127.0.0.254
+#        ip daddr >= @setname
+#        ip daddr >= { 1, 2, 3 }
+#        ip daddr >= { 1-4, 6-7 }
+#        ip daddr >= { 127.0.0.1 }
+#        ip daddr >= { 127.0.0.1-127.0.0.254 }
+#        ip daddr >= { 127.0.0.1/24 }
+#        ip daddr <= 0-4294967295
+#        ip daddr <= any
+#        ip daddr <= missing
+#        ip daddr <= exists
+#        ip daddr <= none
+#        ip daddr <= "eth0"
+#        ip daddr <= "br*"
+#        ip daddr <= 127.0.0.1-127.0.0.254
+#        ip daddr <= @setname
+#        ip daddr <= { 1, 2, 3 }
+#        ip daddr <= { 1-4, 6-7 }
+#        ip daddr <= { 127.0.0.1 }
+#        ip daddr <= { 127.0.0.1-127.0.0.254 }
+#        ip daddr <= { 127.0.0.1/24 }
+#        ip daddr == any
+#        ip daddr == missing
+#        ip daddr == exists
+#        ip daddr == none
+#        ip daddr == "eth0"
+#        ip daddr == "br*"
+#        ip daddr == @setname
+#        ip daddr != any
+#        ip daddr != missing
+#        ip daddr != exists
+#        ip daddr != none
+#        ip daddr != "eth0"
+#        ip daddr != "br*"
+#        ip daddr != @setname
+#        ip daddr not in 0
+#        ip daddr not in 4294967295
+#        ip daddr not in 0-4294967295
+#        ip daddr not in 0x0
+#        ip daddr not in 0xffffffff
+#        ip daddr not in any
+#        ip daddr not in missing
+#        ip daddr not in exists
+#        ip daddr not in none
+#        ip daddr not in "eth0"
+#        ip daddr not in "br*"
+#        ip daddr not in 127.0.0.1
+#        ip daddr not in 127.0.0.1-127.0.0.254
+#        ip daddr not in @setname
+#        ip daddr not in { 1, 2, 3 }
+#        ip daddr not in { 1-4, 6-7 }
+#        ip daddr not in { 127.0.0.1 }
+#        ip daddr not in { 127.0.0.1-127.0.0.254 }
+#        ip daddr not in { 127.0.0.1/24 }
+#        ip daddr not in $IP_HDR_LENGTH
+#        ip daddr in 0
+#        ip daddr in 4294967295
+#        ip daddr in 0-4294967295
+#        ip daddr in 0x0
+#        ip daddr in 0xffffffff
+#        ip daddr in any
+#        ip daddr in missing
+#        ip daddr in exists
+#        ip daddr in none
+#        ip daddr in "eth0"
+#        ip daddr in "br*"
+#        ip daddr in 127.0.0.1
+#        ip daddr in 127.0.0.1-127.0.0.254
+#        ip daddr in @setname
+#        ip daddr in { 1, 2, 3 }
+#        ip daddr in { 1-4, 6-7 }
+#        ip daddr in { 127.0.0.1 }
+#        ip daddr in { 127.0.0.1-127.0.0.254 }
+#        ip daddr in { 127.0.0.1/24 }
+#        ip daddr in $IP_HDR_LENGTH
+#        ip daddr not 0
+#        ip daddr not 4294967295
+#        ip daddr not 0-4294967295
+#        ip daddr not 0x0
+#        ip daddr not 0xffffffff
+#        ip daddr not any
+#        ip daddr not missing
+#        ip daddr not exists
+#        ip daddr not none
+#        ip daddr not "eth0"
+#        ip daddr not "br*"
+#        ip daddr not 127.0.0.1
+#        ip daddr not 127.0.0.1-127.0.0.254
+#        ip daddr not @setname
+#        ip daddr not { 1, 2, 3 }
+#        ip daddr not { 1-4, 6-7 }
+#        ip daddr not { 127.0.0.1 }
+#        ip daddr not { 127.0.0.1-127.0.0.254 }
+#        ip daddr not { 127.0.0.1/24 }
+#        ip daddr not $IP_HDR_LENGTH

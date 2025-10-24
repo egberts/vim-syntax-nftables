@@ -1,0 +1,428 @@
+
+# describe icmp
+define allowed_icmp_types = { echo-reply, echo-request }
+define trusted_icmp_types = { destination-unreachable, time-exceeded }
+define MY_PORTS_SET = { test, ssh, tcp, icmp };
+define MY_PORTS_SET2 = { test, ssh, tcp, icmp };
+rule inet T C meta protocol icmp;
+add rule T C reject with icmp type 3
+# /etc/nftables.rules.d/01-icmp.rulesAllow basic ICMP traffic
+define allowed_icmp_types2 = { echo-reply, echo-request }
+define trusted_icmp_types3 = { destination-unreachable, time-exceeded }
+rule inet T C meta protocol icmp;
+rule inet T C meta protocol icmp;
+rule inet T C meta protocol icmp;
+rule inet Tinet Cinet meta protocol icmp;
+
+rule inet T C meta protocol icmp;
+rule inet T C meta protocol icmp;
+add rule T C ip6 nexthdr icmpv6 ip protocol tcp
+add rule myIpTable myIpChain ip protocol { icmp, esp, ah, comp, udp, udplite, tcp, dccp, sctp }
+add rule myIp6Table myIp6Chain ip6 nexthdr { esp, udp, ah, comp, udplite, tcp, dccp, sctp, icmpv6 }
+add rule myTable myChain icmp type { echo-reply, destination-unreachable, source-quench, redirect, echo-request, time-exceeded, parameter-problem, timestamp-request, timestamp-reply, info-request, info-reply, address-mask-request, address-mask-reply, router-advertisement, router-solicitation }
+add rule myTable myChain icmp code 111
+add rule myTable myChain icmp code != 33-55
+add rule myTable myChain icmp code { 2, 4, 54, 33, 56 }
+add rule myTable myChain icmp checksum 12343
+add rule myTable myChain icmp checksum != 11-343
+add rule myTable myChain icmp checksum { 1111, 222, 343 }
+add rule myTable myChain icmp id 12343
+add rule myTable myChain icmp id != 11-343
+add rule myTable myChain icmp id { 1111, 222, 343 }
+add rule myTable myChain icmp sequence 12343
+add rule myTable myChain icmp sequence != 11-343
+add rule myTable myChain icmp sequence { 1111, 222, 343 }
+add rule myTable myChain icmp mtu 12343
+add rule myTable myChain icmp mtu != 11-343
+add rule myTable myChain icmp mtu { 1111, 222, 343 }
+add rule myTable myChain icmp gateway 12343
+add rule myTable myChain icmp gateway != 11-343
+add rule myTable myChain icmp gateway { 1111, 222, 343 }
+add rule myTable myChain icmpv6 type { destination-unreachable, packet-too-big, time-exceeded, echo-request, echo-reply, mld-listener-query, mld-listener-report, mld-listener-reduction, nd-router-solicit, nd-router-advert, nd-neighbor-solicit, nd-neighbor-advert, parameter-problem, mld2-listener-report }
+add rule myTable myChain icmpv6 code 4
+add rule myTable myChain icmpv6 code 3-66
+add rule myTable myChain icmpv6 code { 5, 6, 7 }
+add rule myTable myChain icmpv6 checksum 12343
+add rule myTable myChain icmpv6 checksum != 11-343
+add rule myTable myChain icmpv6 checksum { 1111, 222, 343 }
+add rule myTable myChain icmpv6 id 12343
+add rule myTable myChain icmpv6 id != 11-343
+add rule myTable myChain icmpv6 id { 1111, 222, 343 }
+add rule myTable myChain icmpv6 sequence 12343
+add rule myTable myChain icmpv6 sequence != 11-343
+add rule myTable myChain icmpv6 sequence { 1111, 222, 343 }
+add rule myTable myChain icmpv6 mtu 12343
+add rule myTable myChain icmpv6 mtu != 11-343
+add rule myTable myChain icmpv6 mtu { 1111, 222, 343 }
+add rule myTable myChain icmpv6 max-delay 33-45
+add rule myTable myChain icmpv6 max-delay != 33-45
+add rule myTable myChain icmpv6 max-delay { 33, 55, 67, 88 }
+add rule myTable myChain dst nexthdr { udplite, ipcomp, udp, ah, sctp, esp, dccp, tcp, ipv6-icmp }
+add rule myTable myChain frag nexthdr { udplite, comp, udp, ah, sctp, esp, dccp, tcp, ipv6-icmp, icmp }
+add rule myTable myChain hbh nexthdr { udplite, comp, udp, ah, sctp, esp, dccp, tcp, icmpv6 }
+add rule myTable myChain mh nexthdr { udplite, ipcomp, udp, ah, sctp, esp, dccp, tcp, ipv6-icmp }
+add rule myTable myChain rt nexthdr { udplite, ipcomp, udp, ah, sctp, esp, dccp, tcp, ipv6-icmp }
+add rule myTable myChain reject with icmp type host-unreachable
+add rule myTable myChain reject with icmp type net-unreachable
+add rule myTable myChain reject with icmp type port-unreachable
+add rule myTable myChain reject with icmp type port-unreachable
+add rule myTable myChain reject with icmp type net-prohibited
+add rule myTable myChain reject with icmp type host-prohibited
+add rule myTable myChain reject with icmp type admin-prohibited
+
+add rule myTable myChain reject with icmpv6 type addr-unreachable 
+add rule myTable myChain reject with icmpv6 type admin-prohibited
+add rule myTable myChain reject with icmpv6 type port-unreachable
+add rule myTable myChain reject with icmpv6 type not-neighbor
+add rule myTable myChain reject with icmpv6 type reject-route
+add rule myTable myChain reject with icmpv6 type policy-fail
+add rule myTable myChain reject with icmpv6 type prohibited
+add rule myTable myChain reject with icmpv6 type no-route
+
+add rule myTable myChain reject with icmpx type no-route
+add rule myTable myChain reject with icmpx type admin-prohibited
+add rule myTable myChain reject with icmpx type port-unreachable
+add rule ip filter input ip protocol vmap { tcp : jump tcp-chain, udp : jump udp-chain , icmp : jump icmp-chain }
+
+table T {
+    chain C {
+        ip protocol icmp jump icmp_filter
+        icmp type $allowed_icmp_types counter accept
+        ip saddr @trusted_nets icmp type $trusted_icmp_types counter accept
+        ip daddr @trusted_nets icmp type $trusted_icmp_types counter accept
+		icmp type { 1, 2 } accept
+		icmp type { destination-unreachable, echo-request, time-exceeded, parameter-problem } accept
+		icmp type echo-reply accept
+		icmp type { echo-reply, echo-request } icmp id 42
+		icmp type echo-request accept
+		icmp type echo-request accept
+		icmp type echo-request iif @s3 counter packets 1 bytes 84
+		icmp type echo-request iif @s4 counter packets 1 bytes 84
+		icmp type echo-request ip daddr . "lo" @s2 counter packets 1 bytes 84
+		icmp type echo-request ip daddr . "lo" @s counter packets 1 bytes 84
+		icmp type echo-request ip saddr . iif @s2 counter packets 1 bytes 84
+		icmp type echo-request ip saddr . iif @s counter packets 1 bytes 84
+		icmp type echo-request ip saddr . "lo" @s2 counter packets 1 bytes 84
+		icmp type echo-request ip saddr . "lo" @s counter packets 1 bytes 84
+		ip protocol icmp goto v4icmpc
+		ip protocol icmp jump v4icmp
+		meta protocol icmp accept
+		meta protocol icmp ip daddr 127.0.0.42 jump test_ping
+		meta protocol { icmp, ipv6-icmp } accept
+		meta protocol != { icmp, tcp, udp, ipv6-icmp } counter packets 0 bytes 0 drop
+		reject with icmpx admin-prohibited
+		reject with icmpx type host-unreachable
+		icmp type echo-request accept
+		meta protocol icmp ip daddr 127.0.0.42 jump test_ping
+		meta protocol icmp accept
+		meta protocol != { icmp, tcp, udp, ipv6-icmp } counter packets 0 bytes 0 drop
+		icmp type echo-request accept
+		icmp type { destination-unreachable, echo-request, time-exceeded, parameter-problem } accept
+		icmp type { destination-unreachable, echo-request, time-exceeded, parameter-problem } accept
+		icmp type { 1, 2 } accept
+		icmp type echo-request ip saddr . iif @s counter packets 1 bytes 84
+		icmp type echo-request ip saddr . "lo" @s counter packets 1 bytes 84
+		icmp type echo-request ip saddr . "lo" @s counter packets 1 bytes 84
+		icmp type echo-request ip saddr . iif @s2 counter packets 1 bytes 84
+		icmp type echo-request ip saddr . "lo" @s2 counter packets 1 bytes 84
+		icmp type echo-request ip saddr . "lo" @s2 counter packets 1 bytes 84
+		icmp type echo-request ip daddr . "lo" @s counter packets 1 bytes 84
+		icmp type echo-request ip daddr . "lo" @s2 counter packets 1 bytes 84
+		icmp type echo-request iif @s3 counter packets 1 bytes 84
+		icmp type echo-request iif @s4 counter packets 1 bytes 84
+		icmp type echo-reply accept
+		reject with icmpx addr-unreachable
+        reject with icmpx admin-prohibited
+        reject with icmpx port-unreachable
+        reject with icmpx not-neighbor
+        reject with icmpx reject-route
+        reject with icmpx policy-fail
+        reject with icmpx prohibited
+        reject with icmpx no-route
+		meta protocol { icmp, ipv6-icmp } accept
+		ip protocol icmp jump v4icmp
+		ip protocol icmp goto v4icmpc
+		icmp type { echo-reply, echo-request } icmp id 42
+		reject with icmpx admin-prohibited
+		meta protocol { icmp, ipv6-icmp } accept
+		reject with icmpx type host-unreachable
+        ip protocol icmp  
+        ip protocol icmp  vlan id 5 drop
+        ip protocol icmp  vlan id 0x539 drop
+        ip protocol icmp  vlan cfi 1 drop
+        ip protocol icmp  vlan dei 0 drop
+        ip protocol icmp  vlan pcp 5 drop
+        ip protocol icmp  vlan type 633 accept
+        icmp type 1 accept
+        icmp type echo-reply accept
+        icmp id 15 accept
+        icmp id 15 mtu 1500 accept
+        icmp id 1 icmp mtu 1500 icmp type echo-reply icmp code 3 icmp type echo-reply icmp gateway 1 icmp checksum 15 icmp sequence 15 accept
+        icmp type echo-reply checksum 15 gateway 1 sequence 1 mtu 1500 accept
+        icmp checksum 1000 icmp gateway 123 icmp sequence 1 icmp code 1 icmp type echo-reply icmp mtu 1500 icmp id 100 accept
+        icmp checksum == { 1 } icmp gateway == { 1 } icmp sequence == { 1 } icmp code == { 123 } icmp type echo-reply mtu == { 1500 } icmp id == { 1000 } accept
+        icmp checksum { 1 } gateway { 1 } sequence { 1 } code { 123 } icmp type { echo-reply } mtu { 1500 } id { 10 } accept;
+        icmp checksum in { 1 } gateway in { 1 } sequence in { 1 } code in { 123 } icmp type in { echo-reply } mtu in { 1500 } id in { 1000 } accept;
+
+meta protocol icmp;
+meta protocol icmp;
+        meta protocol icmp;
+# describe icmp
+meta protocol icmp;
+define MY_PORTS_SET4 = { test, ssh, tcp, icmp };
+        ip protocol icmp accept
+        ip protocol icmp icmp type echo-request limit rate over 1/minute burst 4 packets  drop
+        ip protocol icmp icmp type echo-request limit rate over 1/minute burst 4 packets  drop
+        ip protocol icmp icmp type echo-request limit rate over 1/minute burst 4 packets  drop
+        ip protocol icmp icmp type echo-request limit rate over 1/minute burst 4 packets  drop
+        ip protocol icmp accept
+        # multi-family reject, using the icmpx keyword
+        counter log reject with icmpx type admin-prohibited
+        ip protocol icmp accept
+    # icmp
+    icmp type echo-request accept
+    # icmp
+        ip protocol icmp icmp type echo-request limit rate over 1/minute burst 4 packets  drop
+        ip protocol icmp accept
+        oif eth0 ip protocol icmp icmp type echo-request accept
+        iif eth0 ip protocol icmp icmp type echo-reply accept
+        # multi-family reject, using the icmpx keyword
+        counter log reject with icmpx type admin-prohibited
+        ip protocol icmp accept
+        # allow icmp
+        ip protocol icmp accept
+    # icmp
+    icmp type echo-request accept
+    # icmp
+
+        # multi-family reject, using the icmpx keyword
+        counter log reject with icmpx type admin-prohibited
+        meta protocol icmp;
+        ip protocol icmp accept
+        ip protocol icmp icmp type echo-request limit rate over 1/minute burst 4 packets  drop
+        ip protocol icmp icmp type echo-request limit rate over 1/minute burst 4 packets  drop
+        ip protocol icmp icmp type echo-request limit rate over 1/minute burst 4 packets  drop
+        ip protocol icmp icmp type echo-request limit rate over 1/minute burst 4 packets  drop
+        ip protocol icmp accept
+        # multi-family reject, using the icmpx keyword
+        counter log reject with icmpx type admin-prohibited
+        ip protocol icmp accept
+        # allow icmp
+        ip protocol icmp accept
+    # icmp
+    icmp type echo-request accept
+        ip protocol icmp icmp type echo-request limit rate over 1/minute burst 4 packets  drop
+        ip protocol icmp accept
+        oif eth0 ip protocol icmp icmp type echo-request accept
+        iif eth0 ip protocol icmp icmp type echo-reply accept
+        # multi-family reject, using the icmpx keyword
+        counter log reject with icmpx type admin-prohibited
+        ip protocol icmp accept
+        # allow icmp
+        ip protocol icmp accept
+    # icmp
+    icmp type echo-request accept
+    # icmp
+        ip protocol icmp icmp type echo-request limit rate over 1/minute burst 4 packets  drop
+        ip protocol icmp accept
+        oif eth0 ip protocol icmp icmp type echo-request accept
+        iif eth0 ip protocol icmp icmp type echo-reply accept
+        # multi-family reject, using the icmpx keyword
+        counter log reject with icmpx type admin-prohibited
+        ip protocol icmp accept
+        # allow icmp
+        ip protocol icmp accept
+    # icmp
+    icmp type echo-request accept
+    # icmp
+    icmpv6 type { echo-request, nd-neighbor-solicit } accept
+        ip protocol icmp ip version 0 accept
+        ip protocol icmp ether saddr 00:29:2a:00:00:01 drop
+        ip protocol icmp icmp type echo-request
+        ip protocol icmp @ih ether saddr 00:29:2a:00:00:01 drop
+        ip protocol icmp @nh ether daddr 00:29:2a:00:00:01 drop
+        ip protocol icmp @th ether type 0x8086 drop
+        ip protocol icmp icmp type echo-request limit rate over 1/second counter drop
+        ip protocol icmp icmp type echo-request counter accept
+        ip protocol icmp icmp type echo-request counter accept
+        ip protocol icmp  arp htype 5 drop
+        ip protocol icmp  arp ptype 0x539 drop
+        ip protocol icmp  arp ptype arp drop
+        ip protocol icmp  arp ptype ip drop
+        ip protocol icmp  arp ptype ipv6 drop
+        ip protocol icmp  arp hlen 1 drop
+        ip protocol icmp  arp plen 0 drop
+        ip protocol icmp  arp operation 5 drop
+        ip protocol icmp  arp operation reply drop
+        ip protocol icmp  arp operation request drop
+        ip protocol icmp  arp saddr ether 00:11:22:33:44:55 accept
+        ip protocol icmp  arp saddr ip 1.11.1.1 accept
+        ip protocol icmp  arp daddr ether 00:11:22:33:44:55 accept
+        ip protocol icmp  arp daddr ip 1.11.1.1 accept
+		meta protocol icmp ip daddr 127.0.0.42 jump test_ping
+		meta protocol icmp accept
+		# meta protocol != { icmp, tcp, udp, ipv6-icmp } counter packets 0 bytes 0 drop
+		icmp type echo-request accept
+		icmp type echo-request accept
+		icmp type { destination-unreachable, echo-request, time-exceeded, parameter-problem } accept
+		icmp type { destination-unreachable, echo-request, time-exceeded, parameter-problem } accept
+		icmp type { 1, 2 } accept
+		icmp type echo-request ip saddr . iif @s counter packets 1 bytes 84
+		icmp type echo-request ip saddr . "lo" @s counter packets 1 bytes 84
+		icmp type echo-request ip saddr . "lo" @s counter packets 1 bytes 84
+		icmp type echo-request ip saddr . iif @s2 counter packets 1 bytes 84
+		icmp type echo-request ip saddr . "lo" @s2 counter packets 1 bytes 84
+		icmp type echo-request ip saddr . "lo" @s2 counter packets 1 bytes 84
+		icmp type echo-request ip daddr . "lo" @s counter packets 1 bytes 84
+		icmp type echo-request ip daddr . "lo" @s2 counter packets 1 bytes 84
+		icmp type echo-request iif @s3 counter packets 1 bytes 84
+		icmp type echo-request iif @s4 counter packets 1 bytes 84
+		icmp type echo-reply accept
+		reject with icmpx admin-prohibited
+		reject with icmpx admin-prohibited
+		meta protocol { icmp, ipv6-icmp } accept
+
+		meta protocol { icmp, ipv6-icmp } accept
+		meta protocol { icmp, ipv6-icmp } accept
+		meta protocol { icmp, ipv6-icmp } accept
+		meta protocol { icmp, ipv6-icmp } accept
+		meta protocol { icmp, ipv6-icmp } accept
+		ip protocol icmp jump v4icmp
+		ip protocol icmp goto v4icmpc
+		icmp type { echo-reply, echo-request } icmp id 42
+		reject with icmpx admin-prohibited
+		meta protocol { icmp, ipv6-icmp } accept
+		meta protocol { icmp, ipv6-icmp } accept
+		meta protocol { icmp, ipv6-icmp } accept
+		meta protocol { icmp, ipv6-icmp } accept
+        oif eth0 ip protocol icmp icmp type echo-request accept
+        iif eth0 ip protocol icmp icmp type echo-reply accept
+        # multi-family reject, using the icmpx keyword
+        counter log reject with icmpx type admin-prohibited
+        ip protocol icmp accept
+        # allow icmp
+        ip protocol icmp accept
+        # icmp
+        icmp type echo-request accept
+        # icmp
+        # multi-family reject, using the icmpx keyword
+        counter log reject with icmpx type admin-prohibited
+		ip protocol icmp icmp type echo-request limit rate over 1/minute burst 4 packets  drop
+		ip protocol icmp accept
+        # multi-family reject, using the icmpx keyword
+        counter log reject with icmpx type admin-prohibited
+        ip protocol icmp accept
+        # allow icmp
+        ip protocol icmp accept
+    # icmp
+    icmp type echo-request accept
+    # icmp
+        ip protocol icmp icmp type echo-request limit rate over 1/minute burst 4 packets  drop
+        ip protocol icmp accept
+        oif eth0 ip protocol icmp icmp type echo-request accept
+        iif eth0 ip protocol icmp icmp type echo-reply accept
+        # multi-family reject, using the icmpx keyword
+        counter log reject with icmpx type admin-prohibited
+        ip protocol icmp accept
+        # allow icmp
+        ip protocol icmp accept
+    # icmp
+    icmp type echo-request accept
+        reject with icmp type port-unreachable;
+        # icmp/icmp_hdr_expr/payload_expr/payload_stmt
+        # icmp/icmp_hdr_expr/payload_expr/primary_expr/basic_expr/concat_expr/verdict_map_stmt/verdict_stmt
+        icmp ;
+    ip protocol icmp accept  # handle 4
+    ip protocol icmp jump icmp_filter
+    icmp type $allowed_icmp_types counter accept
+    ip saddr @trusted_nets icmp type $trusted_icmp_types counter accept
+    ip daddr @trusted_nets icmp type $trusted_icmp_types counter accept
+        oif eth0 ip protocol icmp icmp type echo-request accept
+        iif eth0 ip protocol icmp icmp type echo-reply accept
+        # multi-family reject, using the icmpx keyword
+        counter log reject with icmpx type admin-prohibited
+        ip protocol icmp accept
+        # allow icmp
+        ip protocol icmp accept
+    # icmp
+    icmp type echo-request accept
+    }
+}
+
+# ruleid_spec payload_stmt icmp_hdr_expr
+replace rule ip table_id chain_id icmp type;
+replace rule ip table_id chain_id icmp code;
+replace rule ip table_id chain_id icmp checksum;
+replace rule ip table_id chain_id icmp id;
+replace rule ip table_id chain_id icmp seq;
+replace rule ip table_id chain_id icmp gateway;
+replace rule ip table_id chain_id icmp mtu;
+# ruleid_spec payload_stmt icmp6_hdr_expr
+replace rule ip table_id chain_id icmpv6 type
+replace rule ip table_id chain_id icmpv6 code
+replace rule ip table_id chain_id icmpv6 checksum
+replace rule ip table_id chain_id icmpv6 param-problem
+replace rule ip table_id chain_id icmpv6 mtu
+replace rule ip table_id chain_id icmpv6 id
+replace rule ip table_id chain_id icmpv6 seq
+replace rule ip table_id chain_id icmpv6 max-delay
+replace rule ip table_id chain_id icmpv6 taddr
+replace rule ip table_id chain_id icmpv6 daddr
+# ruleid_spec payload_stmt icmp_hdr_expr
+replace rule ip table_id chain_id icmp type;
+replace rule ip table_id chain_id icmp code;
+replace rule ip table_id chain_id icmp checksum;
+replace rule ip table_id chain_id icmp id;
+replace rule ip table_id chain_id icmp seq;
+replace rule ip table_id chain_id icmp gateway;
+replace rule ip table_id chain_id icmp mtu;
+# ruleid_spec payload_stmt icmp6_hdr_expr
+replace rule ip table_id chain_id icmpv6 type
+replace rule ip table_id chain_id icmpv6 code
+replace rule ip table_id chain_id icmpv6 checksum
+replace rule ip table_id chain_id icmpv6 param-problem
+replace rule ip table_id chain_id icmpv6 mtu
+replace rule ip table_id chain_id icmpv6 id
+replace rule ip table_id chain_id icmpv6 seq
+replace rule ip table_id chain_id icmpv6 max-delay
+replace rule ip table_id chain_id icmpv6 taddr
+replace rule ip table_id chain_id icmpv6 daddr
+
+# ruleid_spec payload_stmt icmp_hdr_expr
+replace rule ip table_id chain_id icmp type;
+replace rule ip table_id chain_id icmp code;
+replace rule ip table_id chain_id icmp checksum;
+replace rule ip table_id chain_id icmp id;
+replace rule ip table_id chain_id icmp seq;
+replace rule ip table_id chain_id icmp gateway;
+replace rule ip table_id chain_id icmp mtu;
+# ruleid_spec payload_stmt icmp6_hdr_expr
+replace rule ip table_id chain_id icmpv6 type
+replace rule ip table_id chain_id icmpv6 code
+replace rule ip table_id chain_id icmpv6 checksum
+replace rule ip table_id chain_id icmpv6 param-problem
+replace rule ip table_id chain_id icmpv6 mtu
+replace rule ip table_id chain_id icmpv6 id
+replace rule ip table_id chain_id icmpv6 seq
+replace rule ip table_id chain_id icmpv6 max-delay
+replace rule ip table_id chain_id icmpv6 taddr
+replace rule ip table_id chain_id icmpv6 daddr
+# ruleid_spec payload_stmt icmp_hdr_expr
+replace rule ip table_id chain_id icmp type;
+replace rule ip table_id chain_id icmp code;
+replace rule ip table_id chain_id icmp checksum;
+replace rule ip table_id chain_id icmp id;
+replace rule ip table_id chain_id icmp seq;
+replace rule ip table_id chain_id icmp gateway;
+replace rule ip table_id chain_id icmp mtu;
+# ruleid_spec payload_stmt icmp6_hdr_expr
+replace rule ip table_id chain_id icmpv6 type
+replace rule ip table_id chain_id icmpv6 code
+replace rule ip table_id chain_id icmpv6 checksum
+replace rule ip table_id chain_id icmpv6 param-problem
+replace rule ip table_id chain_id icmpv6 mtu
+replace rule ip table_id chain_id icmpv6 id
+replace rule ip table_id chain_id icmpv6 seq
+replace rule ip table_id chain_id icmpv6 max-delay
+replace rule ip table_id chain_id icmpv6 taddr
+replace rule ip table_id chain_id icmpv6 daddr

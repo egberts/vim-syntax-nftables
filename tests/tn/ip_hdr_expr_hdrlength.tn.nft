@@ -1,0 +1,51 @@
+
+# True-Positive
+# ip_hdr_expr 'hdrlength'
+#
+
+define IP_HDR_VERSION = 4
+
+table inet t {
+    set setname {
+        typeof ip hdrlength
+        elements = { 1, 4, 6 }
+    }
+    chain input {
+        type filter hook input priority 0;
+        ip hdrlength 0 accept
+        ip hdrlength 15 accept
+        ip hdrlength 0x0 accept
+        ip hdrlength 0xf accept
+        ip hdrlength $IP_HDR_VERSION accept
+        ip hdrlength == 0x1 accept
+        ip hdrlength > 0x1 accept
+        ip hdrlength >= 0x2 accept
+        ip hdrlength <= 0x3 accept
+        ip hdrlength < 0x4 accept
+        ip hdrlength != 0x7 accept
+        ip hdrlength eq 0x1 accept
+        ip hdrlength gt 0x1 accept
+        ip hdrlength ge 0x2 accept
+        ip hdrlength le 0x3 accept
+        ip hdrlength lt 0x4 accept
+        ip hdrlength ne 0x7 accept
+        ip hdrlength == @setname accept
+        ip hdrlength != @setname accept
+        ip hdrlength eq @setname accept
+        # ip hdrlength >  @setname accept  # invalid, v1.1.4
+        # ip hdrlength < @setname accept  # invalid, v1.1.4
+        # ip hdrlength >= @setname accept  # invalid, v1.1.4
+        # ip hdrlength <= @setname accept  # invalid, v1.1.4
+        ip hdrlength == { 1, 4, 6 } accept
+        ip hdrlength != { 1, 4, 6 } accept
+        # ip hdrlength >= { 1, 4, 6 } accept  # invalid, v1.1.4
+        # ip hdrlength <= { 1, 4, 6 } accept  # invalid, v1.1.4
+        # ip hdrlength < { 1, 4, 6 } accept  # invalid, v1.1.4
+        # ip hdrlength > { 1, 4, 6 } accept  # invalid, v1.1.4
+
+       # ip hdrlength in 1 accept  # invalid, v1.1.4
+       # ip hdrlength not in 1 accept  # invalid, v1.1.4
+       # ip hdrlength not in 1 accept  # invalid, v1.1.4
+   }
+}
+

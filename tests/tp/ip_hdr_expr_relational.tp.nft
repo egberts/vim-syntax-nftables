@@ -1,0 +1,636 @@
+
+define IP_HDR_LENGTH = 3
+
+table inet t {
+    set setname_dscp {
+        type inet_service; flags interval;
+        elements = { 1, 2, 3, 4 }
+    }
+    # set setname_dscp_enum {
+    #     type inet_service; flags interval;
+    #     elements = { cs0, cs1, cs2, cs3 }
+    # }
+    set setname {
+        typeof ip version
+        elements = { 1, 4, 6 }
+    }
+    chain input {
+        type filter hook input priority 0;
+        ip version 0
+        ip version 15
+        ip version 0-15
+        ip version 0x0
+        ip version 0xf
+        ip version @setname
+        ip version { 1, 2, 3 }
+        ip version { 1-4, 6-7 }
+        ip version $IP_HDR_LENGTH
+        ip version > 0
+        ip version > 15
+        ip version > 0x0
+        ip version > 0xf
+        ip version > $IP_HDR_LENGTH
+        ip version < 0
+        ip version < 15
+        ip version < 0x0
+        ip version < 0xf
+        ip version < $IP_HDR_LENGTH
+        ip version >= 0
+        ip version >= 15
+        ip version >= 0x0
+        ip version >= 0xf
+        ip version >= $IP_HDR_LENGTH
+        ip version <= 0
+        ip version <= 15
+        ip version <= 0x0
+        ip version <= 0xf
+        ip version <= $IP_HDR_LENGTH
+        ip version == 0
+        ip version == 15
+        ip version == 0-15
+        ip version == 0x0
+        ip version == 0xf
+        ip version == @setname
+        ip version == { 1, 2, 3 }
+        ip version == { 1-4, 6-7 }
+        ip version == $IP_HDR_LENGTH
+        ip version != 0
+        ip version != 15
+        ip version != 0-15
+        ip version != 0x0
+        ip version != 0xf
+        ip version != @setname
+        ip version != { 1, 2, 3 }
+        ip version != { 1-4, 6-7 }
+        ip version != $IP_HDR_LENGTH
+        ip hdrlength 4 
+        ip hdrlength 5
+        ip hdrlength 15
+        ip hdrlength > 5
+        ip hdrlength > 15
+        ip hdrlength > 0x5
+        ip hdrlength > 0xf
+        ip hdrlength > $IP_HDR_LENGTH
+        ip hdrlength < 5
+        ip hdrlength < 15
+        ip hdrlength < 0x5
+        ip hdrlength < 0xf
+        ip hdrlength < $IP_HDR_LENGTH
+        ip hdrlength >= 5
+        ip hdrlength >= 15
+        ip hdrlength >= 0x5
+        ip hdrlength >= 0xf
+        ip hdrlength >= $IP_HDR_LENGTH
+        ip hdrlength <= 5
+        ip hdrlength <= 15
+        ip hdrlength <= 0x5
+        ip hdrlength <= 0xf
+        ip hdrlength <= $IP_HDR_LENGTH
+        ip hdrlength == 5
+        ip hdrlength == 15
+        ip hdrlength == 5-15
+        ip hdrlength == 0x5
+        ip hdrlength == 0xf
+        ip hdrlength == @setname
+        ip hdrlength == { 0x5, 6, 7 }
+        ip hdrlength == { 5-6, 6-7, 9-9, 10-15 }
+        ip hdrlength == $IP_HDR_LENGTH
+        ip hdrlength != 5
+        ip hdrlength != 15
+        ip hdrlength != 5-15
+        ip hdrlength != 0x5
+        ip hdrlength != 0xf
+        ip hdrlength != @setname
+        ip hdrlength != { 5, 6, 11 }
+        ip hdrlength != { 5-6, 6-7 }
+        ip hdrlength != $IP_HDR_LENGTH
+    }
+}
+table T {
+    set setname {
+        typeof ip version
+        elements = { 1, 4, 6 }
+    }
+    chain C {
+        ip dscp 0
+        ip dscp 63
+        ip dscp > 0
+        ip dscp > 63
+        ip dscp > 0x0
+        ip dscp > 0x3f
+        ip dscp > df
+        ip dscp > be
+        ip dscp > lephb
+        ip dscp > va
+        ip dscp > ef
+        ip dscp > cs0
+        ip dscp > cs7
+        ip dscp > af11
+        ip dscp > va
+        ip dscp > ef
+        ip dscp > $IP_HDR_LENGTH
+        ip dscp < 0
+        ip dscp < 63
+        ip dscp < 0x0
+        ip dscp < 0x3f
+        ip dscp < $IP_HDR_LENGTH
+        ip dscp >= 0
+        ip dscp >= 63
+        ip dscp >= 0x3f
+        ip dscp >= $IP_HDR_LENGTH
+        ip dscp <= 0
+        ip dscp <= 63
+        ip dscp <= 0x0
+        ip dscp <= 0x3f
+        ip dscp <= $IP_HDR_LENGTH
+        ip dscp == 0
+        ip dscp == 63
+        ip dscp == 0-63
+        ip dscp == 0x0
+        ip dscp == 0x3f
+        ip dscp == $IP_HDR_LENGTH
+        ip dscp != 0
+        ip dscp != 63
+        ip dscp != 0-63
+        ip dscp != 0x0
+        ip dscp != 0x3f
+        ip dscp != { 1, 2, 3 }
+        ip dscp != { 1-63, 6-7 }
+        ip dscp != $IP_HDR_LENGTH
+    }
+}
+table T {
+    set setname {
+        typeof ip version
+        elements = { 1, 4, 6 }
+    }
+    chain C {
+        ip ecn 0
+        ip ecn 3
+        ip ecn > 0
+        ip ecn > 3
+        ip ecn > 0x0
+        ip ecn > 0x3
+        ip ecn > $IP_HDR_LENGTH
+        ip ecn < 0
+        ip ecn < 3
+        ip ecn < 0x0
+        ip ecn < 0x3
+        ip ecn < $IP_HDR_LENGTH
+        ip ecn >= 0
+        ip ecn >= 3
+        ip ecn >= 0x0
+        ip ecn >= 0x3
+        ip ecn >= $IP_HDR_LENGTH
+        ip ecn <= 0
+        ip ecn <= 3
+        ip ecn <= 0x0
+        ip ecn <= 0x3
+        ip ecn <= $IP_HDR_LENGTH
+        ip ecn == 0
+        ip ecn == 3
+        ip ecn == 0-3
+        ip ecn == 0x0
+        ip ecn == 0x3
+        ip ecn == { 1, 2, 3 }
+        ip ecn == $IP_HDR_LENGTH
+        ip ecn != 0
+        ip ecn != 3
+        ip ecn != 0-3
+        ip ecn != 0x0
+        ip ecn != 0x3
+        ip ecn != { 1, 2, 3 }
+        ip ecn != $IP_HDR_LENGTH
+    }
+}
+table T {
+    set setname {
+        typeof ip version
+        elements = { 1, 4, 6 }
+    }
+    chain C {
+        ip length 19
+        ip length 20
+        ip length 300
+        ip length 65535
+        ip length > 20
+        ip length > 65535
+        ip length > 0x14
+        ip length > 0xffff
+        ip length > $IP_HDR_LENGTH
+        ip length < 20
+        ip length < 65535
+        ip length < 0x14
+        ip length < 0xffff
+        ip length < $IP_HDR_LENGTH
+        ip length >= 20
+        ip length >= 65535
+        ip length >= 0xffff
+        ip length >= $IP_HDR_LENGTH
+        ip length <= 20
+        ip length <= 65535
+        ip length <= 0x14
+        ip length <= 0xffff
+        ip length <= $IP_HDR_LENGTH
+        ip length == 20
+        ip length == 65535
+        ip length == 20-65535
+        ip length == 0x14
+        ip length == 0xffff
+        ip length == @setname
+        ip length == { 20, 0x14, 65535 }
+        ip length == { 0x14-0xfff, 0x1000-0x2000 }
+        ip length == $IP_HDR_LENGTH
+        ip length != 20
+        ip length != 65535
+        ip length != 20-65535
+        ip length != 0x14
+        ip length != 0xffff
+        ip length != @setname
+        ip length != { 20, 0x200, 0x2000 }
+        ip length != { 20-20, 65535-65535 }
+        ip length != $IP_HDR_LENGTH
+    }
+}
+table T {
+    set setname {
+        typeof ip version
+        elements = { 1, 4, 6 }
+    }
+    chain C {
+        ip id 0
+        ip id 65535
+        ip id > 0
+        ip id > 65535
+        ip id > 0x0
+        ip id > 0xffff
+        ip id > $IP_HDR_LENGTH
+        ip id < 0
+        ip id < 65535
+        ip id < 0x0
+        ip id < 0xffff
+        ip id < $IP_HDR_LENGTH
+        ip id >= 0
+        ip id >= 65535
+        ip id >= 0x0
+        ip id >= 0xffff
+        ip id >= $IP_HDR_LENGTH
+        ip id <= 0
+        ip id <= 65535
+        ip id <= 0x0
+        ip id <= 0xffff
+        ip id <= $IP_HDR_LENGTH
+        ip id == 0
+        ip id == 65535
+        ip id == 0-65535
+        ip id == 0x0
+        ip id == 0xffff
+        ip id == @setname
+        ip id == { 1, 2, 3 }
+        ip id == { 1-4, 6-7 }
+        ip id == $IP_HDR_LENGTH
+        ip id != 0
+        ip id != 65535
+        ip id != 0-65535
+        ip id != 0x0
+        ip id != 0xffff
+        ip id != @setname
+        ip id != { 1, 2, 3 }
+        ip id != { 1-4, 6-7 }
+        ip id != $IP_HDR_LENGTH
+    }
+}
+table T {
+    chain C {
+        ip frag-off 0
+        ip frag-off 8191
+        ip frag-off > 0
+        ip frag-off > 8191
+        ip frag-off > 0x0
+        ip frag-off > 0x1fff
+        ip frag-off > $IP_HDR_LENGTH
+        ip frag-off < 0
+        ip frag-off < 8191
+        ip frag-off < 0x0
+        ip frag-off < 0x1fff
+        ip frag-off < $IP_HDR_LENGTH
+        ip frag-off >= 0
+        ip frag-off >= 8191
+        ip frag-off >= 0x0
+        ip frag-off >= 0x1fff
+        ip frag-off >= $IP_HDR_LENGTH
+        ip frag-off <= 0
+        ip frag-off <= 8191
+        ip frag-off <= 0x0
+        ip frag-off <= 0x1fff
+        ip frag-off <= $IP_HDR_LENGTH
+        ip frag-off == 0
+        ip frag-off == 8191
+        ip frag-off == 0-8191
+        ip frag-off == 0x0
+        ip frag-off == 0x1fff
+        ip frag-off == @setname
+        ip frag-off == { 1, 2, 8191 }
+        ip frag-off == { 1-4, 6-7 }
+        ip frag-off == $IP_HDR_LENGTH
+        ip frag-off != 0
+        ip frag-off != 8191
+        ip frag-off != 0-8191
+        ip frag-off != 0x0
+        ip frag-off != 0x1fff
+        ip frag-off != @setname
+        ip frag-off != { 1, 2, 3 }
+        ip frag-off != { 1-4, 6-7 }
+        ip frag-off != $IP_HDR_LENGTH
+    }
+}
+table T {
+    chain C {
+        ip ttl 0
+        ip ttl 255
+        ip ttl > 0
+        ip ttl > 255
+        ip ttl > 0x0
+        ip ttl > 0xff
+        ip ttl > $IP_HDR_LENGTH
+        ip ttl < 0
+        ip ttl < 255
+        ip ttl < 0x0
+        ip ttl < 0xff
+        ip ttl < $IP_HDR_LENGTH
+        ip ttl >= 0
+        ip ttl >= 255
+        ip ttl >= 0x0
+        ip ttl >= 0xff
+        ip ttl >= $IP_HDR_LENGTH
+        ip ttl <= 0
+        ip ttl <= 255
+        ip ttl <= 0x0
+        ip ttl <= 0xff
+        ip ttl <= $IP_HDR_LENGTH
+        ip ttl == 0
+        ip ttl == 255
+        ip ttl == 0-255
+        ip ttl == 0x0
+        ip ttl == 0xff
+        ip ttl == @setname
+        ip ttl == { 1, 2, 3 }
+        ip ttl == { 1-4, 6-7 }
+        ip ttl == $IP_HDR_LENGTH
+        ip ttl != 0
+        ip ttl != 255
+        ip ttl != 0-255
+        ip ttl != 0x0
+        ip ttl != 0xff
+        ip ttl != @setname
+        ip ttl != { 1, 2, 3 }
+        ip ttl != { 1-4, 6-7 }
+        ip ttl != $IP_HDR_LENGTH
+    }
+}
+table T {
+    chain C {
+        ip protocol 0
+        ip protocol 255
+        ip protocol { icmpv6, comp }
+        ip protocol > 0
+        ip protocol > 255
+        ip protocol > 0x0
+        ip protocol > 0xff
+        ip protocol > $IP_HDR_LENGTH
+        ip protocol < 0
+        ip protocol < 255
+        ip protocol < 0x0
+        ip protocol < 0xff
+        ip protocol < $IP_HDR_LENGTH
+        ip protocol >= 0
+        ip protocol >= 255
+        ip protocol >= 0x0
+        ip protocol >= 0xff
+        ip protocol >= $IP_HDR_LENGTH
+        ip protocol <= 0
+        ip protocol <= 255
+        ip protocol <= 0x0
+        ip protocol <= 0xff
+        ip protocol <= $IP_HDR_LENGTH
+        ip protocol == 0
+        ip protocol == 255
+        ip protocol == 0-255
+        ip protocol == 0x0
+        ip protocol == 0xff
+        ip protocol == { 1, 2, 3 }
+        ip protocol == { 1-4, 6-7 }
+        ip protocol == $IP_HDR_LENGTH
+        ip protocol != 0
+        ip protocol != 255
+        ip protocol != 0-255
+        ip protocol != 0x0
+        ip protocol != 0xff
+        ip protocol != { 1, 2, 3 }
+        ip protocol != { 1-4, 6-7 }
+        ip protocol != $IP_HDR_LENGTH
+;
+}
+}
+table T {
+    chain C {
+        ip checksum 0;
+        ip checksum 01
+        ip checksum 65535
+        ip checksum 65525
+        ip checksum 65425
+        ip checksum 64425
+        ip checksum 54425
+        ip checksum 5442
+        ip checksum 542
+        ip checksum 54
+        ip checksum 5
+        ip checksum 0x5f
+        ip checksum 0x5fff
+        ip checksum 0x5
+        ip checksum 1-123
+        ip checksum > 0
+        ip checksum > 65535 
+        ip checksum > 0x0
+        ip checksum > 0xffff
+        ip checksum > $IP_HDR_LENGTH
+        ip checksum < 0
+        ip checksum < 65535
+        ip checksum < 0x0
+        ip checksum < 0xffff
+        ip checksum < $IP_HDR_LENGTH
+        ip checksum >= 0
+        ip checksum >= 65535
+        ip checksum >= 0x0
+        ip checksum >= 0xffff
+        ip checksum >= $IP_HDR_LENGTH
+        ip checksum <= 0
+        ip checksum <= 65535
+        ip checksum <= 0x0
+        ip checksum <= 0xffff
+        ip checksum <= $IP_HDR_LENGTH
+        ip checksum == 0
+        ip checksum == 65535
+        ip checksum == 0-65535
+        ip checksum == 0x0
+        ip checksum == 0xffff
+        ip checksum == @setname
+        ip checksum == { 1, 2, 3 }
+        ip checksum == { 1-4, 6-7 }
+        ip checksum == $IP_HDR_LENGTH
+        ip checksum != 0
+        ip checksum != 65535
+        ip checksum != 0-65535
+        ip checksum != 0x0
+        ip checksum != 0xffff
+        ip checksum != @setname
+        ip checksum != { 1, 2, 3 }
+        ip checksum != { 1-4, 6-7 }
+        ip checksum != $IP_HDR_LENGTH
+    }
+}
+table T {
+    set setname_ip4 {
+        typeof ip saddr
+        elements = { 127.0.0.1, 192.168.1.1 }
+    }
+    chain C {
+        ip saddr 0
+        ip saddr 4294967295
+        ip saddr 0.0.0.0
+        ip saddr 255.255.255.255
+        ip saddr @setname_ip4
+        ip saddr > 0
+        ip saddr > 4294967295
+        ip saddr > 0x0
+        ip saddr > 0xffffffff
+        ip saddr > 127.0.0.1
+        # ip saddr > @setname_ip4
+        ip saddr > $IP_HDR_LENGTH
+        ip saddr < 0
+        ip saddr < 4294967295
+        ip saddr < 0x0
+        ip saddr < 0xffffffff
+        # ip saddr < @setname_ip4
+         ip saddr < 127.0.0.1
+        ip saddr < $IP_HDR_LENGTH
+        ip saddr >= 0
+        ip saddr >= 4294967295
+        ip saddr >= 0x0
+        ip saddr >= 0xffffffff
+        # ip saddr >= @setname_ip4
+        ip saddr >= $IP_HDR_LENGTH
+        ip saddr <= 0
+        ip saddr <= 4294967295
+        ip saddr <= 0x0
+        ip saddr <= 0xffffffff
+        ip saddr <= 127.0.0.1
+        # ip saddr <= @setname_ip4
+        ip saddr <= $IP_HDR_LENGTH
+        ip saddr == 0
+        ip saddr == 4294967295
+        ip saddr == 0-4294967295 
+        ip saddr == 0x0
+        ip saddr == 0-255
+        ip saddr == 0xffffffff
+        ip saddr == @setname_ip4
+        ip saddr == 1.1.1.1
+        ip saddr == 19.19.19.1
+        ip saddr == 127.1.127.1
+        ip saddr == 199.199.199.1
+        ip saddr == 249.249.249.1
+        ip saddr == 255.255.255.1
+        ip saddr == 1.111.99.1
+        ip saddr == 1.111.199.1
+        ip saddr == 1.111.244.1
+        ip saddr == 1.111.254.1
+        ip saddr == 127.0.0.1
+        ip saddr == 127.0.0.1/24
+        ip saddr == 127.0.0.1-127.0.0.254 ;
+        ip saddr == { 1, 2, 3 }
+        ip saddr == { 1-4, 6-7 }
+        ip saddr == { 127.0.0.1 }
+        ip saddr == { 127.0.0.1-127.0.0.254 }
+        ip saddr == { 127.0.0.1/24 }
+        ip saddr == $IP_HDR_LENGTH
+        ip saddr != 0
+        ip saddr != 4294967295
+        ip saddr != 0-4294967295
+        ip saddr != 0x0
+        ip saddr != 0xffffffff
+        ip saddr != @setname_ip4
+        ip saddr != 127.0.0.1
+        ip saddr != 127.0.0.1-127.0.0.254
+        ip saddr != { 1, 2, 3 }
+        ip saddr != { 1-4, 6-7 }
+        ip saddr != { 127.0.0.1 }
+        ip saddr != { 127.0.0.1 }
+        ip saddr != { 127.0.0.1-127.0.0.254 }
+        ip saddr != { 127.0.0.1/24 }
+        ip saddr != $IP_HDR_LENGTH
+    }
+}
+table T {
+    chain C {
+        ip daddr 0
+        ip daddr 4294967295
+        ip daddr 0.0.0.0
+        ip daddr 255.255.255.255
+        ip saddr @setname_ip4
+        ip daddr > 0
+        ip daddr > 4294967295
+        ip daddr > 0x0
+        ip daddr > 0xffffffff
+        # ip saddr > @setname_ip4
+        ip daddr > $IP_HDR_LENGTH
+        ip daddr < 0
+        ip daddr < 4294967295
+        ip daddr < 0x0
+        ip daddr < 0xffffffff
+        # ip saddr < @setname_ip4
+        ip daddr < 127.0.0.1
+        ip daddr < $IP_HDR_LENGTH
+        ip daddr >= 0
+        ip daddr >= 4294967295
+        ip daddr >= 0x0
+        ip daddr >= 0xffffffff
+        # ip saddr >= @setname_ip4
+        ip daddr >= 127.0.0.1
+        ip daddr >= $IP_HDR_LENGTH
+        ip daddr <= 0
+        ip daddr <= 4294967295
+        ip daddr <= 0x0
+        ip daddr <= 0xffffffff
+        # ip saddr <= @setname_ip4
+        ip daddr <= 127.0.0.1
+        ip daddr <= $IP_HDR_LENGTH
+        ip daddr == 0
+        ip daddr == 4294967295
+        ip daddr == 0-4294967295
+        ip daddr == 0x0
+        ip daddr == 0xffffffff
+        ip saddr == @setname_ip4
+        ip daddr == 127.0.0.1
+        ip daddr == 127.0.0.1-127.0.0.254
+        ip daddr == { 1, 2, 3 }
+        ip daddr == { 1-4, 6-7 }
+        ip daddr == { 127.0.0.1 }
+        ip daddr == { 127.0.0.1-127.0.0.254 }
+        ip daddr == { 127.0.0.1/24 }
+        ip daddr == $IP_HDR_LENGTH
+        ip daddr != 0
+        ip daddr != 4294967295
+        ip daddr != 0-4294967295
+        ip daddr != 0x0
+        ip daddr != 0xffffffff
+        ip saddr != @setname_ip4
+        ip daddr != 127.0.0.1
+        ip daddr != 127.0.0.1-127.0.0.254
+        ip daddr != { 1, 2, 3 }
+        ip daddr != { 1-4, 6-7 }
+        ip daddr != { 127.0.0.1 }
+        ip daddr != { 127.0.0.1-127.0.0.254 }
+        ip daddr != { 127.0.0.1/24 }
+        ip daddr != $IP_HDR_LENGTH
+    }
+}

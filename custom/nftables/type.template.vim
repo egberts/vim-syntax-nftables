@@ -158,7 +158,7 @@ syn match nft_XXX_close_scope_ZZZ_YYY_set_ref_expr_set_ref_symbol_expr_at_setnam
 \    @nft_c_stmt
 
 hi link   nft_XXX_close_scope_ZZZ_YYY_symbol_expr_variable_expr nftHL_Variable
-syn match nft_XXX_close_scope_ZZZ_YYY_symbol_expr_variable_expr '\v\$[a-zA-Z][a-zA-Z0-9\-_]{0,63}\ze[ \t]' skipwhite contained
+syn match nft_XXX_close_scope_ZZZ_YYY_symbol_expr_variable_expr '\v\$[a-zA-Z][a-zA-Z0-9\-_]{0,63}\ze[ \t\n;]' skipwhite contained
 \ nextgroup=
 \    @nft_c_stmt
 
@@ -185,7 +185,7 @@ syn region nft_XXX_YYY_set_expr_inline_set start=+{+ end=+}+ skipwhite contained
 \    nft_XXX_close_scope_ZZZ_YYY_set_list_member_expr_symbol_expr_string_keyword_defines,
 \    nft_XXX_close_scope_ZZZ_YYY_set_list_member_expr_string_expr_string_ip4_opt_cidr_prefix,
 \    nft_XXX_close_scope_ZZZ_YYY_set_list_member_expr_payload_expr_string_ip4_range,
-\    nft_XXX_close_scope_ZZZ_YYY_set_list_member_expr_payload_expr_string_ip4
+\    nft_XXX_close_scope_ZZZ_YYY_set_list_member_expr_payload_expr_string_ip4,
 \    nft_XXX_close_scope_ZZZ_YYY_set_list_member_expr_symbol_expr_string_quoted,
 \    nft_XXX_close_scope_ZZZ_YYY_set_list_member_expr_symbol_expr_string_asterisk,
 \    nft_XXX_close_scope_ZZZ_YYY_set_list_member_expr_integer_expr_num_uint64_hex,
@@ -252,7 +252,7 @@ syn match nft_XXX_close_scope_ZZZ_YYY_relational_op_discrete_1char '\v\<|\>' ski
 \    nft_XXX_close_scope_ZZZ_YYY_symbol_expr_variable_expr,
 \    nft_XXX_close_scope_ZZZ_YYY_string_expr_string_ip4_opt_cidr_prefix,
 \    nft_XXX_close_scope_ZZZ_YYY_payload_expr_string_ip4_range,
-\    nft_XXX_close_scope_ZZZ_YYY_payload_expr_string_ip4
+\    nft_XXX_close_scope_ZZZ_YYY_payload_expr_string_ip4,
 \    nft_XXX_close_scope_ZZZ_YYY_symbol_expr_string_quoted,
 \    nft_XXX_close_scope_ZZZ_YYY_integer_expr_num_uint8_hex,
 \    nft_XXX_close_scope_ZZZ_YYY_integer_expr_num_uint16_hex,
@@ -295,7 +295,7 @@ syn match nft_ip_hdr_expr_close_scope_ip_frag_off_relational_expr_relational_op_
 \    nft_ip_hdr_expr_close_scope_ip_frag_off_set_ref_expr_set_ref_symbol_expr_at_setname,
 \    nft_ip_hdr_expr_frag_off_set_expr_inline_set,
 \    nft_XXX_close_scope_ZZZ_YYY_string_expr_string_ip4_opt_cidr_prefix,
-\    nft_XXX_close_scope_ZZZ_YYY_payload_expr_string_ip4
+\    nft_XXX_close_scope_ZZZ_YYY_payload_expr_string_ip4,
 \    nft_ip_hdr_expr_close_scope_ip_frag_off_integer_expr_num_uint13_hex
 " 'not' operator is most flexible with scalar but never directly to a set membership ('not in' ok)
 
@@ -307,7 +307,7 @@ syn match nft_XXX_close_scope_ZZZ_YYY_relational_op_non_equality_2char '\v(\!\=)
 \    nft_XXX_close_scope_ZZZ_YYY_set_ref_expr_set_ref_symbol_expr_at_setname,
 \    nft_XXX_close_scope_ZZZ_YYY_string_expr_string_ip4_opt_cidr_prefix,
 \    nft_XXX_close_scope_ZZZ_YYY_payload_expr_string_ip4_range,
-\    nft_XXX_close_scope_ZZZ_YYY_payload_expr_string_ip4
+\    nft_XXX_close_scope_ZZZ_YYY_payload_expr_string_ip4,
 \    nft_XXX_close_scope_ZZZ_YYY_symbol_expr_variable_expr,
 \    nft_XXX_YYY_set_expr_inline_set,
 \    nft_XXX_close_scope_ZZZ_YYY_integer_expr_num_uint13_hex_range,
@@ -326,7 +326,7 @@ syn match nft_XXX_close_scope_ZZZ_YYY_relational_op_equality_2char '\v\=\=' skip
 \    nft_XXX_close_scope_ZZZ_YYY_set_ref_expr_set_ref_symbol_expr_at_setname,
 \    nft_XXX_close_scope_ZZZ_YYY_string_expr_string_ip4_opt_cidr_prefix,
 \    nft_XXX_close_scope_ZZZ_YYY_payload_expr_string_ip4_range,
-\    nft_XXX_close_scope_ZZZ_YYY_payload_expr_string_ip4
+\    nft_XXX_close_scope_ZZZ_YYY_payload_expr_string_ip4,
 \    nft_XXX_close_scope_ZZZ_YYY_symbol_expr_variable_expr,
 \    nft_XXX_YYY_set_expr_inline,
 \    nft_XXX_close_scope_ZZZ_YYY_symbol_expr_string_quoted,
@@ -351,7 +351,7 @@ syn match nft_XXX_close_scope_ZZZ_YYY_relational_expr_relational_op_keyword_not 
 \    nft_XXX_close_scope_ZZZ_YYY_symbol_expr_variable_expr,
 \    nft_XXX_close_scope_ZZZ_YYY_string_expr_string_ip4_opt_cidr_prefix,
 \    nft_XXX_close_scope_ZZZ_YYY_payload_expr_string_ip4_range,
-\    nft_XXX_close_scope_ZZZ_YYY_payload_expr_string_ip4
+\    nft_XXX_close_scope_ZZZ_YYY_payload_expr_string_ip4,
 \    nft_XXX_close_scope_ZZZ_YYY_set_ref_expr_set_ref_symbol_expr_at_setname,
 \    nft_XXX_close_scope_ZZZ_YYY_symbol_expr_string_quoted,
 \    nft_XXX_close_scope_ZZZ_YYY_symbol_expr_string_asterisk,
@@ -378,7 +378,7 @@ syn match nft_XXX_keyword_YYY '\vYYY\ze[ \t]' skipwhite contained
 \    nft_verdict_stmt_verdict_map_stmt_keyword_vmap,
 \    nft_XXX_close_scope_ZZZ_YYY_string_expr_string_ip4_opt_cidr_prefix,
 \    nft_XXX_close_scope_ZZZ_YYY_payload_expr_string_ip4_range,
-\    nft_XXX_close_scope_ZZZ_YYY_payload_expr_string_ip4
+\    nft_XXX_close_scope_ZZZ_YYY_payload_expr_string_ip4,
 \    nft_XXX_close_scope_ZZZ_YYY_symbol_expr_string_keyword_any,
 \    nft_map_expr_keyword_map,
 \    nft_XXX_close_scope_ZZZ_YYY_relational_expr_relational_op_keyword_not,

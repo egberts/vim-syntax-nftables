@@ -49,8 +49,8 @@ syn match nft_add_cmd_table_block_set_block_typeof_key_expr_typeof_expr_primary_
 " do not use 'skipwhite' here
 
 " base_cmd_add_cmd 'set' set_spec '{' set_block typeof_key_expr 'type'  <family>
-hi link   nft_add_cmd_table_block_set_block_typeof_key_expr_type_data_type_expr nftHL_Keyword
-syn match nft_add_cmd_table_block_set_block_typeof_key_expr_type_data_type_expr "\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}" skipwhite contained
+hi link   nft_add_cmd_table_block_set_block_typeof_key_expr_type_data_type_expr nftHL_Define
+syn match nft_add_cmd_table_block_set_block_typeof_key_expr_type_data_type_expr "\v(icmpv6_type|ether_type|iface_type|icmp_type|igmp_type|pkt_type|mh_type)" skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_table_block_set_block_typeof_key_expr_type_data_type_expr
 
@@ -238,7 +238,6 @@ syn match nft_add_cmd_table_block_set_block_keyword_elements '\velements\ze[ \t]
 \ nextgroup=
 \    nft_add_cmd_table_block_set_block_keyword_elements_operator_equal,
 \    nft_Error
-
 
 
 " base_cmd add_cmd 'table' table_block 'set' identifier '{' set_block '}'

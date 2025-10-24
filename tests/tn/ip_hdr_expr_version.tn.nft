@@ -1,0 +1,50 @@
+# True-Positive
+# ip_hdr_expr 'version'
+#
+
+define IP_HDR_VERSION = 4
+
+table inet t {
+    set setname {
+        typeof ip version
+        elements = { 1, 4, 6 }
+    }
+    chain input {
+        type filter hook input priority 0;
+        ip version 0 accept
+        ip version 15 accept
+        ip version 0x0 accept
+        ip version 0xf accept
+        ip version $IP_HDR_VERSION accept
+        ip version == 0x1 accept
+        ip version > 0x1 accept
+        ip version >= 0x2 accept
+        ip version <= 0x3 accept
+        ip version < 0x4 accept
+        ip version != 0x7 accept
+        ip version eq 0x1 accept
+        ip version gt 0x1 accept
+        ip version ge 0x2 accept
+        ip version le 0x3 accept
+        ip version lt 0x4 accept
+        ip version ne 0x7 accept
+        ip version == @setname accept
+        ip version != @setname accept
+        ip version eq @setname accept
+        ip version >  @setname accept
+        ip version < @setname accept
+        ip version >= @setname accept
+        ip version <= @setname accept
+        ip version == { 1, 4, 6 } accept
+        ip version != { 1, 4, 6 } accept
+        ip version >= { 1, 4, 6 } accept
+        ip version <= { 1, 4, 6 } accept
+        ip version < { 1, 4, 6 } accept
+        ip version > { 1, 4, 6 } accept
+
+       ip version in 1 accept
+       ip version not in 1 accept
+       ip version not in 1 accept
+   }
+}
+

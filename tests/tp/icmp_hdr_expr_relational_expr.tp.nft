@@ -1,0 +1,493 @@
+
+
+
+
+define ICMP_HDR_VALUE = 2
+table T {
+    set setname_icmp {
+        type icmp_type;
+        elements = { 1, 2, 3, 4 };
+    };
+
+  chain C {
+    icmp type  0
+    icmp type  255
+    icmp type  0-255
+    icmp type  0x0
+    icmp type  0xff
+    icmp type  0x0-0xff
+    icmp type  @setname_icmp
+    icmp type { 0, 2, 4, 8, 16, 255 }
+    icmp type { 0-255 }
+    icmp type { 0x0-0xff }
+    icmp type  $ICMP_HDR_VALUE
+    icmp type > 0
+    icmp type > 255
+    icmp type > 0x0
+    icmp type > 0xff
+    icmp type > $ICMP_HDR_VALUE
+    icmp type < 0
+    icmp type < 255
+    icmp type < 0x0
+    icmp type < 0xff
+    icmp type < $ICMP_HDR_VALUE
+    icmp type >= 0
+    icmp type >= 255
+    icmp type >= $ICMP_HDR_VALUE
+    icmp type <= 0
+    icmp type <= 255
+    icmp type <= 0x0
+    icmp type <= 0xff
+    icmp type <= $ICMP_HDR_VALUE
+    icmp type == 0
+    icmp type == 255
+    icmp type == 0x0
+    icmp type == 0xff
+    icmp type == @setname_icmp
+    icmp type == { 0, 2, 4, 8, 16, 255 }
+    icmp type == { 0-255 }
+    icmp type == { 0x0-0xff }
+    icmp type == $ICMP_HDR_VALUE
+    icmp type != 0
+    icmp type != 255
+    icmp type != 0x0
+    icmp type != 0xff
+    icmp type != @setname_icmp
+    icmp type != { 0, 2, 4, 8, 16, 255 }
+    icmp type != { 0-255 }
+    icmp type != { 0x0-0xff }
+    icmp type != $ICMP_HDR_VALUE
+  }
+}
+
+ table T {
+    set setname_icmp {
+        type icmp_type
+        elements = { 1, 2, 3, 4 }
+    }
+    chain C {
+    icmp code  0
+    icmp code  255
+    icmp code  0x0
+    icmp code  0xff
+    icmp code  $ICMP_HDR_VALUE
+    icmp code > 0
+    icmp code > 255
+    icmp code > 0x0
+    icmp code > 0xff
+    icmp code > $ICMP_HDR_VALUE
+    icmp code < 0
+    icmp code < 255
+    icmp code < 0x0
+    icmp code < 0xff
+    icmp code < $ICMP_HDR_VALUE
+    icmp code >= 0
+    icmp code >= 255
+    icmp code >= 0x0
+    icmp code >= 0xff
+    icmp code >= $ICMP_HDR_VALUE
+    icmp code <= 0
+    icmp code <= 255
+    icmp code <= 0x0
+    icmp code <= 0xff
+    icmp code <= $ICMP_HDR_VALUE
+    icmp code == 0
+    icmp code == 255
+    icmp code == 0x0
+    icmp code == 0xff
+    icmp code == $ICMP_HDR_VALUE
+    icmp code != 0
+    icmp code != 255
+    icmp code != 0x0
+    icmp code != 0xff
+    icmp code != $ICMP_HDR_VALUE
+  }
+}
+
+ table T {
+    set setname_icmp {
+        type icmp_type
+        elements = { 1, 2, 3, 4 }
+    }
+    chain C {
+    icmp checksum  0
+    icmp checksum  255
+    icmp checksum  256
+    icmp checksum  65535
+    icmp checksum  0x0
+    icmp checksum  0xff
+    icmp checksum  0x100
+    icmp checksum  0xffff
+    icmp checksum  $ICMP_HDR_VALUE
+    icmp checksum > 0
+    icmp checksum > 255
+    icmp checksum > 256
+    icmp checksum > 65535
+    icmp checksum > 0x0
+    icmp checksum > 0xff
+    icmp checksum > 0x100
+    icmp checksum > 0xffff
+    icmp checksum > $ICMP_HDR_VALUE
+    icmp checksum < 0
+    icmp checksum < 255
+    icmp checksum < 256
+    icmp checksum < 65535
+    icmp checksum < 0x0
+    icmp checksum < 0xff
+    icmp checksum < 0x100
+    icmp checksum < 0xffff
+    icmp checksum < $ICMP_HDR_VALUE
+    icmp checksum >= 0
+    icmp checksum >= 255
+    icmp checksum >= 256
+    icmp checksum >= 65535
+    icmp checksum >= 0x0
+    icmp checksum >= 0xff
+    icmp checksum >= 0x100
+    icmp checksum >= 0xffff
+    icmp checksum >= $ICMP_HDR_VALUE
+    icmp checksum <= 0
+    icmp checksum <= 255
+    icmp checksum <= 256
+    icmp checksum <= 65535
+    icmp checksum <= 0x0
+    icmp checksum <= 0xff
+    icmp checksum <= 0x100
+    icmp checksum <= 0xffff
+    icmp checksum <= $ICMP_HDR_VALUE
+    icmp checksum == 0
+    icmp checksum == 255
+    icmp checksum == 256
+    icmp checksum == 65535
+    icmp checksum == 0x0
+    icmp checksum == 0xff
+    icmp checksum == 0x100
+    icmp checksum == 0xffff
+    icmp checksum == $ICMP_HDR_VALUE
+    icmp checksum != 0
+    icmp checksum != 255
+    icmp checksum != 256
+    icmp checksum != 65535
+    icmp checksum != 0x0
+    icmp checksum != 0xff
+    icmp checksum != 0x100
+    icmp checksum != 0xffff
+    icmp checksum != $ICMP_HDR_VALUE
+  }
+}
+
+ table T {
+    set setname_icmp {
+        type icmp_type
+        elements = { 1, 2, 3, 4 }
+    }
+    chain C {
+    icmp id  0
+    icmp id  255
+    icmp id  256
+    icmp id  65535
+    icmp id  0x0
+    icmp id  0xff
+    icmp id  0x100
+    icmp id  0xffff
+    icmp id  $ICMP_HDR_VALUE
+    icmp id > 0
+    icmp id > 255
+    icmp id > 256
+    icmp id > 65535
+    icmp id > 0x0
+    icmp id > 0xff
+    icmp id > 0x100
+    icmp id > 0xffff
+    icmp id > $ICMP_HDR_VALUE
+    icmp id < 0
+    icmp id < 255
+    icmp id < 256
+    icmp id < 65535
+    icmp id < 0x0
+    icmp id < 0xff
+    icmp id < 0x100
+    icmp id < 0xffff
+    icmp id < $ICMP_HDR_VALUE
+    icmp id >= 0
+    icmp id >= 255
+    icmp id >= 256
+    icmp id >= 65535
+    icmp id >= 0x0
+    icmp id >= 0xff
+    icmp id >= 0x100
+    icmp id >= 0xffff
+    icmp id >= $ICMP_HDR_VALUE
+    icmp id <= 0
+    icmp id <= 255
+    icmp id <= 256
+    icmp id <= 65535
+    icmp id <= 0x0
+    icmp id <= 0xff
+    icmp id <= 0x100
+    icmp id <= 0xffff
+    icmp id <= $ICMP_HDR_VALUE
+    icmp id == 0
+    icmp id == 255
+    icmp id == 256
+    icmp id == 65535
+    icmp id == 0x0
+    icmp id == 0xff
+    icmp id == 0x100
+    icmp id == 0xffff
+    icmp id == $ICMP_HDR_VALUE
+    icmp id != 0
+    icmp id != 255
+    icmp id != 256
+    icmp id != 65535
+    icmp id != 0x0
+    icmp id != 0xff
+    icmp id != 0x100
+    icmp id != 0xffff
+    icmp id != $ICMP_HDR_VALUE
+  }
+}
+
+table T {
+    set setname_icmp {
+        type icmp_type
+        elements = { 1, 2, 3, 4 }
+    }
+    chain C {
+    icmp sequence  0
+    icmp sequence  255
+    icmp sequence  256
+    icmp sequence  65535
+    icmp sequence  0x0
+    icmp sequence  0xff
+    icmp sequence  0x100
+    icmp sequence  0xffff
+    icmp sequence  $ICMP_HDR_VALUE
+    icmp sequence > 0
+    icmp sequence > 255
+    icmp sequence > 256
+    icmp sequence > 65535
+    icmp sequence > 0x0
+    icmp sequence > 0xff
+    icmp sequence > 0x100
+    icmp sequence > 0xffff
+    icmp sequence > $ICMP_HDR_VALUE
+    icmp sequence < 0
+    icmp sequence < 255
+    icmp sequence < 256
+    icmp sequence < 65535
+    icmp sequence < 0x0
+    icmp sequence < 0xff
+    icmp sequence < 0x100
+    icmp sequence < 0xffff
+    icmp sequence < $ICMP_HDR_VALUE
+    icmp sequence >= 0
+    icmp sequence >= 255
+    icmp sequence >= 256
+    icmp sequence >= 65535
+    icmp sequence >= 0x0
+    icmp sequence >= 0xff
+    icmp sequence >= 0x100
+    icmp sequence >= 0xffff
+    icmp sequence >= $ICMP_HDR_VALUE
+    icmp sequence <= 0
+    icmp sequence <= 255
+    icmp sequence <= 256
+    icmp sequence <= 65535
+    icmp sequence <= 0x0
+    icmp sequence <= 0xff
+    icmp sequence <= 0x100
+    icmp sequence <= 0xffff
+    icmp sequence <= $ICMP_HDR_VALUE
+    icmp sequence == 0
+    icmp sequence == 255
+    icmp sequence == 256
+    icmp sequence == 65535
+    icmp sequence == 0x0
+    icmp sequence == 0xff
+    icmp sequence == 0x100
+    icmp sequence == 0xffff
+    icmp sequence == $ICMP_HDR_VALUE
+    icmp sequence != 0
+    icmp sequence != 255
+    icmp sequence != 256
+    icmp sequence != 65535
+    icmp sequence != 0x0
+    icmp sequence != 0xff
+    icmp sequence != 0x100
+    icmp sequence != 0xffff
+    icmp sequence != $ICMP_HDR_VALUE
+  }
+}
+
+table T {
+    set setname_icmp {
+        type icmp_type
+        elements = { 1, 2, 3, 4 }
+    }
+    chain C {
+    icmp gateway  0
+    icmp gateway  255
+    icmp gateway  256
+    icmp gateway  65535
+    icmp gateway  65536
+    icmp gateway  4294967295
+    icmp gateway  0x0
+    icmp gateway  0xff
+    icmp gateway  0x100
+    icmp gateway  0xffff
+    icmp gateway  0x10000
+    icmp gateway  0xffffffff
+    icmp gateway  $ICMP_HDR_VALUE
+    icmp gateway > 0
+    icmp gateway > 255
+    icmp gateway > 256
+    icmp gateway > 65535
+    icmp gateway > 65536
+    icmp gateway > 4294967295
+    icmp gateway > 0x0
+    icmp gateway > 0xff
+    icmp gateway > 0x100
+    icmp gateway > 0xffff
+    icmp gateway > 0x10000
+    icmp gateway > 0xffffffff
+    icmp gateway > $ICMP_HDR_VALUE
+    icmp gateway < 0
+    icmp gateway < 255
+    icmp gateway < 256
+    icmp gateway < 65535
+    icmp gateway < 65536
+    icmp gateway < 4294967295
+    icmp gateway < 0x0
+    icmp gateway < 0xff
+    icmp gateway < 0x100
+    icmp gateway < 0xffff
+    icmp gateway < 0x10000
+    icmp gateway < 0xffffffff
+    icmp gateway < $ICMP_HDR_VALUE
+    icmp gateway >= 0
+    icmp gateway >= 255
+    icmp gateway >= 256
+    icmp gateway >= 65535
+    icmp gateway >= 65536
+    icmp gateway >= 4294967295
+    icmp gateway >= 0x0
+    icmp gateway >= 0xff
+    icmp gateway >= 0x100
+    icmp gateway >= 0xffff
+    icmp gateway >= 0x10000
+    icmp gateway >= 0xffffffff
+    icmp gateway >= $ICMP_HDR_VALUE
+    icmp gateway <= 0
+    icmp gateway <= 255
+    icmp gateway <= 256
+    icmp gateway <= 65535
+    icmp gateway <= 65536
+    icmp gateway <= 4294967295
+    icmp gateway <= 0x0
+    icmp gateway <= 0xff
+    icmp gateway <= 0x100
+    icmp gateway <= 0xffff
+    icmp gateway <= 0x10000
+    icmp gateway <= 0xffffffff
+    icmp gateway <= $ICMP_HDR_VALUE
+    icmp gateway == 0
+    icmp gateway == 255
+    icmp gateway == 256
+    icmp gateway == 65535
+    icmp gateway == 65536
+    icmp gateway == 4294967295
+    icmp gateway == 0x0
+    icmp gateway == 0xff
+    icmp gateway == 0x100
+    icmp gateway == 0xffff
+    icmp gateway == 0x10000
+    icmp gateway == 0xffffffff
+    icmp gateway == $ICMP_HDR_VALUE
+    icmp gateway != 0
+    icmp gateway != 255
+    icmp gateway != 256
+    icmp gateway != 65535
+    icmp gateway != 65536
+    icmp gateway != 4294967295
+    icmp gateway != 0x0
+    icmp gateway != 0xff
+    icmp gateway != 0x100
+    icmp gateway != 0xffff
+    icmp gateway != 0x10000
+    icmp gateway != 0xffffffff
+    icmp gateway != $ICMP_HDR_VALUE
+  }
+}
+
+table T {
+    set setname_icmp {
+        type icmp_type
+        elements = { 1, 2, 3, 4 }
+    }
+    chain C {
+    icmp mtu  0
+    icmp mtu  255
+    icmp mtu  256
+    icmp mtu  65535
+    icmp mtu  0x0
+    icmp mtu  0xff
+    icmp mtu  0x100
+    icmp mtu  0xffff
+    icmp mtu  $ICMP_HDR_VALUE
+    icmp mtu > 0
+    icmp mtu > 255
+    icmp mtu > 256
+    icmp mtu > 65535
+    icmp mtu > 0x0
+    icmp mtu > 0xff
+    icmp mtu > 0x100
+    icmp mtu > 0xffff
+    icmp mtu > $ICMP_HDR_VALUE
+    icmp mtu < 0
+    icmp mtu < 255
+    icmp mtu < 256
+    icmp mtu < 65535
+    icmp mtu < 0x0
+    icmp mtu < 0xff
+    icmp mtu < 0x100
+    icmp mtu < 0xffff
+    icmp mtu < $ICMP_HDR_VALUE
+    icmp mtu >= 0
+    icmp mtu >= 255
+    icmp mtu >= 256
+    icmp mtu >= 65535
+    icmp mtu >= 0x0
+    icmp mtu >= 0xff
+    icmp mtu >= 0x100
+    icmp mtu >= 0xffff
+    icmp mtu >= $ICMP_HDR_VALUE
+    icmp mtu <= 0
+    icmp mtu <= 255
+    icmp mtu <= 256
+    icmp mtu <= 65535
+    icmp mtu <= 0x0
+    icmp mtu <= 0xff
+    icmp mtu <= 0x100
+    icmp mtu <= 0xffff
+    icmp mtu <= $ICMP_HDR_VALUE
+    icmp mtu == 0
+    icmp mtu == 255
+    icmp mtu == 256
+    icmp mtu == 65535
+    icmp mtu == 0x0
+    icmp mtu == 0xff
+    icmp mtu == 0x100
+    icmp mtu == 0xffff
+    icmp mtu == $ICMP_HDR_VALUE
+    icmp mtu != 0
+    icmp mtu != 255
+    icmp mtu != 256
+    icmp mtu != 65535
+    icmp mtu != 0x0
+    icmp mtu != 0xff
+    icmp mtu != 0x100
+    icmp mtu != 0xffff
+    icmp mtu != $ICMP_HDR_VALUE
+  }
+}

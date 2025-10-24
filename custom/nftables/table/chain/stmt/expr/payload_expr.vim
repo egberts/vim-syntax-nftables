@@ -754,59 +754,157 @@ syn match nft_payload_expr_icmp_keyword_code '\vcode\ze[ \t]' skipwhite containe
 " ************************* END icmp code' expression *************************
 
 " ************************* BEGIN icmp type' expression *************************
-hi link   nft_payload_expr_close_scope_icmp_variable_expr nftHL_Variable
-syn match nft_payload_expr_close_scope_icmp_variable_expr '\v\$[a-zA-Z][a-zA-Z0-9\-_]{0,63}\ze[ \t\n;]' skipwhite contained
-" ip6 nexthdr icmp type <type_name>
-hi link   nft_payload_expr_icmp_type_inline_set_type_num Define
-syn match nft_payload_expr_icmp_type_inline_set_type_num '\v[0-9]{1,3}\ze[ \t\n,\}]' skipwhite contained
-
-hi link   nft_payload_expr_icmp_type_inline_set_type_defines Define
-syn match nft_payload_expr_icmp_type_inline_set_type_defines '\v(destination\-unreachable|address\-mask\-request|router\-advertisement|info\-request|router\-solicitation|address\-mask\-reply|info\-reply|parameter\-problem|timestamp\-request|timestamp\-reply|source\-quench|time\-exceeded|echo\-request|echo\-reply|redirect)\ze[ \t\n,\}]' skipwhite contained
-
-" ip6 nexthdr icmp type in { 1 }
-hi link    nft_payload_expr_icmp_type_inline_set nftHL_BlockDelimitersSet
-syn region nft_payload_expr_icmp_type_inline_set start=+{+ end=+}+ skip="#.{0,45}$" skipwhite contained
-\ contains=
-\    nft_payload_expr_icmp_type_inline_set_type_defines,
-\    nft_payload_expr_icmp_type_inline_set_type_num
+" ip protocol icmp type <type_name>
+hi link   nft_icmp_hdr_expr_close_scope_icmp_type_symbol_expr_variable_expr nftHL_Variable
+syn match nft_icmp_hdr_expr_close_scope_icmp_type_symbol_expr_variable_expr '\v\$[a-zA-Z][a-zA-Z0-9\-_]{0,63}\ze[ \t\n;]' skipwhite contained
 \ nextgroup=
-\    @nft_c_payload_expr_icmp_expressions,
-\    @nft_c_primary_stmt_expr,
 \    @nft_c_stmt
 
-
-" ip6 nexthdr icmp type in
-hi link   nft_payload_expr_icmp_type_keyword_in nftHL_Keyword
-syn match nft_payload_expr_icmp_type_keyword_in '\vin' skipwhite contained
+" BEGIN Operators - Set membership
+hi link   nft_icmp_hdr_expr_close_scope_icmp_type_set_ref_expr_set_ref_symbol_expr_at_setname nftHL_Variable
+syn match nft_icmp_hdr_expr_close_scope_icmp_type_set_ref_expr_set_ref_symbol_expr_at_setname '\v\@[a-zA-Z][a-zA-Z0-9\-_]{0,63}\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_icmp_type_inline_set
+\    @nft_c_stmt
 
-hi link   nft_payload_expr_icmp_type_num Define
-syn match nft_payload_expr_icmp_type_num '\v[0-9]{1,3}\ze[ \t]' skipwhite contained
+hi link   nft_icmp_hdr_expr_close_scope_icmp_type_set_expr_integer_expr_num_uint8_hex nftHL_Integer
+syn match nft_icmp_hdr_expr_close_scope_icmp_type_set_expr_integer_expr_num_uint8_hex '\v(0x([A-Fa-f0-9]{1,2}))|(25[0-5])|(2[0-4][0-9])|(1[0-9][0-9])|([0-9]{1,2})\ze[ \t\n,]' skipwhite contained
 \ nextgroup=
-\    @nft_c_payload_expr_icmp_expressions
+\    @nft_c_icmp
 
-hi link   nft_payload_expr_icmp_type_defines Define
-syn match nft_payload_expr_icmp_type_defines '\v(destination\-unreachable|address\-mask\-request|router\-advertisement|info\-request|router\-solicitation|address\-mask\-reply|info\-reply|parameter\-problem|timestamp\-request|timestamp\-reply|source\-quench|time\-exceeded|echo\-request|echo\-reply|redirect)\ze[ \t]' skipwhite contained
+hi link   nft_icmp_hdr_expr_close_scope_icmp_type_set_expr_range_stmt_expr_symbol_dash nftHL_elements
+syn match nft_icmp_hdr_expr_close_scope_icmp_type_set_expr_range_stmt_expr_symbol_dash '\-' contained
+\ nextgroup=
+\    nft_icmp_hdr_expr_close_scope_icmp_type_set_expr_integer_expr_num_uint8_hex,
+\    nft_Error
+
+hi link   nft_icmp_hdr_expr_close_scope_icmp_type_set_expr_integer_expr_num_uint8_hex_range nftHL_Integer
+syn match nft_icmp_hdr_expr_close_scope_icmp_type_set_expr_integer_expr_num_uint8_hex_range '\v(0x([A-Fa-f0-9]{1,2}))|(25[0-5])|(2[0-4][0-9])|(1[0-9][0-9])|([0-9]{1,2})\ze\-' contained
+\ nextgroup=
+\    nft_icmp_hdr_expr_close_scope_icmp_type_set_expr_range_stmt_expr_symbol_dash
+
+hi link   nft_icmp_hdr_expr_close_scope_icmp_type_set_list_member_expr_symbol_expr_string_keyword_defines nftHL_Define
+syn match nft_icmp_hdr_expr_close_scope_icmp_type_set_list_member_expr_symbol_expr_string_keyword_defines
+\    '\v(destination\-unreachable|address\-mask\-request|router\-advertisement|info\-request|router\-solicitation|address\-mask\-reply|info\-reply|parameter\-problem|timestamp\-request|timestamp\-reply|source\-quench|time\-exceeded|echo\-request|echo\-reply|redirect)\ze[ \t\n,\}]'
+\     skipwhite contained
+
+hi link    nft_icmp_hdr_expr_type_set_expr_inline_set nftHL_BlockDelimitersSet
+syn region nft_icmp_hdr_expr_type_set_expr_inline_set start=+{+ end=+}+ skipwhite contained
+\ contains=
+\    nft_icmp_hdr_expr_close_scope_icmp_type_set_list_member_expr_symbol_expr_string_keyword_defines,
+\    nft_icmp_hdr_expr_close_scope_icmp_type_set_expr_integer_expr_num_uint8_hex_range,
+\    nft_icmp_hdr_expr_close_scope_icmp_type_set_expr_integer_expr_num_uint8_hex
+"\    nft_icmp_hdr_expr_close_scope_icmp_type_set_list_member_expr_integer_expr_num_uint8_hex
+" no scalar (integer) after 'in' keyword
+" END Operators - Set membership
+
+" BEGIN Operators - Scalar
+hi link   nft_icmp_hdr_expr_close_scope_icmp_type_integer_expr_num_uint8_hex nftHL_Integer
+syn match nft_icmp_hdr_expr_close_scope_icmp_type_integer_expr_num_uint8_hex '\v(0x([A-Fa-f0-9]{1,2}))|(25[0-5])|(2[0-4][0-9])|(1[0-9][0-9])|([0-9]{1,2})\ze[ \t\n,]' skipwhite contained
+\ nextgroup=
+\    @nft_c_icmp
+
+hi link   nft_icmp_hdr_expr_close_scope_icmp_type_set_expr_range_stmt_expr_symbol_dash nftHL_elements
+syn match nft_icmp_hdr_expr_close_scope_icmp_type_set_expr_range_stmt_expr_symbol_dash '\-' contained
+\ nextgroup=
+\    nft_icmp_hdr_expr_close_scope_icmp_type_integer_expr_num_uint8_hex,
+\    nft_Error
+
+hi link   nft_icmp_hdr_expr_close_scope_icmp_type_integer_expr_num_uint8_hex_range nftHL_Integer
+syn match nft_icmp_hdr_expr_close_scope_icmp_type_integer_expr_num_uint8_hex_range '\v(0x([A-Fa-f0-9]{1,2}))|(25[0-5])|(2[0-4][0-9])|(1[0-9][0-9])|([0-9]{1,2})\ze\-' contained
+\ nextgroup=
+\    nft_icmp_hdr_expr_close_scope_icmp_type_set_expr_range_stmt_expr_symbol_dash
+
+hi link   nft_icmp_hdr_expr_close_scope_icmp_type_symbol_expr_string_keyword_defines nftHL_Define
+syn match nft_icmp_hdr_expr_close_scope_icmp_type_symbol_expr_string_keyword_defines
+\    '\v(destination\-unreachable|address\-mask\-request|router\-advertisement|info\-request|router\-solicitation|address\-mask\-reply|info\-reply|parameter\-problem|timestamp\-request|timestamp\-reply|source\-quench|time\-exceeded|echo\-request|echo\-reply|redirect)\ze[ \t\n,\}]'
 \ skipwhite contained
 \ nextgroup=
-\    @nft_c_payload_expr_icmp_expressions
+\    @nft_c_icmp
+" END Operators - Scalar
 
-" 'ip6 nexthdr icmp type >'
-hi link   nft_payload_expr_icmp_type_operator_1char nftHL_Expression
-syn match nft_payload_expr_icmp_type_operator_1char '\v([\>\<\!])' skipwhite contained
+hi link   nft_icmp_hdr_expr_close_scope_icmp_type_relational_op_discrete_1char nftHL_Operator
+syn match nft_icmp_hdr_expr_close_scope_icmp_type_relational_op_discrete_1char '\v\<|\>' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_icmp_type_defines,
-\    nft_payload_expr_icmp_type_num,
-\    nft_chainError
+\    nft_icmp_hdr_expr_close_scope_icmp_type_set_ref_expr_set_ref_symbol_expr_at_setname,
+\    nft_icmp_hdr_expr_close_scope_icmp_type_symbol_expr_variable_expr,
+\    nft_icmp_hdr_expr_close_scope_icmp_type_integer_expr_num_uint8_hex,
+\    nft_UnexpectedCurlyBrace,
+\    nft_UnexpectedQuote,
+\    nft_UnexpectedAtSymbol,
+\    nft_Error
+" discrete operator ONLY with integer, inline set, setname, IP w/o CIDR
+" discrete operator cannot do symbol-string (enum), IP w/ CIDR prefix, nor asterisk_string
 
-" 'icmp type >='
-hi link   nft_payload_expr_icmp_type_operator_2char nftHL_Expression
-syn match nft_payload_expr_icmp_type_operator_2char '\v([\>\<\!])\=' skipwhite contained
+hi link   nft_icmp_hdr_expr_close_scope_icmp_type_relational_op_discrete_2char nftHL_Operator
+syn match nft_icmp_hdr_expr_close_scope_icmp_type_relational_op_discrete_2char '\v((\<|\>)\=)|gt|ge|lt|le' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_icmp_type_defines,
-\    nft_payload_expr_icmp_type_num,
-\    nft_chainError
+\    nft_icmp_hdr_expr_close_scope_icmp_type_set_ref_expr_set_ref_symbol_expr_at_setname,
+\    nft_icmp_hdr_expr_close_scope_icmp_type_symbol_expr_variable_expr,
+\    nft_icmp_hdr_expr_close_scope_icmp_type_integer_expr_num_uint8_hex,
+\    nft_UnexpectedCurlyBrace,
+\    nft_UnexpectedQuote,
+\    nft_UnexpectedAtSymbol,
+\    nft_Error
+"\    nft_icmp_hdr_expr_type_set_expr_inline_set_not_integer,
+" discrete operator ONLY with integer, inline set, setname, IP w/o CIDR
+" discrete operator cannot do symbol-string (enum), IP w/ CIDR prefix, nor asterisk_string
+
+
+hi link   nft_ip_hdr_expr_close_scope_ip_frag_off_relational_expr_relational_op_symbol_exclamation nftHL_Operator
+syn match nft_ip_hdr_expr_close_scope_ip_frag_off_relational_expr_relational_op_symbol_exclamation '\v\!\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_ip_hdr_expr_close_scope_ip_frag_off_symbol_expr_variable_expr,
+\    nft_ip_hdr_expr_close_scope_ip_frag_off_set_ref_expr_set_ref_symbol_expr_at_setname,
+\    nft_icmp_hdr_expr_close_scope_icmp_type_integer_expr_num_uint8_hex
+" 'not' operator is most flexible with scalar but never directly to a set membership ('not in' ok)
+
+
+
+hi link   nft_icmp_hdr_expr_close_scope_icmp_type_relational_op_non_equality_2char nftHL_Operator
+syn match nft_icmp_hdr_expr_close_scope_icmp_type_relational_op_non_equality_2char '\vne\ze[ \t\n;]' skipwhite contained
+\ nextgroup=
+\    nft_icmp_hdr_expr_close_scope_icmp_type_symbol_expr_string_keyword_defines,
+\    nft_icmp_hdr_expr_close_scope_icmp_type_integer_expr_num_uint8_hex_range,
+\    nft_icmp_hdr_expr_close_scope_icmp_type_integer_expr_num_uint8_hex,
+\    nft_icmp_hdr_expr_close_scope_icmp_type_set_ref_expr_set_ref_symbol_expr_at_setname,
+\    nft_icmp_hdr_expr_close_scope_icmp_type_symbol_expr_variable_expr,
+\    nft_icmp_hdr_expr_type_set_expr_inline_set,
+\    nft_UnexpectedQuote,
+\    nft_Error
+" equality operator cannot support asterisk_string, IP w/ CIDR prefix, nor set (equality is scalar only)
+
+
+
+hi link   nft_icmp_hdr_expr_close_scope_icmp_type_relational_op_equality_2char nftHL_Operator
+syn match nft_icmp_hdr_expr_close_scope_icmp_type_relational_op_equality_2char '\v\=\=' skipwhite contained
+\ nextgroup=
+\    nft_icmp_hdr_expr_close_scope_icmp_type_symbol_expr_string_keyword_defines,
+\    nft_icmp_hdr_expr_close_scope_icmp_type_set_ref_expr_set_ref_symbol_expr_at_setname,
+\    nft_icmp_hdr_expr_close_scope_icmp_type_symbol_expr_variable_expr,
+\    nft_icmp_hdr_expr_type_set_expr_inline_set,
+\    nft_icmp_hdr_expr_close_scope_icmp_type_integer_expr_num_uint8_hex_range,
+\    nft_icmp_hdr_expr_close_scope_icmp_type_integer_expr_num_uint8_hex,
+\    nft_UnexpectedQuote,
+\    nft_Error
+" equality operator cannot support asterisk_string, IP w/ CIDR prefix, nor set (equality is scalar only)
+
+hi link   nft_icmp_hdr_expr_close_scope_icmp_type_relational_expr_relational_op_keyword_not nftHL_Operator
+syn match nft_icmp_hdr_expr_close_scope_icmp_type_relational_expr_relational_op_keyword_not '\v(\!\=)\ze[ \t]' skipwhite contained
+\ nextgroup=
+\    nft_icmp_hdr_expr_close_scope_icmp_type_symbol_expr_string_keyword_defines,
+\    nft_icmp_hdr_expr_close_scope_icmp_type_integer_expr_num_uint8_hex_range,
+\    nft_icmp_hdr_expr_close_scope_icmp_type_integer_expr_num_uint8_hex,
+\    nft_icmp_hdr_expr_close_scope_icmp_type_set_ref_expr_set_ref_symbol_expr_at_setname,
+\    nft_icmp_hdr_expr_close_scope_icmp_type_symbol_expr_variable_expr,
+\    nft_icmp_hdr_expr_type_set_expr_inline_set,
+\    nft_UnexpectedQuote,
+" 'not' operator is most flexible with scalar but never directly to a set membership ('not in' ok)
+
+hi link   nft_icmp_hdr_expr_close_scope_icmp_type_symbol_expr_string_keyword_any nftHL_Operator
+syn match nft_icmp_hdr_expr_close_scope_icmp_type_symbol_expr_string_keyword_any '\vany\ze[ \t;]' skipwhite contained
+\ nextgroup=
+\    @nft_c_stmt
+"###########################################################3"
 
 " 'icmp_hdr_expr type' implied match
 hi link   nft_icmp_hdr_expr_keyword_type nftHL_Substatement
@@ -819,7 +917,6 @@ syn match nft_icmp_hdr_expr_keyword_type '\vtype\ze[ \t]' skipwhite contained
 \    nft_icmp_hdr_expr_close_scope_icmp_type_relational_expr_relational_op_keyword_not,
 \    nft_icmp_hdr_expr_close_scope_icmp_type_relational_op_equality_2char,
 \    nft_icmp_hdr_expr_close_scope_icmp_type_relational_op_discrete_2char,
-\    nft_icmp_hdr_expr_close_scope_icmp_type_internal_set_expr_keyword_in,
 \    nft_icmp_hdr_expr_close_scope_icmp_type_relational_op_discrete_1char,
 \    nft_icmp_hdr_expr_close_scope_icmp_type_set_ref_expr_set_ref_symbol_expr_at_setname,
 \    nft_icmp_hdr_expr_close_scope_icmp_type_symbol_expr_variable_expr,
@@ -831,11 +928,9 @@ syn match nft_icmp_hdr_expr_keyword_type '\vtype\ze[ \t]' skipwhite contained
 "\ nextgroup=
 "\    nft_payload_expr_icmp_type_defines,
 "\    nft_payload_expr_icmp_type_operator_2char,
-"\    nft_payload_expr_icmp_type_keyword_in,
 "\    nft_payload_expr_icmp_type_operator_1char,
 "\    nft_payload_expr_icmp_type_inline_set,
 "\    nft_payload_expr_named_set,
-"\    nft_payload_expr_close_scope_icmp_variable_expr,
 "\    nft_payload_expr_icmp_type_num,
 "\    nft_chainError
 " ************************* END icmp type' expression *************************
