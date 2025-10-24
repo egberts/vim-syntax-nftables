@@ -548,7 +548,7 @@ syn cluster nft_c_payload_expr_icmp_expressions
 \    nft_payload_expr_icmp_keyword_sequence,
 \    nft_payload_expr_icmp_keyword_gateway,
 \    nft_payload_expr_icmp_keyword_code,
-\    nft_payload_expr_icmp_keyword_type,
+\    nft_icmp_hdr_expr_keyword_type,
 \    nft_payload_expr_icmp_keyword_mtu,
 \    nft_payload_expr_icmp_keyword_id,
 
@@ -790,7 +790,7 @@ hi link   nft_payload_expr_icmp_type_defines Define
 syn match nft_payload_expr_icmp_type_defines '\v(destination\-unreachable|address\-mask\-request|router\-advertisement|info\-request|router\-solicitation|address\-mask\-reply|info\-reply|parameter\-problem|timestamp\-request|timestamp\-reply|source\-quench|time\-exceeded|echo\-request|echo\-reply|redirect)\ze[ \t]' skipwhite contained
 \ skipwhite contained
 \ nextgroup=
-\    @nft_c_stmt
+\    @nft_c_payload_expr_icmp_expressions
 
 " 'ip6 nexthdr icmp type >'
 hi link   nft_payload_expr_icmp_type_operator_1char nftHL_Expression
@@ -808,19 +808,36 @@ syn match nft_payload_expr_icmp_type_operator_2char '\v([\>\<\!])\=' skipwhite c
 \    nft_payload_expr_icmp_type_num,
 \    nft_chainError
 
-" 'icmp type'
-hi link   nft_payload_expr_icmp_keyword_type nftHL_Keyword
-syn match nft_payload_expr_icmp_keyword_type '\vtype\ze[ \t]' skipwhite contained
+" 'icmp_hdr_expr type' implied match
+hi link   nft_icmp_hdr_expr_keyword_type nftHL_Substatement
+syn match nft_icmp_hdr_expr_keyword_type '\vtype\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_payload_expr_icmp_type_defines,
-\    nft_payload_expr_icmp_type_operator_2char,
-\    nft_payload_expr_icmp_type_keyword_in,
-\    nft_payload_expr_icmp_type_operator_1char,
-\    nft_payload_expr_icmp_type_inline_set,
-\    nft_payload_expr_named_set,
-\    nft_payload_expr_close_scope_icmp_variable_expr,
-\    nft_payload_expr_icmp_type_num,
-\    nft_chainError
+\    nft_icmp_hdr_expr_close_scope_icmp_type_symbol_expr_string_keyword_defines,
+\    nft_verdict_stmt_verdict_map_stmt_keyword_vmap,
+\    nft_icmp_hdr_expr_close_scope_icmp_type_symbol_expr_string_keyword_any,
+\    nft_map_expr_keyword_map,
+\    nft_icmp_hdr_expr_close_scope_icmp_type_relational_expr_relational_op_keyword_not,
+\    nft_icmp_hdr_expr_close_scope_icmp_type_relational_op_equality_2char,
+\    nft_icmp_hdr_expr_close_scope_icmp_type_relational_op_discrete_2char,
+\    nft_icmp_hdr_expr_close_scope_icmp_type_internal_set_expr_keyword_in,
+\    nft_icmp_hdr_expr_close_scope_icmp_type_relational_op_discrete_1char,
+\    nft_icmp_hdr_expr_close_scope_icmp_type_set_ref_expr_set_ref_symbol_expr_at_setname,
+\    nft_icmp_hdr_expr_close_scope_icmp_type_symbol_expr_variable_expr,
+\    nft_icmp_hdr_expr_type_set_expr_inline_set,
+\    nft_icmp_hdr_expr_close_scope_icmp_type_integer_expr_num_uint8_hex_range,
+\    nft_icmp_hdr_expr_close_scope_icmp_type_integer_expr_num_uint8_hex,
+\    nft_Error
+" implied match is good for any type of values; scalar, set membership, symbol name, $variable, @setname
+"\ nextgroup=
+"\    nft_payload_expr_icmp_type_defines,
+"\    nft_payload_expr_icmp_type_operator_2char,
+"\    nft_payload_expr_icmp_type_keyword_in,
+"\    nft_payload_expr_icmp_type_operator_1char,
+"\    nft_payload_expr_icmp_type_inline_set,
+"\    nft_payload_expr_named_set,
+"\    nft_payload_expr_close_scope_icmp_variable_expr,
+"\    nft_payload_expr_icmp_type_num,
+"\    nft_chainError
 " ************************* END icmp type' expression *************************
 
 " ************************* BEGIN 'ip6 nexthdr icmp mtu' expression *************************
@@ -933,10 +950,10 @@ syn match nft_payload_expr_icmp_hdr_expr_keyword_icmp '\vicmp\ze[ \t]' skipwhite
 \    nft_payload_expr_icmp_keyword_checksum,
 \    nft_payload_expr_icmp_keyword_gateway,
 \    nft_payload_expr_icmp_keyword_code,
-\    nft_payload_expr_icmp_keyword_type,
+\    nft_icmp_hdr_expr_keyword_type,
 \    nft_payload_expr_icmp_keyword_mtu,
 \    nft_payload_expr_icmp_keyword_id,
-\    nft_chainError
+\    nft_Error
 " ************************* END icmp' expression *************************
 
 " ************************* BEGIN dccp' expression *************************

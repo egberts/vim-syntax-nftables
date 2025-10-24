@@ -143,7 +143,7 @@ syn match nft_ip_hdr_expr_close_scope_ip_hdrlength_set_ref_expr_set_ref_symbol_e
 hi link   nft_ip_hdr_expr_close_scope_ip_hdrlength_set_ref_expr_set_ref_symbol_expr_integer_expr_num_uint4_hex nftHL_Integer
 syn match nft_ip_hdr_expr_close_scope_ip_hdrlength_set_ref_expr_set_ref_symbol_expr_integer_expr_num_uint4_hex '\v(0x[56789aAbBcCdDeEfF])|[5-9]|1[0-5]\ze[ \t\n,]' skipwhite contained
 
-hi link   nft_ip_hdr_expr_close_scope_ip_hdrlength_set_ref_expr_set_ref_symbol_expr_range_stmt_expr_symbol_dash nftHL_Element
+hi link   nft_ip_hdr_expr_close_scope_ip_hdrlength_set_ref_expr_set_ref_symbol_expr_range_stmt_expr_symbol_dash nftHL_elements
 syn match nft_ip_hdr_expr_close_scope_ip_hdrlength_set_ref_expr_set_ref_symbol_expr_range_stmt_expr_symbol_dash '\v\-' contained
 \ nextgroup=
 \    nft_ip_hdr_expr_close_scope_ip_hdrlength_set_ref_expr_set_ref_symbol_expr_integer_expr_num_uint4_hex
@@ -167,7 +167,7 @@ syn match nft_ip_hdr_expr_close_scope_ip_hdrlength_integer_expr_num_uint4_hex '\
 \    nft_stmt_separator,
 \    @nft_c_primary_stmt_expr
 
-hi link   nft_ip_hdr_expr_close_scope_ip_hdrlength_range_stmt_expr_keyword_dash nftHL_Element
+hi link   nft_ip_hdr_expr_close_scope_ip_hdrlength_range_stmt_expr_keyword_dash nftHL_elements
 syn match nft_ip_hdr_expr_close_scope_ip_hdrlength_range_stmt_expr_keyword_dash '\-' contained
 \ nextgroup=
 \    nft_ip_hdr_expr_close_scope_ip_hdrlength_integer_expr_num_uint4_hex,
@@ -278,7 +278,7 @@ syn match nft_ip_hdr_expr_close_scope_ip_checksum_set_ref_expr_set_ref_symbol_ex
 hi link   nft_ip_hdr_expr_close_scope_ip_checksum_set_ref_expr_set_ref_symbol_expr_integer_expr_num_uint16_hex nftHL_Integer
 syn match nft_ip_hdr_expr_close_scope_ip_checksum_set_ref_expr_set_ref_symbol_expr_integer_expr_num_uint16_hex '\v(0x[0-9a-fA-F]{1,4})|6553[0-5]|655[0-2][0-9]|(65[0-4][0-9][0-9])|(6[0-4][0-9][0-9][0-9])|([0-5][0-9]{4}|[0-9]{1,4})\ze[ \t\n,]' contained
 
-hi link   nft_ip_hdr_expr_close_scope_ip_checksum_set_ref_expr_set_ref_symbol_expr_range_stmt_expr_symbol_dash nftHL_Element
+hi link   nft_ip_hdr_expr_close_scope_ip_checksum_set_ref_expr_set_ref_symbol_expr_range_stmt_expr_symbol_dash nftHL_elements
 syn match nft_ip_hdr_expr_close_scope_ip_checksum_set_ref_expr_set_ref_symbol_expr_range_stmt_expr_symbol_dash '\v\-' contained
 \ nextgroup=
 \    nft_ip_hdr_expr_close_scope_ip_checksum_set_ref_expr_set_ref_symbol_expr_integer_expr_num_uint16_hex
@@ -302,7 +302,7 @@ syn match nft_ip_hdr_expr_close_scope_ip_checksum_integer_expr_num_uint16_hex '\
 \    @nft_c_primary_stmt_expr,
 \    @nft_c_stmt
 
-hi link   nft_ip_hdr_expr_close_scope_ip_checksum_range_stmt_expr_keyword_dash nftHL_Element
+hi link   nft_ip_hdr_expr_close_scope_ip_checksum_range_stmt_expr_keyword_dash nftHL_elements
 syn match nft_ip_hdr_expr_close_scope_ip_checksum_range_stmt_expr_keyword_dash '\-' contained
 \ nextgroup=
 \    nft_ip_hdr_expr_close_scope_ip_checksum_integer_expr_num_uint16_hex,
@@ -414,7 +414,7 @@ syn match nft_ip_hdr_expr_close_scope_ip_frag_off_set_ref_expr_set_ref_symbol_ex
 hi link   nft_ip_hdr_expr_close_scope_ip_frag_off_set_expr_integer_expr_uint13_hex nftHL_Integer
 syn match nft_ip_hdr_expr_close_scope_ip_frag_off_set_expr_integer_expr_uint13_hex '\v(0x1[fF]{3}|0x1[fF][0-9a-eA-E][0-9a-fA-F]|0x1[0-9a-eA-E][0-9a-fA-F]{2}|0x[0-9a-fA-F]{1,3}|819[0-1]|81[0-8][0-9]|80[0-9]{2}|[1-7][0-9]{3}|[1-9][0-9]{0,2}|0)\ze[ \t\n,]' contained
 
-hi link   nft_ip_hdr_expr_close_scope_ip_frag_off_set_expr_range_stmt_expr_symbol_dash nftHL_Element
+hi link   nft_ip_hdr_expr_close_scope_ip_frag_off_set_expr_range_stmt_expr_symbol_dash nftHL_elements
 syn match nft_ip_hdr_expr_close_scope_ip_frag_off_set_expr_range_stmt_expr_symbol_dash '\-' skipwhite contained
 \ nextgroup=
 \    nft_ip_hdr_expr_close_scope_ip_frag_off_set_expr_integer_expr_uint13_hex,
@@ -441,7 +441,7 @@ syn match nft_ip_hdr_expr_close_scope_ip_frag_off_integer_expr_num_uint13_hex  '
 \    nft_stmt_separator,
 \    @nft_c_primary_stmt_expr
 
-hi link   nft_ip_hdr_expr_close_scope_ip_frag_off_range_stmt_expr_keyword_dash nftHL_Element
+hi link   nft_ip_hdr_expr_close_scope_ip_frag_off_range_stmt_expr_keyword_dash nftHL_elements
 syn match nft_ip_hdr_expr_close_scope_ip_frag_off_range_stmt_expr_keyword_dash '\-' contained
 \ nextgroup=
 \    nft_ip_hdr_expr_close_scope_ip_frag_off_integer_expr_num_uint13_hex,
@@ -559,7 +559,7 @@ syn match nft_ip_hdr_expr_close_scope_ip_protocol_set_ref_expr_set_ref_symbol_ex
 hi link   nft_ip_hdr_expr_close_scope_ip_protocol_set_ref_expr_set_ref_symbol_expr_integer_expr_num_uint8_hex nftHL_Integer
 syn match nft_ip_hdr_expr_close_scope_ip_protocol_set_ref_expr_set_ref_symbol_expr_integer_expr_num_uint8_hex '\v(0x([A-Fa-f0-9]{1,2}))|(25[0-5])|(2[0-4][0-9])|(1[0-9][0-9])|([0-9]{1,2})\ze[ \t\n,]' skipwhite contained
 
-hi link   nft_ip_hdr_expr_close_scope_ip_protocol_set_ref_expr_set_ref_symbol_expr_range_stmt_expr_symbol_dash nftHL_Element
+hi link   nft_ip_hdr_expr_close_scope_ip_protocol_set_ref_expr_set_ref_symbol_expr_range_stmt_expr_symbol_dash nftHL_elements
 syn match nft_ip_hdr_expr_close_scope_ip_protocol_set_ref_expr_set_ref_symbol_expr_range_stmt_expr_symbol_dash '\v\-' contained
 \ nextgroup=
 \    nft_ip_hdr_expr_close_scope_ip_protocol_set_ref_expr_set_ref_symbol_expr_integer_expr_num_uint8_hex
@@ -592,7 +592,7 @@ syn match nft_ip_hdr_expr_close_scope_ip_protocol_integer_expr_num_uint8_hex '\v
 \    @nft_c_primary_stmt_expr,
 \    @nft_c_stmt
 
-hi link   nft_ip_hdr_expr_close_scope_ip_protocol_range_stmt_expr_keyword_dash nftHL_Element
+hi link   nft_ip_hdr_expr_close_scope_ip_protocol_range_stmt_expr_keyword_dash nftHL_elements
 syn match nft_ip_hdr_expr_close_scope_ip_protocol_range_stmt_expr_keyword_dash '\-' contained
 \ nextgroup=
 \    nft_ip_hdr_expr_close_scope_ip_protocol_integer_expr_num_uint8_hex,
@@ -735,7 +735,7 @@ syn match nft_ip_hdr_expr_close_scope_ip_hdrversion_set_ref_symbol_expr_keyword_
 hi link   nft_ip_hdr_expr_close_scope_ip_hdrversion_set_ref_expr_set_ref_symbol_expr_integer_expr_num_uint4_hex nftHL_Integer
 syn match nft_ip_hdr_expr_close_scope_ip_hdrversion_set_ref_expr_set_ref_symbol_expr_integer_expr_num_uint4_hex '\v(0x[fF]|0x[0-9a-eA-E]|[1][0-5]|[0-9])\ze[ \t\n,]' skipwhite contained
 
-hi link   nft_ip_hdr_expr_close_scope_ip_hdrversion_set_ref_expr_set_ref_symbol_expr_range_stmt_expr_symbol_dash nftHL_Element
+hi link   nft_ip_hdr_expr_close_scope_ip_hdrversion_set_ref_expr_set_ref_symbol_expr_range_stmt_expr_symbol_dash nftHL_elements
 syn match nft_ip_hdr_expr_close_scope_ip_hdrversion_set_ref_expr_set_ref_symbol_expr_range_stmt_expr_symbol_dash '\v\-' contained
 \ nextgroup=
 \    nft_ip_hdr_expr_close_scope_ip_hdrversion_set_ref_expr_set_ref_symbol_expr_integer_expr_num_uint4_hex
@@ -759,7 +759,7 @@ syn match nft_ip_hdr_expr_close_scope_ip_hdrversion_integer_expr_num_uint4_hex '
 \    nft_stmt_separator,
 \    @nft_c_primary_stmt_expr
 
-hi link   nft_ip_hdr_expr_close_scope_ip_hdrversion_range_stmt_expr_keyword_dash nftHL_Element
+hi link   nft_ip_hdr_expr_close_scope_ip_hdrversion_range_stmt_expr_keyword_dash nftHL_elements
 syn match nft_ip_hdr_expr_close_scope_ip_hdrversion_range_stmt_expr_keyword_dash '\-' contained
 \ nextgroup=
 \    nft_ip_hdr_expr_close_scope_ip_hdrversion_integer_expr_num_uint4_hex,
@@ -867,7 +867,7 @@ syn match nft_ip_hdr_expr_close_scope_ip_length_set_ref_expr_set_ref_symbol_expr
 hi link   nft_ip_hdr_expr_close_scope_ip_length_set_ref_expr_set_ref_symbol_expr_integer_expr_num_uint16_hex nftHL_Integer
 syn match nft_ip_hdr_expr_close_scope_ip_length_set_ref_expr_set_ref_symbol_expr_integer_expr_num_uint16_hex '\v(0x([0-9a-fA-F]{3,4}|[2-9a-fA-F][0-9a-fA-F]|(1[4-9a-fA-F])))|6553[0-5]|655[0-2][0-9]|(65[0-4][0-9][0-9])|(6[0-4][0-9][0-9][0-9])|([0-5][0-9]{4}|([0-9]{3})|[2-9][0-9])\ze[ \t\n,]' skipwhite contained
 
-hi link   nft_ip_hdr_expr_close_scope_ip_length_set_ref_expr_set_ref_symbol_expr_range_stmt_expr_symbol_dash nftHL_Element
+hi link   nft_ip_hdr_expr_close_scope_ip_length_set_ref_expr_set_ref_symbol_expr_range_stmt_expr_symbol_dash nftHL_elements
 syn match nft_ip_hdr_expr_close_scope_ip_length_set_ref_expr_set_ref_symbol_expr_range_stmt_expr_symbol_dash '\v\-' contained
 \ nextgroup=
 \    nft_ip_hdr_expr_close_scope_ip_length_set_ref_expr_set_ref_symbol_expr_integer_expr_num_uint16_hex
@@ -891,7 +891,7 @@ syn match nft_ip_hdr_expr_close_scope_ip_length_integer_expr_num_uint16_hex '\v(
 \    @nft_c_primary_stmt_expr,
 \    @nft_c_stmt
 
-hi link   nft_ip_hdr_expr_close_scope_ip_length_range_stmt_expr_keyword_dash nftHL_Element
+hi link   nft_ip_hdr_expr_close_scope_ip_length_range_stmt_expr_keyword_dash nftHL_elements
 syn match nft_ip_hdr_expr_close_scope_ip_length_range_stmt_expr_keyword_dash '\-' contained
 \ nextgroup=
 \    nft_ip_hdr_expr_close_scope_ip_length_integer_expr_num_uint16_hex,
@@ -1100,7 +1100,7 @@ syn match nft_ip_hdr_expr_close_scope_ip_addr_set_ref_expr_string_expr_string_ip
 hi link   nft_ip_hdr_expr_close_scope_ip_addr_set_ref_expr_payload_expr_string_ip4 nftHL_Integer
 syn match nft_ip_hdr_expr_close_scope_ip_addr_set_ref_expr_payload_expr_string_ip4 '\v(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\ze[ \t\n;]' skipwhite contained
 
-hi link   nft_ip_hdr_expr_close_scope_ip_addr_set_ref_expr_range_stmt_expr_symbol_dash nftHL_Element
+hi link   nft_ip_hdr_expr_close_scope_ip_addr_set_ref_expr_range_stmt_expr_symbol_dash nftHL_elements
 syn match nft_ip_hdr_expr_close_scope_ip_addr_set_ref_expr_range_stmt_expr_symbol_dash '\-' contained
 \ nextgroup=
 \    nft_ip_hdr_expr_close_scope_ip_addr_set_ref_expr_payload_expr_string_ip4,
@@ -1116,7 +1116,7 @@ syn match nft_ip_hdr_expr_close_scope_ip_addr_set_ref_expr_payload_expr_string_i
 hi link   nft_ip_hdr_expr_close_scope_ip_addr_set_ref_expr_set_ref_symbol_expr_integer_expr_num_uint32_hex nftHL_Integer
 syn match nft_ip_hdr_expr_close_scope_ip_addr_set_ref_expr_set_ref_symbol_expr_integer_expr_num_uint32_hex '\v(0x[fF]|0x[0-9a-eA-E]|[1][0-5]|[0-9])\ze[ \t\n,]' skipwhite contained
 
-hi link   nft_ip_hdr_expr_close_scope_ip_addr_set_ref_expr_set_ref_symbol_expr_range_stmt_expr_symbol_dash nftHL_Element
+hi link   nft_ip_hdr_expr_close_scope_ip_addr_set_ref_expr_set_ref_symbol_expr_range_stmt_expr_symbol_dash nftHL_elements
 syn match nft_ip_hdr_expr_close_scope_ip_addr_set_ref_expr_set_ref_symbol_expr_range_stmt_expr_symbol_dash '\v\-' contained
 \ nextgroup=
 \    nft_ip_hdr_expr_close_scope_ip_addr_set_ref_expr_set_ref_symbol_expr_integer_expr_num_uint32_hex
@@ -1143,7 +1143,7 @@ syn match nft_ip_hdr_expr_close_scope_ip_addr_payload_expr_string_ip4 '\v(25[0-5
 \ nextgroup=
 \    @nft_c_primary_stmt_expr
 
-hi link   nft_ip_hdr_expr_close_scope_ip_addr_range_stmt_expr_symbol_dash nftHL_Element
+hi link   nft_ip_hdr_expr_close_scope_ip_addr_range_stmt_expr_symbol_dash nftHL_elements
 syn match nft_ip_hdr_expr_close_scope_ip_addr_range_stmt_expr_symbol_dash '\v\-' contained
 \ nextgroup=
 \    nft_ip_hdr_expr_close_scope_ip_addr_payload_expr_string_ip4,
@@ -1168,7 +1168,7 @@ syn match nft_ip_hdr_expr_close_scope_ip_saddr_integer_expr_num_uint32_hex '\v0x
 \ nextgroup=
 \    @nft_c_ip
 
-hi link   nft_ip_hdr_expr_close_scope_ip_addr_hex_range_stmt_expr_symbol_dash nftHL_Element
+hi link   nft_ip_hdr_expr_close_scope_ip_addr_hex_range_stmt_expr_symbol_dash nftHL_elements
 syn match nft_ip_hdr_expr_close_scope_ip_addr_hex_range_stmt_expr_symbol_dash '\-' contained
 \ nextgroup=
 \    nft_ip_hdr_expr_close_scope_ip_saddr_integer_expr_num_uint32_hex,
@@ -1358,7 +1358,7 @@ syn match nft_ip_hdr_field_dscp_set_expr_symbol_expr_string_keyword_defines '\v(
 hi link   nft_ip_hdr_expr_close_scope_ip_dscp_set_expr_integer_expr_uint6b_hex nftHL_Integer
 syn match nft_ip_hdr_expr_close_scope_ip_dscp_set_expr_integer_expr_uint6b_hex '\v(0x[0-3][0-9a-fA-F])|0x[0-9a-fA-F]|6[0-3]|([0-5]|[5-9])\ze[ \t\n,]' contained
 
-hi link   nft_ip_hdr_expr_close_scope_ip_dscp_set_expr_range_stmt_expr_symbol_dash nftHL_Element
+hi link   nft_ip_hdr_expr_close_scope_ip_dscp_set_expr_range_stmt_expr_symbol_dash nftHL_elements
 syn match nft_ip_hdr_expr_close_scope_ip_dscp_set_expr_range_stmt_expr_symbol_dash '\-' skipwhite contained
 \ nextgroup=
 \    nft_ip_hdr_expr_close_scope_ip_dscp_set_expr_integer_expr_uint6b_hex,
@@ -1394,7 +1394,7 @@ syn match nft_ip_hdr_expr_close_scope_ip_dscp_integer_expr_uint6b_hex '\v(0x[0-3
 \ nextgroup=
 \    nft_Error
 
-hi link   nft_ip_hdr_expr_close_scope_ip_dscp_range_stmt_expr_symbol_dash nftHL_Element
+hi link   nft_ip_hdr_expr_close_scope_ip_dscp_range_stmt_expr_symbol_dash nftHL_elements
 syn match nft_ip_hdr_expr_close_scope_ip_dscp_range_stmt_expr_symbol_dash '\-' contained
 \ nextgroup=
 \    nft_ip_hdr_expr_close_scope_ip_dscp_integer_expr_uint6b_hex,
@@ -1488,7 +1488,7 @@ syn match nft_ip_hdr_expr_close_scope_ip_ecn_integer_expr_num_uint2_hex '\v(0x[0
 \    nft_stmt_separator,
 \    @nft_c_primary_stmt_expr
 
-hi link   nft_ip_hdr_expr_close_scope_ip_ecn_range_stmt_expr_keyword_dash nftHL_Element
+hi link   nft_ip_hdr_expr_close_scope_ip_ecn_range_stmt_expr_keyword_dash nftHL_elements
 syn match nft_ip_hdr_expr_close_scope_ip_ecn_range_stmt_expr_keyword_dash '\-' contained
 \ nextgroup=
 \    nft_ip_hdr_expr_close_scope_ip_ecn_integer_expr_num_uint2_hex,
@@ -1601,7 +1601,7 @@ syn match nft_ip_hdr_expr_close_scope_ip_ttl_set_ref_expr_set_ref_symbol_expr_at
 hi link   nft_ip_hdr_expr_close_scope_ip_ttl_set_ref_expr_set_ref_symbol_expr_integer_expr_num_uint16_hex nftHL_Integer
 syn match nft_ip_hdr_expr_close_scope_ip_ttl_set_ref_expr_set_ref_symbol_expr_integer_expr_num_uint16_hex '\v(0x([A-Fa-f0-9]{1,2}))|(25[0-5])|(2[0-4][0-9])|(1[0-9][0-9])|([0-9]{1,2})\ze[ \t\n,]' skipwhite contained
 
-hi link   nft_ip_hdr_expr_close_scope_ip_ttl_set_ref_expr_set_ref_symbol_expr_range_stmt_expr_symbol_dash nftHL_Element
+hi link   nft_ip_hdr_expr_close_scope_ip_ttl_set_ref_expr_set_ref_symbol_expr_range_stmt_expr_symbol_dash nftHL_elements
 syn match nft_ip_hdr_expr_close_scope_ip_ttl_set_ref_expr_set_ref_symbol_expr_range_stmt_expr_symbol_dash '\v\-' contained
 \ nextgroup=
 \    nft_ip_hdr_expr_close_scope_ip_ttl_set_ref_expr_set_ref_symbol_expr_integer_expr_num_uint16_hex
@@ -1627,7 +1627,7 @@ syn match nft_ip_hdr_expr_close_scope_ip_ttl_integer_expr_num_uint8_hex '\v(0x([
 \    @nft_c_primary_stmt_expr,
 \    @nft_c_stmt
 
-hi link   nft_ip_hdr_expr_close_scope_ip_ttl_range_stmt_expr_keyword_dash nftHL_Element
+hi link   nft_ip_hdr_expr_close_scope_ip_ttl_range_stmt_expr_keyword_dash nftHL_elements
 syn match nft_ip_hdr_expr_close_scope_ip_ttl_range_stmt_expr_keyword_dash '\-' contained
 \ nextgroup=
 \    nft_ip_hdr_expr_close_scope_ip_ttl_integer_expr_num_uint8_hex,
@@ -1752,7 +1752,7 @@ syn match nft_ip_hdr_field_dscp_set_expr_symbol_expr_string_keyword_defines '\v(
 hi link   nft_ip_hdr_expr_close_scope_ip_dscp_set_expr_integer_expr_uint6b_hex nftHL_Integer
 syn match nft_ip_hdr_expr_close_scope_ip_dscp_set_expr_integer_expr_uint6b_hex '\v(0x[0-9a-fA-F]{1,4})|6553[0-5]|655[0-2][0-9]|(65[0-4][0-9][0-9])|(6[0-4][0-9][0-9][0-9])|([0-5][0-9]{4}|[0-9]{1,4})\ze[ \t\n,]' contained
 
-hi link   nft_ip_hdr_expr_close_scope_ip_dscp_set_expr_range_stmt_expr_symbol_dash nftHL_Element
+hi link   nft_ip_hdr_expr_close_scope_ip_dscp_set_expr_range_stmt_expr_symbol_dash nftHL_elements
 syn match nft_ip_hdr_expr_close_scope_ip_dscp_set_expr_range_stmt_expr_symbol_dash '\-' skipwhite contained
 \ nextgroup=
 \    nft_ip_hdr_expr_close_scope_ip_dscp_set_expr_integer_expr_uint6b_hex,
@@ -1779,7 +1779,7 @@ syn match nft_ip_hdr_expr_close_scope_ip_id_integer_expr_num_uint16_hex '\v(0x[0
 \    @nft_c_primary_stmt_expr,
 \    @nft_c_stmt
 
-hi link   nft_ip_hdr_expr_close_scope_ip_id_range_stmt_expr_keyword_dash nftHL_Element
+hi link   nft_ip_hdr_expr_close_scope_ip_id_range_stmt_expr_keyword_dash nftHL_elements
 syn match nft_ip_hdr_expr_close_scope_ip_id_range_stmt_expr_keyword_dash '\-' contained
 \ nextgroup=
 \    nft_ip_hdr_expr_close_scope_ip_id_integer_expr_num_uint16_hex,

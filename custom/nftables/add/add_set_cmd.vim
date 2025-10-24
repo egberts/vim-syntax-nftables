@@ -227,17 +227,17 @@ syn match nft_add_cmd_set_block_stateful_stmt_list_stateful_stmt_connlimit_stmt_
 hi link    nft_add_cmd_set_block_elements_set_block_expr_set_expr nftHL_BlockDelimitersSet
 syn region nft_add_cmd_set_block_elements_set_block_expr_set_expr start="{" end="}" skipwhite contained
 \ contains=
-\    nft_add_cmd_set_block_element_set_block_elements_block_items
+\    nft_add_cmd_set_block_elements_set_block_elements_block_items
 \ nextgroup=
 \    nft_add_cmd_set_block_separator
 
-hi link   nft_add_cmd_set_block_element_set_block_semicolon nftHL_Operator
-syn match nft_add_cmd_set_block_element_set_block_semicolon /;/ skipwhite contained
+hi link   nft_add_cmd_set_block_elements_set_block_semicolon nftHL_Operator
+syn match nft_add_cmd_set_block_elements_set_block_semicolon /;/ skipwhite contained
 
 hi link    nft_add_cmd_set_block_elements_set_block_expr_set_expr_delimiters nftHL_BlockDelimitersSet
 syn region nft_add_cmd_set_block_elements_set_block_expr_set_expr_delimiters start="{" end="}" skipnl skipempty skipwhite contained
 \ contains=
-\    nft_add_cmd_set_block_element_set_block_elements_block_items
+\    nft_add_cmd_set_block_elements_set_block_elements_block_items
 \ nextgroup=
 \    nft_add_cmd_set_block_separator
 

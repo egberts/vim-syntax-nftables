@@ -134,11 +134,11 @@ syn match nft_add_cmd_map_map_spec_map_block_gc_interval "\vgc\-interval" skipwh
 \ nextgroup=
 \    nft_add_cmd_map_map_spec_map_block_time_spec
 
-hi link   nft_add_cmd_map_map_spec_map_block_elements_block_item_colon nftHL_Element
+hi link   nft_add_cmd_map_map_spec_map_block_elements_block_item_colon nftHL_elements
 syn match nft_add_cmd_map_map_spec_map_block_elements_block_item_colon '\v:' skipwhite contained
 
 " base_cmd add_cmd 'map' map_spec '{' map_block 'elements' '=' '{' map_block_item
-hi link    nft_add_cmd_map_map_spec_map_block_elements_block_items nftHL_Element
+hi link    nft_add_cmd_map_map_spec_map_block_elements_block_items nftHL_elements
 syn match nft_add_cmd_map_map_spec_map_block_elements_block_items "\v\$[a-zA-Z][a-zA-Z0-9_\-]{0,63}" skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_map_map_spec_map_block_elements_block_item_colon
@@ -315,7 +315,7 @@ syn match nft_base_cmd_keyword_map "\vmap\ze " skipwhite contained
 "
 
 " **************** BEGIN set stmt_expr *******************
-" unused nft_add_cmd_keyword_map_map_spec_map_block_element_map_block_semicolon
+" unused nft_add_cmd_keyword_map_map_spec_map_block_elements_map_block_semicolon
 hi link   nft_chain_block_map_block_map_block_expr_elements_comma nftHL_Operator
 syn match nft_chain_block_map_block_map_block_expr_elements_comma /,/ skipwhite contained
 

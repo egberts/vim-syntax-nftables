@@ -47,7 +47,7 @@ syn match nft_payload_raw_expr_num2 '\v(0x[0-9a-fA-F]{1,4})|([0-9]{1,5})' skipwh
 \    nft_payload_raw_expr_payload_raw_len
 
 " '@ih,0,'
-hi link   nft_payload_raw_expr_comma2_symbol nftHL_Element
+hi link   nft_payload_raw_expr_comma2_symbol nftHL_elements
 syn match nft_payload_raw_expr_comma2_symbol '\v,' contained
 \ nextgroup=
 \    nft_payload_raw_expr_num2
@@ -59,7 +59,7 @@ syn match nft_payload_raw_expr_num1 '\v(0x[0-9a-fA-F]{1,4})|([0-9]{1,5})' contai
 \    nft_payload_raw_expr_comma2_symbol
 
 " '@ih,'
-hi link   nft_payload_raw_expr_comma1_symbol nftHL_Element
+hi link   nft_payload_raw_expr_comma1_symbol nftHL_elements
 syn match nft_payload_raw_expr_comma1_symbol '\v,' contained
 \ nextgroup=
 \    nft_payload_raw_expr_num1

@@ -129,7 +129,7 @@ syn match nft_add_cmd_table_block_map_block_keyword_gc_interval "\vgc\-interval"
 \ nextgroup=
 \    nft_add_cmd_table_block_map_block_time_spec
 
-" unused nft_add_cmd_keyword_map_map_spec_map_block_element_map_block_semicolon
+" unused nft_add_cmd_keyword_map_map_spec_map_block_elements_map_block_semicolon
 hi link   nft_add_cmd_table_block_map_block_map_block_expr_map_expr_comma nftHL_Operator
 syn match nft_add_cmd_table_block_map_block_map_block_expr_map_expr_comma /,/ skipwhite contained
 

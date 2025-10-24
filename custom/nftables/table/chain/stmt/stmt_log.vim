@@ -105,7 +105,7 @@ syn match nft_stmt_log_stmt_log_arg_log_flags_keyword_skuid '\vskuid' skipwhite 
 hi link   nft_stmt_log_stmt_log_arg_log_flags_keyword_all nftHL_Keyword
 syn match nft_stmt_log_stmt_log_arg_log_flags_keyword_all '\vall' skipwhite contained
 
-hi link   nft_stmt_log_stmt_log_arg_log_flags_log_flag_tcp_symbol_comma nftHL_Element
+hi link   nft_stmt_log_stmt_log_arg_log_flags_log_flag_tcp_symbol_comma nftHL_elements
 syn match nft_stmt_log_stmt_log_arg_log_flags_log_flag_tcp_symbol_comma /,/ skipwhite contained
 \ nextgroup=
 \    nft_stmt_log_stmt_log_arg_log_flags_log_flag_tcp_keyword_sequence,

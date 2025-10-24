@@ -45,8 +45,8 @@ try
   "
 "******** BEGIN OF INSIDE THE TABLE BLOCK **********************
 " table_flag (via table_options 'flags')
-hi link   nft_add_table_options_flags_element_separator nftHL_Separator
-syn match nft_add_table_options_flags_element_separator '\v,\ze[ \t\n;\}(dormant|persist|owner)]{1,5}' skipnl skipwhite contained
+hi link   nft_add_table_options_flags_elements_separator nftHL_Separator
+syn match nft_add_table_options_flags_elements_separator '\v,\ze[ \t\n;\}(dormant|persist|owner)]{1,5}' skipnl skipwhite contained
 \ nextgroup=
 \    @nft_c_add_cmd_keyword_table_table_block_table_options_keyword_flags_elements,
 \    nft_Error
@@ -54,7 +54,7 @@ syn match nft_add_table_options_flags_element_separator '\v,\ze[ \t\n;\}(dormant
 hi link   nft_add_table_options_flags_list_item nftHL_Define
 syn match nft_add_table_options_flags_list_item "\v(dormant|persist|owner)\ze\s{0,5}[\t\n,;\}]{1,5}" skipwhite contained
 \ nextgroup=
-\    nft_add_table_options_flags_element_separator,
+\    nft_add_table_options_flags_elements_separator,
 \    nft_add_cmd_keyword_table_table_block_table_options_semicolon,
 \    nft_Error
 

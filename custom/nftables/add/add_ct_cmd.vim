@@ -238,7 +238,7 @@ hi link   nft_stmt_ct_common_ct_key_keyword_saddr nftHL_Substatement
 syn match nft_stmt_ct_common_ct_key_keyword_saddr '\vsaddr' skipwhite contained
 
 " **************** BEGIN ct_expr ct_key 'state' *******************
-hi link   nft_primary_expr_ct_expr_ct_state_inline_set_comma nftHL_Element
+hi link   nft_primary_expr_ct_expr_ct_state_inline_set_comma nftHL_elements
 syn match nft_primary_expr_ct_expr_ct_state_inline_set_comma '\v,' skipwhite contained
 \ nextgroup=
 \   nft_primary_expr_ct_expr_ct_state_inline_set_choices
@@ -253,7 +253,7 @@ syn region nft_primary_expr_ct_expr_ct_state_inline_set start=+{+ end=+}+ skipwh
 \ contains=
 \    nft_primary_expr_ct_expr_ct_state_inline_set_choices
 
-hi link   nft_primary_expr_ct_expr_ct_state_comma nftHL_Element
+hi link   nft_primary_expr_ct_expr_ct_state_comma nftHL_elements
 syn match nft_primary_expr_ct_expr_ct_state_comma '\v,' skipwhite contained
 \ nextgroup=
 \   nft_primary_expr_ct_expr_ct_state_choices

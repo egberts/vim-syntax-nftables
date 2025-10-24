@@ -1,0 +1,1838 @@
+
+
+
+
+define ICMP_HDR_VALUE = 2
+table T {
+    set setname_icmp {
+        type icmp_type;
+        elements = { 1, 2, 3, 4 };
+    };
+
+  chain C {
+    icmp type  0
+    icmp type  255
+#    icmp type  256
+#    icmp type  65536
+#    icmp type  4294967295
+    icmp type  0x0
+    icmp type  0xff
+#    icmp type  0x100
+#    icmp type  0xffff
+#    icmp type  0x10000
+#    icmp type  0xffffffff
+#    icmp type  0x100000000
+#    icmp type  missing
+#    icmp type  exists
+#    icmp type  127.0.0.1
+#    icmp type  127.0.0.1/24
+#    icmp type  127.0.0.1-127.0.0.25
+    icmp type  @setname_icmp
+#    icmp type  { 127.0.0.1 }
+#    icmp type  { 127.0.0.1/24 }
+#    icmp type  { 127.0.0.1-127.0.0.23 }
+    icmp type  $ICMP_HDR_VALUE
+    icmp type > 0
+    icmp type > 255
+#    icmp type > 256
+#    icmp type > 65535
+#    icmp type > 65536
+#    icmp type > 4294967295
+    icmp type > 0x0
+    icmp type > 0xff
+#    icmp type > 0x100
+#    icmp type > 0xffff
+#    icmp type > 0x10000
+#    icmp type > 0xffffffff
+#    icmp type > 0x100000000
+#    icmp type > missing
+#    icmp type > exists
+#    icmp type > 127.0.0.1
+#    icmp type > 127.0.0.1/24
+#    icmp type > 127.0.0.1-127.0.0.25
+#    icmp type > @setname_icmp
+#    icmp type > { 127.0.0.1 }
+#    icmp type > { 127.0.0.1/24 }
+#    icmp type > { 127.0.0.1-127.0.0.23 }
+    icmp type > $ICMP_HDR_VALUE
+    icmp type < 0
+    icmp type < 255
+#    icmp type < 256
+#    icmp type < 65535
+#    icmp type < 65536
+#    icmp type < 4294967295
+    icmp type < 0x0
+    icmp type < 0xff
+#    icmp type < 0x100
+#    icmp type < 0xffff
+#    icmp type < 0x10000
+#    icmp type < 0xffffffff
+#    icmp type < 0x100000000
+#    icmp type < missing
+#    icmp type < exists
+#    icmp type < 127.0.0.1
+#    icmp type < 127.0.0.1/24
+#    icmp type < 127.0.0.1-127.0.0.25
+#    icmp type < @setname_icmp
+#    icmp type < { 127.0.0.1 }
+#    icmp type < { 127.0.0.1/24 }
+#    icmp type < { 127.0.0.1-127.0.0.23 }
+    icmp type < $ICMP_HDR_VALUE
+    icmp type >= 0
+    icmp type >= 255
+#    icmp type >= 256
+#    icmp type >= 65535
+#    icmp type >= 65536
+#    icmp type >= 4294967295
+#    icmp type >= 0x0
+#    icmp type >= 0xff
+#    icmp type >= 0x100
+#    icmp type >= 0xffff
+#    icmp type >= 0x10000
+#    icmp type >= 0xffffffff
+#    icmp type >= 0x100000000
+#    icmp type >= missing
+#    icmp type >= exists
+#    icmp type >= 127.0.0.1
+#    icmp type >= 127.0.0.1/24
+#    icmp type >= 127.0.0.1-127.0.0.25
+#    icmp type >= @setname_icmp
+#    icmp type >= { 127.0.0.1 }
+#    icmp type >= { 127.0.0.1/24 }
+#    icmp type >= { 127.0.0.1-127.0.0.23 }
+    icmp type >= $ICMP_HDR_VALUE
+    icmp type <= 0
+    icmp type <= 255
+#   icmp type <= 256
+#    icmp type <= 65535
+#    icmp type <= 65536
+#    icmp type <= 4294967295
+    icmp type <= 0x0
+    icmp type <= 0xff
+#    icmp type <= 0x100
+#    icmp type <= 0xffff
+#    icmp type <= 0x10000
+#    icmp type <= 0xffffffff
+#    icmp type <= 0x100000000
+#    icmp type <= missing
+#    icmp type <= exists
+#    icmp type <= 127.0.0.1
+#    icmp type <= 127.0.0.1/24
+#    icmp type <= 127.0.0.1-127.0.0.25
+#    icmp type <= @setname_icmp
+#    icmp type <= { 127.0.0.1 }
+#    icmp type <= { 127.0.0.1/24 }
+#    icmp type <= { 127.0.0.1-127.0.0.23 }
+    icmp type <= $ICMP_HDR_VALUE
+    icmp type == 0
+    icmp type == 255
+#    icmp type == 256
+#    icmp type == 65535
+#    icmp type == 65536
+#    icmp type == 4294967295
+    icmp type == 0x0
+    icmp type == 0xff
+#    icmp type == 0x100
+#    icmp type == 0xffff
+#    icmp type == 0x10000
+#    icmp type == 0xffffffff
+#    icmp type == 0x100000000
+#    icmp type == missing
+#    icmp type == exists
+#    icmp type == 127.0.0.1
+#    icmp type == 127.0.0.1/24
+#    icmp type == 127.0.0.1-127.0.0.25
+    icmp type == @setname_icmp
+#    icmp type == { 127.0.0.1 }
+#    icmp type == { 127.0.0.1/24 }
+#    icmp type == { 127.0.0.1-127.0.0.23 }
+    icmp type == $ICMP_HDR_VALUE
+    icmp type != 0
+    icmp type != 255
+#    icmp type != 256
+#    icmp type != 65535
+#    icmp type != 65536
+#    icmp type != 4294967295
+    icmp type != 0x0
+    icmp type != 0xff
+#    icmp type != 0x100
+#    icmp type != 0xffff
+#    icmp type != 0x10000
+#    icmp type != 0xffffffff
+#    icmp type != 0x100000000
+#    icmp type != missing
+#    icmp type != exists
+#    icmp type != 127.0.0.1
+#    icmp type != 127.0.0.1/24
+#    icmp type != 127.0.0.1-127.0.0.25
+    icmp type != @setname_icmp
+#    icmp type != { 127.0.0.1 }
+#    icmp type != { 127.0.0.1/24 }
+#    icmp type != { 127.0.0.1-127.0.0.23 }
+    icmp type != $ICMP_HDR_VALUE
+#    icmp type ! in 0
+#    icmp type ! in 255
+#    icmp type ! in 256
+#    icmp type ! in 65535
+#    icmp type ! in 65536
+#    icmp type ! in 4294967295
+#    icmp type ! in 0x0
+#    icmp type ! in 0xff
+#    icmp type ! in 0x100
+#    icmp type ! in 0xffff
+#    icmp type ! in 0x10000
+#    icmp type ! in 0xffffffff
+#    icmp type ! in 0x100000000
+#    icmp type ! in missing
+#    icmp type ! in exists
+#    icmp type ! in 127.0.0.1
+#    icmp type ! in 127.0.0.1/24
+#    icmp type ! in 127.0.0.1-127.0.0.25
+#    icmp type ! in @setname_icmp
+#    icmp type ! in { 127.0.0.1 }
+#    icmp type ! in { 127.0.0.1/24 }
+#    icmp type ! in { 127.0.0.1-127.0.0.23 }
+#    icmp type ! in $ICMP_HDR_VALUE
+#    icmp type not in 0
+#    icmp type not in 255
+#    icmp type not in 256
+#    icmp type not in 65535
+#    icmp type not in 65536
+#    icmp type not in 4294967295
+#    icmp type not in 0x0
+#    icmp type not in 0xff
+#    icmp type not in 0x100
+#    icmp type not in 0xffff
+#    icmp type not in 0x10000
+#    icmp type not in 0xffffffff
+#    icmp type not in 0x100000000
+#    icmp type not in missing
+#    icmp type not in exists
+#    icmp type not in 127.0.0.1
+#    icmp type not in 127.0.0.1/24
+#    icmp type not in 127.0.0.1-127.0.0.25
+#    icmp type not in @setname_icmp
+#    icmp type not in { 127.0.0.1 }
+#    icmp type not in { 127.0.0.1/24 }
+#    icmp type not in { 127.0.0.1-127.0.0.23 }
+#    icmp type not in $ICMP_HDR_VALUE
+#    icmp type in 0
+#    icmp type in 255
+#    icmp type in 256
+#    icmp type in 65535
+#    icmp type in 65536
+#    icmp type in 4294967295
+#    icmp type in 0x0
+#    icmp type in 0xff
+#    icmp type in 0x100
+ #   icmp type in 0xffff
+ #   icmp type in 0x10000
+ #   icmp type in 0xffffffff
+ #   icmp type in 0x100000000
+ #   icmp type in missing
+#    icmp type in exists
+#    icmp type in 127.0.0.1
+#    icmp type in 127.0.0.1/24
+#    icmp type in 127.0.0.1-127.0.0.25
+#    icmp type in @setname_icmp
+#    icmp type in { 127.0.0.1 }
+#    icmp type in { 127.0.0.1/24 }
+#    icmp type in { 127.0.0.1-127.0.0.23 }
+#    icmp type in $ICMP_HDR_VALUE
+#    icmp type not 0
+#    icmp type not 255
+#    icmp type not 256
+#    icmp type not 65535
+#    icmp type not 65536
+#    icmp type not 4294967295
+#    icmp type not 0x0
+#    icmp type not 0xff
+#    icmp type not 0x100
+#    icmp type not 0xffff
+#    icmp type not 0x10000
+#    icmp type not 0xffffffff
+#    icmp type not 0x100000000
+#    icmp type not missing
+#    icmp type not exists
+#    icmp type not 127.0.0.1
+#    icmp type not 127.0.0.1/24
+#    icmp type not 127.0.0.1-127.0.0.25
+#    icmp type not @setname_icmp
+#    icmp type not { 127.0.0.1 }
+#    icmp type not { 127.0.0.1/24 }
+#    icmp type not { 127.0.0.1-127.0.0.23 }
+#    icmp type not $ICMP_HDR_VALUE
+  }
+}
+
+ table T {
+    set setname_icmp {
+        type icmp_type
+        elements = { 1, 2, 3, 4 }
+    }
+    chain C {
+    icmp code  0
+    icmp code  255
+#    icmp code  256
+#    icmp code  65535
+#    icmp code  65536
+#    icmp code  4294967295
+    icmp code  0x0
+    icmp code  0xff
+#    icmp code  0x100
+#    icmp code  0xffff
+#    icmp code  0x10000
+#    icmp code  0xffffffff
+#    icmp code  0x100000000
+#    icmp code  missing
+#    icmp code  exists
+#    icmp code  127.0.0.1
+#    icmp code  127.0.0.1/24
+#    icmp code  127.0.0.1-127.0.0.25
+#    icmp code  @setname_icmp
+#    icmp code  { 127.0.0.1 }
+#    icmp code  { 127.0.0.1/24 }
+#    icmp code  { 127.0.0.1-127.0.0.23 }
+    icmp code  $ICMP_HDR_VALUE
+    icmp code > 0
+    icmp code > 255
+#    icmp code > 256
+#    icmp code > 65535
+#    icmp code > 65536
+#    icmp code > 4294967295
+    icmp code > 0x0
+    icmp code > 0xff
+#    icmp code > 0x100
+#    icmp code > 0xffff
+#    icmp code > 0x10000
+#    icmp code > 0xffffffff
+#    icmp code > 0x100000000
+#    icmp code > missing
+#    icmp code > exists
+#    icmp code > 127.0.0.1
+#    icmp code > 127.0.0.1/24
+#    icmp code > 127.0.0.1-127.0.0.25
+#    icmp code > @setname_icmp
+#    icmp code > { 127.0.0.1 }
+#    icmp code > { 127.0.0.1/24 }
+#    icmp code > { 127.0.0.1-127.0.0.23 }
+    icmp code > $ICMP_HDR_VALUE
+    icmp code < 0
+    icmp code < 255
+#    icmp code < 256
+#    icmp code < 65535
+#    icmp code < 65536
+#    icmp code < 4294967295
+    icmp code < 0x0
+    icmp code < 0xff
+#    icmp code < 0x100
+#    icmp code < 0xffff
+#    icmp code < 0x10000
+#    icmp code < 0xffffffff
+#    icmp code < 0x100000000
+#    icmp code < missing
+#    icmp code < exists
+#    icmp code < 127.0.0.1
+#    icmp code < 127.0.0.1/24
+#    icmp code < 127.0.0.1-127.0.0.25
+#    icmp code < @setname_icmp
+#    icmp code < { 127.0.0.1 }
+#    icmp code < { 127.0.0.1/24 }
+#    icmp code < { 127.0.0.1-127.0.0.23 }
+    icmp code < $ICMP_HDR_VALUE
+    icmp code >= 0
+    icmp code >= 255
+#    icmp code >= 256
+#    icmp code >= 65535
+#    icmp code >= 65536
+#    icmp code >= 4294967295
+    icmp code >= 0x0
+    icmp code >= 0xff
+#    icmp code >= 0x100
+#    icmp code >= 0xffff
+#    icmp code >= 0x10000
+#    icmp code >= 0xffffffff
+#    icmp code >= 0x100000000
+#    icmp code >= missing
+#    icmp code >= exists
+#    icmp code >= 127.0.0.1
+#    icmp code >= 127.0.0.1/24
+#    icmp code >= 127.0.0.1-127.0.0.25
+#    icmp code >= @setname_icmp
+#    icmp code >= { 127.0.0.1 }
+#    icmp code >= { 127.0.0.1/24 }
+#    icmp code >= { 127.0.0.1-127.0.0.23 }
+    icmp code >= $ICMP_HDR_VALUE
+    icmp code <= 0
+    icmp code <= 255
+#    icmp code <= 256
+#    icmp code <= 65535
+#    icmp code <= 65536
+#    icmp code <= 4294967295
+    icmp code <= 0x0
+    icmp code <= 0xff
+#    icmp code <= 0x100
+#    icmp code <= 0xffff
+#    icmp code <= 0x10000
+#    icmp code <= 0xffffffff
+#    icmp code <= 0x100000000
+#    icmp code <= missing
+#    icmp code <= exists
+#    icmp code <= 127.0.0.1
+#    icmp code <= 127.0.0.1/24
+#    icmp code <= 127.0.0.1-127.0.0.25
+#    icmp code <= @setname_icmp
+#    icmp code <= { 127.0.0.1 }
+#    icmp code <= { 127.0.0.1/24 }
+#    icmp code <= { 127.0.0.1-127.0.0.23 }
+    icmp code <= $ICMP_HDR_VALUE
+    icmp code == 0
+    icmp code == 255
+#    icmp code == 256
+#    icmp code == 65535
+#    icmp code == 65536
+#    icmp code == 4294967295
+    icmp code == 0x0
+    icmp code == 0xff
+#    icmp code == 0x100
+#    icmp code == 0xffff
+#    icmp code == 0x10000
+#    icmp code == 0xffffffff
+#    icmp code == 0x100000000
+#    icmp code == missing
+#    icmp code == exists
+#    icmp code == 127.0.0.1
+#    icmp code == 127.0.0.1/24
+#    icmp code == 127.0.0.1-127.0.0.25
+#    icmp code == @setname_icmp
+#    icmp code == { 127.0.0.1 }
+#    icmp code == { 127.0.0.1/24 }
+#    icmp code == { 127.0.0.1-127.0.0.23 }
+    icmp code == $ICMP_HDR_VALUE
+    icmp code != 0
+    icmp code != 255
+#    icmp code != 256
+#    icmp code != 65535
+#    icmp code != 65536
+#    icmp code != 4294967295
+    icmp code != 0x0
+    icmp code != 0xff
+#    icmp code != 0x100
+#    icmp code != 0xffff
+#    icmp code != 0x10000
+#    icmp code != 0xffffffff
+#    icmp code != 0x100000000
+#    icmp code != missing
+#    icmp code != exists
+#    icmp code != 127.0.0.1
+#    icmp code != 127.0.0.1/24
+#    icmp code != 127.0.0.1-127.0.0.25
+#    icmp code != @setname_icmp
+#    icmp code != { 127.0.0.1 }
+#    icmp code != { 127.0.0.1/24 }
+#    icmp code != { 127.0.0.1-127.0.0.23 }
+    icmp code != $ICMP_HDR_VALUE
+#    icmp code ! in 0
+#    icmp code ! in 255
+#    icmp code ! in 256
+#    icmp code ! in 65535
+#    icmp code ! in 65536
+#    icmp code ! in 4294967295
+#    icmp code ! in 0x0
+#    icmp code ! in 0xff
+#    icmp code ! in 0x100
+#    icmp code ! in 0xffff
+#    icmp code ! in 0x10000
+#    icmp code ! in 0xffffffff
+#    icmp code ! in 0x100000000
+#    icmp code ! in missing
+#    icmp code ! in exists
+#    icmp code ! in 127.0.0.1
+#    icmp code ! in 127.0.0.1/24
+#    icmp code ! in 127.0.0.1-127.0.0.25
+#    icmp code ! in @setname_icmp
+#    icmp code ! in { 127.0.0.1 }
+#    icmp code ! in { 127.0.0.1/24 }
+#    icmp code ! in { 127.0.0.1-127.0.0.23 }
+#    icmp code ! in $ICMP_HDR_VALUE
+#    icmp code not in 0
+#    icmp code not in 255
+#    icmp code not in 256
+#    icmp code not in 65535
+#    icmp code not in 65536
+#    icmp code not in 4294967295
+#    icmp code not in 0x0
+#    icmp code not in 0xff
+#    icmp code not in 0x100
+#    icmp code not in 0xffff
+#    icmp code not in 0x10000
+#    icmp code not in 0xffffffff
+#    icmp code not in 0x100000000
+#    icmp code not in missing
+#    icmp code not in exists
+#    icmp code not in 127.0.0.1
+#    icmp code not in 127.0.0.1/24
+#    icmp code not in 127.0.0.1-127.0.0.25
+#    icmp code not in @setname_icmp
+#    icmp code not in { 127.0.0.1 }
+#    icmp code not in { 127.0.0.1/24 }
+#    icmp code not in { 127.0.0.1-127.0.0.23 }
+#    icmp code not in $ICMP_HDR_VALUE
+#    icmp code in 0
+#    icmp code in 255
+#    icmp code in 256
+#    icmp code in 65535
+#    icmp code in 65536
+#    icmp code in 4294967295
+#    icmp code in 0x0
+#    icmp code in 0xff
+#    icmp code in 0x100
+#    icmp code in 0xffff
+#    icmp code in 0x10000
+#    icmp code in 0xffffffff
+#    icmp code in 0x100000000
+#    icmp code in missing
+#    icmp code in exists
+#    icmp code in 127.0.0.1
+#    icmp code in 127.0.0.1/24
+#    icmp code in 127.0.0.1-127.0.0.25
+#    icmp code in @setname_icmp
+#    icmp code in { 127.0.0.1 }
+#    icmp code in { 127.0.0.1/24 }
+#    icmp code in { 127.0.0.1-127.0.0.23 }
+#    icmp code in $ICMP_HDR_VALUE
+#    icmp code not 0
+#    icmp code not 255
+#    icmp code not 256
+#    icmp code not 65535
+#    icmp code not 65536
+#    icmp code not 4294967295
+#    icmp code not 0x0
+#    icmp code not 0xff
+#    icmp code not 0x100
+#    icmp code not 0xffff
+#    icmp code not 0x10000
+#    icmp code not 0xffffffff
+#    icmp code not 0x100000000
+#    icmp code not missing
+#    icmp code not exists
+#    icmp code not 127.0.0.1
+#    icmp code not 127.0.0.1/24
+#    icmp code not 127.0.0.1-127.0.0.25
+#    icmp code not @setname_icmp
+#    icmp code not { 127.0.0.1 }
+#    icmp code not { 127.0.0.1/24 }
+#    icmp code not { 127.0.0.1-127.0.0.23 }
+#    icmp code not $ICMP_HDR_VALUE
+  }
+}
+
+ table T {
+    set setname_icmp {
+        type icmp_type
+        elements = { 1, 2, 3, 4 }
+    }
+    chain C {
+    icmp checksum  0
+    icmp checksum  255
+    icmp checksum  256
+    icmp checksum  65535
+#    icmp checksum  65536
+#    icmp checksum  4294967295
+    icmp checksum  0x0
+    icmp checksum  0xff
+    icmp checksum  0x100
+    icmp checksum  0xffff
+#    icmp checksum  0x10000
+#    icmp checksum  0xffffffff
+#    icmp checksum  0x100000000
+#    icmp checksum  missing
+#    icmp checksum  exists
+#    icmp checksum  127.0.0.1
+#    icmp checksum  127.0.0.1/24
+#    icmp checksum  127.0.0.1-127.0.0.25
+#    icmp checksum  @setname_icmp
+#    icmp checksum  { 127.0.0.1 }
+#    icmp checksum  { 127.0.0.1/24 }
+#    icmp checksum  { 127.0.0.1-127.0.0.23 }
+    icmp checksum  $ICMP_HDR_VALUE
+    icmp checksum > 0
+    icmp checksum > 255
+    icmp checksum > 256
+    icmp checksum > 65535
+#    icmp checksum > 65536
+#    icmp checksum > 4294967295
+    icmp checksum > 0x0
+    icmp checksum > 0xff
+    icmp checksum > 0x100
+    icmp checksum > 0xffff
+#    icmp checksum > 0x10000
+#    icmp checksum > 0xffffffff
+#    icmp checksum > 0x100000000
+#    icmp checksum > missing
+#    icmp checksum > exists
+#    icmp checksum > 127.0.0.1
+#    icmp checksum > 127.0.0.1/24
+#    icmp checksum > 127.0.0.1-127.0.0.25
+#    icmp checksum > @setname_icmp
+#    icmp checksum > { 127.0.0.1 }
+#    icmp checksum > { 127.0.0.1/24 }
+#    icmp checksum > { 127.0.0.1-127.0.0.23 }
+    icmp checksum > $ICMP_HDR_VALUE
+    icmp checksum < 0
+    icmp checksum < 255
+    icmp checksum < 256
+    icmp checksum < 65535
+#    icmp checksum < 65536
+#    icmp checksum < 4294967295
+    icmp checksum < 0x0
+    icmp checksum < 0xff
+    icmp checksum < 0x100
+    icmp checksum < 0xffff
+#    icmp checksum < 0x10000
+#    icmp checksum < 0xffffffff
+#    icmp checksum < 0x100000000
+#    icmp checksum < missing
+#    icmp checksum < exists
+#    icmp checksum < 127.0.0.1
+#    icmp checksum < 127.0.0.1/24
+#    icmp checksum < 127.0.0.1-127.0.0.25
+#    icmp checksum < @setname_icmp
+#    icmp checksum < { 127.0.0.1 }
+#    icmp checksum < { 127.0.0.1/24 }
+#    icmp checksum < { 127.0.0.1-127.0.0.23 }
+    icmp checksum < $ICMP_HDR_VALUE
+    icmp checksum >= 0
+    icmp checksum >= 255
+    icmp checksum >= 256
+    icmp checksum >= 65535
+#    icmp checksum >= 65536
+#    icmp checksum >= 4294967295
+    icmp checksum >= 0x0
+    icmp checksum >= 0xff
+    icmp checksum >= 0x100
+    icmp checksum >= 0xffff
+#    icmp checksum >= 0x10000
+#    icmp checksum >= 0xffffffff
+#    icmp checksum >= 0x100000000
+#    icmp checksum >= missing
+#    icmp checksum >= exists
+#    icmp checksum >= 127.0.0.1
+#    icmp checksum >= 127.0.0.1/24
+#    icmp checksum >= 127.0.0.1-127.0.0.25
+#    icmp checksum >= @setname_icmp
+#    icmp checksum >= { 127.0.0.1 }
+#    icmp checksum >= { 127.0.0.1/24 }
+#    icmp checksum >= { 127.0.0.1-127.0.0.23 }
+    icmp checksum >= $ICMP_HDR_VALUE
+    icmp checksum <= 0
+    icmp checksum <= 255
+    icmp checksum <= 256
+    icmp checksum <= 65535
+#    icmp checksum <= 65536
+#    icmp checksum <= 4294967295
+    icmp checksum <= 0x0
+    icmp checksum <= 0xff
+    icmp checksum <= 0x100
+    icmp checksum <= 0xffff
+#    icmp checksum <= 0x10000
+#    icmp checksum <= 0xffffffff
+#    icmp checksum <= 0x100000000
+#    icmp checksum <= missing
+#    icmp checksum <= exists
+#    icmp checksum <= 127.0.0.1
+#    icmp checksum <= 127.0.0.1/24
+#    icmp checksum <= 127.0.0.1-127.0.0.25
+#    icmp checksum <= @setname_icmp
+#    icmp checksum <= { 127.0.0.1 }
+#    icmp checksum <= { 127.0.0.1/24 }
+#    icmp checksum <= { 127.0.0.1-127.0.0.23 }
+    icmp checksum <= $ICMP_HDR_VALUE
+    icmp checksum == 0
+    icmp checksum == 255
+    icmp checksum == 256
+    icmp checksum == 65535
+#    icmp checksum == 65536
+#    icmp checksum == 4294967295
+    icmp checksum == 0x0
+    icmp checksum == 0xff
+    icmp checksum == 0x100
+    icmp checksum == 0xffff
+#    icmp checksum == 0x10000
+#    icmp checksum == 0xffffffff
+#    icmp checksum == 0x100000000
+#    icmp checksum == missing
+#    icmp checksum == exists
+#    icmp checksum == 127.0.0.1
+#    icmp checksum == 127.0.0.1/24
+#    icmp checksum == 127.0.0.1-127.0.0.25
+#    icmp checksum == @setname_icmp
+#    icmp checksum == { 127.0.0.1 }
+#    icmp checksum == { 127.0.0.1/24 }
+#    icmp checksum == { 127.0.0.1-127.0.0.23 }
+    icmp checksum == $ICMP_HDR_VALUE
+    icmp checksum != 0
+    icmp checksum != 255
+    icmp checksum != 256
+    icmp checksum != 65535
+#    icmp checksum != 65536
+#    icmp checksum != 4294967295
+    icmp checksum != 0x0
+    icmp checksum != 0xff
+    icmp checksum != 0x100
+    icmp checksum != 0xffff
+#    icmp checksum != 0x10000
+#    icmp checksum != 0xffffffff
+#    icmp checksum != 0x100000000
+#    icmp checksum != missing
+#    icmp checksum != exists
+#    icmp checksum != 127.0.0.1
+#    icmp checksum != 127.0.0.1/24
+#    icmp checksum != 127.0.0.1-127.0.0.25
+#    icmp checksum != @setname_icmp
+#    icmp checksum != { 127.0.0.1 }
+#    icmp checksum != { 127.0.0.1/24 }
+#    icmp checksum != { 127.0.0.1-127.0.0.23 }
+    icmp checksum != $ICMP_HDR_VALUE
+#    icmp checksum ! in 0
+#    icmp checksum ! in 255
+#    icmp checksum ! in 256
+#    icmp checksum ! in 65535
+#    icmp checksum ! in 65536
+#    icmp checksum ! in 4294967295
+#    icmp checksum ! in 0x0
+#    icmp checksum ! in 0xff
+#    icmp checksum ! in 0x100
+#    icmp checksum ! in 0xffff
+#    icmp checksum ! in 0x10000
+#    icmp checksum ! in 0xffffffff
+#    icmp checksum ! in 0x100000000
+#    icmp checksum ! in missing
+#    icmp checksum ! in exists
+#    icmp checksum ! in 127.0.0.1
+#    icmp checksum ! in 127.0.0.1/24
+#    icmp checksum ! in 127.0.0.1-127.0.0.25
+#    icmp checksum ! in @setname_icmp
+#    icmp checksum ! in { 127.0.0.1 }
+#    icmp checksum ! in { 127.0.0.1/24 }
+#    icmp checksum ! in { 127.0.0.1-127.0.0.23 }
+#    icmp checksum ! in $ICMP_HDR_VALUE
+#    icmp checksum not in 0
+#    icmp checksum not in 255
+#    icmp checksum not in 256
+#    icmp checksum not in 65535
+#    icmp checksum not in 65536
+#    icmp checksum not in 4294967295
+#    icmp checksum not in 0x0
+#    icmp checksum not in 0xff
+#    icmp checksum not in 0x100
+#    icmp checksum not in 0xffff
+#    icmp checksum not in 0x10000
+#    icmp checksum not in 0xffffffff
+#    icmp checksum not in 0x100000000
+#    icmp checksum not in missing
+#    icmp checksum not in exists
+#    icmp checksum not in 127.0.0.1
+#    icmp checksum not in 127.0.0.1/24
+#    icmp checksum not in 127.0.0.1-127.0.0.25
+#    icmp checksum not in @setname_icmp
+#    icmp checksum not in { 127.0.0.1 }
+#    icmp checksum not in { 127.0.0.1/24 }
+#    icmp checksum not in { 127.0.0.1-127.0.0.23 }
+#    icmp checksum not in $ICMP_HDR_VALUE
+#    icmp checksum in 0
+#    icmp checksum in 255
+#    icmp checksum in 256
+#    icmp checksum in 65535
+#    icmp checksum in 65536
+#    icmp checksum in 4294967295
+#    icmp checksum in 0x0
+#    icmp checksum in 0xff
+#    icmp checksum in 0x100
+#    icmp checksum in 0xffff
+#    icmp checksum in 0x10000
+#    icmp checksum in 0xffffffff
+#    icmp checksum in 0x100000000
+#    icmp checksum in missing
+#    icmp checksum in exists
+#    icmp checksum in 127.0.0.1
+#    icmp checksum in 127.0.0.1/24
+#    icmp checksum in 127.0.0.1-127.0.0.25
+#    icmp checksum in @setname_icmp
+#    icmp checksum in { 127.0.0.1 }
+#    icmp checksum in { 127.0.0.1/24 }
+#    icmp checksum in { 127.0.0.1-127.0.0.23 }
+#    icmp checksum in $ICMP_HDR_VALUE
+#    icmp checksum not 0
+#    icmp checksum not 255
+#    icmp checksum not 256
+#    icmp checksum not 65535
+#    icmp checksum not 65536
+#    icmp checksum not 4294967295
+#    icmp checksum not 0x0
+#    icmp checksum not 0xff
+#    icmp checksum not 0x100
+#    icmp checksum not 0xffff
+#    icmp checksum not 0x10000
+#    icmp checksum not 0xffffffff
+#    icmp checksum not 0x100000000
+#    icmp checksum not missing
+#    icmp checksum not exists
+#    icmp checksum not 127.0.0.1
+#    icmp checksum not 127.0.0.1/24
+#    icmp checksum not 127.0.0.1-127.0.0.25
+#    icmp checksum not @setname_icmp
+#    icmp checksum not { 127.0.0.1 }
+#    icmp checksum not { 127.0.0.1/24 }
+#    icmp checksum not { 127.0.0.1-127.0.0.23 }
+#    icmp checksum not $ICMP_HDR_VALUE
+  }
+}
+
+ table T {
+    set setname_icmp {
+        type icmp_type
+        elements = { 1, 2, 3, 4 }
+    }
+    chain C {
+    icmp id  0
+    icmp id  255
+    icmp id  256
+    icmp id  65535
+#    icmp id  65536
+#    icmp id  4294967295
+    icmp id  0x0
+    icmp id  0xff
+    icmp id  0x100
+    icmp id  0xffff
+#    icmp id  0x10000
+#    icmp id  0xffffffff
+#    icmp id  0x100000000
+#    icmp id  missing
+#    icmp id  exists
+#    icmp id  127.0.0.1
+#    icmp id  127.0.0.1/24
+#    icmp id  127.0.0.1-127.0.0.25
+#    icmp id  @setname_icmp
+#    icmp id  { 127.0.0.1 }
+#    icmp id  { 127.0.0.1/24 }
+#    icmp id  { 127.0.0.1-127.0.0.23 }
+    icmp id  $ICMP_HDR_VALUE
+    icmp id > 0
+    icmp id > 255
+    icmp id > 256
+    icmp id > 65535
+#    icmp id > 65536
+#    icmp id > 4294967295
+    icmp id > 0x0
+    icmp id > 0xff
+    icmp id > 0x100
+    icmp id > 0xffff
+#    icmp id > 0x10000
+#    icmp id > 0xffffffff
+#    icmp id > 0x100000000
+#    icmp id > missing
+#    icmp id > exists
+#    icmp id > 127.0.0.1
+#    icmp id > 127.0.0.1/24
+#    icmp id > 127.0.0.1-127.0.0.25
+#    icmp id > @setname_icmp
+#    icmp id > { 127.0.0.1 }
+#    icmp id > { 127.0.0.1/24 }
+#    icmp id > { 127.0.0.1-127.0.0.23 }
+    icmp id > $ICMP_HDR_VALUE
+    icmp id < 0
+    icmp id < 255
+    icmp id < 256
+    icmp id < 65535
+#    icmp id < 65536
+#    icmp id < 4294967295
+    icmp id < 0x0
+    icmp id < 0xff
+    icmp id < 0x100
+    icmp id < 0xffff
+#    icmp id < 0x10000
+#    icmp id < 0xffffffff
+#    icmp id < 0x100000000
+#    icmp id < missing
+#    icmp id < exists
+#    icmp id < 127.0.0.1
+#    icmp id < 127.0.0.1/24
+#    icmp id < 127.0.0.1-127.0.0.25
+#    icmp id < @setname_icmp
+#    icmp id < { 127.0.0.1 }
+#    icmp id < { 127.0.0.1/24 }
+#    icmp id < { 127.0.0.1-127.0.0.23 }
+    icmp id < $ICMP_HDR_VALUE
+    icmp id >= 0
+    icmp id >= 255
+    icmp id >= 256
+    icmp id >= 65535
+#    icmp id >= 65536
+#    icmp id >= 4294967295
+    icmp id >= 0x0
+    icmp id >= 0xff
+    icmp id >= 0x100
+    icmp id >= 0xffff
+#    icmp id >= 0x10000
+#    icmp id >= 0xffffffff
+#    icmp id >= 0x100000000
+#    icmp id >= missing
+#    icmp id >= exists
+#    icmp id >= 127.0.0.1
+#    icmp id >= 127.0.0.1/24
+#    icmp id >= 127.0.0.1-127.0.0.25
+#    icmp id >= @setname_icmp
+#    icmp id >= { 127.0.0.1 }
+#    icmp id >= { 127.0.0.1/24 }
+#    icmp id >= { 127.0.0.1-127.0.0.23 }
+    icmp id >= $ICMP_HDR_VALUE
+    icmp id <= 0
+    icmp id <= 255
+    icmp id <= 256
+    icmp id <= 65535
+#    icmp id <= 65536
+#    icmp id <= 4294967295
+    icmp id <= 0x0
+    icmp id <= 0xff
+    icmp id <= 0x100
+    icmp id <= 0xffff
+#    icmp id <= 0x10000
+#    icmp id <= 0xffffffff
+#    icmp id <= 0x100000000
+#    icmp id <= missing
+#    icmp id <= exists
+#    icmp id <= 127.0.0.1
+#    icmp id <= 127.0.0.1/24
+#    icmp id <= 127.0.0.1-127.0.0.25
+#    icmp id <= @setname_icmp
+#    icmp id <= { 127.0.0.1 }
+#    icmp id <= { 127.0.0.1/24 }
+#    icmp id <= { 127.0.0.1-127.0.0.23 }
+    icmp id <= $ICMP_HDR_VALUE
+    icmp id == 0
+    icmp id == 255
+    icmp id == 256
+    icmp id == 65535
+#    icmp id == 65536
+#    icmp id == 4294967295
+    icmp id == 0x0
+    icmp id == 0xff
+    icmp id == 0x100
+    icmp id == 0xffff
+#    icmp id == 0x10000
+#    icmp id == 0xffffffff
+#    icmp id == 0x100000000
+#    icmp id == missing
+#    icmp id == exists
+#    icmp id == 127.0.0.1
+#    icmp id == 127.0.0.1/24
+#    icmp id == 127.0.0.1-127.0.0.25
+#    icmp id == @setname_icmp
+#    icmp id == { 127.0.0.1 }
+#    icmp id == { 127.0.0.1/24 }
+#    icmp id == { 127.0.0.1-127.0.0.23 }
+    icmp id == $ICMP_HDR_VALUE
+    icmp id != 0
+    icmp id != 255
+    icmp id != 256
+    icmp id != 65535
+#    icmp id != 65536
+#    icmp id != 4294967295
+    icmp id != 0x0
+    icmp id != 0xff
+    icmp id != 0x100
+    icmp id != 0xffff
+#    icmp id != 0x10000
+#    icmp id != 0xffffffff
+#    icmp id != 0x100000000
+#    icmp id != missing
+#    icmp id != exists
+#    icmp id != 127.0.0.1
+#    icmp id != 127.0.0.1/24
+#    icmp id != 127.0.0.1-127.0.0.25
+#    icmp id != @setname_icmp
+#    icmp id != { 127.0.0.1 }
+#    icmp id != { 127.0.0.1/24 }
+#    icmp id != { 127.0.0.1-127.0.0.23 }
+    icmp id != $ICMP_HDR_VALUE
+#    icmp id ! in 0
+#    icmp id ! in 255
+#    icmp id ! in 256
+#    icmp id ! in 65535
+#    icmp id ! in 65536
+#    icmp id ! in 4294967295
+#    icmp id ! in 0x0
+#    icmp id ! in 0xff
+#    icmp id ! in 0x100
+#    icmp id ! in 0xffff
+#    icmp id ! in 0x10000
+#    icmp id ! in 0xffffffff
+#    icmp id ! in 0x100000000
+#    icmp id ! in missing
+#    icmp id ! in exists
+#    icmp id ! in 127.0.0.1
+#    icmp id ! in 127.0.0.1/24
+#    icmp id ! in 127.0.0.1-127.0.0.25
+#    icmp id ! in @setname_icmp
+#    icmp id ! in { 127.0.0.1 }
+#    icmp id ! in { 127.0.0.1/24 }
+#    icmp id ! in { 127.0.0.1-127.0.0.23 }
+#    icmp id ! in $ICMP_HDR_VALUE
+#    icmp id not in 0
+#    icmp id not in 255
+#    icmp id not in 256
+#    icmp id not in 65535
+#    icmp id not in 65536
+#    icmp id not in 4294967295
+#    icmp id not in 0x0
+#    icmp id not in 0xff
+#    icmp id not in 0x100
+#    icmp id not in 0xffff
+#    icmp id not in 0x10000
+#    icmp id not in 0xffffffff
+#    icmp id not in 0x100000000
+#    icmp id not in missing
+#    icmp id not in exists
+#    icmp id not in 127.0.0.1
+#    icmp id not in 127.0.0.1/24
+#    icmp id not in 127.0.0.1-127.0.0.25
+#    icmp id not in @setname_icmp
+#    icmp id not in { 127.0.0.1 }
+#    icmp id not in { 127.0.0.1/24 }
+#    icmp id not in { 127.0.0.1-127.0.0.23 }
+#    icmp id not in $ICMP_HDR_VALUE
+#    icmp id in 0
+#    icmp id in 255
+#    icmp id in 256
+#    icmp id in 65535
+#    icmp id in 65536
+#    icmp id in 4294967295
+#    icmp id in 0x0
+#    icmp id in 0xff
+#    icmp id in 0x100
+#    icmp id in 0xffff
+#    icmp id in 0x10000
+#    icmp id in 0xffffffff
+#    icmp id in 0x100000000
+#    icmp id in missing
+#    icmp id in exists
+#    icmp id in 127.0.0.1
+#    icmp id in 127.0.0.1/24
+#    icmp id in 127.0.0.1-127.0.0.25
+#    icmp id in @setname_icmp
+#    icmp id in { 127.0.0.1 }
+#    icmp id in { 127.0.0.1/24 }
+#    icmp id in { 127.0.0.1-127.0.0.23 }
+#    icmp id in $ICMP_HDR_VALUE
+#    icmp id not 0
+#    icmp id not 255
+#    icmp id not 256
+#    icmp id not 65535
+#    icmp id not 65536
+#    icmp id not 4294967295
+#    icmp id not 0x0
+#    icmp id not 0xff
+#    icmp id not 0x100
+#    icmp id not 0xffff
+#    icmp id not 0x10000
+#    icmp id not 0xffffffff
+#    icmp id not 0x100000000
+#    icmp id not missing
+#    icmp id not exists
+#    icmp id not 127.0.0.1
+#    icmp id not 127.0.0.1/24
+#    icmp id not 127.0.0.1-127.0.0.25
+#    icmp id not @setname_icmp
+#    icmp id not { 127.0.0.1 }
+#    icmp id not { 127.0.0.1/24 }
+#    icmp id not { 127.0.0.1-127.0.0.23 }
+#    icmp id not $ICMP_HDR_VALUE
+  }
+}
+
+table T {
+    set setname_icmp {
+        type icmp_type
+        elements = { 1, 2, 3, 4 }
+    }
+    chain C {
+    icmp sequence  0
+    icmp sequence  255
+    icmp sequence  256
+    icmp sequence  65535
+#    icmp sequence  65536
+#    icmp sequence  4294967295
+    icmp sequence  0x0
+    icmp sequence  0xff
+    icmp sequence  0x100
+    icmp sequence  0xffff
+#    icmp sequence  0x10000
+#    icmp sequence  0xffffffff
+#    icmp sequence  0x100000000
+#    icmp sequence  missing
+#    icmp sequence  exists
+#    icmp sequence  127.0.0.1
+#    icmp sequence  127.0.0.1/24
+#    icmp sequence  127.0.0.1-127.0.0.25
+#    icmp sequence  @setname_icmp
+#    icmp sequence  { 127.0.0.1 }
+#    icmp sequence  { 127.0.0.1/24 }
+#    icmp sequence  { 127.0.0.1-127.0.0.23 }
+    icmp sequence  $ICMP_HDR_VALUE
+    icmp sequence > 0
+    icmp sequence > 255
+    icmp sequence > 256
+    icmp sequence > 65535
+#    icmp sequence > 65536
+#    icmp sequence > 4294967295
+    icmp sequence > 0x0
+    icmp sequence > 0xff
+    icmp sequence > 0x100
+    icmp sequence > 0xffff
+#    icmp sequence > 0x10000
+#    icmp sequence > 0xffffffff
+#    icmp sequence > 0x100000000
+#    icmp sequence > missing
+#    icmp sequence > exists
+#    icmp sequence > 127.0.0.1
+#    icmp sequence > 127.0.0.1/24
+#    icmp sequence > 127.0.0.1-127.0.0.25
+#    icmp sequence > @setname_icmp
+#    icmp sequence > { 127.0.0.1 }
+#    icmp sequence > { 127.0.0.1/24 }
+#    icmp sequence > { 127.0.0.1-127.0.0.23 }
+    icmp sequence > $ICMP_HDR_VALUE
+    icmp sequence < 0
+    icmp sequence < 255
+    icmp sequence < 256
+    icmp sequence < 65535
+#    icmp sequence < 65536
+#    icmp sequence < 4294967295
+    icmp sequence < 0x0
+    icmp sequence < 0xff
+    icmp sequence < 0x100
+    icmp sequence < 0xffff
+#    icmp sequence < 0x10000
+#    icmp sequence < 0xffffffff
+#    icmp sequence < 0x100000000
+#    icmp sequence < missing
+#    icmp sequence < exists
+#    icmp sequence < 127.0.0.1
+#    icmp sequence < 127.0.0.1/24
+#    icmp sequence < 127.0.0.1-127.0.0.25
+#    icmp sequence < @setname_icmp
+#    icmp sequence < { 127.0.0.1 }
+#    icmp sequence < { 127.0.0.1/24 }
+#    icmp sequence < { 127.0.0.1-127.0.0.23 }
+    icmp sequence < $ICMP_HDR_VALUE
+    icmp sequence >= 0
+    icmp sequence >= 255
+    icmp sequence >= 256
+    icmp sequence >= 65535
+#    icmp sequence >= 65536
+#    icmp sequence >= 4294967295
+    icmp sequence >= 0x0
+    icmp sequence >= 0xff
+    icmp sequence >= 0x100
+    icmp sequence >= 0xffff
+#    icmp sequence >= 0x10000
+#    icmp sequence >= 0xffffffff
+#    icmp sequence >= 0x100000000
+#    icmp sequence >= missing
+#    icmp sequence >= exists
+#    icmp sequence >= 127.0.0.1
+#    icmp sequence >= 127.0.0.1/24
+#    icmp sequence >= 127.0.0.1-127.0.0.25
+#    icmp sequence >= @setname_icmp
+#    icmp sequence >= { 127.0.0.1 }
+#    icmp sequence >= { 127.0.0.1/24 }
+#    icmp sequence >= { 127.0.0.1-127.0.0.23 }
+    icmp sequence >= $ICMP_HDR_VALUE
+    icmp sequence <= 0
+    icmp sequence <= 255
+    icmp sequence <= 256
+    icmp sequence <= 65535
+#    icmp sequence <= 65536
+#    icmp sequence <= 4294967295
+    icmp sequence <= 0x0
+    icmp sequence <= 0xff
+    icmp sequence <= 0x100
+    icmp sequence <= 0xffff
+#    icmp sequence <= 0x10000
+#    icmp sequence <= 0xffffffff
+#    icmp sequence <= 0x100000000
+#    icmp sequence <= missing
+#    icmp sequence <= exists
+#    icmp sequence <= 127.0.0.1
+#    icmp sequence <= 127.0.0.1/24
+#    icmp sequence <= 127.0.0.1-127.0.0.25
+#    icmp sequence <= @setname_icmp
+#    icmp sequence <= { 127.0.0.1 }
+#    icmp sequence <= { 127.0.0.1/24 }
+#    icmp sequence <= { 127.0.0.1-127.0.0.23 }
+    icmp sequence <= $ICMP_HDR_VALUE
+    icmp sequence == 0
+    icmp sequence == 255
+    icmp sequence == 256
+    icmp sequence == 65535
+#    icmp sequence == 65536
+#    icmp sequence == 4294967295
+    icmp sequence == 0x0
+    icmp sequence == 0xff
+    icmp sequence == 0x100
+    icmp sequence == 0xffff
+#    icmp sequence == 0x10000
+#    icmp sequence == 0xffffffff
+#    icmp sequence == 0x100000000
+#    icmp sequence == missing
+#    icmp sequence == exists
+#    icmp sequence == 127.0.0.1
+#    icmp sequence == 127.0.0.1/24
+#    icmp sequence == 127.0.0.1-127.0.0.25
+#    icmp sequence == @setname_icmp
+#    icmp sequence == { 127.0.0.1 }
+#    icmp sequence == { 127.0.0.1/24 }
+#    icmp sequence == { 127.0.0.1-127.0.0.23 }
+    icmp sequence == $ICMP_HDR_VALUE
+    icmp sequence != 0
+    icmp sequence != 255
+    icmp sequence != 256
+    icmp sequence != 65535
+#    icmp sequence != 65536
+#    icmp sequence != 4294967295
+    icmp sequence != 0x0
+    icmp sequence != 0xff
+    icmp sequence != 0x100
+    icmp sequence != 0xffff
+#    icmp sequence != 0x10000
+#    icmp sequence != 0xffffffff
+#    icmp sequence != 0x100000000
+#    icmp sequence != missing
+#    icmp sequence != exists
+#    icmp sequence != 127.0.0.1
+#    icmp sequence != 127.0.0.1/24
+#    icmp sequence != 127.0.0.1-127.0.0.25
+#    icmp sequence != @setname_icmp
+#    icmp sequence != { 127.0.0.1 }
+#    icmp sequence != { 127.0.0.1/24 }
+#    icmp sequence != { 127.0.0.1-127.0.0.23 }
+    icmp sequence != $ICMP_HDR_VALUE
+#    icmp sequence ! in 0
+#    icmp sequence ! in 255
+#    icmp sequence ! in 256
+#    icmp sequence ! in 65535
+#    icmp sequence ! in 65536
+#    icmp sequence ! in 4294967295
+#    icmp sequence ! in 0x0
+#    icmp sequence ! in 0xff
+#    icmp sequence ! in 0x100
+#    icmp sequence ! in 0xffff
+#    icmp sequence ! in 0x10000
+#    icmp sequence ! in 0xffffffff
+#    icmp sequence ! in 0x100000000
+#    icmp sequence ! in missing
+#    icmp sequence ! in exists
+#    icmp sequence ! in 127.0.0.1
+#    icmp sequence ! in 127.0.0.1/24
+#    icmp sequence ! in 127.0.0.1-127.0.0.25
+#    icmp sequence ! in @setname_icmp
+#    icmp sequence ! in { 127.0.0.1 }
+#    icmp sequence ! in { 127.0.0.1/24 }
+#    icmp sequence ! in { 127.0.0.1-127.0.0.23 }
+#    icmp sequence ! in $ICMP_HDR_VALUE
+#    icmp sequence not in 0
+#    icmp sequence not in 255
+#    icmp sequence not in 256
+#    icmp sequence not in 65535
+#    icmp sequence not in 65536
+#    icmp sequence not in 4294967295
+#    icmp sequence not in 0x0
+#    icmp sequence not in 0xff
+#    icmp sequence not in 0x100
+#    icmp sequence not in 0xffff
+#    icmp sequence not in 0x10000
+#    icmp sequence not in 0xffffffff
+#    icmp sequence not in 0x100000000
+#    icmp sequence not in missing
+#    icmp sequence not in exists
+#    icmp sequence not in 127.0.0.1
+#    icmp sequence not in 127.0.0.1/24
+#    icmp sequence not in 127.0.0.1-127.0.0.25
+#    icmp sequence not in @setname_icmp
+#    icmp sequence not in { 127.0.0.1 }
+#    icmp sequence not in { 127.0.0.1/24 }
+#    icmp sequence not in { 127.0.0.1-127.0.0.23 }
+#    icmp sequence not in $ICMP_HDR_VALUE
+#    icmp sequence in 0
+#    icmp sequence in 255
+#    icmp sequence in 256
+#    icmp sequence in 65535
+#    icmp sequence in 65536
+#    icmp sequence in 4294967295
+#    icmp sequence in 0x0
+#    icmp sequence in 0xff
+#    icmp sequence in 0x100
+#    icmp sequence in 0xffff
+#    icmp sequence in 0x10000
+#    icmp sequence in 0xffffffff
+#    icmp sequence in 0x100000000
+#    icmp sequence in missing
+#    icmp sequence in exists
+#    icmp sequence in 127.0.0.1
+#    icmp sequence in 127.0.0.1/24
+#    icmp sequence in 127.0.0.1-127.0.0.25
+#    icmp sequence in @setname_icmp
+#    icmp sequence in { 127.0.0.1 }
+#    icmp sequence in { 127.0.0.1/24 }
+#    icmp sequence in { 127.0.0.1-127.0.0.23 }
+#    icmp sequence in $ICMP_HDR_VALUE
+#    icmp sequence not 0
+#    icmp sequence not 255
+#    icmp sequence not 256
+#    icmp sequence not 65535
+#    icmp sequence not 65536
+#    icmp sequence not 4294967295
+#    icmp sequence not 0x0
+#    icmp sequence not 0xff
+#    icmp sequence not 0x100
+#    icmp sequence not 0xffff
+#    icmp sequence not 0x10000
+#    icmp sequence not 0xffffffff
+#    icmp sequence not 0x100000000
+#    icmp sequence not missing
+#    icmp sequence not exists
+#    icmp sequence not 127.0.0.1
+#    icmp sequence not 127.0.0.1/24
+#    icmp sequence not 127.0.0.1-127.0.0.25
+#    icmp sequence not @setname_icmp
+#    icmp sequence not { 127.0.0.1 }
+#    icmp sequence not { 127.0.0.1/24 }
+#    icmp sequence not { 127.0.0.1-127.0.0.23 }
+#    icmp sequence not $ICMP_HDR_VALUE
+  }
+}
+
+table T {
+    set setname_icmp {
+        type icmp_type
+        elements = { 1, 2, 3, 4 }
+    }
+    chain C {
+    icmp gateway  0
+    icmp gateway  255
+    icmp gateway  256
+    icmp gateway  65535
+    icmp gateway  65536
+    icmp gateway  4294967295
+    icmp gateway  0x0
+    icmp gateway  0xff
+    icmp gateway  0x100
+    icmp gateway  0xffff
+    icmp gateway  0x10000
+    icmp gateway  0xffffffff
+#    icmp gateway  0x100000000
+#    icmp gateway  missing
+#    icmp gateway  exists
+#    icmp gateway  127.0.0.1
+#    icmp gateway  127.0.0.1/24
+#    icmp gateway  127.0.0.1-127.0.0.25
+#    icmp gateway  @setname_icmp
+#    icmp gateway  { 127.0.0.1 }
+#    icmp gateway  { 127.0.0.1/24 }
+#    icmp gateway  { 127.0.0.1-127.0.0.23 }
+    icmp gateway  $ICMP_HDR_VALUE
+    icmp gateway > 0
+    icmp gateway > 255
+    icmp gateway > 256
+    icmp gateway > 65535
+    icmp gateway > 65536
+    icmp gateway > 4294967295
+    icmp gateway > 0x0
+    icmp gateway > 0xff
+    icmp gateway > 0x100
+    icmp gateway > 0xffff
+    icmp gateway > 0x10000
+    icmp gateway > 0xffffffff
+#    icmp gateway > 0x100000000
+#    icmp gateway > missing
+#    icmp gateway > exists
+#    icmp gateway > 127.0.0.1
+#    icmp gateway > 127.0.0.1/24
+#    icmp gateway > 127.0.0.1-127.0.0.25
+#    icmp gateway > @setname_icmp
+#    icmp gateway > { 127.0.0.1 }
+#    icmp gateway > { 127.0.0.1/24 }
+#    icmp gateway > { 127.0.0.1-127.0.0.23 }
+    icmp gateway > $ICMP_HDR_VALUE
+    icmp gateway < 0
+    icmp gateway < 255
+    icmp gateway < 256
+    icmp gateway < 65535
+    icmp gateway < 65536
+    icmp gateway < 4294967295
+    icmp gateway < 0x0
+    icmp gateway < 0xff
+    icmp gateway < 0x100
+    icmp gateway < 0xffff
+    icmp gateway < 0x10000
+    icmp gateway < 0xffffffff
+#    icmp gateway < 0x100000000
+#    icmp gateway < missing
+#    icmp gateway < exists
+#    icmp gateway < 127.0.0.1
+#    icmp gateway < 127.0.0.1/24
+#    icmp gateway < 127.0.0.1-127.0.0.25
+#    icmp gateway < @setname_icmp
+#    icmp gateway < { 127.0.0.1 }
+#    icmp gateway < { 127.0.0.1/24 }
+#    icmp gateway < { 127.0.0.1-127.0.0.23 }
+    icmp gateway < $ICMP_HDR_VALUE
+    icmp gateway >= 0
+    icmp gateway >= 255
+    icmp gateway >= 256
+    icmp gateway >= 65535
+    icmp gateway >= 65536
+    icmp gateway >= 4294967295
+    icmp gateway >= 0x0
+    icmp gateway >= 0xff
+    icmp gateway >= 0x100
+    icmp gateway >= 0xffff
+    icmp gateway >= 0x10000
+    icmp gateway >= 0xffffffff
+#    icmp gateway >= 0x100000000
+#    icmp gateway >= missing
+#    icmp gateway >= exists
+#    icmp gateway >= 127.0.0.1
+#    icmp gateway >= 127.0.0.1/24
+#    icmp gateway >= 127.0.0.1-127.0.0.25
+#    icmp gateway >= @setname_icmp
+#    icmp gateway >= { 127.0.0.1 }
+#    icmp gateway >= { 127.0.0.1/24 }
+#    icmp gateway >= { 127.0.0.1-127.0.0.23 }
+    icmp gateway >= $ICMP_HDR_VALUE
+    icmp gateway <= 0
+    icmp gateway <= 255
+    icmp gateway <= 256
+    icmp gateway <= 65535
+    icmp gateway <= 65536
+    icmp gateway <= 4294967295
+    icmp gateway <= 0x0
+    icmp gateway <= 0xff
+    icmp gateway <= 0x100
+    icmp gateway <= 0xffff
+    icmp gateway <= 0x10000
+    icmp gateway <= 0xffffffff
+#    icmp gateway <= 0x100000000
+#    icmp gateway <= missing
+#    icmp gateway <= exists
+#    icmp gateway <= 127.0.0.1
+#    icmp gateway <= 127.0.0.1/24
+#    icmp gateway <= 127.0.0.1-127.0.0.25
+#    icmp gateway <= @setname_icmp
+#    icmp gateway <= { 127.0.0.1 }
+#    icmp gateway <= { 127.0.0.1/24 }
+#    icmp gateway <= { 127.0.0.1-127.0.0.23 }
+    icmp gateway <= $ICMP_HDR_VALUE
+    icmp gateway == 0
+    icmp gateway == 255
+    icmp gateway == 256
+    icmp gateway == 65535
+    icmp gateway == 65536
+    icmp gateway == 4294967295
+    icmp gateway == 0x0
+    icmp gateway == 0xff
+    icmp gateway == 0x100
+    icmp gateway == 0xffff
+    icmp gateway == 0x10000
+    icmp gateway == 0xffffffff
+#    icmp gateway == 0x100000000
+#    icmp gateway == missing
+#    icmp gateway == exists
+#    icmp gateway == 127.0.0.1
+#    icmp gateway == 127.0.0.1/24
+#    icmp gateway == 127.0.0.1-127.0.0.25
+#    icmp gateway == @setname_icmp
+#    icmp gateway == { 127.0.0.1 }
+#    icmp gateway == { 127.0.0.1/24 }
+#    icmp gateway == { 127.0.0.1-127.0.0.23 }
+    icmp gateway == $ICMP_HDR_VALUE
+    icmp gateway != 0
+    icmp gateway != 255
+    icmp gateway != 256
+    icmp gateway != 65535
+    icmp gateway != 65536
+    icmp gateway != 4294967295
+    icmp gateway != 0x0
+    icmp gateway != 0xff
+    icmp gateway != 0x100
+    icmp gateway != 0xffff
+    icmp gateway != 0x10000
+    icmp gateway != 0xffffffff
+#    icmp gateway != 0x100000000
+#    icmp gateway != missing
+#    icmp gateway != exists
+#    icmp gateway != 127.0.0.1
+#    icmp gateway != 127.0.0.1/24
+#    icmp gateway != 127.0.0.1-127.0.0.25
+#    icmp gateway != @setname_icmp
+#    icmp gateway != { 127.0.0.1 }
+#    icmp gateway != { 127.0.0.1/24 }
+#    icmp gateway != { 127.0.0.1-127.0.0.23 }
+    icmp gateway != $ICMP_HDR_VALUE
+#    icmp gateway ! in 0
+#    icmp gateway ! in 255
+#    icmp gateway ! in 256
+#    icmp gateway ! in 65535
+#    icmp gateway ! in 65536
+#    icmp gateway ! in 4294967295
+#    icmp gateway ! in 0x0
+#    icmp gateway ! in 0xff
+#    icmp gateway ! in 0x100
+#    icmp gateway ! in 0xffff
+#    icmp gateway ! in 0x10000
+#    icmp gateway ! in 0xffffffff
+#    icmp gateway ! in 0x100000000
+#    icmp gateway ! in missing
+#    icmp gateway ! in exists
+#    icmp gateway ! in 127.0.0.1
+#    icmp gateway ! in 127.0.0.1/24
+#    icmp gateway ! in 127.0.0.1-127.0.0.25
+#    icmp gateway ! in @setname_icmp
+#    icmp gateway ! in { 127.0.0.1 }
+#    icmp gateway ! in { 127.0.0.1/24 }
+#    icmp gateway ! in { 127.0.0.1-127.0.0.23 }
+#    icmp gateway ! in $ICMP_HDR_VALUE
+#    icmp gateway not in 0
+#    icmp gateway not in 255
+#    icmp gateway not in 256
+#    icmp gateway not in 65535
+#    icmp gateway not in 65536
+#    icmp gateway not in 4294967295
+#    icmp gateway not in 0x0
+#    icmp gateway not in 0xff
+#    icmp gateway not in 0x100
+#    icmp gateway not in 0xffff
+#    icmp gateway not in 0x10000
+#    icmp gateway not in 0xffffffff
+#    icmp gateway not in 0x100000000
+#    icmp gateway not in missing
+#    icmp gateway not in exists
+#    icmp gateway not in 127.0.0.1
+#    icmp gateway not in 127.0.0.1/24
+#    icmp gateway not in 127.0.0.1-127.0.0.25
+#    icmp gateway not in @setname_icmp
+#    icmp gateway not in { 127.0.0.1 }
+#    icmp gateway not in { 127.0.0.1/24 }
+#    icmp gateway not in { 127.0.0.1-127.0.0.23 }
+#    icmp gateway not in $ICMP_HDR_VALUE
+#    icmp gateway in 0
+#    icmp gateway in 255
+#    icmp gateway in 256
+#    icmp gateway in 65535
+#    icmp gateway in 65536
+#    icmp gateway in 4294967295
+#    icmp gateway in 0x0
+#    icmp gateway in 0xff
+#    icmp gateway in 0x100
+#    icmp gateway in 0xffff
+#    icmp gateway in 0x10000
+#    icmp gateway in 0xffffffff
+#    icmp gateway in 0x100000000
+#    icmp gateway in missing
+#    icmp gateway in exists
+#    icmp gateway in 127.0.0.1
+#    icmp gateway in 127.0.0.1/24
+#    icmp gateway in 127.0.0.1-127.0.0.25
+#    icmp gateway in @setname_icmp
+#    icmp gateway in { 127.0.0.1 }
+#    icmp gateway in { 127.0.0.1/24 }
+#    icmp gateway in { 127.0.0.1-127.0.0.23 }
+#    icmp gateway in $ICMP_HDR_VALUE
+#    icmp gateway not 0
+#    icmp gateway not 255
+#    icmp gateway not 256
+#    icmp gateway not 65535
+#    icmp gateway not 65536
+#    icmp gateway not 4294967295
+#    icmp gateway not 0x0
+#    icmp gateway not 0xff
+#    icmp gateway not 0x100
+#    icmp gateway not 0xffff
+#    icmp gateway not 0x10000
+#    icmp gateway not 0xffffffff
+#    icmp gateway not 0x100000000
+#    icmp gateway not missing
+#    icmp gateway not exists
+#    icmp gateway not 127.0.0.1
+#    icmp gateway not 127.0.0.1/24
+#    icmp gateway not 127.0.0.1-127.0.0.25
+#    icmp gateway not @setname_icmp
+#    icmp gateway not { 127.0.0.1 }
+#    icmp gateway not { 127.0.0.1/24 }
+#    icmp gateway not { 127.0.0.1-127.0.0.23 }
+#    icmp gateway not $ICMP_HDR_VALUE  # negation can only be used with singleton bitmask values.  Did you mean "!="?
+  }
+}
+
+table T {
+    set setname_icmp {
+        type icmp_type
+        elements = { 1, 2, 3, 4 }
+    }
+    chain C {
+    icmp mtu  0
+    icmp mtu  255
+    icmp mtu  256
+    icmp mtu  65535
+#    icmp mtu  65536
+#    icmp mtu  4294967295
+    icmp mtu  0x0
+    icmp mtu  0xff
+    icmp mtu  0x100
+    icmp mtu  0xffff
+#    icmp mtu  0x10000
+#    icmp mtu  0xffffffff
+#    icmp mtu  0x100000000
+#    icmp mtu  missing
+#    icmp mtu  exists
+#    icmp mtu  127.0.0.1
+#    icmp mtu  127.0.0.1/24
+#    icmp mtu  127.0.0.1-127.0.0.25
+#    icmp mtu  @setname_icmp
+#    icmp mtu  { 127.0.0.1 }
+#    icmp mtu  { 127.0.0.1/24 }
+#    icmp mtu  { 127.0.0.1-127.0.0.23 }
+    icmp mtu  $ICMP_HDR_VALUE
+    icmp mtu > 0
+    icmp mtu > 255
+    icmp mtu > 256
+    icmp mtu > 65535
+#    icmp mtu > 65536  # Value 65536 exceeds valid range 0-65535
+#    icmp mtu > 4294967295
+    icmp mtu > 0x0
+    icmp mtu > 0xff
+    icmp mtu > 0x100
+    icmp mtu > 0xffff
+#    icmp mtu > 0x10000
+#    icmp mtu > 0xffffffff
+#    icmp mtu > 0x100000000
+#    icmp mtu > missing
+#    icmp mtu > exists
+#    icmp mtu > 127.0.0.1
+#    icmp mtu > 127.0.0.1/24
+#    icmp mtu > 127.0.0.1-127.0.0.25
+#    icmp mtu > @setname_icmp
+#    icmp mtu > { 127.0.0.1 }
+#    icmp mtu > { 127.0.0.1/24 }
+#    icmp mtu > { 127.0.0.1-127.0.0.23 }
+    icmp mtu > $ICMP_HDR_VALUE
+    icmp mtu < 0
+    icmp mtu < 255
+    icmp mtu < 256
+    icmp mtu < 65535
+#    icmp mtu < 65536
+#    icmp mtu < 4294967295
+    icmp mtu < 0x0
+    icmp mtu < 0xff
+    icmp mtu < 0x100
+    icmp mtu < 0xffff
+#    icmp mtu < 0x10000
+#    icmp mtu < 0xffffffff
+#    icmp mtu < 0x100000000
+#    icmp mtu < missing
+#    icmp mtu < exists
+#    icmp mtu < 127.0.0.1
+#    icmp mtu < 127.0.0.1/24
+#    icmp mtu < 127.0.0.1-127.0.0.25
+#    icmp mtu < @setname_icmp
+#    icmp mtu < { 127.0.0.1 }
+#    icmp mtu < { 127.0.0.1/24 }
+#    icmp mtu < { 127.0.0.1-127.0.0.23 }
+    icmp mtu < $ICMP_HDR_VALUE
+    icmp mtu >= 0
+    icmp mtu >= 255
+    icmp mtu >= 256
+    icmp mtu >= 65535
+#    icmp mtu >= 65536
+#    icmp mtu >= 4294967295
+    icmp mtu >= 0x0
+    icmp mtu >= 0xff
+    icmp mtu >= 0x100
+    icmp mtu >= 0xffff
+#    icmp mtu >= 0x10000
+#    icmp mtu >= 0xffffffff
+#    icmp mtu >= 0x100000000
+#    icmp mtu >= missing
+#    icmp mtu >= exists
+#    icmp mtu >= 127.0.0.1
+#    icmp mtu >= 127.0.0.1/24
+#    icmp mtu >= 127.0.0.1-127.0.0.25
+#    icmp mtu >= @setname_icmp
+#    icmp mtu >= { 127.0.0.1 }
+#    icmp mtu >= { 127.0.0.1/24 }
+#    icmp mtu >= { 127.0.0.1-127.0.0.23 }
+    icmp mtu >= $ICMP_HDR_VALUE
+    icmp mtu <= 0
+    icmp mtu <= 255
+    icmp mtu <= 256
+    icmp mtu <= 65535
+#    icmp mtu <= 65536
+#    icmp mtu <= 4294967295
+    icmp mtu <= 0x0
+    icmp mtu <= 0xff
+    icmp mtu <= 0x100
+    icmp mtu <= 0xffff
+#    icmp mtu <= 0x10000
+#    icmp mtu <= 0xffffffff
+#    icmp mtu <= 0x100000000
+#    icmp mtu <= missing
+#    icmp mtu <= exists
+#    icmp mtu <= 127.0.0.1
+#    icmp mtu <= 127.0.0.1/24
+#    icmp mtu <= 127.0.0.1-127.0.0.25
+#    icmp mtu <= @setname_icmp
+#    icmp mtu <= { 127.0.0.1 }
+#    icmp mtu <= { 127.0.0.1/24 }
+#    icmp mtu <= { 127.0.0.1-127.0.0.23 }
+    icmp mtu <= $ICMP_HDR_VALUE
+    icmp mtu == 0
+    icmp mtu == 255
+    icmp mtu == 256
+    icmp mtu == 65535
+#    icmp mtu == 65536
+#    icmp mtu == 4294967295
+    icmp mtu == 0x0
+    icmp mtu == 0xff
+    icmp mtu == 0x100
+    icmp mtu == 0xffff
+#    icmp mtu == 0x10000
+#    icmp mtu == 0xffffffff
+#    icmp mtu == 0x100000000
+#    icmp mtu == missing
+#    icmp mtu == exists
+#    icmp mtu == 127.0.0.1
+#    icmp mtu == 127.0.0.1/24
+#    icmp mtu == 127.0.0.1-127.0.0.25
+#    icmp mtu == @setname_icmp
+#    icmp mtu == { 127.0.0.1 }
+#    icmp mtu == { 127.0.0.1/24 }
+#    icmp mtu == { 127.0.0.1-127.0.0.23 }
+    icmp mtu == $ICMP_HDR_VALUE
+    icmp mtu != 0
+    icmp mtu != 255
+    icmp mtu != 256
+    icmp mtu != 65535
+#    icmp mtu != 65536
+#    icmp mtu != 4294967295
+    icmp mtu != 0x0
+    icmp mtu != 0xff
+    icmp mtu != 0x100
+    icmp mtu != 0xffff
+#    icmp mtu != 0x10000
+#    icmp mtu != 0xffffffff
+#    icmp mtu != 0x100000000
+#    icmp mtu != missing
+#    icmp mtu != exists
+#    icmp mtu != 127.0.0.1
+#    icmp mtu != 127.0.0.1/24
+#    icmp mtu != 127.0.0.1-127.0.0.25
+#    icmp mtu != @setname_icmp
+#    icmp mtu != { 127.0.0.1 }
+#    icmp mtu != { 127.0.0.1/24 }
+#    icmp mtu != { 127.0.0.1-127.0.0.23 }
+    icmp mtu != $ICMP_HDR_VALUE
+#    icmp mtu ! in 0
+#    icmp mtu ! in 255
+#    icmp mtu ! in 256
+#    icmp mtu ! in 65535
+#    icmp mtu ! in 65536
+#    icmp mtu ! in 4294967295
+#    icmp mtu ! in 0x0
+#    icmp mtu ! in 0xff
+#    icmp mtu ! in 0x100
+#    icmp mtu ! in 0xffff
+#    icmp mtu ! in 0x10000
+#    icmp mtu ! in 0xffffffff
+#    icmp mtu ! in 0x100000000
+#    icmp mtu ! in missing
+#    icmp mtu ! in exists
+#    icmp mtu ! in 127.0.0.1
+#    icmp mtu ! in 127.0.0.1/24
+#    icmp mtu ! in 127.0.0.1-127.0.0.25
+#    icmp mtu ! in @setname_icmp
+#    icmp mtu ! in { 127.0.0.1 }
+#    icmp mtu ! in { 127.0.0.1/24 }
+#    icmp mtu ! in { 127.0.0.1-127.0.0.23 }
+#    icmp mtu ! in $ICMP_HDR_VALUE
+#    icmp mtu not in 0
+#    icmp mtu not in 255
+#    icmp mtu not in 256
+#    icmp mtu not in 65535
+#    icmp mtu not in 65536
+#    icmp mtu not in 4294967295
+#    icmp mtu not in 0x0
+#    icmp mtu not in 0xff
+#    icmp mtu not in 0x100
+#    icmp mtu not in 0xffff
+#    icmp mtu not in 0x10000
+#    icmp mtu not in 0xffffffff
+#    icmp mtu not in 0x100000000
+#    icmp mtu not in missing
+#    icmp mtu not in exists
+#    icmp mtu not in 127.0.0.1
+#    icmp mtu not in 127.0.0.1/24
+#    icmp mtu not in 127.0.0.1-127.0.0.25
+#    icmp mtu not in @setname_icmp
+#    icmp mtu not in { 127.0.0.1 }
+#    icmp mtu not in { 127.0.0.1/24 }
+#    icmp mtu not in { 127.0.0.1-127.0.0.23 }
+#    icmp mtu not in $ICMP_HDR_VALUE
+#    icmp mtu in 0
+#    icmp mtu in 255
+#    icmp mtu in 256
+#    icmp mtu in 65535
+#    icmp mtu in 65536
+#    icmp mtu in 4294967295
+#    icmp mtu in 0x0
+#    icmp mtu in 0xff
+#    icmp mtu in 0x100
+#    icmp mtu in 0xffff
+#    icmp mtu in 0x10000
+#    icmp mtu in 0xffffffff
+#    icmp mtu in 0x100000000
+#    icmp mtu in missing
+#    icmp mtu in exists
+#    icmp mtu in 127.0.0.1
+#    icmp mtu in 127.0.0.1/24
+#    icmp mtu in 127.0.0.1-127.0.0.25
+#    icmp mtu in @setname_icmp
+#    icmp mtu in { 127.0.0.1 }
+#    icmp mtu in { 127.0.0.1/24 }
+#    icmp mtu in { 127.0.0.1-127.0.0.23 }
+#    icmp mtu in $ICMP_HDR_VALUE
+#    icmp mtu not 0
+#    icmp mtu not 255
+#    icmp mtu not 256
+#    icmp mtu not 65535
+#    icmp mtu not 65536
+#    icmp mtu not 4294967295
+#    icmp mtu not 0x0
+#    icmp mtu not 0xff
+#    icmp mtu not 0x100
+#    icmp mtu not 0xffff
+#    icmp mtu not 0x10000
+#    icmp mtu not 0xffffffff
+#    icmp mtu not 0x100000000
+#    icmp mtu not missing
+#    icmp mtu not exists
+#    icmp mtu not 127.0.0.1
+#    icmp mtu not 127.0.0.1/24
+#    icmp mtu not 127.0.0.1-127.0.0.25
+#    icmp mtu not @setname_icmp
+#    icmp mtu not { 127.0.0.1 }
+#    icmp mtu not { 127.0.0.1/24 }
+#    icmp mtu not { 127.0.0.1-127.0.0.23 }
+#    icmp mtu not $ICMP_HDR_VALUE
+  }
+}

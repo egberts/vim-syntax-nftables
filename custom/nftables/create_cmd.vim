@@ -127,7 +127,7 @@ syn match nft_base_cmd_keyword_create 'create' skipwhite contained
 \    nft_base_cmd_add_cmd_keyword_flowtable,
 \    nft_create_cmd_keyword_synproxy,
 \    nft_base_cmd_add_cmd_keyword_counter,
-\    nft_get_et_al_cmd_keyword_element,
+\    nft_get_et_al_cmd_keyword_elements,
 \    nft_base_cmd_add_cmd_keyword_table_imperative,
 \    nft_base_cmd_add_cmd_keyword_chain_imperative,
 \    nft_base_cmd_add_cmd_keyword_quota,

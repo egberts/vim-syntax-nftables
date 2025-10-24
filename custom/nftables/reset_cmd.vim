@@ -106,37 +106,37 @@ syn match nft_base_cmd_reset_set_or_map "\v(set|map)" skipwhite contained
 \    nft_base_cmd_reset_set_or_map_family_spec_table_id
 
 
-" base_cmd 'reset' 'element' table_id spec_id '{' ... '}'
-hi link   nft_base_cmd_reset_element_family_spec_table_id_spec_id_set nftHL_BlockDelimitersSet
-syn region nft_base_cmd_reset_element_family_spec_table_id_spec_id_set start="{" end="}" skipwhite skipnl contained
+" base_cmd 'reset' 'elements' table_id spec_id '{' ... '}'
+hi link   nft_base_cmd_reset_elements_family_spec_table_id_spec_id_set nftHL_BlockDelimitersSet
+syn region nft_base_cmd_reset_elements_family_spec_table_id_spec_id_set start="{" end="}" skipwhite skipnl contained
 \ nextgroup=
 \    nft_Semicolon,
 \    nft_EOL
 
-" base_cmd 'reset' 'element' table_id spec_id $variable
-hi link   nft_base_cmd_reset_element_family_spec_table_id_spec_id_variable nftHL_Variable
-syn match nft_base_cmd_reset_element_family_spec_table_id_spec_id_variable "\v\$[a-zA-Z][a-zA-Z0-9\/\\_\.\-]{0,63}" skipwhite contained
+" base_cmd 'reset' 'elements' table_id spec_id $variable
+hi link   nft_base_cmd_reset_elements_family_spec_table_id_spec_id_variable nftHL_Variable
+syn match nft_base_cmd_reset_elements_family_spec_table_id_spec_id_variable "\v\$[a-zA-Z][a-zA-Z0-9\/\\_\.\-]{0,63}" skipwhite contained
 \ nextgroup=
-\    nft_base_cmd_reset_element_family_spec_table_id_spec_id
+\    nft_base_cmd_reset_elements_family_spec_table_id_spec_id
 
-" base_cmd 'reset' 'element' table_id spec_id
-hi link   nft_base_cmd_reset_element_family_spec_table_id_spec_id nftHL_SetIdentifier
-syn match nft_base_cmd_reset_element_family_spec_table_id_spec_id "\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}" skipwhite contained
+" base_cmd 'reset' 'elements' table_id spec_id
+hi link   nft_base_cmd_reset_elements_family_spec_table_id_spec_id nftHL_SetIdentifier
+syn match nft_base_cmd_reset_elements_family_spec_table_id_spec_id "\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}" skipwhite contained
 \ nextgroup=
-\    nft_base_cmd_reset_element_family_spec_table_id_spec_id_variable,
-\    nft_base_cmd_reset_element_family_spec_table_id_spec_id_set
+\    nft_base_cmd_reset_elements_family_spec_table_id_spec_id_variable,
+\    nft_base_cmd_reset_elements_family_spec_table_id_spec_id_set
 
-" base_cmd 'reset' 'element' table_id
-hi link   nft_base_cmd_reset_element_family_spec_table_id nftHL_Table
-syn match nft_base_cmd_reset_element_family_spec_table_id "\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}" skipwhite contained
+" base_cmd 'reset' 'elements' table_id
+hi link   nft_base_cmd_reset_elements_family_spec_table_id nftHL_Table
+syn match nft_base_cmd_reset_elements_family_spec_table_id "\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}" skipwhite contained
 \ nextgroup=
-\    nft_base_cmd_reset_element_family_spec_table_id_spec_id
+\    nft_base_cmd_reset_elements_family_spec_table_id_spec_id
 
-" base_cmd 'reset' 'element'
-hi link   nft_base_cmd_reset_element_family_spec nftHL_Family
-syn match nft_base_cmd_reset_element_family_spec "\v(ip6|ip|inet|netdev|bridge|arp)" skipwhite contained
+" base_cmd 'reset' 'elements'
+hi link   nft_base_cmd_reset_elements_family_spec nftHL_Family
+syn match nft_base_cmd_reset_elements_family_spec "\v(ip6|ip|inet|netdev|bridge|arp)" skipwhite contained
 \ nextgroup=
-\    nft_base_cmd_reset_element_family_spec_table_id
+\    nft_base_cmd_reset_elements_family_spec_table_id
 
 hi link   nft_base_cmd_reset_cmd_ruleid_spec_keyword_handle nftHL_Table
 syn match nft_base_cmd_reset_cmd_ruleid_spec_keyword_handle '\vhandle' skipwhite contained
@@ -313,7 +313,7 @@ syn match nft_base_cmd_reset_counters_quotas_ruleset_spec_family_spec "\v(ip6|ip
 \    nft_Error
 
 " base_cmd 'reset' 'counters'/'quotas' 'table' table_spec
-hi link   nft_base_cmd_reset_counters_quotas_table_keyword nftHL_Element
+hi link   nft_base_cmd_reset_counters_quotas_table_keyword nftHL_elements
 syn match nft_base_cmd_reset_counters_quotas_table_keyword "table" skipwhite contained
 \ nextgroup=
 \     nft_base_cmd_reset_counters_quotas_ruleset_spec_family_spec,
@@ -337,7 +337,7 @@ syn match nft_base_cmd_keyword_reset "reset" skipwhite contained
 \ nextgroup=
 \    nft_base_cmd_reset_cmd_keyword_counters,
 \    nft_base_cmd_reset_keyword_counter,
-\    nft_get_et_al_cmd_keyword_element,
+\    nft_get_et_al_cmd_keyword_elements,
 \    nft_base_cmd_reset_quotas,
 \    nft_base_cmd_reset_quota,
 \    nft_base_cmd_reset_rules,
