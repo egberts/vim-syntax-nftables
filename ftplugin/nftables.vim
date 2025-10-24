@@ -22,6 +22,12 @@ let b:undo_ftplugin = '
 
 nnoremap <silent> <F12> :call nftables#syntax#reload()<CR>
 
+
+
+" Faster response time for errors
+set updatetime=500
+
+
 let b:did_ftplugin = 1
 "echom '[~/.vim/ftplugin/nftables][OK] End'
 " vim: et ts=2 sts=2 sw=2

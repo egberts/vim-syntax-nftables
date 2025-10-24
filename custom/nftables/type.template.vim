@@ -103,8 +103,8 @@ syn match nft_XXX_close_scope_ZZZ_YYY_string_expr_string_ip4_cidr_prefix '\v(25[
 hi link   nft_XXX_close_scope_ZZZ_YYY_payload_expr_string_ip4 nftHL_Integer
 syn match nft_XXX_close_scope_ZZZ_YYY_payload_expr_string_ip4 '\v(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\ze[ \t\n;]' skipwhite contained
 
-hi link   nft_XX_close_scope_ZZZ_YYY_range_stmt_expr_symbol_dash nftHL_Element
-syn match nft_XX_close_scope_ZZZ_YYY_range_stmt_expr_symbol_dash '\-' contained
+hi link   nft_XXX_close_scope_ZZZ_YYY_range_stmt_expr_symbol_dash nftHL_Element
+syn match nft_XXX_close_scope_ZZZ_YYY_range_stmt_expr_symbol_dash '\-' contained
 \ nextgroup=
 \    nft_XXX_close_scope_ZZZ_YYY_payload_expr_string_ip4,
 \    nft_Error
@@ -112,7 +112,7 @@ syn match nft_XX_close_scope_ZZZ_YYY_range_stmt_expr_symbol_dash '\-' contained
 hi link   nft_XXX_close_scope_ZZZ_YYY_payload_expr_string_ip4_range nftHL_Integer
 syn match nft_XXX_close_scope_ZZZ_YYY_payload_expr_string_ip4_range '\v(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\ze\-' contained
 \ nextgroup=
-\    nft_XX_close_scope_ZZZ_YYY_range_stmt_expr_symbol_dash,
+\    nft_XXX_close_scope_ZZZ_YYY_range_stmt_expr_symbol_dash,
 \    nft_Error
 
 " INTEGER
