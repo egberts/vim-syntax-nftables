@@ -140,6 +140,7 @@ syn match nft_stmt_declarative_keyword_ip  '\vip\ze[ \t]' skipwhite contained
 \    nft_ip_hdr_expr_ip_hdr_field_keyword_hdrversion,
 \    nft_ip_hdr_expr_ip_hdr_field_keyword_hdrlength,
 \    nft_ip_hdr_expr_ip_hdr_field_keyword_checksum,
+\    nft_ip_hdr_expr_ip_hdr_field_keyword_protocol,
 \    nft_ip_hdr_expr_ip_hdr_field_keyword_frag_off,
 \    nft_ip_hdr_expr_ip_hdr_field_keyword_length,
 \    nft_ip_hdr_expr_keyword_option,
