@@ -122,7 +122,13 @@ table T {
 table T {
     set set_name_cgroupsv2 {
         type cgroupsv2
-        elements = { ftp, 2, 3 }
+        elements = { 
+            # root_dir is /sys/fs/cgroup
+            "/sys-kernel-config.mount",
+            "/sys-kernel-debug.mount",
+            "/dev-mqueue.mount",
+            "/user.slice",
+        }
     }
 }
  
@@ -174,70 +180,69 @@ table T {
         elements = { 1, 2, 3 }
     }
 }
- 
+
 table T {
     set set_name_verdict {
         type verdict
-        elements = { 1, 2, 3 }
+        elements = { accept, drop, queue }
     }
 }
- 
+
 table T {
     set set_name_mh_type {
         type mh_type
         elements = { 1, 2, 3 }
     }
 }
- 
-#table T {
-#    set set_name_ll_addr {
-#        type ll_addr
-#        elements = { 1, 2, 3 }
-#    }
-#}
-#
+table T {
+    set set_name_ll_addr {
+        type ll_addr
+        elements = { "00:11:22:33:44:55", "AA:BB:CC:DD:EE:FF" }
+    }
+}
+
 #table T {
 #    set set_name_invalid {
 #        type invalid
 #        elements = { 1, 2, 3 }
 #    }
 #}
- 
-#table T {
-#    set set_name_integer {
-#        type integer
-#        elements = { 0 }
-#    }
-#}
-#
+
+table T {
+    set set_name_integer {
+        type integer
+        elements = { 0, 42, 1000 }
+    }
+}
+
 table T {
     set set_name_classid {
         type classid
         elements = { 1, 2, 3 }
     }
 }
- 
+
 table T {
     set set_name_boolean {
         type boolean
         elements = { 1, 2, 3 }
     }
 }
- 
-#table T {
-#    set set_name_bitmask {
-#        type bitmask
-#        elements = { 1, 2, 3 }
-#    }
-#}
-#
-#table T {
-#    set set_name_string {
-#        type string
-#        elements = { 1, 2, 3 }
-#    }
-#}
- 
+
+table T {
+    set set_name_bitmask {
+        type bitmask
+        elements = { 0x1, 0x2, 0x4 }
+    }
+}
+
+table T {
+    set set_name_string {
+        type string
+        elements = { "eth0", "eth1", "wlan0" }
+    }
+}
+
 table T {
     set set_name_ifname {
         type ifname

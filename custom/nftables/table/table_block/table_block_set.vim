@@ -52,7 +52,7 @@ syn match nft_add_cmd_table_block_set_block_typeof_key_expr_typeof_expr_primary_
 " base_cmd_add_cmd 'set' set_spec '{' set_block typeof_key_expr 'type'  <family>
 hi link   nft_add_cmd_table_block_set_block_typeof_key_expr_type_data_type_expr nftHL_Define
 syn match nft_add_cmd_table_block_set_block_typeof_key_expr_type_data_type_expr
-\ '\vinet_service|fib_addrtype|dccp_pkttype|iface_index|icmpv6_type|icmpv6_code|inet_proto|iface_type|icmpx_code|ether_type|ether_addr|ipv6_addr|ipv4_addr|igmp_type|icmp_type|icmp_code|ct_status|cgroupsv2|tcp_flag|pkt_type|nf_proto|devgroup|ct_state|ct_label|ct_event|mh_type|classid|boolean|ifname|ct_dir|arp_op|realm|time|mark|dscp|gid|uid|ecn'
+\ '\vinet_service|fib_addrtype|dccp_pkttype|iface_index|icmpv6_type|icmpv6_code|inet_proto|iface_type|icmpx_code|ether_type|ether_addr|ipv6_addr|ipv4_addr|igmp_type|icmp_type|icmp_code|ct_status|cgroupsv2|tcp_flag|pkt_type|nf_proto|devgroup|ct_state|ct_label|ct_event|mh_type|bitmask|classid|boolean|integer|ll_addr|verdict|string|ifname|ct_dir|arp_op|realm|time|mark|dscp|gid|uid|ecn'
 \ skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_table_block_set_block_typeof_key_expr_type_data_type_expr,
