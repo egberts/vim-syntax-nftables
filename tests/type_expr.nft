@@ -1,181 +1,310 @@
+ 
 
 table T {
-    set setname_icmp_type {
-        type catch-all set element
-        type ack_vector_nonce_1
-        type ack_vector_nonce_0
-        type timestamp_echo
-        type reserved_short
-        type slow_receiver
-        type set reference
-        type reserved_long
-        type data_checksum
-        type ccid_specific
-        type range_symbol
+    set set_name_inet_service {
         type inet_service
-        type inet-service
-        type flow_offload
+        elements = { 1, 2, 3 }
+    }
+}
+
+table T {
+    set set_name_fib_addrtype {
         type fib_addrtype
-        type elapsed_time
+        elements = { 1, 2, 3 }
+    }
+}
+ 
+table T {
+    set set_name_dccp_pkttype {
         type dccp_pkttype
-        type data_dropped
-        type unsupported
-        type set element
-        type range_value
-        type init_cookie
+        elements = { 1, 2, 3 }
+    }
+}
+ 
+table T {
+    set set_name_iface_index {
         type iface_index
+        elements = { 1, 2, 3 }
+    }
+}
+ 
+table T {
+    set set_name_icmpv6_type {
         type icmpv6_type
+        elements = { 1, 2, 3 }
+    }
+}
+ 
+table T {
+    set set_name_icmpv6_code {
         type icmpv6_code
-        type forward-tsn
-        type relational
+        elements = { 1, 2, 3 }
+    }
+}
+ 
+table T {
+    set set_name_inet_proto {
         type inet_proto
+        elements = { 1, 2, 3 }
+    }
+}
+ 
+table T {
+    set set_name_iface_type {
         type iface_type
+        elements = { 1, 2, 3 }
+    }
+}
+ 
+table T {
+    set set_name_icmpx_code {
         type icmpx_code
-        type expression
+        elements = { 1, 2, 3 }
+    }
+}
+ 
+table T {
+    set set_name_ether_type {
         type ether_type
+        elements = { 1, 2, 3 }
+    }
+}
+ 
+table T {
+    set set_name_ether_addr {
         type ether_addr
-        type asconf-ack
-        type timestamp
-        type sack-perm
-        type ndp_count
-        type mandatory
+        elements = { 1, 2, 3 }
+    }
+}
+ 
+table T {
+    set set_name_ipv6_addr {
         type ipv6_addr
+        elements = { ffff::1 }
+    }
+}
+ 
+table T {
+    set set_name_ipv4_addr {
         type ipv4_addr
+        elements = { 0x000000001 }
+    }
+}
+ 
+table T {
+    set set_name_igmp_type {
         type igmp_type
+        elements = { 1, 2, 3 }
+    }
+}
+ 
+table T {
+    set set_name_icmp_type {
         type icmp_type
+        elements = { 1, 2, 3 }
+    }
+}
+ 
+table T {
+    set set_name_icmp_code {
         type icmp_code
+        elements = { 1, 2, 3 }
+    }
+}
+ 
+table T {
+    set set_name_ct_status {
         type ct_status
-        type connlimit
-        type confirm_r
-        type confirm_l
+        elements = { 1, 2, 3 }
+    }
+}
+ 
+table T {
+    set set_name_cgroupsv2 {
         type cgroupsv2
-        type variable
+        elements = { ftp, 2, 3 }
+    }
+}
+ 
+table T {
+    set set_name_tcp_flag {
         type tcp_flag
-        type synproxy
-        type shutdown
-        type priority
+        elements = { 1, 2, 3 }
+    }
+}
+ 
+table T {
+    set set_name_pkt_type {
         type pkt_type
-        type optstrip
+        elements = { 1, 2, 3 }
+    }
+}
+ 
+table T {
+    set set_name_nf_proto {
         type nf_proto
-        type internal
-        type init-ack
-        type fastopen
+        elements = { 1, 2, 3 }
+    }
+}
+ 
+table T {
+    set set_name_devgroup {
         type devgroup
+        elements = { 1, 2, 3 }
+    }
+}
+ 
+table T {
+    set set_name_ct_state {
         type ct_state
+        elements = { 1, 2, 3 }
+    }
+}
+ 
+table T {
+    set set_name_ct_label {
         type ct_label
+        elements = { 1, 2, 3 }
+    }
+}
+ 
+table T {
+    set set_name_ct_event {
         type ct_event
-        type change_r
-        type change_l
+        elements = { 1, 2, 3 }
+    }
+}
+ 
+table T {
+    set set_name_verdict {
         type verdict
-        type unknown
-        type udplite
-        type payload
-        type padding
-        type notrack
-        type netlink
+        elements = { 1, 2, 3 }
+    }
+}
+ 
+table T {
+    set set_name_mh_type {
         type mh_type
-        type mapping
-        type ll_addr
-        type invalid
-        type integer
-        type counter
+        elements = { 1, 2, 3 }
+    }
+}
+ 
+#table T {
+#    set set_name_ll_addr {
+#        type ll_addr
+#        elements = { 1, 2, 3 }
+#    }
+#}
+#
+#table T {
+#    set set_name_invalid {
+#        type invalid
+#        elements = { 1, 2, 3 }
+#    }
+#}
+ 
+#table T {
+#    set set_name_integer {
+#        type integer
+#        elements = { 0 }
+#    }
+#}
+#
+table T {
+    set set_name_classid {
         type classid
+        elements = { 1, 2, 3 }
+    }
+}
+ 
+table T {
+    set set_name_boolean {
         type boolean
-        type bitmask
-        type window
-        type tproxy
-        type symbol
-        type string
-        type socket
-        type reject
-        type prefix
-        type policy
-        type objref
-        type numgen
-        type netdev
-        type md5sig
-        type maxseg
+        elements = { 1, 2, 3 }
+    }
+}
+ 
+#table T {
+#    set set_name_bitmask {
+#        type bitmask
+#        elements = { 1, 2, 3 }
+#    }
+#}
+#
+#table T {
+#    set set_name_string {
+#        type string
+#        elements = { 1, 2, 3 }
+#    }
+#}
+ 
+table T {
+    set set_name_ifname {
         type ifname
-        type icmpv6
-        type gretap
-        type geneve
-        type exthdr
+        elements = { 1, 2, 3 }
+    }
+}
+ 
+table T {
+    set set_name_ct_dir {
         type ct_dir
-        type concat
-        type asconf
+        elements = { 1, 2, 3 }
+    }
+}
+ 
+table T {
+    set set_name_arp_op {
         type arp_op
-        type vxlan
-        type value
-        type unary
+        elements = { 1, 2, 3 }
+    }
+}
+ 
+table T {
+    set set_name_realm {
         type realm
-        type range
-        type quota
-        type queue
-        type nflog
-        type mptcp
-        type meter
-        type limit
-        type ether
-        type chain
-        type binop
-        type xfrm
-        type vlan
+        elements = { 1, 2, 3 }
+    }
+}
+ 
+table T {
+    set set_name_time {
         type time
-        type ssrr
-        type sctp
-        type sack
-        type meta
+        elements = { 1, 2, 3 }
+    }
+}
+ 
+table T {
+    set set_name_mark {
         type mark
-        type lsrr
-        type list
-        type last
-        type init
-        type inet
-        type igmp
-        type icmp
-        type hour
-        type hash
-        type frag
-        type ecne
+        elements = { 1, 2, 3 }
+    }
+}
+ 
+table T {
+    set set_name_dscp {
         type dscp
-        type dccp
-        type data
-        type comp
+        elements = { 1, 2, 3 }
+    }
+}
+ 
+table T {
+    set set_name_uid {
         type uid
-        type udp
-        type tcp
-        type srh
-        type set
-        type rt2
-        type rt0
-        type osf
-        type nop
-        type nat
-        type map
-        type log
-        type ip6
-        type hbh
-        type gre
+        elements = { 1, 2, 3 }
+    }
+}
+ 
+table T {
+    set set_name_gid {
         type gid
-        type fwd
-        type fib
-        type esp
-        type eol
+        elements = { 1, 2, 3 }
+    }
+}
+ 
+table T {
+    set set_name_ecn {
         type ecn
-        type dup
-        type dst
-        type day
-        type cwr
-        type arp
-        type xt
-        type th
-        type rt
-        type rr
-        type ra
-        type mh
-        type ip
-        type ct
-        type ah
-        elements = { 1, 2, 3, 4 };
-    };
-};
+        elements = { 1, 2, 3 }
+    }
+}
+ 
