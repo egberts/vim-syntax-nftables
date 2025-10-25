@@ -6,7 +6,7 @@ let s:add_cmd_list_filepaths_semantic_early = [
 \    'add/add_flowtable_cmd.vim',
 \    'add/add_synproxy_cmd.vim',
 \    'add/add_counter_cmd.vim',
-\    'add/add_elements_cmd.vim',
+\    'add/add_element_cmd.vim',
 \    'add/add_secmark_cmd.vim',
 \    'add/add_chain_cmd.vim',
 \    'add/add_limit_cmd.vim',

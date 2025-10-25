@@ -48,11 +48,15 @@ syn match nft_add_cmd_table_block_set_block_typeof_key_expr_typeof_expr_primary_
 \  "\v[a-zA-Z][a-zA-Z0-9_\-]{0,63}"
 " do not use 'skipwhite' here
 
+" ******************* BEGIN 'type <type>' ****************************
 " base_cmd_add_cmd 'set' set_spec '{' set_block typeof_key_expr 'type'  <family>
 hi link   nft_add_cmd_table_block_set_block_typeof_key_expr_type_data_type_expr nftHL_Define
-syn match nft_add_cmd_table_block_set_block_typeof_key_expr_type_data_type_expr "\v(icmpv6_type|ether_type|iface_type|icmp_type|igmp_type|pkt_type|mh_type)" skipwhite contained
+syn match nft_add_cmd_table_block_set_block_typeof_key_expr_type_data_type_expr
+\ '\v(vcatch-all set element)|ack_vector_nonce_1|ack_vector_nonce_0|timestamp_echo|reserved_short|slow_receiver|set reference|reserved_long|data_checksum|ccid_specific|range_symbol|inet_service|inet-service|flow_offload|fib_addrtype|elapsed_time|dccp_pkttype|data_dropped|unsupported|set element|range_value|init_cookie|iface_index|icmpv6_type|icmpv6_code|forward-tsn|relational|inet_proto|iface_type|icmpx_code|expression|ether_type|ether_addr|asconf-ack|timestamp|sack-perm|ndp_count|mandatory|ipv6_addr|ipv4_addr|igmp_type|icmp_type|icmp_code|ct_status|connlimit|confirm_r|confirm_l|cgroupsv2|variable|tcp_flag|synproxy|shutdown|priority|pkt_type|optstrip|nf_proto|internal|init-ack|fastopen|devgroup|ct_state|ct_label|ct_event|change_r|change_l|verdict|unknown|udplite|payload|padding|notrack|netlink|mh_type|mapping|ll_addr|invalid|integer|counter|classid|boolean|bitmask|window|tproxy|symbol|string|socket|reject|prefix|policy|objref|numgen|netdev|md5sig|maxseg|ifname|icmpv6|gretap|geneve|exthdr|ct_dir|concat|asconf|arp_op|vxlan|value|unary|realm|range|quota|queue|nflog|mptcp|meter|limit|ether|chain|binop|xfrm|vlan|time|ssrr|sctp|sack|meta|mark|lsrr|list|last|init|inet|igmp|icmp|hour|hash|frag|ecne|dscp|dccp|data|comp|uid|udp|tcp|srh|set|rt2|rt0|osf|nop|nat|map|log|ip6|hbh|gre|gid|fwd|fib|esp|eol|ecn|dup|dst|day|cwr|arp|xt|th|rt|rr|ra|mh|ip|ct|ah'
+\ skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_table_block_set_block_typeof_key_expr_type_data_type_expr
+" ********************* END 'type <type>' ****************************
 
 " base_cmd_add_cmd 'set' set_spec '{' set_block typeof_key_expr 'type'
 hi link   nft_add_cmd_table_block_set_block_typeof_key_expr_keyword_type nftHL_Command

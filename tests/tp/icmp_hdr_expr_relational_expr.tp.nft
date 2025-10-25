@@ -4,7 +4,11 @@
 
 define ICMP_HDR_VALUE = 2
 table T {
-    set setname_icmp {
+    set setname_icmp_type {
+        type catch-all set element;
+        type slow_receiver;
+        type set reference;
+        type reserved_long;
         type icmp_type;
         elements = { 1, 2, 3, 4 };
     };
@@ -16,7 +20,7 @@ table T {
     icmp type  0x0
     icmp type  0xff
     icmp type  0x0-0xff
-    icmp type  @setname_icmp
+    icmp type  @setname_icmp_type
     icmp type { 0, 2, 4, 8, 16, 255 }
     icmp type { 0-255 }
     icmp type { 0x0-0xff }
@@ -25,11 +29,13 @@ table T {
     icmp type > 255
     icmp type > 0x0
     icmp type > 0xff
+    icmp type > destination-unreachable
     icmp type > $ICMP_HDR_VALUE
     icmp type < 0
     icmp type < 255
     icmp type < 0x0
     icmp type < 0xff
+    icmp type < destination-unreachable
     icmp type < $ICMP_HDR_VALUE
     icmp type >= 0
     icmp type >= 255
@@ -38,12 +44,15 @@ table T {
     icmp type <= 255
     icmp type <= 0x0
     icmp type <= 0xff
+    icmp type <= destination-unreachable
     icmp type <= $ICMP_HDR_VALUE
     icmp type == 0
     icmp type == 255
     icmp type == 0x0
     icmp type == 0xff
-    icmp type == @setname_icmp
+    icmp type == destination-unreachable
+    icmp type == { destination-unreachable }
+    icmp type == @setname_icmp_type
     icmp type == { 0, 2, 4, 8, 16, 255 }
     icmp type == { 0-255 }
     icmp type == { 0x0-0xff }
@@ -52,7 +61,9 @@ table T {
     icmp type != 255
     icmp type != 0x0
     icmp type != 0xff
-    icmp type != @setname_icmp
+    icmp type != @setname_icmp_type
+    icmp type != destination-unreachable
+    icmp type != { destination-unreachable }
     icmp type != { 0, 2, 4, 8, 16, 255 }
     icmp type != { 0-255 }
     icmp type != { 0x0-0xff }
@@ -61,45 +72,70 @@ table T {
 }
 
  table T {
-    set setname_icmp {
-        type icmp_type
+    set setname_icmp_code {
+        type icmp_codeX
         elements = { 1, 2, 3, 4 }
+    }
+    set setname_icmp_code_enums {
+        type icmp_code
+        elements = {  port-unreachable, host-prohibited }
     }
     chain C {
     icmp code  0
     icmp code  255
     icmp code  0x0
     icmp code  0xff
+    icmp code admin-prohibited
+    icmp code host-unreachable
+    icmp code prot-unreachable
+    icmp code port-unreachable
+    icmp code net-unreachable
+    icmp code host-prohibited
+    icmp code net-prohibited
+    icmp code frag-needed
+    icmp code { admin-prohibited, host-unreachable, prot-unreachable, port-unreachable, net-unreachable, host-prohibited, net-prohibited, frag-needed }
+    icmp code @setname_icmp_code
+    icmp code @setname_icmp_code_enums
     icmp code  $ICMP_HDR_VALUE
     icmp code > 0
     icmp code > 255
     icmp code > 0x0
     icmp code > 0xff
+    icmp code > admin-prohibited
+    icmp code  $ICMP_HDR_VALUE
+    icmp code > 0
     icmp code > $ICMP_HDR_VALUE
     icmp code < 0
     icmp code < 255
     icmp code < 0x0
     icmp code < 0xff
+    icmp code < admin-prohibited
     icmp code < $ICMP_HDR_VALUE
     icmp code >= 0
     icmp code >= 255
     icmp code >= 0x0
     icmp code >= 0xff
+    icmp code >= admin-prohibited
     icmp code >= $ICMP_HDR_VALUE
     icmp code <= 0
     icmp code <= 255
     icmp code <= 0x0
     icmp code <= 0xff
+    icmp code <= admin-prohibited
     icmp code <= $ICMP_HDR_VALUE
     icmp code == 0
     icmp code == 255
     icmp code == 0x0
     icmp code == 0xff
+    icmp code == admin-prohibited
+    icmp code == { admin-prohibited, host-unreachable, prot-unreachable, port-unreachable, net-unreachable, host-prohibited, net-prohibited, frag-needed }
     icmp code == $ICMP_HDR_VALUE
     icmp code != 0
     icmp code != 255
     icmp code != 0x0
     icmp code != 0xff
+    icmp code != admin-prohibited
+    icmp code != { admin-prohibited, host-unreachable, prot-unreachable, port-unreachable, net-unreachable, host-prohibited, net-prohibited, frag-needed }
     icmp code != $ICMP_HDR_VALUE
   }
 }

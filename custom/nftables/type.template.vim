@@ -179,8 +179,11 @@ syn match nft_XXX_close_scope_ZZZ_YYY_set_ref_symbol_expr_keyword_at_identifier 
 \ nextgroup=
 \    @nft_c_stmt
 
+hi link   nft_XXX_close_scope_ZZZ_YYY_set_list_member_expr_symbol_expr_string_keyword_defines nfthL_Defines
+syn match nft_XXX_close_scope_ZZZ_YYY_set_list_member_expr_symbol_expr_string_keyword_defines '\vabc|def' skipwhite contained
+
 hi link    nft_XXX_YYY_set_expr_inline_set nftHL_BlockDelimitersDDD
-syn region nft_XXX_YYY_set_expr_inline_set start=+{+ end=+}+ skipwhite contained
+syn region nft_XXX_YYY_set_expr_inline_set start=+{+ end=+}+ skip="#.{0,45}$" skipwhite contained
 \ contains=
 \    nft_XXX_close_scope_ZZZ_YYY_set_list_member_expr_symbol_expr_string_keyword_defines,
 \    nft_XXX_close_scope_ZZZ_YYY_set_list_member_expr_string_expr_string_ip4_opt_cidr_prefix,
