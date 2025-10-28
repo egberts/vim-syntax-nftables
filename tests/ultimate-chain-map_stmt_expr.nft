@@ -871,38 +871,123 @@ table T {
 	}
 }
 table T {
-	chain C {
-		typeof ct zone
+	set C {
 		typeof ether saddr . vlan id
-		typeof frag frag-off
-		typeof iifname : ct mark
-		typeof iifname : ct zone
-		typeof iifname . ip saddr : interval ip daddr
-		typeof iifname . ip saddr : interval ip daddr . tcp dport
-		typeof iifname . ip saddr . ipsec in reqid
-		typeof iifname . ip saddr . meta ipsec
-		typeof ip daddr . @ih,32,32
-		typeof ip hdrlength
-		typeof ip option ra value
-		typeof ip saddr
-		typeof ip saddr . ct original proto-dst : ip daddr . tcp dport
-		typeof ip saddr . iif
-		typeof ipsec in reqid . iif
 		typeof ip version
+		typeof ip hdrlength
+		typeof ip option lsrr kind
+		typeof ip option ssrr value
+		typeof ip option rr value
+		typeof ip option ra value
+		typeof ip option ra kind
+		typeof ip saddr
+		typeof ip saddr . iif
+		typeof ip daddr . @ih,32,32
+		typeof ip daddr . @th,32,32
+		typeof ip daddr . @nh,32,32
+		typeof ip daddr . @lh,32,32
+		typeof tcp option maxseg value
+		typeof tcp option mptcp subtype;
+		typeof ipsec in reqid . iif
+		typeof frag nexthdr
+		typeof frag reserved 
+		typeof frag reserved2
+		typeof frag more-fragments
+		typeof frag frag-off
+		typeof frag id
 		typeof meta ibrpvid
 		typeof meta protocol
 		typeof meta mark
+		typeof meta ipsec 
+		typeof ct zone
+		typeof frag frag-off
 		typeof osf name
+		typeof sctp chunk data tsn
+		typeof sctp chunk data tsn
+		typeof sctp chunk data stream
+		typeof sctp chunk data ssn
+		typeof sctp chunk data ppid
+		typeof sctp chunk data length 
+		typeof sctp chunk data flags 
+		typeof sctp chunk data type 
+		typeof sctp chunk init num-outbound-streams
 		typeof sctp chunk init num-inbound-streams
-		typeof tcp option maxseg size
-		typeof tcp option mptcp subtype
-		typeof tcp option mptcp subtype . ip daddr
+		typeof sctp chunk init initial-tsn
+		typeof sctp chunk init init-tag
+		typeof sctp chunk init a-rwnd
+		typeof sctp chunk init length 
+		typeof sctp chunk init flags 
+		typeof sctp chunk init type 
+		typeof sctp chunk init-ack num-outbound-streams
+		typeof sctp chunk init-ack num-inbound-streams
+		typeof sctp chunk init-ack initial-tsn
+		typeof sctp chunk init-ack init-tag
+		typeof sctp chunk init-ack a-rwnd
+		typeof sctp chunk init-ack length 
+		typeof sctp chunk init-ack flags 
+		typeof sctp chunk init-ack type 
+		typeof sctp chunk sack cum-tsn-ack
+		typeof sctp chunk sack a-rwnd
+		typeof sctp chunk sack num-gap-ack-blocks
+		typeof sctp chunk sack num-dup-tsns
+		typeof sctp chunk sack length 
+		typeof sctp chunk sack flags 
+		typeof sctp chunk sack type 
+		typeof sctp chunk heartbeat length 
+		typeof sctp chunk heartbeat flags 
+		typeof sctp chunk heartbeat type 
+		typeof sctp chunk abort length 
+		typeof sctp chunk abort flags 
+		typeof sctp chunk abort type 
+		typeof sctp chunk shutdown cum-tsn-ack
+		typeof sctp chunk shutdown length 
+		typeof sctp chunk shutdown flags 
+		typeof sctp chunk shutdown type 
+		typeof sctp chunk shutdown-ack length 
+		typeof sctp chunk shutdown-ack flags 
+		typeof sctp chunk shutdown-ack type 
+		typeof sctp chunk shutdown-complete length 
+		typeof sctp chunk shutdown-complete flags 
+		typeof sctp chunk shutdown-complete type 
+		typeof sctp chunk error length 
+		typeof sctp chunk error flags 
+		typeof sctp chunk error type 
+		typeof sctp chunk ecne lowest-tsn
+		typeof sctp chunk ecne length 
+		typeof sctp chunk ecne flags 
+		typeof sctp chunk ecne type 
+		typeof sctp chunk cwr lowest-tsn
+		typeof sctp chunk cwr length 
+		typeof sctp chunk cwr flags 
+		typeof sctp chunk cwr type 
+		typeof sctp chunk asconf seqno
+		typeof sctp chunk asconf length 
+		typeof sctp chunk asconf flags 
+		typeof sctp chunk asconf type 
+		typeof sctp chunk asconf-ack seqno
+		typeof sctp chunk asconf-ack length 
+		typeof sctp chunk asconf-ack flags 
+		typeof sctp chunk asconf-ack type 
+		typeof sctp chunk forward-tsn new-cum-tsn
+		typeof sctp chunk forward-tsn length 
+		typeof sctp chunk forward-tsn flags 
+		typeof sctp chunk forward-tsn type 
 		typeof vlan id
 		typeof vlan id . ip saddr
 		typeof vxlan ip saddr
 		typeof vxlan ip saddr . vxlan ip daddr
 		type "sip" protocol tcp
 		type tcp_flag
+    }
+    map M {
+		typeof iifname . ip saddr : interval ip daddr
+		typeof iifname . ip saddr : interval ip daddr . tcp dport
+		typeof iifname . ip saddr . ipsec in reqid
+		typeof iifname . ip saddr . meta ipsec 
+		typeof ip saddr . ct original proto-dst : ip daddr . tcp dport
+		typeof iifname : ct mark
+		typeof iifname : ct zone
+		typeof tcp option mptcp subtype . ip daddr
     }
 }
 table T {

@@ -1565,6 +1565,16 @@ syn match nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_directional_ke
 \    nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_set_block,
 \    nft_Error
 
+hi link   nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_set_keyword_in nftHL_Keyword
+syn match nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_set_keyword_in '\vin\ze[ \t\{]' skipwhite contained
+\ nextgroup=
+\    nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_named_set_identifier,
+\    nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_keyword_spnum,
+\    nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_keyword_reqid,
+\    nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_keyword_spi,
+\    nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_set_block,
+\    nft_Error
+
 hi link   nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_set_operator_prefix_keyword_not nftHL_Operator
 syn match nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_set_operator_prefix_keyword_not '\vnot\ze[ \t\{]' skipwhite contained
 \ nextgroup=

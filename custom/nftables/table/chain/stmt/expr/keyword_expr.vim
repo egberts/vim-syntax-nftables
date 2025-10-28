@@ -34,7 +34,7 @@ syn match nft_keyword_expr_keyword_last '\vlast' skipwhite contained
 hi link   nft_keyword_expr_keyword_snat nftHL_Substatement
 syn match nft_keyword_expr_keyword_snat '\vsnat' skipwhite contained
 
-hi link   nft_keyword_expr_keyword_vlan nftHL_Substatement
+hi link   nft_keyword_expr_keyword_vlan nftHL_Statement
 syn match nft_keyword_expr_keyword_vlan '\vvlan' skipwhite contained
 \  nextgroup=
 \    nft_vlan_hdr_expr_vlan_hdr_field_keyword_type,

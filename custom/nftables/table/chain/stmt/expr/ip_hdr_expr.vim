@@ -1158,7 +1158,7 @@ syn match nft_ip_hdr_expr_close_scope_ip_addr_payload_expr_string_ip4_range '\v(
 hi link   nft_ip_hdr_expr_close_scope_ip_addr_string_expr_string_ip4_cidr nftHL_Integer
 syn match nft_ip_hdr_expr_close_scope_ip_addr_string_expr_string_ip4_cidr '\v(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]{1,2})(\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[0-9]{1,2})){3}/(3[0-2]|[12][0-9]|[0-9])\ze[ \t\n;]' skipwhite contained
 
-hi link   nft_ip_hdr_expr_close_scope_ip_saddr_symbol_expr_string_keyword_defines nfthL_Defines
+hi link   nft_ip_hdr_expr_close_scope_ip_saddr_symbol_expr_string_keyword_defines nftHL_Define
 syn match nft_ip_hdr_expr_close_scope_ip_saddr_symbol_expr_string_keyword_defines '\v(abc|def)\ze[ \t\n;,]' skipwhite contained
 \ nextgroup=
 \    @nft_c_stmt

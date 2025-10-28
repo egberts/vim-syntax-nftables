@@ -100,7 +100,7 @@ syn region nft_add_cmd_keyword_chain_chain_block_delimiters start='\v\s*\zs\{' e
 \    nft_common_block_keyword_error,
 \    nft_add_cmd_keyword_table_table_block_chain_chain_block_flags_spec_keyword_flags,
 \    nft_meta_expr_meta_key_unqualified_keyword_ipsec,
-\    nft_add_cmd_table_block_set_block_stateful_stmt_list_stmt_stateful_stmt_limit_stmt_keyword_limit,
+\    nft_set_block_stateful_stmt_list_stmt_stateful_stmt_limit_stmt_keyword_limit,
 \    nft_add_cmd_rule_rule_alloc_stmt_meter_stmt_meter_stmt_alloc_keyword_meter,
 \    nft_meta_expr_meta_key_unqualified_keyword_skgid,
 \    nft_meta_expr_meta_key_unqualified_keyword_skuid,

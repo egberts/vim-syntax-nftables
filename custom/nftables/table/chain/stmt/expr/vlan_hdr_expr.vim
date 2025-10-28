@@ -20,31 +20,31 @@ syn match nft_vlan_hdr_expr_close_scope_vlan_constant_expr_int_hex_12b '\v((0x[0
 \ nextgroup=
 \    @nft_c_primary_stmt_expr
 
-hi link   nft_vlan_hdr_expr_vlan_hdr_field_keyword_type nftHL_Keyword
+hi link   nft_vlan_hdr_expr_vlan_hdr_field_keyword_type nftHL_Substatement
 syn match nft_vlan_hdr_expr_vlan_hdr_field_keyword_type '\vtype' skipwhite contained
 \ nextgroup=
 \    nft_vlan_hdr_expr_close_scope_vlan_constant_expr_int_hex_7b,
 \    nft_Error
 
-hi link   nft_vlan_hdr_expr_vlan_hdr_field_keyword_cfi nftHL_Keyword
+hi link   nft_vlan_hdr_expr_vlan_hdr_field_keyword_cfi nftHL_Substatement
 syn match nft_vlan_hdr_expr_vlan_hdr_field_keyword_cfi '\vcfi' skipwhite contained
 \ nextgroup=
 \    nft_vlan_hdr_expr_close_scope_vlan_constant_expr_int_hex_1b,
 \    nft_Error
 
-hi link   nft_vlan_hdr_expr_vlan_hdr_field_keyword_dei nftHL_Keyword
+hi link   nft_vlan_hdr_expr_vlan_hdr_field_keyword_dei nftHL_Substatement
 syn match nft_vlan_hdr_expr_vlan_hdr_field_keyword_dei '\vdei' skipwhite contained
 \ nextgroup=
 \    nft_vlan_hdr_expr_close_scope_vlan_constant_expr_int_hex_1b,
 \    nft_Error
 
-hi link   nft_vlan_hdr_expr_vlan_hdr_field_keyword_pcp nftHL_Keyword
+hi link   nft_vlan_hdr_expr_vlan_hdr_field_keyword_pcp nftHL_Substatement
 syn match nft_vlan_hdr_expr_vlan_hdr_field_keyword_pcp '\pcp' skipwhite contained
 \ nextgroup=
 \    nft_vlan_hdr_expr_close_scope_vlan_constant_expr_int_hex_3b,
 \    nft_Error
 
-hi link   nft_vlan_hdr_expr_vlan_hdr_field_keyword_id nftHL_Keyword
+hi link   nft_vlan_hdr_expr_vlan_hdr_field_keyword_id nftHL_Substatement
 syn match nft_vlan_hdr_expr_vlan_hdr_field_keyword_id '\vid' skipwhite contained
 \ nextgroup=
 \    nft_vlan_hdr_expr_close_scope_vlan_constant_expr_int_hex_12b,

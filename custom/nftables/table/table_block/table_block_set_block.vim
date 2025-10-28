@@ -46,8 +46,8 @@ syn match nft_stateful_stmt_counter_stmt_counter_arg_keyword_packets '\vpackets\
 
 
 " 'table' table_block '{' 'set' set_block '{' stateful_stmt_list stateful_stmt counter_stmt 'counter'
-hi link   nft_add_cmd_table_block_set_block_stateful_stmt_list_stmt_stateful_stmt_counter_stmt_keyword_counter nftHL_Statement
-syn match nft_add_cmd_table_block_set_block_stateful_stmt_list_stmt_stateful_stmt_counter_stmt_keyword_counter '\vcounter\ze[ \t\n\};]' skipwhite contained
+hi link   nft_set_block_stateful_stmt_list_stmt_stateful_stmt_counter_stmt_keyword_counter nftHL_Statement
+syn match nft_set_block_stateful_stmt_list_stmt_stateful_stmt_counter_stmt_keyword_counter '\vcounter\ze[ \t\n\};]' skipwhite contained
 \ nextgroup=
 \    nft_stateful_stmt_counter_stmt_counter_arg_keyword_packets,
 
@@ -168,8 +168,8 @@ syn match nft_table_block_set_block_stateful_stmt_limit_stmt_keyword_rate "\vrat
 \    nft_table_block_set_block_stateful_stmt_limit_stmt_limit_rate_pktsbytes_num,
 \    nft_Error
 
-hi link   nft_add_cmd_table_block_set_block_stateful_stmt_list_stmt_stateful_stmt_limit_stmt_keyword_limit nftHL_Statement
-syn match nft_add_cmd_table_block_set_block_stateful_stmt_list_stmt_stateful_stmt_limit_stmt_keyword_limit '\vlimit\ze[ \t]' skipwhite contained
+hi link   nft_set_block_stateful_stmt_list_stmt_stateful_stmt_limit_stmt_keyword_limit nftHL_Statement
+syn match nft_set_block_stateful_stmt_list_stmt_stateful_stmt_limit_stmt_keyword_limit '\vlimit\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    nft_table_block_set_block_stateful_stmt_limit_stmt_keyword_rate,
 \    nft_Error
@@ -212,8 +212,8 @@ syn match nft_table_block_set_block_stateful_stmt_quota_stmt_quota_mode_keyword_
 \    nft_table_block_set_block_stateful_stmt_quota_stmt_quota_mode_num,
 \    nft_Error
 
-hi link   nft_add_cmd_table_block_set_block_stateful_stmt_list_stmt_stateful_stmt_quota_stmt_keyword_quota nftHL_Statement
-syn match nft_add_cmd_table_block_set_block_stateful_stmt_list_stmt_stateful_stmt_quota_stmt_keyword_quota '\vquota\ze[ \t\n\};]' skipwhite contained
+hi link   nft_set_block_stateful_stmt_list_stmt_stateful_stmt_quota_stmt_keyword_quota nftHL_Statement
+syn match nft_set_block_stateful_stmt_list_stmt_stateful_stmt_quota_stmt_keyword_quota '\vquota\ze[ \t\n\};]' skipwhite contained
 \ nextgroup=
 \    nft_table_block_set_block_stateful_stmt_quota_stmt_quota_mode_keyword_until,
 \    nft_table_block_set_block_stateful_stmt_quota_stmt_quota_mode_keyword_over,
@@ -225,8 +225,8 @@ syn match nft_add_cmd_table_block_set_block_stateful_stmt_list_stmt_stateful_stm
 \ nextgroup=
 \    nft_add_cmd_set_block_stateful_stmt_list_stateful_stmt_last_stmt_keyword_used
 
-hi link   nft_add_cmd_table_block_set_block_stateful_stmt_list_stmt_stateful_stmt_connlimit_stmt_keyword_ct nftHL_Statement
-syn match nft_add_cmd_table_block_set_block_stateful_stmt_list_stmt_stateful_stmt_connlimit_stmt_keyword_ct 'ct\ze[ \t]' skipwhite contained
+hi link   nft_set_block_stateful_stmt_list_stmt_stateful_stmt_connlimit_stmt_keyword_ct nftHL_Statement
+syn match nft_set_block_stateful_stmt_list_stmt_stateful_stmt_connlimit_stmt_keyword_ct '\v^.{0,32}\zsct\ze[ \t]' skipwhite contained
 \ nextgroup=
 \    nft_add_cmd_set_block_stateful_stmt_list_stateful_stmt_connlimit_stmt_keyword_count
 " ******************** END stateful_stmt ****************************

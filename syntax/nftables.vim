@@ -149,6 +149,17 @@ set cpo&vim
 " These files define specific syntax groups, forming the LL(1) syntax tree.
 let s:list_filepaths_semantic_early = ['common_block_early.vim']
 let s:list_filepaths_semantic_later = [
+\     'set_block.vim',
+\     'map_block.vim',
+\     'flowtable_block.vim',
+\     'counter_block.vim',
+\     'quota_block.vim',
+\     'ct_helper_block.vim',
+\     'ct_timeout_block.vim',
+\     'ct_expect_block.vim',
+\     'limit_block.vim',
+\     'secmark_block.vim',
+\     'synproxy_block.vim',
 \     'describe_cmd.vim',
 \     'monitor_cmd.vim',
 \     'replace_cmd.vim',
@@ -164,6 +175,7 @@ let s:list_filepaths_semantic_later = [
 \     'common_block.vim',
 \     'table.vim',
 \    ]
+" 'table.vim' is last one due to first keyword being a wildcard for `table <identifier>`
 
 let s:nftables_filepath_this_script = resolve(expand('<sfile>:p'))
 let s:nftables_dirpath_root = fnameescape(fnamemodify(s:nftables_filepath_this_script, ':h:h'))

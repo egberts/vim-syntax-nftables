@@ -179,7 +179,7 @@ syn match nft_XXX_close_scope_ZZZ_YYY_set_ref_symbol_expr_keyword_at_identifier 
 \ nextgroup=
 \    @nft_c_stmt
 
-hi link   nft_XXX_close_scope_ZZZ_YYY_set_list_member_expr_symbol_expr_string_keyword_defines nfthL_Defines
+hi link   nft_XXX_close_scope_ZZZ_YYY_set_list_member_expr_symbol_expr_string_keyword_defines nftHL_Define
 syn match nft_XXX_close_scope_ZZZ_YYY_set_list_member_expr_symbol_expr_string_keyword_defines '\vabc|def' skipwhite contained
 
 hi link    nft_XXX_YYY_set_expr_inline_set nftHL_BlockDelimitersDDD
@@ -206,7 +206,7 @@ syn match nft_XXX_close_scope_ZZZ_YYY_internal_set_expr_keyword_in '\vin\ze[ \t]
 " END Operators - Set membership
 
 " BEGIN Operators - Scalar
-hi link   nft_XXX_close_scope_ZZZ_YYY_boolean_expr_boolean_keys_keywords nfthL_Defines
+hi link   nft_XXX_close_scope_ZZZ_YYY_boolean_expr_boolean_keys_keywords nftHL_Define
 syn match nft_XXX_close_scope_ZZZ_YYY_boolean_expr_boolean_keys_keywords '\vmissing|exists' skipwhite contained
 \ nextgroup=
 \    @nft_c_ZZZ
@@ -242,7 +242,7 @@ syn match nft_XXX_close_scope_ZZZ_YYY_string_expr_string_ip4_opt_cidr '\v(25[0-5
 hi link   nft_XXX_close_scope_ZZZ_YYY_payload_expr_string_ip4 nftHL_Integer
 syn match nft_XXX_close_scope_ZZZ_YYY_payload_expr_string_ip4 '\v(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\ze[ \t]' skipwhite contained
 
-hi link   nft_XXX_close_scope_ZZZ_YYY_symbol_expr_string_keyword_defines nfthL_Defines
+hi link   nft_XXX_close_scope_ZZZ_YYY_symbol_expr_string_keyword_defines nftHL_Define
 syn match nft_XXX_close_scope_ZZZ_YYY_symbol_expr_string_keyword_defines '\v(abc|def)\ze[ \t\n;,]' skipwhite contained
 \ nextgroup=
 \    @nft_c_ZZZ

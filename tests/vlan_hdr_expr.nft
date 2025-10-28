@@ -8,13 +8,13 @@
 # true positive test (properly hightlighted correctly; has good content; perfect
 ################################################################################
 
-rule ip T C vlan id 4095 accept
-rule ip T C vlan cfi 1 accept
-rule ip T C vlan dei 1 accept
-rule ip T C vlan pcp 7 accept
-rule ip T C vlan type 127 accept
+rule bridge T C vlan id 4095 accept
+rule bridge T C vlan cfi 1 accept
+rule bridge T C vlan dei 1 accept
+rule bridge T C vlan pcp 7 accept
+rule bridge T C vlan type 127 accept
 
-table inet filter {
+table bridge filter {
     chain input {
         type filter hook input priority 0; policy drop;
 
