@@ -100,7 +100,7 @@ syn match nft_add_cmd_keyword_synproxy_synproxy_block_keyword_mss_second_keyword
 " 'mss' <NUM> 'wscale' <NUM>
 " synproxy_block->(add_cmd|create_cmd|synproxy_block)
 hi link   nft_add_cmd_keyword_synproxy_synproxy_block_keyword_mss_keyword_wscale_num nftHL_Integer
-syn match nft_add_cmd_keyword_synproxy_synproxy_block_keyword_mss_keyword_wscale_num '\v[0-9]{1,5}\ze(([ \t\;])|$)' skipnl skipwhite contained
+syn match nft_add_cmd_keyword_synproxy_synproxy_block_keyword_mss_keyword_wscale_num '\v[0-9]{1,5}\ze([ \t\;\n])' skipnl skipwhite contained
 \ nextgroup=
 \    nft_synproxy_block_synproxy_ts,
 \    nft_synproxy_block_synproxy_sack,
@@ -145,7 +145,7 @@ syn match nft_add_cmd_keyword_synproxy_synproxy_block_keyword_mss '\vmss\ze[ \t]
 \    nft_Error
 
 hi link    nft_add_cmd_keyword_synproxy_synproxy_block nftHL_Delimiters
-syn region nft_add_cmd_keyword_synproxy_synproxy_block start=+{+ end=+}+ skip='\\\}' contained
+syn region nft_add_cmd_keyword_synproxy_synproxy_block start=+{+ end=+}+ skip="#.{0,45}$" skipnl skipwhite contained
 \ contains=
 \    nft_common_block_keyword_redefine,
 \    nft_common_block_keyword_undefine,

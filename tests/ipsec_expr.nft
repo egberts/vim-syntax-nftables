@@ -1,0 +1,17 @@
+
+
+table ip t {
+    chain c2 {
+        # Direct match
+        ipsec in reqid 100 accept
+
+        # Set literal
+        ipsec in reqid { 100, 200, 300 } accept
+
+        # Range
+        ipsec in reqid > 500 log prefix "High reqid: "
+
+        # With interface
+        ipsec in reqid 100 iifname "lo" accept
+    }
+}

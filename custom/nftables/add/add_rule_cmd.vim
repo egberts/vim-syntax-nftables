@@ -640,7 +640,7 @@ syn match nft_add_cmd_rule_rule_alloc_stmt_keyword_not '\vnot\ze[ \t]' skipwhite
 \    nft_meta_expr_meta_key_unqualified_keyword_oiftype,
 \    nft_meta_expr_meta_key_unqualified_keyword_pkttype,
 \    nft_meta_expr_meta_key_unqualified_keyword_cgroup,
-\    nft_meta_expr_meta_key_unqualified_keyword_ipsec,
+\    nft_xfrm_expr_keyword_ipsec,
 \    nft_meta_expr_meta_key_unqualified_keyword_hour,
 \    nft_meta_expr_meta_key_unqualified_keyword_mark,
 \    nft_meta_expr_meta_key_unqualified_keyword_time,

@@ -1,0 +1,77 @@
+
+
+add rule T C ip length 15 drop
+add rule T C ip6 length 15 drop
+add rule T C icmp hlen 15 drop
+add rule T C icmpv6 hlen 15 drop
+add rule T C tcp length 15 drop
+add rule T C udp length 15 drop
+add rule T C arp htype 15 arp hlen 15 drop
+add rule T C arp hlen 15 drop
+add rule T C iif 1 ip length 15 drop
+add rule T C iifname "br0" ip length 15 drop
+add rule T C iiftype 1 ip length 15 drop
+
+add rule ip T C ip length 15 drop
+add rule ip T C ip6 length 15 drop
+add rule ip T C icmp length 15 drop
+add rule ip T C icmpv6 length 15 drop
+add rule ip T C tcp length 15 drop
+add rule ip T C udp length 15 drop
+add rule ip T C arp hlen 15 drop
+add rule ip T C iif 1 ip length 15 drop
+add rule ip T C iifname "br0" ip length 15 drop
+add rule ip T C iiftype 1 ip length 15 drop
+
+add rule ip6 T C ip length 15 drop
+add rule ip6 T C ip6 length 15 drop
+add rule ip6 T C icmp length 15 drop
+add rule ip6 T C icmpv6 length 15 drop
+add rule ip6 T C tcp length 15 drop
+add rule ip6 T C udp length 15 drop
+add rule ip6 T C iif 1 ip length 15 drop
+add rule ip6 T C iifname "br0" ip length 15 drop
+add rule ip6 T C iiftype 1 ip length 15 drop
+
+add rule inet T C ip length 15 drop
+add rule inet T C ip6 length 15 drop
+add rule inet T C icmp length 15 drop
+add rule inet T C icmpv6 length 15 drop
+add rule inet T C tcp length 15 drop
+add rule inet T C udp length 15 drop
+add rule inet T C arp hlen 15 drop
+add rule inet T C iif 1 ip length 15 drop
+add rule inet T C iifname "br0" ip length 15 drop
+add rule inet T C iiftype 1 ip length 15 drop
+
+add rule netdev T C ip length 15 drop
+add rule netdev T C ip6 length 15 drop
+add rule netdev T C icmp length 15 drop
+add rule netdev T C icmpv6 length 15 drop
+add rule netdev T C tcp length 15 drop
+add rule netdev T C udp length 15 drop
+add rule netdev T C arp hlen 15 drop
+add rule netdev T C iif 1 ip length 15 drop
+add rule netdev T C iifname "br0" ip length 15 drop
+add rule netdev T C iiftype 1 ip length 15 drop
+add rule bridge T C ip length 15 drop
+add rule bridge T C ip6 length 15 drop
+add rule bridge T C icmp length 15 drop
+add rule bridge T C icmpv6 length 15 drop
+add rule bridge T C tcp length 15 drop
+add rule bridge T C udp length 15 drop
+add rule bridge T C arp hlen 15 drop
+add rule bridge T C iif 5 ip length 15 drop
+add rule bridge T C iifname "br*" ip length 15 drop
+add rule bridge T C iiftype 5 ip length 15 drop
+
+add rule arp T C ip length 15 drop
+add rule arp T C ip6 length 15 drop
+add rule arp T C icmp length 15 drop
+add rule arp T C icmpv6 length 15 drop
+add rule arp T C tcp length 15 drop
+add rule arp T C udp length 15 drop
+add rule arp T C arp hlen 15 drop
+add rule arp T C iif 5 ip length 15 drop
+add rule arp T C iifname "eth0" ip length 15 drop
+add rule arp T C iiftype 3 ip length 15 drop

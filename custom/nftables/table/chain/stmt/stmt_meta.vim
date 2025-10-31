@@ -259,10 +259,14 @@ syn match nft_meta_stmt_meta_key_qualified_keyword_random '\vrandom' skipwhite c
 " ************ END meta_stmt 'random' ***************************
 
 " ********** BEGIN meta_stmt 'ipsec' ****************************
-hi link   nft_meta_stmt_meta_key_unqualified_keyword_ipsec nftHL_Error
-syn match nft_meta_stmt_meta_key_unqualified_keyword_ipsec '\vipsec' skipwhite contained
+" You cannot use set with ipsec in reqid in nftables v1.1.4.
+" Use set literals {} or direct values in rules.
+" reqid is not a packet field — it's a policy attribute
+hi link   nft_meta_stmt_meta_key_unqualified_keyword_ipsec nftHL_Statement
+syn match nft_meta_stmt_meta_key_unqualified_keyword_ipsec '\vipsec\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_Error
+\    nft_xfrm_expr_xfrm_dir_keyword_out,
+\    nft_xfrm_expr_xfrm_dir_keyword_in,
 " ************ END meta_stmt 'ipsec' ****************************
 
 " ********** BEGIN meta_stmt 'skgid' ****************************

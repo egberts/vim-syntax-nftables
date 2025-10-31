@@ -378,12 +378,15 @@ syn match nft_base_cmd_destroy_delete_cmds_keyword_flowtable '\vflowtable\ze[ \t
 \    nft_Error
 " flowtableflowtableflowtable
 
+hi link   nft_delete_cmd_obj_or_id_spec_obj_spec_close_scope_synproxy_integer_expr nftHL_Integer
+syn match nft_delete_cmd_obj_or_id_spec_obj_spec_close_scope_synproxy_integer_expr '\v[0-9]{1,5}\ze[ \t\n;]' skipwhite contained
 " GENERIC obj_or_id_spec for 'delete', 'destroy' command
 " provides for 'counter', 'quota', 'ct', 'limit', 'synproxy'
 " but not 'secmark' where family_spec is a required argument
 hi link   nft_delete_cmd_obj_or_id_spec_obj_spec_identifier nftHL_Identifier
 syn match nft_delete_cmd_obj_or_id_spec_obj_spec_identifier '\v[A-Za-z][A-Za-z0-9_\-]{0,63}' skipwhite contained
 \ nextgroup=
+\    nft_delete_cmd_obj_or_id_spec_obj_spec_close_scope_synproxy_integer_expr,
 \    nft_line_stmt_separator,
 \    nft_Error
 

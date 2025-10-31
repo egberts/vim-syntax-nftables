@@ -27,6 +27,10 @@ add table netdev Tnetdev
 add table bridge Tbridge
 add table arp Tarp
 
+add limit T L rate 15/second
+add limit T L { rate 15/second };
+add limit T L burst oopsie  # burst cannot be defined without 'rate'
+
 # base_cmd add_cmd 'table' table_spec table_block 'limit' limit_block
 
 table T { limit L { rate 15 bytes / second }; }
@@ -100,6 +104,15 @@ table T {
 
     }
 };
+
+table T {
+  set S {
+    limit rate 5/second
+  }
+  map M {
+    limit rate 5/second
+  }
+}
 
 # limit_rate_pkts->limit_config->identifier->table_spec->'limit'->'create'->create_cmd->base_cmd
 create limit ip Tip Lip rate over 3600000/ day

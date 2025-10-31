@@ -119,6 +119,8 @@ syn match nft_create_cmd_keyword_table "\vtable\ze[ \t]" skipwhite contained
 \    nft_UnexpectedEOS
 " **************** END 'create' 'table' *********************
 
+
+
 " **************** BEGIN 'create' ***************************
 " 'create'->base_cmd->line
 hi link   nft_base_cmd_keyword_create nftHL_Command

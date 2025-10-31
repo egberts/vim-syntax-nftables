@@ -52,6 +52,8 @@ hi link   nft_CommandError nftHL_Error
 syn match nft_CommandError /"v[a-zA-Z0-9\\\/_\.;:]{1,64}/ skipwhite contained
 
 
+" Trickest part about this 'define_match' function is that it makes
+" search harder to look for (used to have 'syn match' but no more found with it)
 
 call nftables#syntax#define_match(
 \    'nft_base_cmd_keyword_add',
@@ -63,6 +65,7 @@ call nftables#syntax#define_match(
 \     'nft_base_cmd_add_cmd_keyword_elements',
 \     'nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_netdev',
 \     'nft_base_cmd_add_cmd_keyword_chain_imperative',
+\     'nft_base_cmd_add_cmd_keyword_limit',
 \     'nft_base_cmd_add_cmd_keyword_quota',
 \     'nft_base_cmd_add_cmd_keyword_table_imperative',
 \     'nft_base_cmd_add_cmd_rule_position_chain_spec_table_spec_family_spec_family_spec_explicit_keyword_inet',

@@ -3,9 +3,9 @@
 
 add rule T C ip version 0 accept
 add rule T C ip version 15 accept
-add rule T C ip version 16 accept  # overflowed 4-bit
 add rule T C ip version 0x0 accept
 add rule T C ip version 0xf accept
+add rule T C ip version 16 accept  # overflowed 4-bit
 add rule T C ip version 0x10 accept  # overflowed 4-bit
 add rule T C ip version $IP_HDR_VERSION accept
 add rule T C ip version == 0x7 accept  # overflowed 4-bit
@@ -18,8 +18,10 @@ add rule T C ip version < 0x4 accept
 add rule T C ip version not { 1,2,4 } accept
 add rule T C ip version in { 1,2,4 } accept
 add rule T C ip version not in { 1,2,4 } accept
-add rule T C ip version not in 1 accept  # not a set of integer
+add rule T C ip version not in 1 accept  # scalar; not a set of integer
 add rule T C ip version not in 0x4 accept  # overflowed 4-bit
+add rule T C ip version != { 1,2,4 } accept
+add rule T C ip version == { 1,2,4 } accept
 add rule T C ip version any
 add rule T C ip hdrlength 15 accept
 add rule T C ip frag-off 15 accept
@@ -40,14 +42,56 @@ add rule T C ip option ra accept
 add rule T C ip option rr accept
 add rule T C ip option lsrr  accept
 add rule T C ip option lsrr length 25666666 accept
-add rule T C ip option lsrr addr 15 accept
+add rule T C ip option lsrr addr 127.0.0.1/24 accept
 add rule T C ip option lsrr type 15 accept
+add rule T C ip option lsrr ptr 4 accept
+add rule T C ip option lsrr ptr 8 accept
+add rule T C ip option lsrr ptr 12 accept
+add rule T C ip option lsrr ptr 16 accept
+add rule T C ip option lsrr ptr 20 accept
+add rule T C ip option lsrr ptr 24 accept
+add rule T C ip option lsrr ptr 28 accept
+add rule T C ip option lsrr ptr 32 accept
+add rule T C ip option lsrr ptr 36 accept
+add rule T C ip option lsrr ptr 40 accept
 add rule T C ip option lsrr ptr 15 accept
 add rule T C ip option ssrr accept
-add rule T C ip option ssrr length 15 accept
-add rule T C ip option ssrr addr 15 accept
-add rule T C ip option ssrr type 15 accept
-add rule T C ip option ssrr ptr 15 accept
+add rule T C ip option ssrr length 0x0 accept
+add rule T C ip option ssrr length 0x3 accept
+add rule T C ip option ssrr length 0x4 accept
+add rule T C ip option ssrr length 0x10 accept
+add rule T C ip option ssrr length 0x1f accept
+add rule T C ip option ssrr length 0x28 accept
+add rule T C ip option ssrr length 0x29 accept
+add rule T C ip option ssrr length 0 accept
+add rule T C ip option ssrr length 3 accept
+add rule T C ip option ssrr length 4 accept
+add rule T C ip option ssrr length 9 accept
+add rule T C ip option ssrr length 10 accept
+add rule T C ip option ssrr length 19 accept
+add rule T C ip option ssrr length 20 accept
+add rule T C ip option ssrr length 29 accept
+add rule T C ip option ssrr length 30 accept
+add rule T C ip option ssrr length 39 accept
+add rule T C ip option ssrr length 40 accept
+add rule T C ip option ssrr length 41 accept
+add rule T C ip option ssrr ptr 4 accept
+add rule T C ip option ssrr ptr 8 accept
+add rule T C ip option ssrr ptr 12 accept
+add rule T C ip option ssrr ptr 16 accept
+add rule T C ip option ssrr ptr 20 accept
+add rule T C ip option ssrr ptr 24 accept
+add rule T C ip option ssrr ptr 25 accept
+add rule T C ip option ssrr ptr 28 accept
+add rule T C ip option ssrr ptr 32 accept
+add rule T C ip option ssrr ptr 36 accept
+add rule T C ip option ssrr ptr 40 accept
+add rule T C ip option ssrr ptr 41 accept
+add rule T C ip option ssrr addr 127.0.0.1 accept
+add rule T C ip option ssrr type 0 accept
+add rule T C ip option ssrr type 123 accept
+add rule T C ip option ssrr type 255 accept
+add rule T C ip option ssrr type 256 accept
 add rule T C ip daddr 15 accept
 add rule T C ip saddr 127.0.0.1 accept
 add rule T C ip ecn 1 accept

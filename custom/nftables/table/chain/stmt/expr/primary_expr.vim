@@ -501,7 +501,7 @@ syn cluster nft_c_primary_expr
 \    nft_payload_expr_numgen_expr_keyword_numgen,
 \    nft_meta_expr_meta_key_meta_key_qualified_keyword_random,
 \    nft_socket_expr_keyword_socket,
-\    nft_meta_expr_meta_key_unqualified_keyword_ipsec,
+\    nft_xfrm_expr_keyword_ipsec,
 \    nft_payload_expr_hash_expr_keyword_jhash,
 \    nft_meta_expr_meta_key_unqualified_keyword_skgid,
 \    nft_meta_expr_meta_key_unqualified_keyword_skuid,

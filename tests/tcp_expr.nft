@@ -1,0 +1,12 @@
+table inet t {
+    set maxseg_set {
+        typeof tcp option maxseg
+        elements = { 500, 1000, 1500 }
+    }
+
+    chain c {
+        type filter hook input priority 0;
+        tcp option maxseg @maxseg_set accept
+    }
+}
+

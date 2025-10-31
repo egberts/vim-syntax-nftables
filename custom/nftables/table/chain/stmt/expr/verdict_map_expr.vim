@@ -32,16 +32,77 @@ try
   " INSERT 'syntax region' here
   " INSERT 'syntax cluster' here
   "
-" **************** BEGIN verdict_map_expr ****************************
-hi link    nft_verdict_stmt_verdict_map_stmt_verdict_map_expr_delimiters nftHL_BlockDelimitersSet
-syn region nft_verdict_stmt_verdict_map_stmt_verdict_map_expr_delimiters start=+{+ end=+}+ keepend skipwhite contained
 
-hi link   nft_verdict_stmt_verdict_map_stmt_keyword_vmap nftHL_Write
-syn match nft_verdict_stmt_verdict_map_stmt_keyword_vmap '\vvmap' skipwhite contained
+
+" set_elem_stmt->set_elem_expr_alloc->set_elem_expr->verdict_map_list_member_expr->verdict_map_expr
+syn cluster nft_c_verdict_map_list_expr_set_elem_expr_set_elem_expr_alloc_set_elem_key_expr_set_elem_stmt
+\ contains=
+\    nft_c_verdict_map_list_expr_set_elem_expr_set_elem_expr_alloc_set_elem_key_expr_set_elem_stmt_keyword_counter,
+\    nft_c_verdict_map_list_expr_set_elem_expr_set_elem_expr_alloc_set_elem_key_expr_set_elem_stmt_keyword_limit,
+\    nft_c_verdict_map_list_expr_set_elem_expr_set_elem_expr_alloc_set_elem_key_expr_set_elem_stmt_keyword_ct,
+\    nft_c_verdict_map_list_expr_set_elem_expr_set_elem_expr_alloc_set_elem_key_expr_set_elem_stmt_keyword_quota,
+\    nft_c_verdict_map_list_expr_set_elem_expr_set_elem_expr_alloc_set_elem_key_expr_set_elem_stmt_keyword_last,
+
+" '*'->set_elem_key_expr->set_elem_expr_alloc->set_elem_expr->verdict_map_list_member_expr->verdict_map_expr
+syn match nft_verdict_map_list_expr_set_elem_expr_set_elem_expr_alloc_set_elem_key_expr_asterisk '\*' skipwhite contained
 \ nextgroup=
-\    nft_verdict_stmt_verdict_map_stmt_verdict_map_expr_delimiters
-" **************** END verdict_map_expr ******************************
+\    nft_verdict_map_list_expr_set_elem_expr_set_elem_expr_alloc_set_elem_key_expr_set_elem_stmt
 
+" set_lhs_expr->set_elem_key_expr->set_elem_expr_alloc->set_elem_expr->verdict_map_list_member_expr->verdict_map_expr
+syn cluster nft_c_verdict_map_list_expr_set_elem_expr_set_elem_expr_alloc_set_elem_key_expr_set_lhs_expr
+\ contains=
+\    nft_nothing
+
+" set_elem_key_expr->set_elem_expr_alloc->set_elem_expr->verdict_map_list_member_expr->verdict_map_expr
+syn cluster nft_c_verdict_map_list_expr_set_elem_expr_set_elem_expr_alloc_set_elem_key_expr
+\ contains=
+\    nft_c_verdict_map_list_expr_set_elem_expr_set_elem_expr_alloc_set_elem_key_expr_set_lhs_expr
+
+" set_elem_expr_alloc->set_elem_expr->verdict_map_list_member_expr->verdict_map_expr
+syn cluster nft_c_verdict_map_list_expr_set_elem_expr_set_elem_expr_alloc
+\ contains=
+\    nft_c_verdict_map_list_expr_set_elem_expr_set_elem_expr_alloc_set_elem_key_expr
+
+" cannot use nft_c_set_elem_expr here,
+" MUST CLONE IT ALL because we continue on with ':'
+syn cluster nft_c_verdict_map_list_expr_set_elem_expr_alloc
+\ contains=
+\    nft_c_verdict_map_list_expr_set_elem_expr_set_elem_expr_alloc
+
+
+hi link    nft_verdict_map_expr_block_delimiters nftHL_BlockDelimitersMap
+syn region nft_verdict_map_expr_block_delimiters start=+{+ end=+}+ skipwhite contained
+\ contains=
+\    @nft_c_verdict_map_list_member_expr,
+\    nft_set_elem_expr
+\ nextgroup=
+\    @nft_c_stmt,
+\    nft_stmt_separator
+
+hi link   nft_verdict_map_expr_set_ref_expr_set_ref_symbol_expr_at_identifier nftHL_AtSetname
+syn match nft_verdict_map_expr_set_ref_expr_set_ref_symbol_expr_at_identifier '\v\@[a-zA-Z][a-zA-Z0-9_\-]{0,63}\ze[ \t\n;]' skipwhite contained
+\ nextgroup=
+\    @nft_c_stmt,
+\    nft_stmt_separator
+
+hi link   nft_verdict_map_expr_set_ref_expr_variable_expr nftHL_Variable
+syn match nft_verdict_map_expr_set_ref_expr_variable_expr '\v\$[a-zA-Z][a-zA-Z0-9_\-]{0,63}\ze[ \t\n;]' skipwhite contained
+\ nextgroup=
+\    @nft_c_stmt,
+\    nft_stmt_separator
+
+syn cluster nft_c_verdict_map_expr_set_ref_expr
+\ contains=
+\    nft_verdict_map_expr_set_ref_expr_set_ref_symbol_expr_at_identifier,
+\    nft_verdict_map_expr_set_ref_expr_variable_expr,
+\    nft_stmt_separator
+
+syn cluster nft_c_verdict_map_expr
+\ contains=
+\    nft_verdict_map_expr_set_ref_expr_set_ref_symbol_expr_at_identifier,
+\    nft_verdict_map_expr_set_ref_expr_variable_expr,
+\    nft_verdict_map_expr_block_delimiters,
+\    nft_stmt_separator
 
 
   for s:this_semantic_file in s:verdict_map_expr_list_filepaths_semantic_later

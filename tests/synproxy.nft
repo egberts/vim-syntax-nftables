@@ -132,14 +132,6 @@ delete synproxy bridge table_name handle 15
 delete synproxy netdev table_name handle 15
 
 
-list synproxy myTable mySynProxy
-list synproxy ip myTable mySynProxy
-list synproxy ip6 myTable mySynProxy
-list synproxy inet myTable mySynProxy
-list synproxy arp myTable mySynProxy
-list synproxy bridge myTable mySynProxy
-list synproxy netdev myTable mySynProxy
-
 ################################################################################
 # true negative test: properly hightlighted wrongly to show an error;
 # so far, so good.
@@ -153,7 +145,13 @@ synproxy ip myTable synproxy_obj mss 1492 wscale 5timestamp
 synproxy ip myTable synproxy_obj mss 1492 wscale 5sack-perm
 synproxy ip myTable synproxy_obj mss 1492 wscale 5 timestampsack-perm
 
-weird
+list synproxy myTable mySynProxy
+list synproxy ip myTable mySynProxy
+list synproxy ip6 myTable mySynProxy
+list synproxy inet myTable mySynProxy
+list synproxy arp myTable mySynProxy
+list synproxy bridge myTable mySynProxy
+list synproxy netdev myTable mySynProxy
 
 
 
@@ -166,8 +164,9 @@ weird
 synproxy myTable https-synproxy {
     mss 1460 wscale 7;
     mss 1460
-    wscale 7  # trigger line here
+    wscale 7  # this inline comment prevented a line continuation
     timestamp sack-perm
+
 }
 
 

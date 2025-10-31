@@ -1,0 +1,102 @@
+
+table inet T {
+    set S {
+        typeof ip saddr
+    }
+    chain mychain {
+        type filter hook input priority 0; policy accept;
+        ether type typeof ip accept
+    }
+}
+table inet T {
+  set S2 {
+    typeof ip daddr
+  }
+
+}
+  set S3 {
+    typeof ip protocol
+  }
+  set S4 {
+    typeof ip6 saddr
+  }
+  set S5 {
+    typeof ip6 daddr
+  }
+  set S6 {
+    typeof ip6 nexthdr
+  }
+  set S7 {
+    typeof ether saddr
+  }
+  set S8 {
+    typeof ether daddr
+  }
+  set S9 {
+    typeof tcp sport
+  }
+  set S10 {
+    typeof tcp dport
+  }
+  set S11 {
+    typeof udp sport
+  }
+  set S12 {
+    typeof udp dport
+  }
+  set S13 {
+    typeof icmp type
+  }
+  set S14 {
+    typeof icmp code
+  }
+  set S15 {
+    typeof icmpv6 type
+  }
+  set S16 {
+    typeof icmpv6 code
+  }
+  set S17 {
+    typeof mark
+  }
+  set S18 {
+    typeof meta mark
+  }
+  set S19 {
+    typeof meta priority
+  }
+  set S20 {
+    typeof meta skuid
+  }
+  set S21 {
+    typeof meta skgid
+  }
+  set S22 {
+    typeof meta iif
+  }
+  set S23 {
+    typeof meta oif
+  }
+  set S24 {
+    typeof meta iifname
+  }
+  set S25 {
+    typeof meta oifname
+  }
+  set S26 {
+    typeof ct state
+  }
+  set S27 {
+    typeof ct status
+  }
+  set S28 {
+    typeof ct mark
+  }
+  set S29 {
+    typeof ct event
+  }
+  set S30 {
+    typeof ct label
+  }
+}
+

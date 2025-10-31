@@ -149,7 +149,8 @@ set cpo&vim
 " These files define specific syntax groups, forming the LL(1) syntax tree.
 let s:list_filepaths_semantic_early = ['common_block_early.vim']
 let s:list_filepaths_semantic_later = [
-\     'set_block.vim',
+\     'set.vim',
+\     'limit_cmd.vim',
 \     'map_block.vim',
 \     'flowtable_block.vim',
 \     'counter_block.vim',
@@ -157,7 +158,6 @@ let s:list_filepaths_semantic_later = [
 \     'ct_helper_block.vim',
 \     'ct_timeout_block.vim',
 \     'ct_expect_block.vim',
-\     'limit_block.vim',
 \     'secmark_block.vim',
 \     'synproxy_block.vim',
 \     'describe_cmd.vim',
@@ -423,7 +423,7 @@ hi link   nft_Comma nftHL_BlockDelimiters
 syn match nft_Comma /,/ contained
 
 hi link   nft_InlineComment nftHL_Comment
-syn match nft_InlineComment '\v\# ' skipwhite contained
+syn match nft_InlineComment '\v\#.*$' skipwhite contained
 
 " **** BEGIN of ERROR CONDITIONS ****
 hi link   nft_UnexpectedSymbol nftHL_Error

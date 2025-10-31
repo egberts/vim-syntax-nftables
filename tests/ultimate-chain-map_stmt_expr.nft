@@ -258,7 +258,7 @@ table T {
 table T {
     chain C {
 		ip6 daddr ::1 tcp dport 5555 reject with tcp reset
-		ip6 daddr { 2001:db8::1-2001:db8::2 } jump {
+		ip6 daddr { 2001:db8::1-2001:db8::2 } jump vmap {
 		ip6 daddr { ::/3, 2001::/32, 2001:2::/48, 2001:3::/32, 2001:10::-2001:2f:ffff:ffff:ffff:ffff:ffff:ffff, 2001:db8::/32, 2002::/16, 3000::-ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff } goto log_blacklist
 		ip6 daddr { ::/96, ::ffff:0.0.0.0/96, 2002::/24, 2002:a00::/24, 2002:7f00::/24, 2002:a9fe::/32, 2002:ac10::/28, 2002:c0a8::/32, 2002:e000::/19 } reject with icmpv6 addr-unreachable
     }
@@ -301,7 +301,6 @@ table T {
 		ip daddr 172.30.33.70 tcp dport 3306 counter packets 0 bytes 0 drop
 		ip daddr { 192.168.0.1, 192.168.0.2, 192.168.0.3 }
 		ip daddr { 192.168.0.1, 192.168.0.2, 192.168.0.3 } counter packets 0 bytes 0 accept
-		ip daddr 192.168.2.20 jump {
 		ip daddr { 192.168.3.30, 192.168.4.40 } tcp dport vmap { 22 : accept, 80 : drop, 443 : accept }
 	}
 }
@@ -456,22 +455,22 @@ table T {
 }
 table T {
     chain C {
-		jump { }
-		jump { counter; }
 		jump filter_IN_work_pre
     }
 }
-table T {
+create table T {
     limit l1 rate 10/second
     limit l2 rate 5/second
 	limit name ip6 saddr map @saddr6limit
 	limit name meta protocol . ip saddr . th sport map @addr4limit
 	limit name tcp dport map { 80 : "http-traffic", 443 : "http-traffic" }
+}
+table T {
     chain C {
 		l3proto ip
-		limit rate 1/second burst 5 packets
-		limit rate 1/second burst 5 packets counter
-		limit rate over 1 mbytes/second
+		limit { rate 1/second burst 5 packets }
+		limit { rate 1/second burst 5 packets counter }
+		limit { rate over 1 mbytes/second }
 		log
 		log prefix "NFT BLACKLIST " flags ip options flags ether limit rate 5/minute burst 10 packets drop
 		log prefix "NFT REJECT FWD " flags ip options flags ether limit rate 5/second burst 10 packets reject
@@ -507,7 +506,7 @@ table T {
 		meta protocol tcp dnat ip to numgen inc mod 2 map @t2v4
 		meta protocol { tcp, udp } dnat ip to ip daddr . th dport map @fwdtoip_th
 		meta protocol { tcp, udp } th dport 443 dnat to 10.0.0.1
-		meta protocol { tcp, udp } th dport 53 jump {
+		meta protocol { tcp, udp } th dport 53 jump { };
 		meta protocol udp redirect to :5300
 		meta protocol udp redirect to :5301
 		meta protocol vmap { tcp : goto filter_in_tcp, udp : goto filter_in_udp }
@@ -578,7 +577,7 @@ table T {
 table T {
     chain C {
 		oifname "eth0" accept
-		oifname "eth0" jump {
+		oifname "eth0" jump { counter; jump { } };
 		oifname "lo" accept
 		oifname "perm_dummy2" goto filter_FWDO_trusted
 		oifname "perm_dummy2" goto nat_POST_trusted
@@ -811,7 +810,7 @@ table T {
 	}
 }
 table T {
-	chain C {
+	set S {
 		type icmpv6_type
 		type iface_index
 		type iface_index . ether_addr . ipv4_addr
@@ -823,7 +822,7 @@ table T {
 	}
 }
 table T {
-	chain C {
+	set S {
 		type inet_service
 		type inet_service;
 		type inet_service . ifname
@@ -902,6 +901,10 @@ table T {
 		typeof ct zone
 		typeof frag frag-off
 		typeof osf name
+		typeof sctp checksum
+		typeof sctp vtag
+		typeof sctp sport
+		typeof sctp dport
 		typeof sctp chunk data tsn
 		typeof sctp chunk data tsn
 		typeof sctp chunk data stream
@@ -969,7 +972,7 @@ table T {
 		typeof sctp chunk asconf-ack flags 
 		typeof sctp chunk asconf-ack type 
 		typeof sctp chunk forward-tsn new-cum-tsn
-		typeof sctp chunk forward-tsn length 
+		typeof sctp chunk forward-tsn length
 		typeof sctp chunk forward-tsn flags 
 		typeof sctp chunk forward-tsn type 
 		typeof vlan id
@@ -1003,7 +1006,7 @@ table T {
 		udp dport 4789 update @y { vxlan ip saddr }
 		udp dport 4789 vxlan ip saddr . vxlan ip daddr { 1.1.1.1 . 2.2.2.2 } counter packets 0 bytes 0
 		udp dport 4789 vxlan ip saddr . vxlan ip daddr @x counter packets 0 bytes 0
-		udp dport { 5060, 7078-7097 } oifname "eth2.10" jump {
+		udp dport { 5060, 7078-7097 } oifname "eth2.10" jump { }
 		udp dport { 53, 123 } accept
     }
 }

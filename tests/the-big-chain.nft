@@ -4,8 +4,6 @@ table ip t {
 		elements = { 2 : jump c2 }
 	}
 	chain input {
-		goto { counter; snat ; }
-		jump { }
 		type filter hook input priority filter + 4; policy accept;
 		masquerade
 		limit name meta protocol . ip saddr . th sport map @addr4limit

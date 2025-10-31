@@ -816,6 +816,7 @@ syn match nft_meta_expr_close_scope_meta_protocol_internal_keyword_any '\vany\ze
 
 syn cluster nft_c_protocol_type
 \ contains=
+\    nft_verdict_stmt_verdict_map_stmt_keyword_vmap,
 \    nft_meta_expr_close_scope_meta_protocol_internal_keyword_any,
 \    nft_meta_expr_close_scope_meta_protocol_relational_expr_keyword_not,
 \    nft_meta_expr_close_scope_meta_protocol_relational_operators_discrete_2char,
@@ -1470,28 +1471,28 @@ syn match nft_meta_expr_meta_key_meta_key_qualified_keyword_random '\vrandom\ze[
 " **************** END meta_expr 'meta random' ***********************
 
 " ************** BEGIN meta_expr 'meta ipsec' ************************
-hi link   nft_meta_expr_meta_key_unqualified_keyword_ipsec_integer nftHL_Integer
-syn match nft_meta_expr_meta_key_unqualified_keyword_ipsec_integer '\v[0-1]{1,1}\ze[ \t;]' skipwhite contained
+hi link   nft_xfrm_expr_keyword_ipsec_integer nftHL_Integer
+syn match nft_xfrm_expr_keyword_ipsec_integer '\v[0-1]{1,1}\ze[ \t;]' skipwhite contained
 
-hi link   nft_meta_expr_meta_key_unqualified_keyword_ipsec_operators_relational nftHL_Operator
-syn match nft_meta_expr_meta_key_unqualified_keyword_ipsec_operators_relational '\v((\<)|(\>)|(\=)|(\!))\=\ze[ \t]' skipwhite contained
+hi link   nft_xfrm_expr_keyword_ipsec_operators_relational nftHL_Operator
+syn match nft_xfrm_expr_keyword_ipsec_operators_relational '\v((\<)|(\>)|(\=)|(\!))\=\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_meta_expr_meta_key_unqualified_keyword_ipsec_integer
+\    nft_xfrm_expr_keyword_ipsec_integer
 
-hi link   nft_meta_expr_meta_key_unqualified_keyword_ipsec_special_keywords nftHL_Define
-syn match nft_meta_expr_meta_key_unqualified_keyword_ipsec_special_keywords '\v(missing|exists)\ze[ \t;]' skipwhite contained
+hi link   nft_xfrm_expr_keyword_ipsec_special_keywords nftHL_Define
+syn match nft_xfrm_expr_keyword_ipsec_special_keywords '\v(missing|exists)\ze[ \t;]' skipwhite contained
 
-hi link   nft_meta_expr_meta_key_unqualified_keyword_ipsec_named_set_identifier Identifier
-syn match nft_meta_expr_meta_key_unqualified_keyword_ipsec_named_set_identifier '\v\@[a-zA-Z][a-zA-Z0-9\-\_]{0,63}\ze[ \t;]' skipwhite contained
+hi link   nft_xfrm_expr_keyword_ipsec_named_set_identifier Identifier
+syn match nft_xfrm_expr_keyword_ipsec_named_set_identifier '\v\@[a-zA-Z][a-zA-Z0-9\-\_]{0,63}\ze[ \t;]' skipwhite contained
 
-hi link   nft_meta_expr_meta_key_unqualified_keyword_ipsec_set_block_member_separator  nftHL_Separator
-syn match nft_meta_expr_meta_key_unqualified_keyword_ipsec_set_block_member_separator  /,/ skipwhite contained
+hi link   nft_xfrm_expr_keyword_ipsec_set_block_member_separator  nftHL_Separator
+syn match nft_xfrm_expr_keyword_ipsec_set_block_member_separator  /,/ skipwhite contained
 \ nextgroup=
-\    nft_meta_expr_meta_key_unqualified_keyword_ipsec_set_block_member_integer,
-\    nft_meta_expr_meta_key_unqualified_keyword_ipsec_set_block_member_special_keywords
+\    nft_xfrm_expr_keyword_ipsec_set_block_member_integer,
+\    nft_xfrm_expr_keyword_ipsec_set_block_member_special_keywords
 
-hi link   nft_meta_expr_meta_key_unqualified_keyword_ipsec_set_block_member_integer nftHL_Integer
-syn match nft_meta_expr_meta_key_unqualified_keyword_ipsec_set_block_member_integer '\v[0-1]{1,1}' skipwhite contained
+hi link   nft_xfrm_expr_keyword_ipsec_set_block_member_integer nftHL_Integer
+syn match nft_xfrm_expr_keyword_ipsec_set_block_member_integer '\v[0-1]{1,1}' skipwhite contained
 \ nextgroup=
 \    nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_set_block_member_separator
 
@@ -1507,10 +1508,10 @@ syn match nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_set_block_memb
 hi link   nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_operators_equality nftHL_Operator
 syn match nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_operators_equality '\v((\=)|(\!))\=\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_meta_expr_meta_key_unqualified_keyword_ipsec_special_keywords,
-\    nft_meta_expr_meta_key_unqualified_keyword_ipsec_named_set_identifier,
-\    nft_meta_expr_meta_key_unqualified_keyword_ipsec_set_block,
-\    nft_meta_expr_meta_key_unqualified_keyword_ipsec_integer
+\    nft_xfrm_expr_keyword_ipsec_special_keywords,
+\    nft_xfrm_expr_keyword_ipsec_named_set_identifier,
+\    nft_xfrm_expr_keyword_ipsec_set_block,
+\    nft_xfrm_expr_keyword_ipsec_integer
 
 hi link   nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_reqid_num nftHL_Integer
 syn match nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_reqid_num '\v[0-9]{1,10}\ze[ \t]' skipwhite contained
@@ -1555,40 +1556,21 @@ syn match nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_directional_ke
 \    nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_set_block,
 \    nft_Error
 
-hi link   nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_directional_keyword_out nftHL_Keyword
-syn match nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_directional_keyword_out '\vout\ze[ \t\{]' skipwhite contained
-\ nextgroup=
-\    nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_named_set_identifier,
-\    nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_keyword_spnum,
-\    nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_keyword_reqid,
-\    nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_keyword_spi,
-\    nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_set_block,
-\    nft_Error
-
-hi link   nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_set_keyword_in nftHL_Keyword
-syn match nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_set_keyword_in '\vin\ze[ \t\{]' skipwhite contained
-\ nextgroup=
-\    nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_named_set_identifier,
-\    nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_keyword_spnum,
-\    nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_keyword_reqid,
-\    nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_keyword_spi,
-\    nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_set_block,
-\    nft_Error
 
 hi link   nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_set_operator_prefix_keyword_not nftHL_Operator
 syn match nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_set_operator_prefix_keyword_not '\vnot\ze[ \t\{]' skipwhite contained
 \ nextgroup=
-\    nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_set_keyword_out,
+\    nft_xfrm_expr_xfrm_dir_keyword_out,
 \    nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_set_keyword_spi,
-\    nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_set_keyword_in,
+\    nft_xfrm_expr_xfrm_dir_keyword_in,
 \    nft_Error
 
 hi link   nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_set_keyword_exclamation nftHL_Operator
 syn match nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_set_keyword_exclamation '\v\!\ze[ \t\{]' skipwhite contained
 \ nextgroup=
-\    nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_set_keyword_out,
+\    nft_xfrm_expr_xfrm_dir_keyword_out,
 \    nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_set_keyword_spi,
-\    nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_set_keyword_in,
+\    nft_xfrm_expr_xfrm_dir_keyword_in,
 \    nft_Error
 
 hi link   nft_meta_expr_meta_key_unqualified_ipsec_keyword_missing nftHL_Define
@@ -1615,10 +1597,7 @@ syn match nft_meta_expr_meta_key_unqualified_ipsec_keyword_exclamation '\v\!' sk
 "    - stmt/primary_stmt/concat_primary_expr/meta_expr/stmt_expr/concat_stmt_expr/basic_stmt_expr/exclusive_or_stmt_expr/and_stmt_expr/shift_stmt_expr/primary_stmt_expr/meta_expr
 " The 'ipsec' part (without 'meta' keyword)
 
-hi link   nft_meta_expr_meta_key_unqualified_keyword_ipsec nftHL_Error
-syn match nft_meta_expr_meta_key_unqualified_keyword_ipsec '\vipsec\ze[ \t]' skipwhite contained
-\ nextgroup=
-\    nft_Error
+
 
 " The 'meta ipsec' part
 hi link   nft_meta_expr_meta_key_meta_key_unqualified_keyword_ipsec nftHL_Substatement
@@ -1628,8 +1607,6 @@ syn match nft_meta_expr_meta_key_meta_key_unqualified_keyword_ipsec '\vipsec\ze[
 \    nft_meta_expr_meta_key_unqualified_ipsec_keyword_exists,
 \    nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_set_operator_prefix_keyword_not,
 \    nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_keyword_spi,
-\    nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_set_keyword_out,
-\    nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_set_keyword_in,
 \    nft_meta_expr_meta_key_unqualified_ipsec_operator_prefix_keyword_not,
 \    nft_meta_expr_meta_key_unqualified_ipsec_keyword_exclamation,
 \    nft_meta_expr_meta_key_meta_key_qualified_keyword_ipsec_operators_relational,
@@ -2053,7 +2030,7 @@ syn cluster nft_c_meta_expr_meta_key_unqualified
 \    nft_meta_expr_meta_key_unqualified_keyword_oiftype,
 \    nft_meta_expr_meta_key_unqualified_keyword_pkttype,
 \    nft_meta_expr_meta_key_unqualified_keyword_cgroup,
-\    nft_meta_expr_meta_key_unqualified_keyword_ipsec,
+\    nft_xfrm_expr_keyword_ipsec,
 \    nft_meta_expr_meta_key_unqualified_keyword_skgid,
 \    nft_meta_expr_meta_key_unqualified_keyword_skuid,
 \    nft_meta_expr_meta_key_unqualified_keyword_hour,
