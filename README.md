@@ -4,6 +4,8 @@ A Vim/Neovim syntax highlighter for [nftables](https://wiki.nftables.org/) confi
 
 It highlights `nft` keywords, catches typos and invalid combinations, and works out-of-the-box with both `.nft` files and `#!nft` shebang scripts.
 
+Railroad diagram for nftables in PDF format are [here](https://github.com/egberts/vim-syntax-nftables/blob/df5aa8805419c25122da15b23190b771513bf729/doc/nftables-railroad-chart.xhtml.pdf)
+
 ---
 
 ## Features
@@ -16,7 +18,7 @@ It highlights `nft` keywords, catches typos and invalid combinations, and works 
   - Files starting with `#!nft` shebang
 - Works with Vim and Neovim
 - Tested with dark/light color schemes
-- Strictly LL(1), explosive deterministic syntax pathways
+- Strictly LL(1), explosive deterministic syntax pathways, but it is complete.
 
 ---
 
@@ -50,7 +52,9 @@ See [INSTALL.md](https://github.com/egberts/vim-syntax-nftables/blob/master/INST
 
 Once installed, nftables syntax highlighting is automatically enabled for:
 
-- Files ending in `.nft`
+- `/etc/nftables.conf`
+- `/etc/nftables*.conf`
+- Files ending in `.nft` (anywhere)
 - Scripts with a `#!nft` shebang
 
 ---
@@ -60,12 +64,13 @@ Once installed, nftables syntax highlighting is automatically enabled for:
 If you run into highlighting issues:
 
 1. Narrow down the problem to the minimal offending line(s).
-   - You don’t need to share your entire `nftables.nft`.
-   - Please anonymize IP addresses if needed.
+   - You don’t need to share your entire `nftables.nft`, just delete as many lines as you can until the problem goes away and put that 1 line back in.
+   - Please anonymize IP addresses, if needed.
 2. Open an [issue](https://github.com/egberts/vim-syntax-nftables/issues) and include:
    - The offending line(s)
    - The incorrect highlight
    - What you expect instead
+   - screenshots are best
 3. You can also use a Gist to share longer snippets or screenshots.
 
 ---
@@ -77,10 +82,10 @@ If you’d like to experiment with or debug the syntax file, see [DEBUG.md](http
 
 ---
 
-## Notes for Vim Developers
+## Notes for Vim Syntax Developers
 
-While prototyping IPv6 address matching, I discovered a limitation in Vim 8.1:  
+While prototyping IPv6 address matching, I discovered a limitation in Vim 8.1 (still in v9.0).  
 - It only supports a maximum of 9 groups of parentheses in regex matches, even when using `\%( … \)` instead of `\( … \)`.  
-- To work around this, IPv6 patterns are duplicated in the syntax file. This workaround is faster in practice and avoids breaking matches.
-
+- To work around this, IPv6 patterns are duplicated in the syntax files. This workaround is faster in operation, eliminates backtracking, and avoids breaking matches.
+- after passing 12,000 lines, it made most sense to start breaking up '.vim' files and adding loader support to each (for quickest error tracking).  Files are organized by its semantic name as explicitly defined in `nftables/src/parser_bison.y`/railroad-diagram to ensure that 100% syntax (via LL(1)) gets achieved.
 ---
