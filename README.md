@@ -1,91 +1,58 @@
 # vim-syntax-nftables
 
-A Vim/Neovim syntax highlighter for [nftables](https://wiki.nftables.org/) configuration and script files.  
+This project adds color highlighting for nftables code in [Vim](https://www.vim.org/) and [Neovim](https://neovim.io/). It helps you see your code better and spot mistakes fast.
 
-It highlights `nft` keywords, catches typos and invalid combinations, and works out-of-the-box with both `.nft` files and `#!nft` shebang scripts.
+**See it in action:**
 
-Railroad diagram for nftables in PDF format are [here](https://github.com/egberts/vim-syntax-nftables/blob/df5aa8805419c25122da15b23190b771513bf729/doc/nftables-railroad-chart.xhtml.pdf)
+![Live Demo: vim-syntax-nftables highlighting nftables code](doc/nftables.gif)
 
----
-
-## Features
-
-- Syntax highlighting for `nftables` configuration and script files
-- Proactive error highlighting:
-  - Invalid combinations and typos are shown in **red**
-- Supports both:
-  - Files with `.nft` extension
-  - Files starting with `#!nft` shebang
-- Works with Vim and Neovim
-- Tested with dark/light color schemes
-- Strictly LL(1), explosive deterministic syntax pathways, but it is complete.
+**What does this do?**
+- Highlights important nftables words in color
+- Shows mistakes or typos in red
+- Works with files that end in `.nft` and scripts that start with `#!nft` (this is called a "shebang", which tells your computer to use nft)
+- Works out-of-the-box in Vim and Neovim, with both light and dark color themes
 
 ---
 
-## Screenshots
+## How to Install
 
-Default colorscheme (`:colorscheme default`, `set background=dark`):
-
-![Screenshot](doc/screenshot.png)
-
-Token-level highlighting:
-
-![Tokens](doc/nftables-tokens-first-level.png)
-
-Demo session:
-
-![Demo](doc/nftables.gif)
-
-Example animation:
-
-![Example](test/nftables.gif "Example")
+Go to [INSTALL.md](https://github.com/egberts/vim-syntax-nftables/blob/master/INSTALL.md) to see step-by-step instructions on how to add this to Vim or Neovim.
 
 ---
 
-## Installation
+## How to Use
 
-See [INSTALL.md](https://github.com/egberts/vim-syntax-nftables/blob/master/INSTALL.md) for instructions on installing this syntax file into your local Vim/Neovim setup.
-
----
-
-## Usage
-
-Once installed, nftables syntax highlighting is automatically enabled for:
-
-- `/etc/nftables.conf`
-- `/etc/nftables*.conf`
-- Files ending in `.nft` (anywhere)
-- Scripts with a `#!nft` shebang
+After you install, you do not need to do anything extra. The colors will show up automatically when you open:
+- `/etc/nftables.conf` or `/etc/nftables*.conf`
+- Any file that ends with `.nft`
+- Scripts that start with `#!nft` at the top
 
 ---
 
-## Bug Reporting
+## If You Find a Problem
 
-If you run into highlighting issues:
-
-1. Narrow down the problem to the minimal offending line(s).
-   - You don’t need to share your entire `nftables.nft`, just delete as many lines as you can until the problem goes away and put that 1 line back in.
-   - Please anonymize IP addresses, if needed.
-2. Open an [issue](https://github.com/egberts/vim-syntax-nftables/issues) and include:
-   - The offending line(s)
-   - The incorrect highlight
-   - What you expect instead
-   - screenshots are best
-3. You can also use a Gist to share longer snippets or screenshots.
+If the colors look wrong or if something does not work:
+1. Try to find the shortest line or lines of code that cause the problem.
+   - You do not need to share your whole file. Just the line(s) that cause the problem.
+   - Cover up any private info, like real IP addresses.
+2. Go to [the issues page](https://github.com/egberts/vim-syntax-nftables/issues) and open a new issue. Add:
+   - The line(s) that look wrong
+   - What you expect to see
+   - (Best) Add a screenshot
+3. If you need to share more, use a Gist link.
 
 ---
 
-## Debugging Vim Syntax
+## For Developers
 
-If you’d like to experiment with or debug the syntax file, see [DEBUG.md](https://github.com/egberts/vim-syntax-bind-named/blob/master/DEBUG.md).  
-(Although written for `bind-named`, the debugging techniques apply here as well.)
+If you want to help make this better or fix things, see [DEBUG.md](https://github.com/egberts/vim-syntax-bind-named/blob/master/DEBUG.md) for tips. (Even though it says "bind-named", the tricks work here too.)
+
+### Note about IPv6 address matching
+
+Vim has a limit when matching patterns (only 9 matching groups allowed). To make IPv6 addresses work, the pattern is repeated in the files. This makes it faster and prevents problems. Also, since the code got long (over 12,000 lines), files are now split into smaller parts by what they do. This helps find mistakes faster.
 
 ---
 
-## Notes for Vim Syntax Developers
+## Extra
 
-While prototyping IPv6 address matching, I discovered a limitation in Vim 8.1 (still in v9.0).  
-- It only supports a maximum of 9 groups of parentheses in regex matches, even when using `\%( … \)` instead of `\( … \)`.  
-- To work around this, IPv6 patterns are duplicated in the syntax files. This workaround is faster in operation, eliminates backtracking, and avoids breaking matches.
-- after passing 12,000 lines, it made most sense to start breaking up '.vim' files and adding loader support to each (for quickest error tracking).  Files are organized by its semantic name as explicitly defined in `nftables/src/parser_bison.y`/railroad-diagram to ensure that 100% syntax (via LL(1)) gets achieved.
----
+You can find a picture that explains how nftables works [here (PDF railroad diagram)](https://github.com/egberts/vim-syntax-nftables/blob/df5aa8805419c25122da15b23190b771513bf729/doc/nftables-railroad-chart.xhtml.pdf)
