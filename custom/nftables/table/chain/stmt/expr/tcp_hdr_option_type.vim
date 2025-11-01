@@ -61,8 +61,8 @@ hi link   nft_optstrip_stmt_type nftHL_Action
 syn match nft_optstrip_stmt_type "\v(echo|eol|fastopen|md5sig|mptcp|mss|nop|timestamp|window|num)" skipwhite contained
 " relocated 'sack-permitted' to nft_tcp_hdr_option_sack
 
-hi link   nft_tcp_hdr_expr_type nftHL_Action  " nft_tcp_hdr_option_kind_and_field
-syn match nft_tcp_hdr_expr_type "\v(echo|eol|fastopen|md5sig|mptcp|mss|nop|timestamp|window|num)" skipwhite contained
+hi link   nft_payload_expr_tcp_hdr_expr_tcp_hdr_option_type_keywords nftHL_Action  " nft_tcp_hdr_option_kind_and_field
+syn match nft_payload_expr_tcp_hdr_expr_tcp_hdr_option_type_keywords "\v(echo|eol|fastopen|md5sig|mptcp|mss|nop|timestamp|window|num)" skipwhite contained
 " relocated 'sack-permitted' to nft_tcp_hdr_option_sack
 
 " tcp_hdr_option_kind_and_field 'mss' (via tcp_hdr_expr)

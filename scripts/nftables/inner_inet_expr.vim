@@ -29,7 +29,7 @@ syn cluster nft_c_inner_inet_expr
 \    nft_comp_hdr_expr,
 \    nft_udp_hdr_expr,
 \    nft_udplite_hdr_expr,
-\    nft_tcp_hdr_expr,
+\    nft_payload_expr_tcp_hdr_expr_keyword_tcp,
 \    nft_dccp_hdr_expr,
 \    nft_sctp_hdr_expr,
 \    nft_th_hdr_expr

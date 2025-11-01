@@ -762,6 +762,7 @@ table T {
 }
 table T {
     chain C {
+		tcp vmap
 		tcp flags & (rst | ack | urg) == rst | ack
 		tcp flags & (syn | rst | ack | urg) == ack | urg
 		tcp option maxseg size @s6 accept

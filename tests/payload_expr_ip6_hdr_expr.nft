@@ -54,7 +54,7 @@ table T {
         ip6 nexthdr fragment offset 1 accept
         ip6 nexthdr fragment offset @nameset accept
         ip6 nexthdr fragment more-fragments accept
-        ip6 nexthdr fragment monft_payload_expr_tcp_keyword_dportre-fragments accept
+        ip6 nexthdr fragment monft_payload_expr_tcp_hdr_expr_tcp_hdr_field_keyword_dportre-fragments accept
         ip6 nexthdr fragment not more-fragments accept
         ip6 nexthdr fragment id in { 1, 2, 3 } accept;
         ip6 nexthdr fragment id in { 1, 2, 3 } accept;

@@ -257,10 +257,11 @@ syn match nft_XXX_close_scope_ZZZ_YYY_relational_op_discrete_1char '\v\<|\>' ski
 \    nft_XXX_close_scope_ZZZ_YYY_payload_expr_string_ip4_range,
 \    nft_XXX_close_scope_ZZZ_YYY_payload_expr_string_ip4,
 \    nft_XXX_close_scope_ZZZ_YYY_symbol_expr_string_quoted,
-\    nft_XXX_close_scope_ZZZ_YYY_integer_expr_num_uint8_hex,
-\    nft_XXX_close_scope_ZZZ_YYY_integer_expr_num_uint16_hex,
-\    nft_XXX_close_scope_ZZZ_YYY_integer_expr_num_uint32_hex,
 \    nft_XXX_close_scope_ZZZ_YYY_integer_expr_num_uint64_hex,
+\    nft_XXX_close_scope_ZZZ_YYY_integer_expr_num_uint32_hex,
+\    nft_XXX_close_scope_ZZZ_YYY_integer_expr_num_uint16_hex,
+\    nft_XXX_close_scope_ZZZ_YYY_integer_expr_num_uint8_hex_range,
+\    nft_XXX_close_scope_ZZZ_YYY_integer_expr_num_uint8_hex,
 \    nft_UnexpectedCurlyBrace,
 \    nft_UnexpectedQuote,
 \    nft_UnexpectedAtSymbol,
@@ -281,6 +282,7 @@ syn match nft_XXX_close_scope_ZZZ_YYY_relational_op_discrete_2char '\v((\<|\>)\=
 \    nft_XXX_close_scope_ZZZ_YYY_integer_expr_num_uint64_hex,
 \    nft_XXX_close_scope_ZZZ_YYY_integer_expr_num_uint32_hex,
 \    nft_XXX_close_scope_ZZZ_YYY_integer_expr_num_uint16_hex,
+\    nft_XXX_close_scope_ZZZ_YYY_integer_expr_num_uint8_hex_range,
 \    nft_XXX_close_scope_ZZZ_YYY_integer_expr_num_uint8_hex,
 \    nft_UnexpectedCurlyBrace,
 \    nft_UnexpectedQuote,
@@ -291,15 +293,23 @@ syn match nft_XXX_close_scope_ZZZ_YYY_relational_op_discrete_2char '\v((\<|\>)\=
 " discrete operator cannot do symbol-string (enum), IP w/ CIDR prefix, nor asterisk_string
 
 
-hi link   nft_ip_hdr_expr_close_scope_ip_frag_off_relational_expr_relational_op_symbol_exclamation nftHL_Operator
-syn match nft_ip_hdr_expr_close_scope_ip_frag_off_relational_expr_relational_op_symbol_exclamation '\v\!\ze[ \t]' skipwhite contained
+hi link   nft_XXX_close_scope_ZZZ_YYY_relational_expr_relational_op_symbol_exclamation nftHL_Operator
+syn match nft_XXX_close_scope_ZZZ_YYY_relational_expr_relational_op_symbol_exclamation '\v\!\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_ip_hdr_expr_close_scope_ip_frag_off_symbol_expr_variable_expr,
-\    nft_ip_hdr_expr_close_scope_ip_frag_off_set_ref_expr_set_ref_symbol_expr_at_setname,
-\    nft_ip_hdr_expr_frag_off_set_expr_inline_set,
+\    nft_XXX_close_scope_ZZZ_YYY_symbol_expr_variable_expr,
+\    nft_XXX_close_scope_ZZZ_YYY_set_ref_expr_set_ref_symbol_expr_at_setname,
+\    nft_XXX_YYY_set_expr_inline_set,
 \    nft_XXX_close_scope_ZZZ_YYY_string_expr_string_ip4_opt_cidr_prefix,
+\    nft_XXX_close_scope_ZZZ_YYY_integer_expr_num_uint8_hex_range,
 \    nft_XXX_close_scope_ZZZ_YYY_payload_expr_string_ip4,
-\    nft_ip_hdr_expr_close_scope_ip_frag_off_integer_expr_num_uint13_hex
+\    nft_XXX_close_scope_ZZZ_YYY_integer_expr_num_uint64_hex_range,
+\    nft_XXX_close_scope_ZZZ_YYY_integer_expr_num_uint64_hex,
+\    nft_XXX_close_scope_ZZZ_YYY_integer_expr_num_uint32_hex_range,
+\    nft_XXX_close_scope_ZZZ_YYY_integer_expr_num_uint32_hex,
+\    nft_XXX_close_scope_ZZZ_YYY_integer_expr_num_uint16_hex_range,
+\    nft_XXX_close_scope_ZZZ_YYY_integer_expr_num_uint16_hex,
+\    nft_XXX_close_scope_ZZZ_YYY_integer_expr_num_uint8_hex_range,
+\    nft_XXX_close_scope_ZZZ_YYY_integer_expr_num_uint8_hex,
 " 'not' operator is most flexible with scalar but never directly to a set membership ('not in' ok)
 
 
@@ -313,8 +323,14 @@ syn match nft_XXX_close_scope_ZZZ_YYY_relational_op_non_equality_2char '\v(\!\=)
 \    nft_XXX_close_scope_ZZZ_YYY_payload_expr_string_ip4,
 \    nft_XXX_close_scope_ZZZ_YYY_symbol_expr_variable_expr,
 \    nft_XXX_YYY_set_expr_inline_set,
-\    nft_XXX_close_scope_ZZZ_YYY_integer_expr_num_uint13_hex_range,
-\    nft_XXX_close_scope_ZZZ_YYY_integer_expr_num_uint13_hex,
+\    nft_XXX_close_scope_ZZZ_YYY_integer_expr_num_uint64_hex_range,
+\    nft_XXX_close_scope_ZZZ_YYY_integer_expr_num_uint64_hex,
+\    nft_XXX_close_scope_ZZZ_YYY_integer_expr_num_uint32_hex_range,
+\    nft_XXX_close_scope_ZZZ_YYY_integer_expr_num_uint32_hex,
+\    nft_XXX_close_scope_ZZZ_YYY_integer_expr_num_uint16_hex_range,
+\    nft_XXX_close_scope_ZZZ_YYY_integer_expr_num_uint16_hex,
+\    nft_XXX_close_scope_ZZZ_YYY_integer_expr_num_uint8_hex_range,
+\    nft_XXX_close_scope_ZZZ_YYY_integer_expr_num_uint8_hex,
 \    nft_UnexpectedQuote,
 \    nft_Error
 " equality operator cannot support asterisk_string, IP w/ CIDR prefix, nor set (equality is scalar only)
