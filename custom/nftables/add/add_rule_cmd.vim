@@ -488,32 +488,38 @@ syn cluster nft_c_base_cmd_implied_rule
 hi link   nft_add_rule_imperative_rule_position_chain_spec_bridge_identifier nftHL_Table
 syn match nft_add_rule_imperative_rule_position_chain_spec_bridge_identifier '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    @nft_c_stmt_family_bridge
+\    @nft_c_stmt
+"\    @nft_c_stmt_family_bridge
 
 hi link   nft_add_rule_imperative_rule_position_chain_spec_netdev_identifier nftHL_Table
 syn match nft_add_rule_imperative_rule_position_chain_spec_netdev_identifier '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    @nft_c_stmt_family_netdev
+\    @nft_c_stmt
+"\    @nft_c_stmt_family_netdev
 
 hi link   nft_add_rule_imperative_rule_position_chain_spec_inet_identifier nftHL_Table
 syn match nft_add_rule_imperative_rule_position_chain_spec_inet_identifier '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    @nft_c_stmt_family_inet
+\    @nft_c_stmt
+"\    @nft_c_stmt_family_inet
 
 hi link   nft_add_rule_imperative_rule_position_chain_spec_arp_identifier nftHL_Table
 syn match nft_add_rule_imperative_rule_position_chain_spec_arp_identifier '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    @nft_c_stmt_family_arp
+\    @nft_c_stmt
+"\    @nft_c_stmt_family_arp
 
 hi link   nft_add_rule_imperative_rule_position_chain_spec_ip6_identifier nftHL_Table
 syn match nft_add_rule_imperative_rule_position_chain_spec_ip6_identifier '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    @nft_c_stmt_family_ip6
+\    @nft_c_stmt
+"\    @nft_c_stmt_family_ip6
 
 hi link   nft_add_rule_imperative_rule_position_chain_spec_ip_identifier nftHL_Table
 syn match nft_add_rule_imperative_rule_position_chain_spec_ip_identifier '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    @nft_c_stmt_family_ip
+\    @nft_c_stmt
+"\    @nft_c_stmt_family_ip
 
 hi link   nft_add_rule_imperative_rule_position_chain_spec_unknown_identifier nftHL_Table
 syn match nft_add_rule_imperative_rule_position_chain_spec_unknown_identifier '\v[a-zA-Z][a-zA-Z0-9_-]{0,63}\ze[ \t]' skipwhite contained
