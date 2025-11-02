@@ -44,6 +44,7 @@ syn match nft_payload_raw_expr_payload_raw_len '\v(0x[0-9a-fA-F]{1,8})|([0-9]{1,
 hi link   nft_payload_raw_expr_num2 nftHL_Integer
 syn match nft_payload_raw_expr_num2 '\v(0x[0-9a-fA-F]{1,4})|([0-9]{1,5})' skipwhite contained
 \ nextgroup=
+\    nft_verdict_stmt_verdict_map_stmt_keyword_vmap,
 \    nft_payload_raw_expr_payload_raw_len
 
 " '@ih,0,'

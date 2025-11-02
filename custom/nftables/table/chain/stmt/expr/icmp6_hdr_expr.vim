@@ -341,7 +341,8 @@ syn region nft_icmpv6_hdr_expr_close_scope_icmp6_type_set_expr start=+{+ end=+}+
 \    nft_icmpv6_hdr_expr_close_scope_icmp6_type_set_symbol_expr,
 \    nft_icmpv6_hdr_expr_close_scope_icmp6_type_set_expr_integer_expr_num
 \ nextgroup=
-\    @nft_c_icmpv6_expressions
+\    @nft_c_icmpv6_expressions,
+\    @nft_c_stmt
 
 hi link   nft_icmpv6_hdr_expr_close_scope_icmp6_type_integer_expr_num nftHL_Integer
 syn match nft_icmpv6_hdr_expr_close_scope_icmp6_type_integer_expr_num '\v(0x([A-Fa-f][0-9]|[A-Fa-f]{2}|[0-9A-Fa-f])|25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\ze[ \t]' skipwhite contained
@@ -351,7 +352,8 @@ syn match nft_icmpv6_hdr_expr_close_scope_icmp6_type_integer_expr_num '\v(0x([A-
 hi link   nft_icmpv6_hdr_expr_close_scope_icmp6_type_symbol_expr_string nftHL_Define
 syn match nft_icmpv6_hdr_expr_close_scope_icmp6_type_symbol_expr_string '\v(destination\-unreachable|neighbour\-advertisement|neighbor\-advertisement|neighbour\-solicitation|neighbor\-solicitation|mldv2\-listener\-report|extended\-echo\-request|router\-advertisement|extended\-echo\-reply|mld\-listener\-report|router\-solicitation|router\-renumbering|mld\-listener\-query|mld\-listener\-done|parameter\-problem|packet\-too\-big|time\-exceeded|echo\-request|echo\-reply|ni\-query|ni\-reply|redirect)\ze[ \t\n;]' skipwhite contained
 \ nextgroup=
-\    @nft_c_icmpv6_expressions
+\    @nft_c_icmpv6_expressions,
+\    @nft_c_stmt
 
 " ip6 nexthdr icmpv6 type >
 hi link   nft_icmpv6_hdr_expr_close_scope_icmp6_type_relational_expr_operator_1_char nftHL_Expression

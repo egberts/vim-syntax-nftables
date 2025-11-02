@@ -4,6 +4,12 @@ T C drop
 
 table T {
     chain C {
+		tcp dport 10001 add @candidates_ipv4 { ip saddr . 10002 timeout 1s }
+    }
+}
+
+table T {
+    chain C {
 		accept
 		accept comment "first"
 		add @dynmark { 10.2.3.4 timeout 2s : 0x00000002 } comment "also check timeout-gc"
@@ -677,7 +683,8 @@ table T {
 		socket cgroupv2 level 63 counter
 		synproxy name ip saddr map { 192.168.1.0/24 : "https-synproxy", 192.168.2.0/24 : "other-synproxy" }
     }
-}
+} {};
+
 table T {
     chain C {
 		tcp dport 10001 add @candidates_ipv4 { ip saddr . 10002 timeout 1s }

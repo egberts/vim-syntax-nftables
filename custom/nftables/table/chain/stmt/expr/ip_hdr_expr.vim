@@ -585,6 +585,7 @@ hi link   nft_ip_hdr_expr_close_scope_ip_protocol_symbol_expr_types nftHL_Define
 syn match nft_ip_hdr_expr_close_scope_ip_protocol_symbol_expr_types '\v(udplite|gretap|icmpv6|comp|dccp|icmp|igmp|sctp|esp|gre|tcp|udp|ah)\ze[ \t\n,]' skipwhite contained
 \ nextgroup=
 \    @nft_c_primary_stmt_expr,
+\    @nft_c_stmt
 
 hi link   nft_ip_hdr_expr_close_scope_ip_protocol_integer_expr_num_uint8_hex nftHL_Integer
 syn match nft_ip_hdr_expr_close_scope_ip_protocol_integer_expr_num_uint8_hex '\v(0x([A-Fa-f0-9]{1,2}))|(25[0-5])|(2[0-4][0-9])|(1[0-9][0-9])|([0-9]{1,2})\ze[ \t\n;]' skipwhite contained
@@ -1137,34 +1138,33 @@ syn region nft_ip_hdr_expr_saddr_set_expr_inline_set start=+{+ end=+}+ skip="#.{
 " BEGIN Operators - Scalar
 hi link   nft_ip_hdr_expr_close_scope_ip_addr_payload_expr_string_ip4 nftHL_Integer
 "syn match nft_ip_hdr_expr_close_scope_ip_addr_payload_expr_string_ip4 '\v(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[0-9]{1,2})(\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[0-9]{1,2})){3}' skipwhite contained
-syn match nft_ip_hdr_expr_close_scope_ip_addr_payload_expr_string_ip4 '\v(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[0-9]{1,2})(\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[0-9]{1,2})){3}' skipwhite contained
+syn match nft_ip_hdr_expr_close_scope_ip_addr_payload_expr_string_ip4 '\v(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[0-9]{1,2})(\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[0-9]{1,2})){3}\ze[ \t\n\;]' skipwhite contained
 \ nextgroup=
-\    @nft_c_primary_stmt_expr
+\    @nft_c_primary_stmt_expr,
+\    @nft_c_stmt
 
-hi link   nft_ip_hdr_expr_close_scope_ip_addr_range_stmt_expr_symbol_dash nftHL_elements
+hi link   nft_ip_hdr_expr_close_scope_ip_addr_range_stmt_expr_symbol_dash nftHL_Expression
 syn match nft_ip_hdr_expr_close_scope_ip_addr_range_stmt_expr_symbol_dash '\v\-' contained
 \ nextgroup=
 \    nft_ip_hdr_expr_close_scope_ip_addr_payload_expr_string_ip4,
 \    nft_Error
 
+hi link   nft_ip_hdr_expr_close_scope_ip_addr_string_expr_string_ip4_cidr nftHL_Integer
+syn match nft_ip_hdr_expr_close_scope_ip_addr_string_expr_string_ip4_cidr '\v((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])(\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[0-9][0-9]|[0-9])){3})/(3[0-2]|[12][0-9]|[0-9])' skipwhite contained
+\ nextgroup=
+\    @nft_c_primary_stmt_expr,
+\    @nft_c_stmt
+
 hi link   nft_ip_hdr_expr_close_scope_ip_addr_payload_expr_string_ip4_range nftHL_Integer
-syn match nft_ip_hdr_expr_close_scope_ip_addr_payload_expr_string_ip4_range '\v(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]{1,2})(\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[0-9]{1,2})){3}\ze\-' contained
+syn match nft_ip_hdr_expr_close_scope_ip_addr_payload_expr_string_ip4_range '\v((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]{1,2})(\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[0-9]{1,2})){3})\ze\-' skipwhite contained
 \ nextgroup=
 \    nft_ip_hdr_expr_close_scope_ip_addr_range_stmt_expr_symbol_dash,
 \    nft_Error
 
-hi link   nft_ip_hdr_expr_close_scope_ip_addr_string_expr_string_ip4_cidr nftHL_Integer
-syn match nft_ip_hdr_expr_close_scope_ip_addr_string_expr_string_ip4_cidr '\v(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]{1,2})(\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[0-9]{1,2})){3}/(3[0-2]|[12][0-9]|[0-9])\ze[ \t\n;]' skipwhite contained
-
-hi link   nft_ip_hdr_expr_close_scope_ip_saddr_symbol_expr_string_keyword_defines nftHL_Define
-syn match nft_ip_hdr_expr_close_scope_ip_saddr_symbol_expr_string_keyword_defines '\v(abc|def)\ze[ \t\n;,]' skipwhite contained
-\ nextgroup=
-\    @nft_c_stmt
-
 hi link   nft_ip_hdr_expr_close_scope_ip_saddr_integer_expr_num_uint32_hex nftHL_Integer
 syn match nft_ip_hdr_expr_close_scope_ip_saddr_integer_expr_num_uint32_hex '\v0x[0-9a-fA-F]{1,8}|429496729[0-5]|42949672[0-8][0-9]|4294967[01][0-9]{2}|429496[0-6][0-9]{3}|42949[0-5][0-9]{4}|4294[0-8][0-9]{5}|429[0-3][0-9]{6}|42[0-8][0-9]{7}|4[01][0-9]{8}|[1-3][0-9]{9}|[0-9]{1,9}\ze[ \t\n;]' skipwhite contained
 \ nextgroup=
-\    @nft_c_ip
+\    @nft_c_stmt
 
 hi link   nft_ip_hdr_expr_close_scope_ip_addr_hex_range_stmt_expr_symbol_dash nftHL_elements
 syn match nft_ip_hdr_expr_close_scope_ip_addr_hex_range_stmt_expr_symbol_dash '\-' contained
@@ -1173,17 +1173,19 @@ syn match nft_ip_hdr_expr_close_scope_ip_addr_hex_range_stmt_expr_symbol_dash '\
 \    nft_Error
 
 hi link   nft_ip_hdr_expr_close_scope_ip_saddr_integer_expr_num_uint32_hex_range nftHL_Integer
-syn match nft_ip_hdr_expr_close_scope_ip_saddr_integer_expr_num_uint32_hex_range '\v0x[0-9a-fA-F]{1,8}|429496729[0-5]|42949672[0-8][0-9]|4294967[01][0-9]{2}|429496[0-6][0-9]{3}|42949[0-5][0-9]{4}|4294[0-8][0-9]{5}|429[0-3][0-9]{6}|42[0-8][0-9]{7}|4[01][0-9]{8}|[1-3][0-9]{9}|[0-9]{1,9}\ze\-' skipwhite contained
+syn match nft_ip_hdr_expr_close_scope_ip_saddr_integer_expr_num_uint32_hex_range
+\ '\v((0x[0-9a-fA-F]{1,8})|429496729[0-5]|42949672[0-8][0-9]|4294967[01][0-9]{2}|429496[0-6][0-9]{3}|42949[0-5][0-9]{4}|4294[0-8][0-9]{5}|429[0-3][0-9]{6}|42[0-8][0-9]{7}|4[01][0-9]{8}|[1-3][0-9]{9}|[0-9]{1,8})\ze\-' contained
 \ nextgroup=
 \    nft_ip_hdr_expr_close_scope_ip_addr_hex_range_stmt_expr_symbol_dash,
 \    nft_Error
+
 " END Operators - Scalar
 
 hi link   nft_ip_hdr_expr_close_scope_ip_saddr_relational_op_discrete_1char nftHL_Operator
 syn match nft_ip_hdr_expr_close_scope_ip_saddr_relational_op_discrete_1char '\v\<|\>' skipwhite contained
 \ nextgroup=
 \    nft_ip_hdr_expr_close_scope_ip_saddr_symbol_expr_variable_expr,
-\    nft_ip_hdr_expr_close_scope_ip_addr_payload_expr_string_ip4,
+\    nft_ip_hdr_expr_close_scope_ip_addr_string_expr_string_ip4_cidr,
 \    nft_ip_hdr_expr_close_scope_ip_saddr_symbol_expr_string_quoted,
 \    nft_ip_hdr_expr_close_scope_ip_addr_payload_expr_string_ip4,
 \    nft_ip_hdr_expr_close_scope_ip_saddr_integer_expr_num_uint32_hex,
@@ -1199,7 +1201,7 @@ hi link   nft_ip_hdr_expr_close_scope_ip_saddr_relational_op_discrete_2char nftH
 syn match nft_ip_hdr_expr_close_scope_ip_saddr_relational_op_discrete_2char '\v((\<|\>)\=)|gt|ge|lt|le' skipwhite contained
 \ nextgroup=
 \    nft_ip_hdr_expr_close_scope_ip_saddr_symbol_expr_variable_expr,
-\    nft_ip_hdr_expr_close_scope_ip_addr_payload_expr_string_ip4,
+\    nft_ip_hdr_expr_close_scope_ip_addr_string_expr_string_ip4_cidr,
 \    nft_ip_hdr_expr_close_scope_ip_saddr_symbol_expr_string_quoted,
 \    nft_ip_hdr_expr_close_scope_ip_addr_payload_expr_string_ip4,
 \    nft_ip_hdr_expr_close_scope_ip_saddr_integer_expr_num_uint32_hex,
@@ -1223,30 +1225,11 @@ syn match nft_ip_hdr_expr_close_scope_ip_saddr_relational_expr_relational_op_sym
 \    nft_ip_hdr_expr_close_scope_ip_saddr_integer_expr_num_uint32_hex
 " 'not' operator is most flexible with scalar but never directly to a set membership ('not in' ok)
 
-
-
-hi link   nft_ip_hdr_expr_close_scope_ip_saddr_relational_op_non_equality_2char nftHL_Operator
-syn match nft_ip_hdr_expr_close_scope_ip_saddr_relational_op_non_equality_2char '\v(\!\=)|(ne\ze[ \t\n;])' contained
-\ nextgroup=
-\    nft_ip_hdr_expr_close_scope_ip_saddr_symbol_expr_variable_expr,
-\    nft_ip_hdr_expr_saddr_set_expr_inline_set,
-\    nft_ip_hdr_expr_close_scope_ip_addr_string_expr_string_ip4_cidr,
-\    nft_ip_hdr_expr_close_scope_ip_addr_payload_expr_string_ip4_range,
-\    nft_ip_hdr_expr_close_scope_ip_addr_payload_expr_string_ip4,
-\    nft_ip_hdr_expr_close_scope_ip_saddr_integer_expr_num_uint32_hex_range,
-\    nft_ip_hdr_expr_close_scope_ip_saddr_integer_expr_num_uint32_hex,
-\    nft_UnexpectedQuote,
-\    nft_Error
-" equality operator cannot support asterisk_string, IP w/ CIDR prefix, nor set (equality is scalar only)
-
-
-
 hi link   nft_ip_hdr_expr_close_scope_ip_saddr_relational_op_equality_2char nftHL_Operator
 syn match nft_ip_hdr_expr_close_scope_ip_saddr_relational_op_equality_2char '\v\=\=' skipwhite contained
 \ nextgroup=
 \    nft_ip_hdr_expr_close_scope_ip_addr_set_ref_expr_set_ref_symbol_expr_at_setname,
 \    nft_ip_hdr_expr_close_scope_ip_saddr_boolean_expr_boolean_keys_keywords,
-\    nft_ip_hdr_expr_close_scope_ip_saddr_symbol_expr_string_keyword_defines,
 \    nft_ip_hdr_expr_close_scope_ip_saddr_symbol_expr_variable_expr,
 \    nft_ip_hdr_expr_saddr_set_expr_inline_set,
 \    nft_ip_hdr_expr_close_scope_ip_addr_string_expr_string_ip4_cidr,
@@ -1259,13 +1242,13 @@ syn match nft_ip_hdr_expr_close_scope_ip_saddr_relational_op_equality_2char '\v\
 " equality operator cannot support asterisk_string, IP w/ CIDR prefix, nor set (equality is scalar only)
 
 hi link   nft_ip_hdr_expr_close_scope_ip_saddr_relational_expr_relational_op_keyword_not nftHL_Operator
-syn match nft_ip_hdr_expr_close_scope_ip_saddr_relational_expr_relational_op_keyword_not '\v(\!\=)\ze[ \t]' skipwhite contained
+syn match nft_ip_hdr_expr_close_scope_ip_saddr_relational_expr_relational_op_keyword_not '\v\!\=\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    nft_ip_hdr_expr_close_scope_ip_addr_set_ref_expr_set_ref_symbol_expr_at_setname,
+\    nft_ip_hdr_expr_close_scope_ip_addr_string_expr_string_ip4_cidr,
 \    nft_ip_hdr_expr_close_scope_ip_saddr_symbol_expr_variable_expr,
-\    nft_ip_hdr_expr_close_scope_ip_saddr_string_expr_string_ip4_cidr,
 \    nft_ip_hdr_expr_close_scope_ip_addr_payload_expr_string_ip4_range,
 \    nft_ip_hdr_expr_close_scope_ip_addr_payload_expr_string_ip4,
+\    nft_ip_hdr_expr_close_scope_ip_addr_set_ref_expr_set_ref_symbol_expr_at_setname,
 \    nft_ip_hdr_expr_saddr_set_expr_inline_set,
 \    nft_ip_hdr_expr_close_scope_ip_saddr_integer_expr_num_uint32_hex_range,
 \    nft_ip_hdr_expr_close_scope_ip_saddr_integer_expr_num_uint32_hex,

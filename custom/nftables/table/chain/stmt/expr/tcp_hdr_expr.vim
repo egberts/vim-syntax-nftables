@@ -105,14 +105,14 @@ hi link   nft_payload_expr_close_scope_tcp_doff_dash_symbol nftHL_Expression
 syn match nft_payload_expr_close_scope_tcp_doff_dash_symbol '\v\-' contained
 \ nextgroup=
 \    nft_payload_expr_close_scope_tcp_doff_integer_expr_num_uint4_hex,
-\    nft_chainError
+\    nft_Error
 
 "   tcp doff
 hi link   nft_payload_expr_close_scope_tcp_doff_integer_expr_num_uint4_hex_range nftHL_Integer
 syn match nft_payload_expr_close_scope_tcp_doff_integer_expr_num_uint4_hex_range '\v0x[5-9a-fA-F]|20|0x1[0-4]|[5-9]|1[0-9]\ze[ \t\-\n;]' contained
 \ nextgroup=
 \    nft_payload_expr_close_scope_tcp_doff_dash_symbol,
-\    @nft_c_stmt
+\    nft_Error
 
 " END Operators - Scalar
 
@@ -269,17 +269,17 @@ syn match nft_payload_expr_close_scope_tcp_sport_symbol_expr_string_keyword_defi
 \    @nft_c_stmt
 
 hi link   nft_payload_expr_close_scope_tcp_sport_dash_symbol nftHL_Expression
-syn match nft_payload_expr_close_scope_tcp_sport_dash_symbol '\v\-' contained
+syn match nft_payload_expr_close_scope_tcp_sport_dash_symbol '\v[0-9]\zs\-' contained
 \ nextgroup=
 \    nft_payload_expr_close_scope_tcp_sport_integer_expr_num_uint16_hex,
-\    nft_chainError
+\    nft_Error
 
 "   tcp sport NUM
 hi link   nft_payload_expr_close_scope_tcp_sport_integer_expr_num_uint16_hex_range nftHL_Integer
-syn match nft_payload_expr_close_scope_tcp_sport_integer_expr_num_uint16_hex_range '\v(0x[0-9a-fA-F]{1,4})|6553[0-5]|655[0-2][0-9]|(65[0-4][0-9][0-9])|(6[0-4][0-9][0-9][0-9])|([0-5][0-9][0-9][0-9][0-9])|[0-9][0-9][0-9][0-9]|[0-9][0-9][0-9]|[0-9][0-9]|[0-9]\ze[ \t\n\-;]' contained
+syn match nft_payload_expr_close_scope_tcp_sport_integer_expr_num_uint16_hex_range '\v(6553[0-5]|655[0-2][0-9]|(65[0-4][0-9][0-9])|(6[0-4][0-9][0-9][0-9])|([0-5][0-9][0-9][0-9][0-9])|([0-9][0-9][0-9][0-9])|([0-9][0-9][0-9])|[0-9][0-9]|(0x[0-9a-fA-F]{1,4})|[0-9])\ze\-' skipwhite contained
 \ nextgroup=
 \    nft_payload_expr_close_scope_tcp_sport_dash_symbol,
-\    @nft_c_stmt
+\    nft_Error
 " END Operators - Scalar
 
 hi link   nft_payload_expr_close_scope_tcp_sport_relational_op_discrete_1char nftHL_Operator
@@ -414,14 +414,13 @@ hi link   nft_payload_expr_close_scope_tcp_flags_dash_symbol nftHL_Expression
 syn match nft_payload_expr_close_scope_tcp_flags_dash_symbol '\v\-' contained
 \ nextgroup=
 \    nft_payload_expr_close_scope_tcp_flags_integer_expr_num_uint8_hex,
-\    nft_chainError
+\    nft_Error
 
 "   tcp flags NUM
 hi link   nft_payload_expr_close_scope_tcp_flags_integer_expr_num_uint8_hex_range nftHL_Integer
 syn match nft_payload_expr_close_scope_tcp_flags_integer_expr_num_uint8_hex_range '\v(0x([A-Fa-f0-9]{1,2}))|(25[0-5])|(2[0-4][0-9])|(1[0-9][0-9])|([0-9]{1,2})\ze[ \t\n-;]' skipwhite keepend contained
 \ nextgroup=
 \    nft_payload_expr_close_scope_tcp_flags_dash_symbol,
-\    @nft_c_stmt,
 \    nft_Error
 " END Operators - Scalar
 
@@ -511,14 +510,14 @@ hi link   nft_payload_expr_close_scope_tcp_window_dash_symbol nftHL_Expression
 syn match nft_payload_expr_close_scope_tcp_window_dash_symbol '\v\-' contained
 \ nextgroup=
 \    nft_payload_expr_close_scope_tcp_window_integer_expr_num_uint16_hex,
-\    nft_chainError
+\    nft_Error
 
 "   tcp window NUM
 hi link   nft_payload_expr_close_scope_tcp_window_integer_expr_num_uint16_hex_range nftHL_Integer
 syn match nft_payload_expr_close_scope_tcp_window_integer_expr_num_uint16_hex_range '\v(0x[0-9a-fA-F]{1,4})|([0-9]{1,5})\ze[ \t\-\n;]' skipwhite contained
 \ nextgroup=
 \    nft_payload_expr_close_scope_tcp_window_dash_symbol,
-\    @nft_c_stmt
+\    nft_Error
 " END Operators - Scalar
 
 hi link   nft_payload_expr_close_scope_tcp_window_relational_op_discrete_1char nftHL_Operator
@@ -603,14 +602,14 @@ hi link   nft_payload_expr_close_scope_tcp_urgptr_dash_symbol nftHL_Expression
 syn match nft_payload_expr_close_scope_tcp_urgptr_dash_symbol '\v\-' contained
 \ nextgroup=
 \    nft_payload_expr_close_scope_tcp_urgptr_integer_expr_num_uint16_hex,
-\    nft_chainError
+\    nft_Error
 
 "   tcp urgptr NUM
 hi link   nft_payload_expr_close_scope_tcp_urgptr_integer_expr_num_uint16_hex_range nftHL_Integer
 syn match nft_payload_expr_close_scope_tcp_urgptr_integer_expr_num_uint16_hex_range '\v(0x[0-9a-fA-F]{1,4})|([0-9]{1,5})\ze[ \t\-\n;]' skipwhite contained
 \ nextgroup=
 \    nft_payload_expr_close_scope_tcp_urgptr_dash_symbol,
-\    @nft_c_stmt
+\    nft_Error
 " END Operators - Scalar
 
 hi link   nft_payload_expr_close_scope_tcp_urgptr_relational_op_discrete_1char nftHL_Operator
@@ -731,14 +730,13 @@ hi link   nft_payload_expr_close_scope_tcp_mss_dash_symbol nftHL_Expression
 syn match nft_payload_expr_close_scope_tcp_mss_dash_symbol '\v\-' contained
 \ nextgroup=
 \    nft_payload_expr_close_scope_tcp_mss_integer_expr_num_uint16_hex,
-\    nft_chainError
+\    nft_Error
 
 "   tcp mss NUM
 hi link   nft_payload_expr_close_scope_tcp_mss_integer_expr_num_uint16_hex_range nftHL_Integer
 syn match nft_payload_expr_close_scope_tcp_mss_integer_expr_num_uint16_hex_range '\v(0x[0-9a-fA-F]{1,4})|6553[0-5]|655[0-2][0-9]|(65[0-4][0-9][0-9])|(6[0-4][0-9][0-9][0-9])|([0-5][0-9][0-9][0-9][0-9])|[0-9][0-9][0-9][0-9]|[0-9][0-9][0-9]|[0-9][0-9]|[0-9]\ze[ \t\n\-;]' skipwhite keepend contained
 \ nextgroup=
 \    nft_payload_expr_close_scope_tcp_mss_dash_symbol,
-\    @nft_c_stmt,
 \    nft_Error
 " END Operators - Scalar
 
@@ -847,14 +845,13 @@ hi link   nft_payload_expr_close_scope_tcp_echo_dash_symbol nftHL_Expression
 syn match nft_payload_expr_close_scope_tcp_echo_dash_symbol '\v\-' contained
 \ nextgroup=
 \    nft_payload_expr_close_scope_tcp_echo_integer_expr_num_uint8_hex,
-\    nft_chainError
+\    nft_Error
 
 "   tcp echo NUM
 hi link   nft_payload_expr_close_scope_tcp_echo_integer_expr_num_uint8_hex_range nftHL_Integer
 syn match nft_payload_expr_close_scope_tcp_echo_integer_expr_num_uint8_hex_range '\v(0x([A-Fa-f0-9]{1,2}))|(25[0-5])|(2[0-4][0-9])|(1[0-9][0-9])|([0-9][0-9])|[0-9]\ze[ \t\n-;]' skipwhite keepend contained
 \ nextgroup=
 \    nft_payload_expr_close_scope_tcp_echo_dash_symbol,
-\    @nft_c_stmt,
 \    nft_Error
 " END Operators - Scalar
 
@@ -956,14 +953,13 @@ hi link   nft_payload_expr_close_scope_tcp_sack_dash_symbol nftHL_Expression
 syn match nft_payload_expr_close_scope_tcp_sack_dash_symbol '\v\-' contained
 \ nextgroup=
 \    nft_payload_expr_close_scope_tcp_sack_integer_expr_num_uint32_hex,
-\    nft_chainError
+\    nft_Error
 
 "   tcp sack NUM
 hi link   nft_payload_expr_close_scope_tcp_sack_integer_expr_num_uint32_hex_range nftHL_Integer
 syn match nft_payload_expr_close_scope_tcp_sack_integer_expr_num_uint32_hex_range '\v0x[0-9a-fA-F]{1,8}|429496729[0-5]|42949672[0-8][0-9]|4294967[01][0-9]{2}|429496[0-6][0-9]{3}|42949[0-5][0-9]{4}|4294[0-8][0-9]{5}|429[0-3][0-9]{6}|42[0-8][0-9]{7}|4[01][0-9]{8}|[1-3][0-9]{9}|[0-9]{1,9}\ze[ \t\n;]' skipwhite keepend contained
 \ nextgroup=
 \    nft_payload_expr_close_scope_tcp_sack_dash_symbol,
-\    @nft_c_stmt,
 \    nft_Error
 " END Operators - Scalar
 
@@ -1081,14 +1077,13 @@ hi link   nft_payload_expr_close_scope_tcp_mptcp_dash_symbol nftHL_Expression
 syn match nft_payload_expr_close_scope_tcp_mptcp_dash_symbol '\v\-' contained
 \ nextgroup=
 \    nft_payload_expr_close_scope_tcp_mptcp_integer_expr_num_uint8_hex,
-\    nft_chainError
+\    nft_Error
 
 "   tcp mptcp NUM
 hi link   nft_payload_expr_close_scope_tcp_mptcp_integer_expr_num_uint8_hex_range nftHL_Integer
 syn match nft_payload_expr_close_scope_tcp_mptcp_integer_expr_num_uint8_hex_range '\v(0x([A-Fa-f0-9]{1,2}))|(25[0-5])|(2[0-4][0-9])|(1[0-9][0-9])|([0-9][0-9])|[0-9]\ze[ \t\n-;]' skipwhite keepend contained
 \ nextgroup=
 \    nft_payload_expr_close_scope_tcp_mptcp_dash_symbol,
-\    @nft_c_stmt,
 \    nft_Error
 " END Operators - Scalar
 
@@ -1267,14 +1262,13 @@ hi link   nft_payload_expr_close_scope_tcp_window_dash_symbol nftHL_Expression
 syn match nft_payload_expr_close_scope_tcp_window_dash_symbol '\v\-' contained
 \ nextgroup=
 \    nft_payload_expr_close_scope_tcp_window_integer_expr_num_uint8_hex,
-\    nft_chainError
+\    nft_Error
 
 "   tcp window NUM
 hi link   nft_payload_expr_close_scope_tcp_window_integer_expr_num_uint8_hex_range nftHL_Integer
 syn match nft_payload_expr_close_scope_tcp_window_integer_expr_num_uint8_hex_range '\v(0x([A-Fa-f0-9]{1,2}))|(25[0-5])|(2[0-4][0-9])|(1[0-9][0-9])|([0-9][0-9])|[0-9]\ze[ \t\n-;]' skipwhite keepend contained
 \ nextgroup=
 \    nft_payload_expr_close_scope_tcp_window_dash_symbol,
-\    @nft_c_stmt,
 \    nft_Error
 " END Operators - Scalar
 
@@ -1376,14 +1370,13 @@ hi link   nft_payload_expr_close_scope_tcp_md5sig_dash_symbol nftHL_Expression
 syn match nft_payload_expr_close_scope_tcp_md5sig_dash_symbol '\v\-' contained
 \ nextgroup=
 \    nft_payload_expr_close_scope_tcp_md5sig_integer_expr_num_uint8_hex,
-\    nft_chainError
+\    nft_Error
 
 "   tcp md5sig NUM
 hi link   nft_payload_expr_close_scope_tcp_md5sig_integer_expr_num_uint8_hex_range nftHL_Integer
 syn match nft_payload_expr_close_scope_tcp_md5sig_integer_expr_num_uint8_hex_range '\v(0x([A-Fa-f0-9]{1,2}))|(25[0-5])|(2[0-4][0-9])|(1[0-9][0-9])|([0-9][0-9])|[0-9]\ze[ \t\n-;]' skipwhite keepend contained
 \ nextgroup=
 \    nft_payload_expr_close_scope_tcp_md5sig_dash_symbol,
-\    @nft_c_stmt,
 \    nft_Error
 " END Operators - Scalar
 
@@ -1485,14 +1478,13 @@ hi link   nft_payload_expr_close_scope_tcp_fastopen_dash_symbol nftHL_Expression
 syn match nft_payload_expr_close_scope_tcp_fastopen_dash_symbol '\v\-' contained
 \ nextgroup=
 \    nft_payload_expr_close_scope_tcp_fastopen_integer_expr_num_uint8_hex,
-\    nft_chainError
+\    nft_Error
 
 "   tcp fastopen NUM
 hi link   nft_payload_expr_close_scope_tcp_fastopen_integer_expr_num_uint8_hex_range nftHL_Integer
 syn match nft_payload_expr_close_scope_tcp_fastopen_integer_expr_num_uint8_hex_range '\v(0x([A-Fa-f0-9]{1,2}))|(25[0-5])|(2[0-4][0-9])|(1[0-9][0-9])|([0-9][0-9])|[0-9]\ze[ \t\n-;]' skipwhite keepend contained
 \ nextgroup=
 \    nft_payload_expr_close_scope_tcp_fastopen_dash_symbol,
-\    @nft_c_stmt,
 \    nft_Error
 " END Operators - Scalar
 
@@ -1594,14 +1586,13 @@ hi link   nft_payload_expr_close_scope_tcp_timestamp_dash_symbol nftHL_Expressio
 syn match nft_payload_expr_close_scope_tcp_timestamp_dash_symbol '\v\-' contained
 \ nextgroup=
 \    nft_payload_expr_close_scope_tcp_timestamp_integer_expr_num_uint32_hex,
-\    nft_chainError
+\    nft_Error
 
 "   tcp timestamp NUM
 hi link   nft_payload_expr_close_scope_tcp_timestamp_integer_expr_num_uint32_hex_range nftHL_Integer
 syn match nft_payload_expr_close_scope_tcp_timestamp_integer_expr_num_uint32_hex_range '\v0x[0-9a-fA-F]{1,8}|429496729[0-5]|42949672[0-8][0-9]|4294967[01][0-9]{2}|429496[0-6][0-9]{3}|42949[0-5][0-9]{4}|4294[0-8][0-9]{5}|429[0-3][0-9]{6}|42[0-8][0-9]{7}|4[01][0-9]{8}|[1-3][0-9]{9}|[0-9]{1,9}\ze[ \t\n;]' skipwhite keepend contained
 \ nextgroup=
 \    nft_payload_expr_close_scope_tcp_timestamp_dash_symbol,
-\    @nft_c_stmt,
 \    nft_Error
 " END Operators - Scalar
 
@@ -1719,14 +1710,13 @@ hi link   nft_payload_expr_close_scope_tcp_sack_perm_dash_symbol nftHL_Expressio
 syn match nft_payload_expr_close_scope_tcp_sack_perm_dash_symbol '\v\-' contained
 \ nextgroup=
 \    nft_payload_expr_close_scope_tcp_sack_perm_integer_expr_num_uint8_hex,
-\    nft_chainError
+\    nft_Error
 
 "   tcp sack_perm NUM
 hi link   nft_payload_expr_close_scope_tcp_sack_perm_integer_expr_num_uint8_hex_range nftHL_Integer
 syn match nft_payload_expr_close_scope_tcp_sack_perm_integer_expr_num_uint8_hex_range '\v(0x([A-Fa-f0-9]{1,2}))|(25[0-5])|(2[0-4][0-9])|(1[0-9][0-9])|([0-9][0-9])|[0-9]\ze[ \t\n-;]' skipwhite keepend contained
 \ nextgroup=
 \    nft_payload_expr_close_scope_tcp_sack_perm_dash_symbol,
-\    @nft_c_stmt,
 \    nft_Error
 " END Operators - Scalar
 
@@ -1848,14 +1838,14 @@ hi link   nft_payload_expr_close_scope_tcp_checksum_dash_symbol nftHL_Expression
 syn match nft_payload_expr_close_scope_tcp_checksum_dash_symbol '\v\-' contained
 \ nextgroup=
 \    nft_payload_expr_close_scope_tcp_checksum_integer_expr_num_uint16_hex,
-\    nft_chainError
+\    nft_Error
 
 "   tcp checksum NUM
 hi link   nft_payload_expr_close_scope_tcp_checksum_integer_expr_num_uint16_hex_range nftHL_Integer
 syn match nft_payload_expr_close_scope_tcp_checksum_integer_expr_num_uint16_hex_range '\v(0x[0-9a-fA-F]{1,4})|([0-9]{1,5})\ze[ \t\-\n;]' skipwhite contained
 \ nextgroup=
 \    nft_payload_expr_close_scope_tcp_checksum_dash_symbol,
-\    @nft_c_stmt
+\    nft_Error
 " END Operators - Scalar
 
 hi link   nft_payload_expr_close_scope_tcp_checksum_relational_op_discrete_1char nftHL_Operator
@@ -1940,14 +1930,14 @@ hi link   nft_payload_expr_close_scope_tcp_ackseq_dash_symbol nftHL_Expression
 syn match nft_payload_expr_close_scope_tcp_ackseq_dash_symbol '\v\-' contained
 \ nextgroup=
 \    nft_payload_expr_close_scope_tcp_ackseq_integer_expr_num_uint32_hex,
-\    nft_chainError
+\    nft_Error
 
 "   tcp ackseq NUM
 hi link   nft_payload_expr_close_scope_tcp_ackseq_integer_expr_num_uint32_hex_range nftHL_Integer
 syn match nft_payload_expr_close_scope_tcp_ackseq_integer_expr_num_uint32_hex_range '\v0x[0-9a-fA-F]{1,8}|429496729[0-5]|42949672[0-8][0-9]|4294967[01][0-9]{2}|429496[0-6][0-9]{3}|42949[0-5][0-9]{4}|4294[0-8][0-9]{5}|429[0-3][0-9]{6}|42[0-8][0-9]{7}|4[01][0-9]{8}|[1-3][0-9]{9}|[0-9]{1,9}\ze[ \t\n;\-]' skipwhite contained
 \ nextgroup=
 \    nft_payload_expr_close_scope_tcp_ackseq_dash_symbol,
-\    @nft_c_stmt
+\    nft_Error
 " END Operators - Scalar
 
 hi link   nft_payload_expr_close_scope_tcp_ackseq_relational_op_discrete_1char nftHL_Operator
@@ -2051,14 +2041,14 @@ hi link   nft_payload_expr_close_scope_tcp_reserved_dash_symbol nftHL_Expression
 syn match nft_payload_expr_close_scope_tcp_reserved_dash_symbol '\v\-' contained
 \ nextgroup=
 \    nft_payload_expr_close_scope_tcp_reserved_integer_expr_num_uint4_hex,
-\    nft_chainError
+\    nft_Error
 
 "   tcp reserved
 hi link   nft_payload_expr_close_scope_tcp_reserved_integer_expr_num_uint4_hex_range nftHL_Integer
 syn match nft_payload_expr_close_scope_tcp_reserved_integer_expr_num_uint4_hex_range '\v0x[0-9a-fA-F]|1[0-5]|[0-9]\ze[ \t\n\-\};]' contained
 \ nextgroup=
 \    nft_payload_expr_close_scope_tcp_reserved_dash_symbol,
-\    @nft_c_stmt
+\    nft_Error
 
 " END Operators - Scalar
 
@@ -2122,7 +2112,7 @@ syn match nft_payload_expr_tcp_hdr_expr_tcp_hdr_field_keyword_reserved '\vreserv
 " 'tcp'->tcp_hdr_expr->inner_inet_expr->inner_expr->(vxlan_hdr_expr|gretap_hdr_expr|geneve_hdr_expr)
 " 'tcp'->tcp_hdr_expr->gre_hdr_expr->payload_expr->(payload_stmt|primary_expr|primary_stmt_expr)
 hi link   nft_payload_expr_tcp_hdr_expr_keyword_tcp nftHL_Statement
-syn match nft_payload_expr_tcp_hdr_expr_keyword_tcp '\v[ \n]\zstcp\ze[ \t;]' skipwhite contained
+syn match nft_payload_expr_tcp_hdr_expr_keyword_tcp '\v[ \t\n]\zstcp\ze[ \t;]' skipwhite contained
 \ nextgroup=
 \    nft_payload_expr_tcp_hdr_expr_tcp_hdr_field_keyword_checksum,
 \    nft_payload_expr_tcp_hdr_expr_tcp_hdr_field_keyword_reserved,

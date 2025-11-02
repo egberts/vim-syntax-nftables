@@ -319,10 +319,10 @@ syn match nft_XXX_close_scope_ZZZ_YYY_relational_expr_relational_op_symbol_excla
 hi link   nft_XXX_close_scope_ZZZ_YYY_relational_op_non_equality_2char nftHL_Operator
 syn match nft_XXX_close_scope_ZZZ_YYY_relational_op_non_equality_2char '\v(\!\=)|(ne\ze[ \t\n;])' skipwhite contained
 \ nextgroup=
-\    nft_XXX_close_scope_ZZZ_YYY_set_ref_expr_set_ref_symbol_expr_at_setname,
 \    nft_XXX_close_scope_ZZZ_YYY_string_expr_string_ip4_opt_cidr_prefix,
 \    nft_XXX_close_scope_ZZZ_YYY_payload_expr_string_ip4_range,
 \    nft_XXX_close_scope_ZZZ_YYY_payload_expr_string_ip4,
+\    nft_XXX_close_scope_ZZZ_YYY_set_ref_expr_set_ref_symbol_expr_at_setname,
 \    nft_XXX_close_scope_ZZZ_YYY_symbol_expr_variable_expr,
 \    nft_XXX_YYY_set_expr_inline_set,
 \    nft_XXX_close_scope_ZZZ_YYY_integer_expr_num_uint64_hex_range,

@@ -316,7 +316,6 @@ hi link   nft_payload_expr_close_scope_udp_dport_integer_expr_num_uint16_hex_ran
 syn match nft_payload_expr_close_scope_udp_dport_integer_expr_num_uint16_hex_range '\v(0x[0-9a-fA-F]{1,4})|6553[0-5]|655[0-2][0-9]|(65[0-4][0-9][0-9])|(6[0-4][0-9][0-9][0-9])|([0-5][0-9][0-9][0-9][0-9])|[0-9][0-9][0-9][0-9]|[0-9][0-9][0-9]|[0-9][0-9]|[0-9]\ze[ \t\n\-;]' skipwhite keepend contained
 \ nextgroup=
 \    nft_payload_expr_close_scope_udp_dport_dash_symbol,
-\    @nft_c_stmt,
 \    nft_Error
 " END Operators - Scalar
 
@@ -473,7 +472,7 @@ syn match nft_payload_expr_udp_hdr_expr_udp_hdr_field_keyword_checksum '\vchecks
 " 'udp'->udp_hdr_expr->inner_inet_expr->inner_expr->(vxlan_hdr_expr|gretap_hdr_expr|geneve_hdr_expr)
 " 'udp'->udp_hdr_expr->gre_hdr_expr->payload_expr->(payload_stmt|primary_expr|primary_stmt_expr)
 hi link   nft_payload_expr_udp_hdr_expr_keyword_udp nftHL_Statement
-syn match nft_payload_expr_udp_hdr_expr_keyword_udp '\v[ \n]\zsudp\ze[ \t;]' skipwhite contained
+syn match nft_payload_expr_udp_hdr_expr_keyword_udp '\v[ \n\t]\zsudp\ze[ \t;]' skipwhite contained
 \ nextgroup=
 \    nft_payload_expr_udp_hdr_expr_udp_hdr_field_keyword_checksum,
 \    nft_payload_expr_udp_hdr_expr_udp_hdr_field_keyword_length,

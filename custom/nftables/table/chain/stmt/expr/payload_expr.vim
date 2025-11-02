@@ -914,6 +914,8 @@ syn region nft_icmp_hdr_expr_type_set_expr_inline_set start=+{+ end=+}+ skipwhit
 \    nft_icmp_hdr_expr_close_scope_icmp_type_set_list_member_expr_symbol_expr_string_keyword_defines,
 \    nft_icmp_hdr_expr_close_scope_icmp_type_set_expr_integer_expr_num_uint8_hex_range,
 \    nft_icmp_hdr_expr_close_scope_icmp_type_set_expr_integer_expr_num_uint8_hex
+\ nextgroup=
+\    @nft_c_stmt
 " no scalar (integer) after 'in' keyword
 " END Operators - Set membership
 
@@ -939,7 +941,8 @@ syn match nft_icmp_hdr_expr_close_scope_icmp_type_symbol_expr_string_keyword_def
 \    '\v(destination\-unreachable|address\-mask\-request|router\-advertisement|info\-request|router\-solicitation|address\-mask\-reply|info\-reply|parameter\-problem|timestamp\-request|timestamp\-reply|source\-quench|time\-exceeded|echo\-request|echo\-reply|redirect)\ze[ \t\n,\}]'
 \ skipwhite contained
 \ nextgroup=
-\    @nft_c_icmp
+\    @nft_c_icmp,
+\    @nft_c_stmt
 " END Operators - Scalar
 
 hi link   nft_icmp_hdr_expr_close_scope_icmp_type_relational_op_discrete_1char nftHL_Operator
