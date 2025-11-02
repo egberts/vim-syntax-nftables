@@ -2051,14 +2051,6 @@ syn match nft_payload_expr_udp_keyword_sport '\vsport\ze[ \t]' skipwhite contain
 \    nft_chainError
 " ************************* END  udp sport' *************************
 
-hi link   nft_payload_expr_udp_hdr_expr_keyword_udp nftHL_Statement
-syn match nft_payload_expr_udp_hdr_expr_keyword_udp '\v[ \t]\zsudp' skipwhite contained
-\ nextgroup=
-\    nft_payload_expr_udp_keyword_checksum,
-\    nft_payload_expr_udp_keyword_length,
-\    nft_payload_expr_udp_keyword_dport,
-\    nft_payload_expr_udp_keyword_sport,
-\    nft_chainError
 " ************************* END  udp' *************************
 
 " ************************* BEGIN  ah' *************************
@@ -2446,7 +2438,7 @@ syn cluster nft_c_payload_expr
 \    nft_auth_hdr_expr,
 \    nft_esp_hdr_expr,
 \    nft_comp_hdr_expr,
-\    nft_udp_hdr_expr,
+\    nft_payload_expr_udp_hdr_expr_keyword_udp,
 \    nft_udplite_hdr_expr,
 \    nft_payload_expr_tcp_hdr_expr_keyword_tcp,
 \    nft_dccp_hdr_expr,

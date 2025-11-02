@@ -222,7 +222,9 @@ syn match nft_XXX_close_scope_YYY_ZZZ_integer_expr_num_uint13_hex '\v(0x1[fF]{3}
 \    @nft_c_ZZZ
 
 hi link   nft_XXX_close_scope_ZZZ_YYY_integer_expr_num_uint16_hex nftHL_Integer
-syn match nft_XXX_close_scope_ZZZ_YYY_integer_expr_num_uint16_hex '\v(0x[0-9a-fA-F]{1,4})|6553[0-5]|655[0-2][0-9]|(65[0-4][0-9][0-9])|(6[0-4][0-9][0-9][0-9])|([0-5][0-9][0-9][0-9][0-9])|[0-9][0-9][0-9][0-9]|[0-9][0-9][0-9]|[0-9][0-9]|[0-9]\ze[ \t\n\-;]' skipwhite contained
+syn match nft_XXX_close_scope_ZZZ_YYY_integer_expr_num_uint16_hex
+\  '\v(6553[0-5]|655[0-2][0-9]|(65[0-4][0-9][0-9])|(6[0-4][0-9][0-9][0-9])|([0-5][0-9][0-9][0-9][0-9])|([0-9][0-9][0-9][0-9])|([0-9][0-9][0-9])|[0-9][0-9]|(0x[0-9a-fA-F]{1,4})|[0-9])\ze\-'
+\ skipwhite contained
 \ nextgroup=
 \    @nft_c_ZZZ
 

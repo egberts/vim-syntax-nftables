@@ -518,6 +518,7 @@ syn cluster nft_c_stmt
 \    nft_stmt_log_stmt_log_stmt_alloc_keyword_log,
 \    nft_meta_expr_meta_key_unqualified_keyword_oif,
 \    nft_payload_expr_tcp_hdr_expr_keyword_tcp,
+\    nft_payload_expr_udp_hdr_expr_keyword_udp,
 \    nft_stmt_keyword_ct,
 \    nft_stmt_declarative_keyword_ip,
 \    nft_comment_inline,

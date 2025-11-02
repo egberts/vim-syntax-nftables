@@ -13,6 +13,7 @@ let s:expr_list_filepaths_semantic_early = [
 \    'table/chain/stmt/expr/meta_expr.vim',
 \    'table/chain/stmt/expr/ip_hdr_expr.vim',
 \    'table/chain/stmt/expr/tcp_hdr_expr.vim',
+\    'table/chain/stmt/expr/udp_hdr_expr.vim',
 \    'table/chain/stmt/expr/ct_expr.vim',
 \    'table/chain/stmt/expr/rt_expr.vim',
 \    'table/chain/stmt/expr/icmp_hdr_expr.vim',

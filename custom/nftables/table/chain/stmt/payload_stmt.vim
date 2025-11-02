@@ -53,7 +53,7 @@ syn cluster nft_c_payload_stmt
 \    nft_keyword_expr_keyword_arp,
 \    nft_esp_hdr_expr,
 \    nft_ip6_hdr_expr,
-\    nft_udp_hdr_expr,
+\    nft_payload_expr_udp_hdr_expr_keyword_udp,
 \    nft_payload_expr_tcp_hdr_expr_keyword_tcp,
 \    nft_th_hdr_expr,
 \    nft_gre_hdr_expr,

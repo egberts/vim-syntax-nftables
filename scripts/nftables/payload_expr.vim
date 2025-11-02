@@ -90,7 +90,7 @@ syn cluster nft_c_payload_expr_via_primary_expr
 \    nft_esp_hdr_expr,
 \    nft_comp_hdr_expr,
 \    nft_udplite_hdr_expr,
-\    nft_udp_hdr_expr,
+\    nft_payload_expr_udp_hdr_expr_keyword_udp,
 \    nft_payload_expr_tcp_hdr_expr_keyword_tcp,
 \    nft_dccp_hdr_expr,
 \    nft_sctp_hdr_expr,
