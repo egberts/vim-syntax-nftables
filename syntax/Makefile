@@ -15,5 +15,10 @@ lint: $(VIM_FILES)
 		vint "$$f" || exit 1; \
 	done
 
+install:
+	install -D -d ~/.vim/syntax
+	install nftables.vim ~/.vim/syntax/
 
+uninstall:
+	rm ~/.vim/syntax/nftables.vim
 

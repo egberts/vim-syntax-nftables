@@ -16,4 +16,9 @@ lint: $(VIM_FILES)
 	done
 
 
+install: nftables.vim
+	install -D -d ~/.vim/ftplugin
+	install nftables.vim ~/.vim/ftplugin/
 
+uninstall: 
+	rm ~/.vim/ftplugin/nftables.vim

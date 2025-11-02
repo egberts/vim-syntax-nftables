@@ -16,4 +16,9 @@ lint: $(VIM_FILES)
 	done
 
 
+install:
+	install -v -D -d ~/.vim/ftdetect
+	install -v nftables.vim ~/.vim/ftdetect/
 
+uninstall:
+	rm ~/.vim/ftdetect/nftables.vim

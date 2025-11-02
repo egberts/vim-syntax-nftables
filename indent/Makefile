@@ -16,4 +16,10 @@ lint: $(VIM_FILES)
 	done
 
 
+install: nftables.vim
+	install -D -d ~/.vim/indent
+	install nftables.vim ~/.vim/indent/
 
+uninstall:
+	rm ~/.vim/indent/nftables.vim
+	
