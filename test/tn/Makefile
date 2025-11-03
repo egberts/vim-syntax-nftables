@@ -1,31 +1,31 @@
 
-# File: tests/fn/Makefile
+# File: test/tn/Makefile
 # Description:
 # Usage:
 #    make (implied 'check')
-#    make check  # all fn.nft files
-#    make check add-counter.fn.nft
+#    make check  # all tn.nft files
+#    make check add-counter.tn.nft
 #    make lint
 #    make highlight
 #    make test (defaults to 'check')
 
 .PHONY: check
 
-DEFAULT_NFT_FILES := $(wildcard *.fn.nft)
+DEFAULT_NFT_FILES := $(wildcard *.tn.nft)
 VIM_FILES := $(wildcard *.vim)
 
 check:
-	@if ! sudo -v >/dev/null 2>&1; then \
-		sudo /opt/nftables/sbin/nft --version; \
+	@if ! sudo -v -n -N >/dev/null 2>&1; then \
 		echo "Need sudo for 'nft -c' check."; \
-	fi; \
-	if [ $(words $(MAKECMDGOALS)) -eq 2 ]; then \
+		sudo /opt/nftables/sbin/nft --version; \
+	fi;
+	@if [ $(words $(MAKECMDGOALS)) -eq 2 ]; then \
 		FILE="$(word 2, $(MAKECMDGOALS))"; \
 		echo "Checking file: $$FILE"; \
 		sudo /opt/nftables/sbin/nft -c -f "$$FILE"; \
 	else \
 		if [ -z "$(DEFAULT_NFT_FILES)" ]; then \
-			echo "No .fn.nft file found."; \
+			echo "No .tn.nft file found."; \
 			exit 1; \
 		else \
 			echo "Checking corpus test file(s): $(DEFAULT_NFT_FILES)"; \

@@ -1,0 +1,707 @@
+# File: ip_hdr_expr.nft
+# Bison: ip_hdr_expr
+
+define IP_HDR_VERSION = 15
+
+add table T
+add set T my_port_set {
+        typeof tcp sequence
+        elements = { 22, 80, 443 }
+    }
+
+add rule T C tcp dport 5 accept
+add rule T C tcp dport 15 accept
+add rule T C tcp dport 100 accept
+add rule T C tcp dport 256 accept
+add rule T C tcp dport 999 accept
+add rule T C tcp dport 1000 accept
+add rule T C tcp dport 9999 accept
+add rule T C tcp dport 10000 accept
+add rule T C tcp dport 65535 accept
+add rule T C tcp dport 65536 accept
+add rule T C tcp dport 99999 accept
+add rule T C tcp dport 0x5 accept
+add rule T C tcp dport 0xf accept
+# add rule T C tcp dport 65536 accept  ! overflowed  16-bit
+# add rule T C tcp dport 0x10000 accept  ! overflowed 16-bit
+add rule T C tcp dport 5-15 accept
+# add rule T C tcp dport 127.0.0.1 accept
+# add rule T C tcp dport 127.0.0.1/24 accept
+add rule T C tcp dport tcpmux accept
+add rule T C tcp dport echo accept
+add rule T C tcp dport discard accept
+add rule T C tcp dport cmip-agent accept
+add rule T C tcp dport sa-msg-port accept
+# add rule T C tcp dport "ssh" accept
+add rule T C tcp dport $IP_HDR_VERSION accept
+# add rule T C tcp sport @my_port_set accept  ! setname
+add rule T C tcp dport == 0x0f accept
+add rule T C tcp dport != 0x7 accept
+#add rule T C tcp dport not 0x10 accept
+add rule T C tcp dport > 0x1 accept
+add rule T C tcp dport >= 0x2 accept
+add rule T C tcp dport <= 0x3 accept
+add rule T C tcp dport < 0x4 accept
+add rule T C tcp dport { 1,2,4 } accept
+add rule T C tcp dport { 1-2, 4 } accept
+add rule T C tcp dport { ftp, ssh } accept
+# add rule T C tcp dport { 127.0.0.1 } accept
+# add rule T C tcp dport { 127.0.0.1/24 } accept
+# add rule T C tcp dport not { 1,2,4 } accept
+# add rule T C tcp dport in { 1,2,4 } accept
+# add rule T C tcp dport not in { 1,2,4 } accept
+# add rule T C tcp dport not in 1 accept  ! scalar; not a set of integer
+# add rule T C tcp dport not in 0x10000 accept  ! overflowed 16-bit
+add rule T C tcp dport != { 1,2,4 } accept
+add rule T C tcp dport == { 1,2,4 } accept
+# add rule T C tcp dport any
+
+add rule T C tcp sport 0 accept
+add rule T C tcp sport 15 accept
+add rule T C tcp sport 0x0 accept
+add rule T C tcp sport 0xf accept
+# add rule T C tcp dport 65536 accept  ! overflowed  16-bit
+# add rule T C tcp dport 0x10000 accept  ! overflowed 16-bit
+add rule T C tcp sport 0-15 accept
+#add rule T C tcp sport 127.0.0.1 accept
+#add rule T C tcp sport 127.0.0.1/24 accept
+add rule T C tcp dport tcpmux accept
+add rule T C tcp dport echo accept
+add rule T C tcp dport discard accept
+add rule T C tcp dport cmip-agent accept
+#add rule T C tcp sport "ssh" accept
+add rule T C tcp sport $IP_HDR_VERSION accept
+# add rule T C tcp sport @my_port_set accept  # setname
+add rule T C tcp sport == 0x10 accept  # overflowed 16-bit
+add rule T C tcp sport != 0x7 accept
+# add rule T C tcp sport not 0x10 accept
+add rule T C tcp sport > 0x1 accept
+add rule T C tcp sport >= 0x2 accept
+add rule T C tcp sport <= 0x3 accept
+add rule T C tcp sport < 0x4 accept
+add rule T C tcp sport { 1,2,4 } accept
+add rule T C tcp sport { ftp, ssh } accept
+# add rule T C tcp sport { 127.0.0.1 } accept
+# add rule T C tcp sport { 127.0.0.1/24 } accept
+# add rule T C tcp sport not { 1,2,4 } accept
+# add rule T C tcp sport in { 1,2,4 } accept
+# add rule T C tcp sport not in 0x10000 accept  ! overflowed 16-bit
+add rule T C tcp sport != { 1,2,4 } accept
+add rule T C tcp sport == { 1-2,4 } accept
+
+add rule T C tcp sequence 0 accept
+add rule T C tcp sequence 9 accept
+add rule T C tcp sequence 10 accept
+add rule T C tcp sequence 99 accept
+add rule T C tcp sequence 100 accept
+add rule T C tcp sequence 999 accept
+add rule T C tcp sequence 1000 accept
+add rule T C tcp sequence 9999 accept
+add rule T C tcp sequence 10000 accept
+add rule T C tcp sequence 99999 accept
+add rule T C tcp sequence 100000 accept
+add rule T C tcp sequence 999999 accept
+add rule T C tcp sequence 1000000 accept
+add rule T C tcp sequence 9999999 accept
+add rule T C tcp sequence 10000000 accept
+add rule T C tcp sequence 99999999 accept
+add rule T C tcp sequence 100000000 accept
+add rule T C tcp sequence 999999999 accept
+add rule T C tcp sequence 100000000 accept
+# add rule T C tcp sequence 4294967296 accept
+# add rule T C tcp sequence 4294967395 accept
+# add rule T C tcp sequence 4294968295 accept
+# add rule T C tcp sequence 4294977295 accept
+# add rule T C tcp sequence 4295967295 accept
+# add rule T C tcp sequence 4394967295 accept
+# add rule T C tcp sequence 5294967295 accept
+add rule T C tcp sequence 0x0 accept
+add rule T C tcp sequence 0xf accept
+add rule T C tcp sequence 4294967295 accept  # overflowed  32-bit
+add rule T C tcp sequence 0x10000000 accept  # overflowed 32-bit
+add rule T C tcp sequence 0-15 accept
+# add rule T C tcp sequence 127.0.0.1 accept
+# add rule T C tcp sequence 127.0.0.1/24 accept
+# add rule T C tcp sequence ssh accept
+# add rule T C tcp sequence "ssh" accept
+add rule T C tcp sequence $IP_HDR_VERSION accept
+# add rule T C tcp sequence @my_port_set accept  # setname
+add rule T C tcp sequence == 0x7 accept
+add rule T C tcp sequence != 0x7 accept
+# add rule T C tcp sequence not 0x10 accept
+add rule T C tcp sequence > 0x1 accept
+add rule T C tcp sequence >= 0x2 accept
+add rule T C tcp sequence <= 0x3 accept
+add rule T C tcp sequence < 0x4 accept
+add rule T C tcp sequence { 1,2,4 } accept
+# add rule T C tcp sequence { ssh } accept
+# add rule T C tcp sequence { 127.0.0.1 } accept
+# add rule T C tcp sequence { 127.0.0.1/24 } accept
+# add rule T C tcp sequence not { 1,2,4 } accept
+# add rule T C tcp sequence in { 1,2,4 } accept
+# add rule T C tcp sequence not in { 1,2,4 } accept
+# add rule T C tcp sequence not in 1 accept  ! scalar; not a set of integer
+# add rule T C tcp sequence not in 0x4 accept  ! overflowed 4-bit
+add rule T C tcp sequence != { 1,2,4 } accept
+add rule T C tcp sequence == { 1,2,4 } accept
+# add rule T C tcp sequence any
+
+add rule T C tcp ackseq 0 accept
+add rule T C tcp ackseq 15 accept
+add rule T C tcp ackseq 0x0 accept
+add rule T C tcp ackseq 0xf accept
+# add rule T C tcp ackseq 4294967295 accept  ! overflowed  32-bit
+# add rule T C tcp ackseq 0x10000000 accept  ! overflowed 32-bit
+add rule T C tcp ackseq 0-15 accept
+# add rule T C tcp ackseq 127.0.0.1 accept
+# add rule T C tcp ackseq 127.0.0.1/24 accept
+# add rule T C tcp ackseq ssh accept
+# add rule T C tcp ackseq "ssh" accept
+add rule T C tcp ackseq $IP_HDR_VERSION accept
+# add rule T C tcp ackseq @IP_HDR_VERSION accept  ! setname
+add rule T C tcp ackseq == 0x7 accept
+add rule T C tcp ackseq != 0x7 accept
+# add rule T C tcp ackseq not 0x10 accept
+add rule T C tcp ackseq > 0x1 accept
+add rule T C tcp ackseq >= 0x2 accept
+add rule T C tcp ackseq <= 0x3 accept
+add rule T C tcp ackseq < 0x4 accept
+add rule T C tcp ackseq { 1,2,4 } accept
+# add rule T C tcp ackseq { ssh } accept
+# add rule T C tcp ackseq { 127.0.0.1 } accept
+# add rule T C tcp ackseq { 127.0.0.1/24 } accept
+# add rule T C tcp ackseq not { 1,2,4 } accept
+# add rule T C tcp ackseq in { 1,2,4 } accept
+# add rule T C tcp ackseq not in { 1,2,4 } accept
+# add rule T C tcp ackseq not in 1 accept  ! scalar; not a set of integer
+# add rule T C tcp ackseq not in 0x4 accept  ! overflowed 4-bit
+add rule T C tcp ackseq != { 1,2,4 } accept
+add rule T C tcp ackseq == { 1,2,4 } accept
+# add rule T C tcp ackseq any
+
+add rule T C tcp doff 5 accept
+add rule T C tcp doff 15 accept
+add rule T C tcp doff 0x5 accept
+add rule T C tcp doff 0xf accept
+# add rule T C tcp doff 4294967295 accept  ! overflowed  32-bit
+# add rule T C tcp doff 0x10000000 accept  ! overflowed 32-bit
+add rule T C tcp doff 5-15 accept
+# add rule T C tcp doff 127.0.0.1 accept
+# add rule T C tcp doff 127.0.0.1/24 accept
+# add rule T C tcp doff ssh accept
+# add rule T C tcp doff "ssh" accept
+add rule T C tcp doff $IP_HDR_VERSION accept
+# add rule T C tcp doff @IP_HDR_VERSION accept  ! setname
+add rule T C tcp doff == 0x7 accept
+add rule T C tcp doff != 0x7 accept
+# add rule T C tcp doff not 0x10 accept
+add rule T C tcp doff > 0x5 accept
+add rule T C tcp doff >= 0x6 accept
+add rule T C tcp doff <= 0x7 accept
+add rule T C tcp doff < 0x8 accept
+add rule T C tcp doff { 1,2,4 } accept
+# add rule T C tcp doff { ssh } accept
+# add rule T C tcp doff { 127.0.0.1 } accept
+# add rule T C tcp doff { 127.0.0.1/24 } accept
+# add rule T C tcp doff not { 1,2,4 } accept
+# add rule T C tcp doff in { 1,2,4 } accept
+# add rule T C tcp doff not in { 1,2,4 } accept
+# add rule T C tcp doff not in 1 accept  ! scalar; not a set of integer
+# add rule T C tcp doff not in 0x4 accept  ! overflowed 4-bit
+add rule T C tcp doff != { 1,2,4 } accept
+add rule T C tcp doff == { 1,2,4 } accept
+# add rule T C tcp doff any
+
+add rule T C tcp reserved 0 accept
+add rule T C tcp reserved 1 accept
+add rule T C tcp reserved 4 accept
+add rule T C tcp reserved 15 accept
+#add rule T C tcp reserved 16 accept
+add rule T C tcp reserved 0x0 accept
+#add rule T C tcp reserved 0xf accept
+# add rule T C tcp reserved 4294967295 accept  ! overflowed  32-bit
+# add rule T C tcp reserved 0x10000000 accept  ! overflowed 32-bit
+add rule T C tcp reserved 0-15 accept
+# add rule T C tcp reserved 127.0.0.1 accept
+# add rule T C tcp reserved 127.0.0.1/24 accept
+# add rule T C tcp reserved ssh accept
+# add rule T C tcp reserved "ssh" accept
+add rule T C tcp reserved $IP_HDR_VERSION accept
+# add rule T C tcp reserved @IP_HDR_VERSION accept  ! setname
+add rule T C tcp reserved == 0x7 accept
+add rule T C tcp reserved != 0x7 accept
+# add rule T C tcp reserved not 0x10 accept
+add rule T C tcp reserved > 0x1 accept
+add rule T C tcp reserved >= 0x2 accept
+add rule T C tcp reserved <= 0x3 accept
+add rule T C tcp reserved < 0x4 accept
+add rule T C tcp reserved { 1,2,4 } accept
+# add rule T C tcp reserved { ssh } accept
+# add rule T C tcp reserved { 127.0.0.1 } accept
+# add rule T C tcp reserved { 127.0.0.1/24 } accept
+# add rule T C tcp reserved not { 1,2,4 } accept
+# add rule T C tcp reserved in { 1,2,4 } accept
+# add rule T C tcp reserved not in { 1,2,4 } accept
+# add rule T C tcp reserved not in 1 accept  ! scalar; not a set of integer
+# add rule T C tcp reserved not in 0x4 accept  ! overflowed 4-bit
+add rule T C tcp reserved != { 0, 6,15 } accept
+add rule T C tcp reserved == { 1,2,4 } accept
+# add rule T C tcp reserved any
+
+add rule T C tcp flags 0 accept
+add rule T C tcp flags 15 accept
+add rule T C tcp flags 0x0 accept
+add rule T C tcp flags 0xf accept
+add rule T C tcp flags ack accept
+# add rule T C tcp flags 4294967295 accept  ! overflowed  32-bit
+# add rule T C tcp flags 0x10000000 accept  ! overflowed 32-bit
+add rule T C tcp flags 0-15 accept
+# add rule T C tcp flags 127.0.0.1 accept
+# add rule T C tcp flags 127.0.0.1/24 accept
+# add rule T C tcp flags ssh accept
+# add rule T C tcp flags "ssh" accept
+add rule T C tcp flags $IP_HDR_VERSION accept
+# add rule T C tcp flags @IP_HDR_VERSION accept  ! setname
+add rule T C tcp flags == 0x7 accept
+add rule T C tcp flags == syn accept
+add rule T C tcp flags != 0x7 accept
+add rule T C tcp flags != fin accept
+# add rule T C tcp flags not 0x10 accept
+add rule T C tcp flags > 0x1 accept
+add rule T C tcp flags > urg accept
+add rule T C tcp flags >= 0x2 accept
+add rule T C tcp flags >= rst accept
+add rule T C tcp flags <= 0x3 accept
+add rule T C tcp flags <= psh accept
+add rule T C tcp flags < 0x4 accept
+add rule T C tcp flags < ecn accept
+add rule T C tcp flags < cwr accept
+add rule T C tcp flags { psh,syn, ack } accept
+# add rule T C tcp flags { ssh } accept
+# add rule T C tcp flags { 127.0.0.1 } accept
+# add rule T C tcp flags { 127.0.0.1/24 } accept
+# add rule T C tcp flags not { 1,2,4 } accept
+# add rule T C tcp flags in { 1,2,4 } accept
+# add rule T C tcp flags not in { 1,2,4 } accept
+# add rule T C tcp flags not in 1 accept  ! scalar; not a set of integer
+# add rule T C tcp flags not in 0x4 accept  ! overflowed 4-bit
+add rule T C tcp flags != { 1,cwr,4 } accept
+add rule T C tcp flags == { 1,2,4 } accept
+# add rule T C tcp flags any
+
+add rule T C tcp window 0 accept
+add rule T C tcp window 15 accept
+add rule T C tcp window 0x0 accept
+add rule T C tcp window 0xf accept
+# add rule T C tcp window 4294967295 accept  ! overflowed  32-bit
+# add rule T C tcp window 0x10000000 accept  ! overflowed 32-bit
+add rule T C tcp window 0-15 accept
+# add rule T C tcp window 127.0.0.1 accept
+# add rule T C tcp window 127.0.0.1/24 accept
+# add rule T C tcp window ssh accept
+# add rule T C tcp window "ssh" accept
+add rule T C tcp window $IP_HDR_VERSION accept
+# add rule T C tcp window @IP_HDR_VERSION accept  ! setname
+add rule T C tcp window == 0x7 accept
+add rule T C tcp window != 0x7 accept
+# add rule T C tcp window not 0x10 accept
+add rule T C tcp window > 0x1 accept
+add rule T C tcp window >= 0x2 accept
+add rule T C tcp window <= 0x3 accept
+add rule T C tcp window < 0x4 accept
+add rule T C tcp window { 1,2,4 } accept
+# add rule T C tcp window { ssh } accept
+# add rule T C tcp window { 127.0.0.1 } accept
+# add rule T C tcp window { 127.0.0.1/24 } accept
+# add rule T C tcp window not { 1,2,4 } accept
+# add rule T C tcp window in { 1,2,4 } accept
+# add rule T C tcp window not in { 1,2,4 } accept
+# add rule T C tcp window not in 1 accept  ! scalar; not a set of integer
+# add rule T C tcp window not in 0x4 accept  ! overflowed 4-bit
+add rule T C tcp window != { 1,2,4 } accept
+add rule T C tcp window == { 1,2,4 } accept
+# add rule T C tcp window any
+
+add rule T C tcp checksum 0 accept
+add rule T C tcp checksum 15 accept
+add rule T C tcp checksum 0x0 accept
+add rule T C tcp checksum 0xf accept
+# add rule T C tcp checksum 4294967295 accept  ! overflowed  32-bit
+# add rule T C tcp checksum 0x10000000 accept  ! overflowed 32-bit
+add rule T C tcp checksum 0-15 accept
+# add rule T C tcp checksum 127.0.0.1 accept
+# add rule T C tcp checksum 127.0.0.1/24 accept
+# add rule T C tcp checksum ssh accept
+# add rule T C tcp checksum "ssh" accept
+add rule T C tcp checksum $IP_HDR_VERSION accept
+# add rule T C tcp checksum @IP_HDR_VERSION accept  ! setname
+add rule T C tcp checksum == 0x7 accept
+add rule T C tcp checksum != 0x7 accept
+# add rule T C tcp checksum not 0x10 accept
+add rule T C tcp checksum > 0x1 accept
+add rule T C tcp checksum >= 0x2 accept
+add rule T C tcp checksum <= 0x3 accept
+add rule T C tcp checksum < 0x4 accept
+add rule T C tcp checksum { 1,2,4 } accept
+# add rule T C tcp checksum { ssh } accept
+# add rule T C tcp checksum { 127.0.0.1 } accept
+# add rule T C tcp checksum { 127.0.0.1/24 } accept
+# add rule T C tcp checksum not { 1,2,4 } accept
+# add rule T C tcp checksum in { 1,2,4 } accept
+# add rule T C tcp checksum not in { 1,2,4 } accept
+# add rule T C tcp checksum not in 1 accept  ! scalar; not a set of integer
+# add rule T C tcp checksum not in 0x4 accept  ! overflowed 4-bit
+add rule T C tcp checksum != { 1,2,4 } accept
+add rule T C tcp checksum == { 1,2,4 } accept
+# add rule T C tcp checksum any
+
+add rule T C tcp urgptr 0 accept
+add rule T C tcp urgptr 15 accept
+add rule T C tcp urgptr 0x0 accept
+add rule T C tcp urgptr 0xf accept
+# add rule T C tcp urgptr 4294967295 accept  ! overflowed  32-bit
+# add rule T C tcp urgptr 0x10000000 accept  ! overflowed 32-bit
+add rule T C tcp urgptr 0-15 accept
+# add rule T C tcp urgptr 127.0.0.1 accept
+# add rule T C tcp urgptr 127.0.0.1/24 accept
+# add rule T C tcp urgptr ssh accept
+# add rule T C tcp urgptr "ssh" accept
+add rule T C tcp urgptr $IP_HDR_VERSION accept
+# add rule T C tcp urgptr @IP_HDR_VERSION accept  ! setname
+add rule T C tcp urgptr == 0x7 accept
+add rule T C tcp urgptr != 0x7 accept
+# add rule T C tcp urgptr not 0x10 accept
+add rule T C tcp urgptr > 0x1 accept
+add rule T C tcp urgptr >= 0x2 accept
+add rule T C tcp urgptr <= 0x3 accept
+add rule T C tcp urgptr < 0x4 accept
+add rule T C tcp urgptr { 1,2,4 } accept
+# add rule T C tcp urgptr { ssh } accept
+# add rule T C tcp urgptr { 127.0.0.1 } accept
+# add rule T C tcp urgptr { 127.0.0.1/24 } accept
+# add rule T C tcp urgptr not { 1,2,4 } accept
+# add rule T C tcp urgptr in { 1,2,4 } accept
+# add rule T C tcp urgptr not in { 1,2,4 } accept
+# add rule T C tcp urgptr not in 1 accept  ! scalar; not a set of integer
+# add rule T C tcp urgptr not in 0x4 accept  ! overflowed 4-bit
+add rule T C tcp urgptr != { 1,2,4 } accept
+add rule T C tcp urgptr == { 1,2,4 } accept
+# add rule T C tcp urgptr any
+
+
+# so ONE CAN so a chaining of 'tcp option's. but scanner.l chokes on it
+add rule ip T C tcp option mss 1500 tcp window  200 tcp option mptcp subtype 5 tcp option timestamp 15 drop
+
+# so ONE CAN so do a chaining of 'tcp <field>'s but scanner.l chokes on it
+# add rule ip6 T C tcp sport 15 dport 32000 drop
+
+
+add table T 
+table T {
+  chain C_dport {
+    tcp dport 0 accept
+    tcp dport 15 accept
+    tcp dport 0x0 accept
+    tcp dport 0xf accept
+    tcp dport 0-15 accept
+    tcp dport ssh accept
+    tcp dport $IP_HDR_VERSION accept
+    tcp dport == 0x10 accept  # overflowed 16-bit
+    tcp dport != 0x7 accept
+    tcp dport > 0x1 accept
+    tcp dport >= 0x2 accept
+    tcp dport <= 0x3 accept
+    tcp dport < 0x4 accept
+    tcp dport { 1,2,4 } accept
+    tcp dport { ssh } accept
+    tcp dport != { 1,2,4 } accept
+    tcp dport == { 1,2,4 } accept
+  }
+}
+
+add table T 
+table T {
+  chain C_sport {
+    tcp sport 0 accept
+    tcp sport 15 accept
+    tcp sport 0x0 accept
+    tcp sport 0xf accept
+    tcp sport 0-15 accept
+    tcp sport ssh accept
+    tcp sport $IP_HDR_VERSION accept
+    tcp sport == 0x10 accept  # overflowed 16-bit
+    tcp sport != 0x7 accept
+    tcp sport > 0x1 accept
+    tcp sport >= 0x2 accept
+    tcp sport <= 0x3 accept
+    tcp sport < 0x4 accept
+    tcp sport { 1,2,4 } accept
+    tcp sport { ssh } accept
+    tcp sport != { 1,2,4 } accept
+    tcp sport == { 1,2,4 } accept
+  }
+}
+table T {
+  chain C_sequence {
+    tcp sequence 0 accept
+    tcp sequence 15 accept
+    tcp sequence 0x0 accept
+    tcp sequence 0xf accept
+    tcp sequence 4294967295 accept  # overflowed  32-bit
+    tcp sequence 0x10000000 accept  # overflowed 32-bit
+    tcp sequence 0-15 accept
+    tcp sequence $IP_HDR_VERSION accept
+    tcp sequence == 0x7 accept
+    tcp sequence != 0x7 accept
+    tcp sequence > 0x1 accept
+    tcp sequence >= 0x2 accept
+    tcp sequence <= 0x3 accept
+    tcp sequence < 0x4 accept
+    tcp sequence { 1,2,4 } accept
+    tcp sequence != { 1,2,4 } accept
+    tcp sequence == { 1,2,4 } accept
+  }
+}
+
+table T {
+  chain C_ackseq {
+    tcp ackseq 0 accept
+    tcp ackseq 15 accept
+    tcp ackseq 0x0 accept
+    tcp ackseq 0xf accept
+    tcp ackseq 4294967295 accept  # overflowed  32-bit
+    tcp ackseq 0x10000000 accept  # overflowed 32-bit
+    tcp ackseq 0-15 accept
+    tcp ackseq $IP_HDR_VERSION accept
+    tcp ackseq == 0x7 accept
+    tcp ackseq != 0x7 accept
+    tcp ackseq > 0x1 accept
+    tcp ackseq >= 0x2 accept
+    tcp ackseq <= 0x3 accept
+    tcp ackseq < 0x4 accept
+    tcp ackseq { 1,2,4 } accept
+    tcp ackseq != { 1,2,4 } accept
+    tcp ackseq == { 1,2,4 } accept
+  }
+}
+
+
+table T {
+    chain C_doff {
+        type filter hook input priority -99999; policy accept
+
+        tcp doff 5 accept
+        tcp doff 15 accept
+        tcp doff 0x5 accept
+        tcp doff 0xf accept
+        tcp doff 5-15 accept
+        tcp doff $IP_HDR_VERSION accept
+        tcp doff == 0x7 accept
+        tcp doff != 0x7 accept
+        tcp doff > 0x5 accept
+        tcp doff >= 0x6 accept
+        tcp doff <= 0x7 accept
+        tcp doff < 0xf accept
+        tcp doff { 0x5, 5 } accept
+        tcp doff != { 6,7,8 } accept
+        tcp doff == { 0x9,0xa,0xb } accept
+  }
+}
+
+table T {
+    chain C_reserved {
+        type filter hook input priority 0; policy accept
+
+        tcp reserved 5 accept
+        tcp reserved 15 accept
+        tcp reserved 0x5 accept
+        tcp reserved 0xf accept
+        tcp reserved 5-15 accept
+        tcp reserved $IP_HDR_VERSION accept
+        tcp reserved == 0x7 accept
+        tcp reserved != 0x7 accept
+        tcp reserved > 0x5 accept
+        tcp reserved >= 0x6 accept
+        tcp reserved <= 0x7 accept
+        tcp reserved < 0x8 accept
+        tcp reserved { 0x5, 0x6 } accept
+        tcp reserved != { 5,15 } accept
+        tcp reserved == { 5-15  } accept
+  }
+}
+
+table T {
+    chain C_flags {
+        type filter hook input priority 0; policy accept
+
+        tcp flags 0 accept
+        tcp flags 15 accept
+        tcp flags 10 accept
+        tcp flags 90 accept
+        tcp flags 100 accept
+        tcp flags 200 accept
+        tcp flags 250 accept
+        tcp flags 255 accept
+#        tcp flags 256 accept
+        tcp flags 0x0 accept
+        tcp flags 0xf accept
+        tcp flags 0xff accept
+#        tcp flags 0x100 accept
+        tcp flags 0-15 accept
+        tcp flags $IP_HDR_VERSION accept
+        tcp flags == 0x7 accept
+        tcp flags != 0x7 accept
+        tcp flags > 0x1 accept
+        tcp flags >= 0x2 accept
+        tcp flags <= 0x3 accept
+        tcp flags < 0x4 accept
+        tcp flags { 1,2,4 } accept
+        tcp flags != { 1,2,4 } accept
+        tcp flags == { 1,2,4 } accept
+  }
+}
+
+table T {
+    chain C_window {
+        type filter hook input priority 0; policy accept
+
+        tcp window 0 accept
+        tcp window 15 accept
+        tcp window 0x0 accept
+        tcp window 0xf accept
+        tcp window 0-15 accept
+        tcp window $IP_HDR_VERSION accept
+        tcp window == 0x7 accept
+        tcp window != 0x7 accept
+        tcp window > 0x1 accept
+        tcp window >= 0x2 accept
+        tcp window <= 0x3 accept
+        tcp window < 0x4 accept
+        tcp window { 1,2,4 } accept
+        tcp window != { 1,2,4 } accept
+        tcp window == { 1,2,4 } accept
+  }
+}
+
+table T {
+    chain C_checksum {
+        type filter hook input priority 0; policy accept
+
+        tcp checksum 0 accept
+        tcp checksum 15 accept
+        tcp checksum 0x0 accept
+        tcp checksum 0xf accept
+        tcp checksum 0-15 accept
+        tcp checksum $IP_HDR_VERSION accept
+        tcp checksum == 0x7 accept
+        tcp checksum != 0x7 accept
+        tcp checksum > 0x1 accept
+        tcp checksum >= 0x2 accept
+        tcp checksum <= 0x3 accept
+        tcp checksum < 0x4 accept
+        tcp checksum { 1,2,4 } accept
+        tcp checksum != { 1,2,4 } accept
+        tcp checksum == { 1,2,4 } accept
+  }
+}
+
+table T {
+    chain C_urgptr {
+        type filter hook input priority 0; policy accept
+
+        tcp urgptr 0 accept
+        tcp urgptr 15 accept
+        tcp urgptr 0x0 accept
+        tcp urgptr 0xf accept
+        tcp urgptr 0-15 accept
+        tcp urgptr $IP_HDR_VERSION accept
+        tcp urgptr == 0x7 accept
+        tcp urgptr != 0x7 accept
+        tcp urgptr > 0x1 accept
+        tcp urgptr >= 0x2 accept
+        tcp urgptr <= 0x3 accept
+        tcp urgptr < 0x4 accept
+        tcp urgptr { 1,2,4 } accept
+        tcp urgptr != { 1,2,4 } accept
+        tcp urgptr == { 1,2,4 } accept
+  }
+}
+
+
+table T {
+  chain C {
+    tcp option 1
+#    tcp option 1 length 1
+    tcp option 2 5
+    tcp option 2 size 5
+    tcp option 3 9
+    tcp option 3 count 9
+    tcp option 4 10
+    tcp option 4 length 10
+    tcp option 5 19
+    tcp option 5 right 19
+    tcp option 5 left 19
+    tcp option 6 20
+    tcp option 6 length 20
+    tcp option 7 99
+    tcp option 7 length 99
+    tcp option 8 100
+    tcp option 8 length 100
+    tcp option 9 199
+    tcp option 9 length 199
+    tcp option 10 200
+    tcp option 10 length 200
+    tcp option 11 250
+    tcp option 11 length 250
+    tcp option 12 255
+    tcp option 12 length 255
+    tcp option 13 0x1
+    tcp option 13 length 0x1
+    tcp option 14 0xff
+    tcp option 14 length 0xff
+    tcp option 19 0xff
+    tcp option 19 length 0xff
+    tcp option 30 0xff
+    tcp option 30 subtype 0xff
+    tcp option 34 0xff
+    tcp option 34 length 0xff
+    tcp option echo 1
+    tcp option echo length 1
+    tcp option eol accept
+#    tcp option eol length 1 accept
+    tcp option fastopen 100
+    tcp option fastopen length 100
+    tcp option md5sig 200
+    tcp option md5sig length 200
+    tcp option mptcp 0
+    tcp option mptcp 255
+    tcp option mss 655
+    tcp option mss size 1500
+#    tcp option nop  ! no field
+    tcp option sack-permitted 254
+    tcp option sack-permitted length 1
+    tcp option sack-permitted length 10
+    tcp option sack-permitted length 100
+    tcp option sack-permitted length 200
+    tcp option sack-permitted length 250
+    tcp option sack-permitted length == 15
+    tcp option sack-permitted length != { 15, 30 }
+    tcp option timestamp 10000
+    tcp option timestamp tsval 10000
+    tcp option timestamp tsecr 10000
+    tcp option window 200
+    tcp option window count 200
+    tcp option sack left 15
+    tcp option sack right 4200000000
+    tcp option sack0 left 15
+    tcp option sack0 right 15
+    tcp option sack1 left 15
+    tcp option sack1 right 15
+    tcp option sack2 left 15
+    tcp option sack2 right 15
+    tcp option sack3 left 15
+    tcp option sack3 right 15
+  }
+}
+delete chain T C
+delete table T

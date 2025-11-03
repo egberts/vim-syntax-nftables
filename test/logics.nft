@@ -1,0 +1,20 @@
+
+table T {
+  chain C {
+    add rule inet filter bad_packets counter name packets_bad;
+    # if the connection is NEW and is not SYN then drop
+    add rule inet filter bad_packets tcp flags != syn ct state new log prefix "FIRST PACKET IS NOT SYN" counter drop;
+    # new and sending FIN the connection? DROP!
+    add rule inet filter bad_packets tcp flags & (fin|syn) == (fin|syn) log prefix "SCANNER1" counter drop; 
+    # i don't think we've met but you're sending a reset?
+    add rule inet filter bad_packets tcp flags & (syn|rst) == (syn|rst) log prefix "SCANNER2" counter drop; 
+    # 0 attack?
+    add rule inet filter bad_packets tcp flags & (fin|syn|rst|psh|ack|urg) < (fin) log prefix "SCANNER3" counter drop;
+    # xmas attack. lights up everything
+    add rule inet filter bad_packets tcp flags & (fin|syn|rst|psh|ack|urg) == (fin|psh|urg) log prefix "SCANNER4" counter drop;
+    # if the ctstate is invalid
+    add rule inet filter bad_packets ct state invalid log flags all prefix "Invalid conntrack state: " counter counter drop;
+    add rule inet filter bad_packets counter comment "invalid packets";
+
+  }
+}

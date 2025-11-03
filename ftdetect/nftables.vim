@@ -4,7 +4,7 @@
 
 " echom '[~/.vim/ftdetect/nftables][OK] Begin'
 augroup nftables
-  " echom "running autgroup nftables ~/.vim/ftdetect/nftables.vim"
+  "echom "running autogroup nftables ~/.vim/ftdetect/nftables.vim"
   autocmd!
   autocmd BufRead,BufNewFile *.nft,nftables*.conf setlocal filetype=nftables
 

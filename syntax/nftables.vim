@@ -121,7 +121,10 @@
 "       indent/nftables.vim
 
 " Enable debug mode (0 = off, >=1 = on for logging).
-let g:nft_debug = 4
+if !exists('g:nft_debug')
+    let g:nft_debug = 4
+endif
+echom 'nft_debug is ' . g:nft_debug
 
 " Store the current script’s filename for stack-based logging.
 " Used in LL(1) parsing to track script context for error reporting.
@@ -320,10 +323,7 @@ if v:version >= 508 || !exists('did_nftables_syn_inits')
   hi def link nftHL_Error       Error
   hi def link nftHL_Constant    Constant
 
-  hi def nftHL_Command      guifg=#ffff60 guibg=NONE ctermfg=227 ctermbg=NONE cterm=bold gui=bold
-  hi def nftHL_Statement    guifg=#ffff60 guibg=NONE ctermfg=227 ctermbg=NONE cterm=bold gui=bold
-  hi def nftHL_Substatement guifg=#ffe020 guibg=NONE ctermfg=214 ctermbg=NONE
-  hi def nftHL_Keyword      guifg=#ffc986 guibg=NONE ctermfg=208 ctermbg=NONE
+
   hi def link nftHL_Write       SpecialKey
   hi def link nftHL_Expression  Conditional
   hi def link nftHL_Type        Type
@@ -382,6 +382,49 @@ try
 "hi link nftHL_BlockDelimitersSynProxy Delimiter
 "hi link nftHL_BlockDelimitersMeter  Delimiter
 "hi link nftHL_BlockDelimitersDevices Delimiter
+
+" if exists('g:nft_colorscheme')
+if nft_obtained_background == "dark"
+  echom "Background is using dark set of highlighters"
+  hi def nftHL_BlockDelimitersTable  guifg=LightBlue ctermfg=LightRed ctermbg=Black cterm=NONE
+  hi def nftHL_BlockDelimitersChain  guifg=LightGreen ctermfg=LightGreen ctermbg=Black cterm=NONE
+  hi def nftHL_BlockDelimitersSet  ctermfg=17 guifg=#0087af ctermbg=Black cterm=NONE
+  hi def nftHL_BlockDelimitersMap  ctermfg=17 guifg=#2097af ctermbg=Black cterm=NONE
+  hi def nftHL_BlockDelimitersFlowTable  ctermfg=LightMagenta guifg=#950000 ctermbg=Black cterm=NONE
+  hi def nftHL_BlockDelimitersCounter  ctermfg=LightYellow guifg=#109100 ctermbg=Black cterm=NONE
+  hi def nftHL_BlockDelimitersQuota  ctermfg=DarkGrey ctermbg=Black cterm=NONE
+  hi def nftHL_BlockDelimitersCT  ctermfg=Red guifg=#c09000 ctermbg=Black cterm=NONE
+  hi def nftHL_BlockDelimitersLimit  ctermfg=LightMagenta ctermbg=Black cterm=NONE
+  hi def nftHL_BlockDelimitersSecMark  ctermfg=LightYellow ctermbg=Black cterm=NONE
+  hi def nftHL_BlockDelimitersSynProxy  ctermfg=DarkGrey guifg=#118100 ctermbg=Black cterm=NONE
+  hi def nftHL_BlockDelimitersMeter  ctermfg=Red guifg=#720000 ctermbg=Black cterm=NONE
+  hi def nftHL_BlockDelimitersDevices  ctermfg=Blue guifg=#303030 ctermbg=Black cterm=NONE
+  hi def nftHL_BlockDelimitersVerdict  ctermfg=Red guifg=#ff553e ctermbg=Black cterm=NONE
+  hi def nftHL_Command      guifg=#ffff60 guibg=NONE ctermfg=227 ctermbg=NONE cterm=bold gui=bold
+  hi def nftHL_Statement    guifg=#ffff60 guibg=NONE ctermfg=227 ctermbg=NONE cterm=bold gui=bold
+  hi def nftHL_Substatement guifg=#ffe020 guibg=NONE ctermfg=214 ctermbg=NONE
+  hi def nftHL_Keyword      guifg=#ffc986 guibg=NONE ctermfg=208 ctermbg=NONE
+else
+  echo "Background is using light set of highlighters"
+  hi def nftHL_BlockDelimitersTable  guifg=LightBlue ctermfg=LightRed ctermbg=Black cterm=NONE
+  hi def nftHL_BlockDelimitersChain  guifg=LightGreen ctermfg=LightGreen ctermbg=Black cterm=NONE
+  hi def nftHL_BlockDelimitersSet  ctermfg=17 guifg=#ff7850 ctermbg=Black cterm=NONE
+  hi def nftHL_BlockDelimitersMap  ctermfg=17 guifg=#df6850 ctermbg=Black cterm=NONE
+  hi def nftHL_BlockDelimitersFlowTable  ctermfg=LightMagenta guifg=#6affff ctermbg=Black cterm=NONE
+  hi def nftHL_BlockDelimitersCounter  ctermfg=LightYellow guifg=#ef6eff ctermbg=Black cterm=NONE
+  hi def nftHL_BlockDelimitersQuota  ctermfg=DarkGrey ctermbg=Black cterm=NONE
+  hi def nftHL_BlockDelimitersCT  ctermfg=Red guifg=#3f6fff ctermbg=Black cterm=NONE
+  hi def nftHL_BlockDelimitersLimit  ctermfg=LightMagenta ctermbg=Black cterm=NONE
+  hi def nftHL_BlockDelimitersSecMark  ctermfg=LightYellow ctermbg=Black cterm=NONE
+  hi def nftHL_BlockDelimitersSynProxy  ctermfg=DarkGrey guifg=#ee7eff ctermbg=Black cterm=NONE
+  hi def nftHL_BlockDelimitersMeter  ctermfg=Red guifg=#8dffff ctermbg=Black cterm=NONE
+  hi def nftHL_BlockDelimitersDevices  ctermfg=Blue guifg=#cfcfcf ctermbg=Black cterm=NONE
+  hi def nftHL_BlockDelimitersVerdict  ctermfg=Red guifg=#00aac1 ctermbg=Black cterm=NONE
+  hi def nftHL_Command      guifg=#00009f guibg=NONE ctermfg=227 ctermbg=NONE cterm=bold gui=bold
+  hi def nftHL_Statement    guifg=#000081 guibg=NONE ctermfg=227 ctermbg=NONE cterm=bold gui=bold
+  hi def nftHL_Substatement guifg=#001fdf guibg=NONE ctermfg=214 ctermbg=NONE
+  hi def nftHL_Keyword      guifg=#003679 guibg=NONE ctermfg=208 ctermbg=NONE
+endif
 
 if exists('g:nft_colorscheme')
   hi def nftHL_BlockDelimitersTable  guifg=LightBlue ctermfg=LightRed ctermbg=Black cterm=NONE

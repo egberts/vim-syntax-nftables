@@ -1,3 +1,5 @@
+This is about the Vim editor alone, and its verbosity.
+
 
 When setting verbosity for an edit session in `vim`, the level are described below:
 

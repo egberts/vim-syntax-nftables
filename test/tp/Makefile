@@ -1,17 +1,17 @@
 
-# File: tests/tn/Makefile
+# File: test/tp/Makefile
 # Description:
 # Usage:
 #    make (implied 'check')
-#    make check  # all tn.nft files
-#    make check add-counter.tn.nft
+#    make check  # all tp.nft files
+#    make check add-counter.tp.nft
 #    make lint
 #    make highlight
 #    make test (defaults to 'check')
 
 .PHONY: check
 
-DEFAULT_NFT_FILES := $(wildcard *.tn.nft)
+DEFAULT_NFT_FILES := $(wildcard *.tp.nft)
 VIM_FILES := $(wildcard *.vim)
 
 check:
@@ -25,7 +25,7 @@ check:
 		sudo /opt/nftables/sbin/nft -c -f "$$FILE"; \
 	else \
 		if [ -z "$(DEFAULT_NFT_FILES)" ]; then \
-			echo "No .tn.nft file found."; \
+			echo "No .tp.nft file found."; \
 			exit 1; \
 		else \
 			echo "Checking corpus test file(s): $(DEFAULT_NFT_FILES)"; \

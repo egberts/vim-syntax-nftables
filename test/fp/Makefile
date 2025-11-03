@@ -1,5 +1,5 @@
 
-# File: tests/fp/Makefile
+# File: test/fp/Makefile
 # Description:
 # Usage:
 #    make (implied 'check')

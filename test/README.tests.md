@@ -1,4 +1,4 @@
-This README covers the 'tests' subdirectory.
+This README covers the 'test' subdirectory.
 
 Notable subdirectories are:
 
@@ -14,6 +14,6 @@ semantic action label defined in the Bison parser:
 
 Validate vim-syntax-nftables:
 
-    cd tests
+    cd test
     make test
 

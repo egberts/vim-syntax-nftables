@@ -1,0 +1,259 @@
+# File: udp_hdr_expr.nft
+# Bison: udp_hdr_expr
+
+define IP_HDR_VERSION = 15
+
+add table T
+add set T my_port_set {
+        typeof udp sequence
+        elements = { 22, 80, 443 }
+    }
+
+add rule T C udp dport 5 accept
+add rule T C udp dport 15 accept
+add rule T C udp dport 100 accept
+add rule T C udp dport 256 accept
+add rule T C udp dport 999 accept
+add rule T C udp dport 1000 accept
+add rule T C udp dport 9999 accept
+add rule T C udp dport 10000 accept
+add rule T C udp dport 65535 accept
+add rule T C udp dport 65536 accept
+add rule T C udp dport 99999 accept
+add rule T C udp dport 0x0 accept
+add rule T C udp dport 0x1 accept
+add rule T C udp dport 0x22 accept
+add rule T C udp dport 0x444 accept
+add rule T C udp dport 0x8888 accept
+add rule T C udp dport 0xffff accept
+# add rule T C udp dport 65536 accept  ! overflowed  16-bit
+# add rule T C udp dport 0x10000 accept  ! overflowed 16-bit
+add rule T C udp dport 0-65535 accept
+add rule T C udp dport 5-65536 accept
+# add rule T C udp dport 127.0.0.1 accept
+# add rule T C udp dport 127.0.0.1/24 accept
+add rule T C udp dport udpmux accept
+add rule T C udp dport echo accept
+add rule T C udp dport discard accept
+add rule T C udp dport cmip-agent accept
+add rule T C udp dport sa-msg-port accept
+# add rule T C udp dport "ssh" accept
+add rule T C udp dport $IP_HDR_VERSION accept
+# add rule T C udp sport @my_port_set accept  ! setname
+add rule T C udp dport == 0x0f accept
+add rule T C udp dport != 0x7 accept
+#add rule T C udp dport not 0x10 accept
+add rule T C udp dport > 0x1 accept
+add rule T C udp dport >= 0x2 accept
+add rule T C udp dport <= 0x3 accept
+add rule T C udp dport < 0x4 accept
+add rule T C udp dport { 1,2,4 } accept
+add rule T C udp dport { 1-2, 4 } accept
+add rule T C udp dport { ftp, ssh } accept
+# add rule T C udp dport { 127.0.0.1 } accept
+# add rule T C udp dport { 127.0.0.1/24 } accept
+# add rule T C udp dport not { 1,2,4 } accept
+# add rule T C udp dport in { 1,2,4 } accept
+# add rule T C udp dport not in { 1,2,4 } accept
+# add rule T C udp dport not in 1 accept  ! scalar; not a set of integer
+# add rule T C udp dport not in 0x10000 accept  ! overflowed 16-bit
+add rule T C udp dport != { 1,2,4 } accept
+add rule T C udp dport == { 1,2,4 } accept
+# add rule T C udp dport any
+
+add rule T C udp sport 0 accept
+add rule T C udp sport 15 accept
+add rule T C udp sport 0x0 accept
+add rule T C udp sport 0xf accept
+# add rule T C udp dport 65536 accept  ! overflowed  16-bit
+# add rule T C udp dport 0x10000 accept  ! overflowed 16-bit
+add rule T C udp sport 0-15 accept
+#add rule T C udp sport 127.0.0.1 accept
+#add rule T C udp sport 127.0.0.1/24 accept
+add rule T C udp dport udpmux accept
+add rule T C udp dport echo accept
+add rule T C udp dport discard accept
+add rule T C udp dport cmip-agent accept
+#add rule T C udp sport "ssh" accept
+add rule T C udp sport $IP_HDR_VERSION accept
+# add rule T C udp sport @my_port_set accept  # setname
+add rule T C udp sport == 0x10 accept  # overflowed 16-bit
+add rule T C udp sport != 0x7 accept
+# add rule T C udp sport not 0x10 accept
+add rule T C udp sport > 0x1 accept
+add rule T C udp sport >= 0x2 accept
+add rule T C udp sport <= 0x3 accept
+add rule T C udp sport < 0x4 accept
+add rule T C udp sport { 1,2,4 } accept
+add rule T C udp sport { ftp, ssh } accept
+# add rule T C udp sport { 127.0.0.1 } accept
+# add rule T C udp sport { 127.0.0.1/24 } accept
+# add rule T C udp sport not { 1,2,4 } accept
+# add rule T C udp sport in { 1,2,4 } accept
+# add rule T C udp sport not in 0x10000 accept  ! overflowed 16-bit
+add rule T C udp sport != { 1,2,4 } accept
+add rule T C udp sport == { 1-2,4 } accept
+
+add rule T C udp length 5 accept
+add rule T C udp length 15 accept
+add rule T C udp length 0x5 accept
+add rule T C udp length 0xf accept
+# add rule T C udp length 4294967295 accept  ! overflowed  32-bit
+# add rule T C udp length 0x10000000 accept  ! overflowed 32-bit
+add rule T C udp length 5-15 accept
+# add rule T C udp length 127.0.0.1 accept
+# add rule T C udp length 127.0.0.1/24 accept
+# add rule T C udp length ssh accept
+# add rule T C udp length "ssh" accept
+add rule T C udp length $IP_HDR_VERSION accept
+# add rule T C udp length @IP_HDR_VERSION accept  ! setname
+add rule T C udp length == 0x7 accept
+add rule T C udp length != 0x7 accept
+# add rule T C udp length not 0x10 accept
+add rule T C udp length > 0x5 accept
+add rule T C udp length >= 0x6 accept
+add rule T C udp length <= 0x7 accept
+add rule T C udp length < 0x8 accept
+add rule T C udp length { 1,2,4 } accept
+# add rule T C udp length { ssh } accept
+# add rule T C udp length { 127.0.0.1 } accept
+# add rule T C udp length { 127.0.0.1/24 } accept
+# add rule T C udp length not { 1,2,4 } accept
+# add rule T C udp length in { 1,2,4 } accept
+# add rule T C udp length not in { 1,2,4 } accept
+# add rule T C udp length not in 1 accept  ! scalar; not a set of integer
+# add rule T C udp length not in 0x4 accept  ! overflowed 4-bit
+add rule T C udp length != { 1,2,4 } accept
+add rule T C udp length == { 1,2,4 } accept
+# add rule T C udp length any
+
+add rule T C udp checksum 0 accept
+add rule T C udp checksum 15 accept
+add rule T C udp checksum 0x0 accept
+add rule T C udp checksum 0xf accept
+# add rule T C udp checksum 4294967295 accept  ! overflowed  32-bit
+# add rule T C udp checksum 0x10000000 accept  ! overflowed 32-bit
+add rule T C udp checksum 0-15 accept
+# add rule T C udp checksum 127.0.0.1 accept
+# add rule T C udp checksum 127.0.0.1/24 accept
+# add rule T C udp checksum ssh accept
+# add rule T C udp checksum "ssh" accept
+add rule T C udp checksum $IP_HDR_VERSION accept
+# add rule T C udp checksum @IP_HDR_VERSION accept  ! setname
+add rule T C udp checksum == 0x7 accept
+add rule T C udp checksum != 0x7 accept
+# add rule T C udp checksum not 0x10 accept
+add rule T C udp checksum > 0x1 accept
+add rule T C udp checksum >= 0x2 accept
+add rule T C udp checksum <= 0x3 accept
+add rule T C udp checksum < 0x4 accept
+add rule T C udp checksum { 1,2,4 } accept
+# add rule T C udp checksum { ssh } accept
+# add rule T C udp checksum { 127.0.0.1 } accept
+# add rule T C udp checksum { 127.0.0.1/24 } accept
+# add rule T C udp checksum not { 1,2,4 } accept
+# add rule T C udp checksum in { 1,2,4 } accept
+# add rule T C udp checksum not in { 1,2,4 } accept
+# add rule T C udp checksum not in 1 accept  ! scalar; not a set of integer
+# add rule T C udp checksum not in 0x4 accept  ! overflowed 4-bit
+add rule T C udp checksum != { 1,2,4 } accept
+add rule T C udp checksum == { 1,2,4 } accept
+# add rule T C udp checksum any
+
+add table T 
+table T {
+  chain C_dport {
+    udp dport 0 accept
+    udp dport 15 accept
+    udp dport 0x0 accept
+    udp dport 0xf accept
+    udp dport 0xf accept
+    udp dport ssh accept
+    udp dport ftp accept
+    udp dport smtp accept
+    udp dport git accept
+    udp dport 0x0-0xffff accept
+    udp dport ssh accept
+    udp dport $IP_HDR_VERSION accept
+    udp dport == 0x10 accept  # overflowed 16-bit
+    udp dport != 0x7 accept
+    udp dport > 0x1 accept
+    udp dport >= 0x2 accept
+    udp dport <= 0x3 accept
+    udp dport < 0x4 accept
+    udp dport { 1,2,4 } accept
+    udp dport { ssh } accept
+    udp dport != { 1,2,4 } accept
+    udp dport == { 1,2,4 } accept
+  }
+}
+
+add table T 
+table T {
+  chain C_sport {
+    udp sport 0 accept
+    udp sport 15 accept
+    udp sport 0x0 accept
+    udp sport 0xf accept
+    udp sport 0-15 accept
+    udp sport ssh accept
+    udp sport $IP_HDR_VERSION accept
+    udp sport == 0x10 accept  # overflowed 16-bit
+    udp sport != 0x7 accept
+    udp sport > 0x1 accept
+    udp sport >= 0x2 accept
+    udp sport <= 0x3 accept
+    udp sport < 0x4 accept
+    udp sport { 1,2,4 } accept
+    udp sport { ssh } accept
+    udp sport != { 1,2,4 } accept
+    udp sport == { 1,2,4 } accept
+  }
+}
+
+table T {
+    chain C_length {
+        type filter hook input priority -99999; policy accept
+
+        udp length 5 accept
+        udp length 15 accept
+        udp length 0x5 accept
+        udp length 0xf accept
+        udp length 5-15 accept
+        udp length $IP_HDR_VERSION accept
+        udp length == 0x7 accept
+        udp length != 0x7 accept
+        udp length > 0x5 accept
+        udp length >= 0x6 accept
+        udp length <= 0x7 accept
+        udp length < 0xf accept
+        udp length { 0x5, 5 } accept
+        udp length != { 6,7,8 } accept
+        udp length == { 0x9,0xa,0xb } accept
+  }
+}
+
+table T {
+    chain C_checksum {
+        type filter hook input priority 0; policy accept
+
+        udp checksum 0 accept
+        udp checksum 15 accept
+        udp checksum 0x0 accept
+        udp checksum 0xf accept
+        udp checksum 0-15 accept
+        udp checksum $IP_HDR_VERSION accept
+        udp checksum == 0x7 accept
+        udp checksum != 0x7 accept
+        udp checksum > 0x1 accept
+        udp checksum >= 0x2 accept
+        udp checksum <= 0x3 accept
+        udp checksum < 0x4 accept
+        udp checksum { 1,2,4 } accept
+        udp checksum != { 1,2,4 } accept
+        udp checksum == { 1,2,4 } accept
+  }
+}
+
+delete chain T C
+delete table T
