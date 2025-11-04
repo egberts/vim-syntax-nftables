@@ -2,9 +2,9 @@
 " Vim syntax file for nftables configuration file
 " Language:     nftables configuration file
 " Maintainer:   egberts <egberts@github.com>
-" Revision:     1.1.0015
+" Revision:     1.4.0015
 " Initial Date: 2020-04-24
-" Last Change:  2025-09-28
+" Last Change:  2025-11-03
 " Filenames:    nftables.conf, *.nft
 " Location:     https://github.com/egberts/vim-syntax-nftables
 " License:      MIT license
@@ -44,6 +44,12 @@
 "    g:loaded_syntax_nftables
 "    g:syntax_on
 "    b:current_syntax
+"
+" To turn debug in one of three ways:
+"
+"    - `vi --cmd 'let nft_debug=1' /etc/nftables.conf`
+"    - insert `let nft_debug=1` into ~/.vimrc
+"    - tweak nft_debug in syntax/nftables.vim
 "
 " Color Support:
 "   This syntax supports both ANSI 256-color and ANSI TrueColor (16M colors).
@@ -130,10 +136,26 @@ echom 'nft_debug is ' . g:nft_debug
 " Used in LL(1) parsing to track script context for error reporting.
 call nftables#syntax#push(expand('<sfile>'))
 
+if exists('nft_syntax_disabled')
+  call nftables#syntax#log('INFO', 'nftables syntax disabled (nft_syntax_disabled).')
+  finish
+endif
+
 " Debug log to mark the start of script execution.
-if exists('g:nft_debug') && g:nft_debug ==1
+call nftables#syntax#log('OK', 'Begin')
+if exists('g:nft_debug') && g:nft_debug == 1
   echom '[syntax/nftables][OK] Begin'
 endif
+
+if !exists('g:nft_colorscheme')
+    echom printf('external nft_colorscheme is: %s', execute('colorscheme')[1:])
+endif
+
+let s:nftables_start_colors_name = execute('colorscheme')[1:]
+let s:nftables_start_background = &background
+echom printf("INFO: vimrc (start) colorscheme: %s", s:nftables_start_colors_name)
+echom printf("INFO: vimrc (start) background: %s", s:nftables_start_background)
+colorscheme koehler
 
 " Double-check for syntax loading to prevent conflicts.
 " Early exit if syntax is already loaded to prevent redefinition.
@@ -205,6 +227,7 @@ endif
 
 " Load companion colorscheme if enabled.
 " Colorscheme enhances visual distinction of LL(1) syntax groups.
+echo "g:nft_colorscheme: " . g:nft_colorscheme
 if exists('g:nft_colorscheme') && g:nft_colorscheme == 1
   try
     if exists('g:nft_debug') && g:nft_debug == 1
@@ -223,14 +246,16 @@ endif
 " Check terminal background setting for color adjustments.
 " Ensures highlight groups align with terminal capabilities for clear LL(1) token visualization.
 " used to determine which color bank to use (dark/light)
-if exists('&background')
-  if empty(&background)
-    let nft_obtained_background = 'no'
-  else
-    let nft_obtained_background = trim(execute('set background?'))
-  endif
+let current_background = &background
+if empty(current_background)
+  let nft_obtained_background = 'no'
+else
+  let nft_obtained_background = trim(execute('set background?'))
 endif
+let nft_obtained_background2 = &background
+call nftables#syntax#log('OK', 'Current background:   ' . current_background)
 call nftables#syntax#log('OK', 'Background obtained?: ' . nft_obtained_background)
+call nftables#syntax#log('OK', 'Background obtained2?: ' . nft_obtained_background2)
 
 " Check terminal color support for truecolor or 256-color mode.
 " Critical for rendering highlight groups accurately in the LL(1) syntax tree.
@@ -270,13 +295,7 @@ if has('termguicolors')
   endif
 endif
 
-" Configure syntax synchronization for efficient parsing.
-" 'fromstart' and 'maxlines=1000' optimize LL(1) parsing for large files.
-syntax sync fromstart
 syn case match
-syn sync clear
-syn sync maxlines=1000
-syn sync match nftablesSync grouphere NONE '^\s*(counter|rule {1,15}rule|table|chain|set)'
 
 " Configure iskeyword/isident to handle nftables-specific identifiers.
 " Ensures accurate token boundaries for LL(1) parsing of identifiers and keywords.
@@ -369,22 +388,8 @@ try
     endtry
   endfor
 
-  "hi link nftHL_BlockDelimitersTable  Delimiter
-"hi link nftHL_BlockDelimitersChain  Delimiter
-"hi link nftHL_BlockDelimitersSet    Delimiter
-"hi link nftHL_BlockDelimitersMap    Delimiter
-"hi link nftHL_BlockDelimitersFlowTable    Delimiter
-"hi link nftHL_BlockDelimitersCounter Delimiter
-"hi link nftHL_BlockDelimitersQuota  Delimiter
-"hi link nftHL_BlockDelimitersCT     Delimiter
-"hi link nftHL_BlockDelimitersLimit  Delimiter
-"hi link nftHL_BlockDelimitersSecMark Delimiter
-"hi link nftHL_BlockDelimitersSynProxy Delimiter
-"hi link nftHL_BlockDelimitersMeter  Delimiter
-"hi link nftHL_BlockDelimitersDevices Delimiter
-
-" if exists('g:nft_colorscheme')
-if nft_obtained_background == "dark"
+echom "nft_obtained_background:" . nft_obtained_background2
+if nft_obtained_background2 == "dark"
   echom "Background is using dark set of highlighters"
   hi def nftHL_BlockDelimitersTable  guifg=LightBlue ctermfg=LightRed ctermbg=Black cterm=NONE
   hi def nftHL_BlockDelimitersChain  guifg=LightGreen ctermfg=LightGreen ctermbg=Black cterm=NONE
@@ -400,10 +405,10 @@ if nft_obtained_background == "dark"
   hi def nftHL_BlockDelimitersMeter  ctermfg=Red guifg=#720000 ctermbg=Black cterm=NONE
   hi def nftHL_BlockDelimitersDevices  ctermfg=Blue guifg=#303030 ctermbg=Black cterm=NONE
   hi def nftHL_BlockDelimitersVerdict  ctermfg=Red guifg=#ff553e ctermbg=Black cterm=NONE
-  hi def nftHL_Command      guifg=#ffff60 guibg=NONE ctermfg=227 ctermbg=NONE cterm=bold gui=bold
-  hi def nftHL_Statement    guifg=#ffff60 guibg=NONE ctermfg=227 ctermbg=NONE cterm=bold gui=bold
-  hi def nftHL_Substatement guifg=#ffe020 guibg=NONE ctermfg=214 ctermbg=NONE
-  hi def nftHL_Keyword      guifg=#ffc986 guibg=NONE ctermfg=208 ctermbg=NONE
+  hi def nftHL_Command      guifg=#feea2f guibg=NONE ctermfg=227 ctermbg=NONE cterm=bold gui=bold
+  hi def nftHL_Statement    guifg=#f8d001 guibg=NONE ctermfg=227 ctermbg=NONE cterm=bold gui=bold
+  hi def nftHL_Substatement guifg=#ebd401 guibg=NONE ctermfg=214 ctermbg=NONE
+  hi def nftHL_Keyword      guifg=#e8b414 guibg=NONE ctermfg=208 ctermbg=NONE
 else
   echo "Background is using light set of highlighters"
   hi def nftHL_BlockDelimitersTable  guifg=LightBlue ctermfg=LightRed ctermbg=Black cterm=NONE
@@ -424,23 +429,6 @@ else
   hi def nftHL_Statement    guifg=#000081 guibg=NONE ctermfg=227 ctermbg=NONE cterm=bold gui=bold
   hi def nftHL_Substatement guifg=#001fdf guibg=NONE ctermfg=214 ctermbg=NONE
   hi def nftHL_Keyword      guifg=#003679 guibg=NONE ctermfg=208 ctermbg=NONE
-endif
-
-if exists('g:nft_colorscheme')
-  hi def nftHL_BlockDelimitersTable  guifg=LightBlue ctermfg=LightRed ctermbg=Black cterm=NONE
-  hi def nftHL_BlockDelimitersChain  guifg=LightGreen ctermfg=LightGreen ctermbg=Black cterm=NONE
-  hi def nftHL_BlockDelimitersSet  ctermfg=17 guifg=#0087af ctermbg=Black cterm=NONE
-  hi def nftHL_BlockDelimitersMap  ctermfg=17 guifg=#2097af ctermbg=Black cterm=NONE
-  hi def nftHL_BlockDelimitersFlowTable  ctermfg=LightMagenta guifg=#950000 ctermbg=Black cterm=NONE
-  hi def nftHL_BlockDelimitersCounter  ctermfg=LightYellow guifg=#109100 ctermbg=Black cterm=NONE
-  hi def nftHL_BlockDelimitersQuota  ctermfg=DarkGrey ctermbg=Black cterm=NONE
-  hi def nftHL_BlockDelimitersCT  ctermfg=Red guifg=#c09000 ctermbg=Black cterm=NONE
-  hi def nftHL_BlockDelimitersLimit  ctermfg=LightMagenta ctermbg=Black cterm=NONE
-  hi def nftHL_BlockDelimitersSecMark  ctermfg=LightYellow ctermbg=Black cterm=NONE
-  hi def nftHL_BlockDelimitersSynProxy  ctermfg=DarkGrey guifg=#118100 ctermbg=Black cterm=NONE
-  hi def nftHL_BlockDelimitersMeter  ctermfg=Red guifg=#720000 ctermbg=Black cterm=NONE
-  hi def nftHL_BlockDelimitersDevices  ctermfg=Blue guifg=#303030 ctermbg=Black cterm=NONE
-  hi def nftHL_BlockDelimitersVerdict  ctermfg=Red guifg=#ff553e ctermbg=Black cterm=NONE
 endif
 
 "********* Leaf tokens (NOT-contained only)
@@ -1005,6 +993,18 @@ syntax region nft_comment_inline start='\#' end='$' skip="#[^#.]*$"
 catch
   call nftables#syntax#log('ERROR', 'Failed to define main syntax: ' . v:exception . ' at line ' . line('.') . ' in ' . expand('<sfile>:t') . ' at ' . v:throwpoint)
 endtry
+
+" Configure syntax synchronization for efficient parsing.
+" 'fromstart' and 'maxlines=1000' optimize LL(1) parsing for large files.
+syntax sync fromstart
+syn sync clear
+syn sync maxlines=1000
+syn sync match nftablesSync grouphere NONE '^\s*(counter|rule {1,15}rule|table|chain|set)'
+
+let s:nftables_end_colors_name = execute('colorscheme')[1:]
+let s:nftables_end_background = &background
+echom printf("INFO: vimrc (end) colorscheme: %s", s:nftables_end_colors_name)
+echom printf("INFO: vimrc (end) background: %s", s:nftables_end_background)
 
 " Restore script stack after loading.
 let g:nft_current_script_file_name = empty(g:nft_stack_filepath_scripts) ? '' : remove(g:nft_stack_filepath_scripts, -1)

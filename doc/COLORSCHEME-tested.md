@@ -17,7 +17,6 @@ Light background:
 /usr/share/vim/vim91/colors/default.vim (ok)
 /usr/share/vim/vim91/colors/delek.vim
 /usr/share/vim/vim91/colors/elflord.vim (?)
-/usr/share/vim/vim91/colors/desert.vim (?)
 /usr/share/vim/vim91/colors/evening.vim (?)
 /usr/share/vim/vim91/colors/habamax.vim (?)
 /usr/share/vim/vim91/colors/morning.vim (?)
@@ -29,6 +28,7 @@ Light background:
 Dark background:
 /usr/share/vim/vim91/colors/blue.vim   (poor)
 /usr/share/vim/vim91/colors/darkblue.vim   (poor)
+/usr/share/vim/vim91/colors/desert.vim (fair)
 /usr/share/vim/vim91/colors/industry.vim (blue-washed)
 /usr/share/vim/vim91/colors/koehler.vim
 /usr/share/vim/vim91/colors/murphy.vim (blue-washed)
