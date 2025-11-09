@@ -38,11 +38,10 @@
 "     keywords, '@' map names, and 'update' commands.
 "
 " Vimrc Global Settings:
-"    g:nftables_syntax_disabled
-"    g:nft_colorscheme
-"    g:nft_debug
+"    g:nftables_syntax_disabled - if defined, disables this syntax entirely
+"    g:nft_colorscheme - if defined, overrides ~.vimrc's colorscheme
+"    g:nft_debug - if defined in ~/.vimrc, overrides default of '4' (quiet)
 "    g:loaded_syntax_nftables
-"    g:syntax_on
 "    b:current_syntax
 "
 " To turn debug in one of three ways:
@@ -51,8 +50,15 @@
 "    - insert `let nft_debug=1` into ~/.vimrc
 "    - tweak nft_debug in syntax/nftables.vim
 "
+" To change colorization in one of three ways:
+"
+"    - vim --cmd 'colorscheme "navajo"'
+"    - insert 'let nft_colorscheme="navajo" into your ~/.vimrc
+"    - tweak nft_colorscheme in syntax/nftables.vim
+"
 " Color Support:
 "   This syntax supports both ANSI 256-color and ANSI TrueColor (16M colors).
+"   Even tested with 2-bit vt100 terminal, underlines and bold only!
 "
 "   For ANSI 16M TrueColor:
 "     - ensure `$COLORTERM=truecolor` (or `=24bit`) at the command prompt
@@ -94,13 +100,18 @@
 "   - Do not use 'keepend' except in the most innermost region blocks.
 "   - 'to', 'set', 'name' keywords ALL GOES thru `stmt_expr`
 "   - map_stmt_expr is semantic, not the TOKEN/keyword 'map'
+"   - do order regex so largest pattern comes first in '|' series of regex
+"   - Do order 'contains=' so that it is largest to smallest.
+"   - Do order 'nextgroup=' so that it is largest to smallest.
+"   - Do order 'syntax match' statements of same lexical nesting tier
+"         so that it is smallest to largest pattern.
 "
 " Vimscript Limitations:
-"   - doing synthetic concat of multiple statements remains a work-in-progress
+"   - doing synthetic concat of multiple nftables statements remains a work-in-progress
 "   - background setting does not change here, but if left undefined it remains unchanged
 "   - colorscheme setting does not change here, but if left undefined it remains unchanged
 "   - Vim 7+ attempts to guess the `background` based on term-emulation (ANSI OSC52)
-"   - If background remains indeterminate, default is 'light' unless overridden in ~/.vimrc
+"   - If background remains indeterminate, default is 'light' unless overridden in ~/.vimrc or CLI '--cmd "set background=light"'
 "   - nftables variable name limit: upstream allows 256 chars; here capped at 64 chars
 "   - nftables time_spec has no limit upstream; here capped at 11 chars
 "         (should be at least 23 to handle '365d52w24h60m60s1000ms'; goal is 32)
@@ -113,7 +124,7 @@
 "   - strongly discourage use '?' in `match` statements, make multiple match statements
 "   - 'contains=' ordering MATTERS in `cluster` statements
 "   - nesting 'cluster' will FAIL in LL(1); must pull-up keywords to its 'nexus'
-"   - inner-'region' benefits from 'keepend', not outer-regions.
+"   - inner-'region' benefits from 'keepend', but messes up if used on outer-regions.
 "   - ordering: between 'contains=' and 'nextgroup=', first one wins
 "   - ordering: within 'contains=' and 'nextgroup=', last one wins
 "   - no trailing commas allowed in 'contains=' / 'nextgroup=' lists
@@ -125,8 +136,19 @@
 "       ftdetect/nftables.vim
 "       ftplugin/nftables.vim
 "       indent/nftables.vim
+"       custom/nftables/*"
 
-" Enable debug mode (0 = off, >=1 = on for logging).
+" Double-check for syntax loading to prevent conflicts.
+" Early exit if syntax is already loaded to prevent redefinition.
+" Ensures LL(1) syntax rules are not duplicated, maintaining determinism.
+
+" No need to clear highlights, we are re-leveraging Vim's default set of highlights
+if exists('b:current_syntax')
+  syntax reset
+  "finish
+endif
+
+" Enable debug mode (>=0 = on for logging, 4 is emergency stop).
 if !exists('g:nft_debug')
     let g:nft_debug = 4
 endif
@@ -155,14 +177,6 @@ let s:nftables_start_colors_name = execute('colorscheme')[1:]
 let s:nftables_start_background = &background
 echom printf("INFO: vimrc (start) colorscheme: %s", s:nftables_start_colors_name)
 echom printf("INFO: vimrc (start) background: %s", s:nftables_start_background)
-colorscheme koehler
-
-" Double-check for syntax loading to prevent conflicts.
-" Early exit if syntax is already loaded to prevent redefinition.
-" Ensures LL(1) syntax rules are not duplicated, maintaining determinism.
-if exists('b:current_syntax')
-  finish
-endif
 
 " --- cpo guard start ---
 " Save and reset 'compatible' option to ensure consistent Vimscript behavior.
@@ -393,7 +407,7 @@ if nft_obtained_background2 == "dark"
   echom "Background is using dark set of highlighters"
   hi def nftHL_BlockDelimitersTable  guifg=LightBlue ctermfg=LightRed ctermbg=Black cterm=NONE
   hi def nftHL_BlockDelimitersChain  guifg=LightGreen ctermfg=LightGreen ctermbg=Black cterm=NONE
-  hi def nftHL_BlockDelimitersSet  ctermfg=17 guifg=#0087af ctermbg=Black cterm=NONE
+  hi def nftHL_BlockDelimitersSet  ctermfg=17 guifg=#7ff4ff ctermbg=Black cterm=NONE
   hi def nftHL_BlockDelimitersMap  ctermfg=17 guifg=#2097af ctermbg=Black cterm=NONE
   hi def nftHL_BlockDelimitersFlowTable  ctermfg=LightMagenta guifg=#950000 ctermbg=Black cterm=NONE
   hi def nftHL_BlockDelimitersCounter  ctermfg=LightYellow guifg=#109100 ctermbg=Black cterm=NONE
@@ -405,15 +419,15 @@ if nft_obtained_background2 == "dark"
   hi def nftHL_BlockDelimitersMeter  ctermfg=Red guifg=#720000 ctermbg=Black cterm=NONE
   hi def nftHL_BlockDelimitersDevices  ctermfg=Blue guifg=#303030 ctermbg=Black cterm=NONE
   hi def nftHL_BlockDelimitersVerdict  ctermfg=Red guifg=#ff553e ctermbg=Black cterm=NONE
-  hi def nftHL_Command      guifg=#feea2f guibg=NONE ctermfg=227 ctermbg=NONE cterm=bold gui=bold
-  hi def nftHL_Statement    guifg=#f8d001 guibg=NONE ctermfg=227 ctermbg=NONE cterm=bold gui=bold
-  hi def nftHL_Substatement guifg=#ebd401 guibg=NONE ctermfg=214 ctermbg=NONE
-  hi def nftHL_Keyword      guifg=#e8b414 guibg=NONE ctermfg=208 ctermbg=NONE
+  hi def nftHL_Command      guifg=#ffe7ac guibg=NONE ctermfg=227 ctermbg=NONE cterm=bold gui=bold
+  hi def nftHL_Statement    guifg=#ffdb82 guibg=NONE ctermfg=227 ctermbg=NONE cterm=bold gui=bold
+  hi def nftHL_Substatement guifg=#ffcf55 guibg=NONE ctermfg=214 ctermbg=NONE
+  hi def nftHL_Keyword      guifg=#ffc412 guibg=NONE ctermfg=208 ctermbg=NONE
 else
   echo "Background is using light set of highlighters"
   hi def nftHL_BlockDelimitersTable  guifg=LightBlue ctermfg=LightRed ctermbg=Black cterm=NONE
   hi def nftHL_BlockDelimitersChain  guifg=LightGreen ctermfg=LightGreen ctermbg=Black cterm=NONE
-  hi def nftHL_BlockDelimitersSet  ctermfg=17 guifg=#ff7850 ctermbg=Black cterm=NONE
+  hi def nftHL_BlockDelimitersSet  ctermfg=17 guifg=#7ff4ff ctermbg=Black cterm=NONE
   hi def nftHL_BlockDelimitersMap  ctermfg=17 guifg=#df6850 ctermbg=Black cterm=NONE
   hi def nftHL_BlockDelimitersFlowTable  ctermfg=LightMagenta guifg=#6affff ctermbg=Black cterm=NONE
   hi def nftHL_BlockDelimitersCounter  ctermfg=LightYellow guifg=#ef6eff ctermbg=Black cterm=NONE
@@ -425,10 +439,10 @@ else
   hi def nftHL_BlockDelimitersMeter  ctermfg=Red guifg=#8dffff ctermbg=Black cterm=NONE
   hi def nftHL_BlockDelimitersDevices  ctermfg=Blue guifg=#cfcfcf ctermbg=Black cterm=NONE
   hi def nftHL_BlockDelimitersVerdict  ctermfg=Red guifg=#00aac1 ctermbg=Black cterm=NONE
-  hi def nftHL_Command      guifg=#00009f guibg=NONE ctermfg=227 ctermbg=NONE cterm=bold gui=bold
-  hi def nftHL_Statement    guifg=#000081 guibg=NONE ctermfg=227 ctermbg=NONE cterm=bold gui=bold
-  hi def nftHL_Substatement guifg=#001fdf guibg=NONE ctermfg=214 ctermbg=NONE
-  hi def nftHL_Keyword      guifg=#003679 guibg=NONE ctermfg=208 ctermbg=NONE
+  hi def nftHL_Command      guifg=#644400 guibg=NONE ctermfg=227 ctermbg=NONE cterm=bold gui=bold
+  hi def nftHL_Statement    guifg=#764800 guibg=NONE ctermfg=227 ctermbg=NONE cterm=bold gui=bold
+  hi def nftHL_Substatement guifg=#884b00 guibg=NONE ctermfg=214 ctermbg=NONE
+  hi def nftHL_Keyword      guifg=#9a4f00 guibg=NONE ctermfg=208 ctermbg=NONE
 endif
 
 "********* Leaf tokens (NOT-contained only)
