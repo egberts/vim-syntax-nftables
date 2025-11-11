@@ -136,7 +136,7 @@
 "       ftdetect/nftables.vim
 "       ftplugin/nftables.vim
 "       indent/nftables.vim
-"       custom/nftables/*"
+"       syntax/nftables/*"
 
 " Double-check for syntax loading to prevent conflicts.
 " Early exit if syntax is already loaded to prevent redefinition.
@@ -152,7 +152,6 @@ endif
 if !exists('g:nft_debug')
     let g:nft_debug = 4
 endif
-echom 'nft_debug is ' . g:nft_debug
 
 " Store the current script’s filename for stack-based logging.
 " Used in LL(1) parsing to track script context for error reporting.
@@ -170,13 +169,13 @@ if exists('g:nft_debug') && g:nft_debug == 1
 endif
 
 if !exists('g:nft_colorscheme')
-    echom printf('external nft_colorscheme is: %s', execute('colorscheme')[1:])
+  call nftables#syntax#log('INFO', 'external nft_colorscheme is: ' . execute('colorscheme')[1:] )
 endif
 
 let s:nftables_start_colors_name = execute('colorscheme')[1:]
 let s:nftables_start_background = &background
-echom printf("INFO: vimrc (start) colorscheme: %s", s:nftables_start_colors_name)
-echom printf("INFO: vimrc (start) background: %s", s:nftables_start_background)
+call nftables#syntax#log('INFO', 'vimrc (start) colorscheme: ' . s:nftables_start_colors_name )
+call nftables#syntax#log('INFO', 'vimrc (start) background: ' . s:nftables_start_background )
 
 " --- cpo guard start ---
 " Save and reset 'compatible' option to ensure consistent Vimscript behavior.
@@ -219,7 +218,7 @@ let s:list_filepaths_semantic_later = [
 let s:nftables_filepath_this_script = resolve(expand('<sfile>:p'))
 let s:nftables_dirpath_root = fnameescape(fnamemodify(s:nftables_filepath_this_script, ':h:h'))
 
-let s:nftables_dirpath_custom_syntax = resolve(s:nftables_dirpath_root . '/custom')
+let s:nftables_dirpath_custom_syntax = resolve(s:nftables_dirpath_root . '/syntax')
 if !isdirectory(s:nftables_dirpath_custom_syntax)
    echom 'ERROR: Custom syntax directory does not exist: ' . s:nftables_dirpath_custom_syntax
    finish
@@ -241,7 +240,6 @@ endif
 
 " Load companion colorscheme if enabled.
 " Colorscheme enhances visual distinction of LL(1) syntax groups.
-echo "g:nft_colorscheme: " . g:nft_colorscheme
 if exists('g:nft_colorscheme') && g:nft_colorscheme == 1
   try
     if exists('g:nft_debug') && g:nft_debug == 1
@@ -402,9 +400,8 @@ try
     endtry
   endfor
 
-echom "nft_obtained_background:" . nft_obtained_background2
 if nft_obtained_background2 == "dark"
-  echom "Background is using dark set of highlighters"
+  call nftables#syntax#log('OK', 'Background is using dark set of highlighters')
   hi def nftHL_BlockDelimitersTable  guifg=LightBlue ctermfg=LightRed ctermbg=Black cterm=NONE
   hi def nftHL_BlockDelimitersChain  guifg=LightGreen ctermfg=LightGreen ctermbg=Black cterm=NONE
   hi def nftHL_BlockDelimitersSet  ctermfg=17 guifg=#7ff4ff ctermbg=Black cterm=NONE
@@ -1017,8 +1014,8 @@ syn sync match nftablesSync grouphere NONE '^\s*(counter|rule {1,15}rule|table|c
 
 let s:nftables_end_colors_name = execute('colorscheme')[1:]
 let s:nftables_end_background = &background
-echom printf("INFO: vimrc (end) colorscheme: %s", s:nftables_end_colors_name)
-echom printf("INFO: vimrc (end) background: %s", s:nftables_end_background)
+call nftables#syntax#log('INFO', 'vimrc (end) colorscheme: ' . s:nftables_end_colors_name)
+call nftables#syntax#log('INFO', 'vimrc (end) background: ' . s:nftables_end_background)
 
 " Restore script stack after loading.
 let g:nft_current_script_file_name = empty(g:nft_stack_filepath_scripts) ? '' : remove(g:nft_stack_filepath_scripts, -1)

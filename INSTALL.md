@@ -37,7 +37,7 @@ mkdir -p ~/.vim
 Create necessary subdirs:
 
 ```bash
-mkdir -p ~/.vim/{indent,ftdetect,ftplugin,syntax,custom}
+mkdir -p ~/.vim/{indent,ftdetect,ftplugin,syntax}
 ```
 
 ## Copy the Files
@@ -46,7 +46,7 @@ Copy files:
 
 ```bash
 cd /tmp/vim-syntax-nftables
-cp -R vim-syntax-nftables/{indent,ftdetect,ftplugin,syntax}/* ~/.vim/{indent,ftdetect,ftplugin,syntax,custom}/
+cp -R vim-syntax-nftables/{indent,ftdetect,ftplugin,syntax}/* ~/.vim/{indent,ftdetect,ftplugin,syntax}/
 ```
 
 ## Verify Highlighting

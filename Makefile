@@ -6,9 +6,10 @@
 export MAKE
 export NFT
 
-SUBDIRS := ftdetect ftplugin indent autoload custom syntax doc
+SUBDIRS := ftdetect ftplugin indent autoload syntax
 
-NFT := /usr/sbin/nft
+NFT ?= /usr/sbin/nft
+#    (Implemented, allowing easy user override.)
 
 # Run lint in tests/ subdirectory
 highlight:
@@ -22,7 +23,7 @@ check:
 # Run test in tests/ subdirectory
 test:
 	@echo "Running test in tests ..."
-	$(MAKE) -C test test
+	$(MAKE) -C test test NFT=$(NFT)
 #
 #   # Run linter in parent and tests directories
 lint:
@@ -44,13 +45,16 @@ uninstall:
 	for dir in $(SUBDIRS); do \
 	    $(MAKE) -C $$dir uninstall DESTDIR=$(DESTDIR); \
 	done
+	$(MAKE) -C doc uninstall DESTDIR=$(DESTDIR); \
+	$(MAKE) -C test uninstall DESTDIR=$(DESTDIR); \
 
 help:
 	@echo "Help for vim-syntax-nftables"
 	@echo " "
 	@echo "   install - Install this into your ~/vim/* (except 'test' subdirectory)"
-	@echo "   install-test - Install test nftables file into your ~/vim/test"
-	@echo "   test    - Test the Vim syntax files against 'nft -c' checker"
+	@echo "   install-test - Install test nftables files into your ~/vim/test"
+	@echo "   test         - Test the Vim syntax files against 'nft -c' checker."
+	@echo "                  To use a custom binary, run: make test NFT=/path/to/my/nft"
 	@echo "   check    - Test the Vim syntax files"
 	@echo "   highlight - Test the Vim highlight files"
 	@echo "   test    - Test the Vim syntax files"
