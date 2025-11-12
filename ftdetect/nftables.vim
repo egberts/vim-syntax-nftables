@@ -26,7 +26,7 @@ autocmd FileType nftables call s:ApplyNftablesColorscheme()
 
 " echom '[~/.vim/ftdetect/nftables][OK] Midpoint 2'
 function! s:ApplyNftablesColorscheme() abort
-    echo 'ftdetect/nftables.vim: s:ApplyNftablesColorscheme(): BEGIN'
+    " echo 'ftdetect/nftables.vim: s:ApplyNftablesColorscheme(): BEGIN'
     " Check 1: Is the override variable defined in ~/.vimrc?
     if !exists('g:nft_colorscheme')
         " echom "ftdetect/nftables.vim: g:nft_colorscheme does not exist; aborting ..."
