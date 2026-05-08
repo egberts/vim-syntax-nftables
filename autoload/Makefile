@@ -1,3 +1,4 @@
+DESTDIR ?= ~
 
 NFT_FILES := $(wildcard *.nft)
 VIM_FILES := $(wildcard *.vim)
@@ -17,9 +18,9 @@ lint: $(VIM_FILES)
 
 
 install:
-	install -v -D -d ~/.vim/autoload
-	install -v -D -d ~/.vim/autoload/nftables
-	install -v nftables/syntax.vim ~/.vim/autoload/nftables
+	install -v -D -d $(DESTDIR)/.vim/autoload
+	install -v -D -d $(DESTDIR)/.vim/autoload/nftables
+	install -v nftables/syntax.vim $(DESTDIR)/.vim/autoload/nftables
 
 uninstall:
-	rm -r ~/.vim/autoload/nftables
+	$(RM) -r $(DESTDIR)/.vim/autoload/nftables

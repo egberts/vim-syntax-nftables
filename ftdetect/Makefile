@@ -1,4 +1,5 @@
 
+DESTDIR ?= ~
 NFT_FILES := $(wildcard *.nft)
 VIM_FILES := $(wildcard *.vim)
 
@@ -21,4 +22,4 @@ install:
 	install -v nftables.vim ~/.vim/ftdetect/
 
 uninstall:
-	rm ~/.vim/ftdetect/nftables.vim
+	$(RM) $(DESTDIR)/.vim/ftdetect/nftables.vim

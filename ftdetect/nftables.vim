@@ -22,7 +22,7 @@ augroup END
 " the current colorscheme is still the hardcoded default (g:default_colorscheme),
 " indicating no command-line override was used.
 
-autocmd FileType nftables call s:ApplyNftablesColorscheme()
+" autocmd FileType nftables call s:ApplyNftablesColorscheme()
 
 " echom '[~/.vim/ftdetect/nftables][OK] Midpoint 2'
 function! s:ApplyNftablesColorscheme() abort

@@ -1,3 +1,4 @@
+DESTDIR ?= ~
 
 NFT_FILES := $(wildcard *.nft)
 VIM_FILES := $(wildcard *.vim)
@@ -17,9 +18,9 @@ lint: $(VIM_FILES)
 
 
 install: nftables.vim
-	install -D -d ~/.vim/indent
-	install nftables.vim ~/.vim/indent/
+	install -D -d $(DESTDIR)/.vim/indent
+	install nftables.vim $(DESTDIR)/.vim/indent/
 
 uninstall:
-	rm ~/.vim/indent/nftables.vim
+	$(RM) $(DESTDIR)/.vim/indent/nftables.vim
 	

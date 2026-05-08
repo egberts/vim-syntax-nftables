@@ -1,4 +1,5 @@
-" ~/.vim/syntax/nftables.vim
+"
+" File: ~/.vim/syntax/nftables.vim
 " Vim syntax file for nftables configuration file
 " Language:     nftables configuration file
 " Maintainer:   egberts <egberts@github.com>
@@ -141,6 +142,7 @@
 " Double-check for syntax loading to prevent conflicts.
 " Early exit if syntax is already loaded to prevent redefinition.
 " Ensures LL(1) syntax rules are not duplicated, maintaining determinism.
+scriptencoding utf-8
 
 " No need to clear highlights, we are re-leveraging Vim's default set of highlights
 if exists('b:current_syntax')
@@ -179,8 +181,8 @@ call nftables#syntax#log('INFO', 'vimrc (start) background: ' . s:nftables_start
 
 " --- cpo guard start ---
 " Save and reset 'compatible' option to ensure consistent Vimscript behavior.
-let s:cpo_save = &cpo
-set cpo&vim
+let s:cpo_save = &cpoptions
+set cpoptions&vim
 " -----------------------
 
 " List of companion syntax files to load.
@@ -243,7 +245,7 @@ endif
 if exists('g:nft_colorscheme') && g:nft_colorscheme == 1
   try
     if exists('g:nft_debug') && g:nft_debug == 1
-      call nftables#syntax#log('INFO', 'Loaded \'nftables\' colorscheme.')
+      call nftables#syntax#log('INFO', 'Loaded <nftables> colorscheme.')
     endif
     colorscheme nftables
   catch /^Vim\%((\a\+)\)\=:E185/
@@ -280,7 +282,7 @@ if !empty($TERM)
         let nft_truecolor = 'yes'
         call nftables#syntax#log('OK', '$COLORTERM is truecolor')
       else
-        call nftables#syntax#log('WARN', '$COLORTERM is not \'truecolor\'')
+        call nftables#syntax#log('WARN', '$COLORTERM is not <truecolor>')
       endif
     else
       call nftables#syntax#debug('$COLORTERM is empty')
@@ -400,7 +402,7 @@ try
     endtry
   endfor
 
-if nft_obtained_background2 == "dark"
+if nft_obtained_background2 ==# 'dark'
   call nftables#syntax#log('OK', 'Background is using dark set of highlighters')
   hi def nftHL_BlockDelimitersTable  guifg=LightBlue ctermfg=LightRed ctermbg=Black cterm=NONE
   hi def nftHL_BlockDelimitersChain  guifg=LightGreen ctermfg=LightGreen ctermbg=Black cterm=NONE
@@ -421,7 +423,7 @@ if nft_obtained_background2 == "dark"
   hi def nftHL_Substatement guifg=#ffcf55 guibg=NONE ctermfg=214 ctermbg=NONE
   hi def nftHL_Keyword      guifg=#ffc412 guibg=NONE ctermfg=208 ctermbg=NONE
 else
-  echo "Background is using light set of highlighters"
+  echo 'Background is using light set of highlighters'
   hi def nftHL_BlockDelimitersTable  guifg=LightBlue ctermfg=LightRed ctermbg=Black cterm=NONE
   hi def nftHL_BlockDelimitersChain  guifg=LightGreen ctermfg=LightGreen ctermbg=Black cterm=NONE
   hi def nftHL_BlockDelimitersSet  ctermfg=17 guifg=#7ff4ff ctermbg=Black cterm=NONE
@@ -1022,7 +1024,7 @@ let g:nft_current_script_file_name = empty(g:nft_stack_filepath_scripts) ? '' : 
 
 " --- cpo guard end ---
 " Restore original 'compatible' option to avoid side effects.
-let &cpo = s:cpo_save
+let &cpoptions = s:cpo_save
 unlet s:cpo_save
 " ---------------------
 

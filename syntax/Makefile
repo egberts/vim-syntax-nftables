@@ -1,3 +1,5 @@
+
+DESTDIR ?= ~
 # Makefile for the syntax subdirectory
 .PHONY: all test lint install uninstall help check highlight
 
@@ -15,7 +17,15 @@ VIM_FILES := $(wildcard *.vim)
 install:
 	@echo "Installing main syntax files into $(VIM_SYNTAX_DIR)"
 	# 1. Create target directories
-	install -v -D -d $(INSTALL_DIR_SYNTAX_COMPONENTS)
+	install -v -D -d $(INSTALL_DIR_SYNTAX_COMPONENTS) $(VIM_SYNTAX_DIR)
+	install -v -D -d $(INSTALL_DIR_SYNTAX_COMPONENTS)/add $(VIM_SYNTAX_DIR)
+	install -v -D -d $(INSTALL_DIR_SYNTAX_COMPONENTS)/limit $(VIM_SYNTAX_DIR)
+	install -v -D -d $(INSTALL_DIR_SYNTAX_COMPONENTS)/set $(VIM_SYNTAX_DIR)
+	install -v -D -d $(INSTALL_DIR_SYNTAX_COMPONENTS)/table $(VIM_SYNTAX_DIR)
+	install -v -D -d $(INSTALL_DIR_SYNTAX_COMPONENTS)/table/chain $(VIM_SYNTAX_DIR)
+	install -v -D -d $(INSTALL_DIR_SYNTAX_COMPONENTS)/table/chain/stmt $(VIM_SYNTAX_DIR)
+	install -v -D -d $(INSTALL_DIR_SYNTAX_COMPONENTS)/table/chain/stmt/expr $(VIM_SYNTAX_DIR)
+	install -v -D -d $(INSTALL_DIR_SYNTAX_COMPONENTS)/table/table_block $(VIM_SYNTAX_DIR)
 	
 	# 2. Install main syntax file (nftables.vim) into the parent directory
 	# This file is what Vim's filetype detection will load first.
@@ -24,13 +34,21 @@ install:
 	# 3. Install all component files from the 'nftables/' subdirectory
 	# These are the 42+ files sourced by nftables.vim
 	cp -R nftables/*.vim $(INSTALL_DIR_SYNTAX_COMPONENTS)
+	cp -R nftables/add/*.vim $(INSTALL_DIR_SYNTAX_COMPONENTS)/add/
+	cp -R nftables/limit/*.vim $(INSTALL_DIR_SYNTAX_COMPONENTS)/limit/
+	cp -R nftables/set/*.vim $(INSTALL_DIR_SYNTAX_COMPONENTS)/set/
+	cp -R nftables/table/*.vim $(INSTALL_DIR_SYNTAX_COMPONENTS)/table/
+	cp -R nftables/table/chain/*.vim $(INSTALL_DIR_SYNTAX_COMPONENTS)/table/chain/
+	cp -R nftables/table/chain/stmt/*.vim $(INSTALL_DIR_SYNTAX_COMPONENTS)/table/chain/stmt/
+	cp -R nftables/table/chain/stmt/expr/*.vim $(INSTALL_DIR_SYNTAX_COMPONENTS)/table/chain/stmt/expr/
+	cp -R nftables/table/table_block/*.vim $(INSTALL_DIR_SYNTAX_COMPONENTS)/table/table_block/
 
 uninstall:
 	@echo "Uninstalling syntax files from $(VIM_SYNTAX_DIR)"
 	# Remove the main syntax file
-	rm -f $(VIM_SYNTAX_DIR)/nftables.vim
+	$(RM) $(VIM_SYNTAX_DIR)/nftables.vim
 	# Remove the component directory (rm -rf is necessary for subdirectories)
-	rm -rf $(INSTALL_DIR_SYNTAX_COMPONENTS)
+	$(RM) -r $(INSTALL_DIR_SYNTAX_COMPONENTS)
 
 # --- Testing Targets ---
 

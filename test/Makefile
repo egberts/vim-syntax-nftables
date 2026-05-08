@@ -1,4 +1,6 @@
 
+DESTDIR ?= ~
+
 NFT ?= nft
 
 export MAKE

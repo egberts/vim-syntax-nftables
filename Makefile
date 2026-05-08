@@ -1,5 +1,5 @@
 
-
+DESTDIR ?= ~
 
 .PHONY: all test lint check highlight
 
@@ -35,6 +35,7 @@ lint:
 
 install:
 	for dir in $(SUBDIRS); do \
+	    @echo "Installing ${dir}/nftables.vim ..."; \
 	    $(MAKE) -C $$dir install DESTDIR=$(DESTDIR); \
 	done
 
@@ -42,13 +43,15 @@ install-test:
 	$(MAKE) -C test install DESTDIR=$(DESTDIR)
 
 uninstall:
-	for dir in $(SUBDIRS); do \
-	    $(MAKE) -C $$dir uninstall DESTDIR=$(DESTDIR); \
-	done
-	$(MAKE) -C doc uninstall DESTDIR=$(DESTDIR); \
-	$(MAKE) -C test uninstall DESTDIR=$(DESTDIR); \
+	$(MAKE) -C syntax uninstall
+	$(MAKE) -C ftdetect uninstall
+	$(MAKE) -C ftplugin uninstall
+	$(MAKE) -C indent uninstall
+# Do not remove subdirectory here, leave those behind
 
 help:
+	@echo "rm is ${RM} Help for vim-syntax-nftables"
+	@echo "make is ${MAKE} Help for vim-syntax-nftables"
 	@echo "Help for vim-syntax-nftables"
 	@echo " "
 	@echo "   install - Install this into your ~/vim/* (except 'test' subdirectory)"

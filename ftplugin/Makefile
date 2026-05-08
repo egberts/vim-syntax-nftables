@@ -1,4 +1,6 @@
 
+DESTDIR ?= ~
+
 NFT_FILES := $(wildcard *.nft)
 VIM_FILES := $(wildcard *.vim)
 
@@ -17,8 +19,8 @@ lint: $(VIM_FILES)
 
 
 install: nftables.vim
-	install -D -d ~/.vim/ftplugin
-	install nftables.vim ~/.vim/ftplugin/
+	install -D -d $(DESTDIR)/.vim/ftplugin
+	install nftables.vim $(DESTDIR)/.vim/ftplugin/
 
-uninstall: 
-	rm ~/.vim/ftplugin/nftables.vim
+uninstall:
+	$(RM) $(DESTDIR)/.vim/ftplugin/nftables.vim
