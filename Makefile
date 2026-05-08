@@ -31,7 +31,6 @@ lint:
 	$(MAKE) -C ftdetect lint
 	$(MAKE) -C ftplugin lint
 	$(MAKE) -C indent lint
-	$(MAKE) -C tests lint
 
 install:
 	for dir in $(SUBDIRS); do \

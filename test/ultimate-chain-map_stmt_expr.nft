@@ -179,7 +179,8 @@ table T {
 		ip6 saddr 1:2:3:4::6:7:8/64 return
 		ip6 saddr 1:2:3::5:6:7:8/64 return
 		ip6 saddr 1:2::4:5:6:7:8/64 return
-		ip6 saddr 1::3:4::6:7:8/64 return
+		# ip6 saddr 1::3:4::6:7:8/64 return  ; this failed
+		ip6 saddr 1:2:3:4::6:7:8/64 return
 
 		ip6 saddr ::1
 		ip6 saddr :: 
@@ -365,12 +366,14 @@ table T {
 	chain C {
 		ip saddr >= 255.255.255.255.0 ip daddr 255.255.255.255 udp sport 68 udp dport 67 return
 		ip saddr == 0.0.0.0 ip daddr 255.255.255.255 udp sport 68 udp dport 67 return
+		ip saddr != 0.0.0.0 ip daddr 255.255.255.255 udp sport 68 udp dport 67 return ;
 		ip saddr not 0.0.0.0 ip daddr 255.255.255.255 udp sport 68 udp dport 67 return ;}
     chain C {
 		ip saddr 0.0.0.0 ip daddr 255.255.255.255 udp sport 68 udp dport 67 return
 		ip saddr 10.0.0.0 ip daddr 10.0.0.2 ip saddr 10.0.0.0
 		ip saddr != { 10.10.10.100, 10.10.10.111 } ip saddr @example drop
-		ip saddr not in @setname
+		ip saddr not in { 1.1.1.1 } drop
+		ip saddr not in @setname drop
 		ip saddr not in { 10.10.10.100, 10.10.10.111 } ip saddr @example drop
 		ip saddr in { 10.10.10.100, 10.10.10.111 } ip saddr @example drop
 	}

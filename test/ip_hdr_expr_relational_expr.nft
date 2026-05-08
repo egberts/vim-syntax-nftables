@@ -874,7 +874,7 @@ table T {
         ip length <= $IP_HDR_LENGTH
         ip length == 20
         ip length == 65535
-        ip length == 0-65535
+        ip length == 20-65535
         ip length == 0x14
         ip length == 0xffff
 #        ip length == any
@@ -894,7 +894,7 @@ table T {
         ip length == $IP_HDR_LENGTH
         ip length != 20
         ip length != 65535
-        ip length != 0-65535
+        ip length != 20-65535
         ip length != 0x14
         ip length != 0xffff
 #        ip length != any

@@ -145,13 +145,13 @@
 scriptencoding utf-8
 
 " No need to clear highlights, we are re-leveraging Vim's default set of highlights
-if exists('b:current_syntax')
-  syntax reset
-  "finish
+if exists('b:current_syntax') && b:current_syntax ==# 'nftables'
+"    syntax reset
+    finish
 endif
 
 " Enable debug mode (>=0 = on for logging, 4 is emergency stop).
-if !exists('g:nft_debug')
+if get(g:, 'nft_debug', '') == 0
     let g:nft_debug = 4
 endif
 
@@ -166,7 +166,7 @@ endif
 
 " Debug log to mark the start of script execution.
 call nftables#syntax#log('OK', 'Begin')
-if exists('g:nft_debug') && g:nft_debug == 1
+if get(g:, 'nft_debug', '') == 1
   echom '[syntax/nftables][OK] Begin'
 endif
 
@@ -215,6 +215,7 @@ let s:list_filepaths_semantic_later = [
 \     'common_block.vim',
 \     'table.vim',
 \    ]
+"
 " 'table.vim' is last one due to first keyword being a wildcard for `table <identifier>`
 
 let s:nftables_filepath_this_script = resolve(expand('<sfile>:p'))
@@ -235,7 +236,7 @@ if !isdirectory(g:nft_nftables_syntax_dirpath_custom_nftables)
 endif
 
 " Notify user to check logs if debug mode is enabled.
-if exists('g:nft_debug') && g:nft_debug == 1
+if get(g:, 'nft_debug', '') == 1
   echo 'Use `:messages`, `syntax list <group_name>` for details'
   echo 'Use `:verbose highlight <group_name>` for details'
 endif
@@ -244,7 +245,7 @@ endif
 " Colorscheme enhances visual distinction of LL(1) syntax groups.
 if exists('g:nft_colorscheme') && g:nft_colorscheme == 1
   try
-    if exists('g:nft_debug') && g:nft_debug == 1
+    if get(g:, 'nft_debug', '') == 1
       call nftables#syntax#log('INFO', 'Loaded <nftables> colorscheme.')
     endif
     colorscheme nftables
@@ -317,13 +318,11 @@ setlocal isident=.,48-58,A-Z,a-z,\_
 
 " Define default highlighting groups with version checks.
 " Uses 'default' in 'hi link' to respect user customizations, critical for LL(1) group flexibility.
-if v:version >= 508 || !exists('did_nftables_syn_inits')
-  if v:version < 508
-    let did_nftables_syn_inits = 1
-    command -nargs=+ HiLink hi link <args>
-  else
-    command -nargs=+ HiLink hi def link <args>
-  endif
+if v:version >= 508
+    if !exists('g:did_nftables_syn_inits')
+        let g:did_nftables_syn_inits = 1
+        command! -nargs=+ HiLink hi def link <args>
+    endif
 
   " Core highlight groups for nftables syntax elements.
   " Links map LL(1) syntax groups to Vim’s standard highlight groups for clarity.
@@ -521,24 +520,6 @@ syn cluster nft_c_GenericElements
 " === For map entries like '1 : "value"' ===
 syn match nft_MapEntry /\d\+\s*:\s*".*"/ contained
 
-" === Clustered list elements ===
-syntax cluster nft_c_SetElements
-\ contains=
-\    nft_Number,
-\    nft_IP,
-\    nft_String,
-\    nft_Comma
-
-syntax cluster nft_c_MapElements
-\ contains=
-\    nft_MapEntry,
-\    nft_Comma
-
-syntax cluster nft_c_GenericElements
-\ contains=
-\    nft_Number,
-\    nft_String,
-\    nft_Comma
 
 " === Curly blocks for set/map/elements (each with own element cluster) ===
 syn region nft_SetBlock start=/{/ end=/}/ skip="#.*$" contained
