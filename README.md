@@ -16,6 +16,9 @@ This project adds color highlighting for nftables code in [Vim](https://www.vim.
 
 ## How to Install
 
+```bash
+make install
+```
 Go to [INSTALL.md](https://github.com/egberts/vim-syntax-nftables/blob/master/INSTALL.md) to see step-by-step instructions on how to add this to Vim or Neovim.
 
 ---
