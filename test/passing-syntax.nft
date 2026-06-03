@@ -183,7 +183,7 @@ table inet filter {
 		# ct state {established, related} accept
 		ip protocol tcp ct state invalid accept;
 
-		iifname lo accept
+		iifname "lo" accept
 
 		ip protocol icmp accept
 		ip6 nexthdr icmpv6 accept
