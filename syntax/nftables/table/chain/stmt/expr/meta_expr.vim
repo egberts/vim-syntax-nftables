@@ -814,14 +814,26 @@ syn match nft_meta_expr_close_scope_meta_protocol_relational_expr_keyword_not '\
 hi link   nft_meta_expr_close_scope_meta_protocol_internal_keyword_any nftHL_Operator
 syn match nft_meta_expr_close_scope_meta_protocol_internal_keyword_any '\vany\ze[ \t\n;]' skipwhite contained
 
+hi link   nft_meta_expr_close_scope_meta_protocol_internal_keyword_vlan nftHL_Keyword
+syn match nft_meta_expr_close_scope_meta_protocol_internal_keyword_vlan '\vvlan\ze[ \t\n;]' skipwhite contained
+
+hi link   nft_meta_expr_close_scope_meta_protocol_internal_keyword_ip6_arp nftHL_Keyword
+syn match nft_meta_expr_close_scope_meta_protocol_internal_keyword_ip6_arp '\v(ip6|arp)\ze[ \t\n;]' skipwhite contained
+
+hi link   nft_meta_expr_close_scope_meta_protocol_internal_keyword_ip nftHL_Keyword
+syn match nft_meta_expr_close_scope_meta_protocol_internal_keyword_ip '\vip\ze[ \t\n;]' skipwhite contained
+
 syn cluster nft_c_protocol_type
 \ contains=
+\    nft_meta_expr_close_scope_meta_protocol_internal_keyword_vlan,
 \    nft_verdict_stmt_verdict_map_stmt_keyword_vmap,
 \    nft_meta_expr_close_scope_meta_protocol_internal_keyword_any,
 \    nft_meta_expr_close_scope_meta_protocol_relational_expr_keyword_not,
 \    nft_meta_expr_close_scope_meta_protocol_relational_operators_discrete_2char,
 \    nft_meta_expr_close_scope_meta_protocol_relational_operators_equality_2char,
+\    nft_meta_expr_close_scope_meta_protocol_internal_keyword_ip6_arp,
 \    nft_meta_expr_close_scope_meta_protocol_internal_keyword_in,
+\    nft_meta_expr_close_scope_meta_protocol_internal_keyword_ip,
 \    nft_meta_expr_close_scope_meta_protocol_set_expr_delimiters,
 \    nft_meta_expr_close_scope_meta_protocol_relational_operators_discrete_1char,
 \    nft_meta_expr_close_scope_meta_protocol_symbol_expr_keywords,
