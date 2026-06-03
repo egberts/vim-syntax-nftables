@@ -7,7 +7,7 @@
 augroup nftables
   "echom "running autogroup nftables ~/.vim/ftdetect/nftables.vim"
   autocmd!
-  autocmd BufRead,BufNewFile *.nft,nftables*.conf setlocal filetype=nftables
+  autocmd BufRead,BufNewFile *.nft,nftables*.conf setfiletype nftables
 
   " Looking for 'nft' shebang isn't worth it, commented out.
   " autocmd BufRead,BufNewFile * if getline(1) =~# '^#!\s*\%\(\/\S\+\)\?\/\%\(s\)\?bin\/\%\(env\s\+\)\?nft\>' | setlocal filetype=nftables | endif
