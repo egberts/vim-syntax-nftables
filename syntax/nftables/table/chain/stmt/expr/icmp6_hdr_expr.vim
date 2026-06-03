@@ -332,7 +332,7 @@ hi link   nft_icmpv6_hdr_expr_close_scope_icmp6_type_set_expr_integer_expr_num n
 syn match nft_icmpv6_hdr_expr_close_scope_icmp6_type_set_expr_integer_expr_num '\v((0x[0-9a-fA-F]{1,2})|([0-9]{1,3}))\ze[ \t\n,\}]' skipwhite contained
 
 hi link   nft_icmpv6_hdr_expr_close_scope_icmp6_type_set_symbol_expr nftHL_Define
-syn match nft_icmpv6_hdr_expr_close_scope_icmp6_type_set_symbol_expr '\v(destination\-unreachable|neighbour\-advertisement|neighbor\-advertisement|neighbour\-solicitation|neighbor\-solicitation|mldv2\-listener\-report|extended\-echo\-request|router\-advertisement|extended\-echo\-reply|mld\-listener\-report|router\-solicitation|router\-renumbering|mld\-listener\-query|mld\-listener\-done|parameter\-problem|packet\-too\-big|time\-exceeded|echo\-request|echo\-reply|ni\-query|ni\-reply|redirect)\ze[ \t\n,\}]' skipwhite contained
+syn match nft_icmpv6_hdr_expr_close_scope_icmp6_type_set_symbol_expr '\v(destination\-unreachable|neighbour\-advertisement|neighbor\-advertisement|neighbour\-solicitation|neighbor\-solicitation|mldv2\-listener\-report|extended\-echo\-request|router\-advertisement|extended\-echo\-reply|mld\-listener\-report|nd\-neighbor\-solicit|router\-solicitation|nd\-neighbor\-advert|router\-renumbering|mld\-listener\-query|mld\-listener\-done|parameter\-problem|nd\-router\-advert|packet\-too\-big|time\-exceeded|echo\-request|echo\-reply|ni\-query|ni\-reply|redirect)\ze[ \t\n,\}]' skipwhite contained
 
 " ip6 nexthdr icmpv6 type in {  }
 hi link    nft_icmpv6_hdr_expr_close_scope_icmp6_type_set_expr nftHL_BlockDelimitersSet
