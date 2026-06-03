@@ -45,9 +45,9 @@ effects.
 In your `~/.vimrc`, insert the following:
 
 ```vim
-let nftables_disabled=0
-let nftables_debug=0
-let nftables_colorscheme=0
+let nftables_syntax_disabled=0
+let nft_debug=0
+let nft_colorscheme=0
 ```
 
 Distribute the files to their respective subdirectories:
