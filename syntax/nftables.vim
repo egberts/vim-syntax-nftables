@@ -144,6 +144,17 @@
 " Ensures LL(1) syntax rules are not duplicated, maintaining determinism.
 scriptencoding utf-8
 
+if exists("b:current_syntax")
+  unlet! b:current_syntax
+
+  " Clear nftables module sentinels
+  for s:key in keys(b:)
+    if s:key =~# '^did_nftables_'
+      execute 'unlet b:' . s:key
+    endif
+  endfor
+endif
+
 " No need to clear highlights, we are re-leveraging Vim's default set of highlights
 if exists('b:current_syntax') && b:current_syntax ==# 'nftables'
 "    syntax reset
