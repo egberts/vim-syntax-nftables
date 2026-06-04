@@ -1125,14 +1125,62 @@ syn match nft_ip_hdr_expr_close_scope_ip_addr_set_ref_expr_set_ref_symbol_expr_i
 \ nextgroup=
 \    nft_ip_hdr_expr_close_scope_ip_addr_set_ref_expr_set_ref_symbol_expr_range_stmt_expr_symbol_dash
 
+syn cluster nft_c_ip_hdr_expr_saddr_set_expr_inline_set_after
+\ contains=
+\    nft_boolean_expr_boolean_key_keyword_missing,
+\    nft_payload_expr_hash_expr_keyword_symhash,
+\    nft_stmt_payload_expr_udplite_hdr_expr_keyword_udplite,
+\    nft_boolean_expr_boolean_key_keyword_exists,
+\    nft_stmt_payload_expr_geneve_hdr_expr_keyword_geneve,
+\    nft_stmt_payload_expr_gretap_hdr_expr_keyword_gretap,
+\    nft_payload_expr_icmp6_hdr_expr_icmp6_hdr_field_keyword_icmp6,
+\    nft_payload_expr_keyword_expr_keyword_ether,
+\    nft_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_boolean_expr_keyword_exists,
+\    nft_stmt_payload_expr_vxlan_hdr_expr_keyword_vxlan,
+\    nft_stmt_payload_expr_comp_hdr_expr_keyword_comp,
+\    nft_stmt_payload_expr_dccp_hdr_expr_keyword_dccp,
+\    nft_meta_expr_invalid_keyword_flow,
+\    nft_payload_expr_icmp_hdr_expr_keyword_icmp,
+\    nft_stmt_keyword_icmp,
+\    nft_stmt_payload_expr_igmp_hdr_expr_keyword_igmp,
+\    nft_payload_expr_hash_expr_keyword_jhash,
+\    nft_stmt_payload_expr_sctp_hdr_expr_keyword_sctp,
+\    nft_stmt_payload_expr_vlan_hdr_expr_keyword_vlan,
+\    nft_stmt_payload_expr_arp_hdr_expr_keyword_arp,
+\    nft_stmt_payload_expr_esp_hdr_expr_keyword_esp,
+\    nft_stmt_payload_expr_gre_hdr_expr_keyword_gre,
+\    nft_meta_expr_meta_key_unqualified_keyword_iif,
+\    nft_stmt_payload_expr_ip6_hdr_expr_keyword_ip6,
+\    nft_stmt_keyword_ip6,
+\    nft_stmt_keyword_ip6,
+\    nft_map_expr_keyword_map,
+\    nft_meta_expr_meta_key_unqualified_keyword_oif,
+\    nft_stmt_payload_expr_tcp_hdr_expr_keyword_tcp,
+\    nft_stmt_payload_expr_udp_hdr_expr_keyword_udp,
+\    nft_payload_expr_ip_protocol_keyword_udp,
+\    nft_stmt_payload_expr_auth_hdr_expr_keyword_ah,
+\    nft_primary_stmt_expr_ct_expr_keyword_ct,
+\    nft_stmt_declarative_keyword_ip,
+\    nft_stmt_payload_expr_th_hdr_expr_keyword_th,
+\    nft_stmt_payload_expr_payload_raw_expr_keyword_at,
+\    nft_stmt_expr_map_stmt_expr_set_expr_set_ref_expr_set_symbol_ref_expr_keyword_at_identifier,
+\    nft_stmt_expr_map_stmt_expr_set_expr,
+\    @nft_c_multion_stmt_expr,
+\    @nft_c_symbol_stmt_expr,
+\    nft_stmt_expr_map_stmt_expr_concat_stmt_expr_basic_stmt_expr_exclusive_or_stmt_expr_and_stmt_expr_shift_stmt_expr_primary_stmt_expr_symbol_expr_variable_expr,
+\    nft_stmt_expr_map_stmt_expr_set_expr_set_ref_expr_set_symbol_ref_expr_variable,
+\    nft_primary_expr_integer_expr_num_u32
+
 hi link    nft_ip_hdr_expr_saddr_set_expr_inline_set nftHL_BlockDelimitersSet
-syn region nft_ip_hdr_expr_saddr_set_expr_inline_set start=+{+ end=+}+ skip="#.{0,45}$" skipwhite contained
+syn region nft_ip_hdr_expr_saddr_set_expr_inline_set start=+{+ end=+}+ skip="#.{0,45}" skipwhite contained
 \ contains=
 \    nft_ip_hdr_expr_close_scope_ip_addr_set_ref_expr_string_expr_string_ip4_cidr_prefix,
 \    nft_ip_hdr_expr_close_scope_ip_addr_set_ref_expr_payload_expr_string_ip4_range,
 \    nft_ip_hdr_expr_close_scope_ip_addr_set_ref_expr_payload_expr_string_ip4,
 \    nft_ip_hdr_expr_close_scope_ip_addr_set_ref_expr_set_ref_symbol_expr_integer_expr_num_uint32_hex_range,
-\    nft_ip_hdr_expr_close_scope_ip_addr_set_ref_expr_set_ref_symbol_expr_integer_expr_num_uint32_hex,
+\    nft_ip_hdr_expr_close_scope_ip_addr_set_ref_expr_set_ref_symbol_expr_integer_expr_num_uint32_hex
+\ nextgroup=
+\    @nft_c_ip_hdr_expr_saddr_set_expr_inline_set_after
 " END Operators - Set membership
 
 " BEGIN Operators - Scalar
