@@ -11,7 +11,8 @@ let s:list_filepaths_semantic_early = [
 \    'table/table_block/table_block_quota.vim',
 \    'table/table_block/table_block_map.vim',
 \    'table/table_block/table_block_set_block.vim',
-\    'table/table_block/table_block_set.vim'
+\    'table/table_block/table_block_set.vim',
+\    'table/table_block/table_block_ct.vim'
 \    ]
 let s:list_filepaths_semantic_later = []
 
@@ -100,6 +101,7 @@ syn region nft_add_cmd_keyword_table_table_block_delimiters start='\v\s+\zs\{' e
 \    nft_add_cmd_table_block_keyword_limit,
 \    nft_add_cmd_table_block_keyword_map,
 \    nft_add_cmd_table_block_keyword_set,
+\    nft_table_block_keyword_ct,
 \    nft_comment_inline,
 \    nft_table_block_stmt_separator,
 \    nft_Error
