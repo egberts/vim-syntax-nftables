@@ -40,7 +40,7 @@ WARNING: Using nftables syntax is very powerful, and may lead to unexpected side
 effects.  
 
 ==============================================================================
-2. Usages      						*nftables-intro*
+2. Usages      						*nftables-usage*
 
 In your `~/.vimrc`, insert the following:
 
