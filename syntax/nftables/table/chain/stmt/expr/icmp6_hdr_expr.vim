@@ -267,7 +267,8 @@ syn region nft_icmpv6_hdr_expr_close_scope_icmp6_code_set_expr start=+{+ end=+}+
 hi link   nft_icmpv6_hdr_expr_close_scope_icmp6_code_integer_expr_num nftHL_Integer
 syn match nft_icmpv6_hdr_expr_close_scope_icmp6_code_integer_expr_num '\v(0x([A-Fa-f][0-9]|[A-Fa-f]{2}|[0-9A-Fa-f])|25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    @nft_c_icmpv6_expressions
+\    @nft_c_icmpv6_expressions,
+\    @nft_c_stmt
 
 hi link   nft_icmpv6_hdr_expr_close_scope_icmp6_code_symbol_expr_string nftHL_Integer
 syn match nft_icmpv6_hdr_expr_close_scope_icmp6_code_symbol_expr_string '\v(frag\-reassembly\-time\-exceeded|source\-routing\-failed|address\-unreachable|no\-such\-table\-entry|multiple\-interfaces|no\-such\-interface|admin\-prohibited|port\-unreachable|malformed\-query|beyond\-scope|reject\-route|policy\-fail|hop\-limit\-exceeded|next\-header|ipv6\-query|ipv4\-query|name\-query|hdr\-field|no\-error|no\-route|option|no\-op|ipv4|zero)\ze[ \t\n\;]' skipwhite contained
@@ -347,10 +348,11 @@ syn region nft_icmpv6_hdr_expr_close_scope_icmp6_type_set_expr start=+{+ end=+}+
 hi link   nft_icmpv6_hdr_expr_close_scope_icmp6_type_integer_expr_num nftHL_Integer
 syn match nft_icmpv6_hdr_expr_close_scope_icmp6_type_integer_expr_num '\v(0x([A-Fa-f][0-9]|[A-Fa-f]{2}|[0-9A-Fa-f])|25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])\ze[ \t]' skipwhite contained
 \ nextgroup=
-\    @nft_c_icmpv6_expressions
+\    @nft_c_icmpv6_expressions,
+\    @nft_c_stmt
 
 hi link   nft_icmpv6_hdr_expr_close_scope_icmp6_type_symbol_expr_string nftHL_Define
-syn match nft_icmpv6_hdr_expr_close_scope_icmp6_type_symbol_expr_string '\v(destination\-unreachable|neighbour\-advertisement|neighbor\-advertisement|neighbour\-solicitation|neighbor\-solicitation|mldv2\-listener\-report|extended\-echo\-request|router\-advertisement|extended\-echo\-reply|mld\-listener\-report|router\-solicitation|router\-renumbering|mld\-listener\-query|mld\-listener\-done|parameter\-problem|packet\-too\-big|time\-exceeded|echo\-request|echo\-reply|ni\-query|ni\-reply|redirect)\ze[ \t\n;]' skipwhite contained
+syn match nft_icmpv6_hdr_expr_close_scope_icmp6_type_symbol_expr_string '\v(destination\-unreachable|neighbour\-advertisement|neighbor\-advertisement|neighbour\-solicitation|neighbor\-solicitation|mldv2\-listener\-report|extended\-echo\-request|router\-advertisement|extended\-echo\-reply|mld\-listener\-report|nd\-neighbor\-solicit|router\-solicitation|nd\-neighbor\-advert|router\-renumbering|mld\-listener\-query|mld\-listener\-done|parameter\-problem|nd\-router\-advert|packet\-too\-big|time\-exceeded|echo\-request|echo\-reply|ni\-query|ni\-reply|redirect)\ze[ \t\n,\}]' skipwhite contained
 \ nextgroup=
 \    @nft_c_icmpv6_expressions,
 \    @nft_c_stmt
@@ -393,12 +395,12 @@ syn match nft_icmpv6_hdr_expr_close_scope_icmp6_type_relational_expr_keyword_not
 hi link   nft_icmpv6_hdr_expr_icmpv6_hdr_field_keyword_type nftHL_Substatement
 syn match nft_icmpv6_hdr_expr_icmpv6_hdr_field_keyword_type '\vtype\ze[ \t]' skipwhite contained
 \ nextgroup=
+\    nft_icmpv6_hdr_expr_close_scope_icmp6_type_integer_expr_num,
 \    nft_icmpv6_hdr_expr_close_scope_icmp6_type_symbol_expr_string,
 \    nft_icmpv6_hdr_expr_close_scope_icmp6_type_relational_expr_keyword_not,
 \    nft_icmpv6_hdr_expr_close_scope_icmp6_type_relational_expr_operator_2_char,
 \    nft_icmpv6_hdr_expr_close_scope_icmp6_type_keyword_in,
 \    nft_icmpv6_hdr_expr_close_scope_icmp6_type_relational_expr_operator_1_char,
-\    nft_icmpv6_hdr_expr_close_scope_icmp6_type_integer_expr_num,
 \    nft_icmpv6_hdr_expr_close_scope_icmp6_type_relational_expr_rhs_expr_set_ref_symbol_expr_keyword_at,
 \    nft_icmpv6_hdr_expr_close_scope_icmp6_type_set_expr,
 \    nft_chainError
